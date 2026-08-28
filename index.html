@@ -7,19 +7,19 @@
 
   <style>
     :root{
-  --azul:#235BA4;
-  --azul-oscuro:#1B4A87;
-  --azul-claro:#DCE8F7;
-  --azul-muy-claro:#EEF4FC;
+      --azul:#235BA4;
+      --azul-oscuro:#1B4A87;
+      --azul-claro:#DCE8F7;
+      --azul-muy-claro:#EEF4FC;
 
-  --fondo:#F3F6FA;
-  --texto:#1F2937;
-  --texto-suave:#6B7280;
-  --borde:#AFC6E6;
-  --blanco:#FFFFFF;
+      --fondo:#F3F6FA;
+      --texto:#1F2937;
+      --texto-suave:#6B7280;
+      --borde:#AFC6E6;
+      --blanco:#FFFFFF;
 
-  --sombra:0 8px 20px rgba(0,0,0,.08);
-  --radio:18px;
+      --sombra:0 8px 20px rgba(0,0,0,.08);
+      --radio:18px;
     }
 
     *{
@@ -33,9 +33,9 @@
     }
 
     body{
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--fondo);
-      color: var(--texto);
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--fondo);
+      color:var(--texto);
       width:100%;
       min-height:100vh;
     }
@@ -45,7 +45,7 @@
        ========================================================= */
 
     header{
-      background: var(--azul);
+      background:var(--azul);
       color:white;
       padding:14px 24px;
 
@@ -98,10 +98,7 @@
 
     .contenedor{
       display:grid;
-
-      /* columna izquierda más compacta y visor más amplio */
-      grid-template-columns:320px minmax(0, 1fr);
-
+      grid-template-columns:320px minmax(0,1fr);
       gap:20px;
       padding:20px;
 
@@ -121,7 +118,7 @@
     aside h1{
       font-size:2.35rem;
       margin-bottom:18px;
-      color:#0f172a;
+      color:#0F172A;
       line-height:1.05;
     }
 
@@ -154,7 +151,7 @@
 
       line-height:1.48;
 
-      color:#4b5563;
+      color:#4B5563;
 
       font-size:1rem;
     }
@@ -185,9 +182,9 @@
     }
 
     .unit-item{
-      background:#fff;
+      background:#FFFFFF;
 
-      border:2px solid #d9d6f5;
+      border:2px solid var(--borde);
 
       border-radius:16px;
 
@@ -209,7 +206,7 @@
 
       border-color:var(--azul);
 
-      box-shadow:0 6px 16px rgba(59,53,184,.12);
+      box-shadow:0 6px 16px rgba(35,91,164,.15);
     }
 
     .unit-item.activo{
@@ -217,7 +214,7 @@
 
       border-color:var(--azul);
 
-      box-shadow:0 0 0 1px rgba(59,53,184,.08);
+      box-shadow:0 0 0 1px rgba(35,91,164,.10);
     }
 
     .unit-head{
@@ -309,7 +306,7 @@
 
       font-weight:700;
 
-      box-shadow:0 6px 14px rgba(59,53,184,.24);
+      box-shadow:0 6px 14px rgba(35,91,164,.24);
 
       transition:
         background .2s ease,
@@ -322,26 +319,25 @@
 
       transform:translateY(-1px);
 
-      box-shadow:0 7px 16px rgba(59,53,184,.28);
+      box-shadow:0 7px 16px rgba(35,91,164,.28);
     }
 
     .visor{
       width:100%;
 
-      /* ocupa más espacio vertical */
       height:84vh;
 
       border:none;
 
       border-radius:14px;
 
-      background:#f8fafc;
+      background:#F8FAFC;
     }
 
     .mensaje{
       padding:24px;
 
-      color:#4b5563;
+      color:#4B5563;
 
       line-height:1.5;
 
@@ -365,7 +361,6 @@
       .visor{
         height:72vh;
       }
-
     }
 
     @media (max-width:700px){
@@ -402,7 +397,6 @@
       .visor{
         height:68vh;
       }
-
     }
 
   </style>
@@ -458,8 +452,6 @@
         Material del curso
       </h1>
 
-      <!-- Datos de la experiencia educativa -->
-
       <div class="card" id="sobre">
 
         <p>
@@ -484,8 +476,6 @@
 
       </div>
 
-      <!-- Profesor -->
-
       <div class="card">
 
         <p>
@@ -494,8 +484,6 @@
         </p>
 
       </div>
-
-      <!-- Descripción -->
 
       <div class="descripcion">
 
@@ -510,10 +498,6 @@
 
       </div>
 
-      <!-- =====================================================
-           TEMAS
-           ===================================================== -->
-
       <h2
         class="sidebar-title"
         id="temas">
@@ -522,9 +506,7 @@
 
       <ul class="unit-list">
 
-        <!-- ===================================================
-             PRESENTACIÓN DEL CURSO
-             =================================================== -->
+        <!-- PRESENTACIÓN DEL CURSO -->
 
         <li
           class="unit-item activo"
@@ -556,9 +538,7 @@
 
         </li>
 
-        <!-- ===================================================
-             TEMA 1
-             =================================================== -->
+        <!-- TEMA 1 -->
 
         <li
           class="unit-item"
@@ -590,9 +570,7 @@
 
         </li>
 
-        <!-- ===================================================
-             TEMA 2
-             =================================================== -->
+        <!-- TEMA 2 -->
 
         <li
           class="unit-item"
@@ -628,13 +606,9 @@
 
         </li>
 
-        <!-- ===================================================
-             SIGUIENTE TEMA
-             Descomentar cuando esté listo
-             =================================================== -->
+        <!-- SIGUIENTE TEMA -->
 
         <!--
-
         <li
           class="unit-item"
           data-src="diapositivas/03_mongodb_modelo_documental.pdf"
@@ -666,7 +640,6 @@
           </div>
 
         </li>
-
         -->
 
       </ul>
