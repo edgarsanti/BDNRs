@@ -1,51 +1,410 @@
-<h2 id="unidades">Material del curso</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bases de Datos No Relacionales</title>
 
-<ul class="unit-list">
+  <style>
+    :root{
+      --verde:#2f8f91;
+      --verde-oscuro:#236f70;
+      --verde-claro:#dff1f1;
+      --fondo:#eef3f3;
+      --texto:#1f2937;
+      --borde:#9ccccc;
+      --blanco:#ffffff;
+      --sombra:0 8px 20px rgba(0,0,0,.08);
+      --radio:18px;
+    }
 
-  <li>
-    <a class="unit-link"
-       href="diapositivas/01_relacional_a_nosql.pdf"
-       target="_blank"
-       rel="noopener">
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-      <div class="unit-text">
+    html{
+      scroll-behavior:smooth;
+    }
 
-        <span class="unit-title">
-          De las bases de datos relacionales a las bases de datos no relacionales
-        </span>
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+    }
 
-        <span class="unit-desc">
-          Datos estructurados, semiestructurados, JSON y principales modelos NoSQL.
-        </span>
+    /* ===== Barra superior ===== */
+    header{
+      background: var(--verde);
+      color: white;
+      padding: 14px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      box-shadow:0 2px 10px rgba(0,0,0,.12);
+    }
 
+    .brand{
+      font-size: 1.1rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand span{
+      font-weight: 400;
+      opacity:.95;
+    }
+
+    nav{
+      display:flex;
+      gap:24px;
+      flex-wrap:wrap;
+    }
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      font-weight:500;
+    }
+
+    nav a:hover{
+      text-decoration:underline;
+    }
+
+    /* ===== Layout principal ===== */
+    .contenedor{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap:28px;
+      padding:26px;
+      align-items:start;
+    }
+
+    aside h1{
+      font-size: 2.5rem;
+      margin-bottom: 18px;
+      color:#0f172a;
+    }
+
+    .card{
+      background: var(--blanco);
+      border: 3px solid var(--verde);
+      border-radius: var(--radio);
+      padding: 18px 22px;
+      box-shadow: var(--sombra);
+      margin-bottom: 18px;
+    }
+
+    .card p{
+      margin-bottom: 10px;
+      line-height: 1.35;
+      font-size: 1rem;
+    }
+
+    .card p:last-child{
+      margin-bottom:0;
+    }
+
+    .descripcion{
+      margin: 8px 0 24px 0;
+      line-height: 1.45;
+      color:#4b5563;
+      font-size: 1rem;
+    }
+
+    .descripcion strong{
+      color:#374151;
+    }
+
+    .sidebar-title{
+      font-size: 2rem;
+      margin: 18px 0 14px;
+      color:#111827;
+    }
+
+    .unit-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .unit-item{
+      background:#fff;
+      border:2px solid #d3e5e5;
+      border-radius: 16px;
+      padding:16px 18px;
+      box-shadow:0 4px 14px rgba(0,0,0,.05);
+      transition: all .2s ease;
+      cursor:pointer;
+    }
+
+    .unit-item:hover{
+      transform: translateY(-2px);
+      border-color: var(--verde);
+    }
+
+    .unit-item.activo{
+      background:#eef9f9;
+      border-color: var(--verde);
+    }
+
+    .unit-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .unit-texto{
+      flex:1;
+    }
+
+    .unit-title{
+      font-size: 1.1rem;
+      font-weight: 700;
+      color:#111827;
+      margin-bottom: 6px;
+      line-height:1.2;
+    }
+
+    .unit-subtitle{
+      color:#6b7280;
+      font-size: .98rem;
+      line-height:1.25;
+    }
+
+    .tag{
+      background:#cfeeee;
+      color: var(--verde-oscuro);
+      font-size:.92rem;
+      font-weight:700;
+      padding:8px 14px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    /* ===== Área derecha ===== */
+    main{
+      background: white;
+      border-radius: 22px;
+      box-shadow: var(--sombra);
+      padding: 14px 18px 18px 18px;
+      min-height: 82vh;
+    }
+
+    .visor-top{
+      margin-bottom: 14px;
+    }
+
+    .boton-abrir{
+      display:inline-block;
+      background: var(--verde);
+      color:white;
+      text-decoration:none;
+      padding: 12px 20px;
+      border-radius:999px;
+      font-weight:700;
+      box-shadow:0 6px 14px rgba(47,143,145,.25);
+    }
+
+    .boton-abrir:hover{
+      background: var(--verde-oscuro);
+    }
+
+    .visor{
+      width:100%;
+      height:78vh;
+      border:none;
+      border-radius: 14px;
+      background:#f8fafc;
+    }
+
+    .mensaje{
+      padding: 24px;
+      color:#4b5563;
+      line-height:1.5;
+      font-size:1rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px){
+      .contenedor{
+        grid-template-columns: 1fr;
+      }
+
+      main{
+        min-height:auto;
+      }
+
+      .visor{
+        height:70vh;
+      }
+    }
+
+    @media (max-width: 700px){
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      nav{
+        gap:14px;
+      }
+
+      aside h1{
+        font-size: 2rem;
+      }
+
+      .sidebar-title{
+        font-size:1.5rem;
+      }
+
+      .unit-head{
+        flex-direction:column;
+      }
+
+      .tag{
+        align-self:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      Edgar Santiago González Martínez <span>· Bases de Datos No Relacionales</span>
+    </div>
+
+    <nav>
+      <a href="#sobre">Sobre esta página</a>
+      <a href="#temas">Unidades</a>
+      <a href="https://github.com/edgarsanti/BDNRs" target="_blank" rel="noopener">Repositorio</a>
+    </nav>
+  </header>
+
+  <div class="contenedor">
+    <aside>
+      <h1>Material del curso</h1>
+
+      <div class="card" id="sobre">
+        <p><strong>Institución:</strong> Universidad Veracruzana</p>
+        <p><strong>Facultad:</strong> Facultad de Estadística e Informática</p>
+        <p><strong>Programa:</strong> Ingeniería en Ciencia de Datos</p>
+        <p><strong>Materia:</strong> Bases de Datos No Relacionales</p>
       </div>
 
-      <span class="tag">Diapositivas</span>
-
-    </a>
-  </li>
-
-  <li>
-    <a class="unit-link"
-       href="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
-       target="_blank"
-       rel="noopener">
-
-      <div class="unit-text">
-
-        <span class="unit-title">
-          Escalabilidad y bases de datos distribuidas
-        </span>
-
-        <span class="unit-desc">
-          Replicación, particionamiento, consistencia, concurrencia, CAP y procesamiento paralelo.
-        </span>
-
+      <div class="card">
+        <p><strong>Profesor:</strong> Edgar Santiago González Martínez</p>
+        <p><strong>Correo:</strong> TU_CORREO@uv.mx</p>
       </div>
 
-      <span class="tag">Diapositivas</span>
+      <div class="descripcion">
+        En esta página se recopilan las <strong>diapositivas</strong>, prácticas y materiales
+        correspondientes a la experiencia educativa <strong>Bases de Datos No Relacionales</strong>.
+        Aquí se irán agregando únicamente los temas que ya se hayan trabajado en clase.
+      </div>
 
-    </a>
-  </li>
+      <h2 class="sidebar-title" id="temas">Temas publicados</h2>
 
-</ul>
+      <ul class="unit-list">
+        <li class="unit-item activo"
+            data-src="diapositivas/01_relacional_a_nosql.pdf"
+            data-link="diapositivas/01_relacional_a_nosql.pdf">
+          <div class="unit-head">
+            <div class="unit-texto">
+              <div class="unit-title">De las bases de datos relacionales a las bases de datos no relacionales</div>
+              <div class="unit-subtitle">
+                Repaso de lo relacional, datos estructurados y semiestructurados, JSON y modelos NoSQL.
+              </div>
+            </div>
+            <span class="tag">Diapositivas</span>
+          </div>
+        </li>
+
+        <li class="unit-item"
+            data-src="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
+            data-link="diapositivas/02_escalabilidad_bases_distribuidas.pdf">
+          <div class="unit-head">
+            <div class="unit-texto">
+              <div class="unit-title">Escalabilidad y bases de datos distribuidas</div>
+              <div class="unit-subtitle">
+                Escalabilidad, concurrencia, consistencia, bases distribuidas, teorema CAP y procesamiento paralelo.
+              </div>
+            </div>
+            <span class="tag">Diapositivas</span>
+          </div>
+        </li>
+
+        <!-- Cuando quieras agregar otro tema, copia este bloque
+        <li class="unit-item"
+            data-src="diapositivas/03_mongodb_modelo_documental.pdf"
+            data-link="diapositivas/03_mongodb_modelo_documental.pdf">
+          <div class="unit-head">
+            <div class="unit-texto">
+              <div class="unit-title">MongoDB Atlas y modelo documental</div>
+              <div class="unit-subtitle">
+                Base de datos documental, colecciones, documentos, JSON y primeras consultas.
+              </div>
+            </div>
+            <span class="tag">Diapositivas</span>
+          </div>
+        </li>
+        -->
+      </ul>
+    </aside>
+
+    <main>
+      <div class="visor-top">
+        <a id="openBtn"
+           class="boton-abrir"
+           href="diapositivas/01_relacional_a_nosql.pdf"
+           target="_blank"
+           rel="noopener">
+          Abrir material en otra pestaña
+        </a>
+      </div>
+
+      <iframe
+        id="viewer"
+        class="visor"
+        src="diapositivas/01_relacional_a_nosql.pdf"
+        title="Visor de material del curso">
+      </iframe>
+
+      <div id="fallback" class="mensaje" style="display:none;">
+        No se pudo mostrar el archivo dentro de la página.
+        Puedes abrirlo con el botón superior.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.unit-item');
+    const viewer = document.getElementById('viewer');
+    const openBtn = document.getElementById('openBtn');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        items.forEach(el => el.classList.remove('activo'));
+        item.classList.add('activo');
+
+        const src = item.getAttribute('data-src');
+        const link = item.getAttribute('data-link');
+
+        viewer.src = src;
+        openBtn.href = link;
+      });
+    });
+  </script>
+
+</body>
+</html>
