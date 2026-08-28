@@ -277,132 +277,292 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
     <div class="brand">
-      Edgar Santiago González Martínez <span>· Bases de Datos No Relacionales</span>
+      Edgar Santiago González Martínez
+      <span>· Bases de Datos No Relacionales</span>
     </div>
 
     <nav>
       <a href="#sobre">Sobre esta página</a>
-      <a href="#temas">Unidades</a>
-      <a href="https://github.com/edgarsanti/BDNRs" target="_blank" rel="noopener">Repositorio</a>
+      <a href="#temas">Temas</a>
+      <a href="https://github.com/edgarsanti/BDNRs"
+         target="_blank"
+         rel="noopener">
+        Repositorio
+      </a>
     </nav>
   </header>
 
   <div class="contenedor">
+
+    <!-- ========================================================= -->
+    <!-- COLUMNA IZQUIERDA -->
+    <!-- ========================================================= -->
+
     <aside>
+
       <h1>Material del curso</h1>
 
       <div class="card" id="sobre">
-        <p><strong>Institución:</strong> Universidad Veracruzana</p>
-        <p><strong>Facultad:</strong> Facultad de Estadística e Informática</p>
-        <p><strong>Programa:</strong> Ingeniería en Ciencia de Datos</p>
-        <p><strong>Materia:</strong> Bases de Datos No Relacionales</p>
+        <p>
+          <strong>Institución:</strong>
+          Universidad Veracruzana
+        </p>
+
+        <p>
+          <strong>Facultad:</strong>
+          Facultad de Estadística e Informática
+        </p>
+
+        <p>
+          <strong>Programa:</strong>
+          Ingeniería en Ciencia de Datos
+        </p>
+
+        <p>
+          <strong>Materia:</strong>
+          Bases de Datos No Relacionales
+        </p>
       </div>
 
       <div class="card">
-        <p><strong>Profesor:</strong> Edgar Santiago González Martínez</p>
+        <p>
+          <strong>Profesor:</strong>
+          Edgar Santiago González Martínez
+        </p>
       </div>
 
       <div class="descripcion">
-        En esta página se recopilan las <strong>diapositivas</strong>, prácticas y materiales
-        correspondientes a la experiencia educativa <strong>Bases de Datos No Relacionales</strong>.
-        Aquí se irán agregando únicamente los temas que ya se hayan trabajado en clase.
+        En esta página se recopilan las
+        <strong>diapositivas</strong>, prácticas y materiales
+        correspondientes a la experiencia educativa
+        <strong>Bases de Datos No Relacionales</strong>.
+        Aquí se irán agregando únicamente los temas que ya
+        se hayan trabajado en clase.
       </div>
 
-      <h2 class="sidebar-title" id="temas">Temas publicados</h2>
+      <h2 class="sidebar-title" id="temas">
+        Temas publicados
+      </h2>
 
       <ul class="unit-list">
+
+        <!-- ===================================================== -->
+        <!-- PRESENTACIÓN DEL CURSO -->
+        <!-- ===================================================== -->
+
         <li class="unit-item activo"
+            data-src="diapositivas/00_presentacion_curso.pdf"
+            data-link="diapositivas/00_presentacion_curso.pdf">
+
+          <div class="unit-head">
+
+            <div class="unit-texto">
+
+              <div class="unit-title">
+                Presentación del curso y plan de trabajo
+              </div>
+
+              <div class="unit-subtitle">
+                Organización de la experiencia educativa,
+                unidades, forma de trabajo, criterios de evaluación
+                y herramientas del curso.
+              </div>
+
+            </div>
+
+            <span class="tag">
+              Diapositivas
+            </span>
+
+          </div>
+
+        </li>
+
+        <!-- ===================================================== -->
+        <!-- TEMA 1 -->
+        <!-- ===================================================== -->
+
+        <li class="unit-item"
             data-src="diapositivas/01_relacional_a_nosql.pdf"
             data-link="diapositivas/01_relacional_a_nosql.pdf">
+
           <div class="unit-head">
+
             <div class="unit-texto">
-              <div class="unit-title">De las bases de datos relacionales a las bases de datos no relacionales</div>
-              <div class="unit-subtitle">
-                Repaso de lo relacional, datos estructurados y semiestructurados, JSON y modelos NoSQL.
+
+              <div class="unit-title">
+                De las bases de datos relacionales
+                a las bases de datos no relacionales
               </div>
+
+              <div class="unit-subtitle">
+                Repaso de lo relacional, datos estructurados
+                y semiestructurados, JSON y modelos NoSQL.
+              </div>
+
             </div>
-            <span class="tag">Diapositivas</span>
+
+            <span class="tag">
+              Diapositivas
+            </span>
+
           </div>
+
         </li>
+
+        <!-- ===================================================== -->
+        <!-- TEMA 2 -->
+        <!-- ===================================================== -->
 
         <li class="unit-item"
             data-src="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
             data-link="diapositivas/02_escalabilidad_bases_distribuidas.pdf">
+
           <div class="unit-head">
+
             <div class="unit-texto">
-              <div class="unit-title">Escalabilidad y bases de datos distribuidas</div>
-              <div class="unit-subtitle">
-                Escalabilidad, concurrencia, consistencia, bases distribuidas, teorema CAP y procesamiento paralelo.
+
+              <div class="unit-title">
+                Escalabilidad y bases de datos distribuidas
               </div>
+
+              <div class="unit-subtitle">
+                Escalabilidad, bases de datos distribuidas,
+                replicación, particionamiento, consistencia,
+                concurrencia, teorema CAP y procesamiento paralelo.
+              </div>
+
             </div>
-            <span class="tag">Diapositivas</span>
+
+            <span class="tag">
+              Diapositivas
+            </span>
+
           </div>
+
         </li>
 
-        <!-- Cuando quieras agregar otro tema, copia este bloque
+        <!-- ===================================================== -->
+        <!-- SIGUIENTE TEMA -->
+        <!-- Descomentar cuando esté listo -->
+        <!-- ===================================================== -->
+
+        <!--
         <li class="unit-item"
             data-src="diapositivas/03_mongodb_modelo_documental.pdf"
             data-link="diapositivas/03_mongodb_modelo_documental.pdf">
+
           <div class="unit-head">
+
             <div class="unit-texto">
-              <div class="unit-title">MongoDB Atlas y modelo documental</div>
-              <div class="unit-subtitle">
-                Base de datos documental, colecciones, documentos, JSON y primeras consultas.
+
+              <div class="unit-title">
+                MongoDB y el modelo documental
               </div>
+
+              <div class="unit-subtitle">
+                Modelo documental, MongoDB Atlas, bases de datos,
+                colecciones, documentos y primeras consultas.
+              </div>
+
             </div>
-            <span class="tag">Diapositivas</span>
+
+            <span class="tag">
+              Diapositivas
+            </span>
+
           </div>
+
         </li>
         -->
+
       </ul>
+
     </aside>
 
+    <!-- ========================================================= -->
+    <!-- ÁREA DERECHA -->
+    <!-- ========================================================= -->
+
     <main>
+
       <div class="visor-top">
+
         <a id="openBtn"
            class="boton-abrir"
-           href="diapositivas/01_relacional_a_nosql.pdf"
+           href="diapositivas/00_presentacion_curso.pdf"
            target="_blank"
            rel="noopener">
+
           Abrir material en otra pestaña
+
         </a>
+
       </div>
 
       <iframe
         id="viewer"
         class="visor"
-        src="diapositivas/01_relacional_a_nosql.pdf"
+        src="diapositivas/00_presentacion_curso.pdf"
         title="Visor de material del curso">
       </iframe>
 
-      <div id="fallback" class="mensaje" style="display:none;">
+      <div id="fallback"
+           class="mensaje"
+           style="display:none;">
+
         No se pudo mostrar el archivo dentro de la página.
         Puedes abrirlo con el botón superior.
+
       </div>
+
     </main>
+
   </div>
 
+  <!-- =========================================================== -->
+  <!-- SCRIPT -->
+  <!-- =========================================================== -->
+
   <script>
-    const items = document.querySelectorAll('.unit-item');
-    const viewer = document.getElementById('viewer');
-    const openBtn = document.getElementById('openBtn');
+
+    const items =
+      document.querySelectorAll('.unit-item');
+
+    const viewer =
+      document.getElementById('viewer');
+
+    const openBtn =
+      document.getElementById('openBtn');
 
     items.forEach(item => {
+
       item.addEventListener('click', () => {
-        items.forEach(el => el.classList.remove('activo'));
+
+        items.forEach(el =>
+          el.classList.remove('activo')
+        );
+
         item.classList.add('activo');
 
-        const src = item.getAttribute('data-src');
-        const link = item.getAttribute('data-link');
+        const src =
+          item.getAttribute('data-src');
+
+        const link =
+          item.getAttribute('data-link');
 
         viewer.src = src;
         openBtn.href = link;
+
       });
+
     });
+
   </script>
 
 </body>
