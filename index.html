@@ -7,13 +7,17 @@
 
   <style>
     :root{
-      --verde:#2f8f91;
-      --verde-oscuro:#236f70;
-      --verde-claro:#dff1f1;
-      --fondo:#eef3f3;
+      --azul:#3b35b8;
+      --azul-oscuro:#2f2a94;
+      --azul-claro:#e6e4ff;
+      --azul-muy-claro:#f3f2ff;
+
+      --fondo:#f4f4fb;
       --texto:#1f2937;
-      --borde:#9ccccc;
+      --texto-suave:#6b7280;
+      --borde:#b9b5ef;
       --blanco:#ffffff;
+
       --sombra:0 8px 20px rgba(0,0,0,.08);
       --radio:18px;
     }
@@ -32,33 +36,43 @@
       font-family: Arial, Helvetica, sans-serif;
       background: var(--fondo);
       color: var(--texto);
+      width:100%;
+      min-height:100vh;
     }
 
-    /* ===== Barra superior ===== */
+    /* =========================================================
+       BARRA SUPERIOR
+       ========================================================= */
+
     header{
-      background: var(--verde);
-      color: white;
-      padding: 14px 24px;
+      background: var(--azul);
+      color:white;
+      padding:14px 24px;
+
       display:flex;
       justify-content:space-between;
       align-items:center;
+
       gap:20px;
+
       position:sticky;
       top:0;
       z-index:1000;
-      box-shadow:0 2px 10px rgba(0,0,0,.12);
+
+      box-shadow:0 2px 10px rgba(0,0,0,.14);
     }
 
     .brand{
-      font-size: 1.1rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size:1.1rem;
+      font-weight:700;
+
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .brand span{
-      font-weight: 400;
+      font-weight:400;
       opacity:.95;
     }
 
@@ -78,34 +92,57 @@
       text-decoration:underline;
     }
 
-    /* ===== Layout principal ===== */
+    /* =========================================================
+       CONTENEDOR PRINCIPAL
+       ========================================================= */
+
     .contenedor{
       display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:28px;
-      padding:26px;
+
+      /* columna izquierda más compacta y visor más amplio */
+      grid-template-columns:320px minmax(0, 1fr);
+
+      gap:20px;
+      padding:20px;
+
       align-items:start;
+      width:100%;
+      max-width:none;
+    }
+
+    /* =========================================================
+       COLUMNA IZQUIERDA
+       ========================================================= */
+
+    aside{
+      min-width:0;
     }
 
     aside h1{
-      font-size: 2.5rem;
-      margin-bottom: 18px;
+      font-size:2.35rem;
+      margin-bottom:18px;
       color:#0f172a;
+      line-height:1.05;
     }
 
     .card{
-      background: var(--blanco);
-      border: 3px solid var(--verde);
-      border-radius: var(--radio);
-      padding: 18px 22px;
-      box-shadow: var(--sombra);
-      margin-bottom: 18px;
+      background:var(--blanco);
+
+      border:3px solid var(--azul);
+
+      border-radius:var(--radio);
+
+      padding:18px 20px;
+
+      box-shadow:var(--sombra);
+
+      margin-bottom:18px;
     }
 
     .card p{
-      margin-bottom: 10px;
-      line-height: 1.35;
-      font-size: 1rem;
+      margin-bottom:10px;
+      line-height:1.35;
+      font-size:1rem;
     }
 
     .card p:last-child{
@@ -113,10 +150,13 @@
     }
 
     .descripcion{
-      margin: 8px 0 24px 0;
-      line-height: 1.45;
+      margin:8px 0 24px 0;
+
+      line-height:1.48;
+
       color:#4b5563;
-      font-size: 1rem;
+
+      font-size:1rem;
     }
 
     .descripcion strong{
@@ -124,120 +164,198 @@
     }
 
     .sidebar-title{
-      font-size: 2rem;
-      margin: 18px 0 14px;
+      font-size:1.95rem;
+
+      margin:18px 0 14px;
+
       color:#111827;
     }
 
+    /* =========================================================
+       LISTA DE TEMAS
+       ========================================================= */
+
     .unit-list{
       list-style:none;
+
       display:flex;
       flex-direction:column;
+
       gap:14px;
     }
 
     .unit-item{
       background:#fff;
-      border:2px solid #d3e5e5;
-      border-radius: 16px;
+
+      border:2px solid #d9d6f5;
+
+      border-radius:16px;
+
       padding:16px 18px;
+
       box-shadow:0 4px 14px rgba(0,0,0,.05);
-      transition: all .2s ease;
+
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
       cursor:pointer;
     }
 
     .unit-item:hover{
-      transform: translateY(-2px);
-      border-color: var(--verde);
+      transform:translateY(-2px);
+
+      border-color:var(--azul);
+
+      box-shadow:0 6px 16px rgba(59,53,184,.12);
     }
 
     .unit-item.activo{
-      background:#eef9f9;
-      border-color: var(--verde);
+      background:var(--azul-muy-claro);
+
+      border-color:var(--azul);
+
+      box-shadow:0 0 0 1px rgba(59,53,184,.08);
     }
 
     .unit-head{
       display:flex;
+
       justify-content:space-between;
-      gap:12px;
       align-items:flex-start;
+
+      gap:12px;
     }
 
     .unit-texto{
       flex:1;
+      min-width:0;
     }
 
     .unit-title{
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size:1.08rem;
+
+      font-weight:700;
+
       color:#111827;
-      margin-bottom: 6px;
+
+      margin-bottom:6px;
+
       line-height:1.2;
     }
 
     .unit-subtitle{
-      color:#6b7280;
-      font-size: .98rem;
-      line-height:1.25;
+      color:var(--texto-suave);
+
+      font-size:.96rem;
+
+      line-height:1.28;
     }
 
     .tag{
-      background:#cfeeee;
-      color: var(--verde-oscuro);
-      font-size:.92rem;
+      background:var(--azul-claro);
+
+      color:var(--azul-oscuro);
+
+      font-size:.9rem;
+
       font-weight:700;
-      padding:8px 14px;
+
+      padding:8px 12px;
+
       border-radius:999px;
+
       white-space:nowrap;
     }
 
-    /* ===== Área derecha ===== */
+    /* =========================================================
+       ÁREA DERECHA
+       ========================================================= */
+
     main{
-      background: white;
-      border-radius: 22px;
-      box-shadow: var(--sombra);
-      padding: 14px 18px 18px 18px;
-      min-height: 82vh;
+      background:white;
+
+      border-radius:22px;
+
+      box-shadow:var(--sombra);
+
+      padding:14px 18px 18px 18px;
+
+      min-height:90vh;
+
+      width:100%;
+
+      min-width:0;
     }
 
     .visor-top{
-      margin-bottom: 14px;
+      margin-bottom:14px;
     }
 
     .boton-abrir{
       display:inline-block;
-      background: var(--verde);
+
+      background:var(--azul);
+
       color:white;
+
       text-decoration:none;
-      padding: 12px 20px;
+
+      padding:12px 20px;
+
       border-radius:999px;
+
       font-weight:700;
-      box-shadow:0 6px 14px rgba(47,143,145,.25);
+
+      box-shadow:0 6px 14px rgba(59,53,184,.24);
+
+      transition:
+        background .2s ease,
+        transform .15s ease,
+        box-shadow .15s ease;
     }
 
     .boton-abrir:hover{
-      background: var(--verde-oscuro);
+      background:var(--azul-oscuro);
+
+      transform:translateY(-1px);
+
+      box-shadow:0 7px 16px rgba(59,53,184,.28);
     }
 
     .visor{
       width:100%;
-      height:78vh;
+
+      /* ocupa más espacio vertical */
+      height:84vh;
+
       border:none;
-      border-radius: 14px;
+
+      border-radius:14px;
+
       background:#f8fafc;
     }
 
     .mensaje{
-      padding: 24px;
+      padding:24px;
+
       color:#4b5563;
+
       line-height:1.5;
+
       font-size:1rem;
     }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 1100px){
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width:1100px){
+
       .contenedor{
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
       main{
@@ -245,11 +363,13 @@
       }
 
       .visor{
-        height:70vh;
+        height:72vh;
       }
+
     }
 
-    @media (max-width: 700px){
+    @media (max-width:700px){
+
       header{
         flex-direction:column;
         align-items:flex-start;
@@ -259,8 +379,12 @@
         gap:14px;
       }
 
+      .contenedor{
+        padding:14px;
+      }
+
       aside h1{
-        font-size: 2rem;
+        font-size:2rem;
       }
 
       .sidebar-title{
@@ -274,40 +398,70 @@
       .tag{
         align-self:flex-start;
       }
+
+      .visor{
+        height:68vh;
+      }
+
     }
+
   </style>
 </head>
 
 <body>
 
+  <!-- =========================================================
+       BARRA SUPERIOR
+       ========================================================= -->
+
   <header>
+
     <div class="brand">
       Edgar Santiago González Martínez
       <span>· Bases de Datos No Relacionales</span>
     </div>
 
     <nav>
-      <a href="#sobre">Sobre esta página</a>
-      <a href="#temas">Temas</a>
-      <a href="https://github.com/edgarsanti/BDNRs"
-         target="_blank"
-         rel="noopener">
+
+      <a href="#sobre">
+        Sobre esta página
+      </a>
+
+      <a href="#temas">
+        Temas
+      </a>
+
+      <a
+        href="https://github.com/edgarsanti/BDNRs"
+        target="_blank"
+        rel="noopener">
         Repositorio
       </a>
+
     </nav>
+
   </header>
+
+  <!-- =========================================================
+       CONTENIDO
+       ========================================================= -->
 
   <div class="contenedor">
 
-    <!-- ========================================================= -->
-    <!-- COLUMNA IZQUIERDA -->
-    <!-- ========================================================= -->
+    <!-- =======================================================
+         COLUMNA IZQUIERDA
+         ======================================================= -->
 
     <aside>
 
-      <h1>Material del curso</h1>
+      <h1>
+        Material del curso
+      </h1>
+
+      <!-- Datos de la experiencia educativa -->
 
       <div class="card" id="sobre">
+
         <p>
           <strong>Institución:</strong>
           Universidad Veracruzana
@@ -327,37 +481,55 @@
           <strong>Materia:</strong>
           Bases de Datos No Relacionales
         </p>
+
       </div>
 
+      <!-- Profesor -->
+
       <div class="card">
+
         <p>
           <strong>Profesor:</strong>
           Edgar Santiago González Martínez
         </p>
+
       </div>
+
+      <!-- Descripción -->
 
       <div class="descripcion">
+
         En esta página se recopilan las
-        <strong>diapositivas</strong>, prácticas y materiales
-        correspondientes a la experiencia educativa
+        <strong>diapositivas</strong>,
+        prácticas y materiales correspondientes a la
+        experiencia educativa
         <strong>Bases de Datos No Relacionales</strong>.
-        Aquí se irán agregando únicamente los temas que ya
-        se hayan trabajado en clase.
+
+        Aquí se irán agregando únicamente los temas
+        que ya se hayan trabajado en clase.
+
       </div>
 
-      <h2 class="sidebar-title" id="temas">
+      <!-- =====================================================
+           TEMAS
+           ===================================================== -->
+
+      <h2
+        class="sidebar-title"
+        id="temas">
         Temas publicados
       </h2>
 
       <ul class="unit-list">
 
-        <!-- ===================================================== -->
-        <!-- PRESENTACIÓN DEL CURSO -->
-        <!-- ===================================================== -->
+        <!-- ===================================================
+             PRESENTACIÓN DEL CURSO
+             =================================================== -->
 
-        <li class="unit-item activo"
-            data-src="diapositivas/00_presentacion_curso.pdf"
-            data-link="diapositivas/00_presentacion_curso.pdf">
+        <li
+          class="unit-item activo"
+          data-src="diapositivas/00_presentacion_curso.pdf"
+          data-link="diapositivas/00_presentacion_curso.pdf">
 
           <div class="unit-head">
 
@@ -369,7 +541,8 @@
 
               <div class="unit-subtitle">
                 Organización de la experiencia educativa,
-                unidades, forma de trabajo, criterios de evaluación
+                unidades, forma de trabajo,
+                criterios de evaluación
                 y herramientas del curso.
               </div>
 
@@ -383,13 +556,14 @@
 
         </li>
 
-        <!-- ===================================================== -->
-        <!-- TEMA 1 -->
-        <!-- ===================================================== -->
+        <!-- ===================================================
+             TEMA 1
+             =================================================== -->
 
-        <li class="unit-item"
-            data-src="diapositivas/01_relacional_a_nosql.pdf"
-            data-link="diapositivas/01_relacional_a_nosql.pdf">
+        <li
+          class="unit-item"
+          data-src="diapositivas/01_relacional_a_nosql.pdf"
+          data-link="diapositivas/01_relacional_a_nosql.pdf">
 
           <div class="unit-head">
 
@@ -401,8 +575,9 @@
               </div>
 
               <div class="unit-subtitle">
-                Repaso de lo relacional, datos estructurados
-                y semiestructurados, JSON y modelos NoSQL.
+                Repaso de lo relacional,
+                datos estructurados y semiestructurados,
+                JSON y modelos NoSQL.
               </div>
 
             </div>
@@ -415,13 +590,14 @@
 
         </li>
 
-        <!-- ===================================================== -->
-        <!-- TEMA 2 -->
-        <!-- ===================================================== -->
+        <!-- ===================================================
+             TEMA 2
+             =================================================== -->
 
-        <li class="unit-item"
-            data-src="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
-            data-link="diapositivas/02_escalabilidad_bases_distribuidas.pdf">
+        <li
+          class="unit-item"
+          data-src="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
+          data-link="diapositivas/02_escalabilidad_bases_distribuidas.pdf">
 
           <div class="unit-head">
 
@@ -432,9 +608,14 @@
               </div>
 
               <div class="unit-subtitle">
-                Escalabilidad, bases de datos distribuidas,
-                replicación, particionamiento, consistencia,
-                concurrencia, teorema CAP y procesamiento paralelo.
+                Escalabilidad,
+                bases de datos distribuidas,
+                replicación,
+                particionamiento,
+                consistencia,
+                concurrencia,
+                teorema CAP
+                y procesamiento paralelo.
               </div>
 
             </div>
@@ -447,15 +628,17 @@
 
         </li>
 
-        <!-- ===================================================== -->
-        <!-- SIGUIENTE TEMA -->
-        <!-- Descomentar cuando esté listo -->
-        <!-- ===================================================== -->
+        <!-- ===================================================
+             SIGUIENTE TEMA
+             Descomentar cuando esté listo
+             =================================================== -->
 
         <!--
-        <li class="unit-item"
-            data-src="diapositivas/03_mongodb_modelo_documental.pdf"
-            data-link="diapositivas/03_mongodb_modelo_documental.pdf">
+
+        <li
+          class="unit-item"
+          data-src="diapositivas/03_mongodb_modelo_documental.pdf"
+          data-link="diapositivas/03_mongodb_modelo_documental.pdf">
 
           <div class="unit-head">
 
@@ -466,8 +649,12 @@
               </div>
 
               <div class="unit-subtitle">
-                Modelo documental, MongoDB Atlas, bases de datos,
-                colecciones, documentos y primeras consultas.
+                Modelo documental,
+                MongoDB Atlas,
+                bases de datos,
+                colecciones,
+                documentos
+                y primeras consultas.
               </div>
 
             </div>
@@ -479,25 +666,27 @@
           </div>
 
         </li>
+
         -->
 
       </ul>
 
     </aside>
 
-    <!-- ========================================================= -->
-    <!-- ÁREA DERECHA -->
-    <!-- ========================================================= -->
+    <!-- =======================================================
+         VISOR DE MATERIAL
+         ======================================================= -->
 
     <main>
 
       <div class="visor-top">
 
-        <a id="openBtn"
-           class="boton-abrir"
-           href="diapositivas/00_presentacion_curso.pdf"
-           target="_blank"
-           rel="noopener">
+        <a
+          id="openBtn"
+          class="boton-abrir"
+          href="diapositivas/00_presentacion_curso.pdf"
+          target="_blank"
+          rel="noopener">
 
           Abrir material en otra pestaña
 
@@ -512,9 +701,10 @@
         title="Visor de material del curso">
       </iframe>
 
-      <div id="fallback"
-           class="mensaje"
-           style="display:none;">
+      <div
+        id="fallback"
+        class="mensaje"
+        style="display:none;">
 
         No se pudo mostrar el archivo dentro de la página.
         Puedes abrirlo con el botón superior.
@@ -525,9 +715,9 @@
 
   </div>
 
-  <!-- =========================================================== -->
-  <!-- SCRIPT -->
-  <!-- =========================================================== -->
+  <!-- =========================================================
+       SCRIPT
+       ========================================================= -->
 
   <script>
 
@@ -544,9 +734,9 @@
 
       item.addEventListener('click', () => {
 
-        items.forEach(el =>
-          el.classList.remove('activo')
-        );
+        items.forEach(el => {
+          el.classList.remove('activo');
+        });
 
         item.classList.add('activo');
 
@@ -557,6 +747,7 @@
           item.getAttribute('data-link');
 
         viewer.src = src;
+
         openBtn.href = link;
 
       });
