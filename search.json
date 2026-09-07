@@ -1,0 +1,1276 @@
+[
+  {
+    "objectID": "diapositivas.html",
+    "href": "diapositivas.html",
+    "title": "Diapositivas",
+    "section": "",
+    "text": "En esta sección se encuentran las presentaciones utilizadas durante las sesiones del curso."
+  },
+  {
+    "objectID": "diapositivas.html#presentación-del-curso",
+    "href": "diapositivas.html#presentación-del-curso",
+    "title": "Diapositivas",
+    "section": "Presentación del curso",
+    "text": "Presentación del curso\nPresentación del curso y plan de trabajo\nOrganización de la experiencia educativa, unidades, forma de trabajo y criterios de evaluación.\n Abrir en nueva pestaña"
+  },
+  {
+    "objectID": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
+    "href": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
+    "title": "Diapositivas",
+    "section": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "text": "Tema 1. De las bases de datos relacionales a NoSQL\nRepaso de bases de datos relacionales, datos estructurados y semiestructurados, JSON y modelos NoSQL.\n Abrir en nueva pestaña"
+  },
+  {
+    "objectID": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
+    "href": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
+    "title": "Diapositivas",
+    "section": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "text": "Tema 2. Escalabilidad y bases de datos distribuidas\nEscalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.\n Abrir en nueva pestaña"
+  },
+  {
+    "objectID": "apuntes.html",
+    "href": "apuntes.html",
+    "title": "Apuntes del curso",
+    "section": "",
+    "text": "En esta sección se presentan materiales complementarios para ampliar los temas revisados durante las clases.\nLos apuntes permiten consultar con mayor detalle los conceptos, ejemplos y procedimientos trabajados durante el curso."
+  },
+  {
+    "objectID": "apuntes.html#tema-1",
+    "href": "apuntes.html#tema-1",
+    "title": "Apuntes del curso",
+    "section": "Tema 1",
+    "text": "Tema 1\n\nDe las bases de datos relacionales a las bases de datos NoSQL\nEn este tema se revisan los fundamentos que permiten comprender la transición desde el modelo relacional hacia los principales modelos NoSQL.\nSe abordan:\n\nmodelo relacional;\ntablas, registros, atributos y llaves;\ndatos estructurados;\ndatos semiestructurados;\ndatos no estructurados;\nJSON y estructuras anidadas;\ncomparación entre modelo relacional y documental;\nconcepto de NoSQL;\nbases orientadas a documentos;\nbases clave-valor;\nbases orientadas a columnas;\nbases de grafos;\naplicaciones en Ciencia de Datos;\ncriterios para elegir un modelo de almacenamiento.\n\n Abrir Tema 1"
+  },
+  {
+    "objectID": "apuntes.html#tema-2",
+    "href": "apuntes.html#tema-2",
+    "title": "Apuntes del curso",
+    "section": "Tema 2",
+    "text": "Tema 2\n\nEscalabilidad y bases de datos distribuidas\nEn este tema se estudia qué ocurre cuando una aplicación necesita atender más usuarios, almacenar mayores volúmenes de información o distribuir sus datos entre diferentes servidores.\nSe abordan:\n\nconcepto de escalabilidad;\nescalabilidad vertical;\nescalabilidad horizontal;\nsistemas distribuidos;\nreplicación;\nparticionamiento y sharding;\nconsistencia;\nconcurrencia;\nteorema CAP;\nprocesamiento paralelo;\nrelación entre escalabilidad y bases de datos NoSQL.\n\n Abrir Tema 2"
+  },
+  {
+    "objectID": "apuntes.html#tema-3",
+    "href": "apuntes.html#tema-3",
+    "title": "Apuntes del curso",
+    "section": "Tema 3",
+    "text": "Tema 3\n\nMongoDB y consultas básicas\nEn este tema se introduce MongoDB como ejemplo de una base de datos orientada a documentos.\nSe abordan:\n\nmodelo documental;\nbases de datos y colecciones;\ndocumentos y campos;\nBSON y JSON;\ninserción de documentos;\nconsultas con find();\noperadores de comparación;\nconsultas sobre arreglos;\nobjetos anidados;\noperadores $or, $in y $exists;\nuso de MongoDB Compass;\nconsultas básicas sobre colecciones.\n\n Abrir Tema 3"
+  },
+  {
+    "objectID": "datasets.html",
+    "href": "datasets.html",
+    "title": "Datasets",
+    "section": "",
+    "text": "En esta sección se encuentran los conjuntos de datos utilizados durante las prácticas y actividades del curso."
+  },
+  {
+    "objectID": "datasets.html#datos-de-ejemplo-de-mongodb",
+    "href": "datasets.html#datos-de-ejemplo-de-mongodb",
+    "title": "Datasets",
+    "section": "Datos de ejemplo de MongoDB",
+    "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\n```text sample_airbnb sample_analytics sample_geospatial sample_guides sample_mflix sample_restaurants sample_supplies sample_training sample_weatherdata"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "",
+    "text": "En el tema anterior revisamos distintas formas de representar la información y analizamos por qué existen diferentes modelos de bases de datos.\nAhora cambiaremos ligeramente la pregunta.\nYa no nos concentraremos únicamente en:\n\n¿Cómo representamos los datos?\n\nTambién necesitamos preguntarnos:\n\n¿Qué ocurre cuando una aplicación crece y debe atender cada vez más usuarios, consultas y datos?\n\nA medida que un sistema aumenta su tamaño pueden aparecer nuevos retos:\n\nmás usuarios conectados al mismo tiempo;\nmayor volumen de información;\nmás consultas por segundo;\nmás operaciones simultáneas;\nmayor necesidad de almacenamiento;\nmayores requerimientos de procesamiento.\n\nEstos problemas están relacionados con conceptos como escalabilidad, sistemas distribuidos, replicación, particionamiento, consistencia y concurrencia (Kleppmann 2017).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nUna aplicación puede funcionar perfectamente con pocos usuarios y comenzar a presentar problemas cuando aumenta la demanda.\nEl diseño que funciona para:\n100 usuarios\nno necesariamente será suficiente para:\n10,000,000 de usuarios"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#introducción",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#introducción",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "",
+    "text": "En el tema anterior revisamos distintas formas de representar la información y analizamos por qué existen diferentes modelos de bases de datos.\nAhora cambiaremos ligeramente la pregunta.\nYa no nos concentraremos únicamente en:\n\n¿Cómo representamos los datos?\n\nTambién necesitamos preguntarnos:\n\n¿Qué ocurre cuando una aplicación crece y debe atender cada vez más usuarios, consultas y datos?\n\nA medida que un sistema aumenta su tamaño pueden aparecer nuevos retos:\n\nmás usuarios conectados al mismo tiempo;\nmayor volumen de información;\nmás consultas por segundo;\nmás operaciones simultáneas;\nmayor necesidad de almacenamiento;\nmayores requerimientos de procesamiento.\n\nEstos problemas están relacionados con conceptos como escalabilidad, sistemas distribuidos, replicación, particionamiento, consistencia y concurrencia (Kleppmann 2017).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nUna aplicación puede funcionar perfectamente con pocos usuarios y comenzar a presentar problemas cuando aumenta la demanda.\nEl diseño que funciona para:\n100 usuarios\nno necesariamente será suficiente para:\n10,000,000 de usuarios"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#punto-de-partida",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#punto-de-partida",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "2 Punto de partida",
+    "text": "2 Punto de partida\nImaginemos una plataforma que almacena:\nperfiles de usuarios\npublicaciones\nimágenes\ncomentarios\nregistros de actividad\nAl principio, un solo servidor puede ser suficiente.\nPor ejemplo:\nUsuarios\n   │\n   ↓\nServidor\n   │\n   ↓\nBase de datos\nSin embargo, conforme aumenta el número de usuarios también aumenta la cantidad de información y de solicitudes que debe procesar el sistema.\nPodríamos pasar de:\n100 usuarios\n500 publicaciones\n20 usuarios conectados\na:\n100,000 usuarios\n5,000,000 publicaciones\n10,000 usuarios conectados\ny posteriormente a:\n10,000,000 usuarios\n500,000,000 publicaciones\n100,000 usuarios conectados\nAhora el sistema debe procesar muchas más operaciones:\niniciar sesión\nconsultar perfiles\npublicar contenido\nregistrar comentarios\nbuscar usuarios\nactualizar información\nmostrar recomendaciones\nLa pregunta entonces es:\n\n¿Cómo aumentamos la capacidad del sistema para que continúe funcionando adecuadamente?\n\nEsto nos lleva al concepto de escalabilidad."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-la-escalabilidad",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-la-escalabilidad",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "3 ¿Qué es la escalabilidad?",
+    "text": "3 ¿Qué es la escalabilidad?\nLa escalabilidad es la capacidad de un sistema para mantener un funcionamiento adecuado cuando aumenta la demanda (Kleppmann 2017).\nLa carga puede crecer debido a:\n\nmayor cantidad de usuarios;\ncrecimiento del volumen de datos;\naumento del número de consultas;\nmayor cantidad de operaciones simultáneas;\nnecesidad de procesar información con mayor rapidez.\n\nExisten dos estrategias generales para aumentar la capacidad de un sistema:\nEscalabilidad vertical\nEscalabilidad horizontal"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#escalabilidad-vertical-y-horizontal",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#escalabilidad-vertical-y-horizontal",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "4 Escalabilidad vertical y horizontal",
+    "text": "4 Escalabilidad vertical y horizontal\n\n4.1 Escalabilidad vertical\nLa escalabilidad vertical, también conocida como scale up, consiste en aumentar los recursos de una misma máquina.\nPor ejemplo:\nServidor inicial\n├── 4 núcleos\n├── 8 GB RAM\n└── 500 GB de almacenamiento\npodría sustituirse o ampliarse a:\nServidor más potente\n├── 32 núcleos\n├── 128 GB RAM\n└── 8 TB de almacenamiento\nLa idea principal es:\nmisma máquina\n      +\nmás recursos\nSe puede aumentar:\nRAM\nCPU\nalmacenamiento\ncapacidad de procesamiento\n\n\n4.2 Ejemplo\nSupongamos que el servidor de una universidad comienza a responder lentamente durante el periodo de inscripciones.\nUna primera solución podría ser pasar de:\n8 GB RAM\na:\n32 GB RAM\no utilizar un procesador más potente.\nEn este caso estamos aumentando la capacidad del mismo servidor.\n\n\n4.3 Escalabilidad horizontal\nLa escalabilidad horizontal, también conocida como scale out, consiste en agregar más servidores o nodos al sistema.\nEn lugar de utilizar únicamente:\nServidor 1\npodemos trabajar con:\nServidor 1\nServidor 2\nServidor 3\nServidor 4\ny repartir el trabajo entre ellos.\nPor ejemplo:\nUsuarios\n   │\n   ↓\nDistribución de carga\n   │\n   ├──── Servidor 1\n   ├──── Servidor 2\n   └──── Servidor 3\nEsta estrategia está estrechamente relacionada con los sistemas distribuidos (Kleppmann 2017).\n\n\n\nEscalabilidad vertical y horizontal\n\n\nLa diferencia puede resumirse de forma sencilla:\nVertical   → hacer más poderosa una máquina\n\nHorizontal → agregar más máquinas"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#comparación-de-escalabilidad",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#comparación-de-escalabilidad",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "5 Comparación de escalabilidad",
+    "text": "5 Comparación de escalabilidad\n\n\n\nProblema\nEscalabilidad vertical\nEscalabilidad horizontal\n\n\n\n\nPoca memoria\nAgregar RAM\nAgregar nodos\n\n\nMuchas consultas\nMejorar CPU\nDistribuir consultas\n\n\nMuchos datos\nAumentar disco\nDistribuir información\n\n\nAlta demanda\nMejorar servidor\nRepartir carga\n\n\n\nLa escalabilidad vertical puede ser más sencilla inicialmente, pero existe un límite físico y económico sobre cuánto puede crecer una sola máquina.\nLa escalabilidad horizontal permite incorporar nuevos nodos conforme aumenta la demanda, aunque también introduce nuevos retos de coordinación.\n\n\n\n\n\n\nTipUna analogía\n\n\n\nImaginemos un restaurante.\nEscalabilidad vertical\nun cocinero\n     ↓\nun cocinero con mejores herramientas\nEscalabilidad horizontal\nun cocinero\n     ↓\nvarios cocineros trabajando juntos\nAgregar personas aumenta la capacidad, pero también requiere coordinación."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#bases-de-datos-distribuidas",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#bases-de-datos-distribuidas",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "6 Bases de datos distribuidas",
+    "text": "6 Bases de datos distribuidas\nLa escalabilidad horizontal nos conduce al concepto de sistema distribuido.\nUna base de datos distribuida almacena y gestiona información utilizando varios servidores o nodos conectados mediante una red.\nLos datos pueden encontrarse:\n\ndistribuidos entre diferentes servidores;\nreplicados en varios nodos;\nalmacenados en diferentes ubicaciones físicas;\nadministrados como parte de un mismo sistema.\n\n(Kleppmann 2017)\n\n\n\nBase de datos distribuida mediante varios nodos\n\n\nDesde la perspectiva del usuario, estos servidores pueden comportarse como un solo sistema.\nUsuario\n   │\n   ↓\nSistema distribuido\n   │\n   ├── Nodo A\n   ├── Nodo B\n   └── Nodo C"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-un-nodo",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-un-nodo",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "7 ¿Qué es un nodo?",
+    "text": "7 ¿Qué es un nodo?\nEn un sistema distribuido, cada servidor participante puede considerarse un nodo.\nUn nodo puede:\n\nalmacenar una parte de la información;\nmantener una copia de determinados datos;\nrecibir consultas;\nrealizar operaciones;\ncomunicarse con otros nodos.\n\nPor ejemplo:\nNodo A ───── Nodo B\n   │            │\n   └──── Nodo C ┘\nLos nodos trabajan coordinadamente para formar un único sistema lógico.\n\n\n\n\n\n\nNoteImportante\n\n\n\nQue una base sea distribuida no significa simplemente que tengamos varias computadoras.\nLos nodos necesitan mecanismos para:\ncomunicarse\ncoordinarse\nintercambiar información\nmanejar fallos\nmantener los datos"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#replicación",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#replicación",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "8 Replicación",
+    "text": "8 Replicación\nUna estrategia utilizada en sistemas distribuidos es la replicación.\nLa replicación consiste en mantener copias de la misma información en diferentes nodos (Kleppmann 2017).\nPor ejemplo:\nDato original\n     │\n     ├── Nodo A\n     ├── Nodo B\n     └── Nodo C\nLos tres nodos pueden almacenar una copia del mismo dato.\n\n\n\nReplicación de datos entre diferentes nodos\n\n\n\n8.1 ¿Por qué replicar?\nLa replicación puede ayudar a:\n\naumentar la disponibilidad;\nmantener copias de respaldo;\nmejorar la tolerancia a fallos;\ndistribuir algunas operaciones de lectura.\n\n\n\n8.2 Ejemplo\nSupongamos que tenemos:\nNodo A → información de usuarios\nNodo B → copia de información de usuarios\nNodo C → copia de información de usuarios\nSi el Nodo A presenta una falla, todavía existen otras copias.\nNodo A ❌\n\nNodo B ✓\nNodo C ✓\nEl sistema podría continuar funcionando utilizando alguno de los nodos disponibles.\n\n\n8.3 Ventajas y retos\n\n\n\nVentajas\nRetos\n\n\n\n\nMayor disponibilidad\nSincronización\n\n\nTolerancia a fallos\nMayor uso de almacenamiento\n\n\nCopias de los datos\nRetrasos entre réplicas\n\n\nDistribución de lecturas\nPosibles inconsistencias temporales\n\n\n\n\n\n\n\n\n\nNoteReplicar significa copiar\n\n\n\nLa idea fundamental es:\nmismos datos\n   ↓\nvarios nodos\nNo debemos confundirla con particionamiento."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#particionamiento-de-datos",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#particionamiento-de-datos",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "9 Particionamiento de datos",
+    "text": "9 Particionamiento de datos\nOtra estrategia consiste en dividir la información.\nEl particionamiento permite separar un conjunto grande de datos en partes más pequeñas.\nPor ejemplo:\n\n\n\nNodo\nInformación almacenada\n\n\n\n\nNodo 1\nUsuarios 1–1000\n\n\nNodo 2\nUsuarios 1001–2000\n\n\nNodo 3\nUsuarios 2001–3000\n\n\n\nCada nodo almacena solamente una parte del conjunto total.\n\n\n\nParticionamiento de información entre varios nodos\n\n\nPodemos visualizarlo así:\nTodos los usuarios\n       │\n       ├── Usuarios 1–1000\n       │       ↓\n       │     Nodo 1\n       │\n       ├── Usuarios 1001–2000\n       │       ↓\n       │     Nodo 2\n       │\n       └── Usuarios 2001–3000\n               ↓\n             Nodo 3"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#particionamiento-y-sharding",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#particionamiento-y-sharding",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "10 Particionamiento y sharding",
+    "text": "10 Particionamiento y sharding\nCuando las diferentes particiones de los datos se distribuyen entre distintos nodos, se utiliza comúnmente el término sharding (Kleppmann 2017).\nPor ejemplo:\nBase completa\n     │\n     ├── Fragmento A → Nodo A\n     ├── Fragmento B → Nodo B\n     └── Fragmento C → Nodo C\nCada fragmento suele denominarse shard.\nEl objetivo es evitar que un solo servidor tenga que almacenar y procesar todo el conjunto de datos."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#replicación-vs.-particionamiento",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#replicación-vs.-particionamiento",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "11 Replicación vs. particionamiento",
+    "text": "11 Replicación vs. particionamiento\nAunque ambos conceptos aparecen frecuentemente juntos, resuelven problemas diferentes.\n\n\n\n\n\n\n\nReplicación\nParticionamiento\n\n\n\n\nSe crean copias\nSe dividen los datos\n\n\nLos mismos datos pueden aparecer en varios nodos\nCada nodo puede almacenar una parte\n\n\nAyuda a disponibilidad\nAyuda a distribuir grandes volúmenes\n\n\nPuede facilitar recuperación ante fallos\nPermite repartir almacenamiento y carga\n\n\n\nUna forma sencilla de recordarlos es:\nReplicación\nA → A → A\n\nParticionamiento\nABC → A | B | C\n\n\n\n\n\n\nTipTambién pueden combinarse\n\n\n\nUn sistema real puede tener:\nPartición A\n├── copia 1\n└── copia 2\n\nPartición B\n├── copia 1\n└── copia 2\nEs decir, los datos pueden estar particionados y replicados al mismo tiempo."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#consistencia",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#consistencia",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "12 Consistencia",
+    "text": "12 Consistencia\nLa replicación introduce una nueva pregunta:\n\n¿Qué ocurre cuando modificamos un dato que tiene varias copias?\n\nSupongamos que dos nodos contienen:\nNodo A: edad = 20\nNodo B: edad = 20\nEl usuario actualiza su edad:\n20 → 21\nLa modificación llega primero al Nodo A:\nNodo A: edad = 21\nNodo B: edad = 20\nDurante un breve periodo, los dos nodos contienen valores distintos.\n\n\n\nEjemplo de consistencia entre diferentes nodos\n\n\nDespués de la sincronización:\nNodo A: edad = 21\nNodo B: edad = 21\nLa consistencia está relacionada con qué tan coherente es la información observada por los distintos participantes del sistema (Kleppmann 2017).\n\n\n\n\n\n\nNotePregunta importante\n\n\n\nSi un usuario consulta:\nNodo A → edad = 21\ny otro consulta:\nNodo B → edad = 20\n¿qué comportamiento debería tener el sistema?\nLa respuesta depende del modelo de consistencia utilizado y de las necesidades de la aplicación."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#toda-inconsistencia-temporal-es-igual-de-grave",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#toda-inconsistencia-temporal-es-igual-de-grave",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "13 ¿Toda inconsistencia temporal es igual de grave?",
+    "text": "13 ¿Toda inconsistencia temporal es igual de grave?\nNo necesariamente.\nImaginemos dos escenarios.\n\n13.1 Una red social\nUn usuario publica una fotografía.\nPuede ser aceptable que:\nNodo A → publicación visible\n\nNodo B → todavía no visible\ndurante unos segundos.\n\n\n13.2 Una operación financiera\nEn cambio, si hablamos del saldo de una cuenta:\nNodo A → $10,000\n\nNodo B → $8,000\nuna diferencia temporal puede tener consecuencias mucho más importantes.\nPor eso los requisitos de consistencia dependen del problema."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#concurrencia",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#concurrencia",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "14 Concurrencia",
+    "text": "14 Concurrencia\nLa concurrencia ocurre cuando múltiples usuarios o procesos intentan acceder o modificar información al mismo tiempo.\nPor ejemplo:\nProducto disponible: 1\nDos usuarios intentan comprarlo simultáneamente:\nUsuario A ── Comprar ──┐\n                       ├── mismo producto\nUsuario B ── Comprar ──┘\n\n\n\nEjemplo de concurrencia entre operaciones simultáneas\n\n\nOtro ejemplo puede ser la reservación de un asiento.\nAsiento 15A\n    │\n    ├── Usuario A → reservar\n    │\n    └── Usuario B → reservar\nSi el sistema no coordina correctamente las operaciones podría ocurrir una doble reserva."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#problemas-de-concurrencia",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#problemas-de-concurrencia",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "15 Problemas de concurrencia",
+    "text": "15 Problemas de concurrencia\nCuando la concurrencia no se controla adecuadamente pueden aparecer:\n\nactualizaciones perdidas;\ndatos inconsistentes;\noperaciones duplicadas;\nlecturas de información desactualizada;\nconflictos entre operaciones simultáneas.\n\n\n15.1 Ejemplo de actualización perdida\nSupongamos:\nSaldo inicial = 100\nDos procesos leen ese mismo valor:\nProceso A lee 100\nProceso B lee 100\nDespués:\nProceso A suma 20  → 120\nProceso B resta 10 → 90\nSi ambos escriben sin coordinación, una de las modificaciones podría sobrescribir a la otra.\n\n\n\n\n\n\nTipConsistencia y concurrencia no son lo mismo\n\n\n\nConsistencia\nse relaciona con mantener una visión coherente de la información.\nConcurrencia\nse relaciona con múltiples operaciones que ocurren al mismo tiempo.\nSon conceptos diferentes, aunque pueden estar estrechamente relacionados."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#teorema-cap",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#teorema-cap",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "16 Teorema CAP",
+    "text": "16 Teorema CAP\nUno de los conceptos más conocidos en sistemas distribuidos es el teorema CAP.\nCAP describe tres propiedades:\nC → Consistency\nA → Availability\nP → Partition Tolerance\n(Kleppmann 2017)\n\n\n\nRepresentación del teorema CAP\n\n\n\n16.1 C — Consistency\nLos nodos ofrecen una visión coherente de la información.\nDe manera simplificada, después de una actualización esperamos que las consultas observen el valor correcto de acuerdo con las garantías del sistema.\n\n\n16.2 A — Availability\nCada solicitud realizada a un nodo operativo recibe una respuesta.\nEl sistema intenta continuar atendiendo las solicitudes.\n\n\n16.3 P — Partition Tolerance\nEl sistema puede continuar operando a pesar de que exista una interrupción de comunicación entre algunos nodos."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-una-partición-de-red",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#qué-es-una-partición-de-red",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "17 ¿Qué es una partición de red?",
+    "text": "17 ¿Qué es una partición de red?\nSupongamos que tenemos:\nNodo A ←────────→ Nodo B\nNormalmente los nodos intercambian información.\nAhora ocurre una falla:\nNodo A      X      Nodo B\nAmbos nodos pueden continuar encendidos, pero ya no pueden comunicarse correctamente.\nEso es una partición de red."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#el-compromiso-del-teorema-cap",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#el-compromiso-del-teorema-cap",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "18 El compromiso del teorema CAP",
+    "text": "18 El compromiso del teorema CAP\nCuando existe una partición de red, el sistema debe decidir cómo responder.\n\n18.1 Priorizar consistencia\nPuede evitar responder si no puede garantizar que los datos sean coherentes.\nNo estoy seguro de tener\nel valor actualizado\n        ↓\nno respondo todavía\n\n\n18.2 Priorizar disponibilidad\nPuede continuar respondiendo aunque temporalmente algunos nodos tengan información diferente.\nNodo A → valor nuevo\nNodo B → valor anterior\nEl servicio continúa disponible, aunque puede existir una diferencia temporal.\n\n\n\n\n\n\nWarningCAP no significa simplemente “elegir dos de tres”\n\n\n\nUna simplificación frecuente consiste en decir:\nCAP = elegir dos de tres\nEsto puede ser engañoso.\nEl compromiso importante aparece cuando existe una partición de red. En ese escenario, un sistema distribuido debe decidir cómo equilibrar consistencia y disponibilidad (Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-conceptual-de-cap",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-conceptual-de-cap",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "19 Ejemplo conceptual de CAP",
+    "text": "19 Ejemplo conceptual de CAP\n\n19.1 Sistema bancario\nEn una operación financiera puede resultar muy importante evitar mostrar información incorrecta.\nPor ejemplo:\nSaldo correcto: $5,000\npuede ser preferible no completar temporalmente una operación antes que utilizar un saldo incorrecto.\nEn determinados escenarios podría priorizarse la consistencia.\n\n\n19.2 Red social\nEn una red social puede ser aceptable que una publicación tarde algunos segundos en aparecer en todos los nodos.\nPor ejemplo:\nNodo A → publicación visible\nNodo B → todavía sincronizando\nLa aplicación puede continuar funcionando.\nEn determinados escenarios puede priorizarse la disponibilidad.\n\n\n\n\n\n\nNote\n\n\n\nEstos son ejemplos conceptuales para comprender el compromiso.\nEn sistemas reales, las decisiones son más específicas y dependen del diseño, de cada operación y de las garantías ofrecidas por la tecnología utilizada."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#procesamiento-paralelo",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#procesamiento-paralelo",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "20 Procesamiento paralelo",
+    "text": "20 Procesamiento paralelo\nEl procesamiento paralelo consiste en dividir una tarea en varias partes que pueden ejecutarse simultáneamente.\nPuede utilizarse para:\n\nprocesar grandes volúmenes de información;\nreducir tiempos de ejecución;\ndistribuir tareas entre varios procesadores;\naprovechar varios nodos;\nejecutar diferentes operaciones al mismo tiempo.\n\n\n\n\nEjemplo de procesamiento paralelo"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-de-procesamiento-paralelo",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-de-procesamiento-paralelo",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "21 Ejemplo de procesamiento paralelo",
+    "text": "21 Ejemplo de procesamiento paralelo\nSupongamos que necesitamos procesar:\n1000 documentos\nEn lugar de procesarlos uno por uno con un solo proceso:\nProceso 1\n   ↓\n1000 documentos\npodemos dividir el trabajo:\n1000 documentos\n      │\n      ├── Proceso 1 → 250\n      ├── Proceso 2 → 250\n      ├── Proceso 3 → 250\n      └── Proceso 4 → 250\nLos cuatro procesos pueden ejecutarse simultáneamente.\nDespués:\nResultado 1\nResultado 2\nResultado 3\nResultado 4\n     │\n     ↓\nResultado final\nSi el problema puede dividirse adecuadamente, esta estrategia puede reducir el tiempo total de procesamiento.\n\n\n\n\n\n\nTipEjemplo en Ciencia de Datos\n\n\n\nSupongamos que necesitamos analizar:\n1,000,000 de comentarios\nPodríamos dividirlos en grupos y procesarlos de manera paralela.\nComentarios\n    │\n    ├── lote 1 → proceso 1\n    ├── lote 2 → proceso 2\n    ├── lote 3 → proceso 3\n    └── lote 4 → proceso 4\nPosteriormente se combinan los resultados."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#procesamiento-paralelo-y-sistemas-distribuidos",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#procesamiento-paralelo-y-sistemas-distribuidos",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "22 Procesamiento paralelo y sistemas distribuidos",
+    "text": "22 Procesamiento paralelo y sistemas distribuidos\nLos conceptos están relacionados, pero no son exactamente lo mismo.\nEl procesamiento paralelo busca ejecutar varias tareas simultáneamente.\nUn sistema distribuido utiliza varias máquinas o nodos que se comunican mediante una red.\nPodemos tener procesamiento paralelo:\nen una sola máquina\nutilizando varios núcleos, o:\nentre varias máquinas\ndentro de un sistema distribuido."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#relación-entre-los-conceptos",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#relación-entre-los-conceptos",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "23 Relación entre los conceptos",
+    "text": "23 Relación entre los conceptos\nLos conceptos estudiados durante este tema están conectados.\nCrecimiento de datos y usuarios\n              ↓\n        Escalabilidad\n              ↓\n   Bases de datos distribuidas\n              ↓\n  Replicación y particionamiento\n              ↓\nConsistencia, concurrencia y CAP\n              ↓\n    Procesamiento y operación\n       sobre varios recursos\nEl crecimiento de un sistema puede hacer necesario escalar.\nLa escalabilidad horizontal puede llevar a utilizar varios nodos.\nAl utilizar varios nodos necesitamos decidir cómo almacenar los datos.\nPodemos:\nreplicarlos\nparticionarlos\no combinar ambas estrategias\nA partir de ahí aparecen nuevos retos de:\nconsistencia\nconcurrencia\ndisponibilidad\ncomunicación entre nodos\ntolerancia a fallos\n(Kleppmann 2017)"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-integrado",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#ejemplo-integrado",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "24 Ejemplo integrado",
+    "text": "24 Ejemplo integrado\nImaginemos una plataforma de comercio electrónico.\nInicialmente:\nUsuarios\n   ↓\nServidor\n   ↓\nBase de datos\nConforme aumenta la demanda podemos agregar servidores:\nUsuarios\n   ↓\nvarios servidores\nLa base puede dividirse:\nProductos A–M → Nodo 1\nProductos N–Z → Nodo 2\ny además replicarse:\nNodo 1 → Réplica 1\nNodo 2 → Réplica 2\nAhora debemos considerar:\n¿qué ocurre si un nodo falla?\n\n¿cómo se actualizan las copias?\n\n¿qué sucede si dos usuarios compran el último producto?\n\n¿qué ocurre si dos nodos dejan de comunicarse?\nEs decir, el crecimiento de una aplicación transforma un problema aparentemente sencillo de almacenamiento en un problema de arquitectura distribuida."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#actividad-de-autoevaluación",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#actividad-de-autoevaluación",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "25 Actividad de autoevaluación",
+    "text": "25 Actividad de autoevaluación\nRelaciona cada situación con el concepto correspondiente.\n\n\n\nSituación\nConcepto\n\n\n\n\nAgregar más RAM al servidor\n___\n\n\nAgregar tres servidores nuevos\n___\n\n\nGuardar la misma información en dos nodos\n___\n\n\nDividir usuarios entre diferentes servidores\n___\n\n\nDos personas intentan reservar el mismo asiento\n___\n\n\nDos réplicas muestran temporalmente valores distintos\n___\n\n\nLos nodos pierden comunicación entre sí\n___\n\n\nDividir 1000 documentos entre cuatro procesos\n___\n\n\n\n\n\n\n\n\n\nTipPosibles respuestas\n\n\n\nAgregar RAM\n→ escalabilidad vertical\n\nAgregar servidores\n→ escalabilidad horizontal\n\nCopiar información\n→ replicación\n\nDividir usuarios\n→ particionamiento\n\nReservar el mismo asiento\n→ concurrencia\n\nValores distintos entre réplicas\n→ consistencia\n\nPérdida de comunicación\n→ partición de red\n\nDividir documentos\n→ procesamiento paralelo"
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#ideas-clave-del-tema",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#ideas-clave-del-tema",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "26 Ideas clave del tema",
+    "text": "26 Ideas clave del tema\n\n\n\n\n\n\nNote1. Escalar no significa solamente comprar una computadora más potente\n\n\n\nPodemos escalar:\nverticalmente\naumentando recursos de una máquina, o:\nhorizontalmente\nagregando más nodos.\n\n\n\n\n\n\n\n\nNote2. Una base distribuida utiliza varios nodos\n\n\n\nLos nodos pueden participar en:\nalmacenamiento\nconsultas\nprocesamiento\nreplicación\nparticionamiento\n\n\n\n\n\n\n\n\nNote3. Replicación y particionamiento son diferentes\n\n\n\nReplicar      → copiar datos\n\nParticionar   → dividir datos\nAmbas estrategias pueden combinarse.\n\n\n\n\n\n\n\n\nNote4. Distribuir los datos introduce nuevos retos\n\n\n\nCuando varios nodos participan en el sistema aparecen preguntas relacionadas con:\nconsistencia\nsincronización\nconcurrencia\ndisponibilidad\nfallos de comunicación\n\n\n\n\n\n\n\n\nNote5. CAP debe entenderse en presencia de una partición\n\n\n\nAnte una interrupción de comunicación entre nodos, el sistema debe decidir cómo equilibrar:\nconsistencia\ndisponibilidad\nmanteniendo la tolerancia a la partición necesaria para continuar operando como sistema distribuido (Kleppmann 2017).\n\n\n\n\n\n\n\n\nNote6. El procesamiento paralelo divide el trabajo\n\n\n\nUna tarea puede dividirse en partes que se ejecutan simultáneamente para aprovechar mejor los recursos disponibles."
+  },
+  {
+    "objectID": "apuntes/02_escalabilidad_bases_distribuidas.html#en-la-siguiente-sesión",
+    "href": "apuntes/02_escalabilidad_bases_distribuidas.html#en-la-siguiente-sesión",
+    "title": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "section": "27 En la siguiente sesión",
+    "text": "27 En la siguiente sesión\nDespués de comprender los fundamentos de escalabilidad y sistemas distribuidos, podremos relacionar estos conceptos con gestores NoSQL concretos.\nMongoDB nos permitirá comenzar a trabajar con:\nbases de datos\ncolecciones\ndocumentos\ncampos\narreglos\nobjetos anidados\nconsultas\ny observar de manera práctica cómo funciona una base de datos orientada a documentos."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "index.html#bienvenida",
+    "href": "index.html#bienvenida",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html",
+    "href": "practicas/01_mongodb_local.html",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "",
+    "text": "En esta práctica se realizará una primera aproximación al trabajo con MongoDB de manera local.\nEl objetivo es conocer el flujo básico de trabajo con MongoDB, desde el inicio del servidor hasta la creación y consulta de documentos.\nDurante la práctica se utilizarán las siguientes herramientas:\n\nMongoDB Community Server;\nMongoDB Shell (mongosh);\nMongoDB Compass;\nMongoDB Database Tools.\n\n\n\n\n\n\n\nNoteAntes de comenzar\n\n\n\nMongoDB trabaja mediante un servidor local. Por esta razón, primero se debe iniciar mongod y mantener esa terminal abierta mientras se utiliza MongoDB."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#introducción",
+    "href": "practicas/01_mongodb_local.html#introducción",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "",
+    "text": "En esta práctica se realizará una primera aproximación al trabajo con MongoDB de manera local.\nEl objetivo es conocer el flujo básico de trabajo con MongoDB, desde el inicio del servidor hasta la creación y consulta de documentos.\nDurante la práctica se utilizarán las siguientes herramientas:\n\nMongoDB Community Server;\nMongoDB Shell (mongosh);\nMongoDB Compass;\nMongoDB Database Tools.\n\n\n\n\n\n\n\nNoteAntes de comenzar\n\n\n\nMongoDB trabaja mediante un servidor local. Por esta razón, primero se debe iniciar mongod y mantener esa terminal abierta mientras se utiliza MongoDB."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#preparación-del-entorno",
+    "href": "practicas/01_mongodb_local.html#preparación-del-entorno",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.2 Preparación del entorno",
+    "text": "0.2 Preparación del entorno\n\n0.2.1 Iniciar el servidor de MongoDB\nAbrir una terminal y ejecutar:\nmongod\nEn macOS, si MongoDB fue instalado manualmente y se utiliza una carpeta específica para almacenar los datos, puede ejecutarse:\nmongod --dbpath ~/data/db\nLa terminal permanecerá ocupada mientras el servidor esté activo.\n\n\n\n\n\n\nTip\n\n\n\nNo es necesario escribir más comandos en esta terminal. Debe permanecer abierta mientras se trabaja con MongoDB.\n\n\n\n\n0.2.2 Abrir MongoDB Shell\nAbrir una segunda terminal y ejecutar:\nmongosh\nSi la conexión fue correcta aparecerá un indicador similar a:\ntest&gt;\nEsto significa que ya se está trabajando dentro de MongoDB Shell.\n\n\n0.2.3 Consultar las bases de datos disponibles\nDentro de mongosh, ejecutar:\nshow dbs\nMongoDB mostrará las bases de datos disponibles en el servidor local.\n\n\n\n\n\n\nWarning\n\n\n\nLos comandos como show dbs, use y db.collection.find() se ejecutan dentro de mongosh.\nLos comandos del sistema, como mongod, mongorestore o mongoexport, se ejecutan directamente en PowerShell o Terminal."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#crear-la-base-de-datos-del-curso",
+    "href": "practicas/01_mongodb_local.html#crear-la-base-de-datos-del-curso",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.3 Crear la base de datos del curso",
+    "text": "0.3 Crear la base de datos del curso\nDentro de mongosh, seleccionar la base de datos que se utilizará durante la práctica:\nuse curso_nosql\nMongoDB cambiará al contexto de la base de datos curso_nosql.\n\n\n\n\n\n\nNote\n\n\n\nLa base de datos se crea realmente cuando se guarda información dentro de ella."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#crear-una-colección",
+    "href": "practicas/01_mongodb_local.html#crear-una-colección",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.4 Crear una colección",
+    "text": "0.4 Crear una colección\nCrear una colección llamada estudiantes:\ndb.createCollection(\"estudiantes\")\nUna colección en MongoDB cumple una función similar a una tabla en una base de datos relacional, aunque sus documentos no tienen que compartir exactamente la misma estructura."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#insertar-el-primer-documento",
+    "href": "practicas/01_mongodb_local.html#insertar-el-primer-documento",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.5 Insertar el primer documento",
+    "text": "0.5 Insertar el primer documento\nInsertar un documento con información de una estudiante:\ndb.estudiantes.insertOne({\n  id: 1,\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\",\n  redes_sociales: [\"Instagram\", \"TikTok\"]\n})\nDespués de ejecutar el comando, MongoDB mostrará un resultado indicando que el documento fue insertado correctamente.\n\n\n\n\n\n\nTip\n\n\n\nMongoDB genera automáticamente un campo _id para identificar de manera única cada documento."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#insertar-varios-documentos",
+    "href": "practicas/01_mongodb_local.html#insertar-varios-documentos",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.6 Insertar varios documentos",
+    "text": "0.6 Insertar varios documentos\nAhora agregar varios estudiantes utilizando insertMany():\ndb.estudiantes.insertMany([\n  {\n    id: 2,\n    nombre: \"Luis\",\n    edad: 22,\n    carrera: \"Estadística\",\n    dispositivos: [\n      {\n        tipo: \"celular\",\n        sistema: \"Android\"\n      }\n    ]\n  },\n  {\n    id: 3,\n    nombre: \"Carlos\",\n    edad: 21,\n    carrera: \"Informática\"\n  },\n  {\n    id: 4,\n    nombre: \"María\",\n    edad: 23,\n    carrera: \"Ciencia de Datos\",\n    redes_sociales: [\"Instagram\"]\n  },\n  {\n    id: 5,\n    nombre: \"Sofía\",\n    edad: 20,\n    carrera: \"Estadística\",\n    redes_sociales: [\"TikTok\", \"Facebook\"]\n  }\n])\nCon esto, la colección estudiantes contiene documentos con estructuras ligeramente distintas."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-todos-los-documentos",
+    "href": "practicas/01_mongodb_local.html#consultar-todos-los-documentos",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.7 Consultar todos los documentos",
+    "text": "0.7 Consultar todos los documentos\nPara visualizar los documentos almacenados:\ndb.estudiantes.find()\nTambién puede utilizarse:\ndb.estudiantes.find().pretty()\nEl resultado mostrará todos los documentos de la colección."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#contar-los-documentos",
+    "href": "practicas/01_mongodb_local.html#contar-los-documentos",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.8 Contar los documentos",
+    "text": "0.8 Contar los documentos\nPara conocer cuántos documentos existen en la colección:\ndb.estudiantes.countDocuments()\nEn este caso, el resultado esperado es:\n5\n\n\n\n\n\n\nNote\n\n\n\nUna de las características de MongoDB es que los documentos de una misma colección pueden contener campos diferentes.\nPor ejemplo, algunos estudiantes tienen redes_sociales, mientras que otro contiene información sobre dispositivos."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultas-básicas-con-find",
+    "href": "practicas/01_mongodb_local.html#consultas-básicas-con-find",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.9 Consultas básicas con find()",
+    "text": "0.9 Consultas básicas con find()\nMongoDB utiliza el método find() para buscar documentos dentro de una colección.\n\n0.9.1 Mostrar todos los documentos\ndb.estudiantes.find({})\nEl objeto vacío:\n{}\nindica que no se está aplicando ningún filtro.\n\n\n0.9.2 Buscar por nombre\ndb.estudiantes.find({\n  nombre: \"Ana\"\n})\n\n\n0.9.3 Buscar por edad\ndb.estudiantes.find({\n  edad: 22\n})\n\n\n0.9.4 Buscar por carrera\ndb.estudiantes.find({\n  carrera: \"Ciencia de Datos\"\n})\n\n\n\n\n\n\nTip\n\n\n\nLa estructura general de una consulta básica es:\ndb.coleccion.find({\n  campo: valor\n})\nMongoDB devolverá los documentos que cumplan con la condición indicada."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#operadores-de-comparación",
+    "href": "practicas/01_mongodb_local.html#operadores-de-comparación",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.10 Operadores de comparación",
+    "text": "0.10 Operadores de comparación\nAdemás de buscar valores exactos, MongoDB permite utilizar operadores para establecer condiciones.\n\n0.10.1 Mayor que: $gt\ndb.estudiantes.find({\n  edad: {\n    $gt: 20\n  }\n})\n$gt significa greater than, es decir, mayor que.\n\n\n0.10.2 Mayor o igual que: $gte\ndb.estudiantes.find({\n  edad: {\n    $gte: 21\n  }\n})\n\n\n0.10.3 Menor que: $lt\ndb.estudiantes.find({\n  edad: {\n    $lt: 22\n  }\n})\n\n\n0.10.4 Menor o igual que: $lte\ndb.estudiantes.find({\n  edad: {\n    $lte: 21\n  }\n})\n\n\n0.10.5 Diferente de: $ne\ndb.estudiantes.find({\n  edad: {\n    $ne: 20\n  }\n})\n\n\n0.10.6 Consultar un intervalo\nTambién es posible combinar operadores dentro de un mismo campo.\nPor ejemplo, para buscar estudiantes con edades entre 20 y 22 años:\ndb.estudiantes.find({\n  edad: {\n    $gte: 20,\n    $lte: 22\n  }\n})\n\n\n\n\n\n\nNote\n\n\n\nLos principales operadores vistos hasta ahora son:\n\n\n\nOperador\nSignificado\n\n\n\n\n$gt\nMayor que\n\n\n$gte\nMayor o igual que\n\n\n$lt\nMenor que\n\n\n$lte\nMenor o igual que\n\n\n$ne\nDiferente de"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultas-sobre-arreglos",
+    "href": "practicas/01_mongodb_local.html#consultas-sobre-arreglos",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.11 Consultas sobre arreglos",
+    "text": "0.11 Consultas sobre arreglos\nMongoDB también permite realizar búsquedas dentro de campos que contienen arreglos.\nPor ejemplo, para buscar estudiantes que utilicen Instagram:\ndb.estudiantes.find({\n  redes_sociales: \"Instagram\"\n})\nPara buscar estudiantes que utilicen TikTok:\ndb.estudiantes.find({\n  redes_sociales: \"TikTok\"\n})\nAunque redes_sociales contiene varios valores, MongoDB puede comprobar directamente si el arreglo incluye el valor indicado.\n\n\n\n\n\n\nTip\n\n\n\nNo es necesario recorrer manualmente el arreglo para realizar este tipo de consulta.\nMongoDB busca el valor dentro del campo redes_sociales."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultas-sobre-objetos-anidados",
+    "href": "practicas/01_mongodb_local.html#consultas-sobre-objetos-anidados",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.12 Consultas sobre objetos anidados",
+    "text": "0.12 Consultas sobre objetos anidados\nMongoDB también permite consultar información que se encuentra dentro de objetos o estructuras anidadas.\nEn nuestra colección, el estudiante Luis contiene información como:\ndispositivos: [\n  {\n    tipo: \"celular\",\n    sistema: \"Android\"\n  }\n]\nPara consultar estudiantes que tengan un dispositivo con sistema Android, utilizamos la notación de punto:\ndb.estudiantes.find({\n  \"dispositivos.sistema\": \"Android\"\n})\nTambién podemos buscar por tipo de dispositivo:\ndb.estudiantes.find({\n  \"dispositivos.tipo\": \"celular\"\n})\n\n\n\n\n\n\nNoteNotación de punto\n\n\n\nLa notación de punto permite acceder a campos que se encuentran dentro de estructuras anidadas.\nPor ejemplo:\ndispositivos.sistema\nindica que queremos consultar el campo sistema que se encuentra dentro de dispositivos."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#combinar-varias-condiciones",
+    "href": "practicas/01_mongodb_local.html#combinar-varias-condiciones",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.13 Combinar varias condiciones",
+    "text": "0.13 Combinar varias condiciones\nPodemos incluir más de una condición dentro de una misma consulta.\nPor ejemplo, para buscar estudiantes de Ciencia de Datos que además tengan más de 19 años:\ndb.estudiantes.find({\n  carrera: \"Ciencia de Datos\",\n  edad: {\n    $gt: 19\n  }\n})\nCuando se escriben varias condiciones dentro del mismo objeto, MongoDB las interpreta como un AND.\nEs decir:\ncarrera = \"Ciencia de Datos\"\nY\nedad &gt; 19\nAmbas condiciones deben cumplirse."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#utilizar-or",
+    "href": "practicas/01_mongodb_local.html#utilizar-or",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.14 Utilizar $or",
+    "text": "0.14 Utilizar $or\nEl operador $or permite buscar documentos que cumplan al menos una de varias condiciones.\nPor ejemplo:\ndb.estudiantes.find({\n  $or: [\n    { carrera: \"Ciencia de Datos\" },\n    { carrera: \"Estadística\" }\n  ]\n})\nEsta consulta recupera estudiantes cuya carrera sea Ciencia de Datos o Estadística."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#utilizar-in",
+    "href": "practicas/01_mongodb_local.html#utilizar-in",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.15 Utilizar $in",
+    "text": "0.15 Utilizar $in\nCuando queremos comprobar si un campo contiene uno de varios valores posibles, podemos utilizar $in.\ndb.estudiantes.find({\n  carrera: {\n    $in: [\n      \"Ciencia de Datos\",\n      \"Estadística\"\n    ]\n  }\n})\nEn este caso se obtienen los estudiantes cuya carrera se encuentre dentro de la lista indicada.\n\n\n\n\n\n\nTip\n\n\n\n$or y $in pueden producir resultados similares en algunos casos, pero se utilizan de manera diferente.\n$in es especialmente útil cuando queremos comparar un mismo campo con varios valores posibles."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#buscar-documentos-según-la-existencia-de-un-campo",
+    "href": "practicas/01_mongodb_local.html#buscar-documentos-según-la-existencia-de-un-campo",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.16 Buscar documentos según la existencia de un campo",
+    "text": "0.16 Buscar documentos según la existencia de un campo\nDebido a que los documentos de MongoDB pueden tener estructuras diferentes, en algunas ocasiones necesitamos saber si un campo existe.\nPara ello utilizamos $exists.\n\n0.16.1 Documentos que tienen redes_sociales\ndb.estudiantes.find({\n  redes_sociales: {\n    $exists: true\n  }\n})\n\n\n0.16.2 Documentos que tienen dispositivos\ndb.estudiantes.find({\n  dispositivos: {\n    $exists: true\n  }\n})\n\n\n0.16.3 Documentos que no tienen redes_sociales\ndb.estudiantes.find({\n  redes_sociales: {\n    $exists: false\n  }\n})\n\n\n\n\n\n\nNote\n\n\n\nEl operador $exists no busca un valor específico.\nSu función es comprobar si un campo se encuentra o no dentro del documento."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#resumen-de-operadores-utilizados",
+    "href": "practicas/01_mongodb_local.html#resumen-de-operadores-utilizados",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.17 Resumen de operadores utilizados",
+    "text": "0.17 Resumen de operadores utilizados\n\n\n\nOperador\nSignificado\n\n\n\n\n$gt\nMayor que\n\n\n$gte\nMayor o igual que\n\n\n$lt\nMenor que\n\n\n$lte\nMenor o igual que\n\n\n$ne\nDiferente de\n\n\n$or\nO lógico\n\n\n$in\nUno de varios valores\n\n\n$exists\nVerifica si un campo existe"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#visualizar-la-base-desde-mongodb-compass",
+    "href": "practicas/01_mongodb_local.html#visualizar-la-base-desde-mongodb-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.18 Visualizar la base desde MongoDB Compass",
+    "text": "0.18 Visualizar la base desde MongoDB Compass\nMongoDB Compass permite explorar gráficamente las bases de datos, colecciones y documentos almacenados en MongoDB.\nPara conectarse al servidor local se puede utilizar:\nmongodb://localhost:27017\no:\nmongodb://127.0.0.1:27017\nUna vez realizada la conexión, en el panel lateral debe aparecer la base:\ncurso_nosql\nDentro de ella seleccionamos la colección:\ncurso_nosql\n   ↓\nestudiantes\nLos documentos creados desde mongosh aparecerán también en Compass.\n\n\n\n\n\n\nNote\n\n\n\nmongosh y MongoDB Compass trabajan con el mismo servidor y con la misma información.\nPor esta razón, los cambios realizados desde una herramienta pueden visualizarse desde la otra."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#realizar-filtros-desde-compass",
+    "href": "practicas/01_mongodb_local.html#realizar-filtros-desde-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.19 Realizar filtros desde Compass",
+    "text": "0.19 Realizar filtros desde Compass\nDentro de la colección estudiantes, podemos utilizar el campo Filter para realizar consultas.\n\n0.19.1 Mostrar todos los documentos\n{}\n\n\n0.19.2 Buscar a Ana\n{ nombre: \"Ana\" }\n\n\n0.19.3 Buscar estudiantes de 22 años\n{ edad: 22 }\n\n\n0.19.4 Buscar estudiantes mayores de 20 años\n{ edad: { $gt: 20 } }\n\n\n0.19.5 Buscar estudiantes de Ciencia de Datos\n{ carrera: \"Ciencia de Datos\" }\nDespués de escribir el filtro, seleccionamos el botón Find.\n\n\n\n\n\n\nTip\n\n\n\nEn Compass se escribe únicamente el objeto que contiene el filtro.\nPor ejemplo:\n{ edad: { $gt: 20 } }\nNo es necesario escribir:\ndb.estudiantes.find(...)"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-arreglos-y-objetos-desde-compass",
+    "href": "practicas/01_mongodb_local.html#consultar-arreglos-y-objetos-desde-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.20 Consultar arreglos y objetos desde Compass",
+    "text": "0.20 Consultar arreglos y objetos desde Compass\nLos mismos tipos de consultas utilizados en mongosh pueden aplicarse desde Compass.\n\n0.20.1 Estudiantes que utilizan Instagram\n{ redes_sociales: \"Instagram\" }\n\n\n0.20.2 Estudiantes con dispositivos Android\n{ \"dispositivos.sistema\": \"Android\" }\n\n\n0.20.3 Estudiantes que tienen el campo redes_sociales\n{ redes_sociales: { $exists: true } }"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#utilizar-mongosh-desde-mongodb-compass",
+    "href": "practicas/01_mongodb_local.html#utilizar-mongosh-desde-mongodb-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "0.21 Utilizar mongosh desde MongoDB Compass",
+    "text": "0.21 Utilizar mongosh desde MongoDB Compass\nCompass también puede incluir una terminal integrada de MongoDB Shell.\nDesde ella podemos ejecutar comandos como:\nshow dbs\nuse curso_nosql\nshow collections\ndb.estudiantes.find()\n\n\n\n\n\n\nWarning\n\n\n\nEl mongosh integrado de Compass permite ejecutar comandos de MongoDB.\nSin embargo, los comandos propios del sistema operativo, como:\ncurl.exe\nmongorestore\nmongoexport\ndeben ejecutarse directamente desde PowerShell o Terminal."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#descargar-los-datos-de-ejemplo-de-mongodb",
+    "href": "practicas/01_mongodb_local.html#descargar-los-datos-de-ejemplo-de-mongodb",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "1.1 Descargar los datos de ejemplo de MongoDB",
+    "text": "1.1 Descargar los datos de ejemplo de MongoDB\nPara trabajar con una base de datos más amplia utilizaremos los datos de ejemplo proporcionados por MongoDB.\nAntes de descargar el archivo, salir de mongosh:\nexit\nDespués, desde PowerShell o Terminal, ejecutar:\ncurl.exe https://atlas-education.s3.amazonaws.com/sampledata.archive -o sampledata.archive\nEste comando descargará el archivo:\nsampledata.archive\nEl archivo contiene varias bases de datos de ejemplo que posteriormente podremos restaurar en nuestro servidor local.\n\n\n\n\n\n\nNote\n\n\n\nEn Windows se utiliza curl.exe desde PowerShell.\nEste comando se ejecuta fuera de mongosh."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#comprobar-mongodb-database-tools",
+    "href": "practicas/01_mongodb_local.html#comprobar-mongodb-database-tools",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "1.2 Comprobar MongoDB Database Tools",
+    "text": "1.2 Comprobar MongoDB Database Tools\nPara restaurar los datos necesitamos la herramienta:\nmongorestore\nEsta herramienta forma parte de MongoDB Database Tools.\nPodemos comprobar que está disponible ejecutando:\nmongorestore --version\nSi aparece la versión instalada, podemos continuar.\n\n\n\n\n\n\nWarning\n\n\n\nSi el sistema no reconoce mongorestore, es necesario instalar MongoDB Database Tools y verificar que su carpeta bin esté agregada al Path."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#restaurar-las-bases-de-datos-de-ejemplo",
+    "href": "practicas/01_mongodb_local.html#restaurar-las-bases-de-datos-de-ejemplo",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "1.3 Restaurar las bases de datos de ejemplo",
+    "text": "1.3 Restaurar las bases de datos de ejemplo\nAntes de ejecutar la restauración, comprobar que el servidor mongod continúe activo.\nDespués, desde PowerShell o Terminal, ejecutar:\nmongorestore --archive=sampledata.archive --port=27017\nDurante el proceso aparecerán mensajes indicando qué colecciones y documentos se están restaurando.\nAl finalizar, las bases de datos de ejemplo quedarán disponibles en el servidor local."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#verificar-las-bases-cargadas",
+    "href": "practicas/01_mongodb_local.html#verificar-las-bases-cargadas",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "1.4 Verificar las bases cargadas",
+    "text": "1.4 Verificar las bases cargadas\nEntrar nuevamente a MongoDB Shell:\nmongosh\nDespués ejecutar:\nshow dbs\nAhora pueden aparecer bases como:\nsample_airbnb\nsample_analytics\nsample_geospatial\nsample_guides\nsample_mflix\nsample_restaurants\nsample_supplies\nsample_training\nsample_weatherdata\n\n\n\n\n\n\nTip\n\n\n\nSi aparece sample_mflix, la restauración se realizó correctamente."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#entrar-a-sample_mflix",
+    "href": "practicas/01_mongodb_local.html#entrar-a-sample_mflix",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "1.5 Entrar a sample_mflix",
+    "text": "1.5 Entrar a sample_mflix\nSeleccionar la base:\nuse sample_mflix\nDespués consultar sus colecciones:\nshow collections\nEntre ellas pueden aparecer:\nmovies\ncomments\nusers\ntheaters\nembedded_movies\nsessions\nPara esta práctica trabajaremos principalmente con:\nmovies\nLa colección movies contiene información sobre películas, géneros, duración, reparto, directores, países, calificaciones de IMDb y otros datos."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#explorar-la-colección-movies",
+    "href": "practicas/01_mongodb_local.html#explorar-la-colección-movies",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.1 Explorar la colección movies",
+    "text": "2.1 Explorar la colección movies\nAntes de realizar filtros, conviene conocer la estructura de los documentos almacenados en la colección.\nPara contar cuántas películas contiene:\ndb.movies.countDocuments()\nPara visualizar algunos documentos:\ndb.movies.find().limit(5)\nTambién puede utilizarse:\ndb.movies.find().limit(5).pretty()\nEntre los campos más comunes podemos encontrar:\ntitle\nyear\ngenres\nruntime\ncast\ndirectors\ncountries\nlanguages\nimdb\nawards\ntomatoes\n\n\n\n\n\n\nNote\n\n\n\nLos documentos de movies contienen distintos tipos de datos:\n\ntexto;\nnúmeros;\narreglos;\nobjetos anidados;\nfechas."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-películas-por-año",
+    "href": "practicas/01_mongodb_local.html#consultar-películas-por-año",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.2 Consultar películas por año",
+    "text": "2.2 Consultar películas por año\n\n2.2.1 Películas del año 2000\ndb.movies.find({\n  year: 2000\n}).limit(10)\n\n\n2.2.2 Películas posteriores a 2010\ndb.movies.find({\n  year: {\n    $gt: 2010\n  }\n}).limit(10)"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-la-calificación-de-imdb",
+    "href": "practicas/01_mongodb_local.html#consultar-la-calificación-de-imdb",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.3 Consultar la calificación de IMDb",
+    "text": "2.3 Consultar la calificación de IMDb\nEl campo rating se encuentra dentro del objeto imdb.\nPara obtener películas con una calificación mayor a 8:\ndb.movies.find({\n  \"imdb.rating\": {\n    $gt: 8\n  }\n}).limit(10)\n\n\n\n\n\n\nTip\n\n\n\nAquí volvemos a utilizar la notación de punto:\nimdb.rating\nporque rating se encuentra dentro del objeto imdb."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-por-género",
+    "href": "practicas/01_mongodb_local.html#consultar-por-género",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.4 Consultar por género",
+    "text": "2.4 Consultar por género\n\n2.4.1 Películas del género Drama\ndb.movies.find({\n  genres: \"Drama\"\n}).limit(10)\nAunque genres es un arreglo, MongoDB puede comprobar directamente si contiene el valor indicado.\n\n\n2.4.2 Películas de Drama o Comedy\ndb.movies.find({\n  genres: {\n    $in: [\"Drama\", \"Comedy\"]\n  }\n}).limit(10)\nEn este caso, $in permite buscar películas cuyo género incluya alguno de los valores indicados."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-por-duración",
+    "href": "practicas/01_mongodb_local.html#consultar-por-duración",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.5 Consultar por duración",
+    "text": "2.5 Consultar por duración\nPara buscar películas con duración mayor a 120 minutos:\ndb.movies.find({\n  runtime: {\n    $gt: 120\n  }\n}).limit(10)"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultar-por-país",
+    "href": "practicas/01_mongodb_local.html#consultar-por-país",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.6 Consultar por país",
+    "text": "2.6 Consultar por país\nPara obtener películas producidas en México:\ndb.movies.find({\n  countries: \"Mexico\"\n}).limit(10)"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#combinar-condiciones",
+    "href": "practicas/01_mongodb_local.html#combinar-condiciones",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.7 Combinar condiciones",
+    "text": "2.7 Combinar condiciones\nTambién podemos aplicar varios criterios al mismo tiempo.\nPor ejemplo, películas posteriores al año 2000 y con una calificación IMDb mayor a 8:\ndb.movies.find({\n  year: {\n    $gt: 2000\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  }\n}).limit(10)\nAmbas condiciones deben cumplirse."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#buscar-documentos-que-tengan-determinado-campo",
+    "href": "practicas/01_mongodb_local.html#buscar-documentos-que-tengan-determinado-campo",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.8 Buscar documentos que tengan determinado campo",
+    "text": "2.8 Buscar documentos que tengan determinado campo\nPodemos utilizar $exists para comprobar si cierta información está presente.\n\n2.8.1 Películas que tienen poster\ndb.movies.find({\n  poster: {\n    $exists: true\n  }\n}).limit(10)\n\n\n2.8.2 Películas con información de Rotten Tomatoes\ndb.movies.find({\n  tomatoes: {\n    $exists: true\n  }\n}).limit(10)\n\n\n\n\n\n\nNote\n\n\n\nEsta parte permite aplicar sobre una base más grande los mismos conceptos vistos anteriormente con la colección estudiantes:\n$gt, $in, $exists, arreglos, objetos anidados y combinación de condiciones."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#realizar-las-mismas-consultas-desde-compass",
+    "href": "practicas/01_mongodb_local.html#realizar-las-mismas-consultas-desde-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "2.9 Realizar las mismas consultas desde Compass",
+    "text": "2.9 Realizar las mismas consultas desde Compass\nDentro de:\nsample_mflix\n   ↓\nmovies\npodemos utilizar el campo Filter.\nPor ejemplo:\n{ year: 2000 }\no:\n{ \"imdb.rating\": { $gt: 8 } }\no:\n{ genres: \"Drama\" }\nDespués seleccionamos Find.\n\n\n\n\n\n\nTip\n\n\n\nRecuerda la diferencia:\nEn mongosh escribimos el comando completo:\ndb.movies.find({\n  \"imdb.rating\": {\n    $gt: 8\n  }\n})\nEn Compass escribimos únicamente el filtro:\n{\n  \"imdb.rating\": {\n    $gt: 8\n  }\n}"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-una-parte-de-sample_mflix",
+    "href": "practicas/01_mongodb_local.html#exportar-una-parte-de-sample_mflix",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.1 Exportar una parte de sample_mflix",
+    "text": "3.1 Exportar una parte de sample_mflix\nPara exportar documentos de MongoDB utilizaremos la herramienta:\nmongoexport\nEsta herramienta forma parte de MongoDB Database Tools.\nAntes de continuar, podemos comprobar que está disponible:\nmongoexport --version\n\n\n\n\n\n\nNote\n\n\n\nmongoexport se ejecuta directamente en PowerShell o Terminal.\nNo se ejecuta dentro de mongosh."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#crear-un-filtro-para-exportar",
+    "href": "practicas/01_mongodb_local.html#crear-un-filtro-para-exportar",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.2 Crear un filtro para exportar",
+    "text": "3.2 Crear un filtro para exportar\nComo ejemplo, vamos a exportar únicamente las películas del año 2000.\nDesde PowerShell ejecutamos:\nSet-Content -Path consulta.json -Value '{\"year\":2000}'\nEste comando crea un archivo llamado:\nconsulta.json\ncon el filtro:\n{\"year\":2000}\nPodemos comprobar su contenido con:\nGet-Content consulta.json"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-los-documentos",
+    "href": "practicas/01_mongodb_local.html#exportar-los-documentos",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.3 Exportar los documentos",
+    "text": "3.3 Exportar los documentos\nAhora utilizamos el archivo anterior como filtro:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_2000.json\nEl comando utiliza los siguientes elementos:\n\n\n\nParámetro\nFunción\n\n\n\n\n--db\nIndica la base de datos\n\n\n--collection\nIndica la colección\n\n\n--queryFile\nContiene el filtro de la consulta\n\n\n--out\nDefine el archivo de salida\n\n\n\nAl finalizar se generará:\npeliculas_2000.json"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#verificar-el-archivo-exportado",
+    "href": "practicas/01_mongodb_local.html#verificar-el-archivo-exportado",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.4 Verificar el archivo exportado",
+    "text": "3.4 Verificar el archivo exportado\nEn PowerShell podemos comprobar que el archivo existe:\ndir peliculas_2000.json\nPara abrir la carpeta donde estamos trabajando:\nexplorer .\n\n\n\n\n\n\nTip\n\n\n\nEl archivo se guarda en la carpeta desde la que se ejecutó mongoexport."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-películas-con-imdb-mayor-a-8",
+    "href": "practicas/01_mongodb_local.html#exportar-películas-con-imdb-mayor-a-8",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.5 Exportar películas con IMDb mayor a 8",
+    "text": "3.5 Exportar películas con IMDb mayor a 8\nTambién podemos crear un filtro para una condición sobre un campo anidado.\nPrimero creamos:\nSet-Content -Path consulta_imdb.json -Value '{\"imdb.rating\":{\"$gt\":8}}'\nComprobamos su contenido:\nGet-Content consulta_imdb.json\nDespués exportamos:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta_imdb.json --out=peliculas_imdb_mayor_8.json\nCon esto obtenemos un segundo archivo:\npeliculas_imdb_mayor_8.json"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-desde-mongodb-compass",
+    "href": "practicas/01_mongodb_local.html#exportar-desde-mongodb-compass",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.6 Exportar desde MongoDB Compass",
+    "text": "3.6 Exportar desde MongoDB Compass\nTambién es posible exportar los resultados directamente desde Compass.\nDentro de:\nsample_mflix\n   ↓\nmovies\npodemos aplicar, por ejemplo:\n{ \"imdb.rating\": { $gt: 8 } }\nDespués seleccionamos Find y utilizamos la opción de exportación de Compass.\nLos formatos más comunes son:\nJSON\nCSV\n\n\n\n\n\n\nNote\n\n\n\nPara documentos que contienen arreglos y objetos anidados, generalmente es más conveniente utilizar JSON, ya que conserva mejor la estructura de los documentos."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#por-qué-exportar-una-parte-de-la-colección",
+    "href": "practicas/01_mongodb_local.html#por-qué-exportar-una-parte-de-la-colección",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "3.7 ¿Por qué exportar una parte de la colección?",
+    "text": "3.7 ¿Por qué exportar una parte de la colección?\nTrabajar con subconjuntos puede ser útil cuando:\n\nse necesita realizar una práctica específica;\nse desea compartir una base más pequeña;\nse trabajará posteriormente en Python o Google Colab;\nse quieren guardar los resultados de una consulta.\n\nPor ejemplo:\nsample_mflix\n      ↓\n    movies\n      ↓\nFiltro: year = 2000\n      ↓\npeliculas_2000.json"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#consultas-guiadas",
+    "href": "practicas/01_mongodb_local.html#consultas-guiadas",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "4.1 Consultas guiadas",
+    "text": "4.1 Consultas guiadas\nRealizar las siguientes consultas en MongoDB Compass o mongosh.\n\n4.1.1 1. Películas del año 2000\n{ year: 2000 }\n\n\n4.1.2 2. Películas posteriores al año 2010\n{ year: { $gt: 2010 } }\n\n\n4.1.3 3. Películas con IMDb mayor a 8\n{ \"imdb.rating\": { $gt: 8 } }\n\n\n4.1.4 4. Películas del género Drama\n{ genres: \"Drama\" }\n\n\n4.1.5 5. Películas de Drama o Comedy\n{\n  genres: {\n    $in: [\"Drama\", \"Comedy\"]\n  }\n}\n\n\n4.1.6 6. Películas con duración mayor a 120 minutos\n{ runtime: { $gt: 120 } }\n\n\n4.1.7 7. Películas producidas en México\n{ countries: \"Mexico\" }\n\n\n4.1.8 8. Películas posteriores al año 2000 con IMDb mayor a 8\n{\n  year: { $gt: 2000 },\n  \"imdb.rating\": { $gt: 8 }\n}\n\n\n4.1.9 9. Películas que tengan poster\n{\n  poster: {\n    $exists: true\n  }\n}\n\n\n4.1.10 10. Películas con información de Rotten Tomatoes\n{\n  tomatoes: {\n    $exists: true\n  }\n}\n\n\n\n\n\n\nTip\n\n\n\nEstas consultas pueden realizarse directamente en el campo Filter de MongoDB Compass.\nSi se utiliza mongosh, debe escribirse el comando completo con db.movies.find(...)."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "4.2 Registrar los resultados",
+    "text": "4.2 Registrar los resultados\nDespués de realizar las consultas, completar la siguiente tabla.\n\n\n\nConsulta\nFiltro utilizado\nNúmero de resultados\nObservaciones\n\n\n\n\nPelículas del año 2000\n{ year: 2000 }\n___\n___\n\n\nIMDb mayor a 8\n{ \"imdb.rating\": { $gt: 8 } }\n___\n___\n\n\nGénero Drama\n{ genres: \"Drama\" }\n___\n___\n\n\nDuración mayor a 120 min\n{ runtime: { $gt: 120 } }\n___\n___\n\n\nProducidas en México\n{ countries: \"Mexico\" }\n___\n___"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#identificar-la-estructura-de-un-documento",
+    "href": "practicas/01_mongodb_local.html#identificar-la-estructura-de-un-documento",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "4.3 Identificar la estructura de un documento",
+    "text": "4.3 Identificar la estructura de un documento\nSeleccionar una película de la colección movies y observar su estructura.\nIdentificar al menos un ejemplo de cada uno de los siguientes tipos:\n\n\n\nElemento\nEjemplo encontrado\n\n\n\n\nCampo de texto\n___\n\n\nCampo numérico\n___\n\n\nArreglo\n___\n\n\nObjeto anidado\n___\n\n\nFecha\n___\n\n\nIdentificador _id\n___\n\n\n\nAlgunos campos que pueden encontrarse son:\ntitle\nyear\ngenres\nruntime\ncast\ndirectors\ncountries\nlanguages\nimdb\nawards\nreleased\ntomatoes\nPor ejemplo:\n\n\n\nCampo\nTipo de estructura\n\n\n\n\ntitle\nTexto\n\n\nyear\nNúmero\n\n\ngenres\nArreglo\n\n\ncast\nArreglo\n\n\nimdb\nObjeto anidado\n\n\nreleased\nFecha\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nLa finalidad de esta parte es reconocer que un documento de MongoDB puede combinar distintos tipos de información dentro de una misma estructura."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#construcción-de-consultas-propias",
+    "href": "practicas/01_mongodb_local.html#construcción-de-consultas-propias",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "5.1 Construcción de consultas propias",
+    "text": "5.1 Construcción de consultas propias\nUtilizando la colección movies de sample_mflix, resolver las siguientes consultas.\n\n5.1.1 1. Películas estrenadas entre 2000 y 2010\nUtilizar los operadores:\n$gte\n$lte\n\n\n5.1.2 2. Películas con IMDb mayor o igual a 7.5\nUtilizar:\n$gte\nsobre el campo:\nimdb.rating\n\n\n5.1.3 3. Películas del género Action\nBuscar documentos cuyo arreglo genres contenga:\nAction\n\n\n5.1.4 4. Películas de Drama con duración mayor a 120 minutos\nCombinar las condiciones:\ngenres\nruntime\n\n\n5.1.5 5. Películas producidas en dos países\nSeleccionar dos países y utilizar:\n$in\nsobre el campo:\ncountries\n\n\n5.1.6 6. Películas que tengan información de premios\nBuscar documentos que contengan el campo:\nawards\nUtilizar:\n$exists\n\n\n5.1.7 7. Películas con IMDb mayor a 8 y posteriores a 2010\nCombinar:\nimdb.rating\nyear\nen una misma consulta.\n\n\n5.1.8 8. Crear dos consultas propias\nDiseñar dos consultas adicionales que combinen al menos dos condiciones.\nPueden utilizar campos como:\nyear\ngenres\nruntime\ncountries\nimdb.rating\nawards\nlanguages\ndirectors\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn esta parte no se proporciona el filtro completo.\nEl objetivo es que cada estudiante construya las consultas utilizando los operadores y estructuras trabajados durante la práctica."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#evidencias-de-la-tarea",
+    "href": "practicas/01_mongodb_local.html#evidencias-de-la-tarea",
+    "title": "Práctica 1. Primeros pasos con MongoDB local",
+    "section": "5.2 Evidencias de la tarea",
+    "text": "5.2 Evidencias de la tarea\nPara cada consulta entregar:\n\nfiltro utilizado;\ncaptura del resultado;\nnúmero de documentos encontrados;\nbreve interpretación del resultado.\n\nLa información puede organizarse en una tabla como la siguiente:\n\n\n\nConsulta\nFiltro\nResultados\nInterpretación\n\n\n\n\n1\n{ ... }\n___\n___\n\n\n2\n{ ... }\n___\n___\n\n\n3\n{ ... }\n___\n___\n\n\n4\n{ ... }\n___\n___\n\n\n5\n{ ... }\n___\n___\n\n\n6\n{ ... }\n___\n___\n\n\n7\n{ ... }\n___\n___\n\n\n8a\n{ ... }\n___\n___\n\n\n8b\n{ ... }\n___\n___\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nLa breve interpretación no necesita ser extensa.\nPor ejemplo:\n\nLa consulta recupera las películas posteriores a 2010 cuya calificación en IMDb es mayor a 8."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html",
+    "href": "apuntes/03_mongodb_consultas_basicas.html",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "",
+    "text": "En los temas anteriores revisamos por qué existen diferentes modelos de bases de datos y analizamos algunos de los retos que aparecen cuando los sistemas necesitan crecer y distribuir información.\nAhora comenzaremos a trabajar con un gestor NoSQL concreto: MongoDB.\nMongoDB utiliza un modelo orientado a documentos. En lugar de organizar la información principalmente mediante tablas, filas y columnas, trabaja con:\nbases de datos\ncolecciones\ndocumentos\ncampos\nLos documentos pueden contener valores simples, arreglos y objetos anidados, lo que permite representar información semiestructurada de una manera flexible (MongoDB 2026; Sadalage and Fowler 2012).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nMongoDB no debe entenderse simplemente como:\nuna base SQL pero sin tablas\nEl modelo documental cambia la forma en que representamos, agrupamos y consultamos la información."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#introducción",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#introducción",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "",
+    "text": "En los temas anteriores revisamos por qué existen diferentes modelos de bases de datos y analizamos algunos de los retos que aparecen cuando los sistemas necesitan crecer y distribuir información.\nAhora comenzaremos a trabajar con un gestor NoSQL concreto: MongoDB.\nMongoDB utiliza un modelo orientado a documentos. En lugar de organizar la información principalmente mediante tablas, filas y columnas, trabaja con:\nbases de datos\ncolecciones\ndocumentos\ncampos\nLos documentos pueden contener valores simples, arreglos y objetos anidados, lo que permite representar información semiestructurada de una manera flexible (MongoDB 2026; Sadalage and Fowler 2012).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nMongoDB no debe entenderse simplemente como:\nuna base SQL pero sin tablas\nEl modelo documental cambia la forma en que representamos, agrupamos y consultamos la información."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#del-modelo-relacional-al-modelo-documental",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#del-modelo-relacional-al-modelo-documental",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "2 Del modelo relacional al modelo documental",
+    "text": "2 Del modelo relacional al modelo documental\nEn una base de datos relacional podemos tener una tabla como:\n\n\n\nid\nnombre\nedad\ncarrera\n\n\n\n\n1\nAna\n20\nCiencia de Datos\n\n\n2\nLuis\n22\nEstadística\n\n\n\nSu estructura se basa en:\ntabla\nfila\ncolumna\nEn MongoDB podemos representar información similar mediante documentos:\n{\n  id: 1,\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\"\n}\ny:\n{\n  id: 2,\n  nombre: \"Luis\",\n  edad: 22,\n  carrera: \"Estadística\"\n}\nUna primera comparación puede realizarse así:\n\n\n\nModelo relacional\nModelo documental\n\n\n\n\nBase de datos\nBase de datos\n\n\nTabla\nColección\n\n\nFila\nDocumento\n\n\nColumna\nCampo\n\n\nLlave primaria\n_id\n\n\nRelaciones\nReferencias o documentos anidados\n\n\n\nEsta comparación sirve como aproximación inicial, pero no representa una equivalencia exacta.\nUn documento puede contener estructuras internas más complejas que una fila tradicional. En tus materiales previos, el modelo documental se distingue precisamente por el uso de colecciones, documentos, campos, listas y objetos anidados. :contentReferenceoaicite:1"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#qué-es-un-documento",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#qué-es-un-documento",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "3 ¿Qué es un documento?",
+    "text": "3 ¿Qué es un documento?\nEl documento es una de las unidades fundamentales del modelo documental.\nPor ejemplo:\n{\n  id: 1,\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\"\n}\nAquí podemos identificar cuatro campos:\nid\nnombre\nedad\ncarrera\ny cada uno tiene un valor asociado.\nid       → 1\nnombre   → Ana\nedad     → 20\ncarrera  → Ciencia de Datos\nEsta estructura se parece visualmente a JSON.\nMongoDB utiliza internamente BSON, un formato binario basado en una estructura similar a JSON que permite almacenar distintos tipos de datos (MongoDB 2026).\n\n\n\n\n\n\nTipForma sencilla de imaginarlo\n\n\n\nPodemos pensar en un documento como una ficha:\nDocumento\n├── campo\n├── campo\n├── campo\n└── campo\nPero los campos también pueden contener:\nlistas\nobjetos\notras estructuras"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#documentos-con-estructuras-diferentes",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#documentos-con-estructuras-diferentes",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "4 Documentos con estructuras diferentes",
+    "text": "4 Documentos con estructuras diferentes\nUna característica importante del modelo documental es que los documentos de una colección no tienen que contener exactamente los mismos campos.\nPor ejemplo:\n{\n  id: 1,\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\",\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n}\nMientras que otro estudiante podría almacenarse como:\n{\n  id: 2,\n  nombre: \"Luis\",\n  edad: 22,\n  carrera: \"Estadística\",\n  dispositivos: [\n    {\n      tipo: \"celular\",\n      sistema: \"Android\"\n    }\n  ]\n}\nAmbos documentos representan estudiantes, pero tienen campos diferentes.\n\n\n\n\n\n\nNoteFlexibilidad no significa ausencia de diseño\n\n\n\nMongoDB permite trabajar con documentos flexibles, pero eso no significa que sea conveniente almacenar información sin ninguna regla.\nUna aplicación real debe mantener criterios consistentes sobre:\nnombres de campos\ntipos de datos\nestructuras\nidentificadores\ncampos obligatorios\nUn buen modelo documental también requiere diseño."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#organización-de-mongodb",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#organización-de-mongodb",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "5 Organización de MongoDB",
+    "text": "5 Organización de MongoDB\nMongoDB organiza la información jerárquicamente.\nServidor MongoDB\n      │\n      └── Base de datos\n              │\n              └── Colección\n                      │\n                      ├── Documento\n                      ├── Documento\n                      └── Documento\nPor ejemplo, durante nuestra práctica utilizamos:\ncurso_nosql\n     │\n     └── estudiantes\n              │\n              ├── Ana\n              ├── Luis\n              ├── Carlos\n              ├── María\n              └── Sofía\nDonde:\ncurso_nosql → base de datos\n\nestudiantes → colección\n\nAna, Luis... → documentos"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#base-de-datos",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#base-de-datos",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "6 Base de datos",
+    "text": "6 Base de datos\nUna base de datos agrupa colecciones relacionadas.\nPor ejemplo:\ncurso_nosql\npuede contener:\nestudiantes\nprofesores\nmaterias\nactividades\nCada una podría representarse mediante una colección diferente."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#colección",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#colección",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "7 Colección",
+    "text": "7 Colección\nUna colección agrupa documentos relacionados.\nPor ejemplo:\nestudiantes\npuede contener:\n{ nombre: \"Ana\", edad: 20 }\n{ nombre: \"Luis\", edad: 22 }\n{ nombre: \"Sofía\", edad: 20 }\n\n\n\n\n\n\nTipComparación inicial\n\n\n\nPodemos recordar:\nTabla      ≈ Colección\n\nFila       ≈ Documento\n\nColumna    ≈ Campo\npero únicamente como una primera intuición.\nUn documento puede almacenar estructuras anidadas que no corresponden directamente a una fila relacional."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#el-campo-_id",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#el-campo-_id",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "8 El campo _id",
+    "text": "8 El campo _id\nCada documento de MongoDB necesita un identificador único.\nMongoDB utiliza el campo:\n_id\nPor ejemplo:\n{\n  _id: ObjectId(\"...\"),\n  nombre: \"Ana\",\n  edad: 20\n}\nSi no proporcionamos un _id, MongoDB lo genera automáticamente.\n\n\n\n\n\n\nNote¿Para qué sirve _id?\n\n\n\nPermite identificar de manera única cada documento dentro de una colección.\nConceptualmente cumple una función similar a una llave primaria, aunque pertenece al modelo documental de MongoDB."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#tipos-de-información-dentro-de-un-documento",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#tipos-de-información-dentro-de-un-documento",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "9 Tipos de información dentro de un documento",
+    "text": "9 Tipos de información dentro de un documento\nUn documento puede contener diferentes tipos de datos.\n\n9.1 Texto\n{\n  nombre: \"Ana\"\n}\n\n\n9.2 Número\n{\n  edad: 20\n}\n\n\n9.3 Booleano\n{\n  activo: true\n}\n\n\n9.4 Arreglo\n{\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n}\n\n\n9.5 Objeto anidado\n{\n  direccion: {\n    ciudad: \"Xalapa\",\n    estado: \"Veracruz\"\n  }\n}\n\n\n9.6 Arreglo de objetos\n{\n  dispositivos: [\n    {\n      tipo: \"celular\",\n      sistema: \"Android\"\n    },\n    {\n      tipo: \"laptop\",\n      sistema: \"Windows\"\n    }\n  ]\n}\nEsta capacidad para combinar diferentes estructuras dentro de un mismo documento es una de las características principales del modelo documental (Sadalage and Fowler 2012; MongoDB 2026)."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#ejemplo-real-perfil-de-usuario",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#ejemplo-real-perfil-de-usuario",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "10 Ejemplo real: perfil de usuario",
+    "text": "10 Ejemplo real: perfil de usuario\nUn perfil de usuario de una plataforma podría representarse mediante:\n{\n  usuario: \"ana20\",\n  nombre: \"Ana\",\n  edad: 20,\n\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ],\n\n  preferencias: {\n    idioma: \"es\",\n    tema: \"oscuro\"\n  },\n\n  dispositivos: [\n    {\n      tipo: \"celular\",\n      sistema: \"Android\"\n    },\n    {\n      tipo: \"laptop\",\n      sistema: \"Windows\"\n    }\n  ]\n}\nEn un solo documento encontramos:\ntexto\nnúmeros\narreglos\nobjetos\narreglos de objetos"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#mongodb-shell",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#mongodb-shell",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "11 MongoDB Shell",
+    "text": "11 MongoDB Shell\nUna forma de trabajar con MongoDB es mediante:\nmongosh\nMongoDB Shell permite interactuar con el servidor mediante comandos.\nPor ejemplo:\nshow dbs\nmuestra las bases de datos disponibles.\nPara seleccionar una base:\nuse curso_nosql\nPara consultar las colecciones:\nshow collections\n\n\n\n\n\n\nWarningNo confundir terminal con mongosh\n\n\n\nComandos como:\nmongod\nmongorestore\nmongoexport\nse ejecutan desde PowerShell o Terminal.\nComandos como:\nshow dbs\nuse curso_nosql\ndb.estudiantes.find()\nse ejecutan dentro de mongosh."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#crear-una-colección",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#crear-una-colección",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "12 Crear una colección",
+    "text": "12 Crear una colección\nPodemos crear una colección mediante:\ndb.createCollection(\"estudiantes\")\nDespués de ejecutarlo, tendremos:\ncurso_nosql\n      │\n      └── estudiantes"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#insertar-un-documento",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#insertar-un-documento",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "13 Insertar un documento",
+    "text": "13 Insertar un documento\nPara agregar un documento podemos utilizar:\ninsertOne()\nPor ejemplo:\ndb.estudiantes.insertOne({\n  id: 1,\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\",\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n})\nLa estructura general es:\ndb.coleccion.insertOne({\n  campo: valor\n})"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#insertar-varios-documentos",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#insertar-varios-documentos",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "14 Insertar varios documentos",
+    "text": "14 Insertar varios documentos\nPara insertar varios documentos podemos utilizar:\ninsertMany()\nPor ejemplo:\ndb.estudiantes.insertMany([\n  {\n    id: 2,\n    nombre: \"Luis\",\n    edad: 22,\n    carrera: \"Estadística\"\n  },\n  {\n    id: 3,\n    nombre: \"Carlos\",\n    edad: 21,\n    carrera: \"Informática\"\n  },\n  {\n    id: 4,\n    nombre: \"María\",\n    edad: 23,\n    carrera: \"Ciencia de Datos\"\n  }\n])\nLa estructura general es:\ndb.coleccion.insertMany([\n  { documento1 },\n  { documento2 },\n  { documento3 }\n])"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#consultar-documentos-con-find",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#consultar-documentos-con-find",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "15 Consultar documentos con find()",
+    "text": "15 Consultar documentos con find()\nUno de los métodos principales para recuperar información es:\nfind()\nPara mostrar todos los documentos:\ndb.estudiantes.find()\nTambién puede utilizarse:\ndb.estudiantes.find({})\nEl objeto vacío:\n{}\nsignifica que no estamos aplicando ningún filtro."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#buscar-por-un-valor-específico",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#buscar-por-un-valor-específico",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "16 Buscar por un valor específico",
+    "text": "16 Buscar por un valor específico\nPara buscar a Ana:\ndb.estudiantes.find({\n  nombre: \"Ana\"\n})\nPara buscar estudiantes de 22 años:\ndb.estudiantes.find({\n  edad: 22\n})\nPara buscar estudiantes de Ciencia de Datos:\ndb.estudiantes.find({\n  carrera: \"Ciencia de Datos\"\n})\nLa estructura básica es:\ndb.coleccion.find({\n  campo: valor\n})\n\n\n\n\n\n\nTipLeer una consulta\n\n\n\nLa consulta:\ndb.estudiantes.find({\n  edad: 22\n})\npuede leerse como:\n\nBuscar en la colección estudiantes los documentos cuyo campo edad tenga el valor 22."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#operadores-de-comparación",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#operadores-de-comparación",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "17 Operadores de comparación",
+    "text": "17 Operadores de comparación\nNo siempre queremos buscar un valor exacto.\nMongoDB permite utilizar operadores para definir condiciones.\n\n17.1 $gt — mayor que\ndb.estudiantes.find({\n  edad: {\n    $gt: 20\n  }\n})\nSignifica:\nedad &gt; 20\n\n\n17.2 $gte — mayor o igual que\ndb.estudiantes.find({\n  edad: {\n    $gte: 20\n  }\n})\nSignifica:\nedad &gt;= 20\n\n\n17.3 $lt — menor que\ndb.estudiantes.find({\n  edad: {\n    $lt: 22\n  }\n})\n\n\n17.4 $lte — menor o igual que\ndb.estudiantes.find({\n  edad: {\n    $lte: 21\n  }\n})\n\n\n17.5 $ne — diferente de\ndb.estudiantes.find({\n  edad: {\n    $ne: 20\n  }\n})"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#resumen-de-operadores",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#resumen-de-operadores",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "18 Resumen de operadores",
+    "text": "18 Resumen de operadores\n\n\n\nOperador\nSignificado\n\n\n\n\n$gt\nMayor que\n\n\n$gte\nMayor o igual que\n\n\n$lt\nMenor que\n\n\n$lte\nMenor o igual que\n\n\n$ne\nDiferente de"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#consultar-un-intervalo",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#consultar-un-intervalo",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "19 Consultar un intervalo",
+    "text": "19 Consultar un intervalo\nPodemos combinar varios operadores dentro de un campo.\nPor ejemplo:\ndb.estudiantes.find({\n  edad: {\n    $gte: 20,\n    $lte: 22\n  }\n})\nEsto significa:\n20 &lt;= edad &lt;= 22"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#consultas-sobre-arreglos",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#consultas-sobre-arreglos",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "20 Consultas sobre arreglos",
+    "text": "20 Consultas sobre arreglos\nSupongamos que tenemos:\n{\n  nombre: \"Ana\",\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n}\nPodemos buscar directamente documentos cuyo arreglo contenga un determinado valor.\nPor ejemplo:\ndb.estudiantes.find({\n  redes_sociales: \"Instagram\"\n})\nMongoDB comprobará si:\nInstagram\nse encuentra dentro del arreglo redes_sociales.\nTambién podemos consultar:\ndb.estudiantes.find({\n  redes_sociales: \"TikTok\"\n})\n\n\n\n\n\n\nNoteNo es necesario recorrer manualmente el arreglo\n\n\n\nMongoDB permite consultar directamente si un determinado valor forma parte del arreglo."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#objetos-anidados",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#objetos-anidados",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "21 Objetos anidados",
+    "text": "21 Objetos anidados\nConsideremos:\n{\n  nombre: \"Luis\",\n\n  dispositivos: [\n    {\n      tipo: \"celular\",\n      sistema: \"Android\"\n    }\n  ]\n}\nEl campo:\nsistema\nse encuentra dentro de:\ndispositivos\nPara acceder a él podemos utilizar notación de punto.\ndb.estudiantes.find({\n  \"dispositivos.sistema\": \"Android\"\n})\nTambién podemos buscar:\ndb.estudiantes.find({\n  \"dispositivos.tipo\": \"celular\"\n})\n\n\n\n\n\n\nTipNotación de punto\n\n\n\nLa expresión:\ndispositivos.sistema\npuede entenderse como:\nentrar a dispositivos\n        ↓\nbuscar sistema\nEsta forma de consulta es especialmente importante cuando trabajamos con documentos anidados."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#combinar-varias-condiciones",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#combinar-varias-condiciones",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "22 Combinar varias condiciones",
+    "text": "22 Combinar varias condiciones\nPodemos incluir varias condiciones dentro de una misma consulta.\nPor ejemplo:\ndb.estudiantes.find({\n  carrera: \"Ciencia de Datos\",\n  edad: {\n    $gt: 19\n  }\n})\nMongoDB interpreta estas condiciones como un AND implícito.\nEs decir:\ncarrera = Ciencia de Datos\n\nY\n\nedad &gt; 19\nAmbas condiciones deben cumplirse."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#operador-or",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#operador-or",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "23 Operador $or",
+    "text": "23 Operador $or\nCuando queremos que se cumpla al menos una de varias condiciones podemos utilizar:\n$or\nPor ejemplo:\ndb.estudiantes.find({\n  $or: [\n    { carrera: \"Ciencia de Datos\" },\n    { carrera: \"Estadística\" }\n  ]\n})\nEsto significa:\nCiencia de Datos\n      O\nEstadística"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#operador-in",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#operador-in",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "24 Operador $in",
+    "text": "24 Operador $in\nCuando queremos comparar un mismo campo con varios valores podemos utilizar:\n$in\nPor ejemplo:\ndb.estudiantes.find({\n  carrera: {\n    $in: [\n      \"Ciencia de Datos\",\n      \"Estadística\"\n    ]\n  }\n})\nEsto permite buscar documentos donde:\ncarrera ∈ {\n  Ciencia de Datos,\n  Estadística\n}\n\n\n\n\n\n\nTip$or vs. $in\n\n\n\nCuando queremos comparar un mismo campo con varios valores, $in suele ser una forma más compacta.\n{\n  carrera: {\n    $in: [\"Ciencia de Datos\", \"Estadística\"]\n  }\n}"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#operador-exists",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#operador-exists",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "25 Operador $exists",
+    "text": "25 Operador $exists\nLos documentos de una misma colección pueden tener campos diferentes.\nPor ejemplo:\n{\n  nombre: \"Ana\",\n  redes_sociales: [\"Instagram\"]\n}\ny:\n{\n  nombre: \"Carlos\"\n}\nPodemos preguntar qué documentos contienen un determinado campo.\n\n25.1 Documentos que tienen redes_sociales\ndb.estudiantes.find({\n  redes_sociales: {\n    $exists: true\n  }\n})\n\n\n25.2 Documentos que no tienen redes_sociales\ndb.estudiantes.find({\n  redes_sociales: {\n    $exists: false\n  }\n})\n\n\n25.3 Documentos que tienen dispositivos\ndb.estudiantes.find({\n  dispositivos: {\n    $exists: true\n  }\n})\n\n\n\n\n\n\nNote$exists pregunta por la estructura\n\n\n\nNo pregunta:\n\n¿Cuál es el valor?\n\nPregunta:\n\n¿Existe este campo dentro del documento?"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#mongodb-compass",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#mongodb-compass",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "26 MongoDB Compass",
+    "text": "26 MongoDB Compass\nMongoDB Compass proporciona una interfaz gráfica para trabajar con MongoDB.\nDesde Compass podemos visualizar:\nservidor\n  ↓\nbases de datos\n  ↓\ncolecciones\n  ↓\ndocumentos\nPor ejemplo:\ncurso_nosql\n   ↓\nestudiantes\nLos mismos documentos que consultamos desde mongosh pueden visualizarse desde Compass."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#filtros-en-mongodb-compass",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#filtros-en-mongodb-compass",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "27 Filtros en MongoDB Compass",
+    "text": "27 Filtros en MongoDB Compass\nEn Compass utilizamos el campo Filter.\nPara mostrar todos los documentos:\n{}\nPara buscar a Ana:\n{ nombre: \"Ana\" }\nPara buscar mayores de 20:\n{ edad: { $gt: 20 } }\nPara buscar usuarios de Instagram:\n{ redes_sociales: \"Instagram\" }\nPara buscar dispositivos Android:\n{ \"dispositivos.sistema\": \"Android\" }\n\n\n\n\n\n\nWarningDiferencia entre mongosh y Compass\n\n\n\nEn mongosh escribimos:\ndb.estudiantes.find({\n  edad: {\n    $gt: 20\n  }\n})\nEn el campo Filter de Compass escribimos solamente:\n{\n  edad: {\n    $gt: 20\n  }\n}"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#un-ejemplo-con-una-colección-real",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#un-ejemplo-con-una-colección-real",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "28 Un ejemplo con una colección real",
+    "text": "28 Un ejemplo con una colección real\nEn la práctica también trabajamos con:\nsample_mflix\ny con la colección:\nmovies\nUn documento de esta colección puede contener campos como:\ntitle\nyear\ngenres\nruntime\ncast\ndirectors\ncountries\nlanguages\nimdb\nawards\ntomatoes\nEsto permite observar ejemplos reales de:\ntexto\nnúmeros\narreglos\nobjetos anidados\nfechas"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#consulta-por-año",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#consulta-por-año",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "29 Consulta por año",
+    "text": "29 Consulta por año\ndb.movies.find({\n  year: 2000\n}).limit(10)"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#campo-anidado",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#campo-anidado",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "30 Campo anidado",
+    "text": "30 Campo anidado\nLa información de IMDb puede encontrarse dentro de un objeto:\nimdb: {\n  rating: 8.4,\n  votes: 12000\n}\nPara consultar películas con IMDb mayor a 8:\ndb.movies.find({\n  \"imdb.rating\": {\n    $gt: 8\n  }\n}).limit(10)\nAquí utilizamos nuevamente la notación de punto."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#consulta-sobre-un-arreglo",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#consulta-sobre-un-arreglo",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "31 Consulta sobre un arreglo",
+    "text": "31 Consulta sobre un arreglo\nEl campo:\ngenres\npuede contener:\n[\"Drama\", \"Comedy\"]\nPodemos buscar películas de Drama mediante:\ndb.movies.find({\n  genres: \"Drama\"\n}).limit(10)"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#combinar-condiciones",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#combinar-condiciones",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "32 Combinar condiciones",
+    "text": "32 Combinar condiciones\nPodemos buscar películas posteriores al año 2000 con IMDb mayor a 8:\ndb.movies.find({\n  year: {\n    $gt: 2000\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  }\n}).limit(10)\nAquí deben cumplirse ambas condiciones."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#ejemplo-integrado",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#ejemplo-integrado",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "33 Ejemplo integrado",
+    "text": "33 Ejemplo integrado\nSupongamos que tenemos el siguiente documento:\n{\n  nombre: \"Ana\",\n  edad: 20,\n  carrera: \"Ciencia de Datos\",\n\n  redes_sociales: [\n    \"Instagram\",\n    \"TikTok\"\n  ],\n\n  dispositivos: [\n    {\n      tipo: \"celular\",\n      sistema: \"Android\"\n    }\n  ]\n}\nPodemos realizar diferentes preguntas.\n\n33.1 ¿Se llama Ana?\n{ nombre: \"Ana\" }\n\n\n33.2 ¿Tiene más de 18 años?\n{ edad: { $gt: 18 } }\n\n\n33.3 ¿Estudia Ciencia de Datos?\n{ carrera: \"Ciencia de Datos\" }\n\n\n33.4 ¿Utiliza Instagram?\n{ redes_sociales: \"Instagram\" }\n\n\n33.5 ¿Tiene Android?\n{ \"dispositivos.sistema\": \"Android\" }\n\n\n33.6 ¿Tiene el campo redes_sociales?\n{ redes_sociales: { $exists: true } }\nEste ejemplo resume varias de las características fundamentales de las consultas documentales."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#actividad-de-autoevaluación",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#actividad-de-autoevaluación",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "34 Actividad de autoevaluación",
+    "text": "34 Actividad de autoevaluación\nRelaciona cada operación con su finalidad.\n\n\n\nOperación\nFunción\n\n\n\n\nfind()\n___\n\n\ninsertOne()\n___\n\n\ninsertMany()\n___\n\n\n$gt\n___\n\n\n$in\n___\n\n\n$exists\n___\n\n\n\"dispositivos.sistema\"\n___\n\n\n\n\n\n\n\n\n\nTipPosibles respuestas\n\n\n\nfind()\n→ consultar documentos\n\ninsertOne()\n→ insertar un documento\n\ninsertMany()\n→ insertar varios documentos\n\n$gt\n→ mayor que\n\n$in\n→ comparar con varios valores posibles\n\n$exists\n→ verificar si existe un campo\n\ndispositivos.sistema\n→ acceder a un campo anidado"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#preguntas-para-reflexionar",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#preguntas-para-reflexionar",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "35 Preguntas para reflexionar",
+    "text": "35 Preguntas para reflexionar\n\n¿Cuál es la diferencia entre una colección y un documento?\n¿Por qué un documento no debe considerarse simplemente una fila con otro nombre?\n¿Para qué sirve el campo _id?\n¿Qué ventajas puede tener almacenar listas dentro de un documento?\n¿Cómo se consulta un campo anidado?\n¿Cuál es la diferencia entre $or y $in?\n¿Para qué sirve $exists?\n¿Qué diferencia existe entre escribir una consulta en mongosh y escribir un filtro en Compass?"
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#ideas-clave-del-tema",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#ideas-clave-del-tema",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "36 Ideas clave del tema",
+    "text": "36 Ideas clave del tema\n\n\n\n\n\n\nNote1. MongoDB utiliza un modelo documental\n\n\n\nLa organización básica es:\nbase de datos\n   ↓\ncolección\n   ↓\ndocumento\n   ↓\ncampos\n\n\n\n\n\n\n\n\nNote2. Los documentos pueden contener estructuras complejas\n\n\n\nUn documento puede incluir:\ntexto\nnúmeros\narreglos\nobjetos\nlistas de objetos\n\n\n\n\n\n\n\n\nNote3. Los documentos pueden tener campos diferentes\n\n\n\nLa flexibilidad del modelo documental permite que no todos los documentos tengan exactamente la misma estructura.\nSin embargo, un buen sistema sigue necesitando reglas de diseño.\n\n\n\n\n\n\n\n\nNote4. find() permite consultar documentos\n\n\n\nLa estructura básica es:\ndb.coleccion.find({\n  campo: valor\n})\n\n\n\n\n\n\n\n\nNote5. Los operadores permiten crear filtros más complejos\n\n\n\nEntre los operadores trabajados se encuentran:\n$gt\n$gte\n$lt\n$lte\n$ne\n$or\n$in\n$exists\n\n\n\n\n\n\n\n\nNote6. La notación de punto permite consultar estructuras anidadas\n\n\n\nPor ejemplo:\nimdb.rating\no:\ndispositivos.sistema\n\n\n\n\n\n\n\n\nNote7. MongoDB puede utilizarse desde diferentes herramientas\n\n\n\nDurante el curso trabajaremos principalmente con:\nmongosh\nMongoDB Compass\nMongoDB Database Tools\nCada herramienta cumple una función diferente dentro del flujo de trabajo."
+  },
+  {
+    "objectID": "apuntes/03_mongodb_consultas_basicas.html#relación-con-la-práctica",
+    "href": "apuntes/03_mongodb_consultas_basicas.html#relación-con-la-práctica",
+    "title": "Tema 3. MongoDB y consultas básicas",
+    "section": "37 Relación con la práctica",
+    "text": "37 Relación con la práctica\nLos conceptos desarrollados en este tema se aplican directamente en:\nPráctica 1. Primeros pasos con MongoDB local\nEn ella se trabaja con:\ncurso_nosql\nestudiantes\nsample_mflix\nmovies\ny se realizan consultas utilizando los operadores explicados en este tema."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html",
+    "href": "apuntes/01_relacional_a_nosql.html",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "",
+    "text": "Las bases de datos forman parte de una gran cantidad de sistemas que utilizamos todos los días. Una universidad necesita almacenar información sobre estudiantes, materias y calificaciones; una tienda en línea administra productos, clientes y pedidos; mientras que una red social debe manejar usuarios, publicaciones, imágenes, comentarios y relaciones entre personas.\nDurante muchos años, el modelo relacional ha sido una de las principales formas de organizar esta información. Su estructura basada en tablas, filas, columnas y relaciones permite representar de manera clara una gran cantidad de problemas y continúa siendo fundamental en los sistemas de información actuales (Elmasri and Navathe 2016; Silberschatz et al. 2020).\nSin embargo, con el crecimiento de Internet y de las aplicaciones digitales comenzaron a aparecer escenarios donde la información no siempre se ajusta de manera natural a una estructura completamente tabular. Actualmente es común trabajar con documentos JSON, publicaciones de redes sociales, registros generados por aplicaciones, sensores, imágenes, videos y datos provenientes de APIs.\nEsto no significa que las bases de datos relacionales hayan dejado de ser útiles. Más bien, han aparecido otros modelos de almacenamiento que pueden resultar convenientes para determinados tipos de información y necesidades del sistema (Sadalage and Fowler 2012; Kleppmann 2017).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEl paso de las bases de datos relacionales a NoSQL no debe entenderse como el reemplazo de una tecnología por otra.\nEn muchos sistemas reales pueden utilizarse diferentes tipos de bases de datos al mismo tiempo, dependiendo del problema que se necesita resolver."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#introducción",
+    "href": "apuntes/01_relacional_a_nosql.html#introducción",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "",
+    "text": "Las bases de datos forman parte de una gran cantidad de sistemas que utilizamos todos los días. Una universidad necesita almacenar información sobre estudiantes, materias y calificaciones; una tienda en línea administra productos, clientes y pedidos; mientras que una red social debe manejar usuarios, publicaciones, imágenes, comentarios y relaciones entre personas.\nDurante muchos años, el modelo relacional ha sido una de las principales formas de organizar esta información. Su estructura basada en tablas, filas, columnas y relaciones permite representar de manera clara una gran cantidad de problemas y continúa siendo fundamental en los sistemas de información actuales (Elmasri and Navathe 2016; Silberschatz et al. 2020).\nSin embargo, con el crecimiento de Internet y de las aplicaciones digitales comenzaron a aparecer escenarios donde la información no siempre se ajusta de manera natural a una estructura completamente tabular. Actualmente es común trabajar con documentos JSON, publicaciones de redes sociales, registros generados por aplicaciones, sensores, imágenes, videos y datos provenientes de APIs.\nEsto no significa que las bases de datos relacionales hayan dejado de ser útiles. Más bien, han aparecido otros modelos de almacenamiento que pueden resultar convenientes para determinados tipos de información y necesidades del sistema (Sadalage and Fowler 2012; Kleppmann 2017).\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEl paso de las bases de datos relacionales a NoSQL no debe entenderse como el reemplazo de una tecnología por otra.\nEn muchos sistemas reales pueden utilizarse diferentes tipos de bases de datos al mismo tiempo, dependiendo del problema que se necesita resolver."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#por-qué-existen-diferentes-modelos-de-bases-de-datos",
+    "href": "apuntes/01_relacional_a_nosql.html#por-qué-existen-diferentes-modelos-de-bases-de-datos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "2 ¿Por qué existen diferentes modelos de bases de datos?",
+    "text": "2 ¿Por qué existen diferentes modelos de bases de datos?\nNo toda la información tiene la misma estructura ni se consulta de la misma manera.\nPor ejemplo, pensemos en tres sistemas diferentes:\n\nuna universidad que administra estudiantes y materias;\nuna tienda en línea que almacena miles de productos;\nuna red social que registra las relaciones entre millones de usuarios.\n\nAunque los tres sistemas necesitan almacenar información, sus necesidades son distintas.\nEn una universidad podemos tener estructuras relativamente estables:\nEstudiante\n├── matrícula\n├── nombre\n├── carrera\n└── semestre\nEn cambio, en una tienda en línea los atributos pueden variar dependiendo del producto.\nUna computadora puede tener:\nprocesador\nmemoria_ram\nalmacenamiento\nsistema_operativo\nmientras que una playera puede tener:\ntalla\ncolor\nmaterial\ntipo_de_manga\nAmbos elementos pertenecen conceptualmente a la categoría productos, pero sus características pueden ser diferentes.\nEn una red social aparece otro tipo de problema: las relaciones entre los datos pueden ser tan importantes como los propios datos.\nPor ejemplo:\nAna ─── sigue a ─── Carlos\n │                    │\n └── sigue a ── María ┘\nUna consulta interesante podría ser:\n\n¿Qué personas siguen los amigos de Ana que Ana todavía no sigue?\n\nEn este caso, el problema está fuertemente relacionado con las conexiones entre usuarios.\n\n\n\n\n\n\nTipNo existe un único modelo adecuado para todos los problemas\n\n\n\nEl diseño de una base de datos depende, entre otros aspectos, de:\n\nla estructura de la información;\nlas consultas que se realizarán;\nel volumen de datos;\nla frecuencia con que cambian;\nla forma en que se relacionan;\nlas necesidades de escalabilidad y consistencia.\n\nPor esta razón existen diferentes modelos de bases de datos (Sadalage and Fowler 2012; Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#punto-de-partida-el-modelo-relacional",
+    "href": "apuntes/01_relacional_a_nosql.html#punto-de-partida-el-modelo-relacional",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "3 Punto de partida: el modelo relacional",
+    "text": "3 Punto de partida: el modelo relacional\nAntes de estudiar las bases de datos NoSQL conviene recuperar algunos conceptos del modelo relacional.\nUna base de datos relacional organiza la información mediante relaciones, que normalmente visualizamos como tablas. Cada tabla contiene atributos previamente definidos y cada registro representa una instancia de la entidad almacenada (Elmasri and Navathe 2016).\nPor ejemplo, podemos representar estudiantes mediante la siguiente tabla:\n\n\n\nid_estudiante\nnombre\nedad\ncarrera\n\n\n\n\n1\nAna\n20\nCiencia de Datos\n\n\n2\nLuis\n22\nEstadística\n\n\n3\nCarlos\n21\nInformática\n\n\n\nEn este ejemplo:\n\ncada fila representa un estudiante;\ncada columna representa un atributo;\nid_estudiante permite identificar de forma única cada registro.\n\nLa estructura esperada está definida previamente. Si registramos un nuevo estudiante, normalmente esperamos almacenar los mismos atributos:\nid_estudiante\nnombre\nedad\ncarrera\nEste conjunto de reglas forma parte del esquema de la base de datos.\n\n\n\n\n\n\nNoteEjemplo real: sistema universitario\n\n\n\nUna universidad puede utilizar distintas tablas para organizar su información:\nESTUDIANTES\nid_estudiante\nnombre\ncarrera\n\nMATERIAS\nid_materia\nnombre_materia\ncreditos\n\nINSCRIPCIONES\nid_estudiante\nid_materia\nperiodo\ncalificacion\nLa tabla INSCRIPCIONES permite relacionar a los estudiantes con las materias que cursan.\nUn mismo estudiante puede cursar varias materias y una misma materia puede tener varios estudiantes."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#elementos-básicos-del-modelo-relacional",
+    "href": "apuntes/01_relacional_a_nosql.html#elementos-básicos-del-modelo-relacional",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "4 Elementos básicos del modelo relacional",
+    "text": "4 Elementos básicos del modelo relacional\nPara continuar con la comparación entre bases relacionales y NoSQL es importante recordar algunos conceptos.\nTabla. Estructura que almacena información sobre un determinado tipo de entidad.\nRegistro o fila. Representa una observación o instancia particular.\nAtributo o columna. Representa una característica de los registros.\nLlave primaria. Campo, o combinación de campos, que identifica de manera única un registro.\nLlave foránea. Campo que permite establecer una relación con otra tabla.\nPor ejemplo:\nESTUDIANTES\n-------------------------\nid_estudiante   ← llave primaria\nnombre\ncarrera\n\n\nINSCRIPCIONES\n-------------------------\nid_inscripcion  ← llave primaria\nid_estudiante   ← llave foránea\nid_materia      ← llave foránea\nLas llaves permiten conectar la información almacenada en diferentes tablas y reducir duplicaciones innecesarias (Elmasri and Navathe 2016)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#recuperar-información-con-sql",
+    "href": "apuntes/01_relacional_a_nosql.html#recuperar-información-con-sql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "5 Recuperar información con SQL",
+    "text": "5 Recuperar información con SQL\nEn una base de datos relacional utilizamos generalmente SQL (Structured Query Language) para consultar y manipular la información.\nPor ejemplo:\nSELECT nombre, carrera\nFROM estudiantes\nWHERE edad &gt;= 20;\nEsta consulta puede leerse de la siguiente manera:\n\nSeleccionar el nombre y la carrera de los estudiantes cuya edad sea mayor o igual a 20 años.\n\nSQL es un lenguaje declarativo: indicamos qué información queremos obtener, mientras que el sistema gestor de bases de datos determina cómo ejecutar la consulta (Silberschatz et al. 2020).\n\n\n\n\n\n\nTip\n\n\n\nMás adelante compararemos esta forma de consultar información con las consultas utilizadas en MongoDB.\nPor ejemplo, una condición similar podría escribirse en MongoDB como:\ndb.estudiantes.find({\n  edad: {\n    $gte: 20\n  }\n})\nLa finalidad no es decidir cuál sintaxis es mejor, sino observar que cada modelo utiliza estructuras y formas de consulta diferentes."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#tipos-de-datos-según-su-estructura",
+    "href": "apuntes/01_relacional_a_nosql.html#tipos-de-datos-según-su-estructura",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "6 Tipos de datos según su estructura",
+    "text": "6 Tipos de datos según su estructura\nUna forma útil de comprender por qué existen distintos modelos de bases de datos es observar cómo está organizada la información.\nDe manera general, podemos distinguir tres grandes tipos:\n\ndatos estructurados;\ndatos semiestructurados;\ndatos no estructurados.\n\nEsta clasificación no indica si los datos son buenos o malos, sino qué tan definida se encuentra su estructura."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#datos-estructurados",
+    "href": "apuntes/01_relacional_a_nosql.html#datos-estructurados",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "7 Datos estructurados",
+    "text": "7 Datos estructurados\nLos datos estructurados siguen un esquema claramente definido.\nNormalmente sabemos de antemano qué campos existen, qué tipo de información contienen y cómo se organizan los registros.\nPor ejemplo:\n\n\n\nid\nnombre\nedad\ncarrera\n\n\n\n\n1\nAna\n20\nCiencia de Datos\n\n\n2\nLuis\n22\nEstadística\n\n\n3\nMaría\n21\nInformática\n\n\n\nTodos los registros comparten las mismas columnas.\nSi agregamos un nuevo estudiante, esperamos conservar la misma estructura:\nid\nnombre\nedad\ncarrera\nEste tipo de organización es común en bases de datos relacionales, archivos CSV y muchas hojas de cálculo (Elmasri and Navathe 2016; Silberschatz et al. 2020).\n\n\n\n\n\n\nNoteEstructurado no significa limpio\n\n\n\nUn conjunto de datos puede estar perfectamente estructurado y aun así contener:\n\nvalores faltantes;\nerrores de captura;\nduplicados;\nvalores fuera de rango;\ninconsistencias.\n\nLa palabra estructurado se refiere a la forma en que se organiza la información, no necesariamente a su calidad."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-real-una-encuesta",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-real-una-encuesta",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "8 Ejemplo real: una encuesta",
+    "text": "8 Ejemplo real: una encuesta\nSupongamos que se aplica una encuesta a estudiantes universitarios.\nLa base final podría verse así:\n\n\n\nid\nedad\nsemestre\nhoras_internet\nusa_instagram\n\n\n\n\n1\n20\n4\n6\nSí\n\n\n2\n22\n6\n8\nSí\n\n\n3\n19\n2\n4\nNo\n\n\n\nCada fila representa a una persona y cada columna una variable.\nEste formato resulta muy conveniente para análisis estadístico, porque las variables ya se encuentran organizadas de manera tabular."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#datos-semiestructurados",
+    "href": "apuntes/01_relacional_a_nosql.html#datos-semiestructurados",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "9 Datos semiestructurados",
+    "text": "9 Datos semiestructurados\nLos datos semiestructurados también tienen organización, pero no requieren que todos los registros tengan exactamente los mismos campos.\nPueden contener:\n\netiquetas;\npares campo-valor;\nlistas;\nobjetos anidados;\njerarquías.\n\nDos ejemplos importantes son JSON y XML (Sadalage and Fowler 2012).\nUn documento JSON podría verse así:\n{\n  \"id\": 1,\n  \"nombre\": \"Ana\",\n  \"edad\": 20,\n  \"redes_sociales\": [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n}\nAquí podemos identificar una estructura clara:\nnombre → Ana\nedad → 20\nredes_sociales → lista\nSin embargo, otro documento podría contener información diferente:\n{\n  \"id\": 2,\n  \"nombre\": \"Luis\",\n  \"edad\": 22,\n  \"dispositivos\": [\n    {\n      \"tipo\": \"celular\",\n      \"sistema\": \"Android\"\n    }\n  ]\n}\nAmbos documentos representan personas, pero no contienen exactamente los mismos campos.\n\n\n\n\n\n\nTip¿Por qué se consideran semiestructurados?\n\n\n\nPorque sí existe una estructura interpretable:\ncampo → valor\npero el esquema puede ser más flexible que en una tabla tradicional.\nEsto permite representar listas y objetos anidados de manera natural."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-real-una-api",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-real-una-api",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "10 Ejemplo real: una API",
+    "text": "10 Ejemplo real: una API\nMuchas aplicaciones obtienen información mediante una API.\nPor ejemplo, una API del clima podría devolver:\n{\n  \"ciudad\": \"Xalapa\",\n  \"temperatura\": 22,\n  \"condicion\": \"Nublado\",\n  \"pronostico\": [\n    {\n      \"hora\": \"15:00\",\n      \"temperatura\": 23\n    },\n    {\n      \"hora\": \"18:00\",\n      \"temperatura\": 20\n    }\n  ]\n}\nEste tipo de respuesta es muy común porque JSON permite representar información jerárquica sin necesidad de convertir todo inmediatamente a tablas.\nPara un Ingeniero en Ciencia de Datos esto es importante, ya que una parte considerable del trabajo real consiste en obtener datos desde servicios externos, APIs y sistemas que entregan información en JSON."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#otro-ejemplo-una-tienda-en-línea",
+    "href": "apuntes/01_relacional_a_nosql.html#otro-ejemplo-una-tienda-en-línea",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "11 Otro ejemplo: una tienda en línea",
+    "text": "11 Otro ejemplo: una tienda en línea\nImaginemos una tienda como Amazon o Mercado Libre.\nUn producto puede representarse así:\n{\n  \"producto\": \"Laptop\",\n  \"marca\": \"Lenovo\",\n  \"precio\": 18500,\n  \"especificaciones\": {\n    \"ram\": \"16 GB\",\n    \"almacenamiento\": \"512 GB\",\n    \"procesador\": \"Intel Core i7\"\n  }\n}\nMientras que otro producto podría ser:\n{\n  \"producto\": \"Playera\",\n  \"marca\": \"Nike\",\n  \"precio\": 650,\n  \"tallas\": [\"S\", \"M\", \"L\"],\n  \"colores\": [\"Negro\", \"Blanco\"]\n}\nAmbos pertenecen a la misma categoría general de productos, pero sus atributos son diferentes.\nEste es un ejemplo donde una estructura flexible puede resultar conveniente."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#datos-no-estructurados",
+    "href": "apuntes/01_relacional_a_nosql.html#datos-no-estructurados",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "12 Datos no estructurados",
+    "text": "12 Datos no estructurados\nLos datos no estructurados no se presentan directamente como filas y columnas con atributos claramente definidos.\nAlgunos ejemplos son:\nfotografías\nvideos\ngrabaciones de audio\ntexto libre\ndocumentos\npublicaciones\nEsto no significa que carezcan completamente de estructura interna.\nUna imagen, por ejemplo, está formada por píxeles; un audio contiene muestras y un texto contiene caracteres. Sin embargo, la información que nos interesa analizar no aparece directamente organizada como variables de una tabla.\n\n\n\n\n\n\nNoteEjemplo\n\n\n\nUna fotografía puede contener información visual como:\n\npersonas;\nvehículos;\nedificios;\nobjetos;\npaisajes.\n\nPero estos elementos no aparecen automáticamente como columnas:\npersona\nvehiculo\nedificio\nPara obtener esa información necesitamos procesar la imagen."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#contenido-y-metadatos",
+    "href": "apuntes/01_relacional_a_nosql.html#contenido-y-metadatos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "13 Contenido y metadatos",
+    "text": "13 Contenido y metadatos\nUna misma fuente puede combinar información no estructurada con datos estructurados o semiestructurados.\nPor ejemplo, una fotografía podría almacenarse como:\nimagen001.jpg\ny acompañarse de un documento como:\n{\n  \"archivo\": \"imagen001.jpg\",\n  \"fecha\": \"2026-09-06\",\n  \"ubicacion\": \"Xalapa, Veracruz\",\n  \"etiquetas\": [\n    \"persona\",\n    \"calle\",\n    \"automovil\"\n  ]\n}\nLa imagen sigue siendo un dato no estructurado para el propósito de este análisis, mientras que sus metadatos tienen una estructura clara.\nEsto es muy común en sistemas modernos.\nInstagram, por ejemplo, puede almacenar una fotografía o video y asociarle información como:\nusuario\nfecha\nubicacion\ndescripcion\nhashtags\nnumero_de_comentarios\nnumero_de_reacciones\nLa información multimedia y sus metadatos pueden requerir formas diferentes de almacenamiento y procesamiento."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#comparación-general",
+    "href": "apuntes/01_relacional_a_nosql.html#comparación-general",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "14 Comparación general",
+    "text": "14 Comparación general\n\n\n\n\n\n\n\n\n\nCaracterística\nEstructurados\nSemiestructurados\nNo estructurados\n\n\n\n\nEsquema definido\nSí\nFlexible\nNo directamente\n\n\nForma común\nTablas\nJSON, XML\nImagen, audio, video, texto\n\n\nCampos variables\nPoco frecuente\nSí\nNo aplica directamente\n\n\nEstructuras anidadas\nLimitadas\nComunes\nNo directamente\n\n\nEjemplo\nCSV\nAPI JSON\nFotografía\n\n\n\n\n\n\n\n\n\nTipUna misma organización puede utilizar los tres tipos\n\n\n\nUna red social puede almacenar:\nDatos estructurados\nid_usuario\ncorreo\nfecha_registro\nDatos semiestructurados\n{\n  \"preferencias\": {\n    \"idioma\": \"es\",\n    \"tema\": \"oscuro\"\n  }\n}\nDatos no estructurados\nfotografías\nvideos\naudios\ntexto libre\nPor eso, en sistemas reales no siempre existe una única forma de almacenar toda la información."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#por-qué-importa-esta-clasificación",
+    "href": "apuntes/01_relacional_a_nosql.html#por-qué-importa-esta-clasificación",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "15 ¿Por qué importa esta clasificación?",
+    "text": "15 ¿Por qué importa esta clasificación?\nLa forma de los datos influye directamente en cómo podemos:\n\nalmacenarlos;\nconsultarlos;\nmodificarlos;\nrelacionarlos;\nanalizarlos.\n\nEl modelo relacional funciona especialmente bien cuando existe una estructura estable y las relaciones entre entidades pueden representarse de forma clara mediante tablas.\nLos modelos NoSQL amplían las posibilidades cuando aparecen estructuras flexibles, grandes volúmenes de información, relaciones particulares o necesidades específicas de distribución y escalabilidad (Sadalage and Fowler 2012; Kleppmann 2017).\nSin embargo, esto no significa que cada dato semiestructurado deba almacenarse obligatoriamente en una base NoSQL.\nLa elección siempre debe responder a las necesidades del sistema.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nLa pregunta no debería ser:\n\n¿SQL o NoSQL?\n\nsino:\n\n¿Qué modelo representa mejor la información y las consultas que necesita resolver el sistema?"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#por-qué-pensar-en-nosql",
+    "href": "apuntes/01_relacional_a_nosql.html#por-qué-pensar-en-nosql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "16 ¿Por qué pensar en NoSQL?",
+    "text": "16 ¿Por qué pensar en NoSQL?\nLas bases de datos relacionales siguen siendo una excelente opción para muchos sistemas. Sin embargo, existen situaciones donde otros modelos pueden representar la información de una forma más natural.\nAlgunas razones para considerar una base de datos NoSQL son:\n\nestructuras de datos variables;\npresencia de listas y objetos anidados;\ngrandes volúmenes de información;\nnecesidad de distribuir los datos entre varios servidores;\nrelaciones muy complejas entre entidades;\nrequerimientos específicos de velocidad o disponibilidad.\n\nEsto no significa que una base NoSQL sea automáticamente mejor.\nLa elección depende del problema que se quiere resolver, de las consultas que se realizarán y de las características del sistema (Sadalage and Fowler 2012; Kleppmann 2017).\n\n\n\n\n\n\nWarningEvitar una idea equivocada\n\n\n\nNoSQL no significa:\ndatos complejos = usar NoSQL\nUna base relacional también puede manejar problemas complejos.\nLa pregunta correcta es si el modelo elegido facilita la representación, consulta y mantenimiento de la información."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#un-mismo-problema-dos-formas-de-representarlo",
+    "href": "apuntes/01_relacional_a_nosql.html#un-mismo-problema-dos-formas-de-representarlo",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "17 Un mismo problema, dos formas de representarlo",
+    "text": "17 Un mismo problema, dos formas de representarlo\nSupongamos que queremos almacenar información de un usuario:\nNombre: Ana\nEdad: 20\nRedes sociales:\n  - Instagram\n  - TikTok\n\nDispositivos:\n  - celular, Android\n  - laptop, Windows\nPodemos representar esta información de distintas maneras."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#representación-en-un-modelo-relacional",
+    "href": "apuntes/01_relacional_a_nosql.html#representación-en-un-modelo-relacional",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "18 Representación en un modelo relacional",
+    "text": "18 Representación en un modelo relacional\nEn una base de datos relacional podríamos utilizar varias tablas.\n\n18.1 Tabla usuarios\n\n\n\nid_usuario\nnombre\nedad\n\n\n\n\n1\nAna\n20\n\n\n\n\n\n18.2 Tabla redes_sociales\n\n\n\nid_red\nnombre\n\n\n\n\n1\nInstagram\n\n\n2\nTikTok\n\n\n\n\n\n18.3 Tabla usuarios_redes\n\n\n\nid_usuario\nid_red\n\n\n\n\n1\n1\n\n\n1\n2\n\n\n\n\n\n18.4 Tabla dispositivos\n\n\n\nid_dispositivo\nid_usuario\ntipo\nsistema\n\n\n\n\n1\n1\ncelular\nAndroid\n\n\n2\n1\nlaptop\nWindows\n\n\n\nEn este caso, la información se distribuye entre varias tablas.\nPara reconstruir toda la información de Ana probablemente sería necesario relacionarlas mediante operaciones como JOIN.\nDe forma conceptual:\nUSUARIOS\n   │\n   ├──── USUARIOS_REDES ──── REDES_SOCIALES\n   │\n   └──── DISPOSITIVOS\nEste diseño puede resultar muy adecuado cuando queremos mantener relaciones claramente definidas y reducir duplicaciones de información (Elmasri and Navathe 2016)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#representación-en-un-modelo-documental",
+    "href": "apuntes/01_relacional_a_nosql.html#representación-en-un-modelo-documental",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "19 Representación en un modelo documental",
+    "text": "19 Representación en un modelo documental\nEn una base documental podemos representar al mismo usuario mediante un solo documento:\n{\n  \"id\": 1,\n  \"nombre\": \"Ana\",\n  \"edad\": 20,\n  \"redes_sociales\": [\n    \"Instagram\",\n    \"TikTok\"\n  ],\n  \"dispositivos\": [\n    {\n      \"tipo\": \"celular\",\n      \"sistema\": \"Android\"\n    },\n    {\n      \"tipo\": \"laptop\",\n      \"sistema\": \"Windows\"\n    }\n  ]\n}\nLa información relacionada con Ana se encuentra concentrada en una sola estructura.\nVisualmente:\nusuario\n│\n├── id\n├── nombre\n├── edad\n│\n├── redes_sociales\n│     ├── Instagram\n│     └── TikTok\n│\n└── dispositivos\n      ├── celular\n      │     └── Android\n      │\n      └── laptop\n            └── Windows\nEste tipo de representación puede ser conveniente cuando normalmente necesitamos recuperar toda la información del usuario al mismo tiempo.\n\n\n\n\n\n\nTipUna diferencia importante\n\n\n\nEn un modelo documental, un documento no debe entenderse simplemente como una fila con otro nombre.\nUn documento puede contener:\n\nvalores simples;\nlistas;\nobjetos;\nlistas de objetos;\nestructuras anidadas.\n\nPor eso puede representar información más compleja dentro de una misma unidad."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#cuál-de-los-dos-modelos-es-mejor",
+    "href": "apuntes/01_relacional_a_nosql.html#cuál-de-los-dos-modelos-es-mejor",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "20 ¿Cuál de los dos modelos es mejor?",
+    "text": "20 ¿Cuál de los dos modelos es mejor?\nNo existe una respuesta universal.\nDepende de cómo se utilizarán los datos.\nSupongamos que una aplicación consulta constantemente:\n\nDame el perfil completo de Ana, incluyendo redes sociales y dispositivos.\n\nUn documento puede resultar cómodo porque gran parte de la información está almacenada junta.\nPero imaginemos ahora que necesitamos:\n\nObtener todos los usuarios que tienen registrado el mismo dispositivo y mantener un catálogo centralizado de dispositivos.\n\nEn ese escenario, separar la información y establecer relaciones podría ser más conveniente.\n\n\n\n\n\n\nNoteEl diseño depende de las consultas\n\n\n\nUna de las ideas más importantes al diseñar bases de datos es pensar en cómo se utilizarán los datos.\nNo sólo importa cómo se almacenan, sino también:\n¿Qué consultas serán frecuentes?\n\n¿Qué información se leerá junta?\n\n¿Qué información cambia con frecuencia?\n\n¿Qué relaciones deben mantenerse consistentes?\nEstas preguntas influyen directamente en la elección del modelo (Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#relacional-y-documental-comparación-general",
+    "href": "apuntes/01_relacional_a_nosql.html#relacional-y-documental-comparación-general",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "21 Relacional y documental: comparación general",
+    "text": "21 Relacional y documental: comparación general\n\n\n\n\n\n\n\nModelo relacional\nModelo documental\n\n\n\n\nTablas\nColecciones\n\n\nFilas o registros\nDocumentos\n\n\nColumnas\nCampos\n\n\nLlaves primarias y foráneas\nIdentificadores y referencias\n\n\nRelaciones entre tablas\nDocumentos y estructuras anidadas\n\n\nEsquema normalmente definido\nEsquema más flexible\n\n\nJOIN para combinar tablas\nInformación relacionada puede estar embebida\n\n\n\nEsta comparación es útil como primera aproximación, pero no debe interpretarse como una equivalencia exacta.\nPor ejemplo:\ntabla ≈ colección\nfila ≈ documento\ncolumna ≈ campo\nsirve para comprender inicialmente las diferencias, pero un documento puede contener estructuras internas que una fila tradicional no representa directamente."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#qué-significa-nosql",
+    "href": "apuntes/01_relacional_a_nosql.html#qué-significa-nosql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "22 ¿Qué significa NoSQL?",
+    "text": "22 ¿Qué significa NoSQL?\nEl término NoSQL se utiliza para agrupar diferentes modelos de bases de datos que no se limitan al modelo relacional tradicional (Sadalage and Fowler 2012).\nNoSQL no significa necesariamente:\nNo SQL\nEn muchos contextos también se interpreta como:\nNot Only SQL\nes decir, no solamente SQL.\nLa idea importante es que existen diferentes maneras de representar y consultar información.\n\n\n\n\n\n\nNoteNoSQL es un término general\n\n\n\nNoSQL no representa un único tipo de base de datos.\nDentro de esta categoría existen diferentes modelos, entre ellos:\nDocumentos\nClave-valor\nColumnas\nGrafos\nCada uno responde a necesidades diferentes."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#nosql-no-significa-abandonar-sql",
+    "href": "apuntes/01_relacional_a_nosql.html#nosql-no-significa-abandonar-sql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "23 NoSQL no significa abandonar SQL",
+    "text": "23 NoSQL no significa abandonar SQL\nUna empresa puede utilizar diferentes tecnologías al mismo tiempo.\nPor ejemplo:\nSistema de ventas\n      │\n      ├── PostgreSQL\n      │     └── pedidos y pagos\n      │\n      ├── MongoDB\n      │     └── catálogo de productos\n      │\n      ├── Redis\n      │     └── sesiones y caché\n      │\n      └── Neo4j\n            └── relaciones y recomendaciones\nEste enfoque se conoce como persistencia políglota, donde diferentes modelos de almacenamiento pueden coexistir dentro de una misma arquitectura cuando cada uno resuelve mejor una necesidad específica (Sadalage and Fowler 2012).\n\n\n\n\n\n\nTipEjemplo real\n\n\n\nUna tienda en línea podría utilizar:\nBase relacional\npara:\nclientes\npagos\nfacturación\npedidos\nporque estas operaciones suelen requerir alta consistencia.\nBase documental\npara:\ncatálogo de productos\ndescripciones\natributos variables\nopiniones\nClave-valor\npara:\ncarritos temporales\nsesiones\ncaché\nGrafos\npara:\nproductos relacionados\nrecomendaciones\nrelaciones entre usuarios\nEl objetivo no es utilizar muchas tecnologías por moda, sino elegirlas cuando aportan una ventaja clara."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#principales-modelos-nosql",
+    "href": "apuntes/01_relacional_a_nosql.html#principales-modelos-nosql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "24 Principales modelos NoSQL",
+    "text": "24 Principales modelos NoSQL\nNoSQL no corresponde a un único modelo de base de datos.\nDentro de esta categoría existen diferentes familias, cada una pensada para resolver ciertos tipos de problemas.\nLas cuatro principales que estudiaremos en el curso son:\nDocumentos\nClave-valor\nColumnas\nGrafos\nCada modelo organiza la información de una manera diferente.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nNoSQL no significa solamente MongoDB.\nMongoDB es un ejemplo de base de datos orientada a documentos, pero existen otros modelos NoSQL con estructuras y objetivos distintos."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-documentos",
+    "href": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-documentos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "25 Bases de datos orientadas a documentos",
+    "text": "25 Bases de datos orientadas a documentos\nLas bases de datos documentales almacenan la información en documentos, normalmente con estructuras similares a JSON.\nUn documento puede contener:\n\nvalores simples;\narreglos;\nobjetos anidados;\nestructuras de diferente tamaño.\n\nPor ejemplo:\n{\n  \"id\": 1,\n  \"nombre\": \"Ana\",\n  \"edad\": 20,\n  \"carrera\": \"Ciencia de Datos\",\n  \"redes_sociales\": [\n    \"Instagram\",\n    \"TikTok\"\n  ]\n}\nOtro documento de la misma colección podría ser:\n{\n  \"id\": 2,\n  \"nombre\": \"Luis\",\n  \"edad\": 22,\n  \"carrera\": \"Estadística\",\n  \"dispositivos\": [\n    {\n      \"tipo\": \"celular\",\n      \"sistema\": \"Android\"\n    }\n  ]\n}\nLos documentos no necesitan tener exactamente los mismos campos.\nEsta flexibilidad permite representar información heterogénea de manera natural (Sadalage and Fowler 2012).\n\n25.1 ¿Cuándo puede ser útil?\nEste modelo puede resultar conveniente cuando:\n\nlos registros tienen atributos variables;\nse utilizan estructuras anidadas;\nla información relacionada suele consultarse junta;\nlos datos provienen naturalmente de JSON o APIs.\n\n\n\n25.2 Ejemplo real: catálogo de productos\nUna tienda en línea puede tener productos muy diferentes.\nUna computadora:\n{\n  \"producto\": \"Laptop\",\n  \"precio\": 18500,\n  \"especificaciones\": {\n    \"ram\": \"16 GB\",\n    \"almacenamiento\": \"512 GB\"\n  }\n}\ny una playera:\n{\n  \"producto\": \"Playera\",\n  \"precio\": 650,\n  \"tallas\": [\"S\", \"M\", \"L\"],\n  \"colores\": [\"Negro\", \"Blanco\"]\n}\nAmbos pertenecen a una colección de productos, pero tienen atributos diferentes.\n\n\n25.3 Gestor representativo: MongoDB\nMongoDB es uno de los gestores documentales más conocidos.\nSu organización básica puede visualizarse así:\nBase de datos\n    │\n    └── Colección\n          │\n          ├── Documento\n          ├── Documento\n          └── Documento\nEn MongoDB los documentos se almacenan internamente utilizando BSON, un formato binario relacionado con JSON (MongoDB 2026)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#bases-de-datos-clave-valor",
+    "href": "apuntes/01_relacional_a_nosql.html#bases-de-datos-clave-valor",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "26 Bases de datos clave-valor",
+    "text": "26 Bases de datos clave-valor\nEl modelo clave-valor utiliza una estructura muy sencilla:\nclave → valor\nCada elemento se recupera utilizando una clave única.\nPor ejemplo:\nusuario:1001 → \"Ana\"\nusuario:1002 → \"Luis\"\nusuario:1003 → \"María\"\nTambién podemos almacenar valores más complejos:\nsesion:a83f91 → {\n  usuario: 1001,\n  activo: true\n}\nLa idea es similar a utilizar un diccionario:\nclave\n  ↓\nvalor\n\n26.1 Ejemplo real: sesión de usuario\nCuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador temporal:\nsession_abc123\ny asociarlo con:\n{\n  \"usuario\": 1001,\n  \"rol\": \"estudiante\",\n  \"activo\": true\n}\nDespués, la aplicación puede recuperar rápidamente esa información utilizando la clave de sesión.\n\n\n26.2 Otros usos comunes\nEl modelo clave-valor suele utilizarse para:\nsesiones\ncaché\ncarritos de compra\npreferencias temporales\ncontadores\n\n\n26.3 Gestor representativo: Redis\nRedis es un sistema ampliamente utilizado para trabajar con estructuras clave-valor y datos almacenados en memoria (Redis 2026).\n\n\n\n\n\n\nTipUna forma sencilla de imaginarlo\n\n\n\nPodemos pensar en un casillero:\nNúmero de casillero → contenido\nSi conocemos el número, podemos localizar rápidamente lo que se encuentra dentro."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-columnas",
+    "href": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-columnas",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "27 Bases de datos orientadas a columnas",
+    "text": "27 Bases de datos orientadas a columnas\nLas bases de datos orientadas a columnas, o de familias de columnas, organizan la información de una forma diferente al modelo relacional tradicional.\nEstán especialmente asociadas con sistemas que necesitan manejar:\n\ngrandes volúmenes de datos;\ninformación distribuida;\nmúltiples servidores;\ngrandes cantidades de escrituras y consultas.\n\nUna representación simplificada podría ser:\nUsuario 1\n  nombre     → Ana\n  ciudad     → Xalapa\n  edad       → 20\n\nUsuario 2\n  nombre     → Luis\n  ciudad     → Veracruz\nNo todos los registros necesitan contener necesariamente las mismas columnas.\n\n27.1 Ejemplo real: datos generados por sensores\nImaginemos miles de sensores enviando mediciones continuamente:\nsensor_001\n  temperatura\n  humedad\n  timestamp\n\nsensor_002\n  temperatura\n  presión\n  timestamp\n\nsensor_003\n  humedad\n  viento\n  timestamp\nCon millones de registros distribuidos entre diferentes servidores, un modelo diseñado para grandes volúmenes distribuidos puede resultar conveniente.\n\n\n27.2 Gestor representativo: Apache Cassandra\nApache Cassandra es una base de datos distribuida que utiliza un modelo basado en particiones y columnas, diseñada para trabajar con grandes cantidades de información y múltiples nodos (Apache Cassandra 2026).\n\n\n\n\n\n\nNote\n\n\n\nLas bases orientadas a columnas no deben confundirse directamente con una tabla de Excel girada.\nSu organización interna y su forma de distribuir información responden a objetivos diferentes a los de una tabla relacional tradicional."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-grafos",
+    "href": "apuntes/01_relacional_a_nosql.html#bases-de-datos-orientadas-a-grafos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "28 Bases de datos orientadas a grafos",
+    "text": "28 Bases de datos orientadas a grafos\nEn una base de datos de grafos, las relaciones son una parte central del modelo.\nLos elementos principales son:\nnodos\nrelaciones\npropiedades\nPor ejemplo:\nAna ── SIGUE_A ──&gt; Luis\n\nLuis ── SIGUE_A ──&gt; María\n\nAna ── SIGUE_A ──&gt; Carlos\nLos usuarios pueden representarse como nodos y las conexiones como relaciones.\nUna relación también puede tener información propia:\nAna ── AMIGA_DE ──&gt; María\n          │\n          └── desde: 2022\n\n28.1 Ejemplo real: red social\nSupongamos que queremos responder:\n\n¿Qué amigos de mis amigos todavía no sigo?\n\nEn una estructura de grafos podemos recorrer las relaciones:\nAna\n │\n ├── Luis\n │     ├── María\n │     └── Carlos\n │\n └── Sofía\n       └── Pedro\nEl problema no se centra únicamente en almacenar usuarios, sino en navegar sus relaciones.\n\n\n28.2 Otros usos\nLas bases de grafos pueden utilizarse en:\nredes sociales\nsistemas de recomendación\ndetección de fraude\nrutas de transporte\nredes de conocimiento\nrelaciones entre organizaciones\n\n\n28.3 Gestor representativo: Neo4j\nNeo4j es uno de los gestores de grafos más conocidos y permite representar información mediante nodos, relaciones y propiedades (Neo4j 2026).\n\n\n\n\n\n\nTipEjemplo: recomendaciones\n\n\n\nSupongamos:\nAna ── COMPRÓ ──&gt; Laptop\n\nLuis ── COMPRÓ ──&gt; Laptop\nLuis ── COMPRÓ ──&gt; Mouse\nEl sistema podría detectar que Ana y Luis tienen intereses similares y sugerir a Ana el producto que Luis también compró:\nMouse\nEste tipo de recorrido es muy natural en un modelo de grafos."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#comparación-de-los-modelos-nosql",
+    "href": "apuntes/01_relacional_a_nosql.html#comparación-de-los-modelos-nosql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "29 Comparación de los modelos NoSQL",
+    "text": "29 Comparación de los modelos NoSQL\n\n\n\n\n\n\n\n\n\n\nModelo\nUnidad principal\nIdea básica\nEjemplo de uso\nGestor\n\n\n\n\nDocumentos\nDocumento\nInformación flexible tipo JSON\nCatálogo de productos\nMongoDB\n\n\nClave-valor\nClave y valor\nRecuperación directa mediante una clave\nSesiones y caché\nRedis\n\n\nColumnas\nFamilias de columnas\nGrandes volúmenes distribuidos\nSensores y registros masivos\nCassandra\n\n\nGrafos\nNodos y relaciones\nRelaciones como elemento central\nRedes sociales\nNeo4j\n\n\n\nNo existe un modelo que sea superior en todos los casos.\nCada uno responde mejor a determinados patrones de información y consulta (Sadalage and Fowler 2012; Kleppmann 2017).\n\n\n\n\n\n\nNoteLo importante no es memorizar marcas\n\n\n\nMongoDB, Redis, Cassandra y Neo4j son ejemplos representativos.\nLo realmente importante es comprender:\nqué estructura utiliza cada modelo\nqué problema intenta resolver\ncómo se consulta la información\ncuándo podría ser conveniente utilizarlo"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#nosql-aplicado-a-ciencia-de-datos",
+    "href": "apuntes/01_relacional_a_nosql.html#nosql-aplicado-a-ciencia-de-datos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "30 NoSQL aplicado a Ciencia de Datos",
+    "text": "30 NoSQL aplicado a Ciencia de Datos\nEn Ciencia de Datos no siempre trabajamos con una tabla limpia y lista para analizar.\nCon frecuencia, la información proviene de distintas fuentes:\nCSV\nbases de datos\nAPIs\nJSON\nXML\nsensores\nregistros de aplicaciones\ntexto\nimágenes\naudio\nvideo\nCada una puede requerir diferentes procesos para obtener, almacenar, transformar y consultar la información.\n\n\n\n\n\n\nNoteEl trabajo comienza antes del análisis\n\n\n\nUn flujo de Ciencia de Datos no consiste únicamente en entrenar modelos.\nAntes de analizar los datos normalmente es necesario:\nobtener\n   ↓\nalmacenar\n   ↓\nconsultar\n   ↓\nlimpiar\n   ↓\ntransformar\n   ↓\nanalizar\nPor esta razón, conocer diferentes formas de almacenamiento también forma parte del trabajo de un Ingeniero en Ciencia de Datos."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-1-archivo-csv",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-1-archivo-csv",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "31 Ejemplo 1: archivo CSV",
+    "text": "31 Ejemplo 1: archivo CSV\nUn archivo CSV podría contener:\nid,nombre,edad,carrera\n1,Ana,20,Ciencia de Datos\n2,Luis,22,Estadística\n3,María,21,Informática\nEsta información tiene una estructura tabular claramente definida.\nPodemos leerla fácilmente en Python:\nimport pandas as pd\n\ndatos = pd.read_csv(\"estudiantes.csv\")\ny obtener una estructura similar a:\n\n\n\nid\nnombre\nedad\ncarrera\n\n\n\n\n1\nAna\n20\nCiencia de Datos\n\n\n2\nLuis\n22\nEstadística\n\n\n3\nMaría\n21\nInformática\n\n\n\nEste es un caso muy natural para trabajar con datos estructurados."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-2-obtener-información-desde-una-api",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-2-obtener-información-desde-una-api",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "32 Ejemplo 2: obtener información desde una API",
+    "text": "32 Ejemplo 2: obtener información desde una API\nMuchas fuentes modernas no entregan archivos CSV.\nEn su lugar, proporcionan información mediante una API.\nUna respuesta podría verse así:\n{\n  \"ciudad\": \"Xalapa\",\n  \"temperatura\": 21,\n  \"humedad\": 78,\n  \"pronostico\": [\n    {\n      \"hora\": \"12:00\",\n      \"temperatura\": 22\n    },\n    {\n      \"hora\": \"15:00\",\n      \"temperatura\": 23\n    }\n  ]\n}\nAntes de analizar esta información podemos necesitar:\nAPI\n ↓\nJSON\n ↓\nalmacenamiento\n ↓\nprocesamiento\n ↓\nDataFrame\n ↓\nanálisis\nJSON resulta especialmente importante en Ciencia de Datos porque es uno de los formatos más utilizados para intercambiar información entre aplicaciones y servicios.\n\n\n\n\n\n\nTipUn punto importante\n\n\n\nUna API no es una base de datos.\nLa API es un mecanismo mediante el cual una aplicación puede solicitar o enviar información.\nEsa información puede provenir internamente de:\nPostgreSQL\nMongoDB\nRedis\notros sistemas\ny posteriormente ser entregada al usuario en un formato como JSON."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-3-información-generada-por-sensores",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-3-información-generada-por-sensores",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "33 Ejemplo 3: información generada por sensores",
+    "text": "33 Ejemplo 3: información generada por sensores\nImaginemos una red de estaciones meteorológicas.\nCada estación puede generar continuamente registros como:\n{\n  \"sensor\": \"XAL_001\",\n  \"fecha\": \"2026-09-06T14:00:00\",\n  \"temperatura\": 22.4,\n  \"humedad\": 76\n}\nCinco minutos después:\n{\n  \"sensor\": \"XAL_001\",\n  \"fecha\": \"2026-09-06T14:05:00\",\n  \"temperatura\": 22.7,\n  \"humedad\": 75\n}\nSi existen miles de sensores enviando información constantemente, el volumen puede crecer rápidamente.\nPor ejemplo:\n10,000 sensores\n       ×\n1 registro cada minuto\n       ×\n1,440 minutos al día\n       =\n14,400,000 registros diarios\nEn este tipo de escenario empiezan a ser importantes conceptos que estudiaremos posteriormente:\nescalabilidad\ndistribución\nparticionamiento\nprocesamiento paralelo\n(Kleppmann 2017)"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-4-publicaciones-de-redes-sociales",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-4-publicaciones-de-redes-sociales",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "34 Ejemplo 4: publicaciones de redes sociales",
+    "text": "34 Ejemplo 4: publicaciones de redes sociales\nUna publicación podría contener:\n{\n  \"usuario\": \"usuario123\",\n  \"fecha\": \"2026-09-06\",\n  \"texto\": \"Hoy comenzó el curso de Bases de Datos No Relacionales\",\n  \"hashtags\": [\n    \"NoSQL\",\n    \"MongoDB\"\n  ],\n  \"reacciones\": 35,\n  \"comentarios\": [\n    {\n      \"usuario\": \"usuario456\",\n      \"texto\": \"Interesante\"\n    },\n    {\n      \"usuario\": \"usuario789\",\n      \"texto\": \"¿Compartirás el material?\"\n    }\n  ]\n}\nAquí encontramos diferentes estructuras dentro de un mismo documento:\ntexto\nnúmeros\narreglos\nobjetos anidados\nlistas de objetos\nEste tipo de información puede resultar muy natural para un modelo documental."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-5-imágenes-y-metadatos",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-5-imágenes-y-metadatos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "35 Ejemplo 5: imágenes y metadatos",
+    "text": "35 Ejemplo 5: imágenes y metadatos\nSupongamos que tenemos una colección de fotografías.\nEl archivo original podría ser:\nestadio_001.jpg\nLa imagen, por sí misma, no contiene sus características semánticas organizadas como columnas.\nSin embargo, podemos procesarla con un modelo de visión por computadora y obtener:\n{\n  \"archivo\": \"estadio_001.jpg\",\n  \"fecha\": \"2026-08-25\",\n  \"etiquetas\": [\n    \"futbol\",\n    \"jugadores\",\n    \"estadio\",\n    \"balon\"\n  ],\n  \"modelo\": \"clasificador_imagenes\",\n  \"confianza\": 0.94\n}\nTenemos entonces dos elementos distintos:\nestadio_001.jpg\n       │\n       │ procesamiento\n       ↓\nmetadatos\n{\n  etiquetas,\n  modelo,\n  confianza\n}\nEl archivo visual continúa siendo la fuente original, pero ahora disponemos de información estructurada o semiestructurada que permite consultarlo.\n\n\n\n\n\n\nNote¿Qué podríamos consultar?\n\n\n\nUna vez almacenados los metadatos podríamos preguntar:\n¿Qué imágenes contienen un balón?\n\n¿Qué fotografías fueron tomadas en un estadio?\n\n¿Qué imágenes tuvieron una confianza mayor a 0.90?\n\n¿Qué imágenes fueron clasificadas como fútbol?\nEl resultado de un modelo de Ciencia de Datos puede convertirse también en información que posteriormente necesita almacenarse y consultarse."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-6-análisis-de-texto",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-6-análisis-de-texto",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "36 Ejemplo 6: análisis de texto",
+    "text": "36 Ejemplo 6: análisis de texto\nAlgo similar ocurre con documentos de texto.\nSupongamos que tenemos:\ncomentario_001.txt\ncon el contenido:\nLa aplicación funciona bien, pero tarda demasiado en cargar.\nDespués de procesarlo mediante técnicas de lenguaje natural podríamos obtener:\n{\n  \"archivo\": \"comentario_001.txt\",\n  \"sentimiento\": \"mixto\",\n  \"temas\": [\n    \"rendimiento\",\n    \"aplicación\"\n  ],\n  \"palabras_clave\": [\n    \"funciona\",\n    \"tarda\",\n    \"cargar\"\n  ]\n}\nEl texto original puede considerarse no estructurado para este propósito, mientras que los resultados del procesamiento se almacenan con una estructura claramente interpretable."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#de-una-fuente-a-un-conjunto-de-datos",
+    "href": "apuntes/01_relacional_a_nosql.html#de-una-fuente-a-un-conjunto-de-datos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "37 De una fuente a un conjunto de datos",
+    "text": "37 De una fuente a un conjunto de datos\nEn muchos proyectos el objetivo final puede ser transformar información heterogénea en una estructura adecuada para el análisis.\nPor ejemplo:\nAPI\n │\n └── JSON\n      │\n      └── MongoDB\n            │\n            └── consulta\n                  │\n                  └── Python\n                        │\n                        └── DataFrame\n                              │\n                              └── análisis\nO:\nImágenes\n    │\n    └── modelo de visión\n           │\n           └── metadatos JSON\n                    │\n                    └── base de datos\n                              │\n                              └── análisis\nLa base de datos forma parte del pipeline de datos, no es solamente el lugar donde se guardan archivos (Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#elegir-cómo-almacenar-la-información",
+    "href": "apuntes/01_relacional_a_nosql.html#elegir-cómo-almacenar-la-información",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "38 Elegir cómo almacenar la información",
+    "text": "38 Elegir cómo almacenar la información\nPodemos pensar en algunos ejemplos sencillos:\n\n\n\nInformación\nPosible representación\n\n\n\n\nEncuesta\nTabla relacional o CSV\n\n\nRespuesta de una API\nJSON\n\n\nCatálogo con atributos variables\nDocumentos\n\n\nSesión temporal de usuario\nClave-valor\n\n\nMillones de mediciones distribuidas\nColumnas\n\n\nRelaciones entre usuarios\nGrafo\n\n\nFotografía\nArchivo + metadatos\n\n\nTexto libre\nDocumento + resultados de procesamiento\n\n\n\nEsta tabla no representa reglas absolutas.\nUna misma aplicación puede utilizar distintos modelos dependiendo de sus necesidades.\n\n\n\n\n\n\nTipPara Ciencia de Datos\n\n\n\nCuando recibimos una fuente nueva conviene preguntarnos:\n¿Cómo vienen los datos?\n\n¿Qué estructura tienen?\n\n¿Con qué frecuencia llegan?\n\n¿Qué volumen pueden alcanzar?\n\n¿Qué consultas necesito hacer?\n\n¿Necesito relacionarlos con otras fuentes?\n\n¿En qué formato los necesitaré para analizarlos?\nEstas preguntas ayudan a elegir una estrategia adecuada de almacenamiento y procesamiento."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-integrado",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-integrado",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "39 Ejemplo integrado",
+    "text": "39 Ejemplo integrado\nSupongamos que queremos analizar el comportamiento de usuarios de una plataforma de comercio electrónico.\nPodríamos disponer de:\nclientes\n   ↓\nbase relacional\n\ncatálogo de productos\n   ↓\ndocumentos\n\nsesiones de navegación\n   ↓\nclave-valor\n\nrelaciones entre productos\n   ↓\ngrafo\n\nclics y eventos\n   ↓\ngran volumen de registros\n\nopiniones\n   ↓\ntexto libre\nPosteriormente, parte de esta información podría integrarse en Python para construir un conjunto de datos analítico.\nEsto muestra que un proyecto de Ciencia de Datos puede involucrar varias formas de representación antes de llegar al DataFrame final.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEn Ciencia de Datos, comprender el origen y la estructura de la información es tan importante como saber analizarla.\nAntes de aplicar un algoritmo debemos entender:\nde dónde vienen los datos\ncómo están representados\ncómo se almacenan\ncómo podemos recuperarlos"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql",
+    "href": "apuntes/01_relacional_a_nosql.html#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "40 ¿Cuándo pensar en una base relacional y cuándo en NoSQL?",
+    "text": "40 ¿Cuándo pensar en una base relacional y cuándo en NoSQL?\nNo existe una regla única que permita decidir automáticamente qué tipo de base de datos utilizar.\nLa elección depende del problema, de la estructura de los datos y de la forma en que la información será consultada.\nUna base relacional puede ser una buena opción cuando:\n\nexiste un esquema relativamente estable;\nlas relaciones entre entidades están bien definidas;\nse requiere alta consistencia;\nlas operaciones transaccionales son importantes;\nse necesita utilizar consultas SQL complejas.\n\nUna base NoSQL puede resultar conveniente cuando:\n\nlos documentos tienen estructuras variables;\nse utilizan listas u objetos anidados;\nse necesitan grandes volúmenes distribuidos;\nlas relaciones entre elementos son especialmente importantes;\nse requiere una arquitectura flexible o escalable.\n\n\n\n\n\n\n\nWarningNo utilizar NoSQL solamente por moda\n\n\n\nElegir una base NoSQL no significa que el sistema será automáticamente:\nmás rápido\nmás moderno\nmás escalable\nEl rendimiento depende del diseño, la arquitectura, las consultas y las características del problema (Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-1-sistema-escolar",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-1-sistema-escolar",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "41 Ejemplo 1: sistema escolar",
+    "text": "41 Ejemplo 1: sistema escolar\nSupongamos que queremos administrar:\nestudiantes\nmaterias\ninscripciones\ncalificaciones\nLas entidades tienen relaciones claras y la información debe mantenerse consistente.\nEn este caso, una base relacional podría ser una opción natural.\nPor ejemplo:\nESTUDIANTES\n      │\n      └── INSCRIPCIONES\n              │\n              └── MATERIAS"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-2-catálogo-de-productos",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-2-catálogo-de-productos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "42 Ejemplo 2: catálogo de productos",
+    "text": "42 Ejemplo 2: catálogo de productos\nUna tienda en línea puede manejar productos con atributos muy diferentes.\nLaptop\n├── RAM\n├── procesador\n└── almacenamiento\n\nPlayera\n├── talla\n├── color\n└── material\nUn modelo documental puede ser conveniente porque permite mantener atributos distintos dentro de documentos de una misma colección."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-3-sesiones-de-usuario",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-3-sesiones-de-usuario",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "43 Ejemplo 3: sesiones de usuario",
+    "text": "43 Ejemplo 3: sesiones de usuario\nSi una aplicación necesita recuperar rápidamente información temporal mediante una clave:\nsession_123 → datos del usuario\nun modelo clave-valor puede ser adecuado."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-4-red-social",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-4-red-social",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "44 Ejemplo 4: red social",
+    "text": "44 Ejemplo 4: red social\nSi el problema principal consiste en analizar conexiones:\npersona\n  ↓\nsigue a\n  ↓\npersona\nun modelo de grafos puede facilitar ciertas consultas.\nPor ejemplo:\n\nEncontrar amigos de amigos que todavía no siguen al usuario."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ejemplo-5-gran-volumen-de-eventos",
+    "href": "apuntes/01_relacional_a_nosql.html#ejemplo-5-gran-volumen-de-eventos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "45 Ejemplo 5: gran volumen de eventos",
+    "text": "45 Ejemplo 5: gran volumen de eventos\nUna plataforma puede registrar millones de eventos:\nclic\nvista\ncompra\nbúsqueda\ninicio_de_sesión\nSi estos datos deben distribuirse entre múltiples nodos y consultarse a gran escala, pueden considerarse modelos diseñados para trabajar con grandes volúmenes distribuidos (Kleppmann 2017)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#una-misma-organización-puede-usar-varios-modelos",
+    "href": "apuntes/01_relacional_a_nosql.html#una-misma-organización-puede-usar-varios-modelos",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "46 Una misma organización puede usar varios modelos",
+    "text": "46 Una misma organización puede usar varios modelos\nEn sistemas reales no siempre se elige una única tecnología.\nPor ejemplo:\nPlataforma de comercio electrónico\n          │\n          ├── PostgreSQL\n          │      └── pedidos y pagos\n          │\n          ├── MongoDB\n          │      └── catálogo\n          │\n          ├── Redis\n          │      └── sesiones\n          │\n          └── Neo4j\n                 └── recomendaciones\nEsta estrategia permite utilizar distintos modelos para distintas necesidades (Sadalage and Fowler 2012)."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#actividad-de-autoevaluación",
+    "href": "apuntes/01_relacional_a_nosql.html#actividad-de-autoevaluación",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "47 Actividad de autoevaluación",
+    "text": "47 Actividad de autoevaluación\nClasifica los siguientes ejemplos según el tipo de información que representan.\n\n\n\nEjemplo\nTipo de dato\n\n\n\n\nArchivo CSV con calificaciones\n___\n\n\nDocumento JSON de una API\n___\n\n\nFotografía\n___\n\n\nTabla de estudiantes en PostgreSQL\n___\n\n\nArchivo XML\n___\n\n\nGrabación de audio\n___\n\n\nTexto libre de una opinión\n___\n\n\n\n\n\n\n\n\n\nTipPosibles respuestas\n\n\n\nCSV → estructurado\nJSON → semiestructurado\nFotografía → no estructurado\nPostgreSQL → estructurado\nXML → semiestructurado\nAudio → no estructurado\nTexto libre → no estructurado\nLa clasificación depende de cómo esté representada la información que queremos analizar."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#preguntas-para-reflexionar",
+    "href": "apuntes/01_relacional_a_nosql.html#preguntas-para-reflexionar",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "48 Preguntas para reflexionar",
+    "text": "48 Preguntas para reflexionar\n\n¿Una base NoSQL sustituye necesariamente a una base relacional?\n¿Cuál es la principal diferencia entre una fila de una tabla y un documento JSON?\n¿Por qué una tienda en línea puede beneficiarse de un modelo documental?\n¿Qué tipo de base podría ser conveniente cuando las relaciones entre usuarios son el centro del problema?\n¿Por qué JSON es importante en Ciencia de Datos?\n¿Puede una misma aplicación utilizar diferentes tipos de bases de datos?\n¿Qué factores deberíamos considerar antes de elegir un modelo de almacenamiento?"
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#ideas-clave-del-tema",
+    "href": "apuntes/01_relacional_a_nosql.html#ideas-clave-del-tema",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "49 Ideas clave del tema",
+    "text": "49 Ideas clave del tema\nAl finalizar este tema es importante conservar las siguientes ideas:\n\n\n\n\n\n\nNote1. El modelo relacional sigue siendo fundamental\n\n\n\nLas bases de datos relacionales continúan siendo una excelente opción para una gran cantidad de sistemas.\nNoSQL no implica abandonar SQL.\n\n\n\n\n\n\n\n\nNote2. Los datos pueden tener diferentes niveles de estructura\n\n\n\nPodemos trabajar con:\nestructurados\nsemiestructurados\nno estructurados\nLa forma de representar la información influye en cómo la almacenamos y consultamos.\n\n\n\n\n\n\n\n\nNote3. NoSQL no es un único modelo\n\n\n\nLas principales familias estudiadas en este curso son:\ndocumentos\nclave-valor\ncolumnas\ngrafos\nCada modelo responde a necesidades diferentes.\n\n\n\n\n\n\n\n\nNote4. El problema determina la tecnología\n\n\n\nNo existe una base de datos ideal para todos los escenarios.\nLa elección depende de:\nestructura de los datos\ntipo de consultas\nrelaciones\nvolumen\nconsistencia\ndistribución\nescalabilidad\n(Sadalage and Fowler 2012; Kleppmann 2017)\n\n\n\n\n\n\n\n\nNote5. Ciencia de Datos trabaja con múltiples fuentes\n\n\n\nUn proyecto puede comenzar con:\nCSV\nJSON\nAPIs\nsensores\ntexto\nimágenes\nbases de datos\ny posteriormente transformar esa información para realizar análisis o construir modelos."
+  },
+  {
+    "objectID": "apuntes/01_relacional_a_nosql.html#en-la-siguiente-sesión",
+    "href": "apuntes/01_relacional_a_nosql.html#en-la-siguiente-sesión",
+    "title": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "section": "50 En la siguiente sesión",
+    "text": "50 En la siguiente sesión\nDespués de comprender cómo pueden representarse los datos, el siguiente paso será estudiar qué ocurre cuando los sistemas necesitan crecer y trabajar con información distribuida.\nSe introducirán conceptos como:\nescalabilidad vertical\nescalabilidad horizontal\nbases de datos distribuidas\nreplicación\nparticionamiento\nconsistencia\nconcurrencia\nteorema CAP\nprocesamiento paralelo\nEstos conceptos permitirán comprender mejor por qué muchas tecnologías NoSQL están estrechamente relacionadas con arquitecturas distribuidas (Kleppmann 2017)."
+  },
+  {
+    "objectID": "practicas.html",
+    "href": "practicas.html",
+    "title": "Prácticas",
+    "section": "",
+    "text": "En esta sección se encuentran las actividades prácticas desarrolladas durante el curso."
+  },
+  {
+    "objectID": "practicas.html#práctica-1.-primeros-pasos-con-mongodb-local",
+    "href": "practicas.html#práctica-1.-primeros-pasos-con-mongodb-local",
+    "title": "Prácticas",
+    "section": "Práctica 1. Primeros pasos con MongoDB local",
+    "text": "Práctica 1. Primeros pasos con MongoDB local\nEn esta práctica se trabaja con MongoDB de manera local utilizando mongod, mongosh, MongoDB Compass y MongoDB Database Tools.\nSe abordan:\n\ncreación de bases de datos y colecciones;\ninserción de documentos;\nconsultas con find();\noperadores de comparación;\narreglos y objetos anidados;\nfiltros con $or, $in y $exists;\nuso de MongoDB Compass;\ntrabajo con sample_mflix;\nexportación de datos;\nactividad práctica y tarea.\n\n Abrir práctica"
+  },
+  {
+    "objectID": "manuales.html",
+    "href": "manuales.html",
+    "title": "Manuales",
+    "section": "",
+    "text": "En esta sección se encuentran las guías utilizadas para instalar y configurar las herramientas necesarias para trabajar con MongoDB durante el curso."
+  },
+  {
+    "objectID": "manuales.html#instalación-de-mongodb-en-windows",
+    "href": "manuales.html#instalación-de-mongodb-en-windows",
+    "title": "Manuales",
+    "section": "Instalación de MongoDB en Windows",
+    "text": "Instalación de MongoDB en Windows\nGuía paso a paso para instalar y configurar:\n\nMongoDB Community Server;\nMongoDB Shell;\nMongoDB Compass;\nMongoDB Database Tools.\n\n Abrir manual en nueva pestaña"
+  }
+]
