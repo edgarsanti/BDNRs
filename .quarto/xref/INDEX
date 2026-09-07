@@ -1,0 +1,35 @@
+{
+  "index.qmd": {
+    "index.html": "ca9f8dfb"
+  },
+  "about.qmd": {
+    "about.html": "ad3e7894"
+  },
+  "datasets.qmd": {
+    "datasets.html": "a088b7e8"
+  },
+  "practicas.qmd": {
+    "practicas.html": "a7996447"
+  },
+  "apuntes.qmd": {
+    "apuntes.html": "309eca1a"
+  },
+  "manuales.qmd": {
+    "manuales.html": "0cf8d378"
+  },
+  "diapositivas.qmd": {
+    "diapositivas.html": "a004b599"
+  },
+  "practicas/01_mongodb_local.qmd": {
+    "01_mongodb_local.html": "307b37ef"
+  },
+  "apuntes/01_relacional_a_nosql.qmd": {
+    "01_relacional_a_nosql.html": "8b32c183"
+  },
+  "apuntes/02_escalabilidad_bases_distribuidas.qmd": {
+    "02_escalabilidad_bases_distribuidas.html": "ac216062"
+  },
+  "apuntes/03_mongodb_consultas_basicas.qmd": {
+    "03_mongodb_consultas_basicas.html": "81a7606c"
+  }
+}

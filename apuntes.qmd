@@ -1,0 +1,91 @@
+---
+title: "Apuntes del curso"
+toc: true
+---
+
+En esta sección se presentan materiales complementarios para ampliar los temas revisados durante las clases.
+
+Los apuntes permiten consultar con mayor detalle los conceptos, ejemplos y procedimientos trabajados durante el curso.
+
+## Tema 1
+
+### De las bases de datos relacionales a las bases de datos NoSQL
+
+En este tema se revisan los fundamentos que permiten comprender la transición desde el modelo relacional hacia los principales modelos NoSQL.
+
+Se abordan:
+
+- modelo relacional;
+- tablas, registros, atributos y llaves;
+- datos estructurados;
+- datos semiestructurados;
+- datos no estructurados;
+- JSON y estructuras anidadas;
+- comparación entre modelo relacional y documental;
+- concepto de NoSQL;
+- bases orientadas a documentos;
+- bases clave-valor;
+- bases orientadas a columnas;
+- bases de grafos;
+- aplicaciones en Ciencia de Datos;
+- criterios para elegir un modelo de almacenamiento.
+
+<a class="btn btn-primary"
+   href="apuntes/01_relacional_a_nosql.html">
+   Abrir Tema 1
+</a>
+
+---
+
+## Tema 2
+
+### Escalabilidad y bases de datos distribuidas
+
+En este tema se estudia qué ocurre cuando una aplicación necesita atender más usuarios, almacenar mayores volúmenes de información o distribuir sus datos entre diferentes servidores.
+
+Se abordan:
+
+- concepto de escalabilidad;
+- escalabilidad vertical;
+- escalabilidad horizontal;
+- sistemas distribuidos;
+- replicación;
+- particionamiento y *sharding*;
+- consistencia;
+- concurrencia;
+- teorema CAP;
+- procesamiento paralelo;
+- relación entre escalabilidad y bases de datos NoSQL.
+
+<a class="btn btn-primary"
+   href="apuntes/02_escalabilidad_bases_distribuidas.html">
+   Abrir Tema 2
+</a>
+
+---
+
+## Tema 3
+
+### MongoDB y consultas básicas
+
+En este tema se introduce MongoDB como ejemplo de una base de datos orientada a documentos.
+
+Se abordan:
+
+- modelo documental;
+- bases de datos y colecciones;
+- documentos y campos;
+- BSON y JSON;
+- inserción de documentos;
+- consultas con `find()`;
+- operadores de comparación;
+- consultas sobre arreglos;
+- objetos anidados;
+- operadores `$or`, `$in` y `$exists`;
+- uso de MongoDB Compass;
+- consultas básicas sobre colecciones.
+
+<a class="btn btn-primary"
+   href="apuntes/03_mongodb_consultas_basicas.html">
+   Abrir Tema 3
+</a>

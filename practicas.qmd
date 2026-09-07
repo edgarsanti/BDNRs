@@ -1,0 +1,28 @@
+---
+title: "Prácticas"
+toc: true
+---
+
+En esta sección se encuentran las actividades prácticas desarrolladas durante el curso.
+
+## Práctica 1. Primeros pasos con MongoDB local
+
+En esta práctica se trabaja con MongoDB de manera local utilizando `mongod`, `mongosh`, MongoDB Compass y MongoDB Database Tools.
+
+Se abordan:
+
+- creación de bases de datos y colecciones;
+- inserción de documentos;
+- consultas con `find()`;
+- operadores de comparación;
+- arreglos y objetos anidados;
+- filtros con `$or`, `$in` y `$exists`;
+- uso de MongoDB Compass;
+- trabajo con `sample_mflix`;
+- exportación de datos;
+- actividad práctica y tarea.
+
+<a class="btn btn-primary"
+   href="practicas/01_mongodb_local.html">
+   Abrir práctica
+</a>

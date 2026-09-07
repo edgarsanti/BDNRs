@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tema 2. Escalabilidad y bases de datos distribuidas – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../diapositivas.html"> 
+<span class="menu-text">Diapositivas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#punto-de-partida" id="toc-punto-de-partida" class="nav-link" data-scroll-target="#punto-de-partida"><span class="header-section-number">2</span> Punto de partida</a></li>
+  <li><a href="#qué-es-la-escalabilidad" id="toc-qué-es-la-escalabilidad" class="nav-link" data-scroll-target="#qué-es-la-escalabilidad"><span class="header-section-number">3</span> ¿Qué es la escalabilidad?</a></li>
+  <li><a href="#escalabilidad-vertical-y-horizontal" id="toc-escalabilidad-vertical-y-horizontal" class="nav-link" data-scroll-target="#escalabilidad-vertical-y-horizontal"><span class="header-section-number">4</span> Escalabilidad vertical y horizontal</a>
+  <ul class="collapse">
+  <li><a href="#escalabilidad-vertical" id="toc-escalabilidad-vertical" class="nav-link" data-scroll-target="#escalabilidad-vertical"><span class="header-section-number">4.1</span> Escalabilidad vertical</a></li>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo"><span class="header-section-number">4.2</span> Ejemplo</a></li>
+  <li><a href="#escalabilidad-horizontal" id="toc-escalabilidad-horizontal" class="nav-link" data-scroll-target="#escalabilidad-horizontal"><span class="header-section-number">4.3</span> Escalabilidad horizontal</a></li>
+  </ul></li>
+  <li><a href="#comparación-de-escalabilidad" id="toc-comparación-de-escalabilidad" class="nav-link" data-scroll-target="#comparación-de-escalabilidad"><span class="header-section-number">5</span> Comparación de escalabilidad</a></li>
+  <li><a href="#bases-de-datos-distribuidas" id="toc-bases-de-datos-distribuidas" class="nav-link" data-scroll-target="#bases-de-datos-distribuidas"><span class="header-section-number">6</span> Bases de datos distribuidas</a></li>
+  <li><a href="#qué-es-un-nodo" id="toc-qué-es-un-nodo" class="nav-link" data-scroll-target="#qué-es-un-nodo"><span class="header-section-number">7</span> ¿Qué es un nodo?</a></li>
+  <li><a href="#replicación" id="toc-replicación" class="nav-link" data-scroll-target="#replicación"><span class="header-section-number">8</span> Replicación</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-replicar" id="toc-por-qué-replicar" class="nav-link" data-scroll-target="#por-qué-replicar"><span class="header-section-number">8.1</span> ¿Por qué replicar?</a></li>
+  <li><a href="#ejemplo-1" id="toc-ejemplo-1" class="nav-link" data-scroll-target="#ejemplo-1"><span class="header-section-number">8.2</span> Ejemplo</a></li>
+  <li><a href="#ventajas-y-retos" id="toc-ventajas-y-retos" class="nav-link" data-scroll-target="#ventajas-y-retos"><span class="header-section-number">8.3</span> Ventajas y retos</a></li>
+  </ul></li>
+  <li><a href="#particionamiento-de-datos" id="toc-particionamiento-de-datos" class="nav-link" data-scroll-target="#particionamiento-de-datos"><span class="header-section-number">9</span> Particionamiento de datos</a></li>
+  <li><a href="#particionamiento-y-sharding" id="toc-particionamiento-y-sharding" class="nav-link" data-scroll-target="#particionamiento-y-sharding"><span class="header-section-number">10</span> Particionamiento y <em>sharding</em></a></li>
+  <li><a href="#replicación-vs.-particionamiento" id="toc-replicación-vs.-particionamiento" class="nav-link" data-scroll-target="#replicación-vs.-particionamiento"><span class="header-section-number">11</span> Replicación vs.&nbsp;particionamiento</a></li>
+  <li><a href="#consistencia" id="toc-consistencia" class="nav-link" data-scroll-target="#consistencia"><span class="header-section-number">12</span> Consistencia</a></li>
+  <li><a href="#toda-inconsistencia-temporal-es-igual-de-grave" id="toc-toda-inconsistencia-temporal-es-igual-de-grave" class="nav-link" data-scroll-target="#toda-inconsistencia-temporal-es-igual-de-grave"><span class="header-section-number">13</span> ¿Toda inconsistencia temporal es igual de grave?</a>
+  <ul class="collapse">
+  <li><a href="#una-red-social" id="toc-una-red-social" class="nav-link" data-scroll-target="#una-red-social"><span class="header-section-number">13.1</span> Una red social</a></li>
+  <li><a href="#una-operación-financiera" id="toc-una-operación-financiera" class="nav-link" data-scroll-target="#una-operación-financiera"><span class="header-section-number">13.2</span> Una operación financiera</a></li>
+  </ul></li>
+  <li><a href="#concurrencia" id="toc-concurrencia" class="nav-link" data-scroll-target="#concurrencia"><span class="header-section-number">14</span> Concurrencia</a></li>
+  <li><a href="#problemas-de-concurrencia" id="toc-problemas-de-concurrencia" class="nav-link" data-scroll-target="#problemas-de-concurrencia"><span class="header-section-number">15</span> Problemas de concurrencia</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-de-actualización-perdida" id="toc-ejemplo-de-actualización-perdida" class="nav-link" data-scroll-target="#ejemplo-de-actualización-perdida"><span class="header-section-number">15.1</span> Ejemplo de actualización perdida</a></li>
+  </ul></li>
+  <li><a href="#teorema-cap" id="toc-teorema-cap" class="nav-link" data-scroll-target="#teorema-cap"><span class="header-section-number">16</span> Teorema CAP</a>
+  <ul class="collapse">
+  <li><a href="#c-consistency" id="toc-c-consistency" class="nav-link" data-scroll-target="#c-consistency"><span class="header-section-number">16.1</span> C — Consistency</a></li>
+  <li><a href="#a-availability" id="toc-a-availability" class="nav-link" data-scroll-target="#a-availability"><span class="header-section-number">16.2</span> A — Availability</a></li>
+  <li><a href="#p-partition-tolerance" id="toc-p-partition-tolerance" class="nav-link" data-scroll-target="#p-partition-tolerance"><span class="header-section-number">16.3</span> P — Partition Tolerance</a></li>
+  </ul></li>
+  <li><a href="#qué-es-una-partición-de-red" id="toc-qué-es-una-partición-de-red" class="nav-link" data-scroll-target="#qué-es-una-partición-de-red"><span class="header-section-number">17</span> ¿Qué es una partición de red?</a></li>
+  <li><a href="#el-compromiso-del-teorema-cap" id="toc-el-compromiso-del-teorema-cap" class="nav-link" data-scroll-target="#el-compromiso-del-teorema-cap"><span class="header-section-number">18</span> El compromiso del teorema CAP</a>
+  <ul class="collapse">
+  <li><a href="#priorizar-consistencia" id="toc-priorizar-consistencia" class="nav-link" data-scroll-target="#priorizar-consistencia"><span class="header-section-number">18.1</span> Priorizar consistencia</a></li>
+  <li><a href="#priorizar-disponibilidad" id="toc-priorizar-disponibilidad" class="nav-link" data-scroll-target="#priorizar-disponibilidad"><span class="header-section-number">18.2</span> Priorizar disponibilidad</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-conceptual-de-cap" id="toc-ejemplo-conceptual-de-cap" class="nav-link" data-scroll-target="#ejemplo-conceptual-de-cap"><span class="header-section-number">19</span> Ejemplo conceptual de CAP</a>
+  <ul class="collapse">
+  <li><a href="#sistema-bancario" id="toc-sistema-bancario" class="nav-link" data-scroll-target="#sistema-bancario"><span class="header-section-number">19.1</span> Sistema bancario</a></li>
+  <li><a href="#red-social" id="toc-red-social" class="nav-link" data-scroll-target="#red-social"><span class="header-section-number">19.2</span> Red social</a></li>
+  </ul></li>
+  <li><a href="#procesamiento-paralelo" id="toc-procesamiento-paralelo" class="nav-link" data-scroll-target="#procesamiento-paralelo"><span class="header-section-number">20</span> Procesamiento paralelo</a></li>
+  <li><a href="#ejemplo-de-procesamiento-paralelo" id="toc-ejemplo-de-procesamiento-paralelo" class="nav-link" data-scroll-target="#ejemplo-de-procesamiento-paralelo"><span class="header-section-number">21</span> Ejemplo de procesamiento paralelo</a></li>
+  <li><a href="#procesamiento-paralelo-y-sistemas-distribuidos" id="toc-procesamiento-paralelo-y-sistemas-distribuidos" class="nav-link" data-scroll-target="#procesamiento-paralelo-y-sistemas-distribuidos"><span class="header-section-number">22</span> Procesamiento paralelo y sistemas distribuidos</a></li>
+  <li><a href="#relación-entre-los-conceptos" id="toc-relación-entre-los-conceptos" class="nav-link" data-scroll-target="#relación-entre-los-conceptos"><span class="header-section-number">23</span> Relación entre los conceptos</a></li>
+  <li><a href="#ejemplo-integrado" id="toc-ejemplo-integrado" class="nav-link" data-scroll-target="#ejemplo-integrado"><span class="header-section-number">24</span> Ejemplo integrado</a></li>
+  <li><a href="#actividad-de-autoevaluación" id="toc-actividad-de-autoevaluación" class="nav-link" data-scroll-target="#actividad-de-autoevaluación"><span class="header-section-number">25</span> Actividad de autoevaluación</a></li>
+  <li><a href="#ideas-clave-del-tema" id="toc-ideas-clave-del-tema" class="nav-link" data-scroll-target="#ideas-clave-del-tema"><span class="header-section-number">26</span> Ideas clave del tema</a></li>
+  <li><a href="#en-la-siguiente-sesión" id="toc-en-la-siguiente-sesión" class="nav-link" data-scroll-target="#en-la-siguiente-sesión"><span class="header-section-number">27</span> En la siguiente sesión</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="header-section-number">28</span> Referencias</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tema 2. Escalabilidad y bases de datos distribuidas</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>En el tema anterior revisamos distintas formas de representar la información y analizamos por qué existen diferentes modelos de bases de datos.</p>
+<p>Ahora cambiaremos ligeramente la pregunta.</p>
+<p>Ya no nos concentraremos únicamente en:</p>
+<blockquote class="blockquote">
+<p>¿Cómo representamos los datos?</p>
+</blockquote>
+<p>También necesitamos preguntarnos:</p>
+<blockquote class="blockquote">
+<p>¿Qué ocurre cuando una aplicación crece y debe atender cada vez más usuarios, consultas y datos?</p>
+</blockquote>
+<p>A medida que un sistema aumenta su tamaño pueden aparecer nuevos retos:</p>
+<ul>
+<li>más usuarios conectados al mismo tiempo;</li>
+<li>mayor volumen de información;</li>
+<li>más consultas por segundo;</li>
+<li>más operaciones simultáneas;</li>
+<li>mayor necesidad de almacenamiento;</li>
+<li>mayores requerimientos de procesamiento.</li>
+</ul>
+<p>Estos problemas están relacionados con conceptos como <strong>escalabilidad, sistemas distribuidos, replicación, particionamiento, consistencia y concurrencia</strong> <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una aplicación puede funcionar perfectamente con pocos usuarios y comenzar a presentar problemas cuando aumenta la demanda.</p>
+<p>El diseño que funciona para:</p>
+<pre class="text"><code>100 usuarios</code></pre>
+<p>no necesariamente será suficiente para:</p>
+<pre class="text"><code>10,000,000 de usuarios</code></pre>
+</div>
+</div>
+</section>
+<section id="punto-de-partida" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="punto-de-partida"><span class="header-section-number">2</span> Punto de partida</h2>
+<p>Imaginemos una plataforma que almacena:</p>
+<pre class="text"><code>perfiles de usuarios
+publicaciones
+imágenes
+comentarios
+registros de actividad</code></pre>
+<p>Al principio, un solo servidor puede ser suficiente.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Usuarios
+   │
+   ↓
+Servidor
+   │
+   ↓
+Base de datos</code></pre>
+<p>Sin embargo, conforme aumenta el número de usuarios también aumenta la cantidad de información y de solicitudes que debe procesar el sistema.</p>
+<p>Podríamos pasar de:</p>
+<pre class="text"><code>100 usuarios
+500 publicaciones
+20 usuarios conectados</code></pre>
+<p>a:</p>
+<pre class="text"><code>100,000 usuarios
+5,000,000 publicaciones
+10,000 usuarios conectados</code></pre>
+<p>y posteriormente a:</p>
+<pre class="text"><code>10,000,000 usuarios
+500,000,000 publicaciones
+100,000 usuarios conectados</code></pre>
+<p>Ahora el sistema debe procesar muchas más operaciones:</p>
+<pre class="text"><code>iniciar sesión
+consultar perfiles
+publicar contenido
+registrar comentarios
+buscar usuarios
+actualizar información
+mostrar recomendaciones</code></pre>
+<p>La pregunta entonces es:</p>
+<blockquote class="blockquote">
+<p>¿Cómo aumentamos la capacidad del sistema para que continúe funcionando adecuadamente?</p>
+</blockquote>
+<p>Esto nos lleva al concepto de <strong>escalabilidad</strong>.</p>
+</section>
+<section id="qué-es-la-escalabilidad" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="qué-es-la-escalabilidad"><span class="header-section-number">3</span> ¿Qué es la escalabilidad?</h2>
+<p>La <strong>escalabilidad</strong> es la capacidad de un sistema para mantener un funcionamiento adecuado cuando aumenta la demanda <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<p>La carga puede crecer debido a:</p>
+<ul>
+<li>mayor cantidad de usuarios;</li>
+<li>crecimiento del volumen de datos;</li>
+<li>aumento del número de consultas;</li>
+<li>mayor cantidad de operaciones simultáneas;</li>
+<li>necesidad de procesar información con mayor rapidez.</li>
+</ul>
+<p>Existen dos estrategias generales para aumentar la capacidad de un sistema:</p>
+<pre class="text"><code>Escalabilidad vertical
+Escalabilidad horizontal</code></pre>
+</section>
+<section id="escalabilidad-vertical-y-horizontal" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="escalabilidad-vertical-y-horizontal"><span class="header-section-number">4</span> Escalabilidad vertical y horizontal</h2>
+<section id="escalabilidad-vertical" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="escalabilidad-vertical"><span class="header-section-number">4.1</span> Escalabilidad vertical</h3>
+<p>La <strong>escalabilidad vertical</strong>, también conocida como <em>scale up</em>, consiste en aumentar los recursos de una misma máquina.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Servidor inicial
+├── 4 núcleos
+├── 8 GB RAM
+└── 500 GB de almacenamiento</code></pre>
+<p>podría sustituirse o ampliarse a:</p>
+<pre class="text"><code>Servidor más potente
+├── 32 núcleos
+├── 128 GB RAM
+└── 8 TB de almacenamiento</code></pre>
+<p>La idea principal es:</p>
+<pre class="text"><code>misma máquina
+      +
+más recursos</code></pre>
+<p>Se puede aumentar:</p>
+<pre class="text"><code>RAM
+CPU
+almacenamiento
+capacidad de procesamiento</code></pre>
+</section>
+<section id="ejemplo" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="ejemplo"><span class="header-section-number">4.2</span> Ejemplo</h3>
+<p>Supongamos que el servidor de una universidad comienza a responder lentamente durante el periodo de inscripciones.</p>
+<p>Una primera solución podría ser pasar de:</p>
+<pre class="text"><code>8 GB RAM</code></pre>
+<p>a:</p>
+<pre class="text"><code>32 GB RAM</code></pre>
+<p>o utilizar un procesador más potente.</p>
+<p>En este caso estamos aumentando la capacidad del mismo servidor.</p>
+</section>
+<section id="escalabilidad-horizontal" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="escalabilidad-horizontal"><span class="header-section-number">4.3</span> Escalabilidad horizontal</h3>
+<p>La <strong>escalabilidad horizontal</strong>, también conocida como <em>scale out</em>, consiste en agregar más servidores o nodos al sistema.</p>
+<p>En lugar de utilizar únicamente:</p>
+<pre class="text"><code>Servidor 1</code></pre>
+<p>podemos trabajar con:</p>
+<pre class="text"><code>Servidor 1
+Servidor 2
+Servidor 3
+Servidor 4</code></pre>
+<p>y repartir el trabajo entre ellos.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Usuarios
+   │
+   ↓
+Distribución de carga
+   │
+   ├──── Servidor 1
+   ├──── Servidor 2
+   └──── Servidor 3</code></pre>
+<p>Esta estrategia está estrechamente relacionada con los sistemas distribuidos <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/escalabilidad_vertical_horizontal.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Escalabilidad vertical y horizontal</figcaption>
+</figure>
+</div>
+<p>La diferencia puede resumirse de forma sencilla:</p>
+<pre class="text"><code>Vertical   → hacer más poderosa una máquina
+
+Horizontal → agregar más máquinas</code></pre>
+</section>
+</section>
+<section id="comparación-de-escalabilidad" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="comparación-de-escalabilidad"><span class="header-section-number">5</span> Comparación de escalabilidad</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Problema</th>
+<th>Escalabilidad vertical</th>
+<th>Escalabilidad horizontal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Poca memoria</td>
+<td>Agregar RAM</td>
+<td>Agregar nodos</td>
+</tr>
+<tr class="even">
+<td>Muchas consultas</td>
+<td>Mejorar CPU</td>
+<td>Distribuir consultas</td>
+</tr>
+<tr class="odd">
+<td>Muchos datos</td>
+<td>Aumentar disco</td>
+<td>Distribuir información</td>
+</tr>
+<tr class="even">
+<td>Alta demanda</td>
+<td>Mejorar servidor</td>
+<td>Repartir carga</td>
+</tr>
+</tbody>
+</table>
+<p>La escalabilidad vertical puede ser más sencilla inicialmente, pero existe un límite físico y económico sobre cuánto puede crecer una sola máquina.</p>
+<p>La escalabilidad horizontal permite incorporar nuevos nodos conforme aumenta la demanda, aunque también introduce nuevos retos de coordinación.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Una analogía
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imaginemos un restaurante.</p>
+<p><strong>Escalabilidad vertical</strong></p>
+<pre class="text"><code>un cocinero
+     ↓
+un cocinero con mejores herramientas</code></pre>
+<p><strong>Escalabilidad horizontal</strong></p>
+<pre class="text"><code>un cocinero
+     ↓
+varios cocineros trabajando juntos</code></pre>
+<p>Agregar personas aumenta la capacidad, pero también requiere coordinación.</p>
+</div>
+</div>
+</section>
+<section id="bases-de-datos-distribuidas" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="bases-de-datos-distribuidas"><span class="header-section-number">6</span> Bases de datos distribuidas</h2>
+<p>La escalabilidad horizontal nos conduce al concepto de <strong>sistema distribuido</strong>.</p>
+<p>Una base de datos distribuida almacena y gestiona información utilizando varios servidores o <strong>nodos</strong> conectados mediante una red.</p>
+<p>Los datos pueden encontrarse:</p>
+<ul>
+<li>distribuidos entre diferentes servidores;</li>
+<li>replicados en varios nodos;</li>
+<li>almacenados en diferentes ubicaciones físicas;</li>
+<li>administrados como parte de un mismo sistema.</li>
+</ul>
+<p><span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/base_distribuida_nodos.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Base de datos distribuida mediante varios nodos</figcaption>
+</figure>
+</div>
+<p>Desde la perspectiva del usuario, estos servidores pueden comportarse como un solo sistema.</p>
+<pre class="text"><code>Usuario
+   │
+   ↓
+Sistema distribuido
+   │
+   ├── Nodo A
+   ├── Nodo B
+   └── Nodo C</code></pre>
+</section>
+<section id="qué-es-un-nodo" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="qué-es-un-nodo"><span class="header-section-number">7</span> ¿Qué es un nodo?</h2>
+<p>En un sistema distribuido, cada servidor participante puede considerarse un <strong>nodo</strong>.</p>
+<p>Un nodo puede:</p>
+<ul>
+<li>almacenar una parte de la información;</li>
+<li>mantener una copia de determinados datos;</li>
+<li>recibir consultas;</li>
+<li>realizar operaciones;</li>
+<li>comunicarse con otros nodos.</li>
+</ul>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Nodo A ───── Nodo B
+   │            │
+   └──── Nodo C ┘</code></pre>
+<p>Los nodos trabajan coordinadamente para formar un único sistema lógico.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Que una base sea distribuida no significa simplemente que tengamos varias computadoras.</p>
+<p>Los nodos necesitan mecanismos para:</p>
+<pre class="text"><code>comunicarse
+coordinarse
+intercambiar información
+manejar fallos
+mantener los datos</code></pre>
+</div>
+</div>
+</section>
+<section id="replicación" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="replicación"><span class="header-section-number">8</span> Replicación</h2>
+<p>Una estrategia utilizada en sistemas distribuidos es la <strong>replicación</strong>.</p>
+<p>La replicación consiste en mantener copias de la misma información en diferentes nodos <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Dato original
+     │
+     ├── Nodo A
+     ├── Nodo B
+     └── Nodo C</code></pre>
+<p>Los tres nodos pueden almacenar una copia del mismo dato.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/replicacion.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Replicación de datos entre diferentes nodos</figcaption>
+</figure>
+</div>
+<section id="por-qué-replicar" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="por-qué-replicar"><span class="header-section-number">8.1</span> ¿Por qué replicar?</h3>
+<p>La replicación puede ayudar a:</p>
+<ul>
+<li>aumentar la disponibilidad;</li>
+<li>mantener copias de respaldo;</li>
+<li>mejorar la tolerancia a fallos;</li>
+<li>distribuir algunas operaciones de lectura.</li>
+</ul>
+</section>
+<section id="ejemplo-1" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="ejemplo-1"><span class="header-section-number">8.2</span> Ejemplo</h3>
+<p>Supongamos que tenemos:</p>
+<pre class="text"><code>Nodo A → información de usuarios
+Nodo B → copia de información de usuarios
+Nodo C → copia de información de usuarios</code></pre>
+<p>Si el Nodo A presenta una falla, todavía existen otras copias.</p>
+<pre class="text"><code>Nodo A ❌
+
+Nodo B ✓
+Nodo C ✓</code></pre>
+<p>El sistema podría continuar funcionando utilizando alguno de los nodos disponibles.</p>
+</section>
+<section id="ventajas-y-retos" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="ventajas-y-retos"><span class="header-section-number">8.3</span> Ventajas y retos</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Ventajas</th>
+<th>Retos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mayor disponibilidad</td>
+<td>Sincronización</td>
+</tr>
+<tr class="even">
+<td>Tolerancia a fallos</td>
+<td>Mayor uso de almacenamiento</td>
+</tr>
+<tr class="odd">
+<td>Copias de los datos</td>
+<td>Retrasos entre réplicas</td>
+</tr>
+<tr class="even">
+<td>Distribución de lecturas</td>
+<td>Posibles inconsistencias temporales</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Replicar significa copiar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La idea fundamental es:</p>
+<pre class="text"><code>mismos datos
+   ↓
+varios nodos</code></pre>
+<p>No debemos confundirla con particionamiento.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="particionamiento-de-datos" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="particionamiento-de-datos"><span class="header-section-number">9</span> Particionamiento de datos</h2>
+<p>Otra estrategia consiste en <strong>dividir la información</strong>.</p>
+<p>El particionamiento permite separar un conjunto grande de datos en partes más pequeñas.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th>Información almacenada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nodo 1</td>
+<td>Usuarios 1–1000</td>
+</tr>
+<tr class="even">
+<td>Nodo 2</td>
+<td>Usuarios 1001–2000</td>
+</tr>
+<tr class="odd">
+<td>Nodo 3</td>
+<td>Usuarios 2001–3000</td>
+</tr>
+</tbody>
+</table>
+<p>Cada nodo almacena solamente una parte del conjunto total.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/particionamiento.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Particionamiento de información entre varios nodos</figcaption>
+</figure>
+</div>
+<p>Podemos visualizarlo así:</p>
+<pre class="text"><code>Todos los usuarios
+       │
+       ├── Usuarios 1–1000
+       │       ↓
+       │     Nodo 1
+       │
+       ├── Usuarios 1001–2000
+       │       ↓
+       │     Nodo 2
+       │
+       └── Usuarios 2001–3000
+               ↓
+             Nodo 3</code></pre>
+</section>
+<section id="particionamiento-y-sharding" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="particionamiento-y-sharding"><span class="header-section-number">10</span> Particionamiento y <em>sharding</em></h2>
+<p>Cuando las diferentes particiones de los datos se distribuyen entre distintos nodos, se utiliza comúnmente el término <strong>sharding</strong> <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Base completa
+     │
+     ├── Fragmento A → Nodo A
+     ├── Fragmento B → Nodo B
+     └── Fragmento C → Nodo C</code></pre>
+<p>Cada fragmento suele denominarse <em>shard</em>.</p>
+<p>El objetivo es evitar que un solo servidor tenga que almacenar y procesar todo el conjunto de datos.</p>
+</section>
+<section id="replicación-vs.-particionamiento" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="replicación-vs.-particionamiento"><span class="header-section-number">11</span> Replicación vs.&nbsp;particionamiento</h2>
+<p>Aunque ambos conceptos aparecen frecuentemente juntos, resuelven problemas diferentes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Replicación</th>
+<th>Particionamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Se crean copias</td>
+<td>Se dividen los datos</td>
+</tr>
+<tr class="even">
+<td>Los mismos datos pueden aparecer en varios nodos</td>
+<td>Cada nodo puede almacenar una parte</td>
+</tr>
+<tr class="odd">
+<td>Ayuda a disponibilidad</td>
+<td>Ayuda a distribuir grandes volúmenes</td>
+</tr>
+<tr class="even">
+<td>Puede facilitar recuperación ante fallos</td>
+<td>Permite repartir almacenamiento y carga</td>
+</tr>
+</tbody>
+</table>
+<p>Una forma sencilla de recordarlos es:</p>
+<pre class="text"><code>Replicación
+A → A → A
+
+Particionamiento
+ABC → A | B | C</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>También pueden combinarse
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un sistema real puede tener:</p>
+<pre class="text"><code>Partición A
+├── copia 1
+└── copia 2
+
+Partición B
+├── copia 1
+└── copia 2</code></pre>
+<p>Es decir, los datos pueden estar <strong>particionados y replicados al mismo tiempo</strong>.</p>
+</div>
+</div>
+</section>
+<section id="consistencia" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="consistencia"><span class="header-section-number">12</span> Consistencia</h2>
+<p>La replicación introduce una nueva pregunta:</p>
+<blockquote class="blockquote">
+<p>¿Qué ocurre cuando modificamos un dato que tiene varias copias?</p>
+</blockquote>
+<p>Supongamos que dos nodos contienen:</p>
+<pre class="text"><code>Nodo A: edad = 20
+Nodo B: edad = 20</code></pre>
+<p>El usuario actualiza su edad:</p>
+<pre class="text"><code>20 → 21</code></pre>
+<p>La modificación llega primero al Nodo A:</p>
+<pre class="text"><code>Nodo A: edad = 21
+Nodo B: edad = 20</code></pre>
+<p>Durante un breve periodo, los dos nodos contienen valores distintos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/consistencia.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Ejemplo de consistencia entre diferentes nodos</figcaption>
+</figure>
+</div>
+<p>Después de la sincronización:</p>
+<pre class="text"><code>Nodo A: edad = 21
+Nodo B: edad = 21</code></pre>
+<p>La <strong>consistencia</strong> está relacionada con qué tan coherente es la información observada por los distintos participantes del sistema <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pregunta importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si un usuario consulta:</p>
+<pre class="text"><code>Nodo A → edad = 21</code></pre>
+<p>y otro consulta:</p>
+<pre class="text"><code>Nodo B → edad = 20</code></pre>
+<p>¿qué comportamiento debería tener el sistema?</p>
+<p>La respuesta depende del modelo de consistencia utilizado y de las necesidades de la aplicación.</p>
+</div>
+</div>
+</section>
+<section id="toda-inconsistencia-temporal-es-igual-de-grave" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="toda-inconsistencia-temporal-es-igual-de-grave"><span class="header-section-number">13</span> ¿Toda inconsistencia temporal es igual de grave?</h2>
+<p>No necesariamente.</p>
+<p>Imaginemos dos escenarios.</p>
+<section id="una-red-social" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="una-red-social"><span class="header-section-number">13.1</span> Una red social</h3>
+<p>Un usuario publica una fotografía.</p>
+<p>Puede ser aceptable que:</p>
+<pre class="text"><code>Nodo A → publicación visible
+
+Nodo B → todavía no visible</code></pre>
+<p>durante unos segundos.</p>
+</section>
+<section id="una-operación-financiera" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="una-operación-financiera"><span class="header-section-number">13.2</span> Una operación financiera</h3>
+<p>En cambio, si hablamos del saldo de una cuenta:</p>
+<pre class="text"><code>Nodo A → $10,000
+
+Nodo B → $8,000</code></pre>
+<p>una diferencia temporal puede tener consecuencias mucho más importantes.</p>
+<p>Por eso los requisitos de consistencia dependen del problema.</p>
+</section>
+</section>
+<section id="concurrencia" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="concurrencia"><span class="header-section-number">14</span> Concurrencia</h2>
+<p>La <strong>concurrencia</strong> ocurre cuando múltiples usuarios o procesos intentan acceder o modificar información al mismo tiempo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Producto disponible: 1</code></pre>
+<p>Dos usuarios intentan comprarlo simultáneamente:</p>
+<pre class="text"><code>Usuario A ── Comprar ──┐
+                       ├── mismo producto
+Usuario B ── Comprar ──┘</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/concurrencia.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Ejemplo de concurrencia entre operaciones simultáneas</figcaption>
+</figure>
+</div>
+<p>Otro ejemplo puede ser la reservación de un asiento.</p>
+<pre class="text"><code>Asiento 15A
+    │
+    ├── Usuario A → reservar
+    │
+    └── Usuario B → reservar</code></pre>
+<p>Si el sistema no coordina correctamente las operaciones podría ocurrir una doble reserva.</p>
+</section>
+<section id="problemas-de-concurrencia" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="problemas-de-concurrencia"><span class="header-section-number">15</span> Problemas de concurrencia</h2>
+<p>Cuando la concurrencia no se controla adecuadamente pueden aparecer:</p>
+<ul>
+<li>actualizaciones perdidas;</li>
+<li>datos inconsistentes;</li>
+<li>operaciones duplicadas;</li>
+<li>lecturas de información desactualizada;</li>
+<li>conflictos entre operaciones simultáneas.</li>
+</ul>
+<section id="ejemplo-de-actualización-perdida" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="ejemplo-de-actualización-perdida"><span class="header-section-number">15.1</span> Ejemplo de actualización perdida</h3>
+<p>Supongamos:</p>
+<pre class="text"><code>Saldo inicial = 100</code></pre>
+<p>Dos procesos leen ese mismo valor:</p>
+<pre class="text"><code>Proceso A lee 100
+Proceso B lee 100</code></pre>
+<p>Después:</p>
+<pre class="text"><code>Proceso A suma 20  → 120
+Proceso B resta 10 → 90</code></pre>
+<p>Si ambos escriben sin coordinación, una de las modificaciones podría sobrescribir a la otra.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Consistencia y concurrencia no son lo mismo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Consistencia</strong></p>
+<p>se relaciona con mantener una visión coherente de la información.</p>
+<p><strong>Concurrencia</strong></p>
+<p>se relaciona con múltiples operaciones que ocurren al mismo tiempo.</p>
+<p>Son conceptos diferentes, aunque pueden estar estrechamente relacionados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="teorema-cap" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="teorema-cap"><span class="header-section-number">16</span> Teorema CAP</h2>
+<p>Uno de los conceptos más conocidos en sistemas distribuidos es el <strong>teorema CAP</strong>.</p>
+<p>CAP describe tres propiedades:</p>
+<pre class="text"><code>C → Consistency
+A → Availability
+P → Partition Tolerance</code></pre>
+<p><span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/teorema_cap.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Representación del teorema CAP</figcaption>
+</figure>
+</div>
+<section id="c-consistency" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="c-consistency"><span class="header-section-number">16.1</span> C — Consistency</h3>
+<p>Los nodos ofrecen una visión coherente de la información.</p>
+<p>De manera simplificada, después de una actualización esperamos que las consultas observen el valor correcto de acuerdo con las garantías del sistema.</p>
+</section>
+<section id="a-availability" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="a-availability"><span class="header-section-number">16.2</span> A — Availability</h3>
+<p>Cada solicitud realizada a un nodo operativo recibe una respuesta.</p>
+<p>El sistema intenta continuar atendiendo las solicitudes.</p>
+</section>
+<section id="p-partition-tolerance" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="p-partition-tolerance"><span class="header-section-number">16.3</span> P — Partition Tolerance</h3>
+<p>El sistema puede continuar operando a pesar de que exista una interrupción de comunicación entre algunos nodos.</p>
+</section>
+</section>
+<section id="qué-es-una-partición-de-red" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="qué-es-una-partición-de-red"><span class="header-section-number">17</span> ¿Qué es una partición de red?</h2>
+<p>Supongamos que tenemos:</p>
+<pre class="text"><code>Nodo A ←────────→ Nodo B</code></pre>
+<p>Normalmente los nodos intercambian información.</p>
+<p>Ahora ocurre una falla:</p>
+<pre class="text"><code>Nodo A      X      Nodo B</code></pre>
+<p>Ambos nodos pueden continuar encendidos, pero ya no pueden comunicarse correctamente.</p>
+<p>Eso es una <strong>partición de red</strong>.</p>
+</section>
+<section id="el-compromiso-del-teorema-cap" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="el-compromiso-del-teorema-cap"><span class="header-section-number">18</span> El compromiso del teorema CAP</h2>
+<p>Cuando existe una partición de red, el sistema debe decidir cómo responder.</p>
+<section id="priorizar-consistencia" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="priorizar-consistencia"><span class="header-section-number">18.1</span> Priorizar consistencia</h3>
+<p>Puede evitar responder si no puede garantizar que los datos sean coherentes.</p>
+<pre class="text"><code>No estoy seguro de tener
+el valor actualizado
+        ↓
+no respondo todavía</code></pre>
+</section>
+<section id="priorizar-disponibilidad" class="level3" data-number="18.2">
+<h3 data-number="18.2" class="anchored" data-anchor-id="priorizar-disponibilidad"><span class="header-section-number">18.2</span> Priorizar disponibilidad</h3>
+<p>Puede continuar respondiendo aunque temporalmente algunos nodos tengan información diferente.</p>
+<pre class="text"><code>Nodo A → valor nuevo
+Nodo B → valor anterior</code></pre>
+<p>El servicio continúa disponible, aunque puede existir una diferencia temporal.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>CAP no significa simplemente “elegir dos de tres”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una simplificación frecuente consiste en decir:</p>
+<pre class="text"><code>CAP = elegir dos de tres</code></pre>
+<p>Esto puede ser engañoso.</p>
+<p>El compromiso importante aparece <strong>cuando existe una partición de red</strong>. En ese escenario, un sistema distribuido debe decidir cómo equilibrar consistencia y disponibilidad <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="ejemplo-conceptual-de-cap" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="ejemplo-conceptual-de-cap"><span class="header-section-number">19</span> Ejemplo conceptual de CAP</h2>
+<section id="sistema-bancario" class="level3" data-number="19.1">
+<h3 data-number="19.1" class="anchored" data-anchor-id="sistema-bancario"><span class="header-section-number">19.1</span> Sistema bancario</h3>
+<p>En una operación financiera puede resultar muy importante evitar mostrar información incorrecta.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Saldo correcto: $5,000</code></pre>
+<p>puede ser preferible no completar temporalmente una operación antes que utilizar un saldo incorrecto.</p>
+<p>En determinados escenarios podría priorizarse la <strong>consistencia</strong>.</p>
+</section>
+<section id="red-social" class="level3" data-number="19.2">
+<h3 data-number="19.2" class="anchored" data-anchor-id="red-social"><span class="header-section-number">19.2</span> Red social</h3>
+<p>En una red social puede ser aceptable que una publicación tarde algunos segundos en aparecer en todos los nodos.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Nodo A → publicación visible
+Nodo B → todavía sincronizando</code></pre>
+<p>La aplicación puede continuar funcionando.</p>
+<p>En determinados escenarios puede priorizarse la <strong>disponibilidad</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Estos son ejemplos conceptuales para comprender el compromiso.</p>
+<p>En sistemas reales, las decisiones son más específicas y dependen del diseño, de cada operación y de las garantías ofrecidas por la tecnología utilizada.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="procesamiento-paralelo" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="procesamiento-paralelo"><span class="header-section-number">20</span> Procesamiento paralelo</h2>
+<p>El <strong>procesamiento paralelo</strong> consiste en dividir una tarea en varias partes que pueden ejecutarse simultáneamente.</p>
+<p>Puede utilizarse para:</p>
+<ul>
+<li>procesar grandes volúmenes de información;</li>
+<li>reducir tiempos de ejecución;</li>
+<li>distribuir tareas entre varios procesadores;</li>
+<li>aprovechar varios nodos;</li>
+<li>ejecutar diferentes operaciones al mismo tiempo.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/tema2/procesamiento_paralelo.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Ejemplo de procesamiento paralelo</figcaption>
+</figure>
+</div>
+</section>
+<section id="ejemplo-de-procesamiento-paralelo" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="ejemplo-de-procesamiento-paralelo"><span class="header-section-number">21</span> Ejemplo de procesamiento paralelo</h2>
+<p>Supongamos que necesitamos procesar:</p>
+<pre class="text"><code>1000 documentos</code></pre>
+<p>En lugar de procesarlos uno por uno con un solo proceso:</p>
+<pre class="text"><code>Proceso 1
+   ↓
+1000 documentos</code></pre>
+<p>podemos dividir el trabajo:</p>
+<pre class="text"><code>1000 documentos
+      │
+      ├── Proceso 1 → 250
+      ├── Proceso 2 → 250
+      ├── Proceso 3 → 250
+      └── Proceso 4 → 250</code></pre>
+<p>Los cuatro procesos pueden ejecutarse simultáneamente.</p>
+<p>Después:</p>
+<pre class="text"><code>Resultado 1
+Resultado 2
+Resultado 3
+Resultado 4
+     │
+     ↓
+Resultado final</code></pre>
+<p>Si el problema puede dividirse adecuadamente, esta estrategia puede reducir el tiempo total de procesamiento.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo en Ciencia de Datos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Supongamos que necesitamos analizar:</p>
+<pre class="text"><code>1,000,000 de comentarios</code></pre>
+<p>Podríamos dividirlos en grupos y procesarlos de manera paralela.</p>
+<pre class="text"><code>Comentarios
+    │
+    ├── lote 1 → proceso 1
+    ├── lote 2 → proceso 2
+    ├── lote 3 → proceso 3
+    └── lote 4 → proceso 4</code></pre>
+<p>Posteriormente se combinan los resultados.</p>
+</div>
+</div>
+</section>
+<section id="procesamiento-paralelo-y-sistemas-distribuidos" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="procesamiento-paralelo-y-sistemas-distribuidos"><span class="header-section-number">22</span> Procesamiento paralelo y sistemas distribuidos</h2>
+<p>Los conceptos están relacionados, pero no son exactamente lo mismo.</p>
+<p>El procesamiento paralelo busca ejecutar varias tareas simultáneamente.</p>
+<p>Un sistema distribuido utiliza varias máquinas o nodos que se comunican mediante una red.</p>
+<p>Podemos tener procesamiento paralelo:</p>
+<pre class="text"><code>en una sola máquina</code></pre>
+<p>utilizando varios núcleos, o:</p>
+<pre class="text"><code>entre varias máquinas</code></pre>
+<p>dentro de un sistema distribuido.</p>
+</section>
+<section id="relación-entre-los-conceptos" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="relación-entre-los-conceptos"><span class="header-section-number">23</span> Relación entre los conceptos</h2>
+<p>Los conceptos estudiados durante este tema están conectados.</p>
+<pre class="text"><code>Crecimiento de datos y usuarios
+              ↓
+        Escalabilidad
+              ↓
+   Bases de datos distribuidas
+              ↓
+  Replicación y particionamiento
+              ↓
+Consistencia, concurrencia y CAP
+              ↓
+    Procesamiento y operación
+       sobre varios recursos</code></pre>
+<p>El crecimiento de un sistema puede hacer necesario escalar.</p>
+<p>La escalabilidad horizontal puede llevar a utilizar varios nodos.</p>
+<p>Al utilizar varios nodos necesitamos decidir cómo almacenar los datos.</p>
+<p>Podemos:</p>
+<pre class="text"><code>replicarlos
+particionarlos
+o combinar ambas estrategias</code></pre>
+<p>A partir de ahí aparecen nuevos retos de:</p>
+<pre class="text"><code>consistencia
+concurrencia
+disponibilidad
+comunicación entre nodos
+tolerancia a fallos</code></pre>
+<p><span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span></p>
+</section>
+<section id="ejemplo-integrado" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="ejemplo-integrado"><span class="header-section-number">24</span> Ejemplo integrado</h2>
+<p>Imaginemos una plataforma de comercio electrónico.</p>
+<p>Inicialmente:</p>
+<pre class="text"><code>Usuarios
+   ↓
+Servidor
+   ↓
+Base de datos</code></pre>
+<p>Conforme aumenta la demanda podemos agregar servidores:</p>
+<pre class="text"><code>Usuarios
+   ↓
+varios servidores</code></pre>
+<p>La base puede dividirse:</p>
+<pre class="text"><code>Productos A–M → Nodo 1
+Productos N–Z → Nodo 2</code></pre>
+<p>y además replicarse:</p>
+<pre class="text"><code>Nodo 1 → Réplica 1
+Nodo 2 → Réplica 2</code></pre>
+<p>Ahora debemos considerar:</p>
+<pre class="text"><code>¿qué ocurre si un nodo falla?
+
+¿cómo se actualizan las copias?
+
+¿qué sucede si dos usuarios compran el último producto?
+
+¿qué ocurre si dos nodos dejan de comunicarse?</code></pre>
+<p>Es decir, el crecimiento de una aplicación transforma un problema aparentemente sencillo de almacenamiento en un problema de <strong>arquitectura distribuida</strong>.</p>
+</section>
+<section id="actividad-de-autoevaluación" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="actividad-de-autoevaluación"><span class="header-section-number">25</span> Actividad de autoevaluación</h2>
+<p>Relaciona cada situación con el concepto correspondiente.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situación</th>
+<th>Concepto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Agregar más RAM al servidor</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Agregar tres servidores nuevos</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Guardar la misma información en dos nodos</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Dividir usuarios entre diferentes servidores</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Dos personas intentan reservar el mismo asiento</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Dos réplicas muestran temporalmente valores distintos</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Los nodos pierden comunicación entre sí</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Dividir 1000 documentos entre cuatro procesos</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Posibles respuestas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre class="text"><code>Agregar RAM
+→ escalabilidad vertical
+
+Agregar servidores
+→ escalabilidad horizontal
+
+Copiar información
+→ replicación
+
+Dividir usuarios
+→ particionamiento
+
+Reservar el mismo asiento
+→ concurrencia
+
+Valores distintos entre réplicas
+→ consistencia
+
+Pérdida de comunicación
+→ partición de red
+
+Dividir documentos
+→ procesamiento paralelo</code></pre>
+</div>
+</div>
+</section>
+<section id="ideas-clave-del-tema" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="ideas-clave-del-tema"><span class="header-section-number">26</span> Ideas clave del tema</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>1. Escalar no significa solamente comprar una computadora más potente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Podemos escalar:</p>
+<pre class="text"><code>verticalmente</code></pre>
+<p>aumentando recursos de una máquina, o:</p>
+<pre class="text"><code>horizontalmente</code></pre>
+<p>agregando más nodos.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>2. Una base distribuida utiliza varios nodos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los nodos pueden participar en:</p>
+<pre class="text"><code>almacenamiento
+consultas
+procesamiento
+replicación
+particionamiento</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>3. Replicación y particionamiento son diferentes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<pre class="text"><code>Replicar      → copiar datos
+
+Particionar   → dividir datos</code></pre>
+<p>Ambas estrategias pueden combinarse.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>4. Distribuir los datos introduce nuevos retos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cuando varios nodos participan en el sistema aparecen preguntas relacionadas con:</p>
+<pre class="text"><code>consistencia
+sincronización
+concurrencia
+disponibilidad
+fallos de comunicación</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>5. CAP debe entenderse en presencia de una partición
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ante una interrupción de comunicación entre nodos, el sistema debe decidir cómo equilibrar:</p>
+<pre class="text"><code>consistencia
+disponibilidad</code></pre>
+<p>manteniendo la tolerancia a la partición necesaria para continuar operando como sistema distribuido <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>6. El procesamiento paralelo divide el trabajo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una tarea puede dividirse en partes que se ejecutan simultáneamente para aprovechar mejor los recursos disponibles.</p>
+</div>
+</div>
+</section>
+<section id="en-la-siguiente-sesión" class="level2" data-number="27">
+<h2 data-number="27" class="anchored" data-anchor-id="en-la-siguiente-sesión"><span class="header-section-number">27</span> En la siguiente sesión</h2>
+<p>Después de comprender los fundamentos de escalabilidad y sistemas distribuidos, podremos relacionar estos conceptos con gestores NoSQL concretos.</p>
+<p>MongoDB nos permitirá comenzar a trabajar con:</p>
+<pre class="text"><code>bases de datos
+colecciones
+documentos
+campos
+arreglos
+objetos anidados
+consultas</code></pre>
+<p>y observar de manera práctica cómo funciona una base de datos orientada a documentos.</p>
+</section>
+<section id="referencias" class="level2" data-number="28">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">28 Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-kleppmann2017" class="csl-entry" role="listitem">
+Kleppmann, Martin. 2017. <em>Designing Data-Intensive Applications</em>. O’Reilly Media.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

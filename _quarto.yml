@@ -1,0 +1,44 @@
+project:
+  type: website
+
+bibliography: references.bib
+
+website:
+  title: "Bases de Datos No Relacionales"
+
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+
+      - href: diapositivas.qmd
+        text: Diapositivas
+
+      - href: apuntes.qmd
+        text: Apuntes
+
+      - href: practicas.qmd
+        text: Prácticas
+
+      - href: manuales.qmd
+        text: Manuales
+
+      - href: datasets.qmd
+        text: Datasets
+
+    right:
+      - icon: github
+        href: https://github.com/edgarsanti/BDNRs
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    citations-hover: true
+    footnotes-hover: true
+
+    grid:
+      body-width: 1050px
+      margin-width: 170px
+      gutter-width: 15px

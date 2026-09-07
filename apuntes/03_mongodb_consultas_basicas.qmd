@@ -1,0 +1,1480 @@
+---
+title: "Tema 3. MongoDB y consultas básicas"
+toc: true
+number-sections: true
+---
+
+## Introducción
+
+En los temas anteriores revisamos por qué existen diferentes modelos de bases de datos y analizamos algunos de los retos que aparecen cuando los sistemas necesitan crecer y distribuir información.
+
+Ahora comenzaremos a trabajar con un gestor NoSQL concreto: **MongoDB**.
+
+MongoDB utiliza un modelo orientado a documentos. En lugar de organizar la información principalmente mediante tablas, filas y columnas, trabaja con:
+
+```text
+bases de datos
+colecciones
+documentos
+campos
+```
+
+Los documentos pueden contener valores simples, arreglos y objetos anidados, lo que permite representar información semiestructurada de una manera flexible [@mongodbDocs; @sadalage2012].
+
+::: {.callout-note}
+## Idea clave
+
+MongoDB no debe entenderse simplemente como:
+
+```text
+una base SQL pero sin tablas
+```
+
+El modelo documental cambia la forma en que representamos, agrupamos y consultamos la información.
+:::
+
+## Del modelo relacional al modelo documental
+
+En una base de datos relacional podemos tener una tabla como:
+
+| id | nombre | edad | carrera |
+|---:|---|---:|---|
+| 1 | Ana | 20 | Ciencia de Datos |
+| 2 | Luis | 22 | Estadística |
+
+Su estructura se basa en:
+
+```text
+tabla
+fila
+columna
+```
+
+En MongoDB podemos representar información similar mediante documentos:
+
+```javascript
+{
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos"
+}
+```
+
+y:
+
+```javascript
+{
+  id: 2,
+  nombre: "Luis",
+  edad: 22,
+  carrera: "Estadística"
+}
+```
+
+Una primera comparación puede realizarse así:
+
+| Modelo relacional | Modelo documental |
+|---|---|
+| Base de datos | Base de datos |
+| Tabla | Colección |
+| Fila | Documento |
+| Columna | Campo |
+| Llave primaria | `_id` |
+| Relaciones | Referencias o documentos anidados |
+
+Esta comparación sirve como aproximación inicial, pero no representa una equivalencia exacta.
+
+Un documento puede contener estructuras internas más complejas que una fila tradicional. En tus materiales previos, el modelo documental se distingue precisamente por el uso de colecciones, documentos, campos, listas y objetos anidados. :contentReference[oaicite:1]{index=1}
+
+## ¿Qué es un documento?
+
+El **documento** es una de las unidades fundamentales del modelo documental.
+
+Por ejemplo:
+
+```javascript
+{
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos"
+}
+```
+
+Aquí podemos identificar cuatro campos:
+
+```text
+id
+nombre
+edad
+carrera
+```
+
+y cada uno tiene un valor asociado.
+
+```text
+id       → 1
+nombre   → Ana
+edad     → 20
+carrera  → Ciencia de Datos
+```
+
+Esta estructura se parece visualmente a JSON.
+
+MongoDB utiliza internamente **BSON**, un formato binario basado en una estructura similar a JSON que permite almacenar distintos tipos de datos [@mongodbDocs].
+
+::: {.callout-tip}
+## Forma sencilla de imaginarlo
+
+Podemos pensar en un documento como una ficha:
+
+```text
+Documento
+├── campo
+├── campo
+├── campo
+└── campo
+```
+
+Pero los campos también pueden contener:
+
+```text
+listas
+objetos
+otras estructuras
+```
+:::
+
+## Documentos con estructuras diferentes
+
+Una característica importante del modelo documental es que los documentos de una colección no tienen que contener exactamente los mismos campos.
+
+Por ejemplo:
+
+```javascript
+{
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Mientras que otro estudiante podría almacenarse como:
+
+```javascript
+{
+  id: 2,
+  nombre: "Luis",
+  edad: 22,
+  carrera: "Estadística",
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    }
+  ]
+}
+```
+
+Ambos documentos representan estudiantes, pero tienen campos diferentes.
+
+::: {.callout-note}
+## Flexibilidad no significa ausencia de diseño
+
+MongoDB permite trabajar con documentos flexibles, pero eso no significa que sea conveniente almacenar información sin ninguna regla.
+
+Una aplicación real debe mantener criterios consistentes sobre:
+
+```text
+nombres de campos
+tipos de datos
+estructuras
+identificadores
+campos obligatorios
+```
+
+Un buen modelo documental también requiere diseño.
+:::
+
+## Organización de MongoDB
+
+MongoDB organiza la información jerárquicamente.
+
+```text
+Servidor MongoDB
+      │
+      └── Base de datos
+              │
+              └── Colección
+                      │
+                      ├── Documento
+                      ├── Documento
+                      └── Documento
+```
+
+Por ejemplo, durante nuestra práctica utilizamos:
+
+```text
+curso_nosql
+     │
+     └── estudiantes
+              │
+              ├── Ana
+              ├── Luis
+              ├── Carlos
+              ├── María
+              └── Sofía
+```
+
+Donde:
+
+```text
+curso_nosql → base de datos
+
+estudiantes → colección
+
+Ana, Luis... → documentos
+```
+
+## Base de datos
+
+Una **base de datos** agrupa colecciones relacionadas.
+
+Por ejemplo:
+
+```text
+curso_nosql
+```
+
+puede contener:
+
+```text
+estudiantes
+profesores
+materias
+actividades
+```
+
+Cada una podría representarse mediante una colección diferente.
+
+## Colección
+
+Una **colección** agrupa documentos relacionados.
+
+Por ejemplo:
+
+```text
+estudiantes
+```
+
+puede contener:
+
+```javascript
+{ nombre: "Ana", edad: 20 }
+```
+
+```javascript
+{ nombre: "Luis", edad: 22 }
+```
+
+```javascript
+{ nombre: "Sofía", edad: 20 }
+```
+
+::: {.callout-tip}
+## Comparación inicial
+
+Podemos recordar:
+
+```text
+Tabla      ≈ Colección
+
+Fila       ≈ Documento
+
+Columna    ≈ Campo
+```
+
+pero únicamente como una primera intuición.
+
+Un documento puede almacenar estructuras anidadas que no corresponden directamente a una fila relacional.
+:::
+
+## El campo `_id`
+
+Cada documento de MongoDB necesita un identificador único.
+
+MongoDB utiliza el campo:
+
+```text
+_id
+```
+
+Por ejemplo:
+
+```javascript
+{
+  _id: ObjectId("..."),
+  nombre: "Ana",
+  edad: 20
+}
+```
+
+Si no proporcionamos un `_id`, MongoDB lo genera automáticamente.
+
+::: {.callout-note}
+## ¿Para qué sirve `_id`?
+
+Permite identificar de manera única cada documento dentro de una colección.
+
+Conceptualmente cumple una función similar a una llave primaria, aunque pertenece al modelo documental de MongoDB.
+:::
+
+## Tipos de información dentro de un documento
+
+Un documento puede contener diferentes tipos de datos.
+
+### Texto
+
+```javascript
+{
+  nombre: "Ana"
+}
+```
+
+### Número
+
+```javascript
+{
+  edad: 20
+}
+```
+
+### Booleano
+
+```javascript
+{
+  activo: true
+}
+```
+
+### Arreglo
+
+```javascript
+{
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+### Objeto anidado
+
+```javascript
+{
+  direccion: {
+    ciudad: "Xalapa",
+    estado: "Veracruz"
+  }
+}
+```
+
+### Arreglo de objetos
+
+```javascript
+{
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    },
+    {
+      tipo: "laptop",
+      sistema: "Windows"
+    }
+  ]
+}
+```
+
+Esta capacidad para combinar diferentes estructuras dentro de un mismo documento es una de las características principales del modelo documental [@sadalage2012; @mongodbDocs].
+
+## Ejemplo real: perfil de usuario
+
+Un perfil de usuario de una plataforma podría representarse mediante:
+
+```javascript
+{
+  usuario: "ana20",
+  nombre: "Ana",
+  edad: 20,
+
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ],
+
+  preferencias: {
+    idioma: "es",
+    tema: "oscuro"
+  },
+
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    },
+    {
+      tipo: "laptop",
+      sistema: "Windows"
+    }
+  ]
+}
+```
+
+En un solo documento encontramos:
+
+```text
+texto
+números
+arreglos
+objetos
+arreglos de objetos
+```
+
+## MongoDB Shell
+
+Una forma de trabajar con MongoDB es mediante:
+
+```text
+mongosh
+```
+
+MongoDB Shell permite interactuar con el servidor mediante comandos.
+
+Por ejemplo:
+
+```javascript
+show dbs
+```
+
+muestra las bases de datos disponibles.
+
+Para seleccionar una base:
+
+```javascript
+use curso_nosql
+```
+
+Para consultar las colecciones:
+
+```javascript
+show collections
+```
+
+::: {.callout-warning}
+## No confundir terminal con `mongosh`
+
+Comandos como:
+
+```text
+mongod
+mongorestore
+mongoexport
+```
+
+se ejecutan desde PowerShell o Terminal.
+
+Comandos como:
+
+```javascript
+show dbs
+use curso_nosql
+db.estudiantes.find()
+```
+
+se ejecutan dentro de `mongosh`.
+:::
+
+## Crear una colección
+
+Podemos crear una colección mediante:
+
+```javascript
+db.createCollection("estudiantes")
+```
+
+Después de ejecutarlo, tendremos:
+
+```text
+curso_nosql
+      │
+      └── estudiantes
+```
+
+## Insertar un documento
+
+Para agregar un documento podemos utilizar:
+
+```javascript
+insertOne()
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.insertOne({
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+})
+```
+
+La estructura general es:
+
+```javascript
+db.coleccion.insertOne({
+  campo: valor
+})
+```
+
+## Insertar varios documentos
+
+Para insertar varios documentos podemos utilizar:
+
+```javascript
+insertMany()
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.insertMany([
+  {
+    id: 2,
+    nombre: "Luis",
+    edad: 22,
+    carrera: "Estadística"
+  },
+  {
+    id: 3,
+    nombre: "Carlos",
+    edad: 21,
+    carrera: "Informática"
+  },
+  {
+    id: 4,
+    nombre: "María",
+    edad: 23,
+    carrera: "Ciencia de Datos"
+  }
+])
+```
+
+La estructura general es:
+
+```javascript
+db.coleccion.insertMany([
+  { documento1 },
+  { documento2 },
+  { documento3 }
+])
+```
+
+## Consultar documentos con `find()`
+
+Uno de los métodos principales para recuperar información es:
+
+```javascript
+find()
+```
+
+Para mostrar todos los documentos:
+
+```javascript
+db.estudiantes.find()
+```
+
+También puede utilizarse:
+
+```javascript
+db.estudiantes.find({})
+```
+
+El objeto vacío:
+
+```javascript
+{}
+```
+
+significa que no estamos aplicando ningún filtro.
+
+## Buscar por un valor específico
+
+Para buscar a Ana:
+
+```javascript
+db.estudiantes.find({
+  nombre: "Ana"
+})
+```
+
+Para buscar estudiantes de 22 años:
+
+```javascript
+db.estudiantes.find({
+  edad: 22
+})
+```
+
+Para buscar estudiantes de Ciencia de Datos:
+
+```javascript
+db.estudiantes.find({
+  carrera: "Ciencia de Datos"
+})
+```
+
+La estructura básica es:
+
+```javascript
+db.coleccion.find({
+  campo: valor
+})
+```
+
+::: {.callout-tip}
+## Leer una consulta
+
+La consulta:
+
+```javascript
+db.estudiantes.find({
+  edad: 22
+})
+```
+
+puede leerse como:
+
+> Buscar en la colección `estudiantes` los documentos cuyo campo `edad` tenga el valor 22.
+:::
+
+## Operadores de comparación
+
+No siempre queremos buscar un valor exacto.
+
+MongoDB permite utilizar operadores para definir condiciones.
+
+### `$gt` — mayor que
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gt: 20
+  }
+})
+```
+
+Significa:
+
+```text
+edad > 20
+```
+
+### `$gte` — mayor o igual que
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gte: 20
+  }
+})
+```
+
+Significa:
+
+```text
+edad >= 20
+```
+
+### `$lt` — menor que
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $lt: 22
+  }
+})
+```
+
+### `$lte` — menor o igual que
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $lte: 21
+  }
+})
+```
+
+### `$ne` — diferente de
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $ne: 20
+  }
+})
+```
+
+## Resumen de operadores
+
+| Operador | Significado |
+|---|---|
+| `$gt` | Mayor que |
+| `$gte` | Mayor o igual que |
+| `$lt` | Menor que |
+| `$lte` | Menor o igual que |
+| `$ne` | Diferente de |
+
+## Consultar un intervalo
+
+Podemos combinar varios operadores dentro de un campo.
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gte: 20,
+    $lte: 22
+  }
+})
+```
+
+Esto significa:
+
+```text
+20 <= edad <= 22
+```
+
+## Consultas sobre arreglos
+
+Supongamos que tenemos:
+
+```javascript
+{
+  nombre: "Ana",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Podemos buscar directamente documentos cuyo arreglo contenga un determinado valor.
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: "Instagram"
+})
+```
+
+MongoDB comprobará si:
+
+```text
+Instagram
+```
+
+se encuentra dentro del arreglo `redes_sociales`.
+
+También podemos consultar:
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: "TikTok"
+})
+```
+
+::: {.callout-note}
+## No es necesario recorrer manualmente el arreglo
+
+MongoDB permite consultar directamente si un determinado valor forma parte del arreglo.
+:::
+
+## Objetos anidados
+
+Consideremos:
+
+```javascript
+{
+  nombre: "Luis",
+
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    }
+  ]
+}
+```
+
+El campo:
+
+```text
+sistema
+```
+
+se encuentra dentro de:
+
+```text
+dispositivos
+```
+
+Para acceder a él podemos utilizar **notación de punto**.
+
+```javascript
+db.estudiantes.find({
+  "dispositivos.sistema": "Android"
+})
+```
+
+También podemos buscar:
+
+```javascript
+db.estudiantes.find({
+  "dispositivos.tipo": "celular"
+})
+```
+
+::: {.callout-tip}
+## Notación de punto
+
+La expresión:
+
+```text
+dispositivos.sistema
+```
+
+puede entenderse como:
+
+```text
+entrar a dispositivos
+        ↓
+buscar sistema
+```
+
+Esta forma de consulta es especialmente importante cuando trabajamos con documentos anidados.
+:::
+
+## Combinar varias condiciones
+
+Podemos incluir varias condiciones dentro de una misma consulta.
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.find({
+  carrera: "Ciencia de Datos",
+  edad: {
+    $gt: 19
+  }
+})
+```
+
+MongoDB interpreta estas condiciones como un **AND** implícito.
+
+Es decir:
+
+```text
+carrera = Ciencia de Datos
+
+Y
+
+edad > 19
+```
+
+Ambas condiciones deben cumplirse.
+
+## Operador `$or`
+
+Cuando queremos que se cumpla al menos una de varias condiciones podemos utilizar:
+
+```text
+$or
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.find({
+  $or: [
+    { carrera: "Ciencia de Datos" },
+    { carrera: "Estadística" }
+  ]
+})
+```
+
+Esto significa:
+
+```text
+Ciencia de Datos
+      O
+Estadística
+```
+
+## Operador `$in`
+
+Cuando queremos comparar un mismo campo con varios valores podemos utilizar:
+
+```text
+$in
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.find({
+  carrera: {
+    $in: [
+      "Ciencia de Datos",
+      "Estadística"
+    ]
+  }
+})
+```
+
+Esto permite buscar documentos donde:
+
+```text
+carrera ∈ {
+  Ciencia de Datos,
+  Estadística
+}
+```
+
+::: {.callout-tip}
+## `$or` vs. `$in`
+
+Cuando queremos comparar **un mismo campo** con varios valores, `$in` suele ser una forma más compacta.
+
+```javascript
+{
+  carrera: {
+    $in: ["Ciencia de Datos", "Estadística"]
+  }
+}
+```
+:::
+
+## Operador `$exists`
+
+Los documentos de una misma colección pueden tener campos diferentes.
+
+Por ejemplo:
+
+```javascript
+{
+  nombre: "Ana",
+  redes_sociales: ["Instagram"]
+}
+```
+
+y:
+
+```javascript
+{
+  nombre: "Carlos"
+}
+```
+
+Podemos preguntar qué documentos contienen un determinado campo.
+
+### Documentos que tienen `redes_sociales`
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: {
+    $exists: true
+  }
+})
+```
+
+### Documentos que no tienen `redes_sociales`
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: {
+    $exists: false
+  }
+})
+```
+
+### Documentos que tienen `dispositivos`
+
+```javascript
+db.estudiantes.find({
+  dispositivos: {
+    $exists: true
+  }
+})
+```
+
+::: {.callout-note}
+## `$exists` pregunta por la estructura
+
+No pregunta:
+
+> ¿Cuál es el valor?
+
+Pregunta:
+
+> ¿Existe este campo dentro del documento?
+:::
+
+## MongoDB Compass
+
+MongoDB Compass proporciona una interfaz gráfica para trabajar con MongoDB.
+
+Desde Compass podemos visualizar:
+
+```text
+servidor
+  ↓
+bases de datos
+  ↓
+colecciones
+  ↓
+documentos
+```
+
+Por ejemplo:
+
+```text
+curso_nosql
+   ↓
+estudiantes
+```
+
+Los mismos documentos que consultamos desde `mongosh` pueden visualizarse desde Compass.
+
+## Filtros en MongoDB Compass
+
+En Compass utilizamos el campo **Filter**.
+
+Para mostrar todos los documentos:
+
+```javascript
+{}
+```
+
+Para buscar a Ana:
+
+```javascript
+{ nombre: "Ana" }
+```
+
+Para buscar mayores de 20:
+
+```javascript
+{ edad: { $gt: 20 } }
+```
+
+Para buscar usuarios de Instagram:
+
+```javascript
+{ redes_sociales: "Instagram" }
+```
+
+Para buscar dispositivos Android:
+
+```javascript
+{ "dispositivos.sistema": "Android" }
+```
+
+::: {.callout-warning}
+## Diferencia entre `mongosh` y Compass
+
+En `mongosh` escribimos:
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gt: 20
+  }
+})
+```
+
+En el campo **Filter** de Compass escribimos solamente:
+
+```javascript
+{
+  edad: {
+    $gt: 20
+  }
+}
+```
+:::
+
+## Un ejemplo con una colección real
+
+En la práctica también trabajamos con:
+
+```text
+sample_mflix
+```
+
+y con la colección:
+
+```text
+movies
+```
+
+Un documento de esta colección puede contener campos como:
+
+```text
+title
+year
+genres
+runtime
+cast
+directors
+countries
+languages
+imdb
+awards
+tomatoes
+```
+
+Esto permite observar ejemplos reales de:
+
+```text
+texto
+números
+arreglos
+objetos anidados
+fechas
+```
+
+## Consulta por año
+
+```javascript
+db.movies.find({
+  year: 2000
+}).limit(10)
+```
+
+## Campo anidado
+
+La información de IMDb puede encontrarse dentro de un objeto:
+
+```javascript
+imdb: {
+  rating: 8.4,
+  votes: 12000
+}
+```
+
+Para consultar películas con IMDb mayor a 8:
+
+```javascript
+db.movies.find({
+  "imdb.rating": {
+    $gt: 8
+  }
+}).limit(10)
+```
+
+Aquí utilizamos nuevamente la notación de punto.
+
+## Consulta sobre un arreglo
+
+El campo:
+
+```text
+genres
+```
+
+puede contener:
+
+```javascript
+["Drama", "Comedy"]
+```
+
+Podemos buscar películas de Drama mediante:
+
+```javascript
+db.movies.find({
+  genres: "Drama"
+}).limit(10)
+```
+
+## Combinar condiciones
+
+Podemos buscar películas posteriores al año 2000 con IMDb mayor a 8:
+
+```javascript
+db.movies.find({
+  year: {
+    $gt: 2000
+  },
+  "imdb.rating": {
+    $gt: 8
+  }
+}).limit(10)
+```
+
+Aquí deben cumplirse ambas condiciones.
+
+## Ejemplo integrado
+
+Supongamos que tenemos el siguiente documento:
+
+```javascript
+{
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos",
+
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ],
+
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    }
+  ]
+}
+```
+
+Podemos realizar diferentes preguntas.
+
+### ¿Se llama Ana?
+
+```javascript
+{ nombre: "Ana" }
+```
+
+### ¿Tiene más de 18 años?
+
+```javascript
+{ edad: { $gt: 18 } }
+```
+
+### ¿Estudia Ciencia de Datos?
+
+```javascript
+{ carrera: "Ciencia de Datos" }
+```
+
+### ¿Utiliza Instagram?
+
+```javascript
+{ redes_sociales: "Instagram" }
+```
+
+### ¿Tiene Android?
+
+```javascript
+{ "dispositivos.sistema": "Android" }
+```
+
+### ¿Tiene el campo `redes_sociales`?
+
+```javascript
+{ redes_sociales: { $exists: true } }
+```
+
+Este ejemplo resume varias de las características fundamentales de las consultas documentales.
+
+## Actividad de autoevaluación
+
+Relaciona cada operación con su finalidad.
+
+| Operación | Función |
+|---|---|
+| `find()` | ___ |
+| `insertOne()` | ___ |
+| `insertMany()` | ___ |
+| `$gt` | ___ |
+| `$in` | ___ |
+| `$exists` | ___ |
+| `"dispositivos.sistema"` | ___ |
+
+::: {.callout-tip}
+## Posibles respuestas
+
+```text
+find()
+→ consultar documentos
+
+insertOne()
+→ insertar un documento
+
+insertMany()
+→ insertar varios documentos
+
+$gt
+→ mayor que
+
+$in
+→ comparar con varios valores posibles
+
+$exists
+→ verificar si existe un campo
+
+dispositivos.sistema
+→ acceder a un campo anidado
+```
+:::
+
+## Preguntas para reflexionar
+
+1. ¿Cuál es la diferencia entre una colección y un documento?
+
+2. ¿Por qué un documento no debe considerarse simplemente una fila con otro nombre?
+
+3. ¿Para qué sirve el campo `_id`?
+
+4. ¿Qué ventajas puede tener almacenar listas dentro de un documento?
+
+5. ¿Cómo se consulta un campo anidado?
+
+6. ¿Cuál es la diferencia entre `$or` y `$in`?
+
+7. ¿Para qué sirve `$exists`?
+
+8. ¿Qué diferencia existe entre escribir una consulta en `mongosh` y escribir un filtro en Compass?
+
+## Ideas clave del tema
+
+::: {.callout-note}
+## 1. MongoDB utiliza un modelo documental
+
+La organización básica es:
+
+```text
+base de datos
+   ↓
+colección
+   ↓
+documento
+   ↓
+campos
+```
+:::
+
+::: {.callout-note}
+## 2. Los documentos pueden contener estructuras complejas
+
+Un documento puede incluir:
+
+```text
+texto
+números
+arreglos
+objetos
+listas de objetos
+```
+:::
+
+::: {.callout-note}
+## 3. Los documentos pueden tener campos diferentes
+
+La flexibilidad del modelo documental permite que no todos los documentos tengan exactamente la misma estructura.
+
+Sin embargo, un buen sistema sigue necesitando reglas de diseño.
+:::
+
+::: {.callout-note}
+## 4. `find()` permite consultar documentos
+
+La estructura básica es:
+
+```javascript
+db.coleccion.find({
+  campo: valor
+})
+```
+:::
+
+::: {.callout-note}
+## 5. Los operadores permiten crear filtros más complejos
+
+Entre los operadores trabajados se encuentran:
+
+```text
+$gt
+$gte
+$lt
+$lte
+$ne
+$or
+$in
+$exists
+```
+:::
+
+::: {.callout-note}
+## 6. La notación de punto permite consultar estructuras anidadas
+
+Por ejemplo:
+
+```text
+imdb.rating
+```
+
+o:
+
+```text
+dispositivos.sistema
+```
+:::
+
+::: {.callout-note}
+## 7. MongoDB puede utilizarse desde diferentes herramientas
+
+Durante el curso trabajaremos principalmente con:
+
+```text
+mongosh
+MongoDB Compass
+MongoDB Database Tools
+```
+
+Cada herramienta cumple una función diferente dentro del flujo de trabajo.
+:::
+
+## Relación con la práctica
+
+Los conceptos desarrollados en este tema se aplican directamente en:
+
+**Práctica 1. Primeros pasos con MongoDB local**
+
+En ella se trabaja con:
+
+```text
+curso_nosql
+estudiantes
+sample_mflix
+movies
+```
+
+y se realizan consultas utilizando los operadores explicados en este tema.
+
+## Referencias

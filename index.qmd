@@ -1,0 +1,21 @@
+---
+title: "Bases de Datos No Relacionales"
+---
+
+## Bienvenida
+
+Este sitio reúne los materiales de la experiencia educativa **Bases de Datos No Relacionales**.
+
+**Programa educativo:** Ingeniería en Ciencia de Datos  
+**Facultad:** Facultad de Estadística e Informática  
+**Universidad:** Universidad Veracruzana  
+**Docente:** Edgar Santiago González Martínez  
+
+Aquí se irán publicando:
+
+- diapositivas;
+- apuntes;
+- prácticas;
+- manuales;
+- conjuntos de datos;
+- actividades del curso.

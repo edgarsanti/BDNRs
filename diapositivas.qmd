@@ -1,0 +1,69 @@
+---
+title: "Diapositivas"
+toc: true
+---
+
+En esta sección se encuentran las presentaciones utilizadas durante las sesiones del curso.
+
+## Presentación del curso
+
+**Presentación del curso y plan de trabajo**
+
+Organización de la experiencia educativa, unidades, forma de trabajo y criterios de evaluación.
+
+<a class="btn btn-primary"
+   href="diapositivas/00_presentacion_curso.pdf"
+   target="_blank">
+   Abrir en nueva pestaña
+</a>
+
+<div class="visor-pdf">
+  <iframe
+    src="diapositivas/00_presentacion_curso.pdf"
+    width="100%"
+    height="780"
+    style="border:none;">
+  </iframe>
+</div>
+
+---
+
+## Tema 1. De las bases de datos relacionales a NoSQL
+
+Repaso de bases de datos relacionales, datos estructurados y semiestructurados, JSON y modelos NoSQL.
+
+<a class="btn btn-primary"
+   href="diapositivas/01_relacional_a_nosql.pdf"
+   target="_blank">
+   Abrir en nueva pestaña
+</a>
+
+<div class="visor-pdf">
+  <iframe
+    src="diapositivas/01_relacional_a_nosql.pdf"
+    width="100%"
+    height="780"
+    style="border:none;">
+  </iframe>
+</div>
+
+---
+
+## Tema 2. Escalabilidad y bases de datos distribuidas
+
+Escalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.
+
+<a class="btn btn-primary"
+   href="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
+   target="_blank">
+   Abrir en nueva pestaña
+</a>
+
+<div class="visor-pdf">
+  <iframe
+    src="diapositivas/02_escalabilidad_bases_distribuidas.pdf"
+    width="100%"
+    height="780"
+    style="border:none;">
+  </iframe>
+</div>

@@ -1,0 +1,30 @@
+---
+title: "Manuales"
+toc: true
+---
+
+En esta sección se encuentran las guías utilizadas para instalar y configurar las herramientas necesarias para trabajar con MongoDB durante el curso.
+
+## Instalación de MongoDB en Windows
+
+Guía paso a paso para instalar y configurar:
+
+- MongoDB Community Server;
+- MongoDB Shell;
+- MongoDB Compass;
+- MongoDB Database Tools.
+
+<a class="btn btn-primary"
+   href="manuales/Manual_MongoDB.html"
+   target="_blank">
+   Abrir manual en nueva pestaña
+</a>
+
+<div class="visor-manual">
+  <iframe
+    src="manuales/Manual_MongoDB.html"
+    width="100%"
+    height="780"
+    style="border:none;">
+  </iframe>
+</div>

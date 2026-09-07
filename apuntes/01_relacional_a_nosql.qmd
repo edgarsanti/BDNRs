@@ -1,0 +1,2083 @@
+---
+title: "Tema 1. De las bases de datos relacionales a NoSQL"
+toc: true
+number-sections: true
+---
+
+## Introducción
+
+Las bases de datos forman parte de una gran cantidad de sistemas que utilizamos todos los días. Una universidad necesita almacenar información sobre estudiantes, materias y calificaciones; una tienda en línea administra productos, clientes y pedidos; mientras que una red social debe manejar usuarios, publicaciones, imágenes, comentarios y relaciones entre personas.
+
+Durante muchos años, el **modelo relacional** ha sido una de las principales formas de organizar esta información. Su estructura basada en tablas, filas, columnas y relaciones permite representar de manera clara una gran cantidad de problemas y continúa siendo fundamental en los sistemas de información actuales [@elmasri2016; @silberschatz2020].
+
+Sin embargo, con el crecimiento de Internet y de las aplicaciones digitales comenzaron a aparecer escenarios donde la información no siempre se ajusta de manera natural a una estructura completamente tabular. Actualmente es común trabajar con documentos JSON, publicaciones de redes sociales, registros generados por aplicaciones, sensores, imágenes, videos y datos provenientes de APIs.
+
+Esto no significa que las bases de datos relacionales hayan dejado de ser útiles. Más bien, han aparecido **otros modelos de almacenamiento** que pueden resultar convenientes para determinados tipos de información y necesidades del sistema [@sadalage2012; @kleppmann2017].
+
+::: {.callout-note}
+## Idea clave
+
+El paso de las bases de datos relacionales a NoSQL **no debe entenderse como el reemplazo de una tecnología por otra**.
+
+En muchos sistemas reales pueden utilizarse diferentes tipos de bases de datos al mismo tiempo, dependiendo del problema que se necesita resolver.
+:::
+
+## ¿Por qué existen diferentes modelos de bases de datos?
+
+No toda la información tiene la misma estructura ni se consulta de la misma manera.
+
+Por ejemplo, pensemos en tres sistemas diferentes:
+
+1. una universidad que administra estudiantes y materias;
+2. una tienda en línea que almacena miles de productos;
+3. una red social que registra las relaciones entre millones de usuarios.
+
+Aunque los tres sistemas necesitan almacenar información, sus necesidades son distintas.
+
+En una universidad podemos tener estructuras relativamente estables:
+
+```text
+Estudiante
+├── matrícula
+├── nombre
+├── carrera
+└── semestre
+```
+
+En cambio, en una tienda en línea los atributos pueden variar dependiendo del producto.
+
+Una computadora puede tener:
+
+```text
+procesador
+memoria_ram
+almacenamiento
+sistema_operativo
+```
+
+mientras que una playera puede tener:
+
+```text
+talla
+color
+material
+tipo_de_manga
+```
+
+Ambos elementos pertenecen conceptualmente a la categoría **productos**, pero sus características pueden ser diferentes.
+
+En una red social aparece otro tipo de problema: las **relaciones** entre los datos pueden ser tan importantes como los propios datos.
+
+Por ejemplo:
+
+```text
+Ana ─── sigue a ─── Carlos
+ │                    │
+ └── sigue a ── María ┘
+```
+
+Una consulta interesante podría ser:
+
+> ¿Qué personas siguen los amigos de Ana que Ana todavía no sigue?
+
+En este caso, el problema está fuertemente relacionado con las conexiones entre usuarios.
+
+::: {.callout-tip}
+## No existe un único modelo adecuado para todos los problemas
+
+El diseño de una base de datos depende, entre otros aspectos, de:
+
+- la estructura de la información;
+- las consultas que se realizarán;
+- el volumen de datos;
+- la frecuencia con que cambian;
+- la forma en que se relacionan;
+- las necesidades de escalabilidad y consistencia.
+
+Por esta razón existen diferentes modelos de bases de datos [@sadalage2012; @kleppmann2017].
+:::
+
+## Punto de partida: el modelo relacional
+
+Antes de estudiar las bases de datos NoSQL conviene recuperar algunos conceptos del modelo relacional.
+
+Una base de datos relacional organiza la información mediante **relaciones**, que normalmente visualizamos como tablas. Cada tabla contiene atributos previamente definidos y cada registro representa una instancia de la entidad almacenada [@elmasri2016].
+
+Por ejemplo, podemos representar estudiantes mediante la siguiente tabla:
+
+| id_estudiante | nombre | edad | carrera |
+|---:|---|---:|---|
+| 1 | Ana | 20 | Ciencia de Datos |
+| 2 | Luis | 22 | Estadística |
+| 3 | Carlos | 21 | Informática |
+
+En este ejemplo:
+
+- cada **fila** representa un estudiante;
+- cada **columna** representa un atributo;
+- `id_estudiante` permite identificar de forma única cada registro.
+
+La estructura esperada está definida previamente. Si registramos un nuevo estudiante, normalmente esperamos almacenar los mismos atributos:
+
+```text
+id_estudiante
+nombre
+edad
+carrera
+```
+
+Este conjunto de reglas forma parte del **esquema** de la base de datos.
+
+::: {.callout-note}
+## Ejemplo real: sistema universitario
+
+Una universidad puede utilizar distintas tablas para organizar su información:
+
+```text
+ESTUDIANTES
+id_estudiante
+nombre
+carrera
+
+MATERIAS
+id_materia
+nombre_materia
+creditos
+
+INSCRIPCIONES
+id_estudiante
+id_materia
+periodo
+calificacion
+```
+
+La tabla `INSCRIPCIONES` permite relacionar a los estudiantes con las materias que cursan.
+
+Un mismo estudiante puede cursar varias materias y una misma materia puede tener varios estudiantes.
+:::
+
+## Elementos básicos del modelo relacional
+
+Para continuar con la comparación entre bases relacionales y NoSQL es importante recordar algunos conceptos.
+
+**Tabla.** Estructura que almacena información sobre un determinado tipo de entidad.
+
+**Registro o fila.** Representa una observación o instancia particular.
+
+**Atributo o columna.** Representa una característica de los registros.
+
+**Llave primaria.** Campo, o combinación de campos, que identifica de manera única un registro.
+
+**Llave foránea.** Campo que permite establecer una relación con otra tabla.
+
+Por ejemplo:
+
+```text
+ESTUDIANTES
+-------------------------
+id_estudiante   ← llave primaria
+nombre
+carrera
+
+
+INSCRIPCIONES
+-------------------------
+id_inscripcion  ← llave primaria
+id_estudiante   ← llave foránea
+id_materia      ← llave foránea
+```
+
+Las llaves permiten conectar la información almacenada en diferentes tablas y reducir duplicaciones innecesarias [@elmasri2016].
+
+## Recuperar información con SQL
+
+En una base de datos relacional utilizamos generalmente **SQL** (*Structured Query Language*) para consultar y manipular la información.
+
+Por ejemplo:
+
+```sql
+SELECT nombre, carrera
+FROM estudiantes
+WHERE edad >= 20;
+```
+
+Esta consulta puede leerse de la siguiente manera:
+
+> Seleccionar el nombre y la carrera de los estudiantes cuya edad sea mayor o igual a 20 años.
+
+SQL es un lenguaje declarativo: indicamos **qué información queremos obtener**, mientras que el sistema gestor de bases de datos determina cómo ejecutar la consulta [@silberschatz2020].
+
+::: {.callout-tip}
+Más adelante compararemos esta forma de consultar información con las consultas utilizadas en MongoDB.
+
+Por ejemplo, una condición similar podría escribirse en MongoDB como:
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gte: 20
+  }
+})
+```
+
+La finalidad no es decidir cuál sintaxis es mejor, sino observar que cada modelo utiliza estructuras y formas de consulta diferentes.
+:::
+
+
+## Tipos de datos según su estructura
+
+Una forma útil de comprender por qué existen distintos modelos de bases de datos es observar **cómo está organizada la información**.
+
+De manera general, podemos distinguir tres grandes tipos:
+
+- datos estructurados;
+- datos semiestructurados;
+- datos no estructurados.
+
+Esta clasificación no indica si los datos son buenos o malos, sino qué tan definida se encuentra su estructura.
+
+## Datos estructurados
+
+Los datos estructurados siguen un esquema claramente definido.
+
+Normalmente sabemos de antemano qué campos existen, qué tipo de información contienen y cómo se organizan los registros.
+
+Por ejemplo:
+
+| id | nombre | edad | carrera |
+|---:|---|---:|---|
+| 1 | Ana | 20 | Ciencia de Datos |
+| 2 | Luis | 22 | Estadística |
+| 3 | María | 21 | Informática |
+
+Todos los registros comparten las mismas columnas.
+
+Si agregamos un nuevo estudiante, esperamos conservar la misma estructura:
+
+```text
+id
+nombre
+edad
+carrera
+```
+
+Este tipo de organización es común en bases de datos relacionales, archivos CSV y muchas hojas de cálculo [@elmasri2016; @silberschatz2020].
+
+::: {.callout-note}
+## Estructurado no significa limpio
+
+Un conjunto de datos puede estar perfectamente estructurado y aun así contener:
+
+- valores faltantes;
+- errores de captura;
+- duplicados;
+- valores fuera de rango;
+- inconsistencias.
+
+La palabra **estructurado** se refiere a la forma en que se organiza la información, no necesariamente a su calidad.
+:::
+
+## Ejemplo real: una encuesta
+
+Supongamos que se aplica una encuesta a estudiantes universitarios.
+
+La base final podría verse así:
+
+| id | edad | semestre | horas_internet | usa_instagram |
+|---:|---:|---:|---:|---|
+| 1 | 20 | 4 | 6 | Sí |
+| 2 | 22 | 6 | 8 | Sí |
+| 3 | 19 | 2 | 4 | No |
+
+Cada fila representa a una persona y cada columna una variable.
+
+Este formato resulta muy conveniente para análisis estadístico, porque las variables ya se encuentran organizadas de manera tabular.
+
+## Datos semiestructurados
+
+Los datos semiestructurados también tienen organización, pero no requieren que todos los registros tengan exactamente los mismos campos.
+
+Pueden contener:
+
+- etiquetas;
+- pares campo-valor;
+- listas;
+- objetos anidados;
+- jerarquías.
+
+Dos ejemplos importantes son **JSON** y **XML** [@sadalage2012].
+
+Un documento JSON podría verse así:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Aquí podemos identificar una estructura clara:
+
+```text
+nombre → Ana
+edad → 20
+redes_sociales → lista
+```
+
+Sin embargo, otro documento podría contener información diferente:
+
+```json
+{
+  "id": 2,
+  "nombre": "Luis",
+  "edad": 22,
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    }
+  ]
+}
+```
+
+Ambos documentos representan personas, pero no contienen exactamente los mismos campos.
+
+::: {.callout-tip}
+## ¿Por qué se consideran semiestructurados?
+
+Porque sí existe una estructura interpretable:
+
+```text
+campo → valor
+```
+
+pero el esquema puede ser más flexible que en una tabla tradicional.
+
+Esto permite representar listas y objetos anidados de manera natural.
+:::
+
+## Ejemplo real: una API
+
+Muchas aplicaciones obtienen información mediante una **API**.
+
+Por ejemplo, una API del clima podría devolver:
+
+```json
+{
+  "ciudad": "Xalapa",
+  "temperatura": 22,
+  "condicion": "Nublado",
+  "pronostico": [
+    {
+      "hora": "15:00",
+      "temperatura": 23
+    },
+    {
+      "hora": "18:00",
+      "temperatura": 20
+    }
+  ]
+}
+```
+
+Este tipo de respuesta es muy común porque JSON permite representar información jerárquica sin necesidad de convertir todo inmediatamente a tablas.
+
+Para un Ingeniero en Ciencia de Datos esto es importante, ya que una parte considerable del trabajo real consiste en **obtener datos desde servicios externos, APIs y sistemas que entregan información en JSON**.
+
+## Otro ejemplo: una tienda en línea
+
+Imaginemos una tienda como Amazon o Mercado Libre.
+
+Un producto puede representarse así:
+
+```json
+{
+  "producto": "Laptop",
+  "marca": "Lenovo",
+  "precio": 18500,
+  "especificaciones": {
+    "ram": "16 GB",
+    "almacenamiento": "512 GB",
+    "procesador": "Intel Core i7"
+  }
+}
+```
+
+Mientras que otro producto podría ser:
+
+```json
+{
+  "producto": "Playera",
+  "marca": "Nike",
+  "precio": 650,
+  "tallas": ["S", "M", "L"],
+  "colores": ["Negro", "Blanco"]
+}
+```
+
+Ambos pertenecen a la misma categoría general de **productos**, pero sus atributos son diferentes.
+
+Este es un ejemplo donde una estructura flexible puede resultar conveniente.
+
+## Datos no estructurados
+
+Los datos no estructurados no se presentan directamente como filas y columnas con atributos claramente definidos.
+
+Algunos ejemplos son:
+
+```text
+fotografías
+videos
+grabaciones de audio
+texto libre
+documentos
+publicaciones
+```
+
+Esto no significa que carezcan completamente de estructura interna.
+
+Una imagen, por ejemplo, está formada por píxeles; un audio contiene muestras y un texto contiene caracteres. Sin embargo, la información que nos interesa analizar no aparece directamente organizada como variables de una tabla.
+
+::: {.callout-note}
+## Ejemplo
+
+Una fotografía puede contener información visual como:
+
+- personas;
+- vehículos;
+- edificios;
+- objetos;
+- paisajes.
+
+Pero estos elementos no aparecen automáticamente como columnas:
+
+```text
+persona
+vehiculo
+edificio
+```
+
+Para obtener esa información necesitamos procesar la imagen.
+:::
+
+## Contenido y metadatos
+
+Una misma fuente puede combinar información no estructurada con datos estructurados o semiestructurados.
+
+Por ejemplo, una fotografía podría almacenarse como:
+
+```text
+imagen001.jpg
+```
+
+y acompañarse de un documento como:
+
+```json
+{
+  "archivo": "imagen001.jpg",
+  "fecha": "2026-09-06",
+  "ubicacion": "Xalapa, Veracruz",
+  "etiquetas": [
+    "persona",
+    "calle",
+    "automovil"
+  ]
+}
+```
+
+La imagen sigue siendo un dato no estructurado para el propósito de este análisis, mientras que sus metadatos tienen una estructura clara.
+
+Esto es muy común en sistemas modernos.
+
+Instagram, por ejemplo, puede almacenar una fotografía o video y asociarle información como:
+
+```text
+usuario
+fecha
+ubicacion
+descripcion
+hashtags
+numero_de_comentarios
+numero_de_reacciones
+```
+
+La información multimedia y sus metadatos pueden requerir formas diferentes de almacenamiento y procesamiento.
+
+## Comparación general
+
+| Característica | Estructurados | Semiestructurados | No estructurados |
+|---|---|---|---|
+| Esquema definido | Sí | Flexible | No directamente |
+| Forma común | Tablas | JSON, XML | Imagen, audio, video, texto |
+| Campos variables | Poco frecuente | Sí | No aplica directamente |
+| Estructuras anidadas | Limitadas | Comunes | No directamente |
+| Ejemplo | CSV | API JSON | Fotografía |
+
+::: {.callout-tip}
+## Una misma organización puede utilizar los tres tipos
+
+Una red social puede almacenar:
+
+**Datos estructurados**
+
+```text
+id_usuario
+correo
+fecha_registro
+```
+
+**Datos semiestructurados**
+
+```json
+{
+  "preferencias": {
+    "idioma": "es",
+    "tema": "oscuro"
+  }
+}
+```
+
+**Datos no estructurados**
+
+```text
+fotografías
+videos
+audios
+texto libre
+```
+
+Por eso, en sistemas reales no siempre existe una única forma de almacenar toda la información.
+:::
+
+## ¿Por qué importa esta clasificación?
+
+La forma de los datos influye directamente en cómo podemos:
+
+- almacenarlos;
+- consultarlos;
+- modificarlos;
+- relacionarlos;
+- analizarlos.
+
+El modelo relacional funciona especialmente bien cuando existe una estructura estable y las relaciones entre entidades pueden representarse de forma clara mediante tablas.
+
+Los modelos NoSQL amplían las posibilidades cuando aparecen estructuras flexibles, grandes volúmenes de información, relaciones particulares o necesidades específicas de distribución y escalabilidad [@sadalage2012; @kleppmann2017].
+
+Sin embargo, esto no significa que cada dato semiestructurado deba almacenarse obligatoriamente en una base NoSQL.
+
+La elección siempre debe responder a las necesidades del sistema.
+
+::: {.callout-note}
+## Idea clave
+
+La pregunta no debería ser:
+
+> ¿SQL o NoSQL?
+
+sino:
+
+> ¿Qué modelo representa mejor la información y las consultas que necesita resolver el sistema?
+:::
+
+
+## ¿Por qué pensar en NoSQL?
+
+Las bases de datos relacionales siguen siendo una excelente opción para muchos sistemas. Sin embargo, existen situaciones donde otros modelos pueden representar la información de una forma más natural.
+
+Algunas razones para considerar una base de datos NoSQL son:
+
+- estructuras de datos variables;
+- presencia de listas y objetos anidados;
+- grandes volúmenes de información;
+- necesidad de distribuir los datos entre varios servidores;
+- relaciones muy complejas entre entidades;
+- requerimientos específicos de velocidad o disponibilidad.
+
+Esto no significa que una base NoSQL sea automáticamente mejor.
+
+La elección depende del problema que se quiere resolver, de las consultas que se realizarán y de las características del sistema [@sadalage2012; @kleppmann2017].
+
+::: {.callout-warning}
+## Evitar una idea equivocada
+
+NoSQL no significa:
+
+```text
+datos complejos = usar NoSQL
+```
+
+Una base relacional también puede manejar problemas complejos.
+
+La pregunta correcta es si el modelo elegido facilita la representación, consulta y mantenimiento de la información.
+:::
+
+## Un mismo problema, dos formas de representarlo
+
+Supongamos que queremos almacenar información de un usuario:
+
+```text
+Nombre: Ana
+Edad: 20
+Redes sociales:
+  - Instagram
+  - TikTok
+
+Dispositivos:
+  - celular, Android
+  - laptop, Windows
+```
+
+Podemos representar esta información de distintas maneras.
+
+## Representación en un modelo relacional
+
+En una base de datos relacional podríamos utilizar varias tablas.
+
+### Tabla `usuarios`
+
+| id_usuario | nombre | edad |
+|---:|---|---:|
+| 1 | Ana | 20 |
+
+### Tabla `redes_sociales`
+
+| id_red | nombre |
+|---:|---|
+| 1 | Instagram |
+| 2 | TikTok |
+
+### Tabla `usuarios_redes`
+
+| id_usuario | id_red |
+|---:|---:|
+| 1 | 1 |
+| 1 | 2 |
+
+### Tabla `dispositivos`
+
+| id_dispositivo | id_usuario | tipo | sistema |
+|---:|---:|---|---|
+| 1 | 1 | celular | Android |
+| 2 | 1 | laptop | Windows |
+
+En este caso, la información se distribuye entre varias tablas.
+
+Para reconstruir toda la información de Ana probablemente sería necesario relacionarlas mediante operaciones como `JOIN`.
+
+De forma conceptual:
+
+```text
+USUARIOS
+   │
+   ├──── USUARIOS_REDES ──── REDES_SOCIALES
+   │
+   └──── DISPOSITIVOS
+```
+
+Este diseño puede resultar muy adecuado cuando queremos mantener relaciones claramente definidas y reducir duplicaciones de información [@elmasri2016].
+
+## Representación en un modelo documental
+
+En una base documental podemos representar al mismo usuario mediante un solo documento:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ],
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    },
+    {
+      "tipo": "laptop",
+      "sistema": "Windows"
+    }
+  ]
+}
+```
+
+La información relacionada con Ana se encuentra concentrada en una sola estructura.
+
+Visualmente:
+
+```text
+usuario
+│
+├── id
+├── nombre
+├── edad
+│
+├── redes_sociales
+│     ├── Instagram
+│     └── TikTok
+│
+└── dispositivos
+      ├── celular
+      │     └── Android
+      │
+      └── laptop
+            └── Windows
+```
+
+Este tipo de representación puede ser conveniente cuando normalmente necesitamos recuperar toda la información del usuario al mismo tiempo.
+
+::: {.callout-tip}
+## Una diferencia importante
+
+En un modelo documental, un documento no debe entenderse simplemente como una fila con otro nombre.
+
+Un documento puede contener:
+
+- valores simples;
+- listas;
+- objetos;
+- listas de objetos;
+- estructuras anidadas.
+
+Por eso puede representar información más compleja dentro de una misma unidad.
+:::
+
+## ¿Cuál de los dos modelos es mejor?
+
+No existe una respuesta universal.
+
+Depende de cómo se utilizarán los datos.
+
+Supongamos que una aplicación consulta constantemente:
+
+> Dame el perfil completo de Ana, incluyendo redes sociales y dispositivos.
+
+Un documento puede resultar cómodo porque gran parte de la información está almacenada junta.
+
+Pero imaginemos ahora que necesitamos:
+
+> Obtener todos los usuarios que tienen registrado el mismo dispositivo y mantener un catálogo centralizado de dispositivos.
+
+En ese escenario, separar la información y establecer relaciones podría ser más conveniente.
+
+::: {.callout-note}
+## El diseño depende de las consultas
+
+Una de las ideas más importantes al diseñar bases de datos es pensar en **cómo se utilizarán los datos**.
+
+No sólo importa cómo se almacenan, sino también:
+
+```text
+¿Qué consultas serán frecuentes?
+
+¿Qué información se leerá junta?
+
+¿Qué información cambia con frecuencia?
+
+¿Qué relaciones deben mantenerse consistentes?
+```
+
+Estas preguntas influyen directamente en la elección del modelo [@kleppmann2017].
+:::
+
+## Relacional y documental: comparación general
+
+| Modelo relacional | Modelo documental |
+|---|---|
+| Tablas | Colecciones |
+| Filas o registros | Documentos |
+| Columnas | Campos |
+| Llaves primarias y foráneas | Identificadores y referencias |
+| Relaciones entre tablas | Documentos y estructuras anidadas |
+| Esquema normalmente definido | Esquema más flexible |
+| `JOIN` para combinar tablas | Información relacionada puede estar embebida |
+
+Esta comparación es útil como primera aproximación, pero no debe interpretarse como una equivalencia exacta.
+
+Por ejemplo:
+
+```text
+tabla ≈ colección
+fila ≈ documento
+columna ≈ campo
+```
+
+sirve para comprender inicialmente las diferencias, pero un documento puede contener estructuras internas que una fila tradicional no representa directamente.
+
+## ¿Qué significa NoSQL?
+
+El término **NoSQL** se utiliza para agrupar diferentes modelos de bases de datos que no se limitan al modelo relacional tradicional [@sadalage2012].
+
+NoSQL no significa necesariamente:
+
+```text
+No SQL
+```
+
+En muchos contextos también se interpreta como:
+
+```text
+Not Only SQL
+```
+
+es decir, **no solamente SQL**.
+
+La idea importante es que existen diferentes maneras de representar y consultar información.
+
+::: {.callout-note}
+## NoSQL es un término general
+
+NoSQL no representa un único tipo de base de datos.
+
+Dentro de esta categoría existen diferentes modelos, entre ellos:
+
+```text
+Documentos
+Clave-valor
+Columnas
+Grafos
+```
+
+Cada uno responde a necesidades diferentes.
+:::
+
+## NoSQL no significa abandonar SQL
+
+Una empresa puede utilizar diferentes tecnologías al mismo tiempo.
+
+Por ejemplo:
+
+```text
+Sistema de ventas
+      │
+      ├── PostgreSQL
+      │     └── pedidos y pagos
+      │
+      ├── MongoDB
+      │     └── catálogo de productos
+      │
+      ├── Redis
+      │     └── sesiones y caché
+      │
+      └── Neo4j
+            └── relaciones y recomendaciones
+```
+
+Este enfoque se conoce como **persistencia políglota**, donde diferentes modelos de almacenamiento pueden coexistir dentro de una misma arquitectura cuando cada uno resuelve mejor una necesidad específica [@sadalage2012].
+
+::: {.callout-tip}
+## Ejemplo real
+
+Una tienda en línea podría utilizar:
+
+**Base relacional**
+
+para:
+
+```text
+clientes
+pagos
+facturación
+pedidos
+```
+
+porque estas operaciones suelen requerir alta consistencia.
+
+**Base documental**
+
+para:
+
+```text
+catálogo de productos
+descripciones
+atributos variables
+opiniones
+```
+
+**Clave-valor**
+
+para:
+
+```text
+carritos temporales
+sesiones
+caché
+```
+
+**Grafos**
+
+para:
+
+```text
+productos relacionados
+recomendaciones
+relaciones entre usuarios
+```
+
+El objetivo no es utilizar muchas tecnologías por moda, sino elegirlas cuando aportan una ventaja clara.
+:::
+
+
+
+
+
+
+## Principales modelos NoSQL
+
+NoSQL no corresponde a un único modelo de base de datos.
+
+Dentro de esta categoría existen diferentes familias, cada una pensada para resolver ciertos tipos de problemas.
+
+Las cuatro principales que estudiaremos en el curso son:
+
+```text
+Documentos
+Clave-valor
+Columnas
+Grafos
+```
+
+Cada modelo organiza la información de una manera diferente.
+
+::: {.callout-note}
+## Idea clave
+
+NoSQL no significa solamente MongoDB.
+
+MongoDB es un ejemplo de base de datos orientada a documentos, pero existen otros modelos NoSQL con estructuras y objetivos distintos.
+:::
+
+## Bases de datos orientadas a documentos
+
+Las bases de datos documentales almacenan la información en **documentos**, normalmente con estructuras similares a JSON.
+
+Un documento puede contener:
+
+- valores simples;
+- arreglos;
+- objetos anidados;
+- estructuras de diferente tamaño.
+
+Por ejemplo:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "carrera": "Ciencia de Datos",
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Otro documento de la misma colección podría ser:
+
+```json
+{
+  "id": 2,
+  "nombre": "Luis",
+  "edad": 22,
+  "carrera": "Estadística",
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    }
+  ]
+}
+```
+
+Los documentos no necesitan tener exactamente los mismos campos.
+
+Esta flexibilidad permite representar información heterogénea de manera natural [@sadalage2012].
+
+### ¿Cuándo puede ser útil?
+
+Este modelo puede resultar conveniente cuando:
+
+- los registros tienen atributos variables;
+- se utilizan estructuras anidadas;
+- la información relacionada suele consultarse junta;
+- los datos provienen naturalmente de JSON o APIs.
+
+### Ejemplo real: catálogo de productos
+
+Una tienda en línea puede tener productos muy diferentes.
+
+Una computadora:
+
+```json
+{
+  "producto": "Laptop",
+  "precio": 18500,
+  "especificaciones": {
+    "ram": "16 GB",
+    "almacenamiento": "512 GB"
+  }
+}
+```
+
+y una playera:
+
+```json
+{
+  "producto": "Playera",
+  "precio": 650,
+  "tallas": ["S", "M", "L"],
+  "colores": ["Negro", "Blanco"]
+}
+```
+
+Ambos pertenecen a una colección de productos, pero tienen atributos diferentes.
+
+### Gestor representativo: MongoDB
+
+MongoDB es uno de los gestores documentales más conocidos.
+
+Su organización básica puede visualizarse así:
+
+```text
+Base de datos
+    │
+    └── Colección
+          │
+          ├── Documento
+          ├── Documento
+          └── Documento
+```
+
+En MongoDB los documentos se almacenan internamente utilizando BSON, un formato binario relacionado con JSON [@mongodbDocs].
+
+---
+
+## Bases de datos clave-valor
+
+El modelo **clave-valor** utiliza una estructura muy sencilla:
+
+```text
+clave → valor
+```
+
+Cada elemento se recupera utilizando una clave única.
+
+Por ejemplo:
+
+```text
+usuario:1001 → "Ana"
+usuario:1002 → "Luis"
+usuario:1003 → "María"
+```
+
+También podemos almacenar valores más complejos:
+
+```text
+sesion:a83f91 → {
+  usuario: 1001,
+  activo: true
+}
+```
+
+La idea es similar a utilizar un diccionario:
+
+```text
+clave
+  ↓
+valor
+```
+
+### Ejemplo real: sesión de usuario
+
+Cuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador temporal:
+
+```text
+session_abc123
+```
+
+y asociarlo con:
+
+```json
+{
+  "usuario": 1001,
+  "rol": "estudiante",
+  "activo": true
+}
+```
+
+Después, la aplicación puede recuperar rápidamente esa información utilizando la clave de sesión.
+
+### Otros usos comunes
+
+El modelo clave-valor suele utilizarse para:
+
+```text
+sesiones
+caché
+carritos de compra
+preferencias temporales
+contadores
+```
+
+### Gestor representativo: Redis
+
+Redis es un sistema ampliamente utilizado para trabajar con estructuras clave-valor y datos almacenados en memoria [@redisDocs].
+
+::: {.callout-tip}
+## Una forma sencilla de imaginarlo
+
+Podemos pensar en un casillero:
+
+```text
+Número de casillero → contenido
+```
+
+Si conocemos el número, podemos localizar rápidamente lo que se encuentra dentro.
+:::
+
+---
+
+## Bases de datos orientadas a columnas
+
+Las bases de datos orientadas a columnas, o de **familias de columnas**, organizan la información de una forma diferente al modelo relacional tradicional.
+
+Están especialmente asociadas con sistemas que necesitan manejar:
+
+- grandes volúmenes de datos;
+- información distribuida;
+- múltiples servidores;
+- grandes cantidades de escrituras y consultas.
+
+Una representación simplificada podría ser:
+
+```text
+Usuario 1
+  nombre     → Ana
+  ciudad     → Xalapa
+  edad       → 20
+
+Usuario 2
+  nombre     → Luis
+  ciudad     → Veracruz
+```
+
+No todos los registros necesitan contener necesariamente las mismas columnas.
+
+### Ejemplo real: datos generados por sensores
+
+Imaginemos miles de sensores enviando mediciones continuamente:
+
+```text
+sensor_001
+  temperatura
+  humedad
+  timestamp
+
+sensor_002
+  temperatura
+  presión
+  timestamp
+
+sensor_003
+  humedad
+  viento
+  timestamp
+```
+
+Con millones de registros distribuidos entre diferentes servidores, un modelo diseñado para grandes volúmenes distribuidos puede resultar conveniente.
+
+### Gestor representativo: Apache Cassandra
+
+Apache Cassandra es una base de datos distribuida que utiliza un modelo basado en particiones y columnas, diseñada para trabajar con grandes cantidades de información y múltiples nodos [@cassandraDocs].
+
+::: {.callout-note}
+Las bases orientadas a columnas no deben confundirse directamente con una tabla de Excel girada.
+
+Su organización interna y su forma de distribuir información responden a objetivos diferentes a los de una tabla relacional tradicional.
+:::
+
+---
+
+## Bases de datos orientadas a grafos
+
+En una base de datos de grafos, las **relaciones** son una parte central del modelo.
+
+Los elementos principales son:
+
+```text
+nodos
+relaciones
+propiedades
+```
+
+Por ejemplo:
+
+```text
+Ana ── SIGUE_A ──> Luis
+
+Luis ── SIGUE_A ──> María
+
+Ana ── SIGUE_A ──> Carlos
+```
+
+Los usuarios pueden representarse como nodos y las conexiones como relaciones.
+
+Una relación también puede tener información propia:
+
+```text
+Ana ── AMIGA_DE ──> María
+          │
+          └── desde: 2022
+```
+
+### Ejemplo real: red social
+
+Supongamos que queremos responder:
+
+> ¿Qué amigos de mis amigos todavía no sigo?
+
+En una estructura de grafos podemos recorrer las relaciones:
+
+```text
+Ana
+ │
+ ├── Luis
+ │     ├── María
+ │     └── Carlos
+ │
+ └── Sofía
+       └── Pedro
+```
+
+El problema no se centra únicamente en almacenar usuarios, sino en navegar sus relaciones.
+
+### Otros usos
+
+Las bases de grafos pueden utilizarse en:
+
+```text
+redes sociales
+sistemas de recomendación
+detección de fraude
+rutas de transporte
+redes de conocimiento
+relaciones entre organizaciones
+```
+
+### Gestor representativo: Neo4j
+
+Neo4j es uno de los gestores de grafos más conocidos y permite representar información mediante nodos, relaciones y propiedades [@neo4jDocs].
+
+::: {.callout-tip}
+## Ejemplo: recomendaciones
+
+Supongamos:
+
+```text
+Ana ── COMPRÓ ──> Laptop
+
+Luis ── COMPRÓ ──> Laptop
+Luis ── COMPRÓ ──> Mouse
+```
+
+El sistema podría detectar que Ana y Luis tienen intereses similares y sugerir a Ana el producto que Luis también compró:
+
+```text
+Mouse
+```
+
+Este tipo de recorrido es muy natural en un modelo de grafos.
+:::
+
+## Comparación de los modelos NoSQL
+
+| Modelo | Unidad principal | Idea básica | Ejemplo de uso | Gestor |
+|---|---|---|---|---|
+| Documentos | Documento | Información flexible tipo JSON | Catálogo de productos | MongoDB |
+| Clave-valor | Clave y valor | Recuperación directa mediante una clave | Sesiones y caché | Redis |
+| Columnas | Familias de columnas | Grandes volúmenes distribuidos | Sensores y registros masivos | Cassandra |
+| Grafos | Nodos y relaciones | Relaciones como elemento central | Redes sociales | Neo4j |
+
+No existe un modelo que sea superior en todos los casos.
+
+Cada uno responde mejor a determinados patrones de información y consulta [@sadalage2012; @kleppmann2017].
+
+::: {.callout-note}
+## Lo importante no es memorizar marcas
+
+MongoDB, Redis, Cassandra y Neo4j son ejemplos representativos.
+
+Lo realmente importante es comprender:
+
+```text
+qué estructura utiliza cada modelo
+qué problema intenta resolver
+cómo se consulta la información
+cuándo podría ser conveniente utilizarlo
+```
+:::
+
+
+## NoSQL aplicado a Ciencia de Datos
+
+En Ciencia de Datos no siempre trabajamos con una tabla limpia y lista para analizar.
+
+Con frecuencia, la información proviene de distintas fuentes:
+
+```text
+CSV
+bases de datos
+APIs
+JSON
+XML
+sensores
+registros de aplicaciones
+texto
+imágenes
+audio
+video
+```
+
+Cada una puede requerir diferentes procesos para obtener, almacenar, transformar y consultar la información.
+
+::: {.callout-note}
+## El trabajo comienza antes del análisis
+
+Un flujo de Ciencia de Datos no consiste únicamente en entrenar modelos.
+
+Antes de analizar los datos normalmente es necesario:
+
+```text
+obtener
+   ↓
+almacenar
+   ↓
+consultar
+   ↓
+limpiar
+   ↓
+transformar
+   ↓
+analizar
+```
+
+Por esta razón, conocer diferentes formas de almacenamiento también forma parte del trabajo de un Ingeniero en Ciencia de Datos.
+:::
+
+## Ejemplo 1: archivo CSV
+
+Un archivo CSV podría contener:
+
+```csv
+id,nombre,edad,carrera
+1,Ana,20,Ciencia de Datos
+2,Luis,22,Estadística
+3,María,21,Informática
+```
+
+Esta información tiene una estructura tabular claramente definida.
+
+Podemos leerla fácilmente en Python:
+
+```python
+import pandas as pd
+
+datos = pd.read_csv("estudiantes.csv")
+```
+
+y obtener una estructura similar a:
+
+| id | nombre | edad | carrera |
+|---:|---|---:|---|
+| 1 | Ana | 20 | Ciencia de Datos |
+| 2 | Luis | 22 | Estadística |
+| 3 | María | 21 | Informática |
+
+Este es un caso muy natural para trabajar con datos estructurados.
+
+## Ejemplo 2: obtener información desde una API
+
+Muchas fuentes modernas no entregan archivos CSV.
+
+En su lugar, proporcionan información mediante una **API**.
+
+Una respuesta podría verse así:
+
+```json
+{
+  "ciudad": "Xalapa",
+  "temperatura": 21,
+  "humedad": 78,
+  "pronostico": [
+    {
+      "hora": "12:00",
+      "temperatura": 22
+    },
+    {
+      "hora": "15:00",
+      "temperatura": 23
+    }
+  ]
+}
+```
+
+Antes de analizar esta información podemos necesitar:
+
+```text
+API
+ ↓
+JSON
+ ↓
+almacenamiento
+ ↓
+procesamiento
+ ↓
+DataFrame
+ ↓
+análisis
+```
+
+JSON resulta especialmente importante en Ciencia de Datos porque es uno de los formatos más utilizados para intercambiar información entre aplicaciones y servicios.
+
+::: {.callout-tip}
+## Un punto importante
+
+Una API no es una base de datos.
+
+La API es un mecanismo mediante el cual una aplicación puede solicitar o enviar información.
+
+Esa información puede provenir internamente de:
+
+```text
+PostgreSQL
+MongoDB
+Redis
+otros sistemas
+```
+
+y posteriormente ser entregada al usuario en un formato como JSON.
+:::
+
+## Ejemplo 3: información generada por sensores
+
+Imaginemos una red de estaciones meteorológicas.
+
+Cada estación puede generar continuamente registros como:
+
+```json
+{
+  "sensor": "XAL_001",
+  "fecha": "2026-09-06T14:00:00",
+  "temperatura": 22.4,
+  "humedad": 76
+}
+```
+
+Cinco minutos después:
+
+```json
+{
+  "sensor": "XAL_001",
+  "fecha": "2026-09-06T14:05:00",
+  "temperatura": 22.7,
+  "humedad": 75
+}
+```
+
+Si existen miles de sensores enviando información constantemente, el volumen puede crecer rápidamente.
+
+Por ejemplo:
+
+```text
+10,000 sensores
+       ×
+1 registro cada minuto
+       ×
+1,440 minutos al día
+       =
+14,400,000 registros diarios
+```
+
+En este tipo de escenario empiezan a ser importantes conceptos que estudiaremos posteriormente:
+
+```text
+escalabilidad
+distribución
+particionamiento
+procesamiento paralelo
+```
+
+[@kleppmann2017]
+
+## Ejemplo 4: publicaciones de redes sociales
+
+Una publicación podría contener:
+
+```json
+{
+  "usuario": "usuario123",
+  "fecha": "2026-09-06",
+  "texto": "Hoy comenzó el curso de Bases de Datos No Relacionales",
+  "hashtags": [
+    "NoSQL",
+    "MongoDB"
+  ],
+  "reacciones": 35,
+  "comentarios": [
+    {
+      "usuario": "usuario456",
+      "texto": "Interesante"
+    },
+    {
+      "usuario": "usuario789",
+      "texto": "¿Compartirás el material?"
+    }
+  ]
+}
+```
+
+Aquí encontramos diferentes estructuras dentro de un mismo documento:
+
+```text
+texto
+números
+arreglos
+objetos anidados
+listas de objetos
+```
+
+Este tipo de información puede resultar muy natural para un modelo documental.
+
+## Ejemplo 5: imágenes y metadatos
+
+Supongamos que tenemos una colección de fotografías.
+
+El archivo original podría ser:
+
+```text
+estadio_001.jpg
+```
+
+La imagen, por sí misma, no contiene sus características semánticas organizadas como columnas.
+
+Sin embargo, podemos procesarla con un modelo de visión por computadora y obtener:
+
+```json
+{
+  "archivo": "estadio_001.jpg",
+  "fecha": "2026-08-25",
+  "etiquetas": [
+    "futbol",
+    "jugadores",
+    "estadio",
+    "balon"
+  ],
+  "modelo": "clasificador_imagenes",
+  "confianza": 0.94
+}
+```
+
+Tenemos entonces dos elementos distintos:
+
+```text
+estadio_001.jpg
+       │
+       │ procesamiento
+       ↓
+metadatos
+{
+  etiquetas,
+  modelo,
+  confianza
+}
+```
+
+El archivo visual continúa siendo la fuente original, pero ahora disponemos de información estructurada o semiestructurada que permite consultarlo.
+
+::: {.callout-note}
+## ¿Qué podríamos consultar?
+
+Una vez almacenados los metadatos podríamos preguntar:
+
+```text
+¿Qué imágenes contienen un balón?
+
+¿Qué fotografías fueron tomadas en un estadio?
+
+¿Qué imágenes tuvieron una confianza mayor a 0.90?
+
+¿Qué imágenes fueron clasificadas como fútbol?
+```
+
+El resultado de un modelo de Ciencia de Datos puede convertirse también en información que posteriormente necesita almacenarse y consultarse.
+:::
+
+## Ejemplo 6: análisis de texto
+
+Algo similar ocurre con documentos de texto.
+
+Supongamos que tenemos:
+
+```text
+comentario_001.txt
+```
+
+con el contenido:
+
+```text
+La aplicación funciona bien, pero tarda demasiado en cargar.
+```
+
+Después de procesarlo mediante técnicas de lenguaje natural podríamos obtener:
+
+```json
+{
+  "archivo": "comentario_001.txt",
+  "sentimiento": "mixto",
+  "temas": [
+    "rendimiento",
+    "aplicación"
+  ],
+  "palabras_clave": [
+    "funciona",
+    "tarda",
+    "cargar"
+  ]
+}
+```
+
+El texto original puede considerarse no estructurado para este propósito, mientras que los resultados del procesamiento se almacenan con una estructura claramente interpretable.
+
+## De una fuente a un conjunto de datos
+
+En muchos proyectos el objetivo final puede ser transformar información heterogénea en una estructura adecuada para el análisis.
+
+Por ejemplo:
+
+```text
+API
+ │
+ └── JSON
+      │
+      └── MongoDB
+            │
+            └── consulta
+                  │
+                  └── Python
+                        │
+                        └── DataFrame
+                              │
+                              └── análisis
+```
+
+O:
+
+```text
+Imágenes
+    │
+    └── modelo de visión
+           │
+           └── metadatos JSON
+                    │
+                    └── base de datos
+                              │
+                              └── análisis
+```
+
+La base de datos forma parte del **pipeline de datos**, no es solamente el lugar donde se guardan archivos [@kleppmann2017].
+
+## Elegir cómo almacenar la información
+
+Podemos pensar en algunos ejemplos sencillos:
+
+| Información | Posible representación |
+|---|---|
+| Encuesta | Tabla relacional o CSV |
+| Respuesta de una API | JSON |
+| Catálogo con atributos variables | Documentos |
+| Sesión temporal de usuario | Clave-valor |
+| Millones de mediciones distribuidas | Columnas |
+| Relaciones entre usuarios | Grafo |
+| Fotografía | Archivo + metadatos |
+| Texto libre | Documento + resultados de procesamiento |
+
+Esta tabla no representa reglas absolutas.
+
+Una misma aplicación puede utilizar distintos modelos dependiendo de sus necesidades.
+
+::: {.callout-tip}
+## Para Ciencia de Datos
+
+Cuando recibimos una fuente nueva conviene preguntarnos:
+
+```text
+¿Cómo vienen los datos?
+
+¿Qué estructura tienen?
+
+¿Con qué frecuencia llegan?
+
+¿Qué volumen pueden alcanzar?
+
+¿Qué consultas necesito hacer?
+
+¿Necesito relacionarlos con otras fuentes?
+
+¿En qué formato los necesitaré para analizarlos?
+```
+
+Estas preguntas ayudan a elegir una estrategia adecuada de almacenamiento y procesamiento.
+:::
+
+## Ejemplo integrado
+
+Supongamos que queremos analizar el comportamiento de usuarios de una plataforma de comercio electrónico.
+
+Podríamos disponer de:
+
+```text
+clientes
+   ↓
+base relacional
+
+catálogo de productos
+   ↓
+documentos
+
+sesiones de navegación
+   ↓
+clave-valor
+
+relaciones entre productos
+   ↓
+grafo
+
+clics y eventos
+   ↓
+gran volumen de registros
+
+opiniones
+   ↓
+texto libre
+```
+
+Posteriormente, parte de esta información podría integrarse en Python para construir un conjunto de datos analítico.
+
+Esto muestra que un proyecto de Ciencia de Datos puede involucrar **varias formas de representación antes de llegar al DataFrame final**.
+
+::: {.callout-note}
+## Idea clave
+
+En Ciencia de Datos, comprender el origen y la estructura de la información es tan importante como saber analizarla.
+
+Antes de aplicar un algoritmo debemos entender:
+
+```text
+de dónde vienen los datos
+cómo están representados
+cómo se almacenan
+cómo podemos recuperarlos
+```
+:::
+
+
+## ¿Cuándo pensar en una base relacional y cuándo en NoSQL?
+
+No existe una regla única que permita decidir automáticamente qué tipo de base de datos utilizar.
+
+La elección depende del problema, de la estructura de los datos y de la forma en que la información será consultada.
+
+Una base **relacional** puede ser una buena opción cuando:
+
+- existe un esquema relativamente estable;
+- las relaciones entre entidades están bien definidas;
+- se requiere alta consistencia;
+- las operaciones transaccionales son importantes;
+- se necesita utilizar consultas SQL complejas.
+
+Una base **NoSQL** puede resultar conveniente cuando:
+
+- los documentos tienen estructuras variables;
+- se utilizan listas u objetos anidados;
+- se necesitan grandes volúmenes distribuidos;
+- las relaciones entre elementos son especialmente importantes;
+- se requiere una arquitectura flexible o escalable.
+
+::: {.callout-warning}
+## No utilizar NoSQL solamente por moda
+
+Elegir una base NoSQL no significa que el sistema será automáticamente:
+
+```text
+más rápido
+más moderno
+más escalable
+```
+
+El rendimiento depende del diseño, la arquitectura, las consultas y las características del problema [@kleppmann2017].
+:::
+
+## Ejemplo 1: sistema escolar
+
+Supongamos que queremos administrar:
+
+```text
+estudiantes
+materias
+inscripciones
+calificaciones
+```
+
+Las entidades tienen relaciones claras y la información debe mantenerse consistente.
+
+En este caso, una base relacional podría ser una opción natural.
+
+Por ejemplo:
+
+```text
+ESTUDIANTES
+      │
+      └── INSCRIPCIONES
+              │
+              └── MATERIAS
+```
+
+## Ejemplo 2: catálogo de productos
+
+Una tienda en línea puede manejar productos con atributos muy diferentes.
+
+```text
+Laptop
+├── RAM
+├── procesador
+└── almacenamiento
+
+Playera
+├── talla
+├── color
+└── material
+```
+
+Un modelo documental puede ser conveniente porque permite mantener atributos distintos dentro de documentos de una misma colección.
+
+## Ejemplo 3: sesiones de usuario
+
+Si una aplicación necesita recuperar rápidamente información temporal mediante una clave:
+
+```text
+session_123 → datos del usuario
+```
+
+un modelo clave-valor puede ser adecuado.
+
+## Ejemplo 4: red social
+
+Si el problema principal consiste en analizar conexiones:
+
+```text
+persona
+  ↓
+sigue a
+  ↓
+persona
+```
+
+un modelo de grafos puede facilitar ciertas consultas.
+
+Por ejemplo:
+
+> Encontrar amigos de amigos que todavía no siguen al usuario.
+
+## Ejemplo 5: gran volumen de eventos
+
+Una plataforma puede registrar millones de eventos:
+
+```text
+clic
+vista
+compra
+búsqueda
+inicio_de_sesión
+```
+
+Si estos datos deben distribuirse entre múltiples nodos y consultarse a gran escala, pueden considerarse modelos diseñados para trabajar con grandes volúmenes distribuidos [@kleppmann2017].
+
+## Una misma organización puede usar varios modelos
+
+En sistemas reales no siempre se elige una única tecnología.
+
+Por ejemplo:
+
+```text
+Plataforma de comercio electrónico
+          │
+          ├── PostgreSQL
+          │      └── pedidos y pagos
+          │
+          ├── MongoDB
+          │      └── catálogo
+          │
+          ├── Redis
+          │      └── sesiones
+          │
+          └── Neo4j
+                 └── recomendaciones
+```
+
+Esta estrategia permite utilizar distintos modelos para distintas necesidades [@sadalage2012].
+
+## Actividad de autoevaluación
+
+Clasifica los siguientes ejemplos según el tipo de información que representan.
+
+| Ejemplo | Tipo de dato |
+|---|---|
+| Archivo CSV con calificaciones | ___ |
+| Documento JSON de una API | ___ |
+| Fotografía | ___ |
+| Tabla de estudiantes en PostgreSQL | ___ |
+| Archivo XML | ___ |
+| Grabación de audio | ___ |
+| Texto libre de una opinión | ___ |
+
+::: {.callout-tip}
+## Posibles respuestas
+
+```text
+CSV → estructurado
+JSON → semiestructurado
+Fotografía → no estructurado
+PostgreSQL → estructurado
+XML → semiestructurado
+Audio → no estructurado
+Texto libre → no estructurado
+```
+
+La clasificación depende de cómo esté representada la información que queremos analizar.
+:::
+
+## Preguntas para reflexionar
+
+1. ¿Una base NoSQL sustituye necesariamente a una base relacional?
+
+2. ¿Cuál es la principal diferencia entre una fila de una tabla y un documento JSON?
+
+3. ¿Por qué una tienda en línea puede beneficiarse de un modelo documental?
+
+4. ¿Qué tipo de base podría ser conveniente cuando las relaciones entre usuarios son el centro del problema?
+
+5. ¿Por qué JSON es importante en Ciencia de Datos?
+
+6. ¿Puede una misma aplicación utilizar diferentes tipos de bases de datos?
+
+7. ¿Qué factores deberíamos considerar antes de elegir un modelo de almacenamiento?
+
+## Ideas clave del tema
+
+Al finalizar este tema es importante conservar las siguientes ideas:
+
+::: {.callout-note}
+## 1. El modelo relacional sigue siendo fundamental
+
+Las bases de datos relacionales continúan siendo una excelente opción para una gran cantidad de sistemas.
+
+NoSQL no implica abandonar SQL.
+:::
+
+::: {.callout-note}
+## 2. Los datos pueden tener diferentes niveles de estructura
+
+Podemos trabajar con:
+
+```text
+estructurados
+semiestructurados
+no estructurados
+```
+
+La forma de representar la información influye en cómo la almacenamos y consultamos.
+:::
+
+::: {.callout-note}
+## 3. NoSQL no es un único modelo
+
+Las principales familias estudiadas en este curso son:
+
+```text
+documentos
+clave-valor
+columnas
+grafos
+```
+
+Cada modelo responde a necesidades diferentes.
+:::
+
+::: {.callout-note}
+## 4. El problema determina la tecnología
+
+No existe una base de datos ideal para todos los escenarios.
+
+La elección depende de:
+
+```text
+estructura de los datos
+tipo de consultas
+relaciones
+volumen
+consistencia
+distribución
+escalabilidad
+```
+
+[@sadalage2012; @kleppmann2017]
+:::
+
+::: {.callout-note}
+## 5. Ciencia de Datos trabaja con múltiples fuentes
+
+Un proyecto puede comenzar con:
+
+```text
+CSV
+JSON
+APIs
+sensores
+texto
+imágenes
+bases de datos
+```
+
+y posteriormente transformar esa información para realizar análisis o construir modelos.
+:::
+
+## En la siguiente sesión
+
+Después de comprender cómo pueden representarse los datos, el siguiente paso será estudiar qué ocurre cuando los sistemas necesitan crecer y trabajar con información distribuida.
+
+Se introducirán conceptos como:
+
+```text
+escalabilidad vertical
+escalabilidad horizontal
+bases de datos distribuidas
+replicación
+particionamiento
+consistencia
+concurrencia
+teorema CAP
+procesamiento paralelo
+```
+
+Estos conceptos permitirán comprender mejor por qué muchas tecnologías NoSQL están estrechamente relacionadas con arquitecturas distribuidas [@kleppmann2017].
+
+## Referencias
+
+
