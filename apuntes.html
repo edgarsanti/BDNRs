@@ -142,18 +142,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#tema-1" id="toc-tema-1" class="nav-link active" data-scroll-target="#tema-1">Tema 1</a>
-  <ul class="collapse">
-  <li><a href="#de-las-bases-de-datos-relacionales-a-las-bases-de-datos-nosql" id="toc-de-las-bases-de-datos-relacionales-a-las-bases-de-datos-nosql" class="nav-link" data-scroll-target="#de-las-bases-de-datos-relacionales-a-las-bases-de-datos-nosql">De las bases de datos relacionales a las bases de datos NoSQL</a></li>
-  </ul></li>
-  <li><a href="#tema-2" id="toc-tema-2" class="nav-link" data-scroll-target="#tema-2">Tema 2</a>
-  <ul class="collapse">
+  <li><a href="#de-las-bases-de-datos-relacionales-a-nosql" id="toc-de-las-bases-de-datos-relacionales-a-nosql" class="nav-link active" data-scroll-target="#de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</a></li>
   <li><a href="#escalabilidad-y-bases-de-datos-distribuidas" id="toc-escalabilidad-y-bases-de-datos-distribuidas" class="nav-link" data-scroll-target="#escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</a></li>
-  </ul></li>
-  <li><a href="#tema-3" id="toc-tema-3" class="nav-link" data-scroll-target="#tema-3">Tema 3</a>
-  <ul class="collapse">
-  <li><a href="#mongodb-y-consultas-básicas" id="toc-mongodb-y-consultas-básicas" class="nav-link" data-scroll-target="#mongodb-y-consultas-básicas">MongoDB y consultas básicas</a></li>
-  </ul></li>
+  <li><a href="#bases-de-datos-orientadas-a-documentos" id="toc-bases-de-datos-orientadas-a-documentos" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</a></li>
+  <li><a href="#consultas-y-manejo-de-documentos-en-mongodb" id="toc-consultas-y-manejo-de-documentos-en-mongodb" class="nav-link" data-scroll-target="#consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</a></li>
+  <li><a href="#bases-de-datos-clavevalor" id="toc-bases-de-datos-clavevalor" class="nav-link" data-scroll-target="#bases-de-datos-clavevalor">Bases de datos clave–valor</a></li>
   </ul>
 </nav>
     </div>
@@ -179,81 +172,40 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>En esta sección se presentan materiales complementarios para ampliar los temas revisados durante las clases.</p>
-<p>Los apuntes permiten consultar con mayor detalle los conceptos, ejemplos y procedimientos trabajados durante el curso.</p>
-<section id="tema-1" class="level2">
-<h2 class="anchored" data-anchor-id="tema-1">Tema 1</h2>
-<section id="de-las-bases-de-datos-relacionales-a-las-bases-de-datos-nosql" class="level3">
-<h3 class="anchored" data-anchor-id="de-las-bases-de-datos-relacionales-a-las-bases-de-datos-nosql">De las bases de datos relacionales a las bases de datos NoSQL</h3>
-<p>En este tema se revisan los fundamentos que permiten comprender la transición desde el modelo relacional hacia los principales modelos NoSQL.</p>
-<p>Se abordan:</p>
-<ul>
-<li>modelo relacional;</li>
-<li>tablas, registros, atributos y llaves;</li>
-<li>datos estructurados;</li>
-<li>datos semiestructurados;</li>
-<li>datos no estructurados;</li>
-<li>JSON y estructuras anidadas;</li>
-<li>comparación entre modelo relacional y documental;</li>
-<li>concepto de NoSQL;</li>
-<li>bases orientadas a documentos;</li>
-<li>bases clave-valor;</li>
-<li>bases orientadas a columnas;</li>
-<li>bases de grafos;</li>
-<li>aplicaciones en Ciencia de Datos;</li>
-<li>criterios para elegir un modelo de almacenamiento.</li>
-</ul>
-<p><a class="btn btn-primary" href="apuntes/01_relacional_a_nosql.html"> Abrir Tema 1 </a></p>
+<p>En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.</p>
+<p>Los apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales.</p>
+<section id="de-las-bases-de-datos-relacionales-a-nosql" class="level2">
+<h2 class="anchored" data-anchor-id="de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</h2>
+<p>Introducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.</p>
+<p><a class="btn btn-primary" href="apuntes/01_relacional_a_nosql.html"> Abrir apunte </a></p>
 <hr>
 </section>
-</section>
-<section id="tema-2" class="level2">
-<h2 class="anchored" data-anchor-id="tema-2">Tema 2</h2>
-<section id="escalabilidad-y-bases-de-datos-distribuidas" class="level3">
-<h3 class="anchored" data-anchor-id="escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</h3>
-<p>En este tema se estudia qué ocurre cuando una aplicación necesita atender más usuarios, almacenar mayores volúmenes de información o distribuir sus datos entre diferentes servidores.</p>
-<p>Se abordan:</p>
-<ul>
-<li>concepto de escalabilidad;</li>
-<li>escalabilidad vertical;</li>
-<li>escalabilidad horizontal;</li>
-<li>sistemas distribuidos;</li>
-<li>replicación;</li>
-<li>particionamiento y <em>sharding</em>;</li>
-<li>consistencia;</li>
-<li>concurrencia;</li>
-<li>teorema CAP;</li>
-<li>procesamiento paralelo;</li>
-<li>relación entre escalabilidad y bases de datos NoSQL.</li>
-</ul>
-<p><a class="btn btn-primary" href="apuntes/02_escalabilidad_bases_distribuidas.html"> Abrir Tema 2 </a></p>
+<section id="escalabilidad-y-bases-de-datos-distribuidas" class="level2">
+<h2 class="anchored" data-anchor-id="escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</h2>
+<p>Conceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.</p>
+<p><a class="btn btn-primary" href="apuntes/02_escalabilidad_bases_distribuidas.html"> Abrir apunte </a></p>
 <hr>
 </section>
+<section id="bases-de-datos-orientadas-a-documentos" class="level2">
+<h2 class="anchored" data-anchor-id="bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</h2>
+<p>Introducción al modelo documental, su estructura, características y principales aplicaciones.</p>
+<p><a class="btn btn-primary" href="apuntes/03_bases_orientadas_documentos.html"> Abrir apunte </a></p>
+<hr>
 </section>
-<section id="tema-3" class="level2">
-<h2 class="anchored" data-anchor-id="tema-3">Tema 3</h2>
-<section id="mongodb-y-consultas-básicas" class="level3">
-<h3 class="anchored" data-anchor-id="mongodb-y-consultas-básicas">MongoDB y consultas básicas</h3>
-<p>En este tema se introduce MongoDB como ejemplo de una base de datos orientada a documentos.</p>
-<p>Se abordan:</p>
-<ul>
-<li>modelo documental;</li>
-<li>bases de datos y colecciones;</li>
-<li>documentos y campos;</li>
-<li>BSON y JSON;</li>
-<li>inserción de documentos;</li>
-<li>consultas con <code>find()</code>;</li>
-<li>operadores de comparación;</li>
-<li>consultas sobre arreglos;</li>
-<li>objetos anidados;</li>
-<li>operadores <code>$or</code>, <code>$in</code> y <code>$exists</code>;</li>
-<li>uso de MongoDB Compass;</li>
-<li>consultas básicas sobre colecciones.</li>
-</ul>
-<p><a class="btn btn-primary" href="apuntes/03_mongodb_consultas_basicas.html"> Abrir Tema 3 </a></p>
+<section id="consultas-y-manejo-de-documentos-en-mongodb" class="level2">
+<h2 class="anchored" data-anchor-id="consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</h2>
+<p>Operaciones básicas para insertar, consultar y filtrar documentos utilizando MongoDB.</p>
+<p><a class="btn btn-primary" href="apuntes/04_consultas_mongodb.html"> Abrir apunte </a></p>
+<hr>
+</section>
+<section id="bases-de-datos-clavevalor" class="level2">
+<h2 class="anchored" data-anchor-id="bases-de-datos-clavevalor">Bases de datos clave–valor</h2>
+<p>Introducción al modelo clave–valor y su implementación mediante Redis.</p>
+<blockquote class="blockquote">
+<p>Próximamente</p>
+</blockquote>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -330,7 +282,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
