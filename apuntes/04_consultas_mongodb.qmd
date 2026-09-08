@@ -1141,7 +1141,7 @@ db.movies.find({
 
 El campo `genres` contiene un arreglo.
 
-Para buscar películas de drama:
+Para buscar películas de Drama:
 
 ### En la Terminal 2, dentro de `mongosh`
 
@@ -1323,34 +1323,36 @@ operadores de comparación
 
 Después de realizar una consulta puede ser útil guardar únicamente los documentos que cumplen determinadas condiciones.
 
-Para esta parte trabajaremos exclusivamente con:
+Para esta parte trabajaremos con:
 
 ```text
 Base de datos: sample_mflix
 Colección: movies
 ```
 
-El flujo general será:
+El procedimiento general será:
 
 ```text
-sample_mflix
+MongoDB Compass
    ↓
-movies
+probar el filtro
    ↓
-consulta
+verificar resultados
    ↓
-filtro
+guardar el filtro en consulta.json
    ↓
-documentos seleccionados
+Terminal 3
    ↓
-exportación
+mongoexport
    ↓
-JSON o CSV
+archivo JSON o CSV
 ```
 
 ## Exportar desde MongoDB Compass
 
-Primero abrimos MongoDB Compass y seleccionamos:
+También es posible exportar información directamente desde MongoDB Compass.
+
+Primero seleccionamos:
 
 ```text
 sample_mflix
@@ -1360,7 +1362,7 @@ movies
 Documents
 ```
 
-Después aplicamos un filtro.
+Después aplicamos el filtro deseado.
 
 Por ejemplo:
 
@@ -1370,11 +1372,9 @@ Por ejemplo:
 }
 ```
 
-Una vez aplicado el filtro, Compass mostrará únicamente los documentos que cumplen esa condición.
+Una vez aplicado el filtro, Compass mostrará los documentos que cumplen esa condición.
 
-Después utilizamos la opción de exportación disponible en Compass.
-
-Podemos trabajar con formatos como:
+Podemos utilizar la opción de exportación disponible en Compass y trabajar con formatos como:
 
 ```text
 JSON
@@ -1384,28 +1384,24 @@ CSV
 ::: {.callout-warning}
 ## Antes de exportar
 
-Debemos verificar que estamos exportando los **resultados de la consulta** y no toda la colección.
+Debemos verificar si estamos exportando:
+
+```text
+los resultados filtrados
+```
+
+o:
+
+```text
+toda la colección
+```
 
 Si nuestro objetivo es crear una base filtrada, debemos conservar únicamente los documentos que cumplen el criterio seleccionado.
 :::
 
-## Exportar a JSON
+## ¿JSON o CSV?
 
-Después de aplicar:
-
-```javascript
-{
-  year: 2000
-}
-```
-
-podemos guardar los resultados como:
-
-```text
-peliculas_2000.json
-```
-
-JSON conserva mejor elementos como:
+JSON conserva de manera natural elementos como:
 
 ```text
 arreglos
@@ -1414,9 +1410,7 @@ listas
 campos complejos
 ```
 
-## Exportar a CSV
-
-CSV puede resultar más conveniente cuando queremos continuar el análisis en:
+CSV puede ser más conveniente cuando queremos continuar el análisis en:
 
 ```text
 Excel
@@ -1425,17 +1419,8 @@ R
 Power BI
 ```
 
-Por ejemplo, podemos trabajar con campos como:
-
-```text
-title
-year
-runtime
-rated
-```
-
 ::: {.callout-tip}
-## ¿JSON o CSV?
+## Regla práctica
 
 Utiliza **JSON** cuando quieras conservar la estructura documental.
 
@@ -1450,7 +1435,7 @@ Además de Compass, MongoDB cuenta con una herramienta llamada:
 mongoexport
 ```
 
-Para no confundirla con `mongosh`, utilizaremos una **tercera terminal**.
+Para evitar confusiones utilizaremos una **tercera terminal**.
 
 La organización será:
 
@@ -1467,7 +1452,13 @@ mongosh
    ↓
 consultas
 
+MongoDB Compass
+   ↓
+filtros y visualización
+
 Terminal 3
+   ↓
+consulta.json
    ↓
 mongoexport
    ↓
@@ -1480,25 +1471,11 @@ exportación
 `mongoexport` se ejecuta directamente en la **Terminal 3**.
 
 No se ejecuta dentro de `mongosh`.
-
-Por lo tanto:
-
-```text
-Terminal 2 → mongosh
-```
-
-y:
-
-```text
-Terminal 3 → mongoexport
-```
-
-son cosas diferentes.
 :::
 
 ## Exportar toda la colección `movies`
 
-**En la Terminal 3:**
+Si queremos exportar toda la colección, en la Terminal 3 podemos ejecutar:
 
 ```powershell
 mongoexport --db=sample_mflix --collection=movies --out=movies.json
@@ -1512,10 +1489,7 @@ movies.json
 
 con todos los documentos de la colección.
 
-::: {.callout-note}
-## ¿Dónde se guarda?
-
-Si solamente escribimos:
+Si escribimos solamente:
 
 ```text
 --out=movies.json
@@ -1523,28 +1497,32 @@ Si solamente escribimos:
 
 el archivo se guarda en la carpeta actual de la Terminal 3.
 
-En Windows podemos consultar esa carpeta con:
+Podemos consultar esa carpeta con:
 
 ```powershell
 pwd
 ```
-:::
 
-## Exportar únicamente las películas del año 2000
+## Ejemplos prácticos de exportación
 
-Ahora realizaremos el proceso completo para exportar solamente las películas del año 2000.
+Ahora utilizaremos algunos de los filtros que ya revisamos anteriormente.
 
-Trabajaremos con:
+La idea será siempre la misma:
 
 ```text
-Base de datos: sample_mflix
-Colección: movies
-Filtro: year = 2000
+1. Probar el filtro en MongoDB Compass
+2. Verificar que los resultados sean correctos
+3. Crear consulta.json
+4. Guardar el filtro
+5. Ejecutar mongoexport en la Terminal 3
+6. Verificar el archivo exportado
 ```
 
-### Paso 1. Comprobar el filtro en MongoDB Compass
+## Ejemplo 1. Películas del año 2000
 
-En MongoDB Compass selecciona:
+### Paso 1. Probar el filtro en MongoDB Compass
+
+Selecciona:
 
 ```text
 sample_mflix
@@ -1564,41 +1542,37 @@ Escribe:
 }
 ```
 
-Aplica el filtro y verifica que los resultados correspondan únicamente a películas del año 2000.
+Aplica el filtro y verifica los resultados.
 
 ### Paso 2. Abrir la Terminal 3
 
 Abre una tercera terminal de Windows.
 
-Puedes utilizar **PowerShell**.
+Puedes utilizar PowerShell.
 
-No ejecutes `mongosh` en esta terminal.
-
-La Terminal 3 se utilizará para:
+No ejecutes:
 
 ```text
-crear consulta.json
-ejecutar mongoexport
-guardar el archivo exportado
+mongosh
 ```
 
-### Paso 3. Verificar la carpeta de trabajo
+en esta terminal.
 
-En la Terminal 3 ejecuta:
+### Paso 3. Verificar la carpeta actual
+
+En la Terminal 3 escribe:
 
 ```powershell
 pwd
 ```
 
-Esto mostrará la carpeta donde te encuentras actualmente.
-
-Por ejemplo:
+Por ejemplo, podrías encontrarte en:
 
 ```text
-C:\Users\TU_USUARIO
+C:\Users\santi
 ```
 
-Si no indicamos otra ruta, los archivos que creemos se guardarán en esta carpeta.
+Si no indicamos otra ruta, los archivos creados se guardarán en esa carpeta.
 
 ### Paso 4. Crear `consulta.json`
 
@@ -1610,9 +1584,7 @@ notepad consulta.json
 
 Se abrirá el Bloc de notas.
 
-Si Windows pregunta si deseas crear el archivo, selecciona **Sí**.
-
-Dentro del archivo escribe:
+Dentro escribe:
 
 ```json
 {
@@ -1625,8 +1597,6 @@ Guarda con:
 ```text
 Ctrl + S
 ```
-
-y cierra el Bloc de notas.
 
 ### Paso 5. Verificar `consulta.json`
 
@@ -1644,353 +1614,181 @@ consulta.json
 
 el archivo fue creado correctamente.
 
-### Paso 6. Ejecutar `mongoexport`
+### Paso 6. Exportar
 
-En la Terminal 3 ejecuta:
+Ejecuta:
 
 ```powershell
 mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_2000.json
 ```
 
-El comando utiliza:
-
-```text
---db
-base de datos
-
---collection
-colección
-
---queryFile
-archivo que contiene el filtro
-
---out
-nombre y ubicación del archivo exportado
-```
-
-Al finalizar se generará:
+El archivo generado será:
 
 ```text
 peliculas_2000.json
 ```
 
-con únicamente las películas del año 2000.
+### Paso 7. Verificar el archivo
 
-### Paso 7. Verificar el archivo exportado
-
-En la Terminal 3 ejecuta:
+Ejecuta:
 
 ```powershell
 dir peliculas_2000.json
 ```
 
-Si aparece el archivo, la exportación se realizó correctamente.
-
-También podemos abrirlo con:
+También puedes abrirlo con:
 
 ```powershell
 notepad peliculas_2000.json
 ```
 
-## ¿Dónde se guarda `peliculas_2000.json`?
-
-Si utilizamos:
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_2000.json
-```
-
-el archivo se guarda en la **carpeta actual de la Terminal 3**.
-
-Para saber cuál es esa carpeta ejecuta:
-
-```powershell
-pwd
-```
-
-Por ejemplo, si aparece:
+El flujo fue:
 
 ```text
-C:\Users\TU_USUARIO
-```
-
-entonces el archivo se encontrará en:
-
-```text
-C:\Users\TU_USUARIO\peliculas_2000.json
-```
-
-## Guardar el archivo en una carpeta específica
-
-También podemos decidir exactamente dónde queremos guardar el archivo.
-
-Para ello escribimos una **ruta completa** después de `--out`.
-
-### Guardar en el Escritorio
-
-Por ejemplo:
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\TU_USUARIO\Desktop\peliculas_2000.json"
-```
-
-Cada estudiante deberá sustituir:
-
-```text
-TU_USUARIO
-```
-
-por el nombre de su usuario de Windows.
-
-### Guardar en una carpeta específica
-
-Por ejemplo, podemos crear una carpeta llamada:
-
-```text
-Exportaciones
-```
-
-dentro de Documentos.
-
-Primero creamos la carpeta:
-
-```powershell
-mkdir "C:\Users\TU_USUARIO\Documents\Exportaciones"
-```
-
-Después ejecutamos:
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\TU_USUARIO\Documents\Exportaciones\peliculas_2000.json"
-```
-
-El archivo quedará almacenado en:
-
-```text
-C:\Users\TU_USUARIO\Documents\Exportaciones\peliculas_2000.json
-```
-
-### Verificar una carpeta específica
-
-Podemos comprobar su contenido con:
-
-```powershell
-dir "C:\Users\TU_USUARIO\Documents\Exportaciones"
-```
-
-::: {.callout-note}
-## Idea clave
-
-Si después de `--out` escribimos solamente:
-
-```text
-peliculas_2000.json
-```
-
-el archivo se guarda en la carpeta actual de la Terminal 3.
-
-Si escribimos una ruta completa:
-
-```text
-C:\Users\TU_USUARIO\Documents\Exportaciones\peliculas_2000.json
-```
-
-el archivo se guarda exactamente en esa ubicación.
-:::
-
-El proceso completo puede resumirse así:
-
-```text
-MongoDB Compass
+Compass
    ↓
-aplicar { year: 2000 }
+{ year: 2000 }
    ↓
-verificar resultados
-   ↓
-Terminal 3
-   ↓
-pwd
-   ↓
-notepad consulta.json
-   ↓
-guardar filtro
+consulta.json
    ↓
 mongoexport
    ↓
 peliculas_2000.json
 ```
 
-## Exportar una consulta más específica
+## Ejemplo 2. Películas posteriores a 2010
 
-Supongamos que queremos seleccionar películas que cumplan:
+Ahora reutilizaremos el mismo procedimiento.
 
-```text
-posteriores a 2010
-calificación IMDb mayor a 8
-género Drama
-```
+### En MongoDB Compass
 
-Primero comprobamos el filtro en MongoDB Compass.
-
-En:
-
-```text
-sample_mflix
-   ↓
-movies
-   ↓
-Documents
-   ↓
-Filter
-```
-
-escribimos:
+Aplicamos:
 
 ```javascript
 {
   year: {
     $gt: 2010
-  },
-  "imdb.rating": {
-    $gt: 8
-  },
-  genres: "Drama"
+  }
 }
 ```
 
-Si los resultados son los esperados, utilizamos ese mismo criterio para la exportación.
+### En `consulta.json`
 
-## Crear el archivo `consulta.json`
-
-En la Terminal 3 podemos escribir:
+En la Terminal 3 abrimos nuevamente:
 
 ```powershell
 notepad consulta.json
 ```
 
-Después guardamos dentro:
+Reemplazamos el contenido anterior por:
 
 ```json
 {
   "year": {
     "$gt": 2010
-  },
-  "imdb.rating": {
-    "$gt": 8
-  },
-  "genres": "Drama"
+  }
 }
 ```
 
+Guardamos con:
+
+```text
+Ctrl + S
+```
+
+### En la Terminal 3
+
+Ejecutamos:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_posteriores_2010.json
+```
+
+El archivo generado será:
+
+```text
+peliculas_posteriores_2010.json
+```
+
 ::: {.callout-note}
-## ¿Por qué aparecen comillas en `$gt`?
+## Observa la diferencia
 
-Dentro de un archivo JSON los nombres de los campos y operadores deben escribirse entre comillas.
+En MongoDB Compass utilizamos:
 
-Por ello utilizamos:
+```javascript
+$gt
+```
+
+Dentro de `consulta.json` utilizamos:
 
 ```json
 "$gt"
 ```
 
-mientras que en el cuadro `Filter` de Compass podemos escribir:
-
-```javascript
-$gt
-```
+porque `consulta.json` debe contener JSON válido.
 :::
 
-## Exportar los documentos filtrados
+## Ejemplo 3. Películas con calificación IMDb mayor a 8
 
-**En la Terminal 3:**
+### En MongoDB Compass
+
+Aplicamos:
+
+```javascript
+{
+  "imdb.rating": {
+    $gt: 8
+  }
+}
+```
+
+### En `consulta.json`
+
+Abrimos:
 
 ```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
+notepad consulta.json
+```
+
+y guardamos:
+
+```json
+{
+  "imdb.rating": {
+    "$gt": 8
+  }
+}
+```
+
+### En la Terminal 3
+
+Ejecutamos:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_imdb_mayor_8.json
 ```
 
 El resultado será:
 
 ```text
-peliculas_filtradas.json
+peliculas_imdb_mayor_8.json
 ```
 
-con únicamente las películas que cumplen las condiciones especificadas.
+## Ejemplo 4. Consulta con varias condiciones
 
-Si queremos decidir dónde se guardará el archivo, podemos utilizar una ruta completa:
+Ahora utilizaremos un filtro más completo.
 
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\TU_USUARIO\Desktop\peliculas_filtradas.json"
-```
-
-El proceso puede representarse así:
+Queremos obtener películas que:
 
 ```text
-MongoDB Compass
-   ↓
-probar filtro
-   ↓
-verificar resultados
-   ↓
-consulta.json
-   ↓
-Terminal 3
-   ↓
-mongoexport
-   ↓
-peliculas_filtradas.json
+sean posteriores a 2010
+tengan calificación IMDb mayor a 8
+sean del género Drama
 ```
 
-## Exportar resultados filtrados a CSV
+### En MongoDB Compass
 
-También podemos exportar esos mismos resultados a CSV.
-
-**En la Terminal 3:**
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv
-```
-
-En este caso se exportan únicamente los campos:
-
-```text
-title
-year
-runtime
-```
-
-de las películas que cumplen el filtro.
-
-También podemos indicar una carpeta específica:
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out="C:\Users\TU_USUARIO\Desktop\peliculas_filtradas.csv"
-```
-
-::: {.callout-note}
-## Consideración sobre estructuras anidadas
-
-CSV funciona mejor cuando queremos obtener una estructura tabular.
-
-Si necesitamos conservar objetos anidados o arreglos completos, normalmente resulta más conveniente utilizar JSON.
-:::
-
-## Ejemplo completo de exportación
-
-Supongamos que queremos obtener una base para analizar películas de Drama posteriores a 2010 con una calificación IMDb superior a 8.
-
-### Paso 1. Seleccionar la colección
-
-En MongoDB Compass:
-
-```text
-sample_mflix
-   ↓
-movies
-```
-
-### Paso 2. Aplicar el filtro
-
-En `Filter`:
+Aplicamos:
 
 ```javascript
 {
@@ -2004,13 +1802,11 @@ En `Filter`:
 }
 ```
 
-### Paso 3. Revisar los resultados
+Primero verificamos que los resultados sean los esperados.
 
-Comprobamos que las películas obtenidas correspondan con las condiciones solicitadas.
+### En `consulta.json`
 
-### Paso 4. Crear `consulta.json`
-
-En la Terminal 3:
+En la Terminal 3 ejecutamos:
 
 ```powershell
 notepad consulta.json
@@ -2030,82 +1826,252 @@ Guardamos:
 }
 ```
 
-### Paso 5. Elegir dónde guardar el archivo
+### En la Terminal 3
 
-Podemos dejar que se guarde en la carpeta actual:
-
-```powershell
-pwd
-```
-
-o indicar una ruta específica.
-
-Por ejemplo:
-
-```text
-C:\Users\TU_USUARIO\Desktop
-```
-
-### Paso 6. Exportar desde la Terminal 3
-
-Para guardar el archivo en la carpeta actual:
+Ejecutamos:
 
 ```powershell
 mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
 ```
 
-Para guardarlo en el Escritorio:
-
-```powershell
-mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\TU_USUARIO\Desktop\peliculas_filtradas.json"
-```
-
-### Paso 7. Continuar el análisis
-
-El archivo generado puede utilizarse posteriormente en:
+Se generará:
 
 ```text
-Python
-R
-Excel
-Power BI
+peliculas_filtradas.json
 ```
 
-El proceso completo queda así:
+El procedimiento completo es:
 
 ```text
 MongoDB Compass
    ↓
-aplicar filtro
+probar filtro
    ↓
 verificar resultados
    ↓
+consulta.json
+   ↓
 Terminal 3
-   ↓
-crear consulta.json
-   ↓
-elegir ubicación
    ↓
 mongoexport
    ↓
-JSON / CSV
+peliculas_filtradas.json
+```
+
+## Guardar el archivo en una carpeta específica
+
+Hasta ahora hemos escrito solamente el nombre del archivo después de `--out`.
+
+Por ejemplo:
+
+```text
+--out=peliculas_2000.json
+```
+
+En ese caso el archivo se guarda en la **carpeta actual de la Terminal 3**.
+
+Podemos conocer esa carpeta con:
+
+```powershell
+pwd
+```
+
+Por ejemplo:
+
+```text
+C:\Users\santi
+```
+
+También podemos decidir exactamente dónde queremos guardar el archivo.
+
+En este equipo el Escritorio se encuentra en:
+
+```text
+C:\Users\santi\OneDrive\Escritorio
+```
+
+### Guardar las películas del año 2000 en el Escritorio
+
+Si `consulta.json` contiene:
+
+```json
+{
+  "year": 2000
+}
+```
+
+podemos ejecutar:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\santi\OneDrive\Escritorio\peliculas_2000.json"
+```
+
+El archivo quedará en:
+
+```text
+C:\Users\santi\OneDrive\Escritorio\peliculas_2000.json
+```
+
+### Ejemplo adicional: películas del año 2016
+
+Podemos aplicar en MongoDB Compass:
+
+```javascript
+{
+  year: 2016
+}
+```
+
+En este ejemplo se obtuvo:
+
+```text
+1 documento
+```
+
+Después abrimos:
+
+```powershell
+notepad consulta.json
+```
+
+y guardamos:
+
+```json
+{
+  "year": 2016
+}
+```
+
+Finalmente, en la Terminal 3 ejecutamos:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\santi\OneDrive\Escritorio\peliculas_2016.json"
+```
+
+El archivo se guardará directamente en:
+
+```text
+C:\Users\santi\OneDrive\Escritorio\peliculas_2016.json
+```
+
+Podemos verificarlo con:
+
+```powershell
+dir "C:\Users\santi\OneDrive\Escritorio\peliculas_2016.json"
+```
+
+Este fue el flujo:
+
+```text
+MongoDB Compass
    ↓
-Python / R / Excel
+{ year: 2016 }
+   ↓
+1 documento
+   ↓
+Terminal 3
+   ↓
+notepad consulta.json
+   ↓
+{
+  "year": 2016
+}
+   ↓
+mongoexport
+   ↓
+C:\Users\santi\OneDrive\Escritorio\peliculas_2016.json
 ```
 
 ::: {.callout-note}
 ## Idea clave
 
-Antes de exportar una base de datos filtrada, conviene comprobar primero la consulta en MongoDB Compass.
-
-Después:
+Si utilizamos:
 
 ```text
-1. Creamos consulta.json
-2. Verificamos dónde estamos con pwd
-3. Ejecutamos mongoexport
-4. Indicamos con --out dónde queremos guardar el archivo
+--out=peliculas_2016.json
 ```
+
+el archivo se guarda en la carpeta actual de la Terminal 3.
+
+Si utilizamos:
+
+```text
+--out="C:\Users\santi\OneDrive\Escritorio\peliculas_2016.json"
+```
+
+el archivo se guarda exactamente en el Escritorio indicado.
+:::
+
+## Guardar en otra carpeta
+
+También podemos crear una carpeta específica para las exportaciones.
+
+Por ejemplo:
+
+```powershell
+mkdir "C:\Users\santi\OneDrive\Escritorio\Exportaciones"
+```
+
+Después podemos guardar ahí el archivo:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out="C:\Users\santi\OneDrive\Escritorio\Exportaciones\peliculas_filtradas.json"
+```
+
+Podemos verificar el contenido de la carpeta con:
+
+```powershell
+dir "C:\Users\santi\OneDrive\Escritorio\Exportaciones"
+```
+
+::: {.callout-tip}
+## La ruta puede cambiar
+
+La ruta:
+
+```text
+C:\Users\santi\OneDrive\Escritorio
+```
+
+corresponde al equipo utilizado en este ejemplo.
+
+En otra computadora la ruta puede ser diferente.
+
+Antes de exportar conviene verificar la ubicación donde se desea guardar el archivo.
+:::
+
+## Exportar resultados filtrados a CSV
+
+También podemos exportar los resultados en formato CSV.
+
+Supongamos que `consulta.json` contiene el filtro que queremos utilizar.
+
+En la Terminal 3 ejecutamos:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv
+```
+
+En este caso se exportan únicamente los campos:
+
+```text
+title
+year
+runtime
+```
+
+Si queremos guardar el archivo directamente en el Escritorio:
+
+```powershell
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out="C:\Users\santi\OneDrive\Escritorio\peliculas_filtradas.csv"
+```
+
+::: {.callout-note}
+## Consideración sobre CSV
+
+CSV funciona mejor cuando queremos obtener una estructura tabular.
+
+Si necesitamos conservar objetos anidados o arreglos completos, normalmente resulta más conveniente utilizar JSON.
 :::
 
 ## MongoDB y el análisis de datos
@@ -2132,6 +2098,8 @@ limpieza
 análisis
 ```
 
+De esta manera, MongoDB puede participar directamente en la preparación de los datos.
+
 ## Resumen: ¿dónde escribo cada cosa?
 
 | Acción | Lugar |
@@ -2146,12 +2114,13 @@ análisis
 | Aplicar `{ year: 2000 }` | MongoDB Compass → `Filter` |
 | Ver documentos gráficamente | MongoDB Compass |
 | Navegar entre bases y colecciones | MongoDB Compass |
-| Exportar desde la interfaz | MongoDB Compass |
 | Crear `consulta.json` | Terminal 3 → `notepad consulta.json` |
 | Ver carpeta actual | Terminal 3 → `pwd` |
+| Verificar un archivo | Terminal 3 → `dir` |
 | Ejecutar `mongoexport` | Terminal 3 |
-| Crear JSON o CSV mediante `mongoexport` | Terminal 3 |
-| Elegir dónde guardar el archivo | Terminal 3 → `--out="ruta"` |
+| Exportar a JSON | Terminal 3 |
+| Exportar a CSV | Terminal 3 |
+| Elegir dónde guardar | Terminal 3 → `--out="ruta"` |
 
 ::: {.callout-note}
 ## Regla práctica
@@ -2178,15 +2147,15 @@ Permite ejecutar consultas.
 Filter
 ```
 
-Permite aplicar filtros desde la interfaz gráfica.
+Permite probar y visualizar filtros.
 
 **Terminal 3**
 
-```text
+```powershell
 notepad consulta.json
 ```
 
-permite crear el archivo del filtro.
+permite crear o modificar el archivo del filtro.
 
 Después:
 
@@ -2194,7 +2163,7 @@ Después:
 mongoexport
 ```
 
-permite exportar la información.
+permite exportar los resultados.
 :::
 
 ## Actividad de autoevaluación
@@ -2268,7 +2237,7 @@ Para exportar el último filtro, guardamos la consulta en:
 consulta.json
 ```
 
-y en la **Terminal 3** ejecutamos:
+y en la Terminal 3 ejecutamos:
 
 ```powershell
 mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
@@ -2305,11 +2274,13 @@ mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --ou
 
 14. ¿Dónde debe ejecutarse `mongoexport`?
 
-15. ¿Cómo podemos saber en qué carpeta se guardará un archivo exportado?
+15. ¿Para qué sirve `consulta.json`?
 
-16. ¿Cómo podemos indicar una carpeta específica mediante `--out`?
+16. ¿Cómo podemos saber en qué carpeta estamos trabajando?
 
-17. ¿Por qué conviene probar primero un filtro antes de exportarlo?
+17. ¿Cómo podemos indicar una carpeta específica mediante `--out`?
+
+18. ¿Por qué conviene probar primero un filtro en MongoDB Compass antes de exportarlo?
 
 ## Ideas clave
 
@@ -2354,7 +2325,7 @@ consulta.json
 
 y ejecutar:
 
-```bash
+```text
 mongoexport
 ```
 
@@ -2411,16 +2382,21 @@ La colección `movies` permite practicar consultas con campos simples, arreglos 
 :::
 
 ::: {.callout-note}
-## 10. Los resultados pueden exportarse
+## 10. Primero comprobamos y después exportamos
 
-Después de filtrar la colección `movies`, podemos exportar los resultados en:
+Una forma práctica de trabajar es:
 
 ```text
-JSON
-CSV
+Compass
+↓
+probar filtro
+↓
+consulta.json
+↓
+mongoexport
 ```
 
-y continuar su análisis en otras herramientas.
+Esto permite verificar primero que la consulta devuelve los documentos esperados.
 :::
 
 ::: {.callout-note}
@@ -2437,7 +2413,7 @@ el archivo se guarda en la carpeta actual de la Terminal 3.
 Si utilizamos una ruta completa:
 
 ```text
---out="C:\Users\TU_USUARIO\Desktop\peliculas_filtradas.json"
+--out="C:\Users\santi\OneDrive\Escritorio\peliculas_filtradas.json"
 ```
 
 podemos decidir exactamente dónde guardar el archivo.
