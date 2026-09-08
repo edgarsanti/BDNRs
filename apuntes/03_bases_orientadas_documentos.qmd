@@ -1,0 +1,681 @@
+---
+title: "Bases de datos orientadas a documentos"
+toc: true
+number-sections: true
+---
+
+## Introducción
+
+Las bases de datos orientadas a documentos forman parte de los principales modelos NoSQL.
+
+En este modelo, la información se almacena en **documentos** que contienen pares campo-valor y que pueden incluir estructuras más complejas como listas, objetos anidados y arreglos de objetos.
+
+Este tipo de representación resulta especialmente útil cuando la información no tiene una estructura completamente uniforme o cuando varios datos relacionados suelen consultarse juntos [@sadalage2012].
+
+::: {.callout-note}
+## Idea clave
+
+Un documento no debe entenderse simplemente como una fila con otro nombre.
+
+Un documento puede contener:
+
+```text
+valores simples
+listas
+objetos
+listas de objetos
+estructuras anidadas
+```
+
+Esto permite representar información más compleja dentro de una misma unidad.
+:::
+
+## Del modelo relacional al modelo documental
+
+En una base de datos relacional, la información suele organizarse mediante tablas.
+
+Por ejemplo:
+
+| id | nombre | edad | carrera |
+|---:|---|---:|---|
+| 1 | Ana | 20 | Ciencia de Datos |
+| 2 | Luis | 22 | Estadística |
+
+Cada registro comparte normalmente la misma estructura.
+
+En un modelo documental, la información puede almacenarse mediante documentos similares a JSON.
+
+Por ejemplo:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "carrera": "Ciencia de Datos",
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Otro documento de la misma colección podría ser:
+
+```json
+{
+  "id": 2,
+  "nombre": "Luis",
+  "edad": 22,
+  "carrera": "Estadística",
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    }
+  ]
+}
+```
+
+Ambos documentos representan estudiantes, pero no contienen exactamente los mismos campos.
+
+## Estructura de un documento
+
+Un documento está formado por **campos** y **valores**.
+
+Por ejemplo:
+
+```json
+{
+  "nombre": "Ana",
+  "edad": 20,
+  "activo": true
+}
+```
+
+Podemos interpretarlo como:
+
+```text
+nombre → Ana
+edad   → 20
+activo → true
+```
+
+Los valores pueden tener diferentes tipos.
+
+Entre los más comunes encontramos:
+
+```text
+texto
+números
+booleanos
+fechas
+arreglos
+objetos
+```
+
+## Arreglos
+
+Una de las características importantes del modelo documental es que un campo puede contener varios valores.
+
+Por ejemplo:
+
+```json
+{
+  "nombre": "Ana",
+  "redes_sociales": [
+    "Instagram",
+    "TikTok",
+    "YouTube"
+  ]
+}
+```
+
+En este caso, `redes_sociales` contiene un arreglo.
+
+Visualmente:
+
+```text
+Ana
+ │
+ └── redes_sociales
+       ├── Instagram
+       ├── TikTok
+       └── YouTube
+```
+
+Este tipo de estructura puede evitar la necesidad de crear tablas adicionales cuando los datos relacionados suelen utilizarse juntos.
+
+## Objetos anidados
+
+Un documento también puede contener otros objetos dentro de él.
+
+Por ejemplo:
+
+```json
+{
+  "nombre": "Ana",
+  "direccion": {
+    "ciudad": "Xalapa",
+    "estado": "Veracruz",
+    "codigo_postal": "91000"
+  }
+}
+```
+
+La información de dirección se mantiene como una estructura relacionada dentro del mismo documento.
+
+Visualmente:
+
+```text
+usuario
+ │
+ ├── nombre
+ │
+ └── direccion
+       ├── ciudad
+       ├── estado
+       └── codigo_postal
+```
+
+## Arreglos de objetos
+
+También pueden almacenarse listas completas de objetos.
+
+Por ejemplo:
+
+```json
+{
+  "nombre": "Ana",
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    },
+    {
+      "tipo": "laptop",
+      "sistema": "Windows"
+    }
+  ]
+}
+```
+
+Aquí cada elemento del arreglo `dispositivos` tiene su propia estructura.
+
+Esto permite representar relaciones jerárquicas de manera natural.
+
+## Un mismo problema, dos representaciones
+
+Supongamos que queremos almacenar la siguiente información:
+
+```text
+Nombre: Ana
+Edad: 20
+
+Redes sociales:
+- Instagram
+- TikTok
+
+Dispositivos:
+- celular, Android
+- laptop, Windows
+```
+
+Podemos representarla utilizando diferentes modelos.
+
+## Representación relacional
+
+Una posible solución sería utilizar varias tablas.
+
+### Tabla `usuarios`
+
+| id_usuario | nombre | edad |
+|---:|---|---:|
+| 1 | Ana | 20 |
+
+### Tabla `redes_sociales`
+
+| id_red | nombre |
+|---:|---|
+| 1 | Instagram |
+| 2 | TikTok |
+
+### Tabla `usuarios_redes`
+
+| id_usuario | id_red |
+|---:|---:|
+| 1 | 1 |
+| 1 | 2 |
+
+### Tabla `dispositivos`
+
+| id_dispositivo | id_usuario | tipo | sistema |
+|---:|---:|---|---|
+| 1 | 1 | celular | Android |
+| 2 | 1 | laptop | Windows |
+
+La información se encuentra distribuida entre varias tablas.
+
+Para recuperar el perfil completo de Ana podría ser necesario combinar la información de distintas tablas.
+
+## Representación documental
+
+En un modelo documental podríamos almacenar la misma información de esta manera:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ],
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    },
+    {
+      "tipo": "laptop",
+      "sistema": "Windows"
+    }
+  ]
+}
+```
+
+En este caso, la información relacionada con Ana se encuentra concentrada en un solo documento.
+
+::: {.callout-tip}
+## El diseño depende del uso
+
+No siempre es mejor almacenar toda la información dentro de un mismo documento.
+
+La decisión depende de preguntas como:
+
+```text
+¿Qué información se consulta junta?
+
+¿Qué información cambia con frecuencia?
+
+¿Qué relaciones existen?
+
+¿Qué información puede repetirse?
+
+¿Qué consultas serán las más frecuentes?
+```
+
+El modelo debe diseñarse de acuerdo con la forma en que los datos serán utilizados [@kleppmann2017].
+:::
+
+## Colecciones
+
+Los documentos suelen agruparse dentro de **colecciones**.
+
+Una colección reúne documentos relacionados conceptualmente.
+
+Por ejemplo:
+
+```text
+Base de datos
+    │
+    └── estudiantes
+          │
+          ├── documento de Ana
+          ├── documento de Luis
+          └── documento de María
+```
+
+En este ejemplo, `estudiantes` representa una colección.
+
+Podemos pensar inicialmente en una comparación aproximada:
+
+| Modelo relacional | Modelo documental |
+|---|---|
+| Tabla | Colección |
+| Fila | Documento |
+| Columna | Campo |
+
+Esta comparación ayuda a comprender las diferencias iniciales, pero no es una equivalencia exacta.
+
+Un documento puede contener estructuras internas mucho más complejas que una fila tradicional.
+
+## Esquema flexible
+
+Una característica común de las bases documentales es la posibilidad de trabajar con estructuras más flexibles.
+
+Por ejemplo:
+
+```json
+{
+  "nombre": "Ana",
+  "edad": 20,
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+y:
+
+```json
+{
+  "nombre": "Luis",
+  "edad": 22,
+  "dispositivos": [
+    {
+      "tipo": "celular",
+      "sistema": "Android"
+    }
+  ]
+}
+```
+
+pueden pertenecer a la misma colección aunque tengan campos diferentes.
+
+::: {.callout-warning}
+## Flexible no significa sin diseño
+
+La flexibilidad del esquema no significa que podamos almacenar cualquier información sin establecer criterios.
+
+Una base documental también necesita:
+
+```text
+estructura
+convenciones
+validaciones
+identificadores
+criterios de diseño
+```
+
+Un diseño inconsistente puede dificultar las consultas y el mantenimiento de la información.
+:::
+
+## Ejemplo: catálogo de productos
+
+Una tienda en línea puede manejar productos con características muy diferentes.
+
+Por ejemplo, una computadora:
+
+```json
+{
+  "producto": "Laptop",
+  "marca": "Lenovo",
+  "precio": 18500,
+  "especificaciones": {
+    "ram": "16 GB",
+    "almacenamiento": "512 GB",
+    "procesador": "Intel Core i7"
+  }
+}
+```
+
+Mientras que una playera puede almacenarse así:
+
+```json
+{
+  "producto": "Playera",
+  "marca": "Nike",
+  "precio": 650,
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "colores": [
+    "Negro",
+    "Blanco"
+  ]
+}
+```
+
+Ambos elementos son productos, pero tienen atributos diferentes.
+
+Este es un ejemplo donde el modelo documental puede representar la información de manera natural.
+
+## Ejemplo: publicación de una red social
+
+Una publicación podría almacenarse de la siguiente manera:
+
+```json
+{
+  "usuario": "ana123",
+  "fecha": "2026-09-07",
+  "texto": "Hoy comenzamos a estudiar bases de datos NoSQL",
+  "hashtags": [
+    "NoSQL",
+    "CienciaDeDatos"
+  ],
+  "reacciones": 35,
+  "comentarios": [
+    {
+      "usuario": "luis22",
+      "texto": "Interesante"
+    },
+    {
+      "usuario": "maria18",
+      "texto": "Muy buen tema"
+    }
+  ]
+}
+```
+
+Dentro de un mismo documento encontramos:
+
+```text
+texto
+números
+arreglos
+objetos
+listas de objetos
+```
+
+Este tipo de información se adapta de manera natural a una estructura documental.
+
+## Ejemplo: datos provenientes de una API
+
+Una respuesta obtenida desde una API puede tener una estructura como:
+
+```json
+{
+  "ciudad": "Xalapa",
+  "temperatura": 22,
+  "condicion": "Nublado",
+  "pronostico": [
+    {
+      "hora": "15:00",
+      "temperatura": 23
+    },
+    {
+      "hora": "18:00",
+      "temperatura": 20
+    }
+  ]
+}
+```
+
+Este tipo de datos puede almacenarse directamente o después de realizar algunas transformaciones.
+
+Por esta razón, las bases documentales suelen relacionarse con aplicaciones que utilizan JSON como formato de intercambio de información.
+
+## Ventajas del modelo documental
+
+Entre sus principales ventajas podemos mencionar:
+
+- representación natural de estructuras similares a JSON;
+- flexibilidad para manejar atributos variables;
+- posibilidad de almacenar listas y objetos anidados;
+- facilidad para mantener información relacionada dentro de un mismo documento;
+- adaptación a aplicaciones donde la estructura puede evolucionar.
+
+## Limitaciones
+
+El modelo documental también presenta algunas consideraciones.
+
+Por ejemplo:
+
+- puede existir duplicación de información;
+- actualizar información repetida puede requerir cuidado;
+- algunas relaciones complejas pueden resultar difíciles de mantener;
+- una estructura excesivamente anidada puede complicar las consultas;
+- no todos los problemas se benefician de un modelo documental.
+
+::: {.callout-note}
+## Idea importante
+
+Una base documental no debe elegirse únicamente porque los datos vienen en JSON.
+
+El diseño debe considerar:
+
+```text
+estructura
+consultas
+relaciones
+volumen
+actualizaciones
+consistencia
+```
+:::
+
+## MongoDB como ejemplo de base documental
+
+Uno de los gestores más conocidos de bases de datos orientadas a documentos es **MongoDB**.
+
+MongoDB organiza la información utilizando:
+
+```text
+Servidor
+  │
+  └── Base de datos
+        │
+        └── Colección
+              │
+              ├── Documento
+              ├── Documento
+              └── Documento
+```
+
+Los documentos utilizados por MongoDB tienen una estructura similar a JSON.
+
+Internamente, MongoDB almacena los documentos utilizando **BSON**, un formato binario relacionado con JSON que permite representar diferentes tipos de datos [@mongodbDocs].
+
+Por ejemplo:
+
+```json
+{
+  "id": 1,
+  "nombre": "Ana",
+  "edad": 20,
+  "carrera": "Ciencia de Datos",
+  "redes_sociales": [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+En las siguientes prácticas se utilizará MongoDB para crear colecciones, insertar documentos y realizar consultas.
+
+## Comparación general
+
+| Característica | Modelo relacional | Modelo documental |
+|---|---|---|
+| Unidad principal | Tabla | Colección |
+| Registro | Fila | Documento |
+| Atributos | Columnas | Campos |
+| Estructura | Normalmente definida | Más flexible |
+| Relaciones | Llaves y tablas | Referencias o documentos anidados |
+| Datos anidados | Menos natural | Común |
+| Ejemplo de gestor | PostgreSQL | MongoDB |
+
+No existe un modelo mejor en todos los escenarios.
+
+La elección depende del problema que se desea resolver.
+
+## Actividad de autoevaluación
+
+Analiza las siguientes situaciones e indica si un modelo documental podría resultar conveniente.
+
+| Situación | ¿Podría utilizarse un modelo documental? |
+|---|---|
+| Catálogo de productos con atributos diferentes | ___ |
+| Sistema de pagos bancarios | ___ |
+| Perfiles de usuarios con preferencias variables | ___ |
+| Publicaciones de una red social | ___ |
+| Tabla sencilla de estados y municipios | ___ |
+
+::: {.callout-tip}
+## Posibles respuestas
+
+Un modelo documental puede resultar especialmente natural cuando existen:
+
+```text
+atributos variables
+listas
+objetos anidados
+información relacionada que suele recuperarse junta
+```
+
+Sin embargo, la elección definitiva depende de las necesidades del sistema.
+:::
+
+## Preguntas para reflexionar
+
+1. ¿Qué diferencia existe entre una fila y un documento?
+
+2. ¿Por qué dos documentos de una misma colección pueden tener campos diferentes?
+
+3. ¿Qué ventajas ofrecen los arreglos y objetos anidados?
+
+4. ¿En qué situaciones puede ser conveniente almacenar información relacionada dentro de un mismo documento?
+
+5. ¿Por qué un esquema flexible no significa ausencia de diseño?
+
+6. ¿Qué problemas podrían aparecer si duplicamos demasiada información?
+
+7. ¿Por qué MongoDB es considerado una base de datos orientada a documentos?
+
+## Ideas clave
+
+::: {.callout-note}
+## 1. El documento es la unidad principal
+
+Las bases documentales organizan la información mediante documentos formados por campos y valores.
+:::
+
+::: {.callout-note}
+## 2. Los documentos pueden tener estructuras complejas
+
+Un documento puede contener:
+
+```text
+valores
+arreglos
+objetos
+listas de objetos
+estructuras anidadas
+```
+:::
+
+::: {.callout-note}
+## 3. El esquema puede ser flexible
+
+Los documentos de una colección no necesariamente tienen que contener exactamente los mismos campos.
+
+Esto permite representar información heterogénea.
+:::
+
+::: {.callout-note}
+## 4. Flexible no significa sin estructura
+
+Una base documental necesita un diseño adecuado para mantener consistencia y facilitar las consultas.
+:::
+
+::: {.callout-note}
+## 5. MongoDB es un gestor documental
+
+MongoDB utiliza colecciones y documentos y será la tecnología empleada para trabajar este modelo durante el curso.
+:::
+
+## Referencias

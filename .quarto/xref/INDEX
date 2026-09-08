@@ -31,5 +31,11 @@
   },
   "apuntes/03_mongodb_consultas_basicas.qmd": {
     "03_mongodb_consultas_basicas.html": "81a7606c"
+  },
+  "apuntes/03_bases_orientadas_documentos.qmd": {
+    "03_bases_orientadas_documentos.html": "9aaa4a0d"
+  },
+  "apuntes/04_consultas_mongodb.qmd": {
+    "04_consultas_mongodb.html": "cf887511"
   }
 }

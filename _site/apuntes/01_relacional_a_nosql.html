@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tema 1. De las bases de datos relacionales a NoSQL – Bases de Datos No Relacionales</title>
+<title>De las bases de datos relacionales a NoSQL – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -203,75 +203,32 @@ div.csl-indent {
   <li><a href="#recuperar-información-con-sql" id="toc-recuperar-información-con-sql" class="nav-link" data-scroll-target="#recuperar-información-con-sql"><span class="header-section-number">5</span> Recuperar información con SQL</a></li>
   <li><a href="#tipos-de-datos-según-su-estructura" id="toc-tipos-de-datos-según-su-estructura" class="nav-link" data-scroll-target="#tipos-de-datos-según-su-estructura"><span class="header-section-number">6</span> Tipos de datos según su estructura</a></li>
   <li><a href="#datos-estructurados" id="toc-datos-estructurados" class="nav-link" data-scroll-target="#datos-estructurados"><span class="header-section-number">7</span> Datos estructurados</a></li>
-  <li><a href="#ejemplo-real-una-encuesta" id="toc-ejemplo-real-una-encuesta" class="nav-link" data-scroll-target="#ejemplo-real-una-encuesta"><span class="header-section-number">8</span> Ejemplo real: una encuesta</a></li>
+  <li><a href="#ejemplo-una-encuesta" id="toc-ejemplo-una-encuesta" class="nav-link" data-scroll-target="#ejemplo-una-encuesta"><span class="header-section-number">8</span> Ejemplo: una encuesta</a></li>
   <li><a href="#datos-semiestructurados" id="toc-datos-semiestructurados" class="nav-link" data-scroll-target="#datos-semiestructurados"><span class="header-section-number">9</span> Datos semiestructurados</a></li>
-  <li><a href="#ejemplo-real-una-api" id="toc-ejemplo-real-una-api" class="nav-link" data-scroll-target="#ejemplo-real-una-api"><span class="header-section-number">10</span> Ejemplo real: una API</a></li>
-  <li><a href="#otro-ejemplo-una-tienda-en-línea" id="toc-otro-ejemplo-una-tienda-en-línea" class="nav-link" data-scroll-target="#otro-ejemplo-una-tienda-en-línea"><span class="header-section-number">11</span> Otro ejemplo: una tienda en línea</a></li>
-  <li><a href="#datos-no-estructurados" id="toc-datos-no-estructurados" class="nav-link" data-scroll-target="#datos-no-estructurados"><span class="header-section-number">12</span> Datos no estructurados</a></li>
-  <li><a href="#contenido-y-metadatos" id="toc-contenido-y-metadatos" class="nav-link" data-scroll-target="#contenido-y-metadatos"><span class="header-section-number">13</span> Contenido y metadatos</a></li>
-  <li><a href="#comparación-general" id="toc-comparación-general" class="nav-link" data-scroll-target="#comparación-general"><span class="header-section-number">14</span> Comparación general</a></li>
-  <li><a href="#por-qué-importa-esta-clasificación" id="toc-por-qué-importa-esta-clasificación" class="nav-link" data-scroll-target="#por-qué-importa-esta-clasificación"><span class="header-section-number">15</span> ¿Por qué importa esta clasificación?</a></li>
-  <li><a href="#por-qué-pensar-en-nosql" id="toc-por-qué-pensar-en-nosql" class="nav-link" data-scroll-target="#por-qué-pensar-en-nosql"><span class="header-section-number">16</span> ¿Por qué pensar en NoSQL?</a></li>
-  <li><a href="#un-mismo-problema-dos-formas-de-representarlo" id="toc-un-mismo-problema-dos-formas-de-representarlo" class="nav-link" data-scroll-target="#un-mismo-problema-dos-formas-de-representarlo"><span class="header-section-number">17</span> Un mismo problema, dos formas de representarlo</a></li>
-  <li><a href="#representación-en-un-modelo-relacional" id="toc-representación-en-un-modelo-relacional" class="nav-link" data-scroll-target="#representación-en-un-modelo-relacional"><span class="header-section-number">18</span> Representación en un modelo relacional</a>
+  <li><a href="#ejemplo-información-proveniente-de-una-api" id="toc-ejemplo-información-proveniente-de-una-api" class="nav-link" data-scroll-target="#ejemplo-información-proveniente-de-una-api"><span class="header-section-number">10</span> Ejemplo: información proveniente de una API</a></li>
+  <li><a href="#datos-no-estructurados" id="toc-datos-no-estructurados" class="nav-link" data-scroll-target="#datos-no-estructurados"><span class="header-section-number">11</span> Datos no estructurados</a></li>
+  <li><a href="#contenido-y-metadatos" id="toc-contenido-y-metadatos" class="nav-link" data-scroll-target="#contenido-y-metadatos"><span class="header-section-number">12</span> Contenido y metadatos</a></li>
+  <li><a href="#comparación-general" id="toc-comparación-general" class="nav-link" data-scroll-target="#comparación-general"><span class="header-section-number">13</span> Comparación general</a></li>
+  <li><a href="#por-qué-importa-esta-clasificación" id="toc-por-qué-importa-esta-clasificación" class="nav-link" data-scroll-target="#por-qué-importa-esta-clasificación"><span class="header-section-number">14</span> ¿Por qué importa esta clasificación?</a></li>
+  <li><a href="#por-qué-pensar-en-nosql" id="toc-por-qué-pensar-en-nosql" class="nav-link" data-scroll-target="#por-qué-pensar-en-nosql"><span class="header-section-number">15</span> ¿Por qué pensar en NoSQL?</a></li>
+  <li><a href="#qué-significa-nosql" id="toc-qué-significa-nosql" class="nav-link" data-scroll-target="#qué-significa-nosql"><span class="header-section-number">16</span> ¿Qué significa NoSQL?</a></li>
+  <li><a href="#principales-modelos-nosql" id="toc-principales-modelos-nosql" class="nav-link" data-scroll-target="#principales-modelos-nosql"><span class="header-section-number">17</span> Principales modelos NoSQL</a></li>
+  <li><a href="#nosql-no-significa-abandonar-sql" id="toc-nosql-no-significa-abandonar-sql" class="nav-link" data-scroll-target="#nosql-no-significa-abandonar-sql"><span class="header-section-number">18</span> NoSQL no significa abandonar SQL</a></li>
+  <li><a href="#nosql-aplicado-a-ciencia-de-datos" id="toc-nosql-aplicado-a-ciencia-de-datos" class="nav-link" data-scroll-target="#nosql-aplicado-a-ciencia-de-datos"><span class="header-section-number">19</span> NoSQL aplicado a Ciencia de Datos</a></li>
+  <li><a href="#de-una-fuente-a-un-conjunto-de-datos" id="toc-de-una-fuente-a-un-conjunto-de-datos" class="nav-link" data-scroll-target="#de-una-fuente-a-un-conjunto-de-datos"><span class="header-section-number">20</span> De una fuente a un conjunto de datos</a></li>
+  <li><a href="#elegir-cómo-almacenar-la-información" id="toc-elegir-cómo-almacenar-la-información" class="nav-link" data-scroll-target="#elegir-cómo-almacenar-la-información"><span class="header-section-number">21</span> Elegir cómo almacenar la información</a></li>
+  <li><a href="#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" id="toc-cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" class="nav-link" data-scroll-target="#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql"><span class="header-section-number">22</span> ¿Cuándo pensar en una base relacional y cuándo en NoSQL?</a></li>
+  <li><a href="#ejemplos-de-elección-del-modelo" id="toc-ejemplos-de-elección-del-modelo" class="nav-link" data-scroll-target="#ejemplos-de-elección-del-modelo"><span class="header-section-number">23</span> Ejemplos de elección del modelo</a>
   <ul class="collapse">
-  <li><a href="#tabla-usuarios" id="toc-tabla-usuarios" class="nav-link" data-scroll-target="#tabla-usuarios"><span class="header-section-number">18.1</span> Tabla <code>usuarios</code></a></li>
-  <li><a href="#tabla-redes_sociales" id="toc-tabla-redes_sociales" class="nav-link" data-scroll-target="#tabla-redes_sociales"><span class="header-section-number">18.2</span> Tabla <code>redes_sociales</code></a></li>
-  <li><a href="#tabla-usuarios_redes" id="toc-tabla-usuarios_redes" class="nav-link" data-scroll-target="#tabla-usuarios_redes"><span class="header-section-number">18.3</span> Tabla <code>usuarios_redes</code></a></li>
-  <li><a href="#tabla-dispositivos" id="toc-tabla-dispositivos" class="nav-link" data-scroll-target="#tabla-dispositivos"><span class="header-section-number">18.4</span> Tabla <code>dispositivos</code></a></li>
+  <li><a href="#sistema-escolar" id="toc-sistema-escolar" class="nav-link" data-scroll-target="#sistema-escolar"><span class="header-section-number">23.1</span> Sistema escolar</a></li>
+  <li><a href="#catálogo-de-productos" id="toc-catálogo-de-productos" class="nav-link" data-scroll-target="#catálogo-de-productos"><span class="header-section-number">23.2</span> Catálogo de productos</a></li>
+  <li><a href="#sesiones-de-usuario" id="toc-sesiones-de-usuario" class="nav-link" data-scroll-target="#sesiones-de-usuario"><span class="header-section-number">23.3</span> Sesiones de usuario</a></li>
+  <li><a href="#red-social" id="toc-red-social" class="nav-link" data-scroll-target="#red-social"><span class="header-section-number">23.4</span> Red social</a></li>
   </ul></li>
-  <li><a href="#representación-en-un-modelo-documental" id="toc-representación-en-un-modelo-documental" class="nav-link" data-scroll-target="#representación-en-un-modelo-documental"><span class="header-section-number">19</span> Representación en un modelo documental</a></li>
-  <li><a href="#cuál-de-los-dos-modelos-es-mejor" id="toc-cuál-de-los-dos-modelos-es-mejor" class="nav-link" data-scroll-target="#cuál-de-los-dos-modelos-es-mejor"><span class="header-section-number">20</span> ¿Cuál de los dos modelos es mejor?</a></li>
-  <li><a href="#relacional-y-documental-comparación-general" id="toc-relacional-y-documental-comparación-general" class="nav-link" data-scroll-target="#relacional-y-documental-comparación-general"><span class="header-section-number">21</span> Relacional y documental: comparación general</a></li>
-  <li><a href="#qué-significa-nosql" id="toc-qué-significa-nosql" class="nav-link" data-scroll-target="#qué-significa-nosql"><span class="header-section-number">22</span> ¿Qué significa NoSQL?</a></li>
-  <li><a href="#nosql-no-significa-abandonar-sql" id="toc-nosql-no-significa-abandonar-sql" class="nav-link" data-scroll-target="#nosql-no-significa-abandonar-sql"><span class="header-section-number">23</span> NoSQL no significa abandonar SQL</a></li>
-  <li><a href="#principales-modelos-nosql" id="toc-principales-modelos-nosql" class="nav-link" data-scroll-target="#principales-modelos-nosql"><span class="header-section-number">24</span> Principales modelos NoSQL</a></li>
-  <li><a href="#bases-de-datos-orientadas-a-documentos" id="toc-bases-de-datos-orientadas-a-documentos" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-documentos"><span class="header-section-number">25</span> Bases de datos orientadas a documentos</a>
-  <ul class="collapse">
-  <li><a href="#cuándo-puede-ser-útil" id="toc-cuándo-puede-ser-útil" class="nav-link" data-scroll-target="#cuándo-puede-ser-útil"><span class="header-section-number">25.1</span> ¿Cuándo puede ser útil?</a></li>
-  <li><a href="#ejemplo-real-catálogo-de-productos" id="toc-ejemplo-real-catálogo-de-productos" class="nav-link" data-scroll-target="#ejemplo-real-catálogo-de-productos"><span class="header-section-number">25.2</span> Ejemplo real: catálogo de productos</a></li>
-  <li><a href="#gestor-representativo-mongodb" id="toc-gestor-representativo-mongodb" class="nav-link" data-scroll-target="#gestor-representativo-mongodb"><span class="header-section-number">25.3</span> Gestor representativo: MongoDB</a></li>
-  </ul></li>
-  <li><a href="#bases-de-datos-clave-valor" id="toc-bases-de-datos-clave-valor" class="nav-link" data-scroll-target="#bases-de-datos-clave-valor"><span class="header-section-number">26</span> Bases de datos clave-valor</a>
-  <ul class="collapse">
-  <li><a href="#ejemplo-real-sesión-de-usuario" id="toc-ejemplo-real-sesión-de-usuario" class="nav-link" data-scroll-target="#ejemplo-real-sesión-de-usuario"><span class="header-section-number">26.1</span> Ejemplo real: sesión de usuario</a></li>
-  <li><a href="#otros-usos-comunes" id="toc-otros-usos-comunes" class="nav-link" data-scroll-target="#otros-usos-comunes"><span class="header-section-number">26.2</span> Otros usos comunes</a></li>
-  <li><a href="#gestor-representativo-redis" id="toc-gestor-representativo-redis" class="nav-link" data-scroll-target="#gestor-representativo-redis"><span class="header-section-number">26.3</span> Gestor representativo: Redis</a></li>
-  </ul></li>
-  <li><a href="#bases-de-datos-orientadas-a-columnas" id="toc-bases-de-datos-orientadas-a-columnas" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-columnas"><span class="header-section-number">27</span> Bases de datos orientadas a columnas</a>
-  <ul class="collapse">
-  <li><a href="#ejemplo-real-datos-generados-por-sensores" id="toc-ejemplo-real-datos-generados-por-sensores" class="nav-link" data-scroll-target="#ejemplo-real-datos-generados-por-sensores"><span class="header-section-number">27.1</span> Ejemplo real: datos generados por sensores</a></li>
-  <li><a href="#gestor-representativo-apache-cassandra" id="toc-gestor-representativo-apache-cassandra" class="nav-link" data-scroll-target="#gestor-representativo-apache-cassandra"><span class="header-section-number">27.2</span> Gestor representativo: Apache Cassandra</a></li>
-  </ul></li>
-  <li><a href="#bases-de-datos-orientadas-a-grafos" id="toc-bases-de-datos-orientadas-a-grafos" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-grafos"><span class="header-section-number">28</span> Bases de datos orientadas a grafos</a>
-  <ul class="collapse">
-  <li><a href="#ejemplo-real-red-social" id="toc-ejemplo-real-red-social" class="nav-link" data-scroll-target="#ejemplo-real-red-social"><span class="header-section-number">28.1</span> Ejemplo real: red social</a></li>
-  <li><a href="#otros-usos" id="toc-otros-usos" class="nav-link" data-scroll-target="#otros-usos"><span class="header-section-number">28.2</span> Otros usos</a></li>
-  <li><a href="#gestor-representativo-neo4j" id="toc-gestor-representativo-neo4j" class="nav-link" data-scroll-target="#gestor-representativo-neo4j"><span class="header-section-number">28.3</span> Gestor representativo: Neo4j</a></li>
-  </ul></li>
-  <li><a href="#comparación-de-los-modelos-nosql" id="toc-comparación-de-los-modelos-nosql" class="nav-link" data-scroll-target="#comparación-de-los-modelos-nosql"><span class="header-section-number">29</span> Comparación de los modelos NoSQL</a></li>
-  <li><a href="#nosql-aplicado-a-ciencia-de-datos" id="toc-nosql-aplicado-a-ciencia-de-datos" class="nav-link" data-scroll-target="#nosql-aplicado-a-ciencia-de-datos"><span class="header-section-number">30</span> NoSQL aplicado a Ciencia de Datos</a></li>
-  <li><a href="#ejemplo-1-archivo-csv" id="toc-ejemplo-1-archivo-csv" class="nav-link" data-scroll-target="#ejemplo-1-archivo-csv"><span class="header-section-number">31</span> Ejemplo 1: archivo CSV</a></li>
-  <li><a href="#ejemplo-2-obtener-información-desde-una-api" id="toc-ejemplo-2-obtener-información-desde-una-api" class="nav-link" data-scroll-target="#ejemplo-2-obtener-información-desde-una-api"><span class="header-section-number">32</span> Ejemplo 2: obtener información desde una API</a></li>
-  <li><a href="#ejemplo-3-información-generada-por-sensores" id="toc-ejemplo-3-información-generada-por-sensores" class="nav-link" data-scroll-target="#ejemplo-3-información-generada-por-sensores"><span class="header-section-number">33</span> Ejemplo 3: información generada por sensores</a></li>
-  <li><a href="#ejemplo-4-publicaciones-de-redes-sociales" id="toc-ejemplo-4-publicaciones-de-redes-sociales" class="nav-link" data-scroll-target="#ejemplo-4-publicaciones-de-redes-sociales"><span class="header-section-number">34</span> Ejemplo 4: publicaciones de redes sociales</a></li>
-  <li><a href="#ejemplo-5-imágenes-y-metadatos" id="toc-ejemplo-5-imágenes-y-metadatos" class="nav-link" data-scroll-target="#ejemplo-5-imágenes-y-metadatos"><span class="header-section-number">35</span> Ejemplo 5: imágenes y metadatos</a></li>
-  <li><a href="#ejemplo-6-análisis-de-texto" id="toc-ejemplo-6-análisis-de-texto" class="nav-link" data-scroll-target="#ejemplo-6-análisis-de-texto"><span class="header-section-number">36</span> Ejemplo 6: análisis de texto</a></li>
-  <li><a href="#de-una-fuente-a-un-conjunto-de-datos" id="toc-de-una-fuente-a-un-conjunto-de-datos" class="nav-link" data-scroll-target="#de-una-fuente-a-un-conjunto-de-datos"><span class="header-section-number">37</span> De una fuente a un conjunto de datos</a></li>
-  <li><a href="#elegir-cómo-almacenar-la-información" id="toc-elegir-cómo-almacenar-la-información" class="nav-link" data-scroll-target="#elegir-cómo-almacenar-la-información"><span class="header-section-number">38</span> Elegir cómo almacenar la información</a></li>
-  <li><a href="#ejemplo-integrado" id="toc-ejemplo-integrado" class="nav-link" data-scroll-target="#ejemplo-integrado"><span class="header-section-number">39</span> Ejemplo integrado</a></li>
-  <li><a href="#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" id="toc-cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" class="nav-link" data-scroll-target="#cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql"><span class="header-section-number">40</span> ¿Cuándo pensar en una base relacional y cuándo en NoSQL?</a></li>
-  <li><a href="#ejemplo-1-sistema-escolar" id="toc-ejemplo-1-sistema-escolar" class="nav-link" data-scroll-target="#ejemplo-1-sistema-escolar"><span class="header-section-number">41</span> Ejemplo 1: sistema escolar</a></li>
-  <li><a href="#ejemplo-2-catálogo-de-productos" id="toc-ejemplo-2-catálogo-de-productos" class="nav-link" data-scroll-target="#ejemplo-2-catálogo-de-productos"><span class="header-section-number">42</span> Ejemplo 2: catálogo de productos</a></li>
-  <li><a href="#ejemplo-3-sesiones-de-usuario" id="toc-ejemplo-3-sesiones-de-usuario" class="nav-link" data-scroll-target="#ejemplo-3-sesiones-de-usuario"><span class="header-section-number">43</span> Ejemplo 3: sesiones de usuario</a></li>
-  <li><a href="#ejemplo-4-red-social" id="toc-ejemplo-4-red-social" class="nav-link" data-scroll-target="#ejemplo-4-red-social"><span class="header-section-number">44</span> Ejemplo 4: red social</a></li>
-  <li><a href="#ejemplo-5-gran-volumen-de-eventos" id="toc-ejemplo-5-gran-volumen-de-eventos" class="nav-link" data-scroll-target="#ejemplo-5-gran-volumen-de-eventos"><span class="header-section-number">45</span> Ejemplo 5: gran volumen de eventos</a></li>
-  <li><a href="#una-misma-organización-puede-usar-varios-modelos" id="toc-una-misma-organización-puede-usar-varios-modelos" class="nav-link" data-scroll-target="#una-misma-organización-puede-usar-varios-modelos"><span class="header-section-number">46</span> Una misma organización puede usar varios modelos</a></li>
-  <li><a href="#actividad-de-autoevaluación" id="toc-actividad-de-autoevaluación" class="nav-link" data-scroll-target="#actividad-de-autoevaluación"><span class="header-section-number">47</span> Actividad de autoevaluación</a></li>
-  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar"><span class="header-section-number">48</span> Preguntas para reflexionar</a></li>
-  <li><a href="#ideas-clave-del-tema" id="toc-ideas-clave-del-tema" class="nav-link" data-scroll-target="#ideas-clave-del-tema"><span class="header-section-number">49</span> Ideas clave del tema</a></li>
-  <li><a href="#en-la-siguiente-sesión" id="toc-en-la-siguiente-sesión" class="nav-link" data-scroll-target="#en-la-siguiente-sesión"><span class="header-section-number">50</span> En la siguiente sesión</a></li>
-  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="header-section-number">51</span> Referencias</a></li>
+  <li><a href="#actividad-de-autoevaluación" id="toc-actividad-de-autoevaluación" class="nav-link" data-scroll-target="#actividad-de-autoevaluación"><span class="header-section-number">24</span> Actividad de autoevaluación</a></li>
+  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar"><span class="header-section-number">25</span> Preguntas para reflexionar</a></li>
+  <li><a href="#ideas-clave" id="toc-ideas-clave" class="nav-link" data-scroll-target="#ideas-clave"><span class="header-section-number">26</span> Ideas clave</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="header-section-number">27</span> Referencias</a></li>
   </ul>
 </nav>
     </div>
@@ -280,7 +237,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tema 1. De las bases de datos relacionales a NoSQL</h1>
+<h1 class="title">De las bases de datos relacionales a NoSQL</h1>
 </div>
 
 
@@ -301,7 +258,18 @@ div.csl-indent {
 <h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
 <p>Las bases de datos forman parte de una gran cantidad de sistemas que utilizamos todos los días. Una universidad necesita almacenar información sobre estudiantes, materias y calificaciones; una tienda en línea administra productos, clientes y pedidos; mientras que una red social debe manejar usuarios, publicaciones, imágenes, comentarios y relaciones entre personas.</p>
 <p>Durante muchos años, el <strong>modelo relacional</strong> ha sido una de las principales formas de organizar esta información. Su estructura basada en tablas, filas, columnas y relaciones permite representar de manera clara una gran cantidad de problemas y continúa siendo fundamental en los sistemas de información actuales <span class="citation" data-cites="elmasri2016 silberschatz2020">(<a href="#ref-elmasri2016" role="doc-biblioref">Elmasri and Navathe 2016</a>; <a href="#ref-silberschatz2020" role="doc-biblioref">Silberschatz et al. 2020</a>)</span>.</p>
-<p>Sin embargo, con el crecimiento de Internet y de las aplicaciones digitales comenzaron a aparecer escenarios donde la información no siempre se ajusta de manera natural a una estructura completamente tabular. Actualmente es común trabajar con documentos JSON, publicaciones de redes sociales, registros generados por aplicaciones, sensores, imágenes, videos y datos provenientes de APIs.</p>
+<p>Sin embargo, con el crecimiento de Internet y de las aplicaciones digitales comenzaron a aparecer escenarios donde la información no siempre se ajusta de manera natural a una estructura completamente tabular.</p>
+<p>Actualmente es común trabajar con:</p>
+<ul>
+<li>documentos JSON;</li>
+<li>información proveniente de APIs;</li>
+<li>publicaciones de redes sociales;</li>
+<li>registros generados por aplicaciones;</li>
+<li>sensores;</li>
+<li>imágenes;</li>
+<li>videos;</li>
+<li>texto libre.</li>
+</ul>
 <p>Esto no significa que las bases de datos relacionales hayan dejado de ser útiles. Más bien, han aparecido <strong>otros modelos de almacenamiento</strong> que pueden resultar convenientes para determinados tipos de información y necesidades del sistema <span class="citation" data-cites="sadalage2012 kleppmann2017">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>; <a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -432,7 +400,7 @@ carrera</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Ejemplo real: sistema universitario
+<span class="screen-reader-only">Note</span>Ejemplo: sistema universitario
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -502,14 +470,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Más adelante compararemos esta forma de consultar información con las consultas utilizadas en MongoDB.</p>
-<p>Por ejemplo, una condición similar podría escribirse en MongoDB como:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">estudiantes</span><span class="op">.</span><span class="fu">find</span>({</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">edad</span><span class="op">:</span> {</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$gte</span><span class="op">:</span> <span class="dv">20</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La finalidad no es decidir cuál sintaxis es mejor, sino observar que cada modelo utiliza estructuras y formas de consulta diferentes.</p>
+<p>Más adelante compararemos esta forma de consultar información con las consultas utilizadas en otros modelos de bases de datos.</p>
 </div>
 </div>
 </section>
@@ -560,7 +521,7 @@ Tip
 </tbody>
 </table>
 <p>Todos los registros comparten las mismas columnas.</p>
-<p>Si agregamos un nuevo estudiante, esperamos conservar la misma estructura:</p>
+<p>Si agregamos un nuevo estudiante, esperamos conservar una estructura similar:</p>
 <pre class="text"><code>id
 nombre
 edad
@@ -588,8 +549,8 @@ carrera</code></pre>
 </div>
 </div>
 </section>
-<section id="ejemplo-real-una-encuesta" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="ejemplo-real-una-encuesta"><span class="header-section-number">8</span> Ejemplo real: una encuesta</h2>
+<section id="ejemplo-una-encuesta" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="ejemplo-una-encuesta"><span class="header-section-number">8</span> Ejemplo: una encuesta</h2>
 <p>Supongamos que se aplica una encuesta a estudiantes universitarios.</p>
 <p>La base final podría verse así:</p>
 <table class="caption-top table">
@@ -627,7 +588,7 @@ carrera</code></pre>
 </tbody>
 </table>
 <p>Cada fila representa a una persona y cada columna una variable.</p>
-<p>Este formato resulta muy conveniente para análisis estadístico, porque las variables ya se encuentran organizadas de manera tabular.</p>
+<p>Este formato resulta conveniente para análisis estadístico porque las variables ya se encuentran organizadas de manera tabular.</p>
 </section>
 <section id="datos-semiestructurados" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="datos-semiestructurados"><span class="header-section-number">9</span> Datos semiestructurados</h2>
@@ -642,31 +603,31 @@ carrera</code></pre>
 </ul>
 <p>Dos ejemplos importantes son <strong>JSON</strong> y <strong>XML</strong> <span class="citation" data-cites="sadalage2012">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>)</span>.</p>
 <p>Un documento JSON podría verse así:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Ana"</span><span class="fu">,</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"redes_sociales"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instagram"</span><span class="ot">,</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TikTok"</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Ana"</span><span class="fu">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"redes_sociales"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instagram"</span><span class="ot">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TikTok"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Aquí podemos identificar una estructura clara:</p>
 <pre class="text"><code>nombre → Ana
 edad → 20
 redes_sociales → lista</code></pre>
 <p>Sin embargo, otro documento podría contener información diferente:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Luis"</span><span class="fu">,</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dispositivos"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"celular"</span><span class="fu">,</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sistema"</span><span class="fu">:</span> <span class="st">"Android"</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Luis"</span><span class="fu">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dispositivos"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"celular"</span><span class="fu">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sistema"</span><span class="fu">:</span> <span class="st">"Android"</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ambos documentos representan personas, pero no contienen exactamente los mismos campos.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -685,55 +646,44 @@ redes_sociales → lista</code></pre>
 </div>
 </div>
 </section>
-<section id="ejemplo-real-una-api" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="ejemplo-real-una-api"><span class="header-section-number">10</span> Ejemplo real: una API</h2>
+<section id="ejemplo-información-proveniente-de-una-api" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="ejemplo-información-proveniente-de-una-api"><span class="header-section-number">10</span> Ejemplo: información proveniente de una API</h2>
 <p>Muchas aplicaciones obtienen información mediante una <strong>API</strong>.</p>
 <p>Por ejemplo, una API del clima podría devolver:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ciudad"</span><span class="fu">:</span> <span class="st">"Xalapa"</span><span class="fu">,</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"condicion"</span><span class="fu">:</span> <span class="st">"Nublado"</span><span class="fu">,</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"pronostico"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"15:00"</span><span class="fu">,</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">23</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"18:00"</span><span class="fu">,</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">20</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Este tipo de respuesta es muy común porque JSON permite representar información jerárquica sin necesidad de convertir todo inmediatamente a tablas.</p>
-<p>Para un Ingeniero en Ciencia de Datos esto es importante, ya que una parte considerable del trabajo real consiste en <strong>obtener datos desde servicios externos, APIs y sistemas que entregan información en JSON</strong>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ciudad"</span><span class="fu">:</span> <span class="st">"Xalapa"</span><span class="fu">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"condicion"</span><span class="fu">:</span> <span class="st">"Nublado"</span><span class="fu">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"pronostico"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"15:00"</span><span class="fu">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">23</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"18:00"</span><span class="fu">,</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">20</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este tipo de respuesta es común porque JSON permite representar información jerárquica sin necesidad de convertir todo inmediatamente a tablas.</p>
+<p>Para un Ingeniero en Ciencia de Datos esto es importante, ya que parte del trabajo puede consistir en <strong>obtener datos desde servicios externos, APIs y sistemas que entregan información en JSON</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Una API no es una base de datos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una API es un mecanismo mediante el cual una aplicación puede solicitar o enviar información.</p>
+<p>Esa información puede provenir internamente de una base de datos y después entregarse en un formato como JSON.</p>
+</div>
+</div>
 </section>
-<section id="otro-ejemplo-una-tienda-en-línea" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="otro-ejemplo-una-tienda-en-línea"><span class="header-section-number">11</span> Otro ejemplo: una tienda en línea</h2>
-<p>Imaginemos una tienda como Amazon o Mercado Libre.</p>
-<p>Un producto puede representarse así:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"producto"</span><span class="fu">:</span> <span class="st">"Laptop"</span><span class="fu">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"marca"</span><span class="fu">:</span> <span class="st">"Lenovo"</span><span class="fu">,</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"precio"</span><span class="fu">:</span> <span class="dv">18500</span><span class="fu">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"especificaciones"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ram"</span><span class="fu">:</span> <span class="st">"16 GB"</span><span class="fu">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"almacenamiento"</span><span class="fu">:</span> <span class="st">"512 GB"</span><span class="fu">,</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"procesador"</span><span class="fu">:</span> <span class="st">"Intel Core i7"</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Mientras que otro producto podría ser:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"producto"</span><span class="fu">:</span> <span class="st">"Playera"</span><span class="fu">,</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"marca"</span><span class="fu">:</span> <span class="st">"Nike"</span><span class="fu">,</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"precio"</span><span class="fu">:</span> <span class="dv">650</span><span class="fu">,</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"tallas"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"S"</span><span class="ot">,</span> <span class="st">"M"</span><span class="ot">,</span> <span class="st">"L"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"colores"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Negro"</span><span class="ot">,</span> <span class="st">"Blanco"</span><span class="ot">]</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ambos pertenecen a la misma categoría general de <strong>productos</strong>, pero sus atributos son diferentes.</p>
-<p>Este es un ejemplo donde una estructura flexible puede resultar conveniente.</p>
-</section>
-<section id="datos-no-estructurados" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="datos-no-estructurados"><span class="header-section-number">12</span> Datos no estructurados</h2>
+<section id="datos-no-estructurados" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="datos-no-estructurados"><span class="header-section-number">11</span> Datos no estructurados</h2>
 <p>Los datos no estructurados no se presentan directamente como filas y columnas con atributos claramente definidos.</p>
 <p>Algunos ejemplos son:</p>
 <pre class="text"><code>fotografías
@@ -766,40 +716,38 @@ publicaciones</code></pre>
 <pre class="text"><code>persona
 vehiculo
 edificio</code></pre>
-<p>Para obtener esa información necesitamos procesar la imagen.</p>
+<p>Para obtener esa información es necesario procesar la imagen.</p>
 </div>
 </div>
 </section>
-<section id="contenido-y-metadatos" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="contenido-y-metadatos"><span class="header-section-number">13</span> Contenido y metadatos</h2>
+<section id="contenido-y-metadatos" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="contenido-y-metadatos"><span class="header-section-number">12</span> Contenido y metadatos</h2>
 <p>Una misma fuente puede combinar información no estructurada con datos estructurados o semiestructurados.</p>
 <p>Por ejemplo, una fotografía podría almacenarse como:</p>
 <pre class="text"><code>imagen001.jpg</code></pre>
 <p>y acompañarse de un documento como:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"archivo"</span><span class="fu">:</span> <span class="st">"imagen001.jpg"</span><span class="fu">,</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-09-06"</span><span class="fu">,</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ubicacion"</span><span class="fu">:</span> <span class="st">"Xalapa, Veracruz"</span><span class="fu">,</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"etiquetas"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"persona"</span><span class="ot">,</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"calle"</span><span class="ot">,</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"automovil"</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"archivo"</span><span class="fu">:</span> <span class="st">"imagen001.jpg"</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-09-06"</span><span class="fu">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ubicacion"</span><span class="fu">:</span> <span class="st">"Xalapa, Veracruz"</span><span class="fu">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"etiquetas"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"persona"</span><span class="ot">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"calle"</span><span class="ot">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"automovil"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La imagen sigue siendo un dato no estructurado para el propósito de este análisis, mientras que sus metadatos tienen una estructura clara.</p>
-<p>Esto es muy común en sistemas modernos.</p>
-<p>Instagram, por ejemplo, puede almacenar una fotografía o video y asociarle información como:</p>
+<p>Esto es común en sistemas modernos, donde los archivos pueden acompañarse de información como:</p>
 <pre class="text"><code>usuario
 fecha
 ubicacion
 descripcion
-hashtags
+etiquetas
 numero_de_comentarios
 numero_de_reacciones</code></pre>
-<p>La información multimedia y sus metadatos pueden requerir formas diferentes de almacenamiento y procesamiento.</p>
 </section>
-<section id="comparación-general" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="comparación-general"><span class="header-section-number">14</span> Comparación general</h2>
+<section id="comparación-general" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="comparación-general"><span class="header-section-number">13</span> Comparación general</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -864,12 +812,12 @@ numero_de_reacciones</code></pre>
 correo
 fecha_registro</code></pre>
 <p><strong>Datos semiestructurados</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"preferencias"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"idioma"</span><span class="fu">:</span> <span class="st">"es"</span><span class="fu">,</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tema"</span><span class="fu">:</span> <span class="st">"oscuro"</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"preferencias"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"idioma"</span><span class="fu">:</span> <span class="st">"es"</span><span class="fu">,</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tema"</span><span class="fu">:</span> <span class="st">"oscuro"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Datos no estructurados</strong></p>
 <pre class="text"><code>fotografías
 videos
@@ -879,8 +827,8 @@ texto libre</code></pre>
 </div>
 </div>
 </section>
-<section id="por-qué-importa-esta-clasificación" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="por-qué-importa-esta-clasificación"><span class="header-section-number">15</span> ¿Por qué importa esta clasificación?</h2>
+<section id="por-qué-importa-esta-clasificación" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="por-qué-importa-esta-clasificación"><span class="header-section-number">14</span> ¿Por qué importa esta clasificación?</h2>
 <p>La forma de los datos influye directamente en cómo podemos:</p>
 <ul>
 <li>almacenarlos;</li>
@@ -914,8 +862,8 @@ texto libre</code></pre>
 </div>
 </div>
 </section>
-<section id="por-qué-pensar-en-nosql" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="por-qué-pensar-en-nosql"><span class="header-section-number">16</span> ¿Por qué pensar en NoSQL?</h2>
+<section id="por-qué-pensar-en-nosql" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="por-qué-pensar-en-nosql"><span class="header-section-number">15</span> ¿Por qué pensar en NoSQL?</h2>
 <p>Las bases de datos relacionales siguen siendo una excelente opción para muchos sistemas. Sin embargo, existen situaciones donde otros modelos pueden representar la información de una forma más natural.</p>
 <p>Algunas razones para considerar una base de datos NoSQL son:</p>
 <ul>
@@ -923,7 +871,7 @@ texto libre</code></pre>
 <li>presencia de listas y objetos anidados;</li>
 <li>grandes volúmenes de información;</li>
 <li>necesidad de distribuir los datos entre varios servidores;</li>
-<li>relaciones muy complejas entre entidades;</li>
+<li>relaciones complejas entre entidades;</li>
 <li>requerimientos específicos de velocidad o disponibilidad.</li>
 </ul>
 <p>Esto no significa que una base NoSQL sea automáticamente mejor.</p>
@@ -945,279 +893,12 @@ texto libre</code></pre>
 </div>
 </div>
 </section>
-<section id="un-mismo-problema-dos-formas-de-representarlo" class="level2" data-number="17">
-<h2 data-number="17" class="anchored" data-anchor-id="un-mismo-problema-dos-formas-de-representarlo"><span class="header-section-number">17</span> Un mismo problema, dos formas de representarlo</h2>
-<p>Supongamos que queremos almacenar información de un usuario:</p>
-<pre class="text"><code>Nombre: Ana
-Edad: 20
-Redes sociales:
-  - Instagram
-  - TikTok
-
-Dispositivos:
-  - celular, Android
-  - laptop, Windows</code></pre>
-<p>Podemos representar esta información de distintas maneras.</p>
-</section>
-<section id="representación-en-un-modelo-relacional" class="level2" data-number="18">
-<h2 data-number="18" class="anchored" data-anchor-id="representación-en-un-modelo-relacional"><span class="header-section-number">18</span> Representación en un modelo relacional</h2>
-<p>En una base de datos relacional podríamos utilizar varias tablas.</p>
-<section id="tabla-usuarios" class="level3" data-number="18.1">
-<h3 data-number="18.1" class="anchored" data-anchor-id="tabla-usuarios"><span class="header-section-number">18.1</span> Tabla <code>usuarios</code></h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">id_usuario</th>
-<th>nombre</th>
-<th style="text-align: right;">edad</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>Ana</td>
-<td style="text-align: right;">20</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="tabla-redes_sociales" class="level3" data-number="18.2">
-<h3 data-number="18.2" class="anchored" data-anchor-id="tabla-redes_sociales"><span class="header-section-number">18.2</span> Tabla <code>redes_sociales</code></h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">id_red</th>
-<th>nombre</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>Instagram</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>TikTok</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="tabla-usuarios_redes" class="level3" data-number="18.3">
-<h3 data-number="18.3" class="anchored" data-anchor-id="tabla-usuarios_redes"><span class="header-section-number">18.3</span> Tabla <code>usuarios_redes</code></h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">id_usuario</th>
-<th style="text-align: right;">id_red</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="tabla-dispositivos" class="level3" data-number="18.4">
-<h3 data-number="18.4" class="anchored" data-anchor-id="tabla-dispositivos"><span class="header-section-number">18.4</span> Tabla <code>dispositivos</code></h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">id_dispositivo</th>
-<th style="text-align: right;">id_usuario</th>
-<th>tipo</th>
-<th>sistema</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td>celular</td>
-<td>Android</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1</td>
-<td>laptop</td>
-<td>Windows</td>
-</tr>
-</tbody>
-</table>
-<p>En este caso, la información se distribuye entre varias tablas.</p>
-<p>Para reconstruir toda la información de Ana probablemente sería necesario relacionarlas mediante operaciones como <code>JOIN</code>.</p>
-<p>De forma conceptual:</p>
-<pre class="text"><code>USUARIOS
-   │
-   ├──── USUARIOS_REDES ──── REDES_SOCIALES
-   │
-   └──── DISPOSITIVOS</code></pre>
-<p>Este diseño puede resultar muy adecuado cuando queremos mantener relaciones claramente definidas y reducir duplicaciones de información <span class="citation" data-cites="elmasri2016">(<a href="#ref-elmasri2016" role="doc-biblioref">Elmasri and Navathe 2016</a>)</span>.</p>
-</section>
-</section>
-<section id="representación-en-un-modelo-documental" class="level2" data-number="19">
-<h2 data-number="19" class="anchored" data-anchor-id="representación-en-un-modelo-documental"><span class="header-section-number">19</span> Representación en un modelo documental</h2>
-<p>En una base documental podemos representar al mismo usuario mediante un solo documento:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Ana"</span><span class="fu">,</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"redes_sociales"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instagram"</span><span class="ot">,</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TikTok"</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dispositivos"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"celular"</span><span class="fu">,</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sistema"</span><span class="fu">:</span> <span class="st">"Android"</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"laptop"</span><span class="fu">,</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sistema"</span><span class="fu">:</span> <span class="st">"Windows"</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La información relacionada con Ana se encuentra concentrada en una sola estructura.</p>
-<p>Visualmente:</p>
-<pre class="text"><code>usuario
-│
-├── id
-├── nombre
-├── edad
-│
-├── redes_sociales
-│     ├── Instagram
-│     └── TikTok
-│
-└── dispositivos
-      ├── celular
-      │     └── Android
-      │
-      └── laptop
-            └── Windows</code></pre>
-<p>Este tipo de representación puede ser conveniente cuando normalmente necesitamos recuperar toda la información del usuario al mismo tiempo.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Una diferencia importante
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En un modelo documental, un documento no debe entenderse simplemente como una fila con otro nombre.</p>
-<p>Un documento puede contener:</p>
-<ul>
-<li>valores simples;</li>
-<li>listas;</li>
-<li>objetos;</li>
-<li>listas de objetos;</li>
-<li>estructuras anidadas.</li>
-</ul>
-<p>Por eso puede representar información más compleja dentro de una misma unidad.</p>
-</div>
-</div>
-</section>
-<section id="cuál-de-los-dos-modelos-es-mejor" class="level2" data-number="20">
-<h2 data-number="20" class="anchored" data-anchor-id="cuál-de-los-dos-modelos-es-mejor"><span class="header-section-number">20</span> ¿Cuál de los dos modelos es mejor?</h2>
-<p>No existe una respuesta universal.</p>
-<p>Depende de cómo se utilizarán los datos.</p>
-<p>Supongamos que una aplicación consulta constantemente:</p>
-<blockquote class="blockquote">
-<p>Dame el perfil completo de Ana, incluyendo redes sociales y dispositivos.</p>
-</blockquote>
-<p>Un documento puede resultar cómodo porque gran parte de la información está almacenada junta.</p>
-<p>Pero imaginemos ahora que necesitamos:</p>
-<blockquote class="blockquote">
-<p>Obtener todos los usuarios que tienen registrado el mismo dispositivo y mantener un catálogo centralizado de dispositivos.</p>
-</blockquote>
-<p>En ese escenario, separar la información y establecer relaciones podría ser más conveniente.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>El diseño depende de las consultas
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Una de las ideas más importantes al diseñar bases de datos es pensar en <strong>cómo se utilizarán los datos</strong>.</p>
-<p>No sólo importa cómo se almacenan, sino también:</p>
-<pre class="text"><code>¿Qué consultas serán frecuentes?
-
-¿Qué información se leerá junta?
-
-¿Qué información cambia con frecuencia?
-
-¿Qué relaciones deben mantenerse consistentes?</code></pre>
-<p>Estas preguntas influyen directamente en la elección del modelo <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
-</div>
-</div>
-</section>
-<section id="relacional-y-documental-comparación-general" class="level2" data-number="21">
-<h2 data-number="21" class="anchored" data-anchor-id="relacional-y-documental-comparación-general"><span class="header-section-number">21</span> Relacional y documental: comparación general</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Modelo relacional</th>
-<th>Modelo documental</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Tablas</td>
-<td>Colecciones</td>
-</tr>
-<tr class="even">
-<td>Filas o registros</td>
-<td>Documentos</td>
-</tr>
-<tr class="odd">
-<td>Columnas</td>
-<td>Campos</td>
-</tr>
-<tr class="even">
-<td>Llaves primarias y foráneas</td>
-<td>Identificadores y referencias</td>
-</tr>
-<tr class="odd">
-<td>Relaciones entre tablas</td>
-<td>Documentos y estructuras anidadas</td>
-</tr>
-<tr class="even">
-<td>Esquema normalmente definido</td>
-<td>Esquema más flexible</td>
-</tr>
-<tr class="odd">
-<td><code>JOIN</code> para combinar tablas</td>
-<td>Información relacionada puede estar embebida</td>
-</tr>
-</tbody>
-</table>
-<p>Esta comparación es útil como primera aproximación, pero no debe interpretarse como una equivalencia exacta.</p>
-<p>Por ejemplo:</p>
-<pre class="text"><code>tabla ≈ colección
-fila ≈ documento
-columna ≈ campo</code></pre>
-<p>sirve para comprender inicialmente las diferencias, pero un documento puede contener estructuras internas que una fila tradicional no representa directamente.</p>
-</section>
-<section id="qué-significa-nosql" class="level2" data-number="22">
-<h2 data-number="22" class="anchored" data-anchor-id="qué-significa-nosql"><span class="header-section-number">22</span> ¿Qué significa NoSQL?</h2>
+<section id="qué-significa-nosql" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="qué-significa-nosql"><span class="header-section-number">16</span> ¿Qué significa NoSQL?</h2>
 <p>El término <strong>NoSQL</strong> se utiliza para agrupar diferentes modelos de bases de datos que no se limitan al modelo relacional tradicional <span class="citation" data-cites="sadalage2012">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>)</span>.</p>
-<p>NoSQL no significa necesariamente:</p>
+<p>NoSQL no debe entenderse simplemente como:</p>
 <pre class="text"><code>No SQL</code></pre>
-<p>En muchos contextos también se interpreta como:</p>
+<p>En muchos contextos también se utiliza la expresión:</p>
 <pre class="text"><code>Not Only SQL</code></pre>
 <p>es decir, <strong>no solamente SQL</strong>.</p>
 <p>La idea importante es que existen diferentes maneras de representar y consultar información.</p>
@@ -1232,7 +913,7 @@ columna ≈ campo</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>NoSQL no representa un único tipo de base de datos.</p>
-<p>Dentro de esta categoría existen diferentes modelos, entre ellos:</p>
+<p>Dentro de esta categoría existen diferentes modelos:</p>
 <pre class="text"><code>Documentos
 Clave-valor
 Columnas
@@ -1241,11 +922,67 @@ Grafos</code></pre>
 </div>
 </div>
 </section>
-<section id="nosql-no-significa-abandonar-sql" class="level2" data-number="23">
-<h2 data-number="23" class="anchored" data-anchor-id="nosql-no-significa-abandonar-sql"><span class="header-section-number">23</span> NoSQL no significa abandonar SQL</h2>
-<p>Una empresa puede utilizar diferentes tecnologías al mismo tiempo.</p>
+<section id="principales-modelos-nosql" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="principales-modelos-nosql"><span class="header-section-number">17</span> Principales modelos NoSQL</h2>
+<p>Durante el curso se estudiarán cuatro familias principales:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Idea principal</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Documentos</td>
+<td>Información organizada en documentos con campos y valores</td>
+<td>MongoDB</td>
+</tr>
+<tr class="even">
+<td>Clave-valor</td>
+<td>Una clave identifica un valor asociado</td>
+<td>Redis</td>
+</tr>
+<tr class="odd">
+<td>Columnas</td>
+<td>Organización mediante familias de columnas</td>
+<td>Cassandra</td>
+</tr>
+<tr class="even">
+<td>Grafos</td>
+<td>Información representada mediante nodos y relaciones</td>
+<td>Neo4j</td>
+</tr>
+</tbody>
+</table>
+<p>Por ahora es suficiente identificar la idea general de cada modelo.</p>
+<p>En los siguientes apartados del curso cada uno será estudiado con mayor detalle.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>NoSQL no significa solamente MongoDB.</p>
+<p>MongoDB es un ejemplo de base de datos orientada a documentos, mientras que Redis, Cassandra y Neo4j representan otros modelos NoSQL.</p>
+</div>
+</div>
+</section>
+<section id="nosql-no-significa-abandonar-sql" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="nosql-no-significa-abandonar-sql"><span class="header-section-number">18</span> NoSQL no significa abandonar SQL</h2>
+<p>Una organización puede utilizar diferentes tecnologías al mismo tiempo.</p>
 <p>Por ejemplo:</p>
-<pre class="text"><code>Sistema de ventas
+<pre class="text"><code>Sistema de comercio electrónico
       │
       ├── PostgreSQL
       │     └── pedidos y pagos
@@ -1259,413 +996,10 @@ Grafos</code></pre>
       └── Neo4j
             └── relaciones y recomendaciones</code></pre>
 <p>Este enfoque se conoce como <strong>persistencia políglota</strong>, donde diferentes modelos de almacenamiento pueden coexistir dentro de una misma arquitectura cuando cada uno resuelve mejor una necesidad específica <span class="citation" data-cites="sadalage2012">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo real
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Una tienda en línea podría utilizar:</p>
-<p><strong>Base relacional</strong></p>
-<p>para:</p>
-<pre class="text"><code>clientes
-pagos
-facturación
-pedidos</code></pre>
-<p>porque estas operaciones suelen requerir alta consistencia.</p>
-<p><strong>Base documental</strong></p>
-<p>para:</p>
-<pre class="text"><code>catálogo de productos
-descripciones
-atributos variables
-opiniones</code></pre>
-<p><strong>Clave-valor</strong></p>
-<p>para:</p>
-<pre class="text"><code>carritos temporales
-sesiones
-caché</code></pre>
-<p><strong>Grafos</strong></p>
-<p>para:</p>
-<pre class="text"><code>productos relacionados
-recomendaciones
-relaciones entre usuarios</code></pre>
 <p>El objetivo no es utilizar muchas tecnologías por moda, sino elegirlas cuando aportan una ventaja clara.</p>
-</div>
-</div>
 </section>
-<section id="principales-modelos-nosql" class="level2" data-number="24">
-<h2 data-number="24" class="anchored" data-anchor-id="principales-modelos-nosql"><span class="header-section-number">24</span> Principales modelos NoSQL</h2>
-<p>NoSQL no corresponde a un único modelo de base de datos.</p>
-<p>Dentro de esta categoría existen diferentes familias, cada una pensada para resolver ciertos tipos de problemas.</p>
-<p>Las cuatro principales que estudiaremos en el curso son:</p>
-<pre class="text"><code>Documentos
-Clave-valor
-Columnas
-Grafos</code></pre>
-<p>Cada modelo organiza la información de una manera diferente.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Idea clave
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>NoSQL no significa solamente MongoDB.</p>
-<p>MongoDB es un ejemplo de base de datos orientada a documentos, pero existen otros modelos NoSQL con estructuras y objetivos distintos.</p>
-</div>
-</div>
-</section>
-<section id="bases-de-datos-orientadas-a-documentos" class="level2" data-number="25">
-<h2 data-number="25" class="anchored" data-anchor-id="bases-de-datos-orientadas-a-documentos"><span class="header-section-number">25</span> Bases de datos orientadas a documentos</h2>
-<p>Las bases de datos documentales almacenan la información en <strong>documentos</strong>, normalmente con estructuras similares a JSON.</p>
-<p>Un documento puede contener:</p>
-<ul>
-<li>valores simples;</li>
-<li>arreglos;</li>
-<li>objetos anidados;</li>
-<li>estructuras de diferente tamaño.</li>
-</ul>
-<p>Por ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Ana"</span><span class="fu">,</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"carrera"</span><span class="fu">:</span> <span class="st">"Ciencia de Datos"</span><span class="fu">,</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"redes_sociales"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instagram"</span><span class="ot">,</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TikTok"</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Otro documento de la misma colección podría ser:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Luis"</span><span class="fu">,</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"edad"</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"carrera"</span><span class="fu">:</span> <span class="st">"Estadística"</span><span class="fu">,</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dispositivos"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"celular"</span><span class="fu">,</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sistema"</span><span class="fu">:</span> <span class="st">"Android"</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Los documentos no necesitan tener exactamente los mismos campos.</p>
-<p>Esta flexibilidad permite representar información heterogénea de manera natural <span class="citation" data-cites="sadalage2012">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>)</span>.</p>
-<section id="cuándo-puede-ser-útil" class="level3" data-number="25.1">
-<h3 data-number="25.1" class="anchored" data-anchor-id="cuándo-puede-ser-útil"><span class="header-section-number">25.1</span> ¿Cuándo puede ser útil?</h3>
-<p>Este modelo puede resultar conveniente cuando:</p>
-<ul>
-<li>los registros tienen atributos variables;</li>
-<li>se utilizan estructuras anidadas;</li>
-<li>la información relacionada suele consultarse junta;</li>
-<li>los datos provienen naturalmente de JSON o APIs.</li>
-</ul>
-</section>
-<section id="ejemplo-real-catálogo-de-productos" class="level3" data-number="25.2">
-<h3 data-number="25.2" class="anchored" data-anchor-id="ejemplo-real-catálogo-de-productos"><span class="header-section-number">25.2</span> Ejemplo real: catálogo de productos</h3>
-<p>Una tienda en línea puede tener productos muy diferentes.</p>
-<p>Una computadora:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"producto"</span><span class="fu">:</span> <span class="st">"Laptop"</span><span class="fu">,</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"precio"</span><span class="fu">:</span> <span class="dv">18500</span><span class="fu">,</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"especificaciones"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ram"</span><span class="fu">:</span> <span class="st">"16 GB"</span><span class="fu">,</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"almacenamiento"</span><span class="fu">:</span> <span class="st">"512 GB"</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>y una playera:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"producto"</span><span class="fu">:</span> <span class="st">"Playera"</span><span class="fu">,</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"precio"</span><span class="fu">:</span> <span class="dv">650</span><span class="fu">,</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"tallas"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"S"</span><span class="ot">,</span> <span class="st">"M"</span><span class="ot">,</span> <span class="st">"L"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"colores"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Negro"</span><span class="ot">,</span> <span class="st">"Blanco"</span><span class="ot">]</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ambos pertenecen a una colección de productos, pero tienen atributos diferentes.</p>
-</section>
-<section id="gestor-representativo-mongodb" class="level3" data-number="25.3">
-<h3 data-number="25.3" class="anchored" data-anchor-id="gestor-representativo-mongodb"><span class="header-section-number">25.3</span> Gestor representativo: MongoDB</h3>
-<p>MongoDB es uno de los gestores documentales más conocidos.</p>
-<p>Su organización básica puede visualizarse así:</p>
-<pre class="text"><code>Base de datos
-    │
-    └── Colección
-          │
-          ├── Documento
-          ├── Documento
-          └── Documento</code></pre>
-<p>En MongoDB los documentos se almacenan internamente utilizando BSON, un formato binario relacionado con JSON <span class="citation" data-cites="mongodbDocs">(<a href="#ref-mongodbDocs" role="doc-biblioref">MongoDB 2026</a>)</span>.</p>
-<hr>
-</section>
-</section>
-<section id="bases-de-datos-clave-valor" class="level2" data-number="26">
-<h2 data-number="26" class="anchored" data-anchor-id="bases-de-datos-clave-valor"><span class="header-section-number">26</span> Bases de datos clave-valor</h2>
-<p>El modelo <strong>clave-valor</strong> utiliza una estructura muy sencilla:</p>
-<pre class="text"><code>clave → valor</code></pre>
-<p>Cada elemento se recupera utilizando una clave única.</p>
-<p>Por ejemplo:</p>
-<pre class="text"><code>usuario:1001 → "Ana"
-usuario:1002 → "Luis"
-usuario:1003 → "María"</code></pre>
-<p>También podemos almacenar valores más complejos:</p>
-<pre class="text"><code>sesion:a83f91 → {
-  usuario: 1001,
-  activo: true
-}</code></pre>
-<p>La idea es similar a utilizar un diccionario:</p>
-<pre class="text"><code>clave
-  ↓
-valor</code></pre>
-<section id="ejemplo-real-sesión-de-usuario" class="level3" data-number="26.1">
-<h3 data-number="26.1" class="anchored" data-anchor-id="ejemplo-real-sesión-de-usuario"><span class="header-section-number">26.1</span> Ejemplo real: sesión de usuario</h3>
-<p>Cuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador temporal:</p>
-<pre class="text"><code>session_abc123</code></pre>
-<p>y asociarlo con:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"usuario"</span><span class="fu">:</span> <span class="dv">1001</span><span class="fu">,</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"rol"</span><span class="fu">:</span> <span class="st">"estudiante"</span><span class="fu">,</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"activo"</span><span class="fu">:</span> <span class="kw">true</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Después, la aplicación puede recuperar rápidamente esa información utilizando la clave de sesión.</p>
-</section>
-<section id="otros-usos-comunes" class="level3" data-number="26.2">
-<h3 data-number="26.2" class="anchored" data-anchor-id="otros-usos-comunes"><span class="header-section-number">26.2</span> Otros usos comunes</h3>
-<p>El modelo clave-valor suele utilizarse para:</p>
-<pre class="text"><code>sesiones
-caché
-carritos de compra
-preferencias temporales
-contadores</code></pre>
-</section>
-<section id="gestor-representativo-redis" class="level3" data-number="26.3">
-<h3 data-number="26.3" class="anchored" data-anchor-id="gestor-representativo-redis"><span class="header-section-number">26.3</span> Gestor representativo: Redis</h3>
-<p>Redis es un sistema ampliamente utilizado para trabajar con estructuras clave-valor y datos almacenados en memoria <span class="citation" data-cites="redisDocs">(<a href="#ref-redisDocs" role="doc-biblioref">Redis 2026</a>)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Una forma sencilla de imaginarlo
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Podemos pensar en un casillero:</p>
-<pre class="text"><code>Número de casillero → contenido</code></pre>
-<p>Si conocemos el número, podemos localizar rápidamente lo que se encuentra dentro.</p>
-</div>
-</div>
-<hr>
-</section>
-</section>
-<section id="bases-de-datos-orientadas-a-columnas" class="level2" data-number="27">
-<h2 data-number="27" class="anchored" data-anchor-id="bases-de-datos-orientadas-a-columnas"><span class="header-section-number">27</span> Bases de datos orientadas a columnas</h2>
-<p>Las bases de datos orientadas a columnas, o de <strong>familias de columnas</strong>, organizan la información de una forma diferente al modelo relacional tradicional.</p>
-<p>Están especialmente asociadas con sistemas que necesitan manejar:</p>
-<ul>
-<li>grandes volúmenes de datos;</li>
-<li>información distribuida;</li>
-<li>múltiples servidores;</li>
-<li>grandes cantidades de escrituras y consultas.</li>
-</ul>
-<p>Una representación simplificada podría ser:</p>
-<pre class="text"><code>Usuario 1
-  nombre     → Ana
-  ciudad     → Xalapa
-  edad       → 20
-
-Usuario 2
-  nombre     → Luis
-  ciudad     → Veracruz</code></pre>
-<p>No todos los registros necesitan contener necesariamente las mismas columnas.</p>
-<section id="ejemplo-real-datos-generados-por-sensores" class="level3" data-number="27.1">
-<h3 data-number="27.1" class="anchored" data-anchor-id="ejemplo-real-datos-generados-por-sensores"><span class="header-section-number">27.1</span> Ejemplo real: datos generados por sensores</h3>
-<p>Imaginemos miles de sensores enviando mediciones continuamente:</p>
-<pre class="text"><code>sensor_001
-  temperatura
-  humedad
-  timestamp
-
-sensor_002
-  temperatura
-  presión
-  timestamp
-
-sensor_003
-  humedad
-  viento
-  timestamp</code></pre>
-<p>Con millones de registros distribuidos entre diferentes servidores, un modelo diseñado para grandes volúmenes distribuidos puede resultar conveniente.</p>
-</section>
-<section id="gestor-representativo-apache-cassandra" class="level3" data-number="27.2">
-<h3 data-number="27.2" class="anchored" data-anchor-id="gestor-representativo-apache-cassandra"><span class="header-section-number">27.2</span> Gestor representativo: Apache Cassandra</h3>
-<p>Apache Cassandra es una base de datos distribuida que utiliza un modelo basado en particiones y columnas, diseñada para trabajar con grandes cantidades de información y múltiples nodos <span class="citation" data-cites="cassandraDocs">(<a href="#ref-cassandraDocs" role="doc-biblioref">Apache Cassandra 2026</a>)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Las bases orientadas a columnas no deben confundirse directamente con una tabla de Excel girada.</p>
-<p>Su organización interna y su forma de distribuir información responden a objetivos diferentes a los de una tabla relacional tradicional.</p>
-</div>
-</div>
-<hr>
-</section>
-</section>
-<section id="bases-de-datos-orientadas-a-grafos" class="level2" data-number="28">
-<h2 data-number="28" class="anchored" data-anchor-id="bases-de-datos-orientadas-a-grafos"><span class="header-section-number">28</span> Bases de datos orientadas a grafos</h2>
-<p>En una base de datos de grafos, las <strong>relaciones</strong> son una parte central del modelo.</p>
-<p>Los elementos principales son:</p>
-<pre class="text"><code>nodos
-relaciones
-propiedades</code></pre>
-<p>Por ejemplo:</p>
-<pre class="text"><code>Ana ── SIGUE_A ──&gt; Luis
-
-Luis ── SIGUE_A ──&gt; María
-
-Ana ── SIGUE_A ──&gt; Carlos</code></pre>
-<p>Los usuarios pueden representarse como nodos y las conexiones como relaciones.</p>
-<p>Una relación también puede tener información propia:</p>
-<pre class="text"><code>Ana ── AMIGA_DE ──&gt; María
-          │
-          └── desde: 2022</code></pre>
-<section id="ejemplo-real-red-social" class="level3" data-number="28.1">
-<h3 data-number="28.1" class="anchored" data-anchor-id="ejemplo-real-red-social"><span class="header-section-number">28.1</span> Ejemplo real: red social</h3>
-<p>Supongamos que queremos responder:</p>
-<blockquote class="blockquote">
-<p>¿Qué amigos de mis amigos todavía no sigo?</p>
-</blockquote>
-<p>En una estructura de grafos podemos recorrer las relaciones:</p>
-<pre class="text"><code>Ana
- │
- ├── Luis
- │     ├── María
- │     └── Carlos
- │
- └── Sofía
-       └── Pedro</code></pre>
-<p>El problema no se centra únicamente en almacenar usuarios, sino en navegar sus relaciones.</p>
-</section>
-<section id="otros-usos" class="level3" data-number="28.2">
-<h3 data-number="28.2" class="anchored" data-anchor-id="otros-usos"><span class="header-section-number">28.2</span> Otros usos</h3>
-<p>Las bases de grafos pueden utilizarse en:</p>
-<pre class="text"><code>redes sociales
-sistemas de recomendación
-detección de fraude
-rutas de transporte
-redes de conocimiento
-relaciones entre organizaciones</code></pre>
-</section>
-<section id="gestor-representativo-neo4j" class="level3" data-number="28.3">
-<h3 data-number="28.3" class="anchored" data-anchor-id="gestor-representativo-neo4j"><span class="header-section-number">28.3</span> Gestor representativo: Neo4j</h3>
-<p>Neo4j es uno de los gestores de grafos más conocidos y permite representar información mediante nodos, relaciones y propiedades <span class="citation" data-cites="neo4jDocs">(<a href="#ref-neo4jDocs" role="doc-biblioref">Neo4j 2026</a>)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo: recomendaciones
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Supongamos:</p>
-<pre class="text"><code>Ana ── COMPRÓ ──&gt; Laptop
-
-Luis ── COMPRÓ ──&gt; Laptop
-Luis ── COMPRÓ ──&gt; Mouse</code></pre>
-<p>El sistema podría detectar que Ana y Luis tienen intereses similares y sugerir a Ana el producto que Luis también compró:</p>
-<pre class="text"><code>Mouse</code></pre>
-<p>Este tipo de recorrido es muy natural en un modelo de grafos.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="comparación-de-los-modelos-nosql" class="level2" data-number="29">
-<h2 data-number="29" class="anchored" data-anchor-id="comparación-de-los-modelos-nosql"><span class="header-section-number">29</span> Comparación de los modelos NoSQL</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Modelo</th>
-<th>Unidad principal</th>
-<th>Idea básica</th>
-<th>Ejemplo de uso</th>
-<th>Gestor</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Documentos</td>
-<td>Documento</td>
-<td>Información flexible tipo JSON</td>
-<td>Catálogo de productos</td>
-<td>MongoDB</td>
-</tr>
-<tr class="even">
-<td>Clave-valor</td>
-<td>Clave y valor</td>
-<td>Recuperación directa mediante una clave</td>
-<td>Sesiones y caché</td>
-<td>Redis</td>
-</tr>
-<tr class="odd">
-<td>Columnas</td>
-<td>Familias de columnas</td>
-<td>Grandes volúmenes distribuidos</td>
-<td>Sensores y registros masivos</td>
-<td>Cassandra</td>
-</tr>
-<tr class="even">
-<td>Grafos</td>
-<td>Nodos y relaciones</td>
-<td>Relaciones como elemento central</td>
-<td>Redes sociales</td>
-<td>Neo4j</td>
-</tr>
-</tbody>
-</table>
-<p>No existe un modelo que sea superior en todos los casos.</p>
-<p>Cada uno responde mejor a determinados patrones de información y consulta <span class="citation" data-cites="sadalage2012 kleppmann2017">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>; <a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Lo importante no es memorizar marcas
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>MongoDB, Redis, Cassandra y Neo4j son ejemplos representativos.</p>
-<p>Lo realmente importante es comprender:</p>
-<pre class="text"><code>qué estructura utiliza cada modelo
-qué problema intenta resolver
-cómo se consulta la información
-cuándo podría ser conveniente utilizarlo</code></pre>
-</div>
-</div>
-</section>
-<section id="nosql-aplicado-a-ciencia-de-datos" class="level2" data-number="30">
-<h2 data-number="30" class="anchored" data-anchor-id="nosql-aplicado-a-ciencia-de-datos"><span class="header-section-number">30</span> NoSQL aplicado a Ciencia de Datos</h2>
+<section id="nosql-aplicado-a-ciencia-de-datos" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="nosql-aplicado-a-ciencia-de-datos"><span class="header-section-number">19</span> NoSQL aplicado a Ciencia de Datos</h2>
 <p>En Ciencia de Datos no siempre trabajamos con una tabla limpia y lista para analizar.</p>
 <p>Con frecuencia, la información proviene de distintas fuentes:</p>
 <pre class="text"><code>CSV
@@ -1707,254 +1041,15 @@ analizar</code></pre>
 </div>
 </div>
 </section>
-<section id="ejemplo-1-archivo-csv" class="level2" data-number="31">
-<h2 data-number="31" class="anchored" data-anchor-id="ejemplo-1-archivo-csv"><span class="header-section-number">31</span> Ejemplo 1: archivo CSV</h2>
-<p>Un archivo CSV podría contener:</p>
-<pre class="csv"><code>id,nombre,edad,carrera
-1,Ana,20,Ciencia de Datos
-2,Luis,22,Estadística
-3,María,21,Informática</code></pre>
-<p>Esta información tiene una estructura tabular claramente definida.</p>
-<p>Podemos leerla fácilmente en Python:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>datos <span class="op">=</span> pd.read_csv(<span class="st">"estudiantes.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>y obtener una estructura similar a:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">id</th>
-<th>nombre</th>
-<th style="text-align: right;">edad</th>
-<th>carrera</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>Ana</td>
-<td style="text-align: right;">20</td>
-<td>Ciencia de Datos</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>Luis</td>
-<td style="text-align: right;">22</td>
-<td>Estadística</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td>María</td>
-<td style="text-align: right;">21</td>
-<td>Informática</td>
-</tr>
-</tbody>
-</table>
-<p>Este es un caso muy natural para trabajar con datos estructurados.</p>
-</section>
-<section id="ejemplo-2-obtener-información-desde-una-api" class="level2" data-number="32">
-<h2 data-number="32" class="anchored" data-anchor-id="ejemplo-2-obtener-información-desde-una-api"><span class="header-section-number">32</span> Ejemplo 2: obtener información desde una API</h2>
-<p>Muchas fuentes modernas no entregan archivos CSV.</p>
-<p>En su lugar, proporcionan información mediante una <strong>API</strong>.</p>
-<p>Una respuesta podría verse así:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ciudad"</span><span class="fu">:</span> <span class="st">"Xalapa"</span><span class="fu">,</span></span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">21</span><span class="fu">,</span></span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"humedad"</span><span class="fu">:</span> <span class="dv">78</span><span class="fu">,</span></span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"pronostico"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"12:00"</span><span class="fu">,</span></span>
-<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">22</span></span>
-<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hora"</span><span class="fu">:</span> <span class="st">"15:00"</span><span class="fu">,</span></span>
-<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="dv">23</span></span>
-<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Antes de analizar esta información podemos necesitar:</p>
-<pre class="text"><code>API
- ↓
-JSON
- ↓
-almacenamiento
- ↓
-procesamiento
- ↓
-DataFrame
- ↓
-análisis</code></pre>
-<p>JSON resulta especialmente importante en Ciencia de Datos porque es uno de los formatos más utilizados para intercambiar información entre aplicaciones y servicios.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Un punto importante
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Una API no es una base de datos.</p>
-<p>La API es un mecanismo mediante el cual una aplicación puede solicitar o enviar información.</p>
-<p>Esa información puede provenir internamente de:</p>
-<pre class="text"><code>PostgreSQL
-MongoDB
-Redis
-otros sistemas</code></pre>
-<p>y posteriormente ser entregada al usuario en un formato como JSON.</p>
-</div>
-</div>
-</section>
-<section id="ejemplo-3-información-generada-por-sensores" class="level2" data-number="33">
-<h2 data-number="33" class="anchored" data-anchor-id="ejemplo-3-información-generada-por-sensores"><span class="header-section-number">33</span> Ejemplo 3: información generada por sensores</h2>
-<p>Imaginemos una red de estaciones meteorológicas.</p>
-<p>Cada estación puede generar continuamente registros como:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sensor"</span><span class="fu">:</span> <span class="st">"XAL_001"</span><span class="fu">,</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-09-06T14:00:00"</span><span class="fu">,</span></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="fl">22.4</span><span class="fu">,</span></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"humedad"</span><span class="fu">:</span> <span class="dv">76</span></span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Cinco minutos después:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sensor"</span><span class="fu">:</span> <span class="st">"XAL_001"</span><span class="fu">,</span></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-09-06T14:05:00"</span><span class="fu">,</span></span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temperatura"</span><span class="fu">:</span> <span class="fl">22.7</span><span class="fu">,</span></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"humedad"</span><span class="fu">:</span> <span class="dv">75</span></span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Si existen miles de sensores enviando información constantemente, el volumen puede crecer rápidamente.</p>
-<p>Por ejemplo:</p>
-<pre class="text"><code>10,000 sensores
-       ×
-1 registro cada minuto
-       ×
-1,440 minutos al día
-       =
-14,400,000 registros diarios</code></pre>
-<p>En este tipo de escenario empiezan a ser importantes conceptos que estudiaremos posteriormente:</p>
-<pre class="text"><code>escalabilidad
-distribución
-particionamiento
-procesamiento paralelo</code></pre>
-<p><span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span></p>
-</section>
-<section id="ejemplo-4-publicaciones-de-redes-sociales" class="level2" data-number="34">
-<h2 data-number="34" class="anchored" data-anchor-id="ejemplo-4-publicaciones-de-redes-sociales"><span class="header-section-number">34</span> Ejemplo 4: publicaciones de redes sociales</h2>
-<p>Una publicación podría contener:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"usuario"</span><span class="fu">:</span> <span class="st">"usuario123"</span><span class="fu">,</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-09-06"</span><span class="fu">,</span></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"texto"</span><span class="fu">:</span> <span class="st">"Hoy comenzó el curso de Bases de Datos No Relacionales"</span><span class="fu">,</span></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hashtags"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NoSQL"</span><span class="ot">,</span></span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MongoDB"</span></span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"reacciones"</span><span class="fu">:</span> <span class="dv">35</span><span class="fu">,</span></span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"comentarios"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"usuario"</span><span class="fu">:</span> <span class="st">"usuario456"</span><span class="fu">,</span></span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"texto"</span><span class="fu">:</span> <span class="st">"Interesante"</span></span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"usuario"</span><span class="fu">:</span> <span class="st">"usuario789"</span><span class="fu">,</span></span>
-<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"texto"</span><span class="fu">:</span> <span class="st">"¿Compartirás el material?"</span></span>
-<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Aquí encontramos diferentes estructuras dentro de un mismo documento:</p>
-<pre class="text"><code>texto
-números
-arreglos
-objetos anidados
-listas de objetos</code></pre>
-<p>Este tipo de información puede resultar muy natural para un modelo documental.</p>
-</section>
-<section id="ejemplo-5-imágenes-y-metadatos" class="level2" data-number="35">
-<h2 data-number="35" class="anchored" data-anchor-id="ejemplo-5-imágenes-y-metadatos"><span class="header-section-number">35</span> Ejemplo 5: imágenes y metadatos</h2>
-<p>Supongamos que tenemos una colección de fotografías.</p>
-<p>El archivo original podría ser:</p>
-<pre class="text"><code>estadio_001.jpg</code></pre>
-<p>La imagen, por sí misma, no contiene sus características semánticas organizadas como columnas.</p>
-<p>Sin embargo, podemos procesarla con un modelo de visión por computadora y obtener:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"archivo"</span><span class="fu">:</span> <span class="st">"estadio_001.jpg"</span><span class="fu">,</span></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"fecha"</span><span class="fu">:</span> <span class="st">"2026-08-25"</span><span class="fu">,</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"etiquetas"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"futbol"</span><span class="ot">,</span></span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"jugadores"</span><span class="ot">,</span></span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"estadio"</span><span class="ot">,</span></span>
-<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balon"</span></span>
-<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"modelo"</span><span class="fu">:</span> <span class="st">"clasificador_imagenes"</span><span class="fu">,</span></span>
-<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"confianza"</span><span class="fu">:</span> <span class="fl">0.94</span></span>
-<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Tenemos entonces dos elementos distintos:</p>
-<pre class="text"><code>estadio_001.jpg
-       │
-       │ procesamiento
-       ↓
-metadatos
-{
-  etiquetas,
-  modelo,
-  confianza
-}</code></pre>
-<p>El archivo visual continúa siendo la fuente original, pero ahora disponemos de información estructurada o semiestructurada que permite consultarlo.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>¿Qué podríamos consultar?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Una vez almacenados los metadatos podríamos preguntar:</p>
-<pre class="text"><code>¿Qué imágenes contienen un balón?
-
-¿Qué fotografías fueron tomadas en un estadio?
-
-¿Qué imágenes tuvieron una confianza mayor a 0.90?
-
-¿Qué imágenes fueron clasificadas como fútbol?</code></pre>
-<p>El resultado de un modelo de Ciencia de Datos puede convertirse también en información que posteriormente necesita almacenarse y consultarse.</p>
-</div>
-</div>
-</section>
-<section id="ejemplo-6-análisis-de-texto" class="level2" data-number="36">
-<h2 data-number="36" class="anchored" data-anchor-id="ejemplo-6-análisis-de-texto"><span class="header-section-number">36</span> Ejemplo 6: análisis de texto</h2>
-<p>Algo similar ocurre con documentos de texto.</p>
-<p>Supongamos que tenemos:</p>
-<pre class="text"><code>comentario_001.txt</code></pre>
-<p>con el contenido:</p>
-<pre class="text"><code>La aplicación funciona bien, pero tarda demasiado en cargar.</code></pre>
-<p>Después de procesarlo mediante técnicas de lenguaje natural podríamos obtener:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"archivo"</span><span class="fu">:</span> <span class="st">"comentario_001.txt"</span><span class="fu">,</span></span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sentimiento"</span><span class="fu">:</span> <span class="st">"mixto"</span><span class="fu">,</span></span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"temas"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rendimiento"</span><span class="ot">,</span></span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"aplicación"</span></span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"palabras_clave"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"funciona"</span><span class="ot">,</span></span>
-<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tarda"</span><span class="ot">,</span></span>
-<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cargar"</span></span>
-<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>El texto original puede considerarse no estructurado para este propósito, mientras que los resultados del procesamiento se almacenan con una estructura claramente interpretable.</p>
-</section>
-<section id="de-una-fuente-a-un-conjunto-de-datos" class="level2" data-number="37">
-<h2 data-number="37" class="anchored" data-anchor-id="de-una-fuente-a-un-conjunto-de-datos"><span class="header-section-number">37</span> De una fuente a un conjunto de datos</h2>
+<section id="de-una-fuente-a-un-conjunto-de-datos" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="de-una-fuente-a-un-conjunto-de-datos"><span class="header-section-number">20</span> De una fuente a un conjunto de datos</h2>
 <p>En muchos proyectos el objetivo final puede ser transformar información heterogénea en una estructura adecuada para el análisis.</p>
 <p>Por ejemplo:</p>
 <pre class="text"><code>API
  │
  └── JSON
       │
-      └── MongoDB
+      └── base de datos
             │
             └── consulta
                   │
@@ -1963,20 +1058,20 @@ metadatos
                         └── DataFrame
                               │
                               └── análisis</code></pre>
-<p>O:</p>
+<p>También puede ocurrir:</p>
 <pre class="text"><code>Imágenes
     │
     └── modelo de visión
            │
-           └── metadatos JSON
-                    │
-                    └── base de datos
-                              │
-                              └── análisis</code></pre>
-<p>La base de datos forma parte del <strong>pipeline de datos</strong>, no es solamente el lugar donde se guardan archivos <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
+           └── metadatos
+                  │
+                  └── base de datos
+                         │
+                         └── análisis</code></pre>
+<p>La base de datos forma parte del <strong>flujo de datos</strong>, no es solamente el lugar donde se guarda información <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
 </section>
-<section id="elegir-cómo-almacenar-la-información" class="level2" data-number="38">
-<h2 data-number="38" class="anchored" data-anchor-id="elegir-cómo-almacenar-la-información"><span class="header-section-number">38</span> Elegir cómo almacenar la información</h2>
+<section id="elegir-cómo-almacenar-la-información" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="elegir-cómo-almacenar-la-información"><span class="header-section-number">21</span> Elegir cómo almacenar la información</h2>
 <p>Podemos pensar en algunos ejemplos sencillos:</p>
 <table class="caption-top table">
 <thead>
@@ -2003,7 +1098,7 @@ metadatos
 <td>Clave-valor</td>
 </tr>
 <tr class="odd">
-<td>Millones de mediciones distribuidas</td>
+<td>Grandes volúmenes distribuidos</td>
 <td>Columnas</td>
 </tr>
 <tr class="even">
@@ -2050,56 +1145,8 @@ metadatos
 </div>
 </div>
 </section>
-<section id="ejemplo-integrado" class="level2" data-number="39">
-<h2 data-number="39" class="anchored" data-anchor-id="ejemplo-integrado"><span class="header-section-number">39</span> Ejemplo integrado</h2>
-<p>Supongamos que queremos analizar el comportamiento de usuarios de una plataforma de comercio electrónico.</p>
-<p>Podríamos disponer de:</p>
-<pre class="text"><code>clientes
-   ↓
-base relacional
-
-catálogo de productos
-   ↓
-documentos
-
-sesiones de navegación
-   ↓
-clave-valor
-
-relaciones entre productos
-   ↓
-grafo
-
-clics y eventos
-   ↓
-gran volumen de registros
-
-opiniones
-   ↓
-texto libre</code></pre>
-<p>Posteriormente, parte de esta información podría integrarse en Python para construir un conjunto de datos analítico.</p>
-<p>Esto muestra que un proyecto de Ciencia de Datos puede involucrar <strong>varias formas de representación antes de llegar al DataFrame final</strong>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Idea clave
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En Ciencia de Datos, comprender el origen y la estructura de la información es tan importante como saber analizarla.</p>
-<p>Antes de aplicar un algoritmo debemos entender:</p>
-<pre class="text"><code>de dónde vienen los datos
-cómo están representados
-cómo se almacenan
-cómo podemos recuperarlos</code></pre>
-</div>
-</div>
-</section>
-<section id="cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" class="level2" data-number="40">
-<h2 data-number="40" class="anchored" data-anchor-id="cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql"><span class="header-section-number">40</span> ¿Cuándo pensar en una base relacional y cuándo en NoSQL?</h2>
+<section id="cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="cuándo-pensar-en-una-base-relacional-y-cuándo-en-nosql"><span class="header-section-number">22</span> ¿Cuándo pensar en una base relacional y cuándo en NoSQL?</h2>
 <p>No existe una regla única que permita decidir automáticamente qué tipo de base de datos utilizar.</p>
 <p>La elección depende del problema, de la estructura de los datos y de la forma en que la información será consultada.</p>
 <p>Una base <strong>relacional</strong> puede ser una buena opción cuando:</p>
@@ -2112,7 +1159,7 @@ cómo podemos recuperarlos</code></pre>
 </ul>
 <p>Una base <strong>NoSQL</strong> puede resultar conveniente cuando:</p>
 <ul>
-<li>los documentos tienen estructuras variables;</li>
+<li>existen estructuras variables;</li>
 <li>se utilizan listas u objetos anidados;</li>
 <li>se necesitan grandes volúmenes distribuidos;</li>
 <li>las relaciones entre elementos son especialmente importantes;</li>
@@ -2136,25 +1183,22 @@ más escalable</code></pre>
 </div>
 </div>
 </section>
-<section id="ejemplo-1-sistema-escolar" class="level2" data-number="41">
-<h2 data-number="41" class="anchored" data-anchor-id="ejemplo-1-sistema-escolar"><span class="header-section-number">41</span> Ejemplo 1: sistema escolar</h2>
-<p>Supongamos que queremos administrar:</p>
+<section id="ejemplos-de-elección-del-modelo" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="ejemplos-de-elección-del-modelo"><span class="header-section-number">23</span> Ejemplos de elección del modelo</h2>
+<p>Podemos observar algunos escenarios sencillos.</p>
+<section id="sistema-escolar" class="level3" data-number="23.1">
+<h3 data-number="23.1" class="anchored" data-anchor-id="sistema-escolar"><span class="header-section-number">23.1</span> Sistema escolar</h3>
+<p>Si necesitamos administrar:</p>
 <pre class="text"><code>estudiantes
 materias
 inscripciones
 calificaciones</code></pre>
-<p>Las entidades tienen relaciones claras y la información debe mantenerse consistente.</p>
-<p>En este caso, una base relacional podría ser una opción natural.</p>
-<p>Por ejemplo:</p>
-<pre class="text"><code>ESTUDIANTES
-      │
-      └── INSCRIPCIONES
-              │
-              └── MATERIAS</code></pre>
+<p>las entidades tienen relaciones claras y la información debe mantenerse consistente.</p>
+<p>Una base relacional puede ser una opción natural.</p>
 </section>
-<section id="ejemplo-2-catálogo-de-productos" class="level2" data-number="42">
-<h2 data-number="42" class="anchored" data-anchor-id="ejemplo-2-catálogo-de-productos"><span class="header-section-number">42</span> Ejemplo 2: catálogo de productos</h2>
-<p>Una tienda en línea puede manejar productos con atributos muy diferentes.</p>
+<section id="catálogo-de-productos" class="level3" data-number="23.2">
+<h3 data-number="23.2" class="anchored" data-anchor-id="catálogo-de-productos"><span class="header-section-number">23.2</span> Catálogo de productos</h3>
+<p>Una tienda puede manejar productos con atributos diferentes:</p>
 <pre class="text"><code>Laptop
 ├── RAM
 ├── procesador
@@ -2164,59 +1208,28 @@ Playera
 ├── talla
 ├── color
 └── material</code></pre>
-<p>Un modelo documental puede ser conveniente porque permite mantener atributos distintos dentro de documentos de una misma colección.</p>
+<p>Un modelo documental puede ser una alternativa conveniente.</p>
 </section>
-<section id="ejemplo-3-sesiones-de-usuario" class="level2" data-number="43">
-<h2 data-number="43" class="anchored" data-anchor-id="ejemplo-3-sesiones-de-usuario"><span class="header-section-number">43</span> Ejemplo 3: sesiones de usuario</h2>
+<section id="sesiones-de-usuario" class="level3" data-number="23.3">
+<h3 data-number="23.3" class="anchored" data-anchor-id="sesiones-de-usuario"><span class="header-section-number">23.3</span> Sesiones de usuario</h3>
 <p>Si una aplicación necesita recuperar rápidamente información temporal mediante una clave:</p>
 <pre class="text"><code>session_123 → datos del usuario</code></pre>
-<p>un modelo clave-valor puede ser adecuado.</p>
+<p>un modelo clave-valor puede resultar adecuado.</p>
 </section>
-<section id="ejemplo-4-red-social" class="level2" data-number="44">
-<h2 data-number="44" class="anchored" data-anchor-id="ejemplo-4-red-social"><span class="header-section-number">44</span> Ejemplo 4: red social</h2>
+<section id="red-social" class="level3" data-number="23.4">
+<h3 data-number="23.4" class="anchored" data-anchor-id="red-social"><span class="header-section-number">23.4</span> Red social</h3>
 <p>Si el problema principal consiste en analizar conexiones:</p>
 <pre class="text"><code>persona
   ↓
 sigue a
   ↓
 persona</code></pre>
-<p>un modelo de grafos puede facilitar ciertas consultas.</p>
-<p>Por ejemplo:</p>
-<blockquote class="blockquote">
-<p>Encontrar amigos de amigos que todavía no siguen al usuario.</p>
-</blockquote>
+<p>un modelo de grafos puede facilitar determinadas consultas.</p>
+<p>Estos ejemplos solo representan una primera aproximación. Cada modelo será estudiado posteriormente con mayor detalle.</p>
 </section>
-<section id="ejemplo-5-gran-volumen-de-eventos" class="level2" data-number="45">
-<h2 data-number="45" class="anchored" data-anchor-id="ejemplo-5-gran-volumen-de-eventos"><span class="header-section-number">45</span> Ejemplo 5: gran volumen de eventos</h2>
-<p>Una plataforma puede registrar millones de eventos:</p>
-<pre class="text"><code>clic
-vista
-compra
-búsqueda
-inicio_de_sesión</code></pre>
-<p>Si estos datos deben distribuirse entre múltiples nodos y consultarse a gran escala, pueden considerarse modelos diseñados para trabajar con grandes volúmenes distribuidos <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
 </section>
-<section id="una-misma-organización-puede-usar-varios-modelos" class="level2" data-number="46">
-<h2 data-number="46" class="anchored" data-anchor-id="una-misma-organización-puede-usar-varios-modelos"><span class="header-section-number">46</span> Una misma organización puede usar varios modelos</h2>
-<p>En sistemas reales no siempre se elige una única tecnología.</p>
-<p>Por ejemplo:</p>
-<pre class="text"><code>Plataforma de comercio electrónico
-          │
-          ├── PostgreSQL
-          │      └── pedidos y pagos
-          │
-          ├── MongoDB
-          │      └── catálogo
-          │
-          ├── Redis
-          │      └── sesiones
-          │
-          └── Neo4j
-                 └── recomendaciones</code></pre>
-<p>Esta estrategia permite utilizar distintos modelos para distintas necesidades <span class="citation" data-cites="sadalage2012">(<a href="#ref-sadalage2012" role="doc-biblioref">Sadalage and Fowler 2012</a>)</span>.</p>
-</section>
-<section id="actividad-de-autoevaluación" class="level2" data-number="47">
-<h2 data-number="47" class="anchored" data-anchor-id="actividad-de-autoevaluación"><span class="header-section-number">47</span> Actividad de autoevaluación</h2>
+<section id="actividad-de-autoevaluación" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="actividad-de-autoevaluación"><span class="header-section-number">24</span> Actividad de autoevaluación</h2>
 <p>Clasifica los siguientes ejemplos según el tipo de información que representan.</p>
 <table class="caption-top table">
 <thead>
@@ -2277,21 +1290,20 @@ Texto libre → no estructurado</code></pre>
 </div>
 </div>
 </section>
-<section id="preguntas-para-reflexionar" class="level2" data-number="48">
-<h2 data-number="48" class="anchored" data-anchor-id="preguntas-para-reflexionar"><span class="header-section-number">48</span> Preguntas para reflexionar</h2>
+<section id="preguntas-para-reflexionar" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="preguntas-para-reflexionar"><span class="header-section-number">25</span> Preguntas para reflexionar</h2>
 <ol type="1">
 <li><p>¿Una base NoSQL sustituye necesariamente a una base relacional?</p></li>
-<li><p>¿Cuál es la principal diferencia entre una fila de una tabla y un documento JSON?</p></li>
-<li><p>¿Por qué una tienda en línea puede beneficiarse de un modelo documental?</p></li>
-<li><p>¿Qué tipo de base podría ser conveniente cuando las relaciones entre usuarios son el centro del problema?</p></li>
+<li><p>¿Qué diferencia existe entre datos estructurados, semiestructurados y no estructurados?</p></li>
 <li><p>¿Por qué JSON es importante en Ciencia de Datos?</p></li>
-<li><p>¿Puede una misma aplicación utilizar diferentes tipos de bases de datos?</p></li>
-<li><p>¿Qué factores deberíamos considerar antes de elegir un modelo de almacenamiento?</p></li>
+<li><p>¿NoSQL corresponde a un único modelo de base de datos?</p></li>
+<li><p>¿Puede una misma aplicación utilizar diferentes modelos de almacenamiento?</p></li>
+<li><p>¿Qué factores deberíamos considerar antes de elegir una base de datos?</p></li>
+<li><p>¿Por qué el tipo de consultas puede influir en el modelo de almacenamiento elegido?</p></li>
 </ol>
 </section>
-<section id="ideas-clave-del-tema" class="level2" data-number="49">
-<h2 data-number="49" class="anchored" data-anchor-id="ideas-clave-del-tema"><span class="header-section-number">49</span> Ideas clave del tema</h2>
-<p>Al finalizar este tema es importante conservar las siguientes ideas:</p>
+<section id="ideas-clave" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="ideas-clave"><span class="header-section-number">26</span> Ideas clave</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2385,46 +1397,19 @@ bases de datos</code></pre>
 </div>
 </div>
 </section>
-<section id="en-la-siguiente-sesión" class="level2" data-number="50">
-<h2 data-number="50" class="anchored" data-anchor-id="en-la-siguiente-sesión"><span class="header-section-number">50</span> En la siguiente sesión</h2>
-<p>Después de comprender cómo pueden representarse los datos, el siguiente paso será estudiar qué ocurre cuando los sistemas necesitan crecer y trabajar con información distribuida.</p>
-<p>Se introducirán conceptos como:</p>
-<pre class="text"><code>escalabilidad vertical
-escalabilidad horizontal
-bases de datos distribuidas
-replicación
-particionamiento
-consistencia
-concurrencia
-teorema CAP
-procesamiento paralelo</code></pre>
-<p>Estos conceptos permitirán comprender mejor por qué muchas tecnologías NoSQL están estrechamente relacionadas con arquitecturas distribuidas <span class="citation" data-cites="kleppmann2017">(<a href="#ref-kleppmann2017" role="doc-biblioref">Kleppmann 2017</a>)</span>.</p>
-</section>
-<section id="referencias" class="level2" data-number="51">
+<section id="referencias" class="level2" data-number="27">
 
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">51 Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-cassandraDocs" class="csl-entry" role="listitem">
-Apache Cassandra. 2026. <em>Apache Cassandra Documentation</em>. <a href="https://cassandra.apache.org/doc/latest/" class="uri">Https://cassandra.apache.org/doc/latest/</a>.
-</div>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">27 Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-elmasri2016" class="csl-entry" role="listitem">
 Elmasri, Ramez, and Shamkant B. Navathe. 2016. <em>Fundamentals of Database Systems</em>. 7th ed. Pearson.
 </div>
 <div id="ref-kleppmann2017" class="csl-entry" role="listitem">
 Kleppmann, Martin. 2017. <em>Designing Data-Intensive Applications</em>. O’Reilly Media.
-</div>
-<div id="ref-mongodbDocs" class="csl-entry" role="listitem">
-MongoDB. 2026. <em>MongoDB Documentation</em>. <a href="https://www.mongodb.com/docs/" class="uri">Https://www.mongodb.com/docs/</a>.
-</div>
-<div id="ref-neo4jDocs" class="csl-entry" role="listitem">
-Neo4j. 2026. <em>Neo4j Documentation</em>. <a href="https://neo4j.com/docs/" class="uri">Https://neo4j.com/docs/</a>.
-</div>
-<div id="ref-redisDocs" class="csl-entry" role="listitem">
-Redis. 2026. <em>Redis Documentation</em>. <a href="https://redis.io/docs/" class="uri">Https://redis.io/docs/</a>.
 </div>
 <div id="ref-sadalage2012" class="csl-entry" role="listitem">
 Sadalage, Pramod J., and Martin Fowler. 2012. <em>NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence</em>. Addison-Wesley.

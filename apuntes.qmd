@@ -3,89 +3,56 @@ title: "Apuntes del curso"
 toc: true
 ---
 
-En esta sección se presentan materiales complementarios para ampliar los temas revisados durante las clases.
+En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.
 
-Los apuntes permiten consultar con mayor detalle los conceptos, ejemplos y procedimientos trabajados durante el curso.
+Los apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales.
 
-## Tema 1
+## De las bases de datos relacionales a NoSQL
 
-### De las bases de datos relacionales a las bases de datos NoSQL
-
-En este tema se revisan los fundamentos que permiten comprender la transición desde el modelo relacional hacia los principales modelos NoSQL.
-
-Se abordan:
-
-- modelo relacional;
-- tablas, registros, atributos y llaves;
-- datos estructurados;
-- datos semiestructurados;
-- datos no estructurados;
-- JSON y estructuras anidadas;
-- comparación entre modelo relacional y documental;
-- concepto de NoSQL;
-- bases orientadas a documentos;
-- bases clave-valor;
-- bases orientadas a columnas;
-- bases de grafos;
-- aplicaciones en Ciencia de Datos;
-- criterios para elegir un modelo de almacenamiento.
+Introducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.
 
 <a class="btn btn-primary"
    href="apuntes/01_relacional_a_nosql.html">
-   Abrir Tema 1
+   Abrir apunte
 </a>
 
 ---
 
-## Tema 2
+## Escalabilidad y bases de datos distribuidas
 
-### Escalabilidad y bases de datos distribuidas
-
-En este tema se estudia qué ocurre cuando una aplicación necesita atender más usuarios, almacenar mayores volúmenes de información o distribuir sus datos entre diferentes servidores.
-
-Se abordan:
-
-- concepto de escalabilidad;
-- escalabilidad vertical;
-- escalabilidad horizontal;
-- sistemas distribuidos;
-- replicación;
-- particionamiento y *sharding*;
-- consistencia;
-- concurrencia;
-- teorema CAP;
-- procesamiento paralelo;
-- relación entre escalabilidad y bases de datos NoSQL.
+Conceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.
 
 <a class="btn btn-primary"
    href="apuntes/02_escalabilidad_bases_distribuidas.html">
-   Abrir Tema 2
+   Abrir apunte
 </a>
 
 ---
 
-## Tema 3
+## Bases de datos orientadas a documentos
 
-### MongoDB y consultas básicas
-
-En este tema se introduce MongoDB como ejemplo de una base de datos orientada a documentos.
-
-Se abordan:
-
-- modelo documental;
-- bases de datos y colecciones;
-- documentos y campos;
-- BSON y JSON;
-- inserción de documentos;
-- consultas con `find()`;
-- operadores de comparación;
-- consultas sobre arreglos;
-- objetos anidados;
-- operadores `$or`, `$in` y `$exists`;
-- uso de MongoDB Compass;
-- consultas básicas sobre colecciones.
+Introducción al modelo documental, su estructura, características y principales aplicaciones.
 
 <a class="btn btn-primary"
-   href="apuntes/03_mongodb_consultas_basicas.html">
-   Abrir Tema 3
+   href="apuntes/03_bases_orientadas_documentos.html">
+   Abrir apunte
 </a>
+
+---
+
+## Consultas y manejo de documentos en MongoDB
+
+Operaciones básicas para insertar, consultar y filtrar documentos utilizando MongoDB.
+
+<a class="btn btn-primary"
+   href="apuntes/04_consultas_mongodb.html">
+   Abrir apunte
+</a>
+
+---
+
+## Bases de datos clave–valor
+
+Introducción al modelo clave–valor y su implementación mediante Redis.
+
+> Próximamente

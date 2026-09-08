@@ -1,5 +1,5 @@
 ---
-title: "Tema 2. Escalabilidad y bases de datos distribuidas"
+title: "Escalabilidad y bases de datos distribuidas"
 toc: true
 number-sections: true
 ---

@@ -1,0 +1,2103 @@
+---
+title: "Consultas y manejo de documentos en MongoDB"
+toc: true
+number-sections: true
+---
+
+## Introducción
+
+MongoDB es una base de datos orientada a documentos que permite almacenar información en estructuras similares a JSON.
+
+En este apartado se revisan las operaciones básicas para iniciar MongoDB localmente, crear bases de datos y colecciones, insertar documentos, realizar consultas y exportar resultados.
+
+La finalidad no es únicamente aprender comandos, sino comprender cómo se recuperan y manipulan datos dentro de un modelo documental.
+
+## MongoDB y su estructura básica
+
+MongoDB organiza la información de la siguiente manera:
+
+```text
+Servidor
+  │
+  └── Base de datos
+        │
+        └── Colección
+              │
+              ├── Documento
+              ├── Documento
+              └── Documento
+```
+
+Por ejemplo:
+
+```text
+curso_nosql
+   │
+   └── estudiantes
+          │
+          ├── Ana
+          ├── Luis
+          ├── Carlos
+          ├── María
+          └── Sofía
+```
+
+En este caso:
+
+- `curso_nosql` es la base de datos;
+- `estudiantes` es la colección;
+- cada estudiante se almacena como un documento.
+
+## Documentos en MongoDB
+
+Un documento puede tener una estructura como:
+
+```javascript
+{
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+MongoDB utiliza internamente **BSON**, un formato relacionado con JSON que permite representar diferentes tipos de datos [@mongodbDocs].
+
+Los documentos también contienen automáticamente un campo llamado `_id`.
+
+Por ejemplo:
+
+```javascript
+{
+  _id: ObjectId("..."),
+  id: 1,
+  nombre: "Ana",
+  edad: 20
+}
+```
+
+::: {.callout-note}
+## El campo `_id`
+
+MongoDB utiliza `_id` como identificador único de cada documento.
+
+Si no se proporciona uno al insertar el documento, MongoDB lo genera automáticamente.
+:::
+
+## Iniciar MongoDB localmente
+
+Antes de realizar consultas es necesario asegurarse de que el servidor de MongoDB esté en ejecución.
+
+Durante la sesión podemos trabajar con tres terminales:
+
+```text
+Terminal 1
+   ↓
+mongod
+   ↓
+mantiene activo el servidor
+
+Terminal 2
+   ↓
+mongosh
+   ↓
+permite consultar y manipular la base
+
+Terminal 3
+   ↓
+mongoexport
+   ↓
+permite exportar datos
+```
+
+## Terminal 1: iniciar el servidor
+
+En una primera terminal ejecutamos:
+
+```bash
+mongod
+```
+
+Esta terminal debe permanecer abierta mientras se esté trabajando con MongoDB.
+
+::: {.callout-note}
+## ¿Qué hace `mongod`?
+
+`mongod` inicia el **servidor de MongoDB**.
+
+Mientras este proceso permanezca activo, otras herramientas pueden conectarse a la base de datos.
+:::
+
+La terminal quedará ocupada mostrando información del servidor.
+
+Esto es normal.
+
+::: {.callout-warning}
+## No cerrar la Terminal 1
+
+Si cerramos la terminal donde se está ejecutando `mongod`, el servidor se detendrá.
+
+En ese caso, `mongosh`, MongoDB Compass y `mongoexport` ya no podrán conectarse al servidor local.
+:::
+
+## Terminal 2: abrir MongoDB Shell
+
+Abrimos una segunda terminal y ejecutamos:
+
+```bash
+mongosh
+```
+
+`mongosh` permite conectarnos al servidor y ejecutar comandos de MongoDB.
+
+El flujo será:
+
+```text
+Terminal 1
+mongod
+   ↓
+servidor MongoDB activo
+   ↓
+Terminal 2
+mongosh
+   ↓
+consultas y operaciones
+```
+
+## ¿Dónde se ejecutan los comandos?
+
+Durante este tema trabajaremos principalmente de dos formas:
+
+1. mediante **MongoDB Shell (`mongosh`)**;
+2. mediante **MongoDB Compass**.
+
+Además, utilizaremos una tercera terminal para exportar datos mediante `mongoexport`.
+
+## Trabajo desde `mongosh`
+
+Después de ejecutar:
+
+```bash
+mongosh
+```
+
+entramos al entorno de MongoDB Shell.
+
+A partir de este momento podemos escribir comandos como:
+
+```javascript
+show dbs
+```
+
+```javascript
+use curso_nosql
+```
+
+```javascript
+show collections
+```
+
+```javascript
+db.estudiantes.find()
+```
+
+```javascript
+db.estudiantes.insertOne({
+  nombre: "Ana",
+  edad: 20
+})
+```
+
+::: {.callout-note}
+## Regla sencilla
+
+Los comandos como:
+
+```text
+show dbs
+use curso_nosql
+show collections
+db.estudiantes.find()
+```
+
+se ejecutan dentro de **MongoDB Shell (`mongosh`)**.
+:::
+
+## Trabajo desde MongoDB Compass
+
+MongoDB Compass es la interfaz gráfica para trabajar con MongoDB.
+
+Para conectarnos al servidor local podemos utilizar:
+
+```text
+mongodb://localhost:27017
+```
+
+Después podemos seleccionar:
+
+```text
+curso_nosql
+   ↓
+estudiantes
+   ↓
+Documents
+```
+
+Dentro de la sección **Documents** encontramos el cuadro:
+
+```text
+Filter
+```
+
+Ahí podemos escribir filtros para consultar los documentos.
+
+Por ejemplo:
+
+```javascript
+{
+  nombre: "Ana"
+}
+```
+
+::: {.callout-warning}
+## No confundir `mongosh` con Compass
+
+**En `mongosh`:**
+
+```javascript
+db.estudiantes.find({
+  nombre: "Ana"
+})
+```
+
+**En MongoDB Compass → Filter:**
+
+```javascript
+{
+  nombre: "Ana"
+}
+```
+
+En Compass no escribimos:
+
+```text
+db.estudiantes.find()
+```
+
+porque la base de datos y la colección ya están seleccionadas en la interfaz.
+:::
+
+## Flujo general de trabajo
+
+Podemos resumir el proceso de la siguiente manera:
+
+```text
+Terminal 1
+   │
+   └── mongod
+         │
+         └── servidor activo
+                │
+                ├────────────────┐
+                │                │
+           Terminal 2       MongoDB Compass
+                │                │
+             mongosh           interfaz
+                │                │
+          comandos db.         Filter
+                │
+                │
+           Terminal 3
+                │
+           mongoexport
+                │
+          JSON o CSV
+```
+
+## Explorar las bases de datos
+
+**En la Terminal 2, dentro de `mongosh`:**
+
+Para consultar las bases de datos disponibles:
+
+```javascript
+show dbs
+```
+
+Para seleccionar la base de datos del curso:
+
+```javascript
+use curso_nosql
+```
+
+MongoDB mostrará un mensaje similar a:
+
+```text
+switched to db curso_nosql
+```
+
+## Crear una colección
+
+**En la Terminal 2, dentro de `mongosh`:**
+
+Podemos crear una colección llamada `estudiantes`:
+
+```javascript
+db.createCollection("estudiantes")
+```
+
+Para consultar las colecciones disponibles:
+
+```javascript
+show collections
+```
+
+::: {.callout-tip}
+MongoDB también puede crear una colección automáticamente cuando se inserta el primer documento.
+
+Sin embargo, crearla explícitamente permite observar mejor la estructura de la base de datos.
+:::
+
+## Insertar un documento
+
+**En la Terminal 2, dentro de `mongosh`:**
+
+Para insertar un solo documento utilizamos:
+
+```javascript
+insertOne()
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.insertOne({
+  id: 1,
+  nombre: "Ana",
+  edad: 20,
+  carrera: "Ciencia de Datos",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+})
+```
+
+Si la operación se realiza correctamente, MongoDB devuelve información sobre el documento insertado.
+
+## Insertar varios documentos
+
+**En la Terminal 2, dentro de `mongosh`:**
+
+Podemos insertar varios documentos utilizando:
+
+```javascript
+insertMany()
+```
+
+Por ejemplo:
+
+```javascript
+db.estudiantes.insertMany([
+  {
+    id: 2,
+    nombre: "Luis",
+    edad: 22,
+    carrera: "Estadística",
+    dispositivos: [
+      {
+        tipo: "celular",
+        sistema: "Android"
+      }
+    ]
+  },
+  {
+    id: 3,
+    nombre: "Carlos",
+    edad: 21,
+    carrera: "Informática"
+  },
+  {
+    id: 4,
+    nombre: "María",
+    edad: 23,
+    carrera: "Ciencia de Datos",
+    redes_sociales: [
+      "Instagram"
+    ]
+  },
+  {
+    id: 5,
+    nombre: "Sofía",
+    edad: 20,
+    carrera: "Estadística",
+    redes_sociales: [
+      "TikTok",
+      "Facebook"
+    ]
+  }
+])
+```
+
+Con esto tendremos documentos con estructuras diferentes dentro de la misma colección.
+
+## Consultar todos los documentos
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find()
+```
+
+También puede escribirse:
+
+```javascript
+db.estudiantes.find({})
+```
+
+El objeto vacío:
+
+```javascript
+{}
+```
+
+indica que no estamos aplicando ningún filtro.
+
+Por lo tanto, se devuelven todos los documentos.
+
+### En MongoDB Compass
+
+En el cuadro `Filter` escribimos:
+
+```javascript
+{}
+```
+
+y después aplicamos el filtro.
+
+## Consultar por nombre
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  nombre: "Ana"
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  nombre: "Ana"
+}
+```
+
+Ambas consultas buscan documentos cuyo campo `nombre` sea exactamente `"Ana"`.
+
+## Consultar por edad
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  edad: 22
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  edad: 22
+}
+```
+
+## Consultar por carrera
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  carrera: "Ciencia de Datos"
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  carrera: "Ciencia de Datos"
+}
+```
+
+## Operadores de comparación
+
+MongoDB proporciona operadores para comparar valores.
+
+| Operador | Significado |
+|---|---|
+| `$gt` | mayor que |
+| `$gte` | mayor o igual que |
+| `$lt` | menor que |
+| `$lte` | menor o igual que |
+| `$ne` | diferente de |
+
+## Mayor que
+
+Queremos obtener estudiantes mayores de 20 años.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gt: 20
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  edad: {
+    $gt: 20
+  }
+}
+```
+
+## Mayor o igual que
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gte: 20
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  edad: {
+    $gte: 20
+  }
+}
+```
+
+## Menor que
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $lt: 22
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  edad: {
+    $lt: 22
+  }
+}
+```
+
+## Diferente de
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  carrera: {
+    $ne: "Estadística"
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  carrera: {
+    $ne: "Estadística"
+  }
+}
+```
+
+## Consultar un intervalo
+
+Podemos combinar operadores.
+
+Por ejemplo, para buscar estudiantes entre 20 y 22 años:
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gte: 20,
+    $lte: 22
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  edad: {
+    $gte: 20,
+    $lte: 22
+  }
+}
+```
+
+La condición significa:
+
+```text
+edad >= 20
+Y
+edad <= 22
+```
+
+## Consultas sobre arreglos
+
+Un documento puede contener arreglos.
+
+Por ejemplo:
+
+```javascript
+{
+  nombre: "Ana",
+  redes_sociales: [
+    "Instagram",
+    "TikTok"
+  ]
+}
+```
+
+Queremos buscar estudiantes que utilicen Instagram.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: "Instagram"
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  redes_sociales: "Instagram"
+}
+```
+
+MongoDB identifica el valor dentro del arreglo sin necesidad de recorrerlo manualmente.
+
+## Consultas sobre objetos anidados
+
+Supongamos:
+
+```javascript
+{
+  nombre: "Luis",
+  dispositivos: [
+    {
+      tipo: "celular",
+      sistema: "Android"
+    }
+  ]
+}
+```
+
+Queremos encontrar documentos que tengan un dispositivo con sistema Android.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  "dispositivos.sistema": "Android"
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  "dispositivos.sistema": "Android"
+}
+```
+
+La notación:
+
+```text
+dispositivos.sistema
+```
+
+permite acceder a un campo dentro de una estructura anidada.
+
+## Condiciones múltiples
+
+Cuando colocamos varias condiciones dentro del mismo objeto, MongoDB aplica normalmente una condición lógica **AND**.
+
+Por ejemplo:
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  carrera: "Ciencia de Datos",
+  edad: {
+    $gte: 20
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  carrera: "Ciencia de Datos",
+  edad: {
+    $gte: 20
+  }
+}
+```
+
+Esto significa:
+
+```text
+carrera = Ciencia de Datos
+Y
+edad >= 20
+```
+
+## Operador `$or`
+
+Cuando queremos que se cumpla una condición u otra utilizamos `$or`.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  $or: [
+    {
+      carrera: "Ciencia de Datos"
+    },
+    {
+      carrera: "Estadística"
+    }
+  ]
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  $or: [
+    {
+      carrera: "Ciencia de Datos"
+    },
+    {
+      carrera: "Estadística"
+    }
+  ]
+}
+```
+
+La consulta devuelve estudiantes cuya carrera sea:
+
+```text
+Ciencia de Datos
+O
+Estadística
+```
+
+## Operador `$in`
+
+Cuando queremos comparar un campo con varios valores posibles podemos utilizar `$in`.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  carrera: {
+    $in: [
+      "Ciencia de Datos",
+      "Estadística"
+    ]
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  carrera: {
+    $in: [
+      "Ciencia de Datos",
+      "Estadística"
+    ]
+  }
+}
+```
+
+## Operador `$exists`
+
+El operador `$exists` permite comprobar si un campo está presente en un documento.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: {
+    $exists: true
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  redes_sociales: {
+    $exists: true
+  }
+}
+```
+
+Para consultar documentos donde el campo no existe:
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.estudiantes.find({
+  redes_sociales: {
+    $exists: false
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  redes_sociales: {
+    $exists: false
+  }
+}
+```
+
+::: {.callout-note}
+## Esquema flexible
+
+`$exists` resulta especialmente útil en bases documentales porque no todos los documentos necesitan contener exactamente los mismos campos.
+:::
+
+## Contar documentos
+
+**En la Terminal 2, dentro de `mongosh`:**
+
+```javascript
+db.estudiantes.countDocuments({})
+```
+
+También podemos contar documentos que cumplan una condición:
+
+```javascript
+db.estudiantes.countDocuments({
+  carrera: "Ciencia de Datos"
+})
+```
+
+## MongoDB Compass
+
+MongoDB Compass proporciona una interfaz gráfica para trabajar con bases de datos MongoDB.
+
+Desde Compass podemos:
+
+- explorar bases de datos;
+- visualizar colecciones;
+- inspeccionar documentos;
+- aplicar filtros;
+- insertar documentos;
+- modificar información;
+- exportar documentos.
+
+Una conexión local generalmente utiliza:
+
+```text
+mongodb://localhost:27017
+```
+
+::: {.callout-tip}
+## Recordatorio
+
+MongoDB Compass no reemplaza al servidor.
+
+Para conectarnos localmente, `mongod` debe estar activo en la Terminal 1.
+:::
+
+## MongoDB Shell dentro de Compass
+
+MongoDB Compass también puede incluir acceso a un entorno de `mongosh`.
+
+En ese caso sí podemos ejecutar comandos completos como:
+
+```javascript
+db.estudiantes.find({
+  edad: {
+    $gt: 20
+  }
+})
+```
+
+La diferencia es:
+
+```text
+Compass → Filter
+      ↓
+solo escribimos el objeto del filtro
+
+Compass → mongosh
+      ↓
+podemos escribir comandos completos
+```
+
+## Trabajar con `sample_mflix`
+
+MongoDB proporciona bases de datos de ejemplo que permiten practicar con colecciones más grandes.
+
+Una de ellas es:
+
+```text
+sample_mflix
+```
+
+Dentro de esta base podemos encontrar la colección:
+
+```text
+movies
+```
+
+Los documentos pueden contener campos como:
+
+```text
+title
+year
+genres
+runtime
+cast
+directors
+languages
+countries
+rated
+awards
+imdb
+tomatoes
+```
+
+Esto permite practicar consultas sobre una colección más cercana a un caso real.
+
+## Consultar películas por año
+
+Queremos obtener películas del año 2000.
+
+### En la Terminal 2, dentro de `mongosh`
+
+Primero seleccionamos la base:
+
+```javascript
+use sample_mflix
+```
+
+Después:
+
+```javascript
+db.movies.find({
+  year: 2000
+})
+```
+
+### En MongoDB Compass
+
+Seleccionamos:
+
+```text
+sample_mflix
+   ↓
+movies
+   ↓
+Documents
+```
+
+En `Filter` escribimos:
+
+```javascript
+{
+  year: 2000
+}
+```
+
+## Películas posteriores a 2010
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  year: {
+    $gt: 2010
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  year: {
+    $gt: 2010
+  }
+}
+```
+
+## Consultar información de IMDb
+
+El campo `imdb` contiene información anidada.
+
+Por ejemplo:
+
+```javascript
+{
+  imdb: {
+    rating: 8.2,
+    votes: 15000
+  }
+}
+```
+
+Para consultar películas con calificación superior a 8:
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  "imdb.rating": {
+    $gt: 8
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  "imdb.rating": {
+    $gt: 8
+  }
+}
+```
+
+## Consultar películas por número de votos
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  "imdb.votes": {
+    $gt: 5000
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  "imdb.votes": {
+    $gt: 5000
+  }
+}
+```
+
+## Consultar géneros
+
+El campo `genres` contiene un arreglo.
+
+Para buscar películas de drama:
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  genres: "Drama"
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  genres: "Drama"
+}
+```
+
+## Utilizar `$in` con géneros
+
+Queremos buscar películas que pertenezcan a Drama o Comedy.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  genres: {
+    $in: [
+      "Drama",
+      "Comedy"
+    ]
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  genres: {
+    $in: [
+      "Drama",
+      "Comedy"
+    ]
+  }
+}
+```
+
+## Combinar condiciones
+
+Por ejemplo, películas posteriores a 2010 y con calificación IMDb mayor a 8.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  }
+}
+```
+
+## Películas con duración mayor a 120 minutos
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  runtime: {
+    $gt: 120
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  runtime: {
+    $gt: 120
+  }
+}
+```
+
+## Buscar campos existentes
+
+Podemos comprobar si una película contiene información sobre sus directores.
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  directors: {
+    $exists: true
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  directors: {
+    $exists: true
+  }
+}
+```
+
+## Ejemplo integrado
+
+Supongamos que queremos encontrar películas que cumplan las siguientes condiciones:
+
+```text
+posteriores a 2010
+calificación mayor a 8
+género Drama
+más de 5000 votos
+```
+
+### En la Terminal 2, dentro de `mongosh`
+
+```javascript
+db.movies.find({
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  },
+  genres: "Drama",
+  "imdb.votes": {
+    $gt: 5000
+  }
+})
+```
+
+### En MongoDB Compass
+
+```javascript
+{
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  },
+  genres: "Drama",
+  "imdb.votes": {
+    $gt: 5000
+  }
+}
+```
+
+Este ejemplo combina:
+
+```text
+campos simples
+objetos anidados
+arreglos
+operadores de comparación
+```
+
+## Exportar resultados de una consulta
+
+Después de realizar una consulta puede ser útil guardar únicamente los documentos que cumplen determinadas condiciones.
+
+Para esta parte trabajaremos exclusivamente con:
+
+```text
+Base de datos: sample_mflix
+Colección: movies
+```
+
+El flujo general será:
+
+```text
+sample_mflix
+   ↓
+movies
+   ↓
+consulta
+   ↓
+filtro
+   ↓
+documentos seleccionados
+   ↓
+exportación
+   ↓
+JSON o CSV
+```
+
+## Exportar desde MongoDB Compass
+
+Primero abrimos MongoDB Compass y seleccionamos:
+
+```text
+sample_mflix
+   ↓
+movies
+   ↓
+Documents
+```
+
+Después aplicamos un filtro.
+
+Por ejemplo:
+
+```javascript
+{
+  year: 2000
+}
+```
+
+Una vez aplicado el filtro, Compass mostrará únicamente los documentos que cumplen esa condición.
+
+Después utilizamos la opción de exportación disponible en Compass.
+
+Podemos trabajar con formatos como:
+
+```text
+JSON
+CSV
+```
+
+::: {.callout-warning}
+## Antes de exportar
+
+Debemos verificar que estamos exportando los **resultados de la consulta** y no toda la colección.
+
+Si nuestro objetivo es crear una base filtrada, debemos conservar únicamente los documentos que cumplen el criterio seleccionado.
+:::
+
+## Exportar a JSON
+
+Después de aplicar:
+
+```javascript
+{
+  year: 2000
+}
+```
+
+podemos guardar los resultados como:
+
+```text
+peliculas_2000.json
+```
+
+JSON conserva mejor elementos como:
+
+```text
+arreglos
+objetos anidados
+listas
+campos complejos
+```
+
+## Exportar a CSV
+
+CSV puede resultar más conveniente cuando queremos continuar el análisis en:
+
+```text
+Excel
+Python
+R
+Power BI
+```
+
+Por ejemplo, podemos trabajar con campos como:
+
+```text
+title
+year
+runtime
+rated
+```
+
+::: {.callout-tip}
+## ¿JSON o CSV?
+
+Utiliza **JSON** cuando quieras conservar la estructura documental.
+
+Utiliza **CSV** cuando quieras trabajar principalmente con una estructura tabular.
+:::
+
+## Terminal 3: exportar datos con `mongoexport`
+
+Además de Compass, MongoDB cuenta con una herramienta llamada:
+
+```text
+mongoexport
+```
+
+Para no confundirla con `mongosh`, utilizaremos una **tercera terminal**.
+
+La organización será:
+
+```text
+Terminal 1
+   ↓
+mongod
+   ↓
+servidor activo
+
+Terminal 2
+   ↓
+mongosh
+   ↓
+consultas
+
+Terminal 3
+   ↓
+mongoexport
+   ↓
+exportación
+```
+
+::: {.callout-warning}
+## Importante
+
+`mongoexport` se ejecuta directamente en la **Terminal 3**.
+
+No se ejecuta dentro de `mongosh`.
+
+Por lo tanto:
+
+```text
+Terminal 2 → mongosh
+```
+
+y:
+
+```text
+Terminal 3 → mongoexport
+```
+
+son cosas diferentes.
+:::
+
+## Exportar toda la colección `movies`
+
+**En la Terminal 3:**
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --out=movies.json
+```
+
+Esto genera:
+
+```text
+movies.json
+```
+
+con todos los documentos de la colección.
+
+## Exportar únicamente las películas del año 2000
+
+Supongamos que queremos exportar solamente las películas del año 2000.
+
+Primero creamos un archivo llamado:
+
+```text
+consulta.json
+```
+
+con:
+
+```json
+{
+  "year": 2000
+}
+```
+
+Después, en la **Terminal 3**, ejecutamos:
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_2000.json
+```
+
+El archivo generado será:
+
+```text
+peliculas_2000.json
+```
+
+y contendrá únicamente los documentos que cumplen:
+
+```text
+year = 2000
+```
+
+## Exportar una consulta más específica
+
+Supongamos que queremos seleccionar películas que cumplan:
+
+```text
+posteriores a 2010
+calificación IMDb mayor a 8
+género Drama
+```
+
+Primero comprobamos el filtro en MongoDB Compass.
+
+En:
+
+```text
+sample_mflix
+   ↓
+movies
+   ↓
+Documents
+   ↓
+Filter
+```
+
+escribimos:
+
+```javascript
+{
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  },
+  genres: "Drama"
+}
+```
+
+Si los resultados son los esperados, utilizamos ese mismo criterio para la exportación.
+
+## Crear el archivo `consulta.json`
+
+Guardamos el filtro en un archivo llamado:
+
+```text
+consulta.json
+```
+
+con:
+
+```json
+{
+  "year": {
+    "$gt": 2010
+  },
+  "imdb.rating": {
+    "$gt": 8
+  },
+  "genres": "Drama"
+}
+```
+
+::: {.callout-note}
+## ¿Por qué aparecen comillas en `$gt`?
+
+Dentro de un archivo JSON los nombres de los campos y operadores deben escribirse entre comillas.
+
+Por ello utilizamos:
+
+```json
+"$gt"
+```
+
+mientras que en el cuadro `Filter` de Compass podemos escribir:
+
+```javascript
+$gt
+```
+:::
+
+## Exportar los documentos filtrados
+
+**En la Terminal 3:**
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
+```
+
+El resultado será:
+
+```text
+peliculas_filtradas.json
+```
+
+con únicamente las películas que cumplen las condiciones especificadas.
+
+El proceso puede representarse así:
+
+```text
+MongoDB Compass
+   ↓
+probar filtro
+   ↓
+verificar resultados
+   ↓
+consulta.json
+   ↓
+Terminal 3
+   ↓
+mongoexport
+   ↓
+peliculas_filtradas.json
+```
+
+## Exportar resultados filtrados a CSV
+
+También podemos exportar esos mismos resultados a CSV.
+
+**En la Terminal 3:**
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv
+```
+
+En este caso se exportan únicamente los campos:
+
+```text
+title
+year
+runtime
+```
+
+de las películas que cumplen el filtro.
+
+::: {.callout-note}
+## Consideración sobre estructuras anidadas
+
+CSV funciona mejor cuando queremos obtener una estructura tabular.
+
+Si necesitamos conservar objetos anidados o arreglos completos, normalmente resulta más conveniente utilizar JSON.
+:::
+
+## Ejemplo completo de exportación
+
+Supongamos que queremos obtener una base para analizar películas de drama posteriores a 2010 con una calificación IMDb superior a 8.
+
+### Paso 1. Seleccionar la colección
+
+En MongoDB Compass:
+
+```text
+sample_mflix
+   ↓
+movies
+```
+
+### Paso 2. Aplicar el filtro
+
+En `Filter`:
+
+```javascript
+{
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  },
+  genres: "Drama"
+}
+```
+
+### Paso 3. Revisar los resultados
+
+Comprobamos que las películas obtenidas correspondan con las condiciones solicitadas.
+
+### Paso 4. Crear `consulta.json`
+
+Guardamos:
+
+```json
+{
+  "year": {
+    "$gt": 2010
+  },
+  "imdb.rating": {
+    "$gt": 8
+  },
+  "genres": "Drama"
+}
+```
+
+### Paso 5. Exportar desde la Terminal 3
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
+```
+
+### Paso 6. Continuar el análisis
+
+El archivo generado puede utilizarse posteriormente en:
+
+```text
+Python
+R
+Excel
+Power BI
+```
+
+El proceso completo queda así:
+
+```text
+Terminal 1
+mongod
+   ↓
+servidor activo
+
+MongoDB Compass
+   ↓
+sample_mflix
+   ↓
+movies
+   ↓
+Filter
+   ↓
+verificar resultados
+
+Terminal 3
+   ↓
+mongoexport
+   ↓
+JSON / CSV
+   ↓
+Python / R / Excel
+```
+
+::: {.callout-note}
+## Idea clave
+
+Antes de exportar una base de datos filtrada, conviene comprobar primero la consulta en MongoDB Compass.
+
+Una vez que el filtro devuelve los documentos esperados, utilizamos la **Terminal 3** para ejecutar `mongoexport`.
+:::
+
+## MongoDB y el análisis de datos
+
+Las consultas y exportaciones permiten seleccionar únicamente la información necesaria antes de realizar un análisis.
+
+Un flujo sencillo puede ser:
+
+```text
+MongoDB
+   ↓
+consulta
+   ↓
+selección de documentos
+   ↓
+exportación
+   ↓
+JSON o CSV
+   ↓
+Python o R
+   ↓
+limpieza
+   ↓
+análisis
+```
+
+## Resumen: ¿dónde escribo cada cosa?
+
+| Acción | Lugar |
+|---|---|
+| Iniciar servidor MongoDB | Terminal 1 → `mongod` |
+| Abrir MongoDB Shell | Terminal 2 → `mongosh` |
+| `show dbs` | Terminal 2 → `mongosh` |
+| `use curso_nosql` | Terminal 2 → `mongosh` |
+| `use sample_mflix` | Terminal 2 → `mongosh` |
+| `db.estudiantes.find()` | Terminal 2 → `mongosh` |
+| `db.movies.find()` | Terminal 2 → `mongosh` |
+| Aplicar `{ year: 2000 }` | MongoDB Compass → `Filter` |
+| Ver documentos gráficamente | MongoDB Compass |
+| Navegar entre bases y colecciones | MongoDB Compass |
+| Exportar desde la interfaz | MongoDB Compass |
+| Ejecutar `mongoexport` | Terminal 3 |
+| Crear JSON o CSV mediante `mongoexport` | Terminal 3 |
+
+::: {.callout-note}
+## Regla práctica
+
+**Terminal 1**
+
+```bash
+mongod
+```
+
+Mantiene activo el servidor.
+
+**Terminal 2**
+
+```bash
+mongosh
+```
+
+Permite ejecutar consultas.
+
+**MongoDB Compass**
+
+```text
+Filter
+```
+
+Permite aplicar filtros desde la interfaz gráfica.
+
+**Terminal 3**
+
+```bash
+mongoexport
+```
+
+Permite exportar información.
+:::
+
+## Actividad de autoevaluación
+
+Considera la colección `movies` de `sample_mflix`.
+
+Escribe qué consulta utilizarías para:
+
+1. obtener todas las películas;
+2. buscar películas del año 2000;
+3. buscar películas posteriores a 2010;
+4. buscar películas con calificación IMDb mayor a 8;
+5. buscar películas de género Drama;
+6. buscar películas con más de 5000 votos;
+7. buscar películas que tengan información sobre directores;
+8. seleccionar películas posteriores a 2010, de Drama y con IMDb mayor a 8;
+9. exportar los resultados de la consulta anterior.
+
+::: {.callout-tip}
+## Posibles respuestas en la Terminal 2 (`mongosh`)
+
+```javascript
+db.movies.find({})
+
+db.movies.find({
+  year: 2000
+})
+
+db.movies.find({
+  year: {
+    $gt: 2010
+  }
+})
+
+db.movies.find({
+  "imdb.rating": {
+    $gt: 8
+  }
+})
+
+db.movies.find({
+  genres: "Drama"
+})
+
+db.movies.find({
+  "imdb.votes": {
+    $gt: 5000
+  }
+})
+
+db.movies.find({
+  directors: {
+    $exists: true
+  }
+})
+
+db.movies.find({
+  year: {
+    $gt: 2010
+  },
+  "imdb.rating": {
+    $gt: 8
+  },
+  genres: "Drama"
+})
+```
+
+Para exportar el último filtro, guardamos la consulta en:
+
+```text
+consulta.json
+```
+
+y en la **Terminal 3** ejecutamos:
+
+```bash
+mongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json
+```
+:::
+
+## Preguntas para reflexionar
+
+1. ¿Qué diferencia existe entre `mongod` y `mongosh`?
+
+2. ¿Por qué debe permanecer activo `mongod`?
+
+3. ¿Qué función tiene la Terminal 1?
+
+4. ¿Qué función tiene la Terminal 2?
+
+5. ¿Qué función tiene la Terminal 3?
+
+6. ¿Qué diferencia existe entre `find()` y `find({})`?
+
+7. ¿Para qué sirven los operadores `$gt`, `$gte`, `$lt` y `$lte`?
+
+8. ¿Cómo podemos consultar información almacenada dentro de un arreglo?
+
+9. ¿Cómo se consulta un campo dentro de una estructura anidada?
+
+10. ¿Qué diferencia existe entre `$or` y `$in`?
+
+11. ¿Para qué puede utilizarse `$exists`?
+
+12. ¿Qué diferencia existe entre una consulta escrita en `mongosh` y un filtro escrito en MongoDB Compass?
+
+13. ¿Qué diferencia existe entre exportar en JSON y exportar en CSV?
+
+14. ¿Dónde debe ejecutarse `mongoexport`?
+
+15. ¿Por qué conviene probar primero un filtro antes de exportarlo?
+
+## Ideas clave
+
+::: {.callout-note}
+## 1. La Terminal 1 mantiene activo MongoDB
+
+En la Terminal 1 ejecutamos:
+
+```bash
+mongod
+```
+
+Este proceso mantiene activo el servidor.
+:::
+
+::: {.callout-note}
+## 2. La Terminal 2 se utiliza para `mongosh`
+
+En la Terminal 2 ejecutamos:
+
+```bash
+mongosh
+```
+
+Desde ahí podemos crear colecciones, insertar documentos y realizar consultas.
+:::
+
+::: {.callout-note}
+## 3. MongoDB Compass proporciona una interfaz gráfica
+
+Compass permite navegar entre bases de datos, colecciones y documentos y aplicar filtros.
+:::
+
+::: {.callout-note}
+## 4. La Terminal 3 se utiliza para exportar
+
+En la Terminal 3 ejecutamos:
+
+```bash
+mongoexport
+```
+
+Esta terminal se utiliza para generar archivos JSON o CSV.
+:::
+
+::: {.callout-note}
+## 5. `find()` permite consultar documentos
+
+Los filtros permiten especificar las condiciones que deben cumplir los documentos recuperados.
+:::
+
+::: {.callout-note}
+## 6. MongoDB permite consultar estructuras complejas
+
+Podemos realizar consultas sobre:
+
+```text
+campos simples
+arreglos
+objetos anidados
+```
+:::
+
+::: {.callout-note}
+## 7. Los operadores permiten construir filtros
+
+Algunos operadores importantes son:
+
+```text
+$gt
+$gte
+$lt
+$lte
+$ne
+$or
+$in
+$exists
+```
+:::
+
+::: {.callout-note}
+## 8. La sintaxis depende de la herramienta
+
+En `mongosh` escribimos el comando completo.
+
+En el cuadro `Filter` de MongoDB Compass escribimos únicamente el objeto que contiene las condiciones.
+:::
+
+::: {.callout-note}
+## 9. `sample_mflix` permite trabajar con un caso más realista
+
+La colección `movies` permite practicar consultas con campos simples, arreglos y estructuras anidadas.
+:::
+
+::: {.callout-note}
+## 10. Los resultados pueden exportarse
+
+Después de filtrar la colección `movies`, podemos exportar los resultados en:
+
+```text
+JSON
+CSV
+```
+
+y continuar su análisis en otras herramientas.
+:::
+
+::: {.callout-note}
+## 11. `mongoexport` se ejecuta en la Terminal 3
+
+`mongoexport` no se ejecuta dentro de `mongosh`.
+
+Durante este apunte utilizaremos:
+
+```text
+Terminal 1 → mongod
+Terminal 2 → mongosh
+Terminal 3 → mongoexport
+```
+:::
+
+## Referencias
