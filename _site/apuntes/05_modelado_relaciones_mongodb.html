@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelado de relaciones en MongoDB – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../diapositivas.html"> 
+<span class="menu-text">Diapositivas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#modelado-de-relaciones-en-mongodb" id="toc-modelado-de-relaciones-en-mongodb" class="nav-link active" data-scroll-target="#modelado-de-relaciones-en-mongodb"><span class="header-section-number">1</span> Modelado de relaciones en MongoDB</a></li>
+  <li><a href="#tipos-de-relaciones" id="toc-tipos-de-relaciones" class="nav-link" data-scroll-target="#tipos-de-relaciones"><span class="header-section-number">2</span> Tipos de relaciones</a>
+  <ul class="collapse">
+  <li><a href="#relación-uno-a-uno" id="toc-relación-uno-a-uno" class="nav-link" data-scroll-target="#relación-uno-a-uno"><span class="header-section-number">2.1</span> Relación uno a uno</a></li>
+  <li><a href="#relación-uno-a-muchos" id="toc-relación-uno-a-muchos" class="nav-link" data-scroll-target="#relación-uno-a-muchos"><span class="header-section-number">2.2</span> Relación uno a muchos</a></li>
+  <li><a href="#relación-muchos-a-muchos" id="toc-relación-muchos-a-muchos" class="nav-link" data-scroll-target="#relación-muchos-a-muchos"><span class="header-section-number">2.3</span> Relación muchos a muchos</a></li>
+  </ul></li>
+  <li><a href="#modelo-general-de-la-biblioteca" id="toc-modelo-general-de-la-biblioteca" class="nav-link" data-scroll-target="#modelo-general-de-la-biblioteca"><span class="header-section-number">3</span> Modelo general de la biblioteca</a></li>
+  <li><a href="#resumen-de-relaciones-de-la-biblioteca" id="toc-resumen-de-relaciones-de-la-biblioteca" class="nav-link" data-scroll-target="#resumen-de-relaciones-de-la-biblioteca"><span class="header-section-number">4</span> Resumen de relaciones de la biblioteca</a></li>
+  <li><a href="#incrustar-o-referenciar" id="toc-incrustar-o-referenciar" class="nav-link" data-scroll-target="#incrustar-o-referenciar"><span class="header-section-number">5</span> Incrustar o referenciar</a>
+  <ul class="collapse">
+  <li><a href="#documento-incrustado" id="toc-documento-incrustado" class="nav-link" data-scroll-target="#documento-incrustado"><span class="header-section-number">5.1</span> Documento incrustado</a></li>
+  <li><a href="#documento-referenciado" id="toc-documento-referenciado" class="nav-link" data-scroll-target="#documento-referenciado"><span class="header-section-number">5.2</span> Documento referenciado</a></li>
+  </ul></li>
+  <li><a href="#crear-la-base-biblioteca" id="toc-crear-la-base-biblioteca" class="nav-link" data-scroll-target="#crear-la-base-biblioteca"><span class="header-section-number">6</span> Crear la base <code>biblioteca</code></a></li>
+  <li><a href="#colección-autores" id="toc-colección-autores" class="nav-link" data-scroll-target="#colección-autores"><span class="header-section-number">7</span> Colección <code>autores</code></a></li>
+  <li><a href="#colección-categorias" id="toc-colección-categorias" class="nav-link" data-scroll-target="#colección-categorias"><span class="header-section-number">8</span> Colección <code>categorias</code></a></li>
+  <li><a href="#colección-libros" id="toc-colección-libros" class="nav-link" data-scroll-target="#colección-libros"><span class="header-section-number">9</span> Colección <code>libros</code></a></li>
+  <li><a href="#colección-usuarios" id="toc-colección-usuarios" class="nav-link" data-scroll-target="#colección-usuarios"><span class="header-section-number">10</span> Colección <code>usuarios</code></a></li>
+  <li><a href="#colección-prestamos" id="toc-colección-prestamos" class="nav-link" data-scroll-target="#colección-prestamos"><span class="header-section-number">11</span> Colección <code>prestamos</code></a></li>
+  <li><a href="#relaciones-construidas" id="toc-relaciones-construidas" class="nav-link" data-scroll-target="#relaciones-construidas"><span class="header-section-number">12</span> Relaciones construidas</a></li>
+  <li><a href="#visualizar-el-modelo-en-data-modeling" id="toc-visualizar-el-modelo-en-data-modeling" class="nav-link" data-scroll-target="#visualizar-el-modelo-en-data-modeling"><span class="header-section-number">13</span> Visualizar el modelo en Data Modeling</a></li>
+  <li><a href="#analizar-el-diagrama" id="toc-analizar-el-diagrama" class="nav-link" data-scroll-target="#analizar-el-diagrama"><span class="header-section-number">14</span> Analizar el diagrama</a>
+  <ul class="collapse">
+  <li><a href="#autores-y-libros" id="toc-autores-y-libros" class="nav-link" data-scroll-target="#autores-y-libros"><span class="header-section-number">14.1</span> Autores y libros</a></li>
+  <li><a href="#categorías-y-libros-1" id="toc-categorías-y-libros-1" class="nav-link" data-scroll-target="#categorías-y-libros-1"><span class="header-section-number">14.2</span> Categorías y libros</a></li>
+  <li><a href="#usuarios-y-préstamos-1" id="toc-usuarios-y-préstamos-1" class="nav-link" data-scroll-target="#usuarios-y-préstamos-1"><span class="header-section-number">14.3</span> Usuarios y préstamos</a></li>
+  <li><a href="#libros-y-préstamos-1" id="toc-libros-y-préstamos-1" class="nav-link" data-scroll-target="#libros-y-préstamos-1"><span class="header-section-number">14.4</span> Libros y préstamos</a></li>
+  <li><a href="#información-incrustada" id="toc-información-incrustada" class="nav-link" data-scroll-target="#información-incrustada"><span class="header-section-number">14.5</span> Información incrustada</a></li>
+  </ul></li>
+  <li><a href="#del-diagrama-a-la-recuperación-de-información" id="toc-del-diagrama-a-la-recuperación-de-información" class="nav-link" data-scroll-target="#del-diagrama-a-la-recuperación-de-información"><span class="header-section-number">15</span> Del diagrama a la recuperación de información</a></li>
+  <li><a href="#combinar-colecciones-con-lookup" id="toc-combinar-colecciones-con-lookup" class="nav-link" data-scroll-target="#combinar-colecciones-con-lookup"><span class="header-section-number">16</span> Combinar colecciones con <code>$lookup</code></a>
+  <ul class="collapse">
+  <li><a href="#recuperar-el-autor-de-un-libro" id="toc-recuperar-el-autor-de-un-libro" class="nav-link" data-scroll-target="#recuperar-el-autor-de-un-libro"><span class="header-section-number">16.1</span> Recuperar el autor de un libro</a></li>
+  </ul></li>
+  <li><a href="#recuperar-también-la-categoría" id="toc-recuperar-también-la-categoría" class="nav-link" data-scroll-target="#recuperar-también-la-categoría"><span class="header-section-number">17</span> Recuperar también la categoría</a></li>
+  <li><a href="#mostrar-únicamente-la-información-necesaria" id="toc-mostrar-únicamente-la-información-necesaria" class="nav-link" data-scroll-target="#mostrar-únicamente-la-información-necesaria"><span class="header-section-number">18</span> Mostrar únicamente la información necesaria</a></li>
+  <li><a href="#actividad-propuesta-de-modelado-con-sample_mflix" id="toc-actividad-propuesta-de-modelado-con-sample_mflix" class="nav-link" data-scroll-target="#actividad-propuesta-de-modelado-con-sample_mflix"><span class="header-section-number">19</span> Actividad: propuesta de modelado con <code>sample_mflix</code></a>
+  <ul class="collapse">
+  <li><a href="#entrega" id="toc-entrega" class="nav-link" data-scroll-target="#entrega"><span class="header-section-number">19.1</span> Entrega</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelado de relaciones en MongoDB</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="modelado-de-relaciones-en-mongodb" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="modelado-de-relaciones-en-mongodb"><span class="header-section-number">1</span> Modelado de relaciones en MongoDB</h2>
+<p>Hasta ahora hemos trabajado con documentos, colecciones, consultas y exportación de datos en MongoDB.</p>
+<p>En esta parte nos concentraremos en una pregunta diferente:</p>
+<pre class="text"><code>¿Cómo podemos relacionar los documentos entre sí?</code></pre>
+<p>Para ello construiremos una base de datos llamada:</p>
+<pre class="text"><code>biblioteca</code></pre>
+<p>utilizando MongoDB Compass.</p>
+<p>Trabajaremos con las colecciones:</p>
+<pre class="text"><code>biblioteca
+│
+├── autores
+├── categorias
+├── libros
+├── usuarios
+└── prestamos</code></pre>
+<p>Los libros y autores corresponden a obras conocidas. Los usuarios y préstamos son datos ficticios utilizados únicamente con fines académicos.</p>
+<hr>
+</section>
+<section id="tipos-de-relaciones" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="tipos-de-relaciones"><span class="header-section-number">2</span> Tipos de relaciones</h2>
+<p>Antes de construir la base <code>biblioteca</code>, necesitamos identificar cómo se relacionan los datos.</p>
+<p>En este ejemplo utilizaremos tres tipos principales:</p>
+<pre class="text"><code>uno a uno
+uno a muchos
+muchos a muchos</code></pre>
+<p>La diferencia entre ellos depende de cuántos elementos de una entidad pueden relacionarse con elementos de otra.</p>
+<section id="relación-uno-a-uno" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="relación-uno-a-uno"><span class="header-section-number">2.1</span> Relación uno a uno</h3>
+<p>Una relación <strong>uno a uno</strong> ocurre cuando un elemento se relaciona con un solo elemento y ese segundo elemento pertenece únicamente al primero.</p>
+<p>Se representa como:</p>
+<pre class="text"><code>1 : 1</code></pre>
+<p>En nuestro ejemplo podemos pensar en:</p>
+<pre class="text"><code>LIBRO 1 ───── 1 DETALLES</code></pre>
+<p>Un libro tiene un conjunto de detalles propios, por ejemplo:</p>
+<pre class="text"><code>idioma
+número de páginas
+país</code></pre>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Pedro Páramo
+   ↓
+detalles
+   ├── idioma: Español
+   ├── páginas: 136
+   └── país: México</code></pre>
+<p>Estos datos pertenecen específicamente a ese libro.</p>
+<p>Por eso podemos pensar conceptualmente en una relación:</p>
+<pre class="text"><code>Libro 1 : 1 Detalles</code></pre>
+<p>En MongoDB no necesariamente necesitamos crear una colección independiente para representar esta relación.</p>
+<p>Podemos incrustar los datos directamente dentro del documento:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Por lo tanto:</p>
+<pre class="text"><code>un libro
+↓
+un conjunto de detalles</code></pre>
+<p>y esos detalles se encuentran dentro del mismo documento.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>¿Por qué es uno a uno?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Porque los detalles almacenados pertenecen a un solo libro y no se reutilizan en otros documentos.</p>
+</div>
+</div>
+</section>
+<section id="relación-uno-a-muchos" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="relación-uno-a-muchos"><span class="header-section-number">2.2</span> Relación uno a muchos</h3>
+<p>Una relación <strong>uno a muchos</strong> ocurre cuando un elemento puede relacionarse con varios elementos.</p>
+<p>Se representa como:</p>
+<pre class="text"><code>1 : N</code></pre>
+<p>En nuestra biblioteca tendremos varios ejemplos.</p>
+<section id="categorías-y-libros" class="level4" data-number="2.2.1">
+<h4 data-number="2.2.1" class="anchored" data-anchor-id="categorías-y-libros"><span class="header-section-number">2.2.1</span> Categorías y libros</h4>
+<p>Una categoría puede estar asociada con muchos libros.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Novela
+   ↓
+Pedro Páramo
+Aura
+Rayuela
+Como agua para chocolate
+Crónica de una muerte anunciada</code></pre>
+<p>Por lo tanto:</p>
+<pre class="text"><code>CATEGORIA 1 ───── N LIBROS</code></pre>
+<p>Cada libro tendrá una sola categoría principal en nuestro modelo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>categoria_id<span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"..."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>pero una misma categoría puede estar relacionada con muchos documentos de <code>libros</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>¿Por qué es uno a muchos?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Porque una categoría puede relacionarse con varios libros, mientras que cada libro tendrá una categoría principal.</p>
+</div>
+</div>
+</section>
+<section id="usuarios-y-préstamos" class="level4" data-number="2.2.2">
+<h4 data-number="2.2.2" class="anchored" data-anchor-id="usuarios-y-préstamos"><span class="header-section-number">2.2.2</span> Usuarios y préstamos</h4>
+<p>También tendremos:</p>
+<pre class="text"><code>USUARIO 1 ───── N PRESTAMOS</code></pre>
+<p>Un usuario puede pedir varios libros a lo largo del tiempo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Ana López
+   ↓
+Pedro Páramo
+1984
+El llano en llamas</code></pre>
+<p>Los datos de Ana se almacenan una sola vez en:</p>
+<pre class="text"><code>usuarios</code></pre>
+<p>y cada préstamo guarda una referencia:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>usuario_id<span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"..."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Por lo tanto:</p>
+<pre class="text"><code>un usuario
+↓
+muchos préstamos</code></pre>
+</section>
+<section id="libros-y-préstamos" class="level4" data-number="2.2.3">
+<h4 data-number="2.2.3" class="anchored" data-anchor-id="libros-y-préstamos"><span class="header-section-number">2.2.3</span> Libros y préstamos</h4>
+<p>Un libro también puede aparecer en varios préstamos a lo largo del tiempo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Pedro Páramo
+   ↓
+préstamo 1
+préstamo 2
+préstamo 3</code></pre>
+<p>Por lo tanto:</p>
+<pre class="text"><code>LIBRO 1 ───── N PRESTAMOS</code></pre>
+<p>Un mismo libro permanece como un solo documento en <code>libros</code>, mientras distintos documentos de <code>prestamos</code> pueden referenciarlo.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Una misma colección puede participar en varias relaciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La colección <code>prestamos</code> permite relacionar:</p>
+<pre class="text"><code>un usuario
++
+un libro</code></pre>
+<p>Por eso tendremos simultáneamente:</p>
+<pre class="text"><code>USUARIO 1 ───── N PRESTAMOS
+
+LIBRO   1 ───── N PRESTAMOS</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="relación-muchos-a-muchos" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="relación-muchos-a-muchos"><span class="header-section-number">2.3</span> Relación muchos a muchos</h3>
+<p>Una relación <strong>muchos a muchos</strong> ocurre cuando varios elementos de una entidad pueden relacionarse con varios elementos de otra.</p>
+<p>Se representa como:</p>
+<pre class="text"><code>N : N</code></pre>
+<p>En nuestro ejemplo utilizaremos:</p>
+<pre class="text"><code>AUTORES N ───── N LIBROS</code></pre>
+<p>Esto ocurre por dos razones.</p>
+<p>Primero, un autor puede escribir varios libros.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Juan Rulfo
+   ↓
+Pedro Páramo
+El llano en llamas</code></pre>
+<p>Por otro lado, un libro puede tener más de un autor.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Buenos presagios
+   ↓
+Neil Gaiman
+Terry Pratchett</code></pre>
+<p>También:</p>
+<pre class="text"><code>El talismán
+   ↓
+Stephen King
+Peter Straub</code></pre>
+<p>Por lo tanto, no podemos decir solamente:</p>
+<pre class="text"><code>un autor → un libro</code></pre>
+<p>ni:</p>
+<pre class="text"><code>un autor → muchos libros</code></pre>
+<p>porque también existen libros relacionados con varios autores.</p>
+<p>La relación completa es:</p>
+<pre class="text"><code>muchos autores
+↕
+muchos libros</code></pre>
+<p>En nuestros documentos almacenaremos las referencias de los autores dentro de un arreglo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>autores<span class="op">:</span> [</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ObjectId</span>(<span class="st">"..."</span>)<span class="op">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ObjectId</span>(<span class="st">"..."</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Buenos presagios"</span><span class="op">,</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000a"</span>)<span class="op">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000b"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>¿Por qué es muchos a muchos?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Porque un autor puede relacionarse con varios libros y, al mismo tiempo, un libro puede relacionarse con varios autores.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="modelo-general-de-la-biblioteca" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="modelo-general-de-la-biblioteca"><span class="header-section-number">3</span> Modelo general de la biblioteca</h2>
+<p>Ahora podemos representar visualmente las relaciones principales del ejemplo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/modelo_biblioteca.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Modelo general de relaciones de la biblioteca</figcaption>
+</figure>
+</div>
+<p>En el modelo podemos identificar:</p>
+<pre class="text"><code>Libro ↔ Detalles
+1 : 1</code></pre>
+<pre class="text"><code>Usuario → Préstamos
+1 : N</code></pre>
+<pre class="text"><code>Libro → Préstamos
+1 : N</code></pre>
+<pre class="text"><code>Autores ↔ Libros
+N : N</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La figura muestra el modelo conceptual de relaciones.</p>
+<p>Más adelante veremos cómo estas relaciones se representan en MongoDB mediante documentos incrustados y referencias con <code>ObjectId</code>.</p>
+</div>
+</div>
+</section>
+<section id="resumen-de-relaciones-de-la-biblioteca" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="resumen-de-relaciones-de-la-biblioteca"><span class="header-section-number">4</span> Resumen de relaciones de la biblioteca</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Relación</th>
+<th>Tipo</th>
+<th>Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Libro → Detalles</td>
+<td>1 : 1</td>
+<td>Cada libro tiene sus propios detalles</td>
+</tr>
+<tr class="even">
+<td>Categoría → Libros</td>
+<td>1 : N</td>
+<td>Una categoría puede contener varios libros</td>
+</tr>
+<tr class="odd">
+<td>Usuario → Préstamos</td>
+<td>1 : N</td>
+<td>Un usuario puede realizar varios préstamos</td>
+</tr>
+<tr class="even">
+<td>Libro → Préstamos</td>
+<td>1 : N</td>
+<td>Un libro puede prestarse varias veces</td>
+</tr>
+<tr class="odd">
+<td>Autores ↔︎ Libros</td>
+<td>N : N</td>
+<td>Un autor puede escribir varios libros y un libro puede tener varios autores</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="incrustar-o-referenciar" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="incrustar-o-referenciar"><span class="header-section-number">5</span> Incrustar o referenciar</h2>
+<p>MongoDB permite representar información relacionada principalmente de dos maneras:</p>
+<pre class="text"><code>incrustar</code></pre>
+<p>o:</p>
+<pre class="text"><code>referenciar</code></pre>
+<section id="documento-incrustado" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="documento-incrustado"><span class="header-section-number">5.1</span> Documento incrustado</h3>
+<p>Los datos relacionados se almacenan dentro del mismo documento.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La información de <code>detalles</code> pertenece directamente al libro.</p>
+</section>
+<section id="documento-referenciado" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="documento-referenciado"><span class="header-section-number">5.2</span> Documento referenciado</h3>
+<p>Los datos se encuentran en colecciones diferentes y se relacionan mediante <code>ObjectId</code>.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El identificador corresponde a un documento de la colección:</p>
+<pre class="text"><code>autores</code></pre>
+<p>Una orientación sencilla es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situación</th>
+<th>Estrategia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Los datos normalmente se consultan juntos</td>
+<td>Incrustar</td>
+</tr>
+<tr class="even">
+<td>Los datos pertenecen únicamente al documento principal</td>
+<td>Incrustar</td>
+</tr>
+<tr class="odd">
+<td>El dato se reutiliza en varios documentos</td>
+<td>Referenciar</td>
+</tr>
+<tr class="even">
+<td>El dato puede crecer considerablemente</td>
+<td>Referenciar</td>
+</tr>
+<tr class="odd">
+<td>Existe una relación entre varias entidades</td>
+<td>Referenciar</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MongoDB no obliga a utilizar una sola estrategia. Una misma base puede combinar documentos incrustados y referencias.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="crear-la-base-biblioteca" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="crear-la-base-biblioteca"><span class="header-section-number">6</span> Crear la base <code>biblioteca</code></h2>
+<p>En MongoDB Compass crea:</p>
+<pre class="text"><code>Database Name:
+biblioteca</code></pre>
+<p>Como primera colección utiliza:</p>
+<pre class="text"><code>autores</code></pre>
+<p>A partir de este punto utilizaremos el <code>mongosh</code> integrado en Compass para cargar rápidamente los documentos mediante <code>insertMany()</code>.</p>
+<p>Primero selecciona la base:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>use biblioteca</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="colección-autores" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="colección-autores"><span class="header-section-number">7</span> Colección <code>autores</code></h2>
+<p>Insertaremos los autores con identificadores definidos previamente para facilitar las relaciones.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">autores</span><span class="op">.</span><span class="fu">insertMany</span>([</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Juan Rulfo"</span><span class="op">,</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Mexicana"</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Carlos Fuentes"</span><span class="op">,</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Mexicana"</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Laura Esquivel"</span><span class="op">,</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Mexicana"</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Jorge Luis Borges"</span><span class="op">,</span></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Argentina"</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Julio Cortázar"</span><span class="op">,</span></span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Argentina"</span></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"George Orwell"</span><span class="op">,</span></span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Británica"</span></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Antoine de Saint-Exupéry"</span><span class="op">,</span></span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Francesa"</span></span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Mary Shelley"</span><span class="op">,</span></span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Británica"</span></span>
+<span id="cb47-41"><a href="#cb47-41" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-42"><a href="#cb47-42" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-43"><a href="#cb47-43" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000009"</span>)<span class="op">,</span></span>
+<span id="cb47-44"><a href="#cb47-44" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Gabriel García Márquez"</span><span class="op">,</span></span>
+<span id="cb47-45"><a href="#cb47-45" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Colombiana"</span></span>
+<span id="cb47-46"><a href="#cb47-46" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-47"><a href="#cb47-47" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-48"><a href="#cb47-48" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000a"</span>)<span class="op">,</span></span>
+<span id="cb47-49"><a href="#cb47-49" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Neil Gaiman"</span><span class="op">,</span></span>
+<span id="cb47-50"><a href="#cb47-50" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Británica"</span></span>
+<span id="cb47-51"><a href="#cb47-51" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-52"><a href="#cb47-52" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-53"><a href="#cb47-53" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000b"</span>)<span class="op">,</span></span>
+<span id="cb47-54"><a href="#cb47-54" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Terry Pratchett"</span><span class="op">,</span></span>
+<span id="cb47-55"><a href="#cb47-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Británica"</span></span>
+<span id="cb47-56"><a href="#cb47-56" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-57"><a href="#cb47-57" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-58"><a href="#cb47-58" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000c"</span>)<span class="op">,</span></span>
+<span id="cb47-59"><a href="#cb47-59" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Stephen King"</span><span class="op">,</span></span>
+<span id="cb47-60"><a href="#cb47-60" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Estadounidense"</span></span>
+<span id="cb47-61"><a href="#cb47-61" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb47-62"><a href="#cb47-62" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb47-63"><a href="#cb47-63" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000d"</span>)<span class="op">,</span></span>
+<span id="cb47-64"><a href="#cb47-64" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Peter Straub"</span><span class="op">,</span></span>
+<span id="cb47-65"><a href="#cb47-65" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nacionalidad</span><span class="op">:</span> <span class="st">"Estadounidense"</span></span>
+<span id="cb47-66"><a href="#cb47-66" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-67"><a href="#cb47-67" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="colección-categorias" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="colección-categorias"><span class="header-section-number">8</span> Colección <code>categorias</code></h2>
+<p>Crea la colección:</p>
+<pre class="text"><code>categorias</code></pre>
+<p>Después ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">categorias</span><span class="op">.</span><span class="fu">insertMany</span>([</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Novela"</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Cuento"</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Distopía"</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Fábula"</span></span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Fantasía"</span></span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Terror"</span></span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Aquí tendremos una relación:</p>
+<pre class="text"><code>CATEGORIA 1 ───── N LIBROS</code></pre>
+<hr>
+</section>
+<section id="colección-libros" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="colección-libros"><span class="header-section-number">9</span> Colección <code>libros</code></h2>
+<p>Crea:</p>
+<pre class="text"><code>libros</code></pre>
+<p>En esta colección combinaremos:</p>
+<pre class="text"><code>referencias
++
+documentos incrustados</code></pre>
+<p>Los campos:</p>
+<pre class="text"><code>autores
+categoria_id</code></pre>
+<p>serán referencias.</p>
+<p>El campo:</p>
+<pre class="text"><code>detalles</code></pre>
+<p>será incrustado.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">insertMany</span>([</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1955</span><span class="op">,</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Aura"</span><span class="op">,</span></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1962</span><span class="op">,</span></span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000002"</span>)</span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">64</span><span class="op">,</span></span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Como agua para chocolate"</span><span class="op">,</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1989</span><span class="op">,</span></span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000003"</span>)</span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">256</span><span class="op">,</span></span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"El llano en llamas"</span><span class="op">,</span></span>
+<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1953</span><span class="op">,</span></span>
+<span id="cb55-51"><a href="#cb55-51" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-52"><a href="#cb55-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-53"><a href="#cb55-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)</span>
+<span id="cb55-54"><a href="#cb55-54" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-55"><a href="#cb55-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb55-56"><a href="#cb55-56" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-57"><a href="#cb55-57" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-58"><a href="#cb55-58" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">176</span><span class="op">,</span></span>
+<span id="cb55-59"><a href="#cb55-59" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb55-60"><a href="#cb55-60" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-61"><a href="#cb55-61" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-62"><a href="#cb55-62" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-63"><a href="#cb55-63" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb55-64"><a href="#cb55-64" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Ficciones"</span><span class="op">,</span></span>
+<span id="cb55-65"><a href="#cb55-65" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1944</span><span class="op">,</span></span>
+<span id="cb55-66"><a href="#cb55-66" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-67"><a href="#cb55-67" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-68"><a href="#cb55-68" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000004"</span>)</span>
+<span id="cb55-69"><a href="#cb55-69" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-70"><a href="#cb55-70" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb55-71"><a href="#cb55-71" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-72"><a href="#cb55-72" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-73"><a href="#cb55-73" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">224</span><span class="op">,</span></span>
+<span id="cb55-74"><a href="#cb55-74" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Argentina"</span></span>
+<span id="cb55-75"><a href="#cb55-75" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-76"><a href="#cb55-76" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-77"><a href="#cb55-77" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-78"><a href="#cb55-78" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb55-79"><a href="#cb55-79" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Rayuela"</span><span class="op">,</span></span>
+<span id="cb55-80"><a href="#cb55-80" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1963</span><span class="op">,</span></span>
+<span id="cb55-81"><a href="#cb55-81" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-82"><a href="#cb55-82" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-83"><a href="#cb55-83" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000005"</span>)</span>
+<span id="cb55-84"><a href="#cb55-84" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-85"><a href="#cb55-85" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-86"><a href="#cb55-86" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-87"><a href="#cb55-87" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-88"><a href="#cb55-88" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">600</span><span class="op">,</span></span>
+<span id="cb55-89"><a href="#cb55-89" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Argentina"</span></span>
+<span id="cb55-90"><a href="#cb55-90" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-91"><a href="#cb55-91" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-92"><a href="#cb55-92" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-93"><a href="#cb55-93" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb55-94"><a href="#cb55-94" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"1984"</span><span class="op">,</span></span>
+<span id="cb55-95"><a href="#cb55-95" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1949</span><span class="op">,</span></span>
+<span id="cb55-96"><a href="#cb55-96" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-97"><a href="#cb55-97" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-98"><a href="#cb55-98" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000006"</span>)</span>
+<span id="cb55-99"><a href="#cb55-99" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-100"><a href="#cb55-100" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb55-101"><a href="#cb55-101" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-102"><a href="#cb55-102" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Inglés"</span><span class="op">,</span></span>
+<span id="cb55-103"><a href="#cb55-103" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">328</span><span class="op">,</span></span>
+<span id="cb55-104"><a href="#cb55-104" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Reino Unido"</span></span>
+<span id="cb55-105"><a href="#cb55-105" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-106"><a href="#cb55-106" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-107"><a href="#cb55-107" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-108"><a href="#cb55-108" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb55-109"><a href="#cb55-109" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"El principito"</span><span class="op">,</span></span>
+<span id="cb55-110"><a href="#cb55-110" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1943</span><span class="op">,</span></span>
+<span id="cb55-111"><a href="#cb55-111" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-112"><a href="#cb55-112" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-113"><a href="#cb55-113" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000007"</span>)</span>
+<span id="cb55-114"><a href="#cb55-114" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-115"><a href="#cb55-115" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb55-116"><a href="#cb55-116" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-117"><a href="#cb55-117" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Francés"</span><span class="op">,</span></span>
+<span id="cb55-118"><a href="#cb55-118" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">96</span><span class="op">,</span></span>
+<span id="cb55-119"><a href="#cb55-119" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Francia"</span></span>
+<span id="cb55-120"><a href="#cb55-120" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-121"><a href="#cb55-121" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-122"><a href="#cb55-122" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-123"><a href="#cb55-123" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000009"</span>)<span class="op">,</span></span>
+<span id="cb55-124"><a href="#cb55-124" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Frankenstein"</span><span class="op">,</span></span>
+<span id="cb55-125"><a href="#cb55-125" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1818</span><span class="op">,</span></span>
+<span id="cb55-126"><a href="#cb55-126" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-127"><a href="#cb55-127" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-128"><a href="#cb55-128" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000008"</span>)</span>
+<span id="cb55-129"><a href="#cb55-129" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-130"><a href="#cb55-130" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb55-131"><a href="#cb55-131" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-132"><a href="#cb55-132" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Inglés"</span><span class="op">,</span></span>
+<span id="cb55-133"><a href="#cb55-133" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">280</span><span class="op">,</span></span>
+<span id="cb55-134"><a href="#cb55-134" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Reino Unido"</span></span>
+<span id="cb55-135"><a href="#cb55-135" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-136"><a href="#cb55-136" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-137"><a href="#cb55-137" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-138"><a href="#cb55-138" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"67000000000000000000000a"</span>)<span class="op">,</span></span>
+<span id="cb55-139"><a href="#cb55-139" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Crónica de una muerte anunciada"</span><span class="op">,</span></span>
+<span id="cb55-140"><a href="#cb55-140" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1981</span><span class="op">,</span></span>
+<span id="cb55-141"><a href="#cb55-141" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-142"><a href="#cb55-142" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-143"><a href="#cb55-143" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000009"</span>)</span>
+<span id="cb55-144"><a href="#cb55-144" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-145"><a href="#cb55-145" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb55-146"><a href="#cb55-146" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-147"><a href="#cb55-147" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb55-148"><a href="#cb55-148" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">128</span><span class="op">,</span></span>
+<span id="cb55-149"><a href="#cb55-149" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Colombia"</span></span>
+<span id="cb55-150"><a href="#cb55-150" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-151"><a href="#cb55-151" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-152"><a href="#cb55-152" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-153"><a href="#cb55-153" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"67000000000000000000000b"</span>)<span class="op">,</span></span>
+<span id="cb55-154"><a href="#cb55-154" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Buenos presagios"</span><span class="op">,</span></span>
+<span id="cb55-155"><a href="#cb55-155" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1990</span><span class="op">,</span></span>
+<span id="cb55-156"><a href="#cb55-156" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-157"><a href="#cb55-157" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-158"><a href="#cb55-158" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000a"</span>)<span class="op">,</span></span>
+<span id="cb55-159"><a href="#cb55-159" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000b"</span>)</span>
+<span id="cb55-160"><a href="#cb55-160" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-161"><a href="#cb55-161" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb55-162"><a href="#cb55-162" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-163"><a href="#cb55-163" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Inglés"</span><span class="op">,</span></span>
+<span id="cb55-164"><a href="#cb55-164" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">432</span><span class="op">,</span></span>
+<span id="cb55-165"><a href="#cb55-165" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Reino Unido"</span></span>
+<span id="cb55-166"><a href="#cb55-166" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-167"><a href="#cb55-167" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb55-168"><a href="#cb55-168" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb55-169"><a href="#cb55-169" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"67000000000000000000000c"</span>)<span class="op">,</span></span>
+<span id="cb55-170"><a href="#cb55-170" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"El talismán"</span><span class="op">,</span></span>
+<span id="cb55-171"><a href="#cb55-171" aria-hidden="true" tabindex="-1"></a>    <span class="dt">anio</span><span class="op">:</span> <span class="dv">1984</span><span class="op">,</span></span>
+<span id="cb55-172"><a href="#cb55-172" aria-hidden="true" tabindex="-1"></a>    <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb55-173"><a href="#cb55-173" aria-hidden="true" tabindex="-1"></a>    <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb55-174"><a href="#cb55-174" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000c"</span>)<span class="op">,</span></span>
+<span id="cb55-175"><a href="#cb55-175" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ObjectId</span>(<span class="st">"65000000000000000000000d"</span>)</span>
+<span id="cb55-176"><a href="#cb55-176" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb55-177"><a href="#cb55-177" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb55-178"><a href="#cb55-178" aria-hidden="true" tabindex="-1"></a>    <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb55-179"><a href="#cb55-179" aria-hidden="true" tabindex="-1"></a>      <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Inglés"</span><span class="op">,</span></span>
+<span id="cb55-180"><a href="#cb55-180" aria-hidden="true" tabindex="-1"></a>      <span class="dt">paginas</span><span class="op">:</span> <span class="dv">656</span><span class="op">,</span></span>
+<span id="cb55-181"><a href="#cb55-181" aria-hidden="true" tabindex="-1"></a>      <span class="dt">pais</span><span class="op">:</span> <span class="st">"Estados Unidos"</span></span>
+<span id="cb55-182"><a href="#cb55-182" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-183"><a href="#cb55-183" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb55-184"><a href="#cb55-184" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="colección-usuarios" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="colección-usuarios"><span class="header-section-number">10</span> Colección <code>usuarios</code></h2>
+<p>Crea:</p>
+<pre class="text"><code>usuarios</code></pre>
+<p>Los datos utilizados a continuación son ficticios.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">usuarios</span><span class="op">.</span><span class="fu">insertMany</span>([</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Ana López"</span><span class="op">,</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"ana.lopez@example.com"</span><span class="op">,</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-01-15"</span>)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Carlos Hernández"</span><span class="op">,</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"carlos.hernandez@example.com"</span><span class="op">,</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-01-20"</span>)</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Mariana Torres"</span><span class="op">,</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"mariana.torres@example.com"</span><span class="op">,</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-02-01"</span>)</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Luis Ramírez"</span><span class="op">,</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"luis.ramirez@example.com"</span><span class="op">,</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-02-10"</span>)</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Sofía Martínez"</span><span class="op">,</span></span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"sofia.martinez@example.com"</span><span class="op">,</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-02-18"</span>)</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Diego Cruz"</span><span class="op">,</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"diego.cruz@example.com"</span><span class="op">,</span></span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-03-02"</span>)</span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Valeria Gómez"</span><span class="op">,</span></span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"valeria.gomez@example.com"</span><span class="op">,</span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-03-12"</span>)</span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>    <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Fernando Ruiz"</span><span class="op">,</span></span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a>    <span class="dt">correo</span><span class="op">:</span> <span class="st">"fernando.ruiz@example.com"</span><span class="op">,</span></span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_registro</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-03-25"</span>)</span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="colección-prestamos" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="colección-prestamos"><span class="header-section-number">11</span> Colección <code>prestamos</code></h2>
+<p>Finalmente crea:</p>
+<pre class="text"><code>prestamos</code></pre>
+<p>Un préstamo relacionará:</p>
+<pre class="text"><code>usuario
++
+libro
++
+fecha
++
+estado</code></pre>
+<p>mediante:</p>
+<pre class="text"><code>usuario_id
+libro_id</code></pre>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">prestamos</span><span class="op">.</span><span class="fu">insertMany</span>([</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-01"</span>)<span class="op">,</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-10"</span>)<span class="op">,</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-15"</span>)<span class="op">,</span></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-25"</span>)<span class="op">,</span></span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-20"</span>)<span class="op">,</span></span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-30"</span>)<span class="op">,</span></span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-25"</span>)<span class="op">,</span></span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-05"</span>)<span class="op">,</span></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-01"</span>)<span class="op">,</span></span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-12"</span>)<span class="op">,</span></span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"67000000000000000000000b"</span>)<span class="op">,</span></span>
+<span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-02"</span>)<span class="op">,</span></span>
+<span id="cb61-47"><a href="#cb61-47" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-13"</span>)<span class="op">,</span></span>
+<span id="cb61-48"><a href="#cb61-48" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000009"</span>)<span class="op">,</span></span>
+<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-03"</span>)<span class="op">,</span></span>
+<span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-14"</span>)<span class="op">,</span></span>
+<span id="cb61-56"><a href="#cb61-56" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-57"><a href="#cb61-57" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-58"><a href="#cb61-58" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-59"><a href="#cb61-59" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb61-60"><a href="#cb61-60" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb61-61"><a href="#cb61-61" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb61-62"><a href="#cb61-62" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-04"</span>)<span class="op">,</span></span>
+<span id="cb61-63"><a href="#cb61-63" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-15"</span>)<span class="op">,</span></span>
+<span id="cb61-64"><a href="#cb61-64" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-65"><a href="#cb61-65" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-66"><a href="#cb61-66" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-67"><a href="#cb61-67" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"690000000000000000000009"</span>)<span class="op">,</span></span>
+<span id="cb61-68"><a href="#cb61-68" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb61-69"><a href="#cb61-69" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"67000000000000000000000c"</span>)<span class="op">,</span></span>
+<span id="cb61-70"><a href="#cb61-70" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-20"</span>)<span class="op">,</span></span>
+<span id="cb61-71"><a href="#cb61-71" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-08-31"</span>)<span class="op">,</span></span>
+<span id="cb61-72"><a href="#cb61-72" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Vencido"</span></span>
+<span id="cb61-73"><a href="#cb61-73" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-74"><a href="#cb61-74" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-75"><a href="#cb61-75" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000a"</span>)<span class="op">,</span></span>
+<span id="cb61-76"><a href="#cb61-76" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-77"><a href="#cb61-77" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb61-78"><a href="#cb61-78" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-05"</span>)<span class="op">,</span></span>
+<span id="cb61-79"><a href="#cb61-79" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-16"</span>)<span class="op">,</span></span>
+<span id="cb61-80"><a href="#cb61-80" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-81"><a href="#cb61-81" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-82"><a href="#cb61-82" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-83"><a href="#cb61-83" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000b"</span>)<span class="op">,</span></span>
+<span id="cb61-84"><a href="#cb61-84" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb61-85"><a href="#cb61-85" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000007"</span>)<span class="op">,</span></span>
+<span id="cb61-86"><a href="#cb61-86" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-06"</span>)<span class="op">,</span></span>
+<span id="cb61-87"><a href="#cb61-87" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-17"</span>)<span class="op">,</span></span>
+<span id="cb61-88"><a href="#cb61-88" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-89"><a href="#cb61-89" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-90"><a href="#cb61-90" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-91"><a href="#cb61-91" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000c"</span>)<span class="op">,</span></span>
+<span id="cb61-92"><a href="#cb61-92" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000003"</span>)<span class="op">,</span></span>
+<span id="cb61-93"><a href="#cb61-93" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000002"</span>)<span class="op">,</span></span>
+<span id="cb61-94"><a href="#cb61-94" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-07"</span>)<span class="op">,</span></span>
+<span id="cb61-95"><a href="#cb61-95" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-09-18"</span>)<span class="op">,</span></span>
+<span id="cb61-96"><a href="#cb61-96" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Activo"</span></span>
+<span id="cb61-97"><a href="#cb61-97" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-98"><a href="#cb61-98" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-99"><a href="#cb61-99" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000d"</span>)<span class="op">,</span></span>
+<span id="cb61-100"><a href="#cb61-100" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000004"</span>)<span class="op">,</span></span>
+<span id="cb61-101"><a href="#cb61-101" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb61-102"><a href="#cb61-102" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-10"</span>)<span class="op">,</span></span>
+<span id="cb61-103"><a href="#cb61-103" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-20"</span>)<span class="op">,</span></span>
+<span id="cb61-104"><a href="#cb61-104" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-105"><a href="#cb61-105" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-106"><a href="#cb61-106" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-107"><a href="#cb61-107" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000e"</span>)<span class="op">,</span></span>
+<span id="cb61-108"><a href="#cb61-108" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000005"</span>)<span class="op">,</span></span>
+<span id="cb61-109"><a href="#cb61-109" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000008"</span>)<span class="op">,</span></span>
+<span id="cb61-110"><a href="#cb61-110" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-15"</span>)<span class="op">,</span></span>
+<span id="cb61-111"><a href="#cb61-111" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-25"</span>)<span class="op">,</span></span>
+<span id="cb61-112"><a href="#cb61-112" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-113"><a href="#cb61-113" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb61-114"><a href="#cb61-114" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb61-115"><a href="#cb61-115" aria-hidden="true" tabindex="-1"></a>    <span class="dt">_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"69000000000000000000000f"</span>)<span class="op">,</span></span>
+<span id="cb61-116"><a href="#cb61-116" aria-hidden="true" tabindex="-1"></a>    <span class="dt">usuario_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"680000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb61-117"><a href="#cb61-117" aria-hidden="true" tabindex="-1"></a>    <span class="dt">libro_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"670000000000000000000006"</span>)<span class="op">,</span></span>
+<span id="cb61-118"><a href="#cb61-118" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_prestamo</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-20"</span>)<span class="op">,</span></span>
+<span id="cb61-119"><a href="#cb61-119" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fecha_devolucion</span><span class="op">:</span> <span class="fu">ISODate</span>(<span class="st">"2026-07-30"</span>)<span class="op">,</span></span>
+<span id="cb61-120"><a href="#cb61-120" aria-hidden="true" tabindex="-1"></a>    <span class="dt">estado</span><span class="op">:</span> <span class="st">"Devuelto"</span></span>
+<span id="cb61-121"><a href="#cb61-121" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb61-122"><a href="#cb61-122" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="relaciones-construidas" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="relaciones-construidas"><span class="header-section-number">12</span> Relaciones construidas</h2>
+<p>Con las cinco colecciones podemos identificar el modelo completo:</p>
+<pre class="text"><code>AUTORES N ───────── N LIBROS
+
+CATEGORIAS 1 ────── N LIBROS
+
+USUARIOS 1 ──────── N PRESTAMOS
+
+LIBROS 1 ────────── N PRESTAMOS</code></pre>
+<p>Además, dentro de cada libro tenemos:</p>
+<pre class="text"><code>LIBRO 1 ───── 1 DETALLES</code></pre>
+<p>mediante un documento incrustado.</p>
+<p>Por lo tanto, el modelo combina:</p>
+<pre class="text"><code>documentos incrustados
++
+referencias mediante ObjectId</code></pre>
+<hr>
+</section>
+<section id="visualizar-el-modelo-en-data-modeling" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="visualizar-el-modelo-en-data-modeling"><span class="header-section-number">13</span> Visualizar el modelo en Data Modeling</h2>
+<p>Una vez creadas las colecciones y cargados los documentos, podemos utilizar <strong>Data Modeling</strong> de MongoDB Compass para visualizar la estructura de la base.</p>
+<p>En MongoDB Compass selecciona:</p>
+<pre class="text"><code>Data Modeling</code></pre>
+<p>Crea un nuevo diagrama y utiliza como nombre:</p>
+<pre class="text"><code>Modelo documental - Biblioteca</code></pre>
+<p>Selecciona la base:</p>
+<pre class="text"><code>biblioteca</code></pre>
+<p>Incluye las cinco colecciones:</p>
+<pre class="text"><code>autores
+categorias
+libros
+usuarios
+prestamos</code></pre>
+<p>Activa:</p>
+<pre class="text"><code>Automatically infer relationships</code></pre>
+<p>Como nuestra base contiene pocos documentos, selecciona:</p>
+<pre class="text"><code>All documents</code></pre>
+<p>Finalmente selecciona:</p>
+<pre class="text"><code>Generate</code></pre>
+<p>El resultado obtenido puede visualizarse de la siguiente manera:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/modelo_documental_biblioteca_compass.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>Modelo documental de la biblioteca generado en MongoDB Compass</figcaption>
+</figure>
+</div>
+<p>El diagrama permite observar las colecciones, sus campos y las relaciones que Compass pudo inferir a partir de los valores de tipo <code>ObjectId</code>.</p>
+<p>También podemos observar que:</p>
+<pre class="text"><code>detalles</code></pre>
+<p>aparece dentro de:</p>
+<pre class="text"><code>libros</code></pre>
+<p>y no como una colección independiente.</p>
+<p>Esto ocurre porque decidimos almacenar esa información como un <strong>documento incrustado</strong>.</p>
+<hr>
+</section>
+<section id="analizar-el-diagrama" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="analizar-el-diagrama"><span class="header-section-number">14</span> Analizar el diagrama</h2>
+<section id="autores-y-libros" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="autores-y-libros"><span class="header-section-number">14.1</span> Autores y libros</h3>
+<p>El campo:</p>
+<pre class="text"><code>libros.autores</code></pre>
+<p>contiene uno o varios <code>ObjectId</code> relacionados con documentos de:</p>
+<pre class="text"><code>autores</code></pre>
+<p>Por ello tenemos:</p>
+<pre class="text"><code>AUTORES N ───── N LIBROS</code></pre>
+</section>
+<section id="categorías-y-libros-1" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="categorías-y-libros-1"><span class="header-section-number">14.2</span> Categorías y libros</h3>
+<p>El campo:</p>
+<pre class="text"><code>libros.categoria_id</code></pre>
+<p>se relaciona con:</p>
+<pre class="text"><code>categorias._id</code></pre>
+<p>Por ello:</p>
+<pre class="text"><code>CATEGORIAS 1 ───── N LIBROS</code></pre>
+</section>
+<section id="usuarios-y-préstamos-1" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="usuarios-y-préstamos-1"><span class="header-section-number">14.3</span> Usuarios y préstamos</h3>
+<p>El campo:</p>
+<pre class="text"><code>prestamos.usuario_id</code></pre>
+<p>se relaciona con:</p>
+<pre class="text"><code>usuarios._id</code></pre>
+<p>Por ello:</p>
+<pre class="text"><code>USUARIOS 1 ───── N PRESTAMOS</code></pre>
+</section>
+<section id="libros-y-préstamos-1" class="level3" data-number="14.4">
+<h3 data-number="14.4" class="anchored" data-anchor-id="libros-y-préstamos-1"><span class="header-section-number">14.4</span> Libros y préstamos</h3>
+<p>El campo:</p>
+<pre class="text"><code>prestamos.libro_id</code></pre>
+<p>se relaciona con:</p>
+<pre class="text"><code>libros._id</code></pre>
+<p>Por ello:</p>
+<pre class="text"><code>LIBROS 1 ───── N PRESTAMOS</code></pre>
+</section>
+<section id="información-incrustada" class="level3" data-number="14.5">
+<h3 data-number="14.5" class="anchored" data-anchor-id="información-incrustada"><span class="header-section-number">14.5</span> Información incrustada</h3>
+<p>El campo:</p>
+<pre class="text"><code>detalles</code></pre>
+<p>no necesita una colección independiente.</p>
+<p>Se encuentra almacenado directamente dentro de cada documento de <code>libros</code>.</p>
+<p>Esta diferencia permite observar claramente:</p>
+<pre class="text"><code>INCRUSTADO
+detalles</code></pre>
+<p>frente a:</p>
+<pre class="text"><code>REFERENCIADO
+autores
+categorias
+usuarios
+prestamos</code></pre>
+<hr>
+</section>
+</section>
+<section id="del-diagrama-a-la-recuperación-de-información" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="del-diagrama-a-la-recuperación-de-información"><span class="header-section-number">15</span> Del diagrama a la recuperación de información</h2>
+<p>El diagrama nos permite observar cómo están conectadas las colecciones.</p>
+<p>Sin embargo, las relaciones mostradas en el diagrama no significan que MongoDB combine automáticamente toda la información al realizar una consulta.</p>
+<p>Por ejemplo, podemos buscar un libro:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">findOne</span>({</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado contiene directamente:</p>
+<pre class="text"><code>titulo
+anio
+disponible
+detalles</code></pre>
+<p>El campo:</p>
+<pre class="text"><code>detalles</code></pre>
+<p>aparece completo porque está incrustado dentro del mismo documento.</p>
+<p>Sin embargo:</p>
+<pre class="text"><code>autores
+categoria_id</code></pre>
+<p>contienen únicamente referencias mediante <code>ObjectId</code>.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>autores<span class="op">:</span> [</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ese identificador indica qué documento de <code>autores</code> está relacionado con el libro, pero no muestra automáticamente el nombre del autor.</p>
+<p>Para recuperar información almacenada en otras colecciones podemos utilizar:</p>
+<pre class="text"><code>$lookup</code></pre>
+<hr>
+</section>
+<section id="combinar-colecciones-con-lookup" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="combinar-colecciones-con-lookup"><span class="header-section-number">16</span> Combinar colecciones con <code>$lookup</code></h2>
+<p><code>$lookup</code> permite incorporar información de otra colección dentro de un <strong>Aggregation Pipeline</strong>.</p>
+<p>Conceptualmente podemos compararlo con:</p>
+<pre class="text"><code>SQL        MongoDB
+
+JOIN   →   $lookup</code></pre>
+<p>La lógica será:</p>
+<pre class="text"><code>referencia
+↓
+buscar documento relacionado
+↓
+incorporarlo al resultado</code></pre>
+<section id="recuperar-el-autor-de-un-libro" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="recuperar-el-autor-de-un-libro"><span class="header-section-number">16.1</span> Recuperar el autor de un libro</h3>
+<p>Ejecuta en el <code>mongosh</code> integrado de Compass:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb97-13"><a href="#cb97-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb97-14"><a href="#cb97-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb97-15"><a href="#cb97-15" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Primero:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>$match</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>selecciona:</p>
+<pre class="text"><code>Pedro Páramo</code></pre>
+<p>Después:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>$lookup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>utiliza:</p>
+<pre class="text"><code>libros.autores</code></pre>
+<p>como referencia hacia:</p>
+<pre class="text"><code>autores._id</code></pre>
+<p>El resultado relacionado se incorpora en:</p>
+<pre class="text"><code>datos_autores</code></pre>
+<p>Podemos visualizar el proceso como:</p>
+<pre class="text"><code>libros.autores
+       ↓
+     ObjectId
+       ↓
+autores._id
+       ↓
+datos_autores</code></pre>
+<hr>
+</section>
+</section>
+<section id="recuperar-también-la-categoría" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="recuperar-también-la-categoría"><span class="header-section-number">17</span> Recuperar también la categoría</h2>
+<p>Podemos utilizar varios <code>$lookup</code> dentro del mismo pipeline.</p>
+<p>Ahora queremos recuperar:</p>
+<pre class="text"><code>libro
++
+autor
++
+categoría</code></pre>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb106"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb106-15"><a href="#cb106-15" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb106-16"><a href="#cb106-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb106-17"><a href="#cb106-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
+<span id="cb106-18"><a href="#cb106-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
+<span id="cb106-19"><a href="#cb106-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb106-20"><a href="#cb106-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
+<span id="cb106-21"><a href="#cb106-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb106-22"><a href="#cb106-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb106-23"><a href="#cb106-23" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ahora el resultado contiene información proveniente de:</p>
+<pre class="text"><code>libros
+autores
+categorias</code></pre>
+<p>mientras que:</p>
+<pre class="text"><code>detalles</code></pre>
+<p>continúa formando parte directamente del documento <code>libros</code>.</p>
+<p>Esto permite comparar en una misma consulta:</p>
+<pre class="text"><code>datos incrustados</code></pre>
+<p>con:</p>
+<pre class="text"><code>datos referenciados</code></pre>
+<hr>
+</section>
+<section id="mostrar-únicamente-la-información-necesaria" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="mostrar-únicamente-la-información-necesaria"><span class="header-section-number">18</span> Mostrar únicamente la información necesaria</h2>
+<p>Podemos agregar:</p>
+<pre class="text"><code>$project</code></pre>
+<p>para controlar qué campos queremos mostrar.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb112"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb112-17"><a href="#cb112-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
+<span id="cb112-18"><a href="#cb112-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
+<span id="cb112-19"><a href="#cb112-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb112-20"><a href="#cb112-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
+<span id="cb112-21"><a href="#cb112-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-22"><a href="#cb112-22" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb112-23"><a href="#cb112-23" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-24"><a href="#cb112-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$project</span><span class="op">:</span> {</span>
+<span id="cb112-25"><a href="#cb112-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb112-26"><a href="#cb112-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb112-27"><a href="#cb112-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb112-28"><a href="#cb112-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb112-29"><a href="#cb112-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">detalles</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb112-30"><a href="#cb112-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">autores</span><span class="op">:</span> <span class="st">"$datos_autores.nombre"</span><span class="op">,</span></span>
+<span id="cb112-31"><a href="#cb112-31" aria-hidden="true" tabindex="-1"></a>      <span class="dt">categoria</span><span class="op">:</span> {</span>
+<span id="cb112-32"><a href="#cb112-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$arrayElemAt</span><span class="op">:</span> [</span>
+<span id="cb112-33"><a href="#cb112-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">"$datos_categoria.nombre"</span><span class="op">,</span></span>
+<span id="cb112-34"><a href="#cb112-34" aria-hidden="true" tabindex="-1"></a>          <span class="dv">0</span></span>
+<span id="cb112-35"><a href="#cb112-35" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb112-36"><a href="#cb112-36" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb112-37"><a href="#cb112-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-38"><a href="#cb112-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb112-39"><a href="#cb112-39" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado tendrá una estructura similar a:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">anio</span><span class="op">:</span> <span class="dv">1955</span><span class="op">,</span></span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Juan Rulfo"</span></span>
+<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">categoria</span><span class="op">:</span> <span class="st">"Novela"</span></span>
+<span id="cb113-14"><a href="#cb113-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ahora podemos observar información que originalmente estaba distribuida en diferentes partes de la base.</p>
+<pre class="text"><code>                   AUTORES
+                      ↑
+                      │ $lookup
+                      │
+DETALLES ← incrustado ← LIBROS
+                      │
+                      │ $lookup
+                      ↓
+                  CATEGORIAS</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El diagrama de Data Modeling permite visualizar <strong>cómo están relacionados los datos</strong>.</p>
+<p>Los documentos incrustados se recuperan directamente junto con el documento principal.</p>
+<p>Cuando la información se encuentra referenciada en otras colecciones, operaciones como <code>$lookup</code> permiten recuperarla y presentarla dentro de un mismo resultado.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="actividad-propuesta-de-modelado-con-sample_mflix" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="actividad-propuesta-de-modelado-con-sample_mflix"><span class="header-section-number">19</span> Actividad: propuesta de modelado con <code>sample_mflix</code></h2>
+<p>Utiliza ahora la base:</p>
+<pre class="text"><code>sample_mflix</code></pre>
+<p>como un nuevo caso de estudio.</p>
+<p>Analiza sus colecciones y realiza una propuesta de modelado de relaciones.</p>
+<p>Puedes considerar colecciones como:</p>
+<pre class="text"><code>movies
+comments
+users
+theaters</code></pre>
+<p>La solución no debe copiar el modelo de la biblioteca.</p>
+<p>El objetivo es analizar la estructura existente y proponer las relaciones que consideres adecuadas.</p>
+<section id="entrega" class="level3" data-number="19.1">
+<h3 data-number="19.1" class="anchored" data-anchor-id="entrega"><span class="header-section-number">19.1</span> Entrega</h3>
+<p>Incluye:</p>
+<ol type="1">
+<li>las colecciones seleccionadas;</li>
+<li>los campos que permiten relacionarlas;</li>
+<li>el tipo de cada relación;</li>
+<li>si utilizarías documentos incrustados o referencias;</li>
+<li>una breve justificación de cada decisión;</li>
+<li>una captura o representación del modelo elaborado en Data Modeling.</li>
+</ol>
+<p>El objetivo es responder:</p>
+<pre class="text"><code>¿Cómo modelaría las relaciones de sample_mflix en MongoDB?</code></pre>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

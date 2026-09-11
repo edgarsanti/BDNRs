@@ -37,5 +37,8 @@
   },
   "apuntes/04_consultas_mongodb.qmd": {
     "04_consultas_mongodb.html": "cf887511"
+  },
+  "apuntes/05_modelado_relaciones_mongodb.qmd": {
+    "05_modelado_relaciones_mongodb.html": "6551965f"
   }
 }

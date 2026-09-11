@@ -42,10 +42,21 @@ Introducción al modelo documental, su estructura, características y principale
 
 ## Consultas y manejo de documentos en MongoDB
 
-Operaciones básicas para insertar, consultar y filtrar documentos utilizando MongoDB.
+Operaciones básicas para insertar, consultar, filtrar y exportar documentos utilizando MongoDB.
 
 <a class="btn btn-primary"
    href="apuntes/04_consultas_mongodb.html">
+   Abrir apunte
+</a>
+
+---
+
+## Modelado de relaciones en MongoDB
+
+Introducción al modelado de relaciones en bases documentales mediante documentos incrustados y referencias. Se revisan relaciones uno a uno, uno a muchos y muchos a muchos mediante un ejemplo práctico de biblioteca y su visualización con Data Modeling en MongoDB Compass.
+
+<a class="btn btn-primary"
+   href="apuntes/05_modelado_relaciones_mongodb.html">
    Abrir apunte
 </a>
 
