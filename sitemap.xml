@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-09-07T21:46:49.854Z</lastmod>
+    <lastmod>2026-09-11T03:14:08.250Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/datasets.html</loc>
@@ -21,16 +21,20 @@
     <lastmod>2026-09-08T07:02:51.565Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
-    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
+    <lastmod>2026-09-11T05:07:05.197Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
+    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/index.html</loc>
     <lastmod>2026-09-07T05:48:37.943Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
-    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
+    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/03_mongodb_consultas_basicas.html</loc>
