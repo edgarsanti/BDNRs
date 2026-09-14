@@ -74,7 +74,7 @@
     "href": "apuntes.html#bases-de-datos-clavevalor",
     "title": "Apuntes del curso",
     "section": "Bases de datos clave–valor",
-    "text": "Bases de datos clave–valor\nIntroducción al modelo clave–valor y su implementación mediante Redis.\n\nPróximamente"
+    "text": "Bases de datos clave–valor\nIntroducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.\n Abrir apunte"
   },
   {
     "objectID": "datasets.html",
@@ -728,230 +728,6 @@
     "text": "62 Ideas clave\n\n\n\n\n\n\nNote1. La Terminal 1 mantiene activo MongoDB\n\n\n\nEn la Terminal 1 ejecutamos:\nmongod\nEste proceso mantiene activo el servidor.\n\n\n\n\n\n\n\n\nNote2. La Terminal 2 se utiliza para mongosh\n\n\n\nEn la Terminal 2 ejecutamos:\nmongosh\nDesde ahí podemos crear colecciones, insertar documentos y realizar consultas.\n\n\n\n\n\n\n\n\nNote3. MongoDB Compass proporciona una interfaz gráfica\n\n\n\nCompass permite navegar entre bases de datos, colecciones y documentos y aplicar filtros.\n\n\n\n\n\n\n\n\nNote4. La Terminal 3 se utiliza para exportar\n\n\n\nEn la Terminal 3 podemos crear:\nconsulta.json\ny ejecutar:\nmongoexport\npara generar archivos JSON o CSV.\n\n\n\n\n\n\n\n\nNote5. find() permite consultar documentos\n\n\n\nLos filtros permiten especificar las condiciones que deben cumplir los documentos recuperados.\n\n\n\n\n\n\n\n\nNote6. MongoDB permite consultar estructuras complejas\n\n\n\nPodemos realizar consultas sobre:\ncampos simples\narreglos\nobjetos anidados\n\n\n\n\n\n\n\n\nNote7. Los operadores permiten construir filtros\n\n\n\nAlgunos operadores importantes son:\n$gt\n$gte\n$lt\n$lte\n$ne\n$or\n$in\n$exists\n\n\n\n\n\n\n\n\nNote8. La sintaxis depende de la herramienta\n\n\n\nEn mongosh escribimos el comando completo.\nEn el cuadro Filter de MongoDB Compass escribimos únicamente el objeto que contiene las condiciones.\n\n\n\n\n\n\n\n\nNote9. sample_mflix permite trabajar con un caso más realista\n\n\n\nLa colección movies permite practicar consultas con campos simples, arreglos y estructuras anidadas.\n\n\n\n\n\n\n\n\nNote10. Primero comprobamos y después exportamos\n\n\n\nUna forma práctica de trabajar es:\nCompass\n↓\nprobar filtro\n↓\nconsulta.json\n↓\nmongoexport\nEsto permite verificar primero que la consulta devuelve los documentos esperados.\n\n\n\n\n\n\n\n\nNote11. La ubicación del archivo depende de --out\n\n\n\nSi escribimos:\n--out=peliculas_filtradas.json\nel archivo se guarda en la carpeta actual de la Terminal 3.\nSi utilizamos una ruta completa:\n--out=\"C:\\Users\\santi\\OneDrive\\Escritorio\\peliculas_filtradas.json\"\npodemos decidir exactamente dónde guardar el archivo.\n\n\n\n\n\n\n\n\nNote12. mongoexport se ejecuta en la Terminal 3\n\n\n\nmongoexport no se ejecuta dentro de mongosh.\nDurante este apunte utilizaremos:\nTerminal 1 → mongod\nTerminal 2 → mongosh\nMongoDB Compass → Filter\nTerminal 3 → consulta.json y mongoexport"
   },
   {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "",
-    "text": "Hasta ahora hemos trabajado con documentos, colecciones, consultas y exportación de datos en MongoDB.\nEn esta parte nos concentraremos en una pregunta diferente:\n¿Cómo podemos relacionar los documentos entre sí?\nPara ello construiremos una base de datos llamada:\nbiblioteca\nutilizando MongoDB Compass.\nTrabajaremos con las colecciones:\nbiblioteca\n│\n├── autores\n├── categorias\n├── libros\n├── usuarios\n└── prestamos\nLos libros y autores corresponden a obras conocidas. Los usuarios y préstamos son datos ficticios utilizados únicamente con fines académicos."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#modelado-de-relaciones-en-mongodb",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#modelado-de-relaciones-en-mongodb",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "",
-    "text": "Hasta ahora hemos trabajado con documentos, colecciones, consultas y exportación de datos en MongoDB.\nEn esta parte nos concentraremos en una pregunta diferente:\n¿Cómo podemos relacionar los documentos entre sí?\nPara ello construiremos una base de datos llamada:\nbiblioteca\nutilizando MongoDB Compass.\nTrabajaremos con las colecciones:\nbiblioteca\n│\n├── autores\n├── categorias\n├── libros\n├── usuarios\n└── prestamos\nLos libros y autores corresponden a obras conocidas. Los usuarios y préstamos son datos ficticios utilizados únicamente con fines académicos."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#tipos-de-relaciones",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#tipos-de-relaciones",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "2 Tipos de relaciones",
-    "text": "2 Tipos de relaciones\nAntes de construir la base biblioteca, necesitamos identificar cómo se relacionan los datos.\nEn este ejemplo utilizaremos tres tipos principales:\nuno a uno\nuno a muchos\nmuchos a muchos\nLa diferencia entre ellos depende de cuántos elementos de una entidad pueden relacionarse con elementos de otra.\n\n2.1 Relación uno a uno\nUna relación uno a uno ocurre cuando un elemento se relaciona con un solo elemento y ese segundo elemento pertenece únicamente al primero.\nSe representa como:\n1 : 1\nEn nuestro ejemplo podemos pensar en:\nLIBRO 1 ───── 1 DETALLES\nUn libro tiene un conjunto de detalles propios, por ejemplo:\nidioma\nnúmero de páginas\npaís\nPor ejemplo:\nPedro Páramo\n   ↓\ndetalles\n   ├── idioma: Español\n   ├── páginas: 136\n   └── país: México\nEstos datos pertenecen específicamente a ese libro.\nPor eso podemos pensar conceptualmente en una relación:\nLibro 1 : 1 Detalles\nEn MongoDB no necesariamente necesitamos crear una colección independiente para representar esta relación.\nPodemos incrustar los datos directamente dentro del documento:\n{\n  titulo: \"Pedro Páramo\",\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  }\n}\nPor lo tanto:\nun libro\n↓\nun conjunto de detalles\ny esos detalles se encuentran dentro del mismo documento.\n\n\n\n\n\n\nNote¿Por qué es uno a uno?\n\n\n\nPorque los detalles almacenados pertenecen a un solo libro y no se reutilizan en otros documentos.\n\n\n\n\n2.2 Relación uno a muchos\nUna relación uno a muchos ocurre cuando un elemento puede relacionarse con varios elementos.\nSe representa como:\n1 : N\nEn nuestra biblioteca tendremos varios ejemplos.\n\n2.2.1 Categorías y libros\nUna categoría puede estar asociada con muchos libros.\nPor ejemplo:\nNovela\n   ↓\nPedro Páramo\nAura\nRayuela\nComo agua para chocolate\nCrónica de una muerte anunciada\nPor lo tanto:\nCATEGORIA 1 ───── N LIBROS\nCada libro tendrá una sola categoría principal en nuestro modelo:\ncategoria_id: ObjectId(\"...\")\npero una misma categoría puede estar relacionada con muchos documentos de libros.\n\n\n\n\n\n\nNote¿Por qué es uno a muchos?\n\n\n\nPorque una categoría puede relacionarse con varios libros, mientras que cada libro tendrá una categoría principal.\n\n\n\n\n2.2.2 Usuarios y préstamos\nTambién tendremos:\nUSUARIO 1 ───── N PRESTAMOS\nUn usuario puede pedir varios libros a lo largo del tiempo.\nPor ejemplo:\nAna López\n   ↓\nPedro Páramo\n1984\nEl llano en llamas\nLos datos de Ana se almacenan una sola vez en:\nusuarios\ny cada préstamo guarda una referencia:\nusuario_id: ObjectId(\"...\")\nPor lo tanto:\nun usuario\n↓\nmuchos préstamos\n\n\n2.2.3 Libros y préstamos\nUn libro también puede aparecer en varios préstamos a lo largo del tiempo.\nPor ejemplo:\nPedro Páramo\n   ↓\npréstamo 1\npréstamo 2\npréstamo 3\nPor lo tanto:\nLIBRO 1 ───── N PRESTAMOS\nUn mismo libro permanece como un solo documento en libros, mientras distintos documentos de prestamos pueden referenciarlo.\n\n\n\n\n\n\nTipUna misma colección puede participar en varias relaciones\n\n\n\nLa colección prestamos permite relacionar:\nun usuario\n+\nun libro\nPor eso tendremos simultáneamente:\nUSUARIO 1 ───── N PRESTAMOS\n\nLIBRO   1 ───── N PRESTAMOS\n\n\n\n\n\n2.3 Relación muchos a muchos\nUna relación muchos a muchos ocurre cuando varios elementos de una entidad pueden relacionarse con varios elementos de otra.\nSe representa como:\nN : N\nEn nuestro ejemplo utilizaremos:\nAUTORES N ───── N LIBROS\nEsto ocurre por dos razones.\nPrimero, un autor puede escribir varios libros.\nPor ejemplo:\nJuan Rulfo\n   ↓\nPedro Páramo\nEl llano en llamas\nPor otro lado, un libro puede tener más de un autor.\nPor ejemplo:\nBuenos presagios\n   ↓\nNeil Gaiman\nTerry Pratchett\nTambién:\nEl talismán\n   ↓\nStephen King\nPeter Straub\nPor lo tanto, no podemos decir solamente:\nun autor → un libro\nni:\nun autor → muchos libros\nporque también existen libros relacionados con varios autores.\nLa relación completa es:\nmuchos autores\n↕\nmuchos libros\nEn nuestros documentos almacenaremos las referencias de los autores dentro de un arreglo:\nautores: [\n  ObjectId(\"...\"),\n  ObjectId(\"...\")\n]\nPor ejemplo:\n{\n  titulo: \"Buenos presagios\",\n  autores: [\n    ObjectId(\"65000000000000000000000a\"),\n    ObjectId(\"65000000000000000000000b\")\n  ]\n}\n\n\n\n\n\n\nNote¿Por qué es muchos a muchos?\n\n\n\nPorque un autor puede relacionarse con varios libros y, al mismo tiempo, un libro puede relacionarse con varios autores."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#modelo-general-de-la-biblioteca",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#modelo-general-de-la-biblioteca",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "3 Modelo general de la biblioteca",
-    "text": "3 Modelo general de la biblioteca\nAhora podemos representar visualmente las relaciones principales del ejemplo.\n\n\n\nModelo general de relaciones de la biblioteca\n\n\nEn el modelo podemos identificar:\nLibro ↔ Detalles\n1 : 1\nUsuario → Préstamos\n1 : N\nLibro → Préstamos\n1 : N\nAutores ↔ Libros\nN : N\n\n\n\n\n\n\nNoteImportante\n\n\n\nLa figura muestra el modelo conceptual de relaciones.\nMás adelante veremos cómo estas relaciones se representan en MongoDB mediante documentos incrustados y referencias con ObjectId."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#resumen-de-relaciones-de-la-biblioteca",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#resumen-de-relaciones-de-la-biblioteca",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "4 Resumen de relaciones de la biblioteca",
-    "text": "4 Resumen de relaciones de la biblioteca\n\n\n\n\n\n\n\n\nRelación\nTipo\nRazón\n\n\n\n\nLibro → Detalles\n1 : 1\nCada libro tiene sus propios detalles\n\n\nCategoría → Libros\n1 : N\nUna categoría puede contener varios libros\n\n\nUsuario → Préstamos\n1 : N\nUn usuario puede realizar varios préstamos\n\n\nLibro → Préstamos\n1 : N\nUn libro puede prestarse varias veces\n\n\nAutores ↔︎ Libros\nN : N\nUn autor puede escribir varios libros y un libro puede tener varios autores"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#incrustar-o-referenciar",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#incrustar-o-referenciar",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "5 Incrustar o referenciar",
-    "text": "5 Incrustar o referenciar\nMongoDB permite representar información relacionada principalmente de dos maneras:\nincrustar\no:\nreferenciar\n\n5.1 Documento incrustado\nLos datos relacionados se almacenan dentro del mismo documento.\nPor ejemplo:\n{\n  titulo: \"Pedro Páramo\",\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  }\n}\nLa información de detalles pertenece directamente al libro.\n\n\n5.2 Documento referenciado\nLos datos se encuentran en colecciones diferentes y se relacionan mediante ObjectId.\nPor ejemplo:\n{\n  titulo: \"Pedro Páramo\",\n  autores: [\n    ObjectId(\"650000000000000000000001\")\n  ]\n}\nEl identificador corresponde a un documento de la colección:\nautores\nUna orientación sencilla es:\n\n\n\nSituación\nEstrategia\n\n\n\n\nLos datos normalmente se consultan juntos\nIncrustar\n\n\nLos datos pertenecen únicamente al documento principal\nIncrustar\n\n\nEl dato se reutiliza en varios documentos\nReferenciar\n\n\nEl dato puede crecer considerablemente\nReferenciar\n\n\nExiste una relación entre varias entidades\nReferenciar\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nMongoDB no obliga a utilizar una sola estrategia. Una misma base puede combinar documentos incrustados y referencias."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#crear-la-base-biblioteca",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#crear-la-base-biblioteca",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "6 Crear la base biblioteca",
-    "text": "6 Crear la base biblioteca\nEn MongoDB Compass crea:\nDatabase Name:\nbiblioteca\nComo primera colección utiliza:\nautores\nA partir de este punto utilizaremos el mongosh integrado en Compass para cargar rápidamente los documentos mediante insertMany().\nPrimero selecciona la base:\nuse biblioteca"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-autores",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-autores",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "7 Colección autores",
-    "text": "7 Colección autores\nInsertaremos los autores con identificadores definidos previamente para facilitar las relaciones.\ndb.autores.insertMany([\n  {\n    _id: ObjectId(\"650000000000000000000001\"),\n    nombre: \"Juan Rulfo\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000002\"),\n    nombre: \"Carlos Fuentes\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000003\"),\n    nombre: \"Laura Esquivel\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000004\"),\n    nombre: \"Jorge Luis Borges\",\n    nacionalidad: \"Argentina\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000005\"),\n    nombre: \"Julio Cortázar\",\n    nacionalidad: \"Argentina\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000006\"),\n    nombre: \"George Orwell\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000007\"),\n    nombre: \"Antoine de Saint-Exupéry\",\n    nacionalidad: \"Francesa\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000008\"),\n    nombre: \"Mary Shelley\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000009\"),\n    nombre: \"Gabriel García Márquez\",\n    nacionalidad: \"Colombiana\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000a\"),\n    nombre: \"Neil Gaiman\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000b\"),\n    nombre: \"Terry Pratchett\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000c\"),\n    nombre: \"Stephen King\",\n    nacionalidad: \"Estadounidense\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000d\"),\n    nombre: \"Peter Straub\",\n    nacionalidad: \"Estadounidense\"\n  }\n])"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-categorias",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-categorias",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "8 Colección categorias",
-    "text": "8 Colección categorias\nCrea la colección:\ncategorias\nDespués ejecuta:\ndb.categorias.insertMany([\n  {\n    _id: ObjectId(\"660000000000000000000001\"),\n    nombre: \"Novela\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000002\"),\n    nombre: \"Cuento\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000003\"),\n    nombre: \"Distopía\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000004\"),\n    nombre: \"Fábula\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000005\"),\n    nombre: \"Fantasía\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000006\"),\n    nombre: \"Terror\"\n  }\n])\nAquí tendremos una relación:\nCATEGORIA 1 ───── N LIBROS"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-libros",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-libros",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "9 Colección libros",
-    "text": "9 Colección libros\nCrea:\nlibros\nEn esta colección combinaremos:\nreferencias\n+\ndocumentos incrustados\nLos campos:\nautores\ncategoria_id\nserán referencias.\nEl campo:\ndetalles\nserá incrustado.\nEjecuta:\ndb.libros.insertMany([\n  {\n    _id: ObjectId(\"670000000000000000000001\"),\n    titulo: \"Pedro Páramo\",\n    anio: 1955,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000001\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 136,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000002\"),\n    titulo: \"Aura\",\n    anio: 1962,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000002\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 64,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000003\"),\n    titulo: \"Como agua para chocolate\",\n    anio: 1989,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000003\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 256,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000004\"),\n    titulo: \"El llano en llamas\",\n    anio: 1953,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000001\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000002\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 176,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000005\"),\n    titulo: \"Ficciones\",\n    anio: 1944,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000004\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000002\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 224,\n      pais: \"Argentina\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000006\"),\n    titulo: \"Rayuela\",\n    anio: 1963,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000005\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 600,\n      pais: \"Argentina\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000007\"),\n    titulo: \"1984\",\n    anio: 1949,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000006\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000003\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 328,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000008\"),\n    titulo: \"El principito\",\n    anio: 1943,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000007\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000004\"),\n    detalles: {\n      idioma: \"Francés\",\n      paginas: 96,\n      pais: \"Francia\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000009\"),\n    titulo: \"Frankenstein\",\n    anio: 1818,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000008\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000006\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 280,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000a\"),\n    titulo: \"Crónica de una muerte anunciada\",\n    anio: 1981,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000009\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 128,\n      pais: \"Colombia\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000b\"),\n    titulo: \"Buenos presagios\",\n    anio: 1990,\n    disponible: true,\n    autores: [\n      ObjectId(\"65000000000000000000000a\"),\n      ObjectId(\"65000000000000000000000b\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000005\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 432,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000c\"),\n    titulo: \"El talismán\",\n    anio: 1984,\n    disponible: true,\n    autores: [\n      ObjectId(\"65000000000000000000000c\"),\n      ObjectId(\"65000000000000000000000d\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000005\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 656,\n      pais: \"Estados Unidos\"\n    }\n  }\n])"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-usuarios",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-usuarios",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "10 Colección usuarios",
-    "text": "10 Colección usuarios\nCrea:\nusuarios\nLos datos utilizados a continuación son ficticios.\ndb.usuarios.insertMany([\n  {\n    _id: ObjectId(\"680000000000000000000001\"),\n    nombre: \"Ana López\",\n    correo: \"ana.lopez@example.com\",\n    fecha_registro: ISODate(\"2026-01-15\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000002\"),\n    nombre: \"Carlos Hernández\",\n    correo: \"carlos.hernandez@example.com\",\n    fecha_registro: ISODate(\"2026-01-20\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000003\"),\n    nombre: \"Mariana Torres\",\n    correo: \"mariana.torres@example.com\",\n    fecha_registro: ISODate(\"2026-02-01\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000004\"),\n    nombre: \"Luis Ramírez\",\n    correo: \"luis.ramirez@example.com\",\n    fecha_registro: ISODate(\"2026-02-10\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000005\"),\n    nombre: \"Sofía Martínez\",\n    correo: \"sofia.martinez@example.com\",\n    fecha_registro: ISODate(\"2026-02-18\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000006\"),\n    nombre: \"Diego Cruz\",\n    correo: \"diego.cruz@example.com\",\n    fecha_registro: ISODate(\"2026-03-02\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000007\"),\n    nombre: \"Valeria Gómez\",\n    correo: \"valeria.gomez@example.com\",\n    fecha_registro: ISODate(\"2026-03-12\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000008\"),\n    nombre: \"Fernando Ruiz\",\n    correo: \"fernando.ruiz@example.com\",\n    fecha_registro: ISODate(\"2026-03-25\")\n  }\n])"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-prestamos",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-prestamos",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "11 Colección prestamos",
-    "text": "11 Colección prestamos\nFinalmente crea:\nprestamos\nUn préstamo relacionará:\nusuario\n+\nlibro\n+\nfecha\n+\nestado\nmediante:\nusuario_id\nlibro_id\nEjecuta:\ndb.prestamos.insertMany([\n  {\n    _id: ObjectId(\"690000000000000000000001\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000001\"),\n    fecha_prestamo: ISODate(\"2026-08-01\"),\n    fecha_devolucion: ISODate(\"2026-08-10\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000002\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000007\"),\n    fecha_prestamo: ISODate(\"2026-08-15\"),\n    fecha_devolucion: ISODate(\"2026-08-25\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000003\"),\n    usuario_id: ObjectId(\"680000000000000000000002\"),\n    libro_id: ObjectId(\"670000000000000000000006\"),\n    fecha_prestamo: ISODate(\"2026-08-20\"),\n    fecha_devolucion: ISODate(\"2026-08-30\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000004\"),\n    usuario_id: ObjectId(\"680000000000000000000003\"),\n    libro_id: ObjectId(\"670000000000000000000008\"),\n    fecha_prestamo: ISODate(\"2026-08-25\"),\n    fecha_devolucion: ISODate(\"2026-09-05\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000005\"),\n    usuario_id: ObjectId(\"680000000000000000000004\"),\n    libro_id: ObjectId(\"670000000000000000000005\"),\n    fecha_prestamo: ISODate(\"2026-09-01\"),\n    fecha_devolucion: ISODate(\"2026-09-12\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000006\"),\n    usuario_id: ObjectId(\"680000000000000000000005\"),\n    libro_id: ObjectId(\"67000000000000000000000b\"),\n    fecha_prestamo: ISODate(\"2026-09-02\"),\n    fecha_devolucion: ISODate(\"2026-09-13\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000007\"),\n    usuario_id: ObjectId(\"680000000000000000000006\"),\n    libro_id: ObjectId(\"670000000000000000000009\"),\n    fecha_prestamo: ISODate(\"2026-09-03\"),\n    fecha_devolucion: ISODate(\"2026-09-14\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000008\"),\n    usuario_id: ObjectId(\"680000000000000000000007\"),\n    libro_id: ObjectId(\"670000000000000000000003\"),\n    fecha_prestamo: ISODate(\"2026-09-04\"),\n    fecha_devolucion: ISODate(\"2026-09-15\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000009\"),\n    usuario_id: ObjectId(\"680000000000000000000008\"),\n    libro_id: ObjectId(\"67000000000000000000000c\"),\n    fecha_prestamo: ISODate(\"2026-08-20\"),\n    fecha_devolucion: ISODate(\"2026-08-31\"),\n    estado: \"Vencido\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000a\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000004\"),\n    fecha_prestamo: ISODate(\"2026-09-05\"),\n    fecha_devolucion: ISODate(\"2026-09-16\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000b\"),\n    usuario_id: ObjectId(\"680000000000000000000002\"),\n    libro_id: ObjectId(\"670000000000000000000007\"),\n    fecha_prestamo: ISODate(\"2026-09-06\"),\n    fecha_devolucion: ISODate(\"2026-09-17\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000c\"),\n    usuario_id: ObjectId(\"680000000000000000000003\"),\n    libro_id: ObjectId(\"670000000000000000000002\"),\n    fecha_prestamo: ISODate(\"2026-09-07\"),\n    fecha_devolucion: ISODate(\"2026-09-18\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000d\"),\n    usuario_id: ObjectId(\"680000000000000000000004\"),\n    libro_id: ObjectId(\"670000000000000000000001\"),\n    fecha_prestamo: ISODate(\"2026-07-10\"),\n    fecha_devolucion: ISODate(\"2026-07-20\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000e\"),\n    usuario_id: ObjectId(\"680000000000000000000005\"),\n    libro_id: ObjectId(\"670000000000000000000008\"),\n    fecha_prestamo: ISODate(\"2026-07-15\"),\n    fecha_devolucion: ISODate(\"2026-07-25\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000f\"),\n    usuario_id: ObjectId(\"680000000000000000000006\"),\n    libro_id: ObjectId(\"670000000000000000000006\"),\n    fecha_prestamo: ISODate(\"2026-07-20\"),\n    fecha_devolucion: ISODate(\"2026-07-30\"),\n    estado: \"Devuelto\"\n  }\n])"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#relaciones-construidas",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#relaciones-construidas",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "12 Relaciones construidas",
-    "text": "12 Relaciones construidas\nCon las cinco colecciones podemos identificar el modelo completo:\nAUTORES N ───────── N LIBROS\n\nCATEGORIAS 1 ────── N LIBROS\n\nUSUARIOS 1 ──────── N PRESTAMOS\n\nLIBROS 1 ────────── N PRESTAMOS\nAdemás, dentro de cada libro tenemos:\nLIBRO 1 ───── 1 DETALLES\nmediante un documento incrustado.\nPor lo tanto, el modelo combina:\ndocumentos incrustados\n+\nreferencias mediante ObjectId"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#visualizar-el-modelo-en-data-modeling",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#visualizar-el-modelo-en-data-modeling",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "13 Visualizar el modelo en Data Modeling",
-    "text": "13 Visualizar el modelo en Data Modeling\nUna vez creadas las colecciones y cargados los documentos, podemos utilizar Data Modeling de MongoDB Compass para visualizar la estructura de la base.\nEn MongoDB Compass selecciona:\nData Modeling\nCrea un nuevo diagrama y utiliza como nombre:\nModelo documental - Biblioteca\nSelecciona la base:\nbiblioteca\nIncluye las cinco colecciones:\nautores\ncategorias\nlibros\nusuarios\nprestamos\nActiva:\nAutomatically infer relationships\nComo nuestra base contiene pocos documentos, selecciona:\nAll documents\nFinalmente selecciona:\nGenerate\nEl resultado obtenido puede visualizarse de la siguiente manera:\n\n\n\nModelo documental de la biblioteca generado en MongoDB Compass\n\n\nEl diagrama permite observar las colecciones, sus campos y las relaciones que Compass pudo inferir a partir de los valores de tipo ObjectId.\nTambién podemos observar que:\ndetalles\naparece dentro de:\nlibros\ny no como una colección independiente.\nEsto ocurre porque decidimos almacenar esa información como un documento incrustado."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#analizar-el-diagrama",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#analizar-el-diagrama",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "14 Analizar el diagrama",
-    "text": "14 Analizar el diagrama\n\n14.1 Autores y libros\nEl campo:\nlibros.autores\ncontiene uno o varios ObjectId relacionados con documentos de:\nautores\nPor ello tenemos:\nAUTORES N ───── N LIBROS\n\n\n14.2 Categorías y libros\nEl campo:\nlibros.categoria_id\nse relaciona con:\ncategorias._id\nPor ello:\nCATEGORIAS 1 ───── N LIBROS\n\n\n14.3 Usuarios y préstamos\nEl campo:\nprestamos.usuario_id\nse relaciona con:\nusuarios._id\nPor ello:\nUSUARIOS 1 ───── N PRESTAMOS\n\n\n14.4 Libros y préstamos\nEl campo:\nprestamos.libro_id\nse relaciona con:\nlibros._id\nPor ello:\nLIBROS 1 ───── N PRESTAMOS\n\n\n14.5 Información incrustada\nEl campo:\ndetalles\nno necesita una colección independiente.\nSe encuentra almacenado directamente dentro de cada documento de libros.\nEsta diferencia permite observar claramente:\nINCRUSTADO\ndetalles\nfrente a:\nREFERENCIADO\nautores\ncategorias\nusuarios\nprestamos"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#del-diagrama-a-la-recuperación-de-información",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#del-diagrama-a-la-recuperación-de-información",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "15 Del diagrama a la recuperación de información",
-    "text": "15 Del diagrama a la recuperación de información\nEl diagrama nos permite observar cómo están conectadas las colecciones.\nSin embargo, las relaciones mostradas en el diagrama no significan que MongoDB combine automáticamente toda la información al realizar una consulta.\nPor ejemplo, podemos buscar un libro:\ndb.libros.findOne({\n  titulo: \"Pedro Páramo\"\n})\nEl resultado contiene directamente:\ntitulo\nanio\ndisponible\ndetalles\nEl campo:\ndetalles\naparece completo porque está incrustado dentro del mismo documento.\nSin embargo:\nautores\ncategoria_id\ncontienen únicamente referencias mediante ObjectId.\nPor ejemplo:\nautores: [\n  ObjectId(\"650000000000000000000001\")\n]\nEse identificador indica qué documento de autores está relacionado con el libro, pero no muestra automáticamente el nombre del autor.\nPara recuperar información almacenada en otras colecciones podemos utilizar:\n$lookup"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#combinar-colecciones-con-lookup",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#combinar-colecciones-con-lookup",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "16 Combinar colecciones con $lookup",
-    "text": "16 Combinar colecciones con $lookup\n$lookup permite incorporar información de otra colección dentro de un Aggregation Pipeline.\nConceptualmente podemos compararlo con:\nSQL        MongoDB\n\nJOIN   →   $lookup\nLa lógica será:\nreferencia\n↓\nbuscar documento relacionado\n↓\nincorporarlo al resultado\n\n16.1 Recuperar el autor de un libro\nEjecuta en el mongosh integrado de Compass:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  }\n])\nPrimero:\n$match\nselecciona:\nPedro Páramo\nDespués:\n$lookup\nutiliza:\nlibros.autores\ncomo referencia hacia:\nautores._id\nEl resultado relacionado se incorpora en:\ndatos_autores\nPodemos visualizar el proceso como:\nlibros.autores\n       ↓\n     ObjectId\n       ↓\nautores._id\n       ↓\ndatos_autores"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#recuperar-también-la-categoría",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#recuperar-también-la-categoría",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "17 Recuperar también la categoría",
-    "text": "17 Recuperar también la categoría\nPodemos utilizar varios $lookup dentro del mismo pipeline.\nAhora queremos recuperar:\nlibro\n+\nautor\n+\ncategoría\nEjecuta:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"categorias\",\n      localField: \"categoria_id\",\n      foreignField: \"_id\",\n      as: \"datos_categoria\"\n    }\n  }\n])\nAhora el resultado contiene información proveniente de:\nlibros\nautores\ncategorias\nmientras que:\ndetalles\ncontinúa formando parte directamente del documento libros.\nEsto permite comparar en una misma consulta:\ndatos incrustados\ncon:\ndatos referenciados"
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#mostrar-únicamente-la-información-necesaria",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#mostrar-únicamente-la-información-necesaria",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "18 Mostrar únicamente la información necesaria",
-    "text": "18 Mostrar únicamente la información necesaria\nPodemos agregar:\n$project\npara controlar qué campos queremos mostrar.\nEjecuta:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"categorias\",\n      localField: \"categoria_id\",\n      foreignField: \"_id\",\n      as: \"datos_categoria\"\n    }\n  },\n  {\n    $project: {\n      _id: 0,\n      titulo: 1,\n      anio: 1,\n      disponible: 1,\n      detalles: 1,\n      autores: \"$datos_autores.nombre\",\n      categoria: {\n        $arrayElemAt: [\n          \"$datos_categoria.nombre\",\n          0\n        ]\n      }\n    }\n  }\n])\nEl resultado tendrá una estructura similar a:\n{\n  titulo: \"Pedro Páramo\",\n  anio: 1955,\n  disponible: true,\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  },\n  autores: [\n    \"Juan Rulfo\"\n  ],\n  categoria: \"Novela\"\n}\nAhora podemos observar información que originalmente estaba distribuida en diferentes partes de la base.\n                   AUTORES\n                      ↑\n                      │ $lookup\n                      │\nDETALLES ← incrustado ← LIBROS\n                      │\n                      │ $lookup\n                      ↓\n                  CATEGORIAS\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEl diagrama de Data Modeling permite visualizar cómo están relacionados los datos.\nLos documentos incrustados se recuperan directamente junto con el documento principal.\nCuando la información se encuentra referenciada en otras colecciones, operaciones como $lookup permiten recuperarla y presentarla dentro de un mismo resultado."
-  },
-  {
-    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#actividad-propuesta-de-modelado-con-sample_mflix",
-    "href": "apuntes/05_modelado_relaciones_mongodb.html#actividad-propuesta-de-modelado-con-sample_mflix",
-    "title": "Modelado de relaciones en MongoDB",
-    "section": "19 Actividad: propuesta de modelado con sample_mflix",
-    "text": "19 Actividad: propuesta de modelado con sample_mflix\nUtiliza ahora la base:\nsample_mflix\ncomo un nuevo caso de estudio.\nAnaliza sus colecciones y realiza una propuesta de modelado de relaciones.\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\ntheaters\nLa solución no debe copiar el modelo de la biblioteca.\nEl objetivo es analizar la estructura existente y proponer las relaciones que consideres adecuadas.\n\n19.1 Entrega\nIncluye:\n\nlas colecciones seleccionadas;\nlos campos que permiten relacionarlas;\nel tipo de cada relación;\nsi utilizarías documentos incrustados o referencias;\nuna breve justificación de cada decisión;\nuna captura o representación del modelo elaborado en Data Modeling.\n\nEl objetivo es responder:\n¿Cómo modelaría las relaciones de sample_mflix en MongoDB?"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html",
-    "href": "practicas/01_mongodb_local.html",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#objetivo",
-    "href": "practicas/01_mongodb_local.html#objetivo",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "2 1. Preparar MongoDB",
-    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "3 2. Cómo realizar las consultas",
-    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#actividad",
-    "href": "practicas/01_mongodb_local.html#actividad",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "4 3. Actividad",
-    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "5 4. Registrar los resultados",
-    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "6 5. Exportar la Consulta 9",
-    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#entrega",
-    "href": "practicas/01_mongodb_local.html#entrega",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "7 6. Entrega",
-    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "8 7. Criterios de revisión",
-    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "index.html#bienvenida",
-    "href": "index.html#bienvenida",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
     "objectID": "apuntes/03_mongodb_consultas_basicas.html",
     "href": "apuntes/03_mongodb_consultas_basicas.html",
     "title": "Tema 3. MongoDB y consultas básicas",
@@ -1216,6 +992,475 @@
     "title": "Tema 3. MongoDB y consultas básicas",
     "section": "37 Relación con la práctica",
     "text": "37 Relación con la práctica\nLos conceptos desarrollados en este tema se aplican directamente en:\nPráctica 1. Primeros pasos con MongoDB local\nEn ella se trabaja con:\ncurso_nosql\nestudiantes\nsample_mflix\nmovies\ny se realizan consultas utilizando los operadores explicados en este tema."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html",
+    "href": "practicas/01_mongodb_local.html",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#objetivo",
+    "href": "practicas/01_mongodb_local.html#objetivo",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "2 1. Preparar MongoDB",
+    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "3 2. Cómo realizar las consultas",
+    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#actividad",
+    "href": "practicas/01_mongodb_local.html#actividad",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "4 3. Actividad",
+    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "5 4. Registrar los resultados",
+    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "6 5. Exportar la Consulta 9",
+    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#entrega",
+    "href": "practicas/01_mongodb_local.html#entrega",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "7 6. Entrega",
+    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "8 7. Criterios de revisión",
+    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "index.html#bienvenida",
+    "href": "index.html#bienvenida",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html",
+    "href": "practicas/02_modelado_relaciones_mongodb.html",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "",
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "",
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "2 Base de datos",
+    "text": "2 Base de datos\nUtiliza la base:\nsample_mflix\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\nsessions\ntheaters\nembedded_movies\nNo es necesario utilizar todas las colecciones.\nSelecciona aquellas que consideres más adecuadas para construir e interpretar el modelo."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "3 Generar el modelo",
+    "text": "3 Generar el modelo\nEn MongoDB Compass selecciona:\nData Modeling\nDespués crea un nuevo diagrama utilizando la base:\nsample_mflix\nSelecciona las colecciones que quieras analizar.\nPuedes activar:\nAutomatically infer relationships\npara que Compass intente identificar relaciones entre los documentos.\nGenera el diagrama y observa:\ncolecciones\ncampos\ntipos de datos\nreferencias\nrelaciones inferidas"
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "4 Actividad",
+    "text": "4 Actividad\nA partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.\nPara cada relación identificada indica:\n\nlas colecciones involucradas;\nlos campos que permiten relacionarlas;\nel tipo de relación;\nsi la información está incrustada o referenciada;\nuna breve interpretación de la relación.\n\nPor ejemplo:\nmovies\n   ↓\ncomments\npodría analizarse como una relación:\n1 : N\nsi una película puede tener varios comentarios."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "5 Interpretación del modelo",
+    "text": "5 Interpretación del modelo\nAdemás de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.\nPor ejemplo:\nmovies\npuede almacenar información de películas.\ncomments\npuede almacenar comentarios realizados sobre una película.\nusers\npuede representar a los usuarios de la aplicación.\nsessions\npuede almacenar información relacionada con sesiones de usuario.\ntheaters\npuede contener información de cines o ubicaciones.\nLa interpretación debe basarse en la estructura observada en los documentos."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "6 Colecciones sin relación directa",
+    "text": "6 Colecciones sin relación directa\nEs posible que algunas colecciones aparezcan sin una relación visible con las demás.\nEsto no significa necesariamente que exista un error.\nUna colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.\nIdentifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "7 Data Modeling y relaciones inferidas",
+    "text": "7 Data Modeling y relaciones inferidas\nRecuerda que Data Modeling puede inferir relaciones automáticamente.\nSin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.\nEs necesario revisar:\nqué campo genera la relación\n\nqué tipo de dato contiene\n\nqué colección está relacionada\n\nsi la relación tiene sentido dentro del modelo\nPor lo tanto, analiza críticamente las relaciones detectadas por Compass."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "8 Pregunta central",
+    "text": "8 Pregunta central\nA partir del modelo generado responde:\n¿Cómo se relacionan las colecciones de sample_mflix\ny qué función podría tener cada una dentro de una aplicación?"
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "9 Entrega",
+    "text": "9 Entrega\nEl documento deberá incluir:\n\ncaptura del modelo generado en Data Modeling;\ncolecciones seleccionadas;\ninterpretación de las relaciones;\nidentificación del tipo de relación;\ncampos que conectan las colecciones;\nidentificación de información incrustada o referenciada;\nal menos una relación 1:N;\nidentificación de alguna colección sin relación directa, si existe;\nbreve conclusión sobre el modelo documental observado."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "10 Conclusión",
+    "text": "10 Conclusión\nEscribe una breve reflexión sobre las diferencias que observas entre el modelo documental de sample_mflix y un modelo relacional tradicional.\nPuedes considerar aspectos como:\ndocumentos\nreferencias\ninformación incrustada\nflexibilidad del modelo\nrelaciones entre colecciones"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "",
+    "text": "Hasta ahora hemos trabajado con documentos, colecciones, consultas y exportación de datos en MongoDB.\nEn esta parte nos concentraremos en una pregunta diferente:\n¿Cómo podemos relacionar los documentos entre sí?\nPara ello construiremos una base de datos llamada:\nbiblioteca\nutilizando MongoDB Compass.\nTrabajaremos con las colecciones:\nbiblioteca\n│\n├── autores\n├── categorias\n├── libros\n├── usuarios\n└── prestamos\nLos libros y autores corresponden a obras conocidas. Los usuarios y préstamos son datos ficticios utilizados únicamente con fines académicos."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#modelado-de-relaciones-en-mongodb",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#modelado-de-relaciones-en-mongodb",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "",
+    "text": "Hasta ahora hemos trabajado con documentos, colecciones, consultas y exportación de datos en MongoDB.\nEn esta parte nos concentraremos en una pregunta diferente:\n¿Cómo podemos relacionar los documentos entre sí?\nPara ello construiremos una base de datos llamada:\nbiblioteca\nutilizando MongoDB Compass.\nTrabajaremos con las colecciones:\nbiblioteca\n│\n├── autores\n├── categorias\n├── libros\n├── usuarios\n└── prestamos\nLos libros y autores corresponden a obras conocidas. Los usuarios y préstamos son datos ficticios utilizados únicamente con fines académicos."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#tipos-de-relaciones",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#tipos-de-relaciones",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "2 Tipos de relaciones",
+    "text": "2 Tipos de relaciones\nAntes de construir la base biblioteca, necesitamos identificar cómo se relacionan los datos.\nEn este ejemplo utilizaremos tres tipos principales:\nuno a uno\nuno a muchos\nmuchos a muchos\nLa diferencia entre ellos depende de cuántos elementos de una entidad pueden relacionarse con elementos de otra.\n\n2.1 Relación uno a uno\nUna relación uno a uno ocurre cuando un elemento se relaciona con un solo elemento y ese segundo elemento pertenece únicamente al primero.\nSe representa como:\n1 : 1\nEn nuestro ejemplo podemos pensar en:\nLIBRO 1 ───── 1 DETALLES\nUn libro tiene un conjunto de detalles propios, por ejemplo:\nidioma\nnúmero de páginas\npaís\nPor ejemplo:\nPedro Páramo\n   ↓\ndetalles\n   ├── idioma: Español\n   ├── páginas: 136\n   └── país: México\nEstos datos pertenecen específicamente a ese libro.\nPor eso podemos pensar conceptualmente en una relación:\nLibro 1 : 1 Detalles\nEn MongoDB no necesariamente necesitamos crear una colección independiente para representar esta relación.\nPodemos incrustar los datos directamente dentro del documento:\n{\n  titulo: \"Pedro Páramo\",\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  }\n}\nPor lo tanto:\nun libro\n↓\nun conjunto de detalles\ny esos detalles se encuentran dentro del mismo documento.\n\n\n\n\n\n\nNote¿Por qué es uno a uno?\n\n\n\nPorque los detalles almacenados pertenecen a un solo libro y no se reutilizan en otros documentos.\n\n\n\n\n2.2 Relación uno a muchos\nUna relación uno a muchos ocurre cuando un elemento puede relacionarse con varios elementos.\nSe representa como:\n1 : N\nEn nuestra biblioteca tendremos varios ejemplos.\n\n2.2.1 Categorías y libros\nUna categoría puede estar asociada con muchos libros.\nPor ejemplo:\nNovela\n   ↓\nPedro Páramo\nAura\nRayuela\nComo agua para chocolate\nCrónica de una muerte anunciada\nPor lo tanto:\nCATEGORIA 1 ───── N LIBROS\nCada libro tendrá una sola categoría principal en nuestro modelo:\ncategoria_id: ObjectId(\"...\")\npero una misma categoría puede estar relacionada con muchos documentos de libros.\n\n\n\n\n\n\nNote¿Por qué es uno a muchos?\n\n\n\nPorque una categoría puede relacionarse con varios libros, mientras que cada libro tendrá una categoría principal.\n\n\n\n\n2.2.2 Usuarios y préstamos\nTambién tendremos:\nUSUARIO 1 ───── N PRESTAMOS\nUn usuario puede pedir varios libros a lo largo del tiempo.\nPor ejemplo:\nAna López\n   ↓\nPedro Páramo\n1984\nEl llano en llamas\nLos datos de Ana se almacenan una sola vez en:\nusuarios\ny cada préstamo guarda una referencia:\nusuario_id: ObjectId(\"...\")\nPor lo tanto:\nun usuario\n↓\nmuchos préstamos\n\n\n2.2.3 Libros y préstamos\nUn libro también puede aparecer en varios préstamos a lo largo del tiempo.\nPor ejemplo:\nPedro Páramo\n   ↓\npréstamo 1\npréstamo 2\npréstamo 3\nPor lo tanto:\nLIBRO 1 ───── N PRESTAMOS\nUn mismo libro permanece como un solo documento en libros, mientras distintos documentos de prestamos pueden referenciarlo.\n\n\n\n\n\n\nTipUna misma colección puede participar en varias relaciones\n\n\n\nLa colección prestamos permite relacionar:\nun usuario\n+\nun libro\nPor eso tendremos simultáneamente:\nUSUARIO 1 ───── N PRESTAMOS\n\nLIBRO   1 ───── N PRESTAMOS\n\n\n\n\n\n2.3 Relación muchos a muchos\nUna relación muchos a muchos ocurre cuando varios elementos de una entidad pueden relacionarse con varios elementos de otra.\nSe representa como:\nN : N\nEn nuestro ejemplo utilizaremos:\nAUTORES N ───── N LIBROS\nEsto ocurre por dos razones.\nPrimero, un autor puede escribir varios libros.\nPor ejemplo:\nJuan Rulfo\n   ↓\nPedro Páramo\nEl llano en llamas\nPor otro lado, un libro puede tener más de un autor.\nPor ejemplo:\nBuenos presagios\n   ↓\nNeil Gaiman\nTerry Pratchett\nTambién:\nEl talismán\n   ↓\nStephen King\nPeter Straub\nPor lo tanto, no podemos decir solamente:\nun autor → un libro\nni:\nun autor → muchos libros\nporque también existen libros relacionados con varios autores.\nLa relación completa es:\nmuchos autores\n↕\nmuchos libros\nEn nuestros documentos almacenaremos las referencias de los autores dentro de un arreglo:\nautores: [\n  ObjectId(\"...\"),\n  ObjectId(\"...\")\n]\nPor ejemplo:\n{\n  titulo: \"Buenos presagios\",\n  autores: [\n    ObjectId(\"65000000000000000000000a\"),\n    ObjectId(\"65000000000000000000000b\")\n  ]\n}\n\n\n\n\n\n\nNote¿Por qué es muchos a muchos?\n\n\n\nPorque un autor puede relacionarse con varios libros y, al mismo tiempo, un libro puede relacionarse con varios autores."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#modelo-general-de-la-biblioteca",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#modelo-general-de-la-biblioteca",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "3 Modelo general de la biblioteca",
+    "text": "3 Modelo general de la biblioteca\nAhora podemos representar visualmente las relaciones principales del ejemplo.\n\n\n\nModelo general de relaciones de la biblioteca\n\n\nEn el modelo podemos identificar:\nLibro ↔ Detalles\n1 : 1\nUsuario → Préstamos\n1 : N\nLibro → Préstamos\n1 : N\nAutores ↔ Libros\nN : N\n\n\n\n\n\n\nNoteImportante\n\n\n\nLa figura muestra el modelo conceptual de relaciones.\nMás adelante veremos cómo estas relaciones se representan en MongoDB mediante documentos incrustados y referencias con ObjectId."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#resumen-de-relaciones-de-la-biblioteca",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#resumen-de-relaciones-de-la-biblioteca",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "4 Resumen de relaciones de la biblioteca",
+    "text": "4 Resumen de relaciones de la biblioteca\n\n\n\n\n\n\n\n\nRelación\nTipo\nRazón\n\n\n\n\nLibro → Detalles\n1 : 1\nCada libro tiene sus propios detalles\n\n\nCategoría → Libros\n1 : N\nUna categoría puede contener varios libros\n\n\nUsuario → Préstamos\n1 : N\nUn usuario puede realizar varios préstamos\n\n\nLibro → Préstamos\n1 : N\nUn libro puede prestarse varias veces\n\n\nAutores ↔︎ Libros\nN : N\nUn autor puede escribir varios libros y un libro puede tener varios autores"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#incrustar-o-referenciar",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#incrustar-o-referenciar",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "5 Incrustar o referenciar",
+    "text": "5 Incrustar o referenciar\nMongoDB permite representar información relacionada principalmente de dos maneras:\nincrustar\no:\nreferenciar\n\n5.1 Documento incrustado\nLos datos relacionados se almacenan dentro del mismo documento.\nPor ejemplo:\n{\n  titulo: \"Pedro Páramo\",\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  }\n}\nLa información de detalles pertenece directamente al libro.\n\n\n5.2 Documento referenciado\nLos datos se encuentran en colecciones diferentes y se relacionan mediante ObjectId.\nPor ejemplo:\n{\n  titulo: \"Pedro Páramo\",\n  autores: [\n    ObjectId(\"650000000000000000000001\")\n  ]\n}\nEl identificador corresponde a un documento de la colección:\nautores\nUna orientación sencilla es:\n\n\n\nSituación\nEstrategia\n\n\n\n\nLos datos normalmente se consultan juntos\nIncrustar\n\n\nLos datos pertenecen únicamente al documento principal\nIncrustar\n\n\nEl dato se reutiliza en varios documentos\nReferenciar\n\n\nEl dato puede crecer considerablemente\nReferenciar\n\n\nExiste una relación entre varias entidades\nReferenciar\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nMongoDB no obliga a utilizar una sola estrategia. Una misma base puede combinar documentos incrustados y referencias."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#crear-la-base-biblioteca",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#crear-la-base-biblioteca",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "6 Crear la base biblioteca",
+    "text": "6 Crear la base biblioteca\nEn MongoDB Compass crea:\nDatabase Name:\nbiblioteca\nComo primera colección utiliza:\nautores\nA partir de este punto utilizaremos el mongosh integrado en Compass para cargar rápidamente los documentos mediante insertMany().\nPrimero selecciona la base:\nuse biblioteca"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-autores",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-autores",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "7 Colección autores",
+    "text": "7 Colección autores\nInsertaremos los autores con identificadores definidos previamente para facilitar las relaciones.\ndb.autores.insertMany([\n  {\n    _id: ObjectId(\"650000000000000000000001\"),\n    nombre: \"Juan Rulfo\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000002\"),\n    nombre: \"Carlos Fuentes\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000003\"),\n    nombre: \"Laura Esquivel\",\n    nacionalidad: \"Mexicana\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000004\"),\n    nombre: \"Jorge Luis Borges\",\n    nacionalidad: \"Argentina\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000005\"),\n    nombre: \"Julio Cortázar\",\n    nacionalidad: \"Argentina\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000006\"),\n    nombre: \"George Orwell\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000007\"),\n    nombre: \"Antoine de Saint-Exupéry\",\n    nacionalidad: \"Francesa\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000008\"),\n    nombre: \"Mary Shelley\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"650000000000000000000009\"),\n    nombre: \"Gabriel García Márquez\",\n    nacionalidad: \"Colombiana\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000a\"),\n    nombre: \"Neil Gaiman\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000b\"),\n    nombre: \"Terry Pratchett\",\n    nacionalidad: \"Británica\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000c\"),\n    nombre: \"Stephen King\",\n    nacionalidad: \"Estadounidense\"\n  },\n  {\n    _id: ObjectId(\"65000000000000000000000d\"),\n    nombre: \"Peter Straub\",\n    nacionalidad: \"Estadounidense\"\n  }\n])"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-categorias",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-categorias",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "8 Colección categorias",
+    "text": "8 Colección categorias\nCrea la colección:\ncategorias\nDespués ejecuta:\ndb.categorias.insertMany([\n  {\n    _id: ObjectId(\"660000000000000000000001\"),\n    nombre: \"Novela\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000002\"),\n    nombre: \"Cuento\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000003\"),\n    nombre: \"Distopía\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000004\"),\n    nombre: \"Fábula\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000005\"),\n    nombre: \"Fantasía\"\n  },\n  {\n    _id: ObjectId(\"660000000000000000000006\"),\n    nombre: \"Terror\"\n  }\n])\nAquí tendremos una relación:\nCATEGORIA 1 ───── N LIBROS"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-libros",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-libros",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "9 Colección libros",
+    "text": "9 Colección libros\nCrea:\nlibros\nEn esta colección combinaremos:\nreferencias\n+\ndocumentos incrustados\nLos campos:\nautores\ncategoria_id\nserán referencias.\nEl campo:\ndetalles\nserá incrustado.\nEjecuta:\ndb.libros.insertMany([\n  {\n    _id: ObjectId(\"670000000000000000000001\"),\n    titulo: \"Pedro Páramo\",\n    anio: 1955,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000001\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 136,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000002\"),\n    titulo: \"Aura\",\n    anio: 1962,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000002\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 64,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000003\"),\n    titulo: \"Como agua para chocolate\",\n    anio: 1989,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000003\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 256,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000004\"),\n    titulo: \"El llano en llamas\",\n    anio: 1953,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000001\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000002\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 176,\n      pais: \"México\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000005\"),\n    titulo: \"Ficciones\",\n    anio: 1944,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000004\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000002\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 224,\n      pais: \"Argentina\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000006\"),\n    titulo: \"Rayuela\",\n    anio: 1963,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000005\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 600,\n      pais: \"Argentina\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000007\"),\n    titulo: \"1984\",\n    anio: 1949,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000006\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000003\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 328,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000008\"),\n    titulo: \"El principito\",\n    anio: 1943,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000007\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000004\"),\n    detalles: {\n      idioma: \"Francés\",\n      paginas: 96,\n      pais: \"Francia\"\n    }\n  },\n  {\n    _id: ObjectId(\"670000000000000000000009\"),\n    titulo: \"Frankenstein\",\n    anio: 1818,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000008\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000006\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 280,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000a\"),\n    titulo: \"Crónica de una muerte anunciada\",\n    anio: 1981,\n    disponible: true,\n    autores: [\n      ObjectId(\"650000000000000000000009\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000001\"),\n    detalles: {\n      idioma: \"Español\",\n      paginas: 128,\n      pais: \"Colombia\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000b\"),\n    titulo: \"Buenos presagios\",\n    anio: 1990,\n    disponible: true,\n    autores: [\n      ObjectId(\"65000000000000000000000a\"),\n      ObjectId(\"65000000000000000000000b\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000005\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 432,\n      pais: \"Reino Unido\"\n    }\n  },\n  {\n    _id: ObjectId(\"67000000000000000000000c\"),\n    titulo: \"El talismán\",\n    anio: 1984,\n    disponible: true,\n    autores: [\n      ObjectId(\"65000000000000000000000c\"),\n      ObjectId(\"65000000000000000000000d\")\n    ],\n    categoria_id: ObjectId(\"660000000000000000000005\"),\n    detalles: {\n      idioma: \"Inglés\",\n      paginas: 656,\n      pais: \"Estados Unidos\"\n    }\n  }\n])"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-usuarios",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-usuarios",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "10 Colección usuarios",
+    "text": "10 Colección usuarios\nCrea:\nusuarios\nLos datos utilizados a continuación son ficticios.\ndb.usuarios.insertMany([\n  {\n    _id: ObjectId(\"680000000000000000000001\"),\n    nombre: \"Ana López\",\n    correo: \"ana.lopez@example.com\",\n    fecha_registro: ISODate(\"2026-01-15\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000002\"),\n    nombre: \"Carlos Hernández\",\n    correo: \"carlos.hernandez@example.com\",\n    fecha_registro: ISODate(\"2026-01-20\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000003\"),\n    nombre: \"Mariana Torres\",\n    correo: \"mariana.torres@example.com\",\n    fecha_registro: ISODate(\"2026-02-01\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000004\"),\n    nombre: \"Luis Ramírez\",\n    correo: \"luis.ramirez@example.com\",\n    fecha_registro: ISODate(\"2026-02-10\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000005\"),\n    nombre: \"Sofía Martínez\",\n    correo: \"sofia.martinez@example.com\",\n    fecha_registro: ISODate(\"2026-02-18\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000006\"),\n    nombre: \"Diego Cruz\",\n    correo: \"diego.cruz@example.com\",\n    fecha_registro: ISODate(\"2026-03-02\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000007\"),\n    nombre: \"Valeria Gómez\",\n    correo: \"valeria.gomez@example.com\",\n    fecha_registro: ISODate(\"2026-03-12\")\n  },\n  {\n    _id: ObjectId(\"680000000000000000000008\"),\n    nombre: \"Fernando Ruiz\",\n    correo: \"fernando.ruiz@example.com\",\n    fecha_registro: ISODate(\"2026-03-25\")\n  }\n])"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#colección-prestamos",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#colección-prestamos",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "11 Colección prestamos",
+    "text": "11 Colección prestamos\nFinalmente crea:\nprestamos\nUn préstamo relacionará:\nusuario\n+\nlibro\n+\nfecha\n+\nestado\nmediante:\nusuario_id\nlibro_id\nEjecuta:\ndb.prestamos.insertMany([\n  {\n    _id: ObjectId(\"690000000000000000000001\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000001\"),\n    fecha_prestamo: ISODate(\"2026-08-01\"),\n    fecha_devolucion: ISODate(\"2026-08-10\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000002\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000007\"),\n    fecha_prestamo: ISODate(\"2026-08-15\"),\n    fecha_devolucion: ISODate(\"2026-08-25\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000003\"),\n    usuario_id: ObjectId(\"680000000000000000000002\"),\n    libro_id: ObjectId(\"670000000000000000000006\"),\n    fecha_prestamo: ISODate(\"2026-08-20\"),\n    fecha_devolucion: ISODate(\"2026-08-30\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000004\"),\n    usuario_id: ObjectId(\"680000000000000000000003\"),\n    libro_id: ObjectId(\"670000000000000000000008\"),\n    fecha_prestamo: ISODate(\"2026-08-25\"),\n    fecha_devolucion: ISODate(\"2026-09-05\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000005\"),\n    usuario_id: ObjectId(\"680000000000000000000004\"),\n    libro_id: ObjectId(\"670000000000000000000005\"),\n    fecha_prestamo: ISODate(\"2026-09-01\"),\n    fecha_devolucion: ISODate(\"2026-09-12\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000006\"),\n    usuario_id: ObjectId(\"680000000000000000000005\"),\n    libro_id: ObjectId(\"67000000000000000000000b\"),\n    fecha_prestamo: ISODate(\"2026-09-02\"),\n    fecha_devolucion: ISODate(\"2026-09-13\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000007\"),\n    usuario_id: ObjectId(\"680000000000000000000006\"),\n    libro_id: ObjectId(\"670000000000000000000009\"),\n    fecha_prestamo: ISODate(\"2026-09-03\"),\n    fecha_devolucion: ISODate(\"2026-09-14\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000008\"),\n    usuario_id: ObjectId(\"680000000000000000000007\"),\n    libro_id: ObjectId(\"670000000000000000000003\"),\n    fecha_prestamo: ISODate(\"2026-09-04\"),\n    fecha_devolucion: ISODate(\"2026-09-15\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"690000000000000000000009\"),\n    usuario_id: ObjectId(\"680000000000000000000008\"),\n    libro_id: ObjectId(\"67000000000000000000000c\"),\n    fecha_prestamo: ISODate(\"2026-08-20\"),\n    fecha_devolucion: ISODate(\"2026-08-31\"),\n    estado: \"Vencido\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000a\"),\n    usuario_id: ObjectId(\"680000000000000000000001\"),\n    libro_id: ObjectId(\"670000000000000000000004\"),\n    fecha_prestamo: ISODate(\"2026-09-05\"),\n    fecha_devolucion: ISODate(\"2026-09-16\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000b\"),\n    usuario_id: ObjectId(\"680000000000000000000002\"),\n    libro_id: ObjectId(\"670000000000000000000007\"),\n    fecha_prestamo: ISODate(\"2026-09-06\"),\n    fecha_devolucion: ISODate(\"2026-09-17\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000c\"),\n    usuario_id: ObjectId(\"680000000000000000000003\"),\n    libro_id: ObjectId(\"670000000000000000000002\"),\n    fecha_prestamo: ISODate(\"2026-09-07\"),\n    fecha_devolucion: ISODate(\"2026-09-18\"),\n    estado: \"Activo\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000d\"),\n    usuario_id: ObjectId(\"680000000000000000000004\"),\n    libro_id: ObjectId(\"670000000000000000000001\"),\n    fecha_prestamo: ISODate(\"2026-07-10\"),\n    fecha_devolucion: ISODate(\"2026-07-20\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000e\"),\n    usuario_id: ObjectId(\"680000000000000000000005\"),\n    libro_id: ObjectId(\"670000000000000000000008\"),\n    fecha_prestamo: ISODate(\"2026-07-15\"),\n    fecha_devolucion: ISODate(\"2026-07-25\"),\n    estado: \"Devuelto\"\n  },\n  {\n    _id: ObjectId(\"69000000000000000000000f\"),\n    usuario_id: ObjectId(\"680000000000000000000006\"),\n    libro_id: ObjectId(\"670000000000000000000006\"),\n    fecha_prestamo: ISODate(\"2026-07-20\"),\n    fecha_devolucion: ISODate(\"2026-07-30\"),\n    estado: \"Devuelto\"\n  }\n])"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#relaciones-construidas",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#relaciones-construidas",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "12 Relaciones construidas",
+    "text": "12 Relaciones construidas\nCon las cinco colecciones podemos identificar el modelo completo:\nAUTORES N ───────── N LIBROS\n\nCATEGORIAS 1 ────── N LIBROS\n\nUSUARIOS 1 ──────── N PRESTAMOS\n\nLIBROS 1 ────────── N PRESTAMOS\nAdemás, dentro de cada libro tenemos:\nLIBRO 1 ───── 1 DETALLES\nmediante un documento incrustado.\nPor lo tanto, el modelo combina:\ndocumentos incrustados\n+\nreferencias mediante ObjectId"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#visualizar-el-modelo-en-data-modeling",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#visualizar-el-modelo-en-data-modeling",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "13 Visualizar el modelo en Data Modeling",
+    "text": "13 Visualizar el modelo en Data Modeling\nUna vez creadas las colecciones y cargados los documentos, podemos utilizar Data Modeling de MongoDB Compass para visualizar la estructura de la base.\nEn MongoDB Compass selecciona:\nData Modeling\nCrea un nuevo diagrama y utiliza como nombre:\nModelo documental - Biblioteca\nSelecciona la base:\nbiblioteca\nIncluye las cinco colecciones:\nautores\ncategorias\nlibros\nusuarios\nprestamos\nActiva:\nAutomatically infer relationships\nComo nuestra base contiene pocos documentos, selecciona:\nAll documents\nFinalmente selecciona:\nGenerate\nEl resultado obtenido puede visualizarse de la siguiente manera:\n\n\n\nModelo documental de la biblioteca generado en MongoDB Compass\n\n\nEl diagrama permite observar las colecciones, sus campos y las relaciones que Compass pudo inferir a partir de los valores de tipo ObjectId.\nTambién podemos observar que:\ndetalles\naparece dentro de:\nlibros\ny no como una colección independiente.\nEsto ocurre porque decidimos almacenar esa información como un documento incrustado."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#analizar-el-diagrama",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#analizar-el-diagrama",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "14 Analizar el diagrama",
+    "text": "14 Analizar el diagrama\n\n14.1 Autores y libros\nEl campo:\nlibros.autores\ncontiene uno o varios ObjectId relacionados con documentos de:\nautores\nPor ello tenemos:\nAUTORES N ───── N LIBROS\n\n\n14.2 Categorías y libros\nEl campo:\nlibros.categoria_id\nse relaciona con:\ncategorias._id\nPor ello:\nCATEGORIAS 1 ───── N LIBROS\n\n\n14.3 Usuarios y préstamos\nEl campo:\nprestamos.usuario_id\nse relaciona con:\nusuarios._id\nPor ello:\nUSUARIOS 1 ───── N PRESTAMOS\n\n\n14.4 Libros y préstamos\nEl campo:\nprestamos.libro_id\nse relaciona con:\nlibros._id\nPor ello:\nLIBROS 1 ───── N PRESTAMOS\n\n\n14.5 Información incrustada\nEl campo:\ndetalles\nno necesita una colección independiente.\nSe encuentra almacenado directamente dentro de cada documento de libros.\nEsta diferencia permite observar claramente:\nINCRUSTADO\ndetalles\nfrente a:\nREFERENCIADO\nautores\ncategorias\nusuarios\nprestamos"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#del-diagrama-a-la-recuperación-de-información",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#del-diagrama-a-la-recuperación-de-información",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "15 Del diagrama a la recuperación de información",
+    "text": "15 Del diagrama a la recuperación de información\nEl diagrama nos permite observar cómo están conectadas las colecciones.\nSin embargo, las relaciones mostradas en el diagrama no significan que MongoDB combine automáticamente toda la información al realizar una consulta.\nPor ejemplo, podemos buscar un libro:\ndb.libros.findOne({\n  titulo: \"Pedro Páramo\"\n})\nEl resultado contiene directamente:\ntitulo\nanio\ndisponible\ndetalles\nEl campo:\ndetalles\naparece completo porque está incrustado dentro del mismo documento.\nSin embargo:\nautores\ncategoria_id\ncontienen únicamente referencias mediante ObjectId.\nPor ejemplo:\nautores: [\n  ObjectId(\"650000000000000000000001\")\n]\nEse identificador indica qué documento de autores está relacionado con el libro, pero no muestra automáticamente el nombre del autor.\nPara recuperar y transformar información podemos utilizar el:\nAggregation Pipeline"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#aggregation-pipeline",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#aggregation-pipeline",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "16 Aggregation Pipeline",
+    "text": "16 Aggregation Pipeline\nMongoDB permite procesar documentos mediante una secuencia de etapas conocida como:\nAggregation Pipeline\nLa idea puede representarse de la siguiente manera:\ndocumentos\n   ↓\netapa 1\n   ↓\netapa 2\n   ↓\netapa 3\n   ↓\nresultado\nCada etapa recibe documentos, realiza una operación y envía el resultado a la siguiente etapa.\nAlgunos operadores frecuentes son:\n$match\n$project\n$sort\n$limit\n$group\n$lookup\n\n\n16.1 Operador $match\n$match permite filtrar documentos.\nPor ejemplo, podemos obtener solamente los libros disponibles:\ndb.libros.aggregate([\n  {\n    $match: {\n      disponible: true\n    }\n  }\n])\nEl proceso puede interpretarse como:\ntodos los libros\n      ↓\n    $match\n      ↓\nlibros disponibles\n\n\n\n16.2 Operador $project\n$project permite seleccionar los campos que queremos mostrar.\nPor ejemplo:\ndb.libros.aggregate([\n  {\n    $project: {\n      _id: 0,\n      titulo: 1,\n      anio: 1,\n      disponible: 1\n    }\n  }\n])\nEl resultado mostrará solamente:\ntitulo\nanio\ndisponible\n\n\n\n16.3 Operador $sort\n$sort permite ordenar documentos.\nPara ordenar los libros del más antiguo al más reciente:\ndb.libros.aggregate([\n  {\n    $sort: {\n      anio: 1\n    }\n  }\n])\nEl valor:\n1\nindica orden ascendente.\nPara mostrar primero los libros más recientes:\ndb.libros.aggregate([\n  {\n    $sort: {\n      anio: -1\n    }\n  }\n])\nEl valor:\n-1\nindica orden descendente.\n\n\n\n16.4 Operador $limit\n$limit restringe el número de documentos que se muestran.\nPor ejemplo:\ndb.libros.aggregate([\n  {\n    $sort: {\n      anio: 1\n    }\n  },\n  {\n    $limit: 5\n  }\n])\nEste pipeline realiza dos etapas:\nordenar los libros por año\n        ↓\nmostrar solamente los primeros 5\n\n\n\n16.5 Operador $group\n$group permite agrupar documentos y realizar cálculos sobre ellos.\nPor ejemplo, podemos contar cuántos libros existen por idioma:\ndb.libros.aggregate([\n  {\n    $group: {\n      _id: \"$detalles.idioma\",\n      total_libros: {\n        $sum: 1\n      }\n    }\n  }\n])\nLa lógica es:\nlibros\n   ↓\nagrupar por idioma\n   ↓\ncontar documentos\nEl resultado tendrá una estructura similar a:\n{\n  _id: \"Español\",\n  total_libros: 7\n}\n{\n  _id: \"Inglés\",\n  total_libros: 4\n}"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#combinar-varias-etapas",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#combinar-varias-etapas",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "17 Combinar varias etapas",
+    "text": "17 Combinar varias etapas\nLa principal utilidad del Aggregation Pipeline es que podemos combinar diferentes operaciones.\nPor ejemplo:\ndb.libros.aggregate([\n  {\n    $match: {\n      disponible: true\n    }\n  },\n  {\n    $sort: {\n      anio: -1\n    }\n  },\n  {\n    $project: {\n      _id: 0,\n      titulo: 1,\n      anio: 1\n    }\n  }\n])\nEste pipeline realiza:\nlibros\n   ↓\n$match\nfiltrar disponibles\n   ↓\n$sort\nordenar por año\n   ↓\n$project\nmostrar título y año\nCada etapa trabaja con el resultado generado por la etapa anterior.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nUn Aggregation Pipeline permite encadenar diferentes operaciones para transformar, filtrar, ordenar, resumir o combinar información."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#combinar-colecciones-con-lookup",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#combinar-colecciones-con-lookup",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "18 Combinar colecciones con $lookup",
+    "text": "18 Combinar colecciones con $lookup\n$lookup también forma parte del Aggregation Pipeline.\nPermite incorporar información almacenada en otra colección.\nConceptualmente podemos compararlo con:\nSQL        MongoDB\n\nJOIN   →   $lookup\nLa lógica es:\nreferencia\n↓\nbuscar documento relacionado\n↓\nincorporarlo al resultado\n\n18.1 Recuperar el autor de un libro\nEjecuta en el mongosh integrado de Compass:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  }\n])\nPrimero:\n$match\nselecciona:\nPedro Páramo\nDespués:\n$lookup\nutiliza:\nlibros.autores\ncomo referencia hacia:\nautores._id\nEl resultado relacionado se incorpora en:\ndatos_autores\nPodemos visualizar el proceso como:\nlibros.autores\n       ↓\n     ObjectId\n       ↓\nautores._id\n       ↓\ndatos_autores"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#recuperar-también-la-categoría",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#recuperar-también-la-categoría",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "19 Recuperar también la categoría",
+    "text": "19 Recuperar también la categoría\nPodemos utilizar varios $lookup dentro del mismo pipeline.\nAhora queremos recuperar:\nlibro\n+\nautor\n+\ncategoría\nEjecuta:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"categorias\",\n      localField: \"categoria_id\",\n      foreignField: \"_id\",\n      as: \"datos_categoria\"\n    }\n  }\n])\nAhora el resultado contiene información proveniente de:\nlibros\nautores\ncategorias\nmientras que:\ndetalles\ncontinúa formando parte directamente del documento libros.\nEsto permite comparar en una misma consulta:\ndatos incrustados\ncon:\ndatos referenciados"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#mostrar-únicamente-la-información-necesaria",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#mostrar-únicamente-la-información-necesaria",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "20 Mostrar únicamente la información necesaria",
+    "text": "20 Mostrar únicamente la información necesaria\nPodemos agregar:\n$project\npara controlar qué campos queremos mostrar.\nEjecuta:\ndb.libros.aggregate([\n  {\n    $match: {\n      titulo: \"Pedro Páramo\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"autores\",\n      localField: \"autores\",\n      foreignField: \"_id\",\n      as: \"datos_autores\"\n    }\n  },\n  {\n    $lookup: {\n      from: \"categorias\",\n      localField: \"categoria_id\",\n      foreignField: \"_id\",\n      as: \"datos_categoria\"\n    }\n  },\n  {\n    $project: {\n      _id: 0,\n      titulo: 1,\n      anio: 1,\n      disponible: 1,\n      detalles: 1,\n      autores: \"$datos_autores.nombre\",\n      categoria: {\n        $arrayElemAt: [\n          \"$datos_categoria.nombre\",\n          0\n        ]\n      }\n    }\n  }\n])\nEl resultado tendrá una estructura similar a:\n{\n  titulo: \"Pedro Páramo\",\n  anio: 1955,\n  disponible: true,\n  detalles: {\n    idioma: \"Español\",\n    paginas: 136,\n    pais: \"México\"\n  },\n  autores: [\n    \"Juan Rulfo\"\n  ],\n  categoria: \"Novela\"\n}\nAhora podemos observar información que originalmente estaba distribuida en diferentes partes de la base.\n                   AUTORES\n                      ↑\n                      │ $lookup\n                      │\nDETALLES ← incrustado ← LIBROS\n                      │\n                      │ $lookup\n                      ↓\n                  CATEGORIAS\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEl diagrama de Data Modeling permite visualizar cómo están relacionados los datos.\nLos documentos incrustados se recuperan directamente junto con el documento principal.\nCuando la información se encuentra referenciada en otras colecciones, operaciones como $lookup permiten recuperarla y presentarla dentro de un mismo resultado."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#índices-en-mongodb",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#índices-en-mongodb",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "21 Índices en MongoDB",
+    "text": "21 Índices en MongoDB\nAdemás de organizar y relacionar los datos, MongoDB permite crear índices para mejorar la forma en que se localiza la información.\nUn índice puede imaginarse como una estructura adicional que ayuda a MongoDB a encontrar documentos sin tener que revisar toda la colección.\nPor ejemplo:\nsin índice\n↓\nrecorrer documentos\n\ncon índice\n↓\nlocalizar información de forma más eficiente\nLos índices resultan especialmente importantes cuando una colección contiene una gran cantidad de documentos."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#índice-sobre-titulo",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#índice-sobre-titulo",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "22 Índice sobre titulo",
+    "text": "22 Índice sobre titulo\nPodemos crear un índice ascendente sobre el campo:\ntitulo\nEjecuta:\ndb.libros.createIndex(\n  { titulo: 1 },\n  { name: \"titulo_index\" }\n)\nMongoDB devolverá:\ntitulo_index\nEste índice puede ayudar en consultas como:\ndb.libros.find({\n  titulo: \"Pedro Páramo\"\n})"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#índice-único",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#índice-único",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "23 Índice único",
+    "text": "23 Índice único\nTambién existen índices que pueden impedir valores duplicados.\nPor ejemplo:\ndb.libros.createIndex(\n  { titulo: 1 },\n  {\n    unique: true,\n    name: \"titulo_unique_index\"\n  }\n)\nSin embargo, antes de ejecutar este ejemplo debemos considerar que ya existe un índice sobre titulo.\nPara mostrar un índice único de forma correcta, primero podemos eliminar el anterior:\ndb.libros.dropIndex(\"titulo_index\")\nDespués creamos:\ndb.libros.createIndex(\n  { titulo: 1 },\n  {\n    unique: true,\n    name: \"titulo_unique_index\"\n  }\n)\n\n\n\n\n\n\nWarningNota\n\n\n\nEn una base de datos real, el título de un libro no necesariamente debería ser único, porque pueden existir diferentes obras o ediciones con títulos iguales.\nUn campo como:\nISBN\nsería un mejor candidato para un índice único.\nAquí utilizamos titulo únicamente con fines didácticos."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#índice-compuesto",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#índice-compuesto",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "24 Índice compuesto",
+    "text": "24 Índice compuesto\nMongoDB también permite crear índices utilizando más de un campo.\nPor ejemplo, podemos combinar:\ncategoria_id\n+\ndetalles.idioma\nEjecuta:\ndb.libros.createIndex(\n  {\n    categoria_id: 1,\n    \"detalles.idioma\": 1\n  },\n  {\n    name: \"categoria_idioma_index\"\n  }\n)\nEste índice puede ser útil si realizamos consultas como:\ndb.libros.find({\n  categoria_id: ObjectId(\"660000000000000000000001\"),\n  \"detalles.idioma\": \"Español\"\n})\nEn este caso estamos buscando libros que cumplan simultáneamente dos condiciones:\npertenecer a una categoría\n+\nestar escritos en determinado idioma"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#índice-de-texto",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#índice-de-texto",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "25 Índice de texto",
+    "text": "25 Índice de texto\nTambién podemos crear índices orientados a búsquedas textuales.\nPor ejemplo:\ndb.libros.createIndex(\n  {\n    titulo: \"text\"\n  },\n  {\n    name: \"titulo_text_index\",\n    default_language: \"spanish\"\n  }\n)\nAhora podemos realizar una búsqueda mediante:\ndb.libros.find({\n  $text: {\n    $search: \"Pedro\"\n  }\n})\nTambién:\ndb.libros.find({\n  $text: {\n    $search: \"muerte\"\n  }\n})\nEste tipo de índice permite realizar búsquedas sobre palabras contenidas en campos de texto."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#consultar-los-índices",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#consultar-los-índices",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "26 Consultar los índices",
+    "text": "26 Consultar los índices\nPara consultar todos los índices existentes en la colección:\ndb.libros.getIndexes()\nMongoDB mostrará una lista con los índices disponibles.\nEntre ellos siempre aparecerá:\n_id_\nporque MongoDB crea automáticamente un índice sobre:\n_id\nPodríamos observar algo similar a:\n_id_\ntitulo_unique_index\ncategoria_idioma_index\ntitulo_text_index"
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#eliminar-un-índice",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#eliminar-un-índice",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "27 Eliminar un índice",
+    "text": "27 Eliminar un índice\nSi queremos eliminar un índice podemos utilizar:\ndb.libros.dropIndex(\"titulo_unique_index\")\nTambién podemos eliminar:\ndb.libros.dropIndex(\"categoria_idioma_index\")\no:\ndb.libros.dropIndex(\"titulo_text_index\")\nEliminar un índice:\nno elimina los documentos\núnicamente elimina la estructura utilizada para optimizar determinadas consultas."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#qué-función-cumple-cada-elemento",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#qué-función-cumple-cada-elemento",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "28 ¿Qué función cumple cada elemento?",
+    "text": "28 ¿Qué función cumple cada elemento?\nA lo largo de este ejemplo hemos trabajado con diferentes herramientas de MongoDB.\nPodemos resumirlas así:\nMODELO DOCUMENTAL\n↓\ndefine cómo se organizan los documentos\n\nREFERENCIAS\n↓\nconectan documentos de distintas colecciones\n\nDOCUMENTOS INCRUSTADOS\n↓\nguardan información relacionada dentro del mismo documento\n\nDATA MODELING\n↓\npermite visualizar la estructura y las relaciones\n\nAGGREGATION PIPELINE\n↓\nprocesa y transforma documentos por etapas\n\n$lookup\n↓\nrecupera información de otras colecciones\n\nÍNDICES\n↓\nayudan a optimizar la búsqueda de información\n\n\n\n\n\n\nTipVisión general\n\n\n\nEn una aplicación real, estas herramientas pueden trabajar en conjunto.\nPor ejemplo:\nAplicación\n    ↓\nconsulta MongoDB\n    ↓\níndice localiza información\n    ↓\nAggregation Pipeline procesa documentos\n    ↓\n$lookup recupera datos relacionados\n    ↓\naplicación muestra el resultado\nDe esta manera, el modelo de la base no solamente define cómo almacenar la información, sino también cómo recuperarla y procesarla de manera eficiente."
+  },
+  {
+    "objectID": "apuntes/05_modelado_relaciones_mongodb.html#conclusión",
+    "href": "apuntes/05_modelado_relaciones_mongodb.html#conclusión",
+    "title": "Modelado de relaciones en MongoDB",
+    "section": "29 Conclusión",
+    "text": "29 Conclusión\nEl ejemplo de la biblioteca permite observar diferentes características del modelo documental de MongoDB.\nConstruimos relaciones:\n1 : 1\n1 : N\nN : N\nutilizando documentos incrustados y referencias mediante ObjectId.\nTambién utilizamos:\nData Modeling\npara visualizar las relaciones entre las colecciones.\nPosteriormente utilizamos:\nAggregation Pipeline\npara procesar documentos mediante diferentes etapas como:\n$match\n$project\n$sort\n$limit\n$group\n$lookup\nFinalmente incorporamos índices para mostrar una primera aproximación a la optimización de consultas.\nPor lo tanto, una base documental puede integrar:\nmodelado\n+\nrelaciones\n+\nconsultas\n+\nagregaciones\n+\níndices\ndentro de una misma aplicación."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html",
+    "href": "apuntes/06_bases_clave_valor.html",
+    "title": "Bases de datos clave–valor",
+    "section": "",
+    "text": "Después de trabajar con bases de datos documentales, podemos estudiar otro de los modelos principales dentro de las bases de datos NoSQL:\nclave → valor\nEl modelo clave–valor es una de las formas más simples de almacenar información.\nCada dato se identifica mediante una clave única y se asocia con un valor.\nPor ejemplo:\nusuario:1:nombre → \"Ana\"\nproducto:25:stock → 8\nsesion:abc123 → \"usuario_7\"\nvisitas:inicio → 340\nLa idea principal es:\nCLAVE\n↓\nidentifica el dato\n\nVALOR\n↓\ncontiene la información asociada"
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#bases-de-datos-clavevalor",
+    "href": "apuntes/06_bases_clave_valor.html#bases-de-datos-clavevalor",
+    "title": "Bases de datos clave–valor",
+    "section": "",
+    "text": "Después de trabajar con bases de datos documentales, podemos estudiar otro de los modelos principales dentro de las bases de datos NoSQL:\nclave → valor\nEl modelo clave–valor es una de las formas más simples de almacenar información.\nCada dato se identifica mediante una clave única y se asocia con un valor.\nPor ejemplo:\nusuario:1:nombre → \"Ana\"\nproducto:25:stock → 8\nsesion:abc123 → \"usuario_7\"\nvisitas:inicio → 340\nLa idea principal es:\nCLAVE\n↓\nidentifica el dato\n\nVALOR\n↓\ncontiene la información asociada"
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#cómo-funciona-el-modelo-clavevalor",
+    "href": "apuntes/06_bases_clave_valor.html#cómo-funciona-el-modelo-clavevalor",
+    "title": "Bases de datos clave–valor",
+    "section": "2 ¿Cómo funciona el modelo clave–valor?",
+    "text": "2 ¿Cómo funciona el modelo clave–valor?\nEn este modelo no pensamos necesariamente en tablas, filas o documentos complejos.\nLa información se organiza mediante pares:\nclave → valor\nPor ejemplo:\nproducto:10:stock → 4\nLa clave:\nproducto:10:stock\npermite localizar directamente el valor:\n4\nPodemos imaginarlo como un diccionario.\nPor ejemplo:\n\"nombre\" → \"Ana\"\n\"edad\" → 21\n\"ciudad\" → \"Xalapa\"\nCuando una aplicación conoce la clave, puede recuperar rápidamente el valor asociado."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#estructura-de-una-clave",
+    "href": "apuntes/06_bases_clave_valor.html#estructura-de-una-clave",
+    "title": "Bases de datos clave–valor",
+    "section": "3 Estructura de una clave",
+    "text": "3 Estructura de una clave\nAunque una clave puede ser sencilla, en aplicaciones reales normalmente se utilizan nombres que ayuden a identificar claramente el dato.\nPor ejemplo:\nusuario:15:nombre\nusuario:15:correo\nproducto:20:stock\nproducto:20:precio\nsesion:ABC123\nUna convención frecuente es utilizar separadores como:\n:\npara organizar las claves.\nPor ejemplo:\nusuario:15:nombre\npuede interpretarse como:\nusuario\n   ↓\nidentificador 15\n   ↓\nnombre\nEsto permite construir claves fáciles de interpretar."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#ejemplo-sencillo",
+    "href": "apuntes/06_bases_clave_valor.html#ejemplo-sencillo",
+    "title": "Bases de datos clave–valor",
+    "section": "4 Ejemplo sencillo",
+    "text": "4 Ejemplo sencillo\nSupongamos que tenemos una tienda en línea.\nPodríamos almacenar:\nproducto:1:nombre → \"Audífonos\"\nproducto:1:precio → 1200\nproducto:1:stock → 5\nSi queremos conocer el stock del producto:\nproducto:1:stock\nel sistema recupera:\n5\nSi se vende una unidad, el valor puede actualizarse:\nproducto:1:stock → 4\nLa clave permanece igual.\nLo que cambia es el valor."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#diferencia-con-una-base-documental",
+    "href": "apuntes/06_bases_clave_valor.html#diferencia-con-una-base-documental",
+    "title": "Bases de datos clave–valor",
+    "section": "5 Diferencia con una base documental",
+    "text": "5 Diferencia con una base documental\nEn MongoDB trabajamos con documentos completos.\nPor ejemplo:\n{\n  producto_id: 1,\n  nombre: \"Audífonos\",\n  precio: 1200,\n  stock: 5\n}\nEn un modelo clave–valor podríamos representar la misma información utilizando diferentes claves:\nproducto:1:nombre → \"Audífonos\"\nproducto:1:precio → 1200\nproducto:1:stock → 5\nEsto muestra una diferencia importante:\nMongoDB\n↓\ndocumentos con varios campos\n\nClave–valor\n↓\nacceso a datos mediante una clave"
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#dónde-se-utiliza",
+    "href": "apuntes/06_bases_clave_valor.html#dónde-se-utiliza",
+    "title": "Bases de datos clave–valor",
+    "section": "6 ¿Dónde se utiliza?",
+    "text": "6 ¿Dónde se utiliza?\nEl modelo clave–valor resulta especialmente útil cuando una aplicación necesita acceder o modificar datos de manera rápida.\nAlgunos ejemplos son:\nsesiones de usuario\ncarritos de compra\ncaché\ncontadores\nstock temporal\nconfiguraciones\nrankings"
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#sesiones-de-usuario",
+    "href": "apuntes/06_bases_clave_valor.html#sesiones-de-usuario",
+    "title": "Bases de datos clave–valor",
+    "section": "7 Sesiones de usuario",
+    "text": "7 Sesiones de usuario\nCuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador de sesión.\nPor ejemplo:\nsesion:ABC123 → \"usuario_25\"\nLa aplicación recibe:\nABC123\ny puede consultar rápidamente a qué usuario pertenece esa sesión.\nConceptualmente:\nUsuario inicia sesión\n        ↓\nse genera una clave\n        ↓\nsesion:ABC123\n        ↓\nusuario_25\nEste tipo de información suele ser temporal y consultarse muchas veces."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#contadores",
+    "href": "apuntes/06_bases_clave_valor.html#contadores",
+    "title": "Bases de datos clave–valor",
+    "section": "8 Contadores",
+    "text": "8 Contadores\nOtro ejemplo sencillo son los contadores.\nPodemos almacenar:\nvisitas:pagina_inicio → 340\nCuando una nueva persona visita la página:\n340\n↓\n341\nDespués:\n341\n↓\n342\nEste modelo resulta útil cuando el valor necesita actualizarse constantemente."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#stock-de-productos",
+    "href": "apuntes/06_bases_clave_valor.html#stock-de-productos",
+    "title": "Bases de datos clave–valor",
+    "section": "9 Stock de productos",
+    "text": "9 Stock de productos\nTambién podemos utilizar una estructura clave–valor para representar temporalmente el stock de un producto.\nPor ejemplo:\nproducto:25:stock → 1\nSupongamos que dos usuarios intentan comprar la última unidad casi al mismo tiempo.\nUsuario A\n     ↓\nintenta comprar\n\nUsuario B\n     ↓\nintenta comprar\nEl sistema necesita evitar que ambos usuarios compren la misma unidad.\nUna operación sobre el valor puede actualizar:\nstock: 1\n↓\nstock: 0\nLa segunda operación encontrará que:\nstock = 0\ny la aplicación podrá indicar que el producto ya no está disponible.\nEste ejemplo permite relacionar el modelo clave–valor con el concepto de:\nconcurrencia\nvisto anteriormente."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#caché",
+    "href": "apuntes/06_bases_clave_valor.html#caché",
+    "title": "Bases de datos clave–valor",
+    "section": "10 Caché",
+    "text": "10 Caché\nUno de los usos más importantes de las bases clave–valor es la caché.\nUna caché almacena temporalmente información que una aplicación consulta con frecuencia.\nPor ejemplo:\npelicula:100:detalle → información de la película\nEn lugar de consultar constantemente una base de datos principal, la aplicación puede recuperar primero la información almacenada temporalmente.\nEl flujo puede ser:\nAplicación solicita información\n        ↓\nconsulta caché\n        ↓\n¿existe el dato?\n     ↙        ↘\n   sí          no\n   ↓            ↓\ndevuelve     consulta base\nrápido       principal\nEsto puede reducir el tiempo de respuesta de una aplicación."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#ventajas-del-modelo-clavevalor",
+    "href": "apuntes/06_bases_clave_valor.html#ventajas-del-modelo-clavevalor",
+    "title": "Bases de datos clave–valor",
+    "section": "11 Ventajas del modelo clave–valor",
+    "text": "11 Ventajas del modelo clave–valor\nAlgunas de sus principales ventajas son:\n\nestructura sencilla;\nacceso rápido mediante una clave;\nfacilidad para actualizar valores;\nutilidad para información temporal;\nbuen desempeño en operaciones frecuentes;\nfacilidad para manejar contadores, sesiones y caché."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#limitaciones",
+    "href": "apuntes/06_bases_clave_valor.html#limitaciones",
+    "title": "Bases de datos clave–valor",
+    "section": "12 Limitaciones",
+    "text": "12 Limitaciones\nLa simplicidad del modelo también implica algunas limitaciones.\nPor ejemplo, si almacenamos:\nusuario:25 → valor\nnormalmente necesitamos conocer la clave para recuperar directamente la información.\nNo está pensado principalmente para realizar consultas complejas como:\nbuscar todos los usuarios\nque viven en determinada ciudad\ny tienen cierta edad\nPara ese tipo de problemas, otros modelos de bases de datos pueden resultar más adecuados.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nEl modelo clave–valor no busca reemplazar a todos los demás modelos.\nEs especialmente útil cuando conocemos la clave del dato y necesitamos recuperarlo o actualizarlo rápidamente."
+  },
+  {
+    "objectID": "apuntes/06_bases_clave_valor.html#redis",
+    "href": "apuntes/06_bases_clave_valor.html#redis",
+    "title": "Bases de datos clave–valor",
+    "section": "13 Redis",
+    "text": "13 Redis\nUna de las tecnologías más conocidas para trabajar con este tipo de información es:\nRedis\nRedis permite almacenar datos asociados con claves y realizar operaciones rápidas sobre ellos.\nEn este curso lo utilizaremos como una herramienta para observar de manera práctica el funcionamiento del modelo clave–valor.\nPrimero comprenderemos el modelo.\nDespués realizaremos una demostración de Redis para observar cómo estos conceptos se representan mediante comandos reales."
   },
   {
     "objectID": "apuntes/03_bases_orientadas_documentos.html",
@@ -1573,6 +1818,13 @@
     "title": "Bases de Datos No Relacionales",
     "section": "",
     "text": "En esta práctica se trabaja con la base de datos de ejemplo sample_mflix y la colección movies, utilizando MongoDB Shell, MongoDB Compass y mongoexport.\nSe abordan:\n\nconsultas básicas sobre documentos;\noperadores de comparación;\nconsultas sobre campos anidados;\nconsultas sobre arreglos;\nuso de $exists;\ncombinación de condiciones;\nconteo de documentos con countDocuments();\nuso de MongoDB Compass;\nconstrucción de una consulta propia;\nexportación de resultados en JSON o CSV.\n\n Abrir práctica"
+  },
+  {
+    "objectID": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
+    "href": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
+    "title": "Bases de Datos No Relacionales",
+    "section": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "text": "Práctica 2. Modelado de relaciones con sample_mflix\nAnálisis de la estructura de la base sample_mflix mediante MongoDB Compass y Data Modeling, identificando relaciones entre colecciones, campos de referencia e información incrustada.\n Abrir práctica"
   },
   {
     "objectID": "manuales.html",

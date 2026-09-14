@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>practicas – Bases de Datos No Relacionales</title>
+<title>Práctica 2. Modelado de relaciones con sample_mflix – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bases de Datos No Relacionales</span>
     </a>
   </div>
@@ -96,27 +96,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./diapositivas.html"> 
+    <a class="nav-link" href="../diapositivas.html"> 
 <span class="menu-text">Diapositivas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./apuntes.html"> 
+    <a class="nav-link" href="../apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./practicas.html" aria-current="page"> 
+    <a class="nav-link" href="../practicas.html"> 
 <span class="menu-text">Prácticas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./manuales.html"> 
+    <a class="nav-link" href="../manuales.html"> 
 <span class="menu-text">Manuales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datasets.html"> 
+    <a class="nav-link" href="../datasets.html"> 
 <span class="menu-text">Datasets</span></a>
   </li>  
 </ul>
@@ -142,40 +142,172 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#práctica-1.-consultas-con-mongodb" id="toc-práctica-1.-consultas-con-mongodb" class="nav-link active" data-scroll-target="#práctica-1.-consultas-con-mongodb">Práctica 1. Consultas con MongoDB</a></li>
-  <li><a href="#práctica-2.-modelado-de-relaciones-con-sample_mflix" id="toc-práctica-2.-modelado-de-relaciones-con-sample_mflix" class="nav-link" data-scroll-target="#práctica-2.-modelado-de-relaciones-con-sample_mflix">Práctica 2. Modelado de relaciones con <code>sample_mflix</code></a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo"><span class="header-section-number">1</span> Objetivo</a></li>
+  <li><a href="#base-de-datos" id="toc-base-de-datos" class="nav-link" data-scroll-target="#base-de-datos"><span class="header-section-number">2</span> Base de datos</a></li>
+  <li><a href="#generar-el-modelo" id="toc-generar-el-modelo" class="nav-link" data-scroll-target="#generar-el-modelo"><span class="header-section-number">3</span> Generar el modelo</a></li>
+  <li><a href="#actividad" id="toc-actividad" class="nav-link" data-scroll-target="#actividad"><span class="header-section-number">4</span> Actividad</a></li>
+  <li><a href="#interpretación-del-modelo" id="toc-interpretación-del-modelo" class="nav-link" data-scroll-target="#interpretación-del-modelo"><span class="header-section-number">5</span> Interpretación del modelo</a></li>
+  <li><a href="#colecciones-sin-relación-directa" id="toc-colecciones-sin-relación-directa" class="nav-link" data-scroll-target="#colecciones-sin-relación-directa"><span class="header-section-number">6</span> Colecciones sin relación directa</a></li>
+  <li><a href="#data-modeling-y-relaciones-inferidas" id="toc-data-modeling-y-relaciones-inferidas" class="nav-link" data-scroll-target="#data-modeling-y-relaciones-inferidas"><span class="header-section-number">7</span> Data Modeling y relaciones inferidas</a></li>
+  <li><a href="#pregunta-central" id="toc-pregunta-central" class="nav-link" data-scroll-target="#pregunta-central"><span class="header-section-number">8</span> Pregunta central</a></li>
+  <li><a href="#entrega" id="toc-entrega" class="nav-link" data-scroll-target="#entrega"><span class="header-section-number">9</span> Entrega</a></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión"><span class="header-section-number">10</span> Conclusión</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Práctica 2. Modelado de relaciones con sample_mflix</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="práctica-1.-consultas-con-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-1.-consultas-con-mongodb">Práctica 1. Consultas con MongoDB</h2>
-<p>En esta práctica se trabaja con la base de datos de ejemplo <code>sample_mflix</code> y la colección <code>movies</code>, utilizando MongoDB Shell, MongoDB Compass y <code>mongoexport</code>.</p>
-<p>Se abordan:</p>
-<ul>
-<li>consultas básicas sobre documentos;</li>
-<li>operadores de comparación;</li>
-<li>consultas sobre campos anidados;</li>
-<li>consultas sobre arreglos;</li>
-<li>uso de <code>$exists</code>;</li>
-<li>combinación de condiciones;</li>
-<li>conteo de documentos con <code>countDocuments()</code>;</li>
-<li>uso de MongoDB Compass;</li>
-<li>construcción de una consulta propia;</li>
-<li>exportación de resultados en JSON o CSV.</li>
-</ul>
-<p><a class="btn btn-primary" href="practicas/01_mongodb_local.html"> Abrir práctica </a></p>
-</section>
-<section id="práctica-2.-modelado-de-relaciones-con-sample_mflix" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-2.-modelado-de-relaciones-con-sample_mflix">Práctica 2. Modelado de relaciones con <code>sample_mflix</code></h2>
-<p>Análisis de la estructura de la base <code>sample_mflix</code> mediante <strong>MongoDB Compass</strong> y <strong>Data Modeling</strong>, identificando relaciones entre colecciones, campos de referencia e información incrustada.</p>
-<p><a class="btn btn-primary" href="practicas/02_modelado_relaciones_mongodb.html"> Abrir práctica </a></p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivo" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="objetivo"><span class="header-section-number">1</span> Objetivo</h2>
+<p>Analizar la estructura de la base de datos <code>sample_mflix</code> e identificar las relaciones entre sus colecciones utilizando <strong>MongoDB Compass</strong> y <strong>Data Modeling</strong>.</p>
+<p>El propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real.</p>
 <hr>
+</section>
+<section id="base-de-datos" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="base-de-datos"><span class="header-section-number">2</span> Base de datos</h2>
+<p>Utiliza la base:</p>
+<pre class="text"><code>sample_mflix</code></pre>
+<p>Puedes considerar colecciones como:</p>
+<pre class="text"><code>movies
+comments
+users
+sessions
+theaters
+embedded_movies</code></pre>
+<p>No es necesario utilizar todas las colecciones.</p>
+<p>Selecciona aquellas que consideres más adecuadas para construir e interpretar el modelo.</p>
+<hr>
+</section>
+<section id="generar-el-modelo" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="generar-el-modelo"><span class="header-section-number">3</span> Generar el modelo</h2>
+<p>En MongoDB Compass selecciona:</p>
+<pre class="text"><code>Data Modeling</code></pre>
+<p>Después crea un nuevo diagrama utilizando la base:</p>
+<pre class="text"><code>sample_mflix</code></pre>
+<p>Selecciona las colecciones que quieras analizar.</p>
+<p>Puedes activar:</p>
+<pre class="text"><code>Automatically infer relationships</code></pre>
+<p>para que Compass intente identificar relaciones entre los documentos.</p>
+<p>Genera el diagrama y observa:</p>
+<pre class="text"><code>colecciones
+campos
+tipos de datos
+referencias
+relaciones inferidas</code></pre>
+<hr>
+</section>
+<section id="actividad" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="actividad"><span class="header-section-number">4</span> Actividad</h2>
+<p>A partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.</p>
+<p>Para cada relación identificada indica:</p>
+<ol type="1">
+<li>las colecciones involucradas;</li>
+<li>los campos que permiten relacionarlas;</li>
+<li>el tipo de relación;</li>
+<li>si la información está incrustada o referenciada;</li>
+<li>una breve interpretación de la relación.</li>
+</ol>
+<p>Por ejemplo:</p>
+<pre class="text"><code>movies
+   ↓
+comments</code></pre>
+<p>podría analizarse como una relación:</p>
+<pre class="text"><code>1 : N</code></pre>
+<p>si una película puede tener varios comentarios.</p>
+<hr>
+</section>
+<section id="interpretación-del-modelo" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="interpretación-del-modelo"><span class="header-section-number">5</span> Interpretación del modelo</h2>
+<p>Además de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>movies</code></pre>
+<p>puede almacenar información de películas.</p>
+<pre class="text"><code>comments</code></pre>
+<p>puede almacenar comentarios realizados sobre una película.</p>
+<pre class="text"><code>users</code></pre>
+<p>puede representar a los usuarios de la aplicación.</p>
+<pre class="text"><code>sessions</code></pre>
+<p>puede almacenar información relacionada con sesiones de usuario.</p>
+<pre class="text"><code>theaters</code></pre>
+<p>puede contener información de cines o ubicaciones.</p>
+<p>La interpretación debe basarse en la estructura observada en los documentos.</p>
+<hr>
+</section>
+<section id="colecciones-sin-relación-directa" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="colecciones-sin-relación-directa"><span class="header-section-number">6</span> Colecciones sin relación directa</h2>
+<p>Es posible que algunas colecciones aparezcan sin una relación visible con las demás.</p>
+<p>Esto no significa necesariamente que exista un error.</p>
+<p>Una colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.</p>
+<p>Identifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder.</p>
+<hr>
+</section>
+<section id="data-modeling-y-relaciones-inferidas" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="data-modeling-y-relaciones-inferidas"><span class="header-section-number">7</span> Data Modeling y relaciones inferidas</h2>
+<p>Recuerda que <strong>Data Modeling</strong> puede inferir relaciones automáticamente.</p>
+<p>Sin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.</p>
+<p>Es necesario revisar:</p>
+<pre class="text"><code>qué campo genera la relación
+
+qué tipo de dato contiene
+
+qué colección está relacionada
+
+si la relación tiene sentido dentro del modelo</code></pre>
+<p>Por lo tanto, analiza críticamente las relaciones detectadas por Compass.</p>
+<hr>
+</section>
+<section id="pregunta-central" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="pregunta-central"><span class="header-section-number">8</span> Pregunta central</h2>
+<p>A partir del modelo generado responde:</p>
+<pre class="text"><code>¿Cómo se relacionan las colecciones de sample_mflix
+y qué función podría tener cada una dentro de una aplicación?</code></pre>
+<hr>
+</section>
+<section id="entrega" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="entrega"><span class="header-section-number">9</span> Entrega</h2>
+<p>El documento deberá incluir:</p>
+<ul>
+<li>captura del modelo generado en Data Modeling;</li>
+<li>colecciones seleccionadas;</li>
+<li>interpretación de las relaciones;</li>
+<li>identificación del tipo de relación;</li>
+<li>campos que conectan las colecciones;</li>
+<li>identificación de información incrustada o referenciada;</li>
+<li>al menos una relación <code>1:N</code>;</li>
+<li>identificación de alguna colección sin relación directa, si existe;</li>
+<li>breve conclusión sobre el modelo documental observado.</li>
+</ul>
+<hr>
+</section>
+<section id="conclusión" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="conclusión"><span class="header-section-number">10</span> Conclusión</h2>
+<p>Escribe una breve reflexión sobre las diferencias que observas entre el modelo documental de <code>sample_mflix</code> y un modelo relacional tradicional.</p>
+<p>Puedes considerar aspectos como:</p>
+<pre class="text"><code>documentos
+referencias
+información incrustada
+flexibilidad del modelo
+relaciones entre colecciones</code></pre>
 
 
 </section>
