@@ -208,16 +208,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#información-incrustada" id="toc-información-incrustada" class="nav-link" data-scroll-target="#información-incrustada"><span class="header-section-number">14.5</span> Información incrustada</a></li>
   </ul></li>
   <li><a href="#del-diagrama-a-la-recuperación-de-información" id="toc-del-diagrama-a-la-recuperación-de-información" class="nav-link" data-scroll-target="#del-diagrama-a-la-recuperación-de-información"><span class="header-section-number">15</span> Del diagrama a la recuperación de información</a></li>
-  <li><a href="#combinar-colecciones-con-lookup" id="toc-combinar-colecciones-con-lookup" class="nav-link" data-scroll-target="#combinar-colecciones-con-lookup"><span class="header-section-number">16</span> Combinar colecciones con <code>$lookup</code></a>
+  <li><a href="#aggregation-pipeline" id="toc-aggregation-pipeline" class="nav-link" data-scroll-target="#aggregation-pipeline"><span class="header-section-number">16</span> Aggregation Pipeline</a>
   <ul class="collapse">
-  <li><a href="#recuperar-el-autor-de-un-libro" id="toc-recuperar-el-autor-de-un-libro" class="nav-link" data-scroll-target="#recuperar-el-autor-de-un-libro"><span class="header-section-number">16.1</span> Recuperar el autor de un libro</a></li>
+  <li><a href="#operador-match" id="toc-operador-match" class="nav-link" data-scroll-target="#operador-match"><span class="header-section-number">16.1</span> Operador <code>$match</code></a></li>
+  <li><a href="#operador-project" id="toc-operador-project" class="nav-link" data-scroll-target="#operador-project"><span class="header-section-number">16.2</span> Operador <code>$project</code></a></li>
+  <li><a href="#operador-sort" id="toc-operador-sort" class="nav-link" data-scroll-target="#operador-sort"><span class="header-section-number">16.3</span> Operador <code>$sort</code></a></li>
+  <li><a href="#operador-limit" id="toc-operador-limit" class="nav-link" data-scroll-target="#operador-limit"><span class="header-section-number">16.4</span> Operador <code>$limit</code></a></li>
+  <li><a href="#operador-group" id="toc-operador-group" class="nav-link" data-scroll-target="#operador-group"><span class="header-section-number">16.5</span> Operador <code>$group</code></a></li>
   </ul></li>
-  <li><a href="#recuperar-también-la-categoría" id="toc-recuperar-también-la-categoría" class="nav-link" data-scroll-target="#recuperar-también-la-categoría"><span class="header-section-number">17</span> Recuperar también la categoría</a></li>
-  <li><a href="#mostrar-únicamente-la-información-necesaria" id="toc-mostrar-únicamente-la-información-necesaria" class="nav-link" data-scroll-target="#mostrar-únicamente-la-información-necesaria"><span class="header-section-number">18</span> Mostrar únicamente la información necesaria</a></li>
-  <li><a href="#actividad-propuesta-de-modelado-con-sample_mflix" id="toc-actividad-propuesta-de-modelado-con-sample_mflix" class="nav-link" data-scroll-target="#actividad-propuesta-de-modelado-con-sample_mflix"><span class="header-section-number">19</span> Actividad: propuesta de modelado con <code>sample_mflix</code></a>
+  <li><a href="#combinar-varias-etapas" id="toc-combinar-varias-etapas" class="nav-link" data-scroll-target="#combinar-varias-etapas"><span class="header-section-number">17</span> Combinar varias etapas</a></li>
+  <li><a href="#combinar-colecciones-con-lookup" id="toc-combinar-colecciones-con-lookup" class="nav-link" data-scroll-target="#combinar-colecciones-con-lookup"><span class="header-section-number">18</span> Combinar colecciones con <code>$lookup</code></a>
   <ul class="collapse">
-  <li><a href="#entrega" id="toc-entrega" class="nav-link" data-scroll-target="#entrega"><span class="header-section-number">19.1</span> Entrega</a></li>
+  <li><a href="#recuperar-el-autor-de-un-libro" id="toc-recuperar-el-autor-de-un-libro" class="nav-link" data-scroll-target="#recuperar-el-autor-de-un-libro"><span class="header-section-number">18.1</span> Recuperar el autor de un libro</a></li>
   </ul></li>
+  <li><a href="#recuperar-también-la-categoría" id="toc-recuperar-también-la-categoría" class="nav-link" data-scroll-target="#recuperar-también-la-categoría"><span class="header-section-number">19</span> Recuperar también la categoría</a></li>
+  <li><a href="#mostrar-únicamente-la-información-necesaria" id="toc-mostrar-únicamente-la-información-necesaria" class="nav-link" data-scroll-target="#mostrar-únicamente-la-información-necesaria"><span class="header-section-number">20</span> Mostrar únicamente la información necesaria</a></li>
+  <li><a href="#índices-en-mongodb" id="toc-índices-en-mongodb" class="nav-link" data-scroll-target="#índices-en-mongodb"><span class="header-section-number">21</span> Índices en MongoDB</a></li>
+  <li><a href="#índice-sobre-titulo" id="toc-índice-sobre-titulo" class="nav-link" data-scroll-target="#índice-sobre-titulo"><span class="header-section-number">22</span> Índice sobre <code>titulo</code></a></li>
+  <li><a href="#índice-único" id="toc-índice-único" class="nav-link" data-scroll-target="#índice-único"><span class="header-section-number">23</span> Índice único</a></li>
+  <li><a href="#índice-compuesto" id="toc-índice-compuesto" class="nav-link" data-scroll-target="#índice-compuesto"><span class="header-section-number">24</span> Índice compuesto</a></li>
+  <li><a href="#índice-de-texto" id="toc-índice-de-texto" class="nav-link" data-scroll-target="#índice-de-texto"><span class="header-section-number">25</span> Índice de texto</a></li>
+  <li><a href="#consultar-los-índices" id="toc-consultar-los-índices" class="nav-link" data-scroll-target="#consultar-los-índices"><span class="header-section-number">26</span> Consultar los índices</a></li>
+  <li><a href="#eliminar-un-índice" id="toc-eliminar-un-índice" class="nav-link" data-scroll-target="#eliminar-un-índice"><span class="header-section-number">27</span> Eliminar un índice</a></li>
+  <li><a href="#qué-función-cumple-cada-elemento" id="toc-qué-función-cumple-cada-elemento" class="nav-link" data-scroll-target="#qué-función-cumple-cada-elemento"><span class="header-section-number">28</span> ¿Qué función cumple cada elemento?</a></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión"><span class="header-section-number">29</span> Conclusión</a></li>
   </ul>
 </nav>
     </div>
@@ -1285,47 +1299,239 @@ categoria_id</code></pre>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ObjectId</span>(<span class="st">"650000000000000000000001"</span>)</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ese identificador indica qué documento de <code>autores</code> está relacionado con el libro, pero no muestra automáticamente el nombre del autor.</p>
-<p>Para recuperar información almacenada en otras colecciones podemos utilizar:</p>
-<pre class="text"><code>$lookup</code></pre>
+<p>Para recuperar y transformar información podemos utilizar el:</p>
+<pre class="text"><code>Aggregation Pipeline</code></pre>
 <hr>
 </section>
-<section id="combinar-colecciones-con-lookup" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="combinar-colecciones-con-lookup"><span class="header-section-number">16</span> Combinar colecciones con <code>$lookup</code></h2>
-<p><code>$lookup</code> permite incorporar información de otra colección dentro de un <strong>Aggregation Pipeline</strong>.</p>
+<section id="aggregation-pipeline" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="aggregation-pipeline"><span class="header-section-number">16</span> Aggregation Pipeline</h2>
+<p>MongoDB permite procesar documentos mediante una secuencia de etapas conocida como:</p>
+<pre class="text"><code>Aggregation Pipeline</code></pre>
+<p>La idea puede representarse de la siguiente manera:</p>
+<pre class="text"><code>documentos
+   ↓
+etapa 1
+   ↓
+etapa 2
+   ↓
+etapa 3
+   ↓
+resultado</code></pre>
+<p>Cada etapa recibe documentos, realiza una operación y envía el resultado a la siguiente etapa.</p>
+<p>Algunos operadores frecuentes son:</p>
+<pre class="text"><code>$match
+$project
+$sort
+$limit
+$group
+$lookup</code></pre>
+<hr>
+<section id="operador-match" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="operador-match"><span class="header-section-number">16.1</span> Operador <code>$match</code></h3>
+<p><code>$match</code> permite filtrar documentos.</p>
+<p>Por ejemplo, podemos obtener solamente los libros disponibles:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El proceso puede interpretarse como:</p>
+<pre class="text"><code>todos los libros
+      ↓
+    $match
+      ↓
+libros disponibles</code></pre>
+<hr>
+</section>
+<section id="operador-project" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="operador-project"><span class="header-section-number">16.2</span> Operador <code>$project</code></h3>
+<p><code>$project</code> permite seleccionar los campos que queremos mostrar.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$project</span><span class="op">:</span> {</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado mostrará solamente:</p>
+<pre class="text"><code>titulo
+anio
+disponible</code></pre>
+<hr>
+</section>
+<section id="operador-sort" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="operador-sort"><span class="header-section-number">16.3</span> Operador <code>$sort</code></h3>
+<p><code>$sort</code> permite ordenar documentos.</p>
+<p>Para ordenar los libros del más antiguo al más reciente:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb102"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$sort</span><span class="op">:</span> {</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El valor:</p>
+<pre class="text"><code>1</code></pre>
+<p>indica orden ascendente.</p>
+<p>Para mostrar primero los libros más recientes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb104"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$sort</span><span class="op">:</span> {</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El valor:</p>
+<pre class="text"><code>-1</code></pre>
+<p>indica orden descendente.</p>
+<hr>
+</section>
+<section id="operador-limit" class="level3" data-number="16.4">
+<h3 data-number="16.4" class="anchored" data-anchor-id="operador-limit"><span class="header-section-number">16.4</span> Operador <code>$limit</code></h3>
+<p><code>$limit</code> restringe el número de documentos que se muestran.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb106"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$sort</span><span class="op">:</span> {</span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$limit</span><span class="op">:</span> <span class="dv">5</span></span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este pipeline realiza dos etapas:</p>
+<pre class="text"><code>ordenar los libros por año
+        ↓
+mostrar solamente los primeros 5</code></pre>
+<hr>
+</section>
+<section id="operador-group" class="level3" data-number="16.5">
+<h3 data-number="16.5" class="anchored" data-anchor-id="operador-group"><span class="header-section-number">16.5</span> Operador <code>$group</code></h3>
+<p><code>$group</code> permite agrupar documentos y realizar cálculos sobre ellos.</p>
+<p>Por ejemplo, podemos contar cuántos libros existen por idioma:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb108"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$group</span><span class="op">:</span> {</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="st">"$detalles.idioma"</span><span class="op">,</span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">total_libros</span><span class="op">:</span> {</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$sum</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La lógica es:</p>
+<pre class="text"><code>libros
+   ↓
+agrupar por idioma
+   ↓
+contar documentos</code></pre>
+<p>El resultado tendrá una estructura similar a:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb110"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">_id</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">total_libros</span><span class="op">:</span> <span class="dv">7</span></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">_id</span><span class="op">:</span> <span class="st">"Inglés"</span><span class="op">,</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">total_libros</span><span class="op">:</span> <span class="dv">4</span></span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="combinar-varias-etapas" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="combinar-varias-etapas"><span class="header-section-number">17</span> Combinar varias etapas</h2>
+<p>La principal utilidad del Aggregation Pipeline es que podemos combinar diferentes operaciones.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb112"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$sort</span><span class="op">:</span> {</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$project</span><span class="op">:</span> {</span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb112-17"><a href="#cb112-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb112-18"><a href="#cb112-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb112-19"><a href="#cb112-19" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este pipeline realiza:</p>
+<pre class="text"><code>libros
+   ↓
+$match
+filtrar disponibles
+   ↓
+$sort
+ordenar por año
+   ↓
+$project
+mostrar título y año</code></pre>
+<p>Cada etapa trabaja con el resultado generado por la etapa anterior.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un Aggregation Pipeline permite encadenar diferentes operaciones para transformar, filtrar, ordenar, resumir o combinar información.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="combinar-colecciones-con-lookup" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="combinar-colecciones-con-lookup"><span class="header-section-number">18</span> Combinar colecciones con <code>$lookup</code></h2>
+<p><code>$lookup</code> también forma parte del <strong>Aggregation Pipeline</strong>.</p>
+<p>Permite incorporar información almacenada en otra colección.</p>
 <p>Conceptualmente podemos compararlo con:</p>
 <pre class="text"><code>SQL        MongoDB
 
 JOIN   →   $lookup</code></pre>
-<p>La lógica será:</p>
+<p>La lógica es:</p>
 <pre class="text"><code>referencia
 ↓
 buscar documento relacionado
 ↓
 incorporarlo al resultado</code></pre>
-<section id="recuperar-el-autor-de-un-libro" class="level3" data-number="16.1">
-<h3 data-number="16.1" class="anchored" data-anchor-id="recuperar-el-autor-de-un-libro"><span class="header-section-number">16.1</span> Recuperar el autor de un libro</h3>
+<section id="recuperar-el-autor-de-un-libro" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="recuperar-el-autor-de-un-libro"><span class="header-section-number">18.1</span> Recuperar el autor de un libro</h3>
 <p>Ejecuta en el <code>mongosh</code> integrado de Compass:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
-<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
-<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
-<span id="cb97-13"><a href="#cb97-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb97-14"><a href="#cb97-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb97-15"><a href="#cb97-15" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb116"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb116-13"><a href="#cb116-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb116-14"><a href="#cb116-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb116-15"><a href="#cb116-15" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Primero:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>$match</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb117"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>$match</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>selecciona:</p>
 <pre class="text"><code>Pedro Páramo</code></pre>
 <p>Después:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>$lookup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>$lookup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>utiliza:</p>
 <pre class="text"><code>libros.autores</code></pre>
 <p>como referencia hacia:</p>
@@ -1343,8 +1549,8 @@ datos_autores</code></pre>
 <hr>
 </section>
 </section>
-<section id="recuperar-también-la-categoría" class="level2" data-number="17">
-<h2 data-number="17" class="anchored" data-anchor-id="recuperar-también-la-categoría"><span class="header-section-number">17</span> Recuperar también la categoría</h2>
+<section id="recuperar-también-la-categoría" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="recuperar-también-la-categoría"><span class="header-section-number">19</span> Recuperar también la categoría</h2>
 <p>Podemos utilizar varios <code>$lookup</code> dentro del mismo pipeline.</p>
 <p>Ahora queremos recuperar:</p>
 <pre class="text"><code>libro
@@ -1353,29 +1559,29 @@ autor
 +
 categoría</code></pre>
 <p>Ejecuta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb106"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
-<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
-<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
-<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
-<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb106-15"><a href="#cb106-15" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb106-16"><a href="#cb106-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
-<span id="cb106-17"><a href="#cb106-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
-<span id="cb106-18"><a href="#cb106-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
-<span id="cb106-19"><a href="#cb106-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
-<span id="cb106-20"><a href="#cb106-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
-<span id="cb106-21"><a href="#cb106-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb106-22"><a href="#cb106-22" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb106-23"><a href="#cb106-23" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb125"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb125-9"><a href="#cb125-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb125-10"><a href="#cb125-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb125-11"><a href="#cb125-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb125-12"><a href="#cb125-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb125-13"><a href="#cb125-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb125-14"><a href="#cb125-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb125-15"><a href="#cb125-15" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb125-16"><a href="#cb125-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb125-17"><a href="#cb125-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
+<span id="cb125-18"><a href="#cb125-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
+<span id="cb125-19"><a href="#cb125-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb125-20"><a href="#cb125-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
+<span id="cb125-21"><a href="#cb125-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb125-22"><a href="#cb125-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb125-23"><a href="#cb125-23" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora el resultado contiene información proveniente de:</p>
 <pre class="text"><code>libros
 autores
@@ -1389,66 +1595,66 @@ categorias</code></pre>
 <pre class="text"><code>datos referenciados</code></pre>
 <hr>
 </section>
-<section id="mostrar-únicamente-la-información-necesaria" class="level2" data-number="18">
-<h2 data-number="18" class="anchored" data-anchor-id="mostrar-únicamente-la-información-necesaria"><span class="header-section-number">18</span> Mostrar únicamente la información necesaria</h2>
+<section id="mostrar-únicamente-la-información-necesaria" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="mostrar-únicamente-la-información-necesaria"><span class="header-section-number">20</span> Mostrar únicamente la información necesaria</h2>
 <p>Podemos agregar:</p>
 <pre class="text"><code>$project</code></pre>
 <p>para controlar qué campos queremos mostrar.</p>
 <p>Ejecuta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb112"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
-<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
-<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
-<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
-<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
-<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
-<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
-<span id="cb112-17"><a href="#cb112-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
-<span id="cb112-18"><a href="#cb112-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
-<span id="cb112-19"><a href="#cb112-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
-<span id="cb112-20"><a href="#cb112-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
-<span id="cb112-21"><a href="#cb112-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb112-22"><a href="#cb112-22" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb112-23"><a href="#cb112-23" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb112-24"><a href="#cb112-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$project</span><span class="op">:</span> {</span>
-<span id="cb112-25"><a href="#cb112-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb112-26"><a href="#cb112-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb112-27"><a href="#cb112-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb112-28"><a href="#cb112-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb112-29"><a href="#cb112-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">detalles</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb112-30"><a href="#cb112-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">autores</span><span class="op">:</span> <span class="st">"$datos_autores.nombre"</span><span class="op">,</span></span>
-<span id="cb112-31"><a href="#cb112-31" aria-hidden="true" tabindex="-1"></a>      <span class="dt">categoria</span><span class="op">:</span> {</span>
-<span id="cb112-32"><a href="#cb112-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$arrayElemAt</span><span class="op">:</span> [</span>
-<span id="cb112-33"><a href="#cb112-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">"$datos_categoria.nombre"</span><span class="op">,</span></span>
-<span id="cb112-34"><a href="#cb112-34" aria-hidden="true" tabindex="-1"></a>          <span class="dv">0</span></span>
-<span id="cb112-35"><a href="#cb112-35" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb112-36"><a href="#cb112-36" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb112-37"><a href="#cb112-37" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb112-38"><a href="#cb112-38" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb112-39"><a href="#cb112-39" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb131"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">aggregate</span>([</span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$match</span><span class="op">:</span> {</span>
+<span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb131-5"><a href="#cb131-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb131-7"><a href="#cb131-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb131-8"><a href="#cb131-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb131-9"><a href="#cb131-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb131-10"><a href="#cb131-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"autores"</span><span class="op">,</span></span>
+<span id="cb131-11"><a href="#cb131-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb131-12"><a href="#cb131-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_autores"</span></span>
+<span id="cb131-13"><a href="#cb131-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb131-14"><a href="#cb131-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb131-15"><a href="#cb131-15" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb131-16"><a href="#cb131-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$lookup</span><span class="op">:</span> {</span>
+<span id="cb131-17"><a href="#cb131-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">from</span><span class="op">:</span> <span class="st">"categorias"</span><span class="op">,</span></span>
+<span id="cb131-18"><a href="#cb131-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">localField</span><span class="op">:</span> <span class="st">"categoria_id"</span><span class="op">,</span></span>
+<span id="cb131-19"><a href="#cb131-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">foreignField</span><span class="op">:</span> <span class="st">"_id"</span><span class="op">,</span></span>
+<span id="cb131-20"><a href="#cb131-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">as</span><span class="op">:</span> <span class="st">"datos_categoria"</span></span>
+<span id="cb131-21"><a href="#cb131-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb131-22"><a href="#cb131-22" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb131-23"><a href="#cb131-23" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb131-24"><a href="#cb131-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$project</span><span class="op">:</span> {</span>
+<span id="cb131-25"><a href="#cb131-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">_id</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb131-26"><a href="#cb131-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb131-27"><a href="#cb131-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">anio</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb131-28"><a href="#cb131-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">disponible</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb131-29"><a href="#cb131-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">detalles</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb131-30"><a href="#cb131-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">autores</span><span class="op">:</span> <span class="st">"$datos_autores.nombre"</span><span class="op">,</span></span>
+<span id="cb131-31"><a href="#cb131-31" aria-hidden="true" tabindex="-1"></a>      <span class="dt">categoria</span><span class="op">:</span> {</span>
+<span id="cb131-32"><a href="#cb131-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">$arrayElemAt</span><span class="op">:</span> [</span>
+<span id="cb131-33"><a href="#cb131-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">"$datos_categoria.nombre"</span><span class="op">,</span></span>
+<span id="cb131-34"><a href="#cb131-34" aria-hidden="true" tabindex="-1"></a>          <span class="dv">0</span></span>
+<span id="cb131-35"><a href="#cb131-35" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb131-36"><a href="#cb131-36" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb131-37"><a href="#cb131-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb131-38"><a href="#cb131-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb131-39"><a href="#cb131-39" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El resultado tendrá una estructura similar a:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">anio</span><span class="op">:</span> <span class="dv">1955</span><span class="op">,</span></span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">detalles</span><span class="op">:</span> {</span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
-<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
-<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
-<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">autores</span><span class="op">:</span> [</span>
-<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Juan Rulfo"</span></span>
-<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">categoria</span><span class="op">:</span> <span class="st">"Novela"</span></span>
-<span id="cb113-14"><a href="#cb113-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb132"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span><span class="op">,</span></span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">anio</span><span class="op">:</span> <span class="dv">1955</span><span class="op">,</span></span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">disponible</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">detalles</span><span class="op">:</span> {</span>
+<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">idioma</span><span class="op">:</span> <span class="st">"Español"</span><span class="op">,</span></span>
+<span id="cb132-7"><a href="#cb132-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paginas</span><span class="op">:</span> <span class="dv">136</span><span class="op">,</span></span>
+<span id="cb132-8"><a href="#cb132-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pais</span><span class="op">:</span> <span class="st">"México"</span></span>
+<span id="cb132-9"><a href="#cb132-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb132-10"><a href="#cb132-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">autores</span><span class="op">:</span> [</span>
+<span id="cb132-11"><a href="#cb132-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Juan Rulfo"</span></span>
+<span id="cb132-12"><a href="#cb132-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb132-13"><a href="#cb132-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">categoria</span><span class="op">:</span> <span class="st">"Novela"</span></span>
+<span id="cb132-14"><a href="#cb132-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora podemos observar información que originalmente estaba distribuida en diferentes partes de la base.</p>
 <pre class="text"><code>                   AUTORES
                       ↑
@@ -1476,35 +1682,257 @@ DETALLES ← incrustado ← LIBROS
 </div>
 <hr>
 </section>
-<section id="actividad-propuesta-de-modelado-con-sample_mflix" class="level2" data-number="19">
-<h2 data-number="19" class="anchored" data-anchor-id="actividad-propuesta-de-modelado-con-sample_mflix"><span class="header-section-number">19</span> Actividad: propuesta de modelado con <code>sample_mflix</code></h2>
-<p>Utiliza ahora la base:</p>
-<pre class="text"><code>sample_mflix</code></pre>
-<p>como un nuevo caso de estudio.</p>
-<p>Analiza sus colecciones y realiza una propuesta de modelado de relaciones.</p>
-<p>Puedes considerar colecciones como:</p>
-<pre class="text"><code>movies
-comments
-users
-theaters</code></pre>
-<p>La solución no debe copiar el modelo de la biblioteca.</p>
-<p>El objetivo es analizar la estructura existente y proponer las relaciones que consideres adecuadas.</p>
-<section id="entrega" class="level3" data-number="19.1">
-<h3 data-number="19.1" class="anchored" data-anchor-id="entrega"><span class="header-section-number">19.1</span> Entrega</h3>
-<p>Incluye:</p>
-<ol type="1">
-<li>las colecciones seleccionadas;</li>
-<li>los campos que permiten relacionarlas;</li>
-<li>el tipo de cada relación;</li>
-<li>si utilizarías documentos incrustados o referencias;</li>
-<li>una breve justificación de cada decisión;</li>
-<li>una captura o representación del modelo elaborado en Data Modeling.</li>
-</ol>
-<p>El objetivo es responder:</p>
-<pre class="text"><code>¿Cómo modelaría las relaciones de sample_mflix en MongoDB?</code></pre>
+<section id="índices-en-mongodb" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="índices-en-mongodb"><span class="header-section-number">21</span> Índices en MongoDB</h2>
+<p>Además de organizar y relacionar los datos, MongoDB permite crear <strong>índices</strong> para mejorar la forma en que se localiza la información.</p>
+<p>Un índice puede imaginarse como una estructura adicional que ayuda a MongoDB a encontrar documentos sin tener que revisar toda la colección.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sin índice
+↓
+recorrer documentos
 
-
+con índice
+↓
+localizar información de forma más eficiente</code></pre>
+<p>Los índices resultan especialmente importantes cuando una colección contiene una gran cantidad de documentos.</p>
+<hr>
 </section>
+<section id="índice-sobre-titulo" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="índice-sobre-titulo"><span class="header-section-number">22</span> Índice sobre <code>titulo</code></h2>
+<p>Podemos crear un índice ascendente sobre el campo:</p>
+<pre class="text"><code>titulo</code></pre>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb136"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">createIndex</span>(</span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span></span>
+<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">name</span><span class="op">:</span> <span class="st">"titulo_index"</span> }</span>
+<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>MongoDB devolverá:</p>
+<pre class="text"><code>titulo_index</code></pre>
+<p>Este índice puede ayudar en consultas como:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb138"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">find</span>({</span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">titulo</span><span class="op">:</span> <span class="st">"Pedro Páramo"</span></span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="índice-único" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="índice-único"><span class="header-section-number">23</span> Índice único</h2>
+<p>También existen índices que pueden impedir valores duplicados.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb139"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">createIndex</span>(</span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span></span>
+<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">"titulo_unique_index"</span></span>
+<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sin embargo, antes de ejecutar este ejemplo debemos considerar que ya existe un índice sobre <code>titulo</code>.</p>
+<p>Para mostrar un índice único de forma correcta, primero podemos eliminar el anterior:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb140"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">dropIndex</span>(<span class="st">"titulo_index"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después creamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb141"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">createIndex</span>(</span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">titulo</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span></span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">"titulo_unique_index"</span></span>
+<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb141-7"><a href="#cb141-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En una base de datos real, el título de un libro no necesariamente debería ser único, porque pueden existir diferentes obras o ediciones con títulos iguales.</p>
+<p>Un campo como:</p>
+<pre class="text"><code>ISBN</code></pre>
+<p>sería un mejor candidato para un índice único.</p>
+<p>Aquí utilizamos <code>titulo</code> únicamente con fines didácticos.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="índice-compuesto" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="índice-compuesto"><span class="header-section-number">24</span> Índice compuesto</h2>
+<p>MongoDB también permite crear índices utilizando más de un campo.</p>
+<p>Por ejemplo, podemos combinar:</p>
+<pre class="text"><code>categoria_id
++
+detalles.idioma</code></pre>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb144"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">createIndex</span>(</span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">categoria_id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"detalles.idioma"</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">"categoria_idioma_index"</span></span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este índice puede ser útil si realizamos consultas como:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb145"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">find</span>({</span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">categoria_id</span><span class="op">:</span> <span class="fu">ObjectId</span>(<span class="st">"660000000000000000000001"</span>)<span class="op">,</span></span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"detalles.idioma"</span><span class="op">:</span> <span class="st">"Español"</span></span>
+<span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este caso estamos buscando libros que cumplan simultáneamente dos condiciones:</p>
+<pre class="text"><code>pertenecer a una categoría
++
+estar escritos en determinado idioma</code></pre>
+<hr>
+</section>
+<section id="índice-de-texto" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="índice-de-texto"><span class="header-section-number">25</span> Índice de texto</h2>
+<p>También podemos crear índices orientados a búsquedas textuales.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb147"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">createIndex</span>(</span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">titulo</span><span class="op">:</span> <span class="st">"text"</span></span>
+<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">"titulo_text_index"</span><span class="op">,</span></span>
+<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">default_language</span><span class="op">:</span> <span class="st">"spanish"</span></span>
+<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ahora podemos realizar una búsqueda mediante:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb148"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">find</span>({</span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">$text</span><span class="op">:</span> {</span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$search</span><span class="op">:</span> <span class="st">"Pedro"</span></span>
+<span id="cb148-4"><a href="#cb148-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb148-5"><a href="#cb148-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>También:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb149"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">find</span>({</span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">$text</span><span class="op">:</span> {</span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">$search</span><span class="op">:</span> <span class="st">"muerte"</span></span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este tipo de índice permite realizar búsquedas sobre palabras contenidas en campos de texto.</p>
+<hr>
+</section>
+<section id="consultar-los-índices" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="consultar-los-índices"><span class="header-section-number">26</span> Consultar los índices</h2>
+<p>Para consultar todos los índices existentes en la colección:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb150"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">getIndexes</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>MongoDB mostrará una lista con los índices disponibles.</p>
+<p>Entre ellos siempre aparecerá:</p>
+<pre class="text"><code>_id_</code></pre>
+<p>porque MongoDB crea automáticamente un índice sobre:</p>
+<pre class="text"><code>_id</code></pre>
+<p>Podríamos observar algo similar a:</p>
+<pre class="text"><code>_id_
+titulo_unique_index
+categoria_idioma_index
+titulo_text_index</code></pre>
+<hr>
+</section>
+<section id="eliminar-un-índice" class="level2" data-number="27">
+<h2 data-number="27" class="anchored" data-anchor-id="eliminar-un-índice"><span class="header-section-number">27</span> Eliminar un índice</h2>
+<p>Si queremos eliminar un índice podemos utilizar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb154"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">dropIndex</span>(<span class="st">"titulo_unique_index"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>También podemos eliminar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb155"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">dropIndex</span>(<span class="st">"categoria_idioma_index"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>o:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb156"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">libros</span><span class="op">.</span><span class="fu">dropIndex</span>(<span class="st">"titulo_text_index"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Eliminar un índice:</p>
+<pre class="text"><code>no elimina los documentos</code></pre>
+<p>únicamente elimina la estructura utilizada para optimizar determinadas consultas.</p>
+<hr>
+</section>
+<section id="qué-función-cumple-cada-elemento" class="level2" data-number="28">
+<h2 data-number="28" class="anchored" data-anchor-id="qué-función-cumple-cada-elemento"><span class="header-section-number">28</span> ¿Qué función cumple cada elemento?</h2>
+<p>A lo largo de este ejemplo hemos trabajado con diferentes herramientas de MongoDB.</p>
+<p>Podemos resumirlas así:</p>
+<pre class="text"><code>MODELO DOCUMENTAL
+↓
+define cómo se organizan los documentos
+
+REFERENCIAS
+↓
+conectan documentos de distintas colecciones
+
+DOCUMENTOS INCRUSTADOS
+↓
+guardan información relacionada dentro del mismo documento
+
+DATA MODELING
+↓
+permite visualizar la estructura y las relaciones
+
+AGGREGATION PIPELINE
+↓
+procesa y transforma documentos por etapas
+
+$lookup
+↓
+recupera información de otras colecciones
+
+ÍNDICES
+↓
+ayudan a optimizar la búsqueda de información</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Visión general
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En una aplicación real, estas herramientas pueden trabajar en conjunto.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Aplicación
+    ↓
+consulta MongoDB
+    ↓
+índice localiza información
+    ↓
+Aggregation Pipeline procesa documentos
+    ↓
+$lookup recupera datos relacionados
+    ↓
+aplicación muestra el resultado</code></pre>
+<p>De esta manera, el modelo de la base no solamente define cómo almacenar la información, sino también cómo recuperarla y procesarla de manera eficiente.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="conclusión" class="level2" data-number="29">
+<h2 data-number="29" class="anchored" data-anchor-id="conclusión"><span class="header-section-number">29</span> Conclusión</h2>
+<p>El ejemplo de la biblioteca permite observar diferentes características del modelo documental de MongoDB.</p>
+<p>Construimos relaciones:</p>
+<pre class="text"><code>1 : 1
+1 : N
+N : N</code></pre>
+<p>utilizando documentos incrustados y referencias mediante <code>ObjectId</code>.</p>
+<p>También utilizamos:</p>
+<pre class="text"><code>Data Modeling</code></pre>
+<p>para visualizar las relaciones entre las colecciones.</p>
+<p>Posteriormente utilizamos:</p>
+<pre class="text"><code>Aggregation Pipeline</code></pre>
+<p>para procesar documentos mediante diferentes etapas como:</p>
+<pre class="text"><code>$match
+$project
+$sort
+$limit
+$group
+$lookup</code></pre>
+<p>Finalmente incorporamos índices para mostrar una primera aproximación a la optimización de consultas.</p>
+<p>Por lo tanto, una base documental puede integrar:</p>
+<pre class="text"><code>modelado
++
+relaciones
++
+consultas
++
+agregaciones
++
+índices</code></pre>
+<p>dentro de una misma aplicación.</p>
+
+
 </section>
 
 </main> <!-- /main -->

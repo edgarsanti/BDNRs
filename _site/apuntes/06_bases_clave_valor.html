@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Apuntes del curso – Bases de Datos No Relacionales</title>
+<title>Bases de datos clave–valor – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,26 +26,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -85,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bases de Datos No Relacionales</span>
     </a>
   </div>
@@ -96,27 +131,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./diapositivas.html"> 
+    <a class="nav-link" href="../diapositivas.html"> 
 <span class="menu-text">Diapositivas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./apuntes.html" aria-current="page"> 
+    <a class="nav-link" href="../apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./practicas.html"> 
+    <a class="nav-link" href="../practicas.html"> 
 <span class="menu-text">Prácticas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./manuales.html"> 
+    <a class="nav-link" href="../manuales.html"> 
 <span class="menu-text">Manuales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datasets.html"> 
+    <a class="nav-link" href="../datasets.html"> 
 <span class="menu-text">Datasets</span></a>
   </li>  
 </ul>
@@ -142,12 +177,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#de-las-bases-de-datos-relacionales-a-nosql" id="toc-de-las-bases-de-datos-relacionales-a-nosql" class="nav-link active" data-scroll-target="#de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</a></li>
-  <li><a href="#escalabilidad-y-bases-de-datos-distribuidas" id="toc-escalabilidad-y-bases-de-datos-distribuidas" class="nav-link" data-scroll-target="#escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</a></li>
-  <li><a href="#bases-de-datos-orientadas-a-documentos" id="toc-bases-de-datos-orientadas-a-documentos" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</a></li>
-  <li><a href="#consultas-y-manejo-de-documentos-en-mongodb" id="toc-consultas-y-manejo-de-documentos-en-mongodb" class="nav-link" data-scroll-target="#consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</a></li>
-  <li><a href="#modelado-de-relaciones-en-mongodb" id="toc-modelado-de-relaciones-en-mongodb" class="nav-link" data-scroll-target="#modelado-de-relaciones-en-mongodb">Modelado de relaciones en MongoDB</a></li>
-  <li><a href="#bases-de-datos-clavevalor" id="toc-bases-de-datos-clavevalor" class="nav-link" data-scroll-target="#bases-de-datos-clavevalor">Bases de datos clave–valor</a></li>
+  <li><a href="#bases-de-datos-clavevalor" id="toc-bases-de-datos-clavevalor" class="nav-link active" data-scroll-target="#bases-de-datos-clavevalor"><span class="header-section-number">1</span> Bases de datos clave–valor</a></li>
+  <li><a href="#cómo-funciona-el-modelo-clavevalor" id="toc-cómo-funciona-el-modelo-clavevalor" class="nav-link" data-scroll-target="#cómo-funciona-el-modelo-clavevalor"><span class="header-section-number">2</span> ¿Cómo funciona el modelo clave–valor?</a></li>
+  <li><a href="#estructura-de-una-clave" id="toc-estructura-de-una-clave" class="nav-link" data-scroll-target="#estructura-de-una-clave"><span class="header-section-number">3</span> Estructura de una clave</a></li>
+  <li><a href="#ejemplo-sencillo" id="toc-ejemplo-sencillo" class="nav-link" data-scroll-target="#ejemplo-sencillo"><span class="header-section-number">4</span> Ejemplo sencillo</a></li>
+  <li><a href="#diferencia-con-una-base-documental" id="toc-diferencia-con-una-base-documental" class="nav-link" data-scroll-target="#diferencia-con-una-base-documental"><span class="header-section-number">5</span> Diferencia con una base documental</a></li>
+  <li><a href="#dónde-se-utiliza" id="toc-dónde-se-utiliza" class="nav-link" data-scroll-target="#dónde-se-utiliza"><span class="header-section-number">6</span> ¿Dónde se utiliza?</a></li>
+  <li><a href="#sesiones-de-usuario" id="toc-sesiones-de-usuario" class="nav-link" data-scroll-target="#sesiones-de-usuario"><span class="header-section-number">7</span> Sesiones de usuario</a></li>
+  <li><a href="#contadores" id="toc-contadores" class="nav-link" data-scroll-target="#contadores"><span class="header-section-number">8</span> Contadores</a></li>
+  <li><a href="#stock-de-productos" id="toc-stock-de-productos" class="nav-link" data-scroll-target="#stock-de-productos"><span class="header-section-number">9</span> Stock de productos</a></li>
+  <li><a href="#caché" id="toc-caché" class="nav-link" data-scroll-target="#caché"><span class="header-section-number">10</span> Caché</a></li>
+  <li><a href="#ventajas-del-modelo-clavevalor" id="toc-ventajas-del-modelo-clavevalor" class="nav-link" data-scroll-target="#ventajas-del-modelo-clavevalor"><span class="header-section-number">11</span> Ventajas del modelo clave–valor</a></li>
+  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones"><span class="header-section-number">12</span> Limitaciones</a></li>
+  <li><a href="#redis" id="toc-redis" class="nav-link" data-scroll-target="#redis"><span class="header-section-number">13</span> Redis</a></li>
   </ul>
 </nav>
     </div>
@@ -156,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Apuntes del curso</h1>
+<h1 class="title">Bases de datos clave–valor</h1>
 </div>
 
 
@@ -173,43 +215,253 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.</p>
-<p>Los apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales.</p>
-<section id="de-las-bases-de-datos-relacionales-a-nosql" class="level2">
-<h2 class="anchored" data-anchor-id="de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</h2>
-<p>Introducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.</p>
-<p><a class="btn btn-primary" href="apuntes/01_relacional_a_nosql.html"> Abrir apunte </a></p>
+<section id="bases-de-datos-clavevalor" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="bases-de-datos-clavevalor"><span class="header-section-number">1</span> Bases de datos clave–valor</h2>
+<p>Después de trabajar con bases de datos documentales, podemos estudiar otro de los modelos principales dentro de las bases de datos NoSQL:</p>
+<pre class="text"><code>clave → valor</code></pre>
+<p>El modelo clave–valor es una de las formas más simples de almacenar información.</p>
+<p>Cada dato se identifica mediante una clave única y se asocia con un valor.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>usuario:1:nombre → "Ana"
+producto:25:stock → 8
+sesion:abc123 → "usuario_7"
+visitas:inicio → 340</code></pre>
+<p>La idea principal es:</p>
+<pre class="text"><code>CLAVE
+↓
+identifica el dato
+
+VALOR
+↓
+contiene la información asociada</code></pre>
 <hr>
 </section>
-<section id="escalabilidad-y-bases-de-datos-distribuidas" class="level2">
-<h2 class="anchored" data-anchor-id="escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</h2>
-<p>Conceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.</p>
-<p><a class="btn btn-primary" href="apuntes/02_escalabilidad_bases_distribuidas.html"> Abrir apunte </a></p>
+<section id="cómo-funciona-el-modelo-clavevalor" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="cómo-funciona-el-modelo-clavevalor"><span class="header-section-number">2</span> ¿Cómo funciona el modelo clave–valor?</h2>
+<p>En este modelo no pensamos necesariamente en tablas, filas o documentos complejos.</p>
+<p>La información se organiza mediante pares:</p>
+<pre class="text"><code>clave → valor</code></pre>
+<p>Por ejemplo:</p>
+<pre class="text"><code>producto:10:stock → 4</code></pre>
+<p>La clave:</p>
+<pre class="text"><code>producto:10:stock</code></pre>
+<p>permite localizar directamente el valor:</p>
+<pre class="text"><code>4</code></pre>
+<p>Podemos imaginarlo como un diccionario.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>"nombre" → "Ana"
+"edad" → 21
+"ciudad" → "Xalapa"</code></pre>
+<p>Cuando una aplicación conoce la clave, puede recuperar rápidamente el valor asociado.</p>
 <hr>
 </section>
-<section id="bases-de-datos-orientadas-a-documentos" class="level2">
-<h2 class="anchored" data-anchor-id="bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</h2>
-<p>Introducción al modelo documental, su estructura, características y principales aplicaciones.</p>
-<p><a class="btn btn-primary" href="apuntes/03_bases_orientadas_documentos.html"> Abrir apunte </a></p>
+<section id="estructura-de-una-clave" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="estructura-de-una-clave"><span class="header-section-number">3</span> Estructura de una clave</h2>
+<p>Aunque una clave puede ser sencilla, en aplicaciones reales normalmente se utilizan nombres que ayuden a identificar claramente el dato.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>usuario:15:nombre
+usuario:15:correo
+producto:20:stock
+producto:20:precio
+sesion:ABC123</code></pre>
+<p>Una convención frecuente es utilizar separadores como:</p>
+<pre class="text"><code>:</code></pre>
+<p>para organizar las claves.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>usuario:15:nombre</code></pre>
+<p>puede interpretarse como:</p>
+<pre class="text"><code>usuario
+   ↓
+identificador 15
+   ↓
+nombre</code></pre>
+<p>Esto permite construir claves fáciles de interpretar.</p>
 <hr>
 </section>
-<section id="consultas-y-manejo-de-documentos-en-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</h2>
-<p>Operaciones básicas para insertar, consultar, filtrar y exportar documentos utilizando MongoDB.</p>
-<p><a class="btn btn-primary" href="apuntes/04_consultas_mongodb.html"> Abrir apunte </a></p>
+<section id="ejemplo-sencillo" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ejemplo-sencillo"><span class="header-section-number">4</span> Ejemplo sencillo</h2>
+<p>Supongamos que tenemos una tienda en línea.</p>
+<p>Podríamos almacenar:</p>
+<pre class="text"><code>producto:1:nombre → "Audífonos"
+producto:1:precio → 1200
+producto:1:stock → 5</code></pre>
+<p>Si queremos conocer el stock del producto:</p>
+<pre class="text"><code>producto:1:stock</code></pre>
+<p>el sistema recupera:</p>
+<pre class="text"><code>5</code></pre>
+<p>Si se vende una unidad, el valor puede actualizarse:</p>
+<pre class="text"><code>producto:1:stock → 4</code></pre>
+<p>La clave permanece igual.</p>
+<p>Lo que cambia es el valor.</p>
 <hr>
 </section>
-<section id="modelado-de-relaciones-en-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="modelado-de-relaciones-en-mongodb">Modelado de relaciones en MongoDB</h2>
-<p>Introducción al modelado de relaciones en bases documentales mediante documentos incrustados y referencias. Se revisan relaciones uno a uno, uno a muchos y muchos a muchos mediante un ejemplo práctico de biblioteca y su visualización con Data Modeling en MongoDB Compass.</p>
-<p><a class="btn btn-primary" href="apuntes/05_modelado_relaciones_mongodb.html"> Abrir apunte </a></p>
+<section id="diferencia-con-una-base-documental" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="diferencia-con-una-base-documental"><span class="header-section-number">5</span> Diferencia con una base documental</h2>
+<p>En MongoDB trabajamos con documentos completos.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">producto_id</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Audífonos"</span><span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">precio</span><span class="op">:</span> <span class="dv">1200</span><span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">stock</span><span class="op">:</span> <span class="dv">5</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En un modelo clave–valor podríamos representar la misma información utilizando diferentes claves:</p>
+<pre class="text"><code>producto:1:nombre → "Audífonos"
+producto:1:precio → 1200
+producto:1:stock → 5</code></pre>
+<p>Esto muestra una diferencia importante:</p>
+<pre class="text"><code>MongoDB
+↓
+documentos con varios campos
+
+Clave–valor
+↓
+acceso a datos mediante una clave</code></pre>
 <hr>
 </section>
-<section id="bases-de-datos-clavevalor" class="level2">
-<h2 class="anchored" data-anchor-id="bases-de-datos-clavevalor">Bases de datos clave–valor</h2>
-<p>Introducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.</p>
-<p><a class="btn btn-primary" href="apuntes/06_bases_clave_valor.html"> Abrir apunte </a></p>
+<section id="dónde-se-utiliza" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="dónde-se-utiliza"><span class="header-section-number">6</span> ¿Dónde se utiliza?</h2>
+<p>El modelo clave–valor resulta especialmente útil cuando una aplicación necesita acceder o modificar datos de manera rápida.</p>
+<p>Algunos ejemplos son:</p>
+<pre class="text"><code>sesiones de usuario
+carritos de compra
+caché
+contadores
+stock temporal
+configuraciones
+rankings</code></pre>
 <hr>
+</section>
+<section id="sesiones-de-usuario" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="sesiones-de-usuario"><span class="header-section-number">7</span> Sesiones de usuario</h2>
+<p>Cuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador de sesión.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sesion:ABC123 → "usuario_25"</code></pre>
+<p>La aplicación recibe:</p>
+<pre class="text"><code>ABC123</code></pre>
+<p>y puede consultar rápidamente a qué usuario pertenece esa sesión.</p>
+<p>Conceptualmente:</p>
+<pre class="text"><code>Usuario inicia sesión
+        ↓
+se genera una clave
+        ↓
+sesion:ABC123
+        ↓
+usuario_25</code></pre>
+<p>Este tipo de información suele ser temporal y consultarse muchas veces.</p>
+<hr>
+</section>
+<section id="contadores" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="contadores"><span class="header-section-number">8</span> Contadores</h2>
+<p>Otro ejemplo sencillo son los contadores.</p>
+<p>Podemos almacenar:</p>
+<pre class="text"><code>visitas:pagina_inicio → 340</code></pre>
+<p>Cuando una nueva persona visita la página:</p>
+<pre class="text"><code>340
+↓
+341</code></pre>
+<p>Después:</p>
+<pre class="text"><code>341
+↓
+342</code></pre>
+<p>Este modelo resulta útil cuando el valor necesita actualizarse constantemente.</p>
+<hr>
+</section>
+<section id="stock-de-productos" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="stock-de-productos"><span class="header-section-number">9</span> Stock de productos</h2>
+<p>También podemos utilizar una estructura clave–valor para representar temporalmente el stock de un producto.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>producto:25:stock → 1</code></pre>
+<p>Supongamos que dos usuarios intentan comprar la última unidad casi al mismo tiempo.</p>
+<pre class="text"><code>Usuario A
+     ↓
+intenta comprar
+
+Usuario B
+     ↓
+intenta comprar</code></pre>
+<p>El sistema necesita evitar que ambos usuarios compren la misma unidad.</p>
+<p>Una operación sobre el valor puede actualizar:</p>
+<pre class="text"><code>stock: 1
+↓
+stock: 0</code></pre>
+<p>La segunda operación encontrará que:</p>
+<pre class="text"><code>stock = 0</code></pre>
+<p>y la aplicación podrá indicar que el producto ya no está disponible.</p>
+<p>Este ejemplo permite relacionar el modelo clave–valor con el concepto de:</p>
+<pre class="text"><code>concurrencia</code></pre>
+<p>visto anteriormente.</p>
+<hr>
+</section>
+<section id="caché" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="caché"><span class="header-section-number">10</span> Caché</h2>
+<p>Uno de los usos más importantes de las bases clave–valor es la caché.</p>
+<p>Una caché almacena temporalmente información que una aplicación consulta con frecuencia.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>pelicula:100:detalle → información de la película</code></pre>
+<p>En lugar de consultar constantemente una base de datos principal, la aplicación puede recuperar primero la información almacenada temporalmente.</p>
+<p>El flujo puede ser:</p>
+<pre class="text"><code>Aplicación solicita información
+        ↓
+consulta caché
+        ↓
+¿existe el dato?
+     ↙        ↘
+   sí          no
+   ↓            ↓
+devuelve     consulta base
+rápido       principal</code></pre>
+<p>Esto puede reducir el tiempo de respuesta de una aplicación.</p>
+<hr>
+</section>
+<section id="ventajas-del-modelo-clavevalor" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="ventajas-del-modelo-clavevalor"><span class="header-section-number">11</span> Ventajas del modelo clave–valor</h2>
+<p>Algunas de sus principales ventajas son:</p>
+<ul>
+<li>estructura sencilla;</li>
+<li>acceso rápido mediante una clave;</li>
+<li>facilidad para actualizar valores;</li>
+<li>utilidad para información temporal;</li>
+<li>buen desempeño en operaciones frecuentes;</li>
+<li>facilidad para manejar contadores, sesiones y caché.</li>
+</ul>
+<hr>
+</section>
+<section id="limitaciones" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="limitaciones"><span class="header-section-number">12</span> Limitaciones</h2>
+<p>La simplicidad del modelo también implica algunas limitaciones.</p>
+<p>Por ejemplo, si almacenamos:</p>
+<pre class="text"><code>usuario:25 → valor</code></pre>
+<p>normalmente necesitamos conocer la clave para recuperar directamente la información.</p>
+<p>No está pensado principalmente para realizar consultas complejas como:</p>
+<pre class="text"><code>buscar todos los usuarios
+que viven en determinada ciudad
+y tienen cierta edad</code></pre>
+<p>Para ese tipo de problemas, otros modelos de bases de datos pueden resultar más adecuados.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El modelo clave–valor no busca reemplazar a todos los demás modelos.</p>
+<p>Es especialmente útil cuando conocemos la clave del dato y necesitamos recuperarlo o actualizarlo rápidamente.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="redis" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="redis"><span class="header-section-number">13</span> Redis</h2>
+<p>Una de las tecnologías más conocidas para trabajar con este tipo de información es:</p>
+<pre class="text"><code>Redis</code></pre>
+<p>Redis permite almacenar datos asociados con claves y realizar operaciones rápidas sobre ellos.</p>
+<p>En este curso lo utilizaremos como una herramienta para observar de manera práctica el funcionamiento del modelo clave–valor.</p>
+<p>Primero comprenderemos el modelo.</p>
+<p>Después realizaremos una demostración de Redis para observar cómo estos conceptos se representan mediante comandos reales.</p>
 
 
 </section>

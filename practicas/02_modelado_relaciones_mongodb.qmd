@@ -1,0 +1,220 @@
+
+---
+title: "Práctica 2. Modelado de relaciones con sample_mflix"
+toc: true
+number-sections: true
+---
+
+## Objetivo
+
+Analizar la estructura de la base de datos `sample_mflix` e identificar las relaciones entre sus colecciones utilizando **MongoDB Compass** y **Data Modeling**.
+
+El propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real.
+
+---
+
+## Base de datos
+
+Utiliza la base:
+
+```text
+sample_mflix
+```
+
+Puedes considerar colecciones como:
+
+```text
+movies
+comments
+users
+sessions
+theaters
+embedded_movies
+```
+
+No es necesario utilizar todas las colecciones.
+
+Selecciona aquellas que consideres más adecuadas para construir e interpretar el modelo.
+
+---
+
+## Generar el modelo
+
+En MongoDB Compass selecciona:
+
+```text
+Data Modeling
+```
+
+Después crea un nuevo diagrama utilizando la base:
+
+```text
+sample_mflix
+```
+
+Selecciona las colecciones que quieras analizar.
+
+Puedes activar:
+
+```text
+Automatically infer relationships
+```
+
+para que Compass intente identificar relaciones entre los documentos.
+
+Genera el diagrama y observa:
+
+```text
+colecciones
+campos
+tipos de datos
+referencias
+relaciones inferidas
+```
+
+---
+
+## Actividad
+
+A partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.
+
+Para cada relación identificada indica:
+
+1. las colecciones involucradas;
+2. los campos que permiten relacionarlas;
+3. el tipo de relación;
+4. si la información está incrustada o referenciada;
+5. una breve interpretación de la relación.
+
+Por ejemplo:
+
+```text
+movies
+   ↓
+comments
+```
+
+podría analizarse como una relación:
+
+```text
+1 : N
+```
+
+si una película puede tener varios comentarios.
+
+---
+
+## Interpretación del modelo
+
+Además de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.
+
+Por ejemplo:
+
+```text
+movies
+```
+
+puede almacenar información de películas.
+
+```text
+comments
+```
+
+puede almacenar comentarios realizados sobre una película.
+
+```text
+users
+```
+
+puede representar a los usuarios de la aplicación.
+
+```text
+sessions
+```
+
+puede almacenar información relacionada con sesiones de usuario.
+
+```text
+theaters
+```
+
+puede contener información de cines o ubicaciones.
+
+La interpretación debe basarse en la estructura observada en los documentos.
+
+---
+
+## Colecciones sin relación directa
+
+Es posible que algunas colecciones aparezcan sin una relación visible con las demás.
+
+Esto no significa necesariamente que exista un error.
+
+Una colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.
+
+Identifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder.
+
+---
+
+## Data Modeling y relaciones inferidas
+
+Recuerda que **Data Modeling** puede inferir relaciones automáticamente.
+
+Sin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.
+
+Es necesario revisar:
+
+```text
+qué campo genera la relación
+
+qué tipo de dato contiene
+
+qué colección está relacionada
+
+si la relación tiene sentido dentro del modelo
+```
+
+Por lo tanto, analiza críticamente las relaciones detectadas por Compass.
+
+---
+
+## Pregunta central
+
+A partir del modelo generado responde:
+
+```text
+¿Cómo se relacionan las colecciones de sample_mflix
+y qué función podría tener cada una dentro de una aplicación?
+```
+
+---
+
+## Entrega
+
+El documento deberá incluir:
+
+- captura del modelo generado en Data Modeling;
+- colecciones seleccionadas;
+- interpretación de las relaciones;
+- identificación del tipo de relación;
+- campos que conectan las colecciones;
+- identificación de información incrustada o referenciada;
+- al menos una relación `1:N`;
+- identificación de alguna colección sin relación directa, si existe;
+- breve conclusión sobre el modelo documental observado.
+
+---
+
+## Conclusión
+
+Escribe una breve reflexión sobre las diferencias que observas entre el modelo documental de `sample_mflix` y un modelo relacional tradicional.
+
+Puedes considerar aspectos como:
+
+```text
+documentos
+referencias
+información incrustada
+flexibilidad del modelo
+relaciones entre colecciones
+```

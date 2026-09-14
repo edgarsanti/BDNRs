@@ -19,3 +19,14 @@ Se abordan:
    href="practicas/01_mongodb_local.html">
    Abrir práctica
 </a>
+
+## Práctica 2. Modelado de relaciones con `sample_mflix`
+
+Análisis de la estructura de la base `sample_mflix` mediante **MongoDB Compass** y **Data Modeling**, identificando relaciones entre colecciones, campos de referencia e información incrustada.
+
+<a class="btn btn-primary"
+   href="practicas/02_modelado_relaciones_mongodb.html">
+   Abrir práctica
+</a>
+
+---

@@ -40,5 +40,11 @@
   },
   "apuntes/05_modelado_relaciones_mongodb.qmd": {
     "05_modelado_relaciones_mongodb.html": "6551965f"
+  },
+  "apuntes/06_bases_clave_valor.qmd": {
+    "06_bases_clave_valor.html": "51aefbc4"
+  },
+  "practicas/02_modelado_relaciones_mongodb.qmd": {
+    "02_modelado_relaciones_mongodb.html": "225f47e7"
   }
 }

@@ -1336,17 +1336,288 @@ autores: [
 
 Ese identificador indica qué documento de `autores` está relacionado con el libro, pero no muestra automáticamente el nombre del autor.
 
-Para recuperar información almacenada en otras colecciones podemos utilizar:
+Para recuperar y transformar información podemos utilizar el:
 
 ```text
+Aggregation Pipeline
+```
+
+---
+
+## Aggregation Pipeline
+
+MongoDB permite procesar documentos mediante una secuencia de etapas conocida como:
+
+```text
+Aggregation Pipeline
+```
+
+La idea puede representarse de la siguiente manera:
+
+```text
+documentos
+   ↓
+etapa 1
+   ↓
+etapa 2
+   ↓
+etapa 3
+   ↓
+resultado
+```
+
+Cada etapa recibe documentos, realiza una operación y envía el resultado a la siguiente etapa.
+
+Algunos operadores frecuentes son:
+
+```text
+$match
+$project
+$sort
+$limit
+$group
 $lookup
 ```
 
 ---
 
+### Operador `$match`
+
+`$match` permite filtrar documentos.
+
+Por ejemplo, podemos obtener solamente los libros disponibles:
+
+```javascript
+db.libros.aggregate([
+  {
+    $match: {
+      disponible: true
+    }
+  }
+])
+```
+
+El proceso puede interpretarse como:
+
+```text
+todos los libros
+      ↓
+    $match
+      ↓
+libros disponibles
+```
+
+---
+
+### Operador `$project`
+
+`$project` permite seleccionar los campos que queremos mostrar.
+
+Por ejemplo:
+
+```javascript
+db.libros.aggregate([
+  {
+    $project: {
+      _id: 0,
+      titulo: 1,
+      anio: 1,
+      disponible: 1
+    }
+  }
+])
+```
+
+El resultado mostrará solamente:
+
+```text
+titulo
+anio
+disponible
+```
+
+---
+
+### Operador `$sort`
+
+`$sort` permite ordenar documentos.
+
+Para ordenar los libros del más antiguo al más reciente:
+
+```javascript
+db.libros.aggregate([
+  {
+    $sort: {
+      anio: 1
+    }
+  }
+])
+```
+
+El valor:
+
+```text
+1
+```
+
+indica orden ascendente.
+
+Para mostrar primero los libros más recientes:
+
+```javascript
+db.libros.aggregate([
+  {
+    $sort: {
+      anio: -1
+    }
+  }
+])
+```
+
+El valor:
+
+```text
+-1
+```
+
+indica orden descendente.
+
+---
+
+### Operador `$limit`
+
+`$limit` restringe el número de documentos que se muestran.
+
+Por ejemplo:
+
+```javascript
+db.libros.aggregate([
+  {
+    $sort: {
+      anio: 1
+    }
+  },
+  {
+    $limit: 5
+  }
+])
+```
+
+Este pipeline realiza dos etapas:
+
+```text
+ordenar los libros por año
+        ↓
+mostrar solamente los primeros 5
+```
+
+---
+
+### Operador `$group`
+
+`$group` permite agrupar documentos y realizar cálculos sobre ellos.
+
+Por ejemplo, podemos contar cuántos libros existen por idioma:
+
+```javascript
+db.libros.aggregate([
+  {
+    $group: {
+      _id: "$detalles.idioma",
+      total_libros: {
+        $sum: 1
+      }
+    }
+  }
+])
+```
+
+La lógica es:
+
+```text
+libros
+   ↓
+agrupar por idioma
+   ↓
+contar documentos
+```
+
+El resultado tendrá una estructura similar a:
+
+```javascript
+{
+  _id: "Español",
+  total_libros: 7
+}
+```
+
+```javascript
+{
+  _id: "Inglés",
+  total_libros: 4
+}
+```
+
+---
+
+## Combinar varias etapas
+
+La principal utilidad del Aggregation Pipeline es que podemos combinar diferentes operaciones.
+
+Por ejemplo:
+
+```javascript
+db.libros.aggregate([
+  {
+    $match: {
+      disponible: true
+    }
+  },
+  {
+    $sort: {
+      anio: -1
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      titulo: 1,
+      anio: 1
+    }
+  }
+])
+```
+
+Este pipeline realiza:
+
+```text
+libros
+   ↓
+$match
+filtrar disponibles
+   ↓
+$sort
+ordenar por año
+   ↓
+$project
+mostrar título y año
+```
+
+Cada etapa trabaja con el resultado generado por la etapa anterior.
+
+::: {.callout-note}
+## Idea clave
+
+Un Aggregation Pipeline permite encadenar diferentes operaciones para transformar, filtrar, ordenar, resumir o combinar información.
+:::
+
+---
+
 ## Combinar colecciones con `$lookup`
 
-`$lookup` permite incorporar información de otra colección dentro de un **Aggregation Pipeline**.
+`$lookup` también forma parte del **Aggregation Pipeline**.
+
+Permite incorporar información almacenada en otra colección.
 
 Conceptualmente podemos compararlo con:
 
@@ -1356,7 +1627,7 @@ SQL        MongoDB
 JOIN   →   $lookup
 ```
 
-La lógica será:
+La lógica es:
 
 ```text
 referencia
@@ -1609,45 +1880,380 @@ Cuando la información se encuentra referenciada en otras colecciones, operacion
 
 ---
 
-## Actividad: propuesta de modelado con `sample_mflix`
+## Índices en MongoDB
 
-Utiliza ahora la base:
+Además de organizar y relacionar los datos, MongoDB permite crear **índices** para mejorar la forma en que se localiza la información.
 
-```text
-sample_mflix
-```
+Un índice puede imaginarse como una estructura adicional que ayuda a MongoDB a encontrar documentos sin tener que revisar toda la colección.
 
-como un nuevo caso de estudio.
-
-Analiza sus colecciones y realiza una propuesta de modelado de relaciones.
-
-Puedes considerar colecciones como:
+Por ejemplo:
 
 ```text
-movies
-comments
-users
-theaters
+sin índice
+↓
+recorrer documentos
+
+con índice
+↓
+localizar información de forma más eficiente
 ```
 
-La solución no debe copiar el modelo de la biblioteca.
+Los índices resultan especialmente importantes cuando una colección contiene una gran cantidad de documentos.
 
-El objetivo es analizar la estructura existente y proponer las relaciones que consideres adecuadas.
+---
 
-### Entrega
+## Índice sobre `titulo`
 
-Incluye:
-
-1. las colecciones seleccionadas;
-2. los campos que permiten relacionarlas;
-3. el tipo de cada relación;
-4. si utilizarías documentos incrustados o referencias;
-5. una breve justificación de cada decisión;
-6. una captura o representación del modelo elaborado en Data Modeling.
-
-El objetivo es responder:
+Podemos crear un índice ascendente sobre el campo:
 
 ```text
-¿Cómo modelaría las relaciones de sample_mflix en MongoDB?
+titulo
 ```
 
+Ejecuta:
+
+```javascript
+db.libros.createIndex(
+  { titulo: 1 },
+  { name: "titulo_index" }
+)
+```
+
+MongoDB devolverá:
+
+```text
+titulo_index
+```
+
+Este índice puede ayudar en consultas como:
+
+```javascript
+db.libros.find({
+  titulo: "Pedro Páramo"
+})
+```
+
+---
+
+## Índice único
+
+También existen índices que pueden impedir valores duplicados.
+
+Por ejemplo:
+
+```javascript
+db.libros.createIndex(
+  { titulo: 1 },
+  {
+    unique: true,
+    name: "titulo_unique_index"
+  }
+)
+```
+
+Sin embargo, antes de ejecutar este ejemplo debemos considerar que ya existe un índice sobre `titulo`.
+
+Para mostrar un índice único de forma correcta, primero podemos eliminar el anterior:
+
+```javascript
+db.libros.dropIndex("titulo_index")
+```
+
+Después creamos:
+
+```javascript
+db.libros.createIndex(
+  { titulo: 1 },
+  {
+    unique: true,
+    name: "titulo_unique_index"
+  }
+)
+```
+
+::: {.callout-warning}
+## Nota
+
+En una base de datos real, el título de un libro no necesariamente debería ser único, porque pueden existir diferentes obras o ediciones con títulos iguales.
+
+Un campo como:
+
+```text
+ISBN
+```
+
+sería un mejor candidato para un índice único.
+
+Aquí utilizamos `titulo` únicamente con fines didácticos.
+:::
+
+---
+
+## Índice compuesto
+
+MongoDB también permite crear índices utilizando más de un campo.
+
+Por ejemplo, podemos combinar:
+
+```text
+categoria_id
++
+detalles.idioma
+```
+
+Ejecuta:
+
+```javascript
+db.libros.createIndex(
+  {
+    categoria_id: 1,
+    "detalles.idioma": 1
+  },
+  {
+    name: "categoria_idioma_index"
+  }
+)
+```
+
+Este índice puede ser útil si realizamos consultas como:
+
+```javascript
+db.libros.find({
+  categoria_id: ObjectId("660000000000000000000001"),
+  "detalles.idioma": "Español"
+})
+```
+
+En este caso estamos buscando libros que cumplan simultáneamente dos condiciones:
+
+```text
+pertenecer a una categoría
++
+estar escritos en determinado idioma
+```
+
+---
+
+## Índice de texto
+
+También podemos crear índices orientados a búsquedas textuales.
+
+Por ejemplo:
+
+```javascript
+db.libros.createIndex(
+  {
+    titulo: "text"
+  },
+  {
+    name: "titulo_text_index",
+    default_language: "spanish"
+  }
+)
+```
+
+Ahora podemos realizar una búsqueda mediante:
+
+```javascript
+db.libros.find({
+  $text: {
+    $search: "Pedro"
+  }
+})
+```
+
+También:
+
+```javascript
+db.libros.find({
+  $text: {
+    $search: "muerte"
+  }
+})
+```
+
+Este tipo de índice permite realizar búsquedas sobre palabras contenidas en campos de texto.
+
+---
+
+## Consultar los índices
+
+Para consultar todos los índices existentes en la colección:
+
+```javascript
+db.libros.getIndexes()
+```
+
+MongoDB mostrará una lista con los índices disponibles.
+
+Entre ellos siempre aparecerá:
+
+```text
+_id_
+```
+
+porque MongoDB crea automáticamente un índice sobre:
+
+```text
+_id
+```
+
+Podríamos observar algo similar a:
+
+```text
+_id_
+titulo_unique_index
+categoria_idioma_index
+titulo_text_index
+```
+
+---
+
+## Eliminar un índice
+
+Si queremos eliminar un índice podemos utilizar:
+
+```javascript
+db.libros.dropIndex("titulo_unique_index")
+```
+
+También podemos eliminar:
+
+```javascript
+db.libros.dropIndex("categoria_idioma_index")
+```
+
+o:
+
+```javascript
+db.libros.dropIndex("titulo_text_index")
+```
+
+Eliminar un índice:
+
+```text
+no elimina los documentos
+```
+
+únicamente elimina la estructura utilizada para optimizar determinadas consultas.
+
+---
+
+## ¿Qué función cumple cada elemento?
+
+A lo largo de este ejemplo hemos trabajado con diferentes herramientas de MongoDB.
+
+Podemos resumirlas así:
+
+```text
+MODELO DOCUMENTAL
+↓
+define cómo se organizan los documentos
+
+REFERENCIAS
+↓
+conectan documentos de distintas colecciones
+
+DOCUMENTOS INCRUSTADOS
+↓
+guardan información relacionada dentro del mismo documento
+
+DATA MODELING
+↓
+permite visualizar la estructura y las relaciones
+
+AGGREGATION PIPELINE
+↓
+procesa y transforma documentos por etapas
+
+$lookup
+↓
+recupera información de otras colecciones
+
+ÍNDICES
+↓
+ayudan a optimizar la búsqueda de información
+```
+
+::: {.callout-tip}
+## Visión general
+
+En una aplicación real, estas herramientas pueden trabajar en conjunto.
+
+Por ejemplo:
+
+```text
+Aplicación
+    ↓
+consulta MongoDB
+    ↓
+índice localiza información
+    ↓
+Aggregation Pipeline procesa documentos
+    ↓
+$lookup recupera datos relacionados
+    ↓
+aplicación muestra el resultado
+```
+
+De esta manera, el modelo de la base no solamente define cómo almacenar la información, sino también cómo recuperarla y procesarla de manera eficiente.
+:::
+
+---
+
+## Conclusión
+
+El ejemplo de la biblioteca permite observar diferentes características del modelo documental de MongoDB.
+
+Construimos relaciones:
+
+```text
+1 : 1
+1 : N
+N : N
+```
+
+utilizando documentos incrustados y referencias mediante `ObjectId`.
+
+También utilizamos:
+
+```text
+Data Modeling
+```
+
+para visualizar las relaciones entre las colecciones.
+
+Posteriormente utilizamos:
+
+```text
+Aggregation Pipeline
+```
+
+para procesar documentos mediante diferentes etapas como:
+
+```text
+$match
+$project
+$sort
+$limit
+$group
+$lookup
+```
+
+Finalmente incorporamos índices para mostrar una primera aproximación a la optimización de consultas.
+
+Por lo tanto, una base documental puede integrar:
+
+```text
+modelado
++
+relaciones
++
+consultas
++
+agregaciones
++
+índices
+```
+
+dentro de una misma aplicación.

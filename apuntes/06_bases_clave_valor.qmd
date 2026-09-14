@@ -1,0 +1,423 @@
+---
+title: "Bases de datos clave–valor"
+toc: true
+number-sections: true
+---
+
+## Bases de datos clave–valor
+
+Después de trabajar con bases de datos documentales, podemos estudiar otro de los modelos principales dentro de las bases de datos NoSQL:
+
+```text
+clave → valor
+```
+
+El modelo clave–valor es una de las formas más simples de almacenar información.
+
+Cada dato se identifica mediante una clave única y se asocia con un valor.
+
+Por ejemplo:
+
+```text
+usuario:1:nombre → "Ana"
+producto:25:stock → 8
+sesion:abc123 → "usuario_7"
+visitas:inicio → 340
+```
+
+La idea principal es:
+
+```text
+CLAVE
+↓
+identifica el dato
+
+VALOR
+↓
+contiene la información asociada
+```
+
+---
+
+## ¿Cómo funciona el modelo clave–valor?
+
+En este modelo no pensamos necesariamente en tablas, filas o documentos complejos.
+
+La información se organiza mediante pares:
+
+```text
+clave → valor
+```
+
+Por ejemplo:
+
+```text
+producto:10:stock → 4
+```
+
+La clave:
+
+```text
+producto:10:stock
+```
+
+permite localizar directamente el valor:
+
+```text
+4
+```
+
+Podemos imaginarlo como un diccionario.
+
+Por ejemplo:
+
+```text
+"nombre" → "Ana"
+"edad" → 21
+"ciudad" → "Xalapa"
+```
+
+Cuando una aplicación conoce la clave, puede recuperar rápidamente el valor asociado.
+
+---
+
+## Estructura de una clave
+
+Aunque una clave puede ser sencilla, en aplicaciones reales normalmente se utilizan nombres que ayuden a identificar claramente el dato.
+
+Por ejemplo:
+
+```text
+usuario:15:nombre
+usuario:15:correo
+producto:20:stock
+producto:20:precio
+sesion:ABC123
+```
+
+Una convención frecuente es utilizar separadores como:
+
+```text
+:
+```
+
+para organizar las claves.
+
+Por ejemplo:
+
+```text
+usuario:15:nombre
+```
+
+puede interpretarse como:
+
+```text
+usuario
+   ↓
+identificador 15
+   ↓
+nombre
+```
+
+Esto permite construir claves fáciles de interpretar.
+
+---
+
+## Ejemplo sencillo
+
+Supongamos que tenemos una tienda en línea.
+
+Podríamos almacenar:
+
+```text
+producto:1:nombre → "Audífonos"
+producto:1:precio → 1200
+producto:1:stock → 5
+```
+
+Si queremos conocer el stock del producto:
+
+```text
+producto:1:stock
+```
+
+el sistema recupera:
+
+```text
+5
+```
+
+Si se vende una unidad, el valor puede actualizarse:
+
+```text
+producto:1:stock → 4
+```
+
+La clave permanece igual.
+
+Lo que cambia es el valor.
+
+---
+
+## Diferencia con una base documental
+
+En MongoDB trabajamos con documentos completos.
+
+Por ejemplo:
+
+```javascript
+{
+  producto_id: 1,
+  nombre: "Audífonos",
+  precio: 1200,
+  stock: 5
+}
+```
+
+En un modelo clave–valor podríamos representar la misma información utilizando diferentes claves:
+
+```text
+producto:1:nombre → "Audífonos"
+producto:1:precio → 1200
+producto:1:stock → 5
+```
+
+Esto muestra una diferencia importante:
+
+```text
+MongoDB
+↓
+documentos con varios campos
+
+Clave–valor
+↓
+acceso a datos mediante una clave
+```
+
+---
+
+## ¿Dónde se utiliza?
+
+El modelo clave–valor resulta especialmente útil cuando una aplicación necesita acceder o modificar datos de manera rápida.
+
+Algunos ejemplos son:
+
+```text
+sesiones de usuario
+carritos de compra
+caché
+contadores
+stock temporal
+configuraciones
+rankings
+```
+
+---
+
+## Sesiones de usuario
+
+Cuando una persona inicia sesión en una aplicación, el sistema puede generar un identificador de sesión.
+
+Por ejemplo:
+
+```text
+sesion:ABC123 → "usuario_25"
+```
+
+La aplicación recibe:
+
+```text
+ABC123
+```
+
+y puede consultar rápidamente a qué usuario pertenece esa sesión.
+
+Conceptualmente:
+
+```text
+Usuario inicia sesión
+        ↓
+se genera una clave
+        ↓
+sesion:ABC123
+        ↓
+usuario_25
+```
+
+Este tipo de información suele ser temporal y consultarse muchas veces.
+
+---
+
+## Contadores
+
+Otro ejemplo sencillo son los contadores.
+
+Podemos almacenar:
+
+```text
+visitas:pagina_inicio → 340
+```
+
+Cuando una nueva persona visita la página:
+
+```text
+340
+↓
+341
+```
+
+Después:
+
+```text
+341
+↓
+342
+```
+
+Este modelo resulta útil cuando el valor necesita actualizarse constantemente.
+
+---
+
+## Stock de productos
+
+También podemos utilizar una estructura clave–valor para representar temporalmente el stock de un producto.
+
+Por ejemplo:
+
+```text
+producto:25:stock → 1
+```
+
+Supongamos que dos usuarios intentan comprar la última unidad casi al mismo tiempo.
+
+```text
+Usuario A
+     ↓
+intenta comprar
+
+Usuario B
+     ↓
+intenta comprar
+```
+
+El sistema necesita evitar que ambos usuarios compren la misma unidad.
+
+Una operación sobre el valor puede actualizar:
+
+```text
+stock: 1
+↓
+stock: 0
+```
+
+La segunda operación encontrará que:
+
+```text
+stock = 0
+```
+
+y la aplicación podrá indicar que el producto ya no está disponible.
+
+Este ejemplo permite relacionar el modelo clave–valor con el concepto de:
+
+```text
+concurrencia
+```
+
+visto anteriormente.
+
+---
+
+## Caché
+
+Uno de los usos más importantes de las bases clave–valor es la caché.
+
+Una caché almacena temporalmente información que una aplicación consulta con frecuencia.
+
+Por ejemplo:
+
+```text
+pelicula:100:detalle → información de la película
+```
+
+En lugar de consultar constantemente una base de datos principal, la aplicación puede recuperar primero la información almacenada temporalmente.
+
+El flujo puede ser:
+
+```text
+Aplicación solicita información
+        ↓
+consulta caché
+        ↓
+¿existe el dato?
+     ↙        ↘
+   sí          no
+   ↓            ↓
+devuelve     consulta base
+rápido       principal
+```
+
+Esto puede reducir el tiempo de respuesta de una aplicación.
+
+---
+
+## Ventajas del modelo clave–valor
+
+Algunas de sus principales ventajas son:
+
+- estructura sencilla;
+- acceso rápido mediante una clave;
+- facilidad para actualizar valores;
+- utilidad para información temporal;
+- buen desempeño en operaciones frecuentes;
+- facilidad para manejar contadores, sesiones y caché.
+
+---
+
+## Limitaciones
+
+La simplicidad del modelo también implica algunas limitaciones.
+
+Por ejemplo, si almacenamos:
+
+```text
+usuario:25 → valor
+```
+
+normalmente necesitamos conocer la clave para recuperar directamente la información.
+
+No está pensado principalmente para realizar consultas complejas como:
+
+```text
+buscar todos los usuarios
+que viven en determinada ciudad
+y tienen cierta edad
+```
+
+Para ese tipo de problemas, otros modelos de bases de datos pueden resultar más adecuados.
+
+::: {.callout-note}
+## Idea clave
+
+El modelo clave–valor no busca reemplazar a todos los demás modelos.
+
+Es especialmente útil cuando conocemos la clave del dato y necesitamos recuperarlo o actualizarlo rápidamente.
+:::
+
+---
+
+## Redis
+
+Una de las tecnologías más conocidas para trabajar con este tipo de información es:
+
+```text
+Redis
+```
+
+Redis permite almacenar datos asociados con claves y realizar operaciones rápidas sobre ellos.
+
+En este curso lo utilizaremos como una herramienta para observar de manera práctica el funcionamiento del modelo clave–valor.
+
+Primero comprenderemos el modelo.
+
+Después realizaremos una demostración de Redis para observar cómo estos conceptos se representan mediante comandos reales.

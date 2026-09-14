@@ -64,6 +64,11 @@ Introducción al modelado de relaciones en bases documentales mediante documento
 
 ## Bases de datos clave–valor
 
-Introducción al modelo clave–valor y su implementación mediante Redis.
+Introducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.
 
-> Próximamente
+<a class="btn btn-primary"
+   href="apuntes/06_bases_clave_valor.html">
+   Abrir apunte
+</a>
+
+---
