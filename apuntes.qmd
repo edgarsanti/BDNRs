@@ -72,3 +72,14 @@ Introducción al modelo clave–valor, su funcionamiento, casos de uso y una dem
 </a>
 
 ---
+
+## Redis: comandos y práctica con bases clave–valor
+
+Comandos principales de Redis para trabajar con strings, hashes, listas, sets, sorted sets, expiración de claves, transacciones y otros elementos básicos.
+
+<a class="btn btn-primary"
+   href="apuntes/07_redis_comandos_practica.html">
+   Abrir apunte
+</a>
+
+---

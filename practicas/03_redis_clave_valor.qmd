@@ -1,0 +1,381 @@
+---
+title: "Práctica 3. Manejo de datos clave–valor con Redis"
+toc: true
+number-sections: true
+---
+
+## Objetivo
+
+Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.
+
+La práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación.
+
+## Escenario
+
+Se trabajará con el ejemplo de una **tienda en línea**.
+
+La tienda necesita manejar información que cambia con frecuencia, como:
+
+- productos;
+- stock;
+- sesiones de usuarios;
+- visitas;
+- pedidos;
+- usuarios únicos;
+- rankings de productos.
+
+Para representar esta información se utilizarán diferentes estructuras de Redis.
+
+::: {.callout-note}
+## Importante
+
+No es necesario utilizar exactamente los mismos nombres de productos de los ejemplos.
+
+Cada estudiante deberá crear su propia tienda y utilizar al menos tres productos diferentes.
+:::
+
+## Actividad 1. Verificar la conexión
+
+Antes de comenzar, comprueba que existe comunicación con Redis.
+
+```bash
+PING
+```
+
+**Resultado esperado:**
+
+> PONG
+
+Guarda una evidencia del resultado obtenido.
+
+## Actividad 2. Crear productos
+
+Utiliza estructuras de tipo **HASH** para representar los productos de la tienda.
+
+Cada producto deberá contener al menos los siguientes campos:
+
+```text
+nombre
+precio
+stock
+categoria
+```
+
+Crea por lo menos **tres productos diferentes**.
+
+Ejemplo:
+
+```bash
+HSET producto:1 nombre "Laptop Lenovo" precio 18500 stock 5 categoria "Computacion"
+```
+
+Después consulta el producto:
+
+```bash
+HGETALL producto:1
+```
+
+Realiza el mismo procedimiento con los otros productos.
+
+También consulta de manera individual algunos campos.
+
+Por ejemplo:
+
+```bash
+HGET producto:1 precio
+```
+
+y:
+
+```bash
+HGET producto:1 stock
+```
+
+## Actividad 3. Modificar el stock
+
+Simula operaciones de compra y reposición de productos.
+
+Para disminuir el stock:
+
+```bash
+HINCRBY producto:1 stock -1
+```
+
+Para agregar nuevas unidades:
+
+```bash
+HINCRBY producto:1 stock 5
+```
+
+Consulta nuevamente el stock:
+
+```bash
+HGET producto:1 stock
+```
+
+Realiza al menos:
+
+- dos operaciones de compra;
+- una operación de reposición.
+
+Registra el stock inicial y el stock final.
+
+## Actividad 4. Crear un contador de visitas
+
+La tienda desea registrar cuántas veces se consulta un producto.
+
+Crea un contador:
+
+```bash
+SET producto:1:visitas 0
+```
+
+Simula varias visitas:
+
+```bash
+INCR producto:1:visitas
+INCR producto:1:visitas
+INCR producto:1:visitas
+```
+
+Consulta el resultado:
+
+```bash
+GET producto:1:visitas
+```
+
+Después incrementa varias visitas al mismo tiempo:
+
+```bash
+INCRBY producto:1:visitas 5
+```
+
+Consulta nuevamente el contador.
+
+## Actividad 5. Crear una sesión temporal
+
+Simula el inicio de sesión de un usuario.
+
+Crea una sesión con una duración de cinco minutos:
+
+```bash
+SET sesion:001 "usuario:25" EX 300
+```
+
+Consulta el valor:
+
+```bash
+GET sesion:001
+```
+
+Después consulta cuánto tiempo queda antes de que la sesión expire:
+
+```bash
+TTL sesion:001
+```
+
+Ejecuta nuevamente `TTL` después de algunos segundos y observa cómo cambia el valor.
+
+Explica brevemente qué ocurre cuando el tiempo llega a cero.
+
+## Actividad 6. Crear una cola de pedidos
+
+Utiliza una **LIST** para representar los pedidos pendientes de la tienda.
+
+Agrega por lo menos cuatro pedidos:
+
+```bash
+RPUSH cola:pedidos "pedido_001"
+RPUSH cola:pedidos "pedido_002"
+RPUSH cola:pedidos "pedido_003"
+RPUSH cola:pedidos "pedido_004"
+```
+
+Consulta la cola completa:
+
+```bash
+LRANGE cola:pedidos 0 -1
+```
+
+Ahora simula que se atiende el primer pedido:
+
+```bash
+LPOP cola:pedidos
+```
+
+Consulta nuevamente la cola:
+
+```bash
+LRANGE cola:pedidos 0 -1
+```
+
+Explica brevemente qué ocurrió.
+
+## Actividad 7. Registrar usuarios únicos
+
+Utiliza un **SET** para registrar usuarios que visitaron la tienda.
+
+Por ejemplo:
+
+```bash
+SADD usuarios:visitantes "usuario1"
+SADD usuarios:visitantes "usuario2"
+SADD usuarios:visitantes "usuario3"
+SADD usuarios:visitantes "usuario4"
+```
+
+Intenta agregar nuevamente un usuario que ya exista:
+
+```bash
+SADD usuarios:visitantes "usuario2"
+```
+
+Consulta todos los usuarios:
+
+```bash
+SMEMBERS usuarios:visitantes
+```
+
+Cuenta cuántos usuarios únicos existen:
+
+```bash
+SCARD usuarios:visitantes
+```
+
+Explica qué ocurrió cuando intentaste agregar un usuario repetido.
+
+## Actividad 8. Crear un ranking de productos
+
+Utiliza un **Sorted Set** para representar la popularidad de los productos.
+
+Crea por lo menos cuatro productos con diferentes puntuaciones.
+
+Ejemplo:
+
+```bash
+ZADD productos:ranking 120 "Laptop"
+ZADD productos:ranking 80 "Mouse"
+ZADD productos:ranking 150 "Monitor"
+ZADD productos:ranking 60 "Teclado"
+```
+
+Muestra el ranking de mayor a menor:
+
+```bash
+ZREVRANGE productos:ranking 0 -1 WITHSCORES
+```
+
+Consulta únicamente los tres primeros lugares:
+
+```bash
+ZREVRANGE productos:ranking 0 2 WITHSCORES
+```
+
+Ahora incrementa la puntuación de uno de los productos:
+
+```bash
+ZINCRBY productos:ranking 50 "Mouse"
+```
+
+Consulta nuevamente el ranking:
+
+```bash
+ZREVRANGE productos:ranking 0 -1 WITHSCORES
+```
+
+Observa si cambió la posición del producto.
+
+## Actividad 9. Explorar las claves creadas
+
+Consulta todas las claves almacenadas durante la práctica:
+
+```bash
+KEYS *
+```
+
+Después identifica el tipo de algunas claves.
+
+Por ejemplo:
+
+```bash
+TYPE producto:1
+```
+
+```bash
+TYPE cola:pedidos
+```
+
+```bash
+TYPE usuarios:visitantes
+```
+
+```bash
+TYPE productos:ranking
+```
+
+Consulta también la cantidad total de claves:
+
+```bash
+DBSIZE
+```
+
+Guarda una evidencia donde puedan observarse las claves creadas durante la práctica.
+
+## Actividad 10. Identificar las estructuras utilizadas
+
+Completa la siguiente tabla de acuerdo con lo realizado durante la práctica.
+
+| Información | Estructura utilizada | Ejemplo de clave |
+|---|---|---|
+| Producto | __________ | __________ |
+| Stock | __________ | __________ |
+| Contador de visitas | __________ | __________ |
+| Sesión | __________ | __________ |
+| Cola de pedidos | __________ | __________ |
+| Usuarios únicos | __________ | __________ |
+| Ranking | __________ | __________ |
+
+## Preguntas de reflexión
+
+Responde brevemente las siguientes preguntas.
+
+1. ¿Qué diferencia observaste entre un `STRING` y un `HASH`?
+
+2. ¿Por qué una `LIST` resulta adecuada para representar una cola de pedidos?
+
+3. ¿Qué ventaja ofrece un `SET` cuando se desea almacenar usuarios únicos?
+
+4. ¿Por qué un `SORTED SET` resulta útil para representar un ranking?
+
+5. ¿Qué ocurre con una clave cuando termina su tiempo de expiración?
+
+6. ¿Qué tipo de información de una tienda almacenarías en Redis?
+
+7. ¿Qué información considerarías más adecuada para una base principal como MongoDB o PostgreSQL?
+
+8. ¿Por qué Redis puede utilizarse como complemento de otra base de datos dentro de una misma aplicación?
+
+## Evidencias a entregar
+
+El documento deberá incluir:
+
+- portada;
+- capturas de pantalla de las actividades realizadas;
+- comandos utilizados;
+- resultados obtenidos;
+- tabla de estructuras utilizadas;
+- respuestas a las preguntas de reflexión.
+
+Las capturas deberán permitir observar claramente los comandos ejecutados y sus resultados.
+
+::: {.callout-tip}
+## Recomendación
+
+Antes de finalizar la práctica, ejecuta:
+
+```bash
+KEYS *
+```
+
+para comprobar las claves que fueron creadas durante el ejercicio.
+:::

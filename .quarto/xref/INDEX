@@ -46,5 +46,11 @@
   },
   "practicas/02_modelado_relaciones_mongodb.qmd": {
     "02_modelado_relaciones_mongodb.html": "225f47e7"
+  },
+  "apuntes/07_redis_comandos_practica.qmd": {
+    "07_redis_comandos_practica.html": "cd39601e"
+  },
+  "practicas/03_redis_clave_valor.qmd": {
+    "03_redis_clave_valor.html": "c4a5254d"
   }
 }

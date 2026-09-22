@@ -30,3 +30,12 @@ Análisis de la estructura de la base `sample_mflix` mediante **MongoDB Compass*
 </a>
 
 ---
+
+## Práctica 3. Manejo de datos clave–valor con Redis
+
+Aplicación de los principales comandos y estructuras de Redis mediante el escenario de una tienda en línea. Se trabajará con productos, stock, sesiones, contadores, colas, usuarios únicos y rankings.
+
+<a class="btn btn-primary"
+   href="practicas/03_redis_clave_valor.html">
+   Abrir práctica
+</a>
