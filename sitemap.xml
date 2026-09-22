@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-09-14T06:04:25.364Z</lastmod>
+    <lastmod>2026-09-22T02:12:10.458Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/datasets.html</loc>
@@ -25,8 +25,12 @@
     <lastmod>2026-09-07T05:48:37.893Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
-    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
+    <lastmod>2026-09-14T05:51:30.587Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/03_redis_clave_valor.html</loc>
+    <lastmod>2026-09-22T06:38:01.784Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
@@ -41,8 +45,12 @@
     <lastmod>2026-09-14T05:35:51.957Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
-    <lastmod>2026-09-14T05:51:30.587Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
+    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/07_redis_comandos_practica.html</loc>
+    <lastmod>2026-09-22T06:25:31.084Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/06_bases_clave_valor.html</loc>
@@ -58,7 +66,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
-    <lastmod>2026-09-14T05:36:46.561Z</lastmod>
+    <lastmod>2026-09-22T06:39:11.613Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/manuales.html</loc>
