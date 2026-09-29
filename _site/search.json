@@ -2315,5 +2315,299 @@
     "title": "Manuales",
     "section": "Instalación de MongoDB en Windows",
     "text": "Instalación de MongoDB en Windows\nGuía paso a paso para instalar y configurar:\n\nMongoDB Community Server;\nMongoDB Shell;\nMongoDB Compass;\nMongoDB Database Tools.\n\n Abrir manual en nueva pestaña"
+  },
+  {
+    "objectID": "manuales.html#instalación-de-apache-cassandra-en-windows",
+    "href": "manuales.html#instalación-de-apache-cassandra-en-windows",
+    "title": "Manuales",
+    "section": "Instalación de Apache Cassandra en Windows",
+    "text": "Instalación de Apache Cassandra en Windows\nTutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra y realizar las primeras consultas con CQL.\n Abrir manual"
+  },
+  {
+    "objectID": "manuales/ejemplo_entrada_manuales.html",
+    "href": "manuales/ejemplo_entrada_manuales.html",
+    "title": "Manuales",
+    "section": "",
+    "text": "Tutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra 5.0, acceder a cqlsh y realizar las primeras consultas con sensores ambientales.\nAbrir manual"
+  },
+  {
+    "objectID": "manuales/ejemplo_entrada_manuales.html#instalación-de-apache-cassandra-en-windows",
+    "href": "manuales/ejemplo_entrada_manuales.html#instalación-de-apache-cassandra-en-windows",
+    "title": "Manuales",
+    "section": "",
+    "text": "Tutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra 5.0, acceder a cqlsh y realizar las primeras consultas con sensores ambientales.\nAbrir manual"
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "2 Requisitos",
+    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "3 Descargar e iniciar Docker Desktop",
+    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "4 Descargar Apache Cassandra",
+    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "5 Crear e iniciar el contenedor",
+    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "6 Entrar a la consola de Cassandra",
+    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "7 Primera prueba: crear un keyspace",
+    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "8 Comprobar que podemos guardar y consultar datos",
+    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "9 Administrar Cassandra desde Docker Desktop",
+    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "10 Detener Cassandra y volver a utilizarlo",
+    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "11 Problemas frecuentes",
+    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
+  },
+  {
+    "objectID": "manuales/manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "href": "manuales/manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "12 Resultado esperado",
+    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html",
+    "href": "manuales/01_instalacion_cassandra_windows.html",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "2 Requisitos",
+    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "3 Descargar e iniciar Docker Desktop",
+    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "4 Descargar Apache Cassandra",
+    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "href": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "5 Crear e iniciar el contenedor",
+    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "6 Entrar a la consola de Cassandra",
+    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "href": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "7 Primera prueba: crear un keyspace",
+    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "8 Comprobar que podemos guardar y consultar datos",
+    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "9 Administrar Cassandra desde Docker Desktop",
+    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "10 Detener Cassandra y volver a utilizarlo",
+    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "href": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "11 Problemas frecuentes",
+    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "href": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "12 Resultado esperado",
+    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
+  },
+  {
+    "objectID": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
+    "href": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
+    "title": "Apuntes del curso",
+    "section": "Apache Cassandra: comandos y consultas con CQL",
+    "text": "Apache Cassandra: comandos y consultas con CQL\nIntroducción al uso de Apache Cassandra mediante comandos CQL para crear espacios de claves, definir tablas, insertar, actualizar y consultar registros. Se utilizará un sistema de monitoreo de temperatura y humedad como ejemplo práctico.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html",
+    "href": "apuntes/09_comandos_cassandra.html",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "",
+    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar. En este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso. Para los ejemplos se utiliza el contenedor cassandra-lab."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#introducción",
+    "href": "apuntes/09_comandos_cassandra.html#introducción",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "",
+    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar. En este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso. Para los ejemplos se utiliza el contenedor cassandra-lab."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
+    "href": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "2 Iniciar Apache Cassandra",
+    "text": "2 Iniciar Apache Cassandra\nAbre Docker Desktop y espera a que el motor de Docker esté en ejecución. Después, abre PowerShell y ejecuta:\ndocker start cassandra-lab\nSi el contenedor ya está iniciado, no es necesario repetir este comando. Puedes comprobar su estado con:\ndocker ps\nEn la lista debe aparecer cassandra-lab con el estado Up. Cassandra puede tardar un poco en estar listo, aunque el contenedor ya aparezca en ejecución.\nPara abrir la consola interactiva de Cassandra, ejecuta:\ndocker exec -it cassandra-lab cqlsh\nCuando la conexión se complete, aparecerá el indicador:\ncqlsh&gt;\n\n\n\n\n\n\nNote¿Qué es cqlsh?\n\n\n\ncqlsh significa Cassandra Query Language Shell. Es una consola interactiva que permite ejecutar instrucciones CQL, de forma similar a mongosh en MongoDB o redis-cli en Redis."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
+    "href": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "3 Explorar los espacios de claves",
+    "text": "3 Explorar los espacios de claves\nEn Cassandra, un keyspace o espacio de claves agrupa las tablas de una aplicación y establece su configuración de replicación.\nPara consultar los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nLos nombres que aparecen inicialmente corresponden, principalmente, a espacios utilizados por el propio sistema.\n\n3.1 Crear un keyspace\nCrearemos un espacio llamado monitoreo_ambiental:\nCREATE KEYSPACE IF NOT EXISTS monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nSimpleStrategy y un factor de replicación de 1 son suficientes para este ejercicio con un solo nodo. No deben interpretarse como una configuración recomendada para producción.\nSelecciona el espacio de claves:\nUSE monitoreo_ambiental;\nEl indicador de la consola cambiará a:\ncqlsh:monitoreo_ambiental&gt;"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
+    "href": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "4 Crear la tabla de sensores",
+    "text": "4 Crear la tabla de sensores\nPrimero almacenaremos los datos generales de cada sensor: su identificador, edificio, ubicación y tipo de medición.\nCREATE TABLE IF NOT EXISTS sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nEn esta tabla, sensor_id es la clave primaria. Su valor permite identificar cada sensor y no debe repetirse.\nPara consultar las tablas del espacio de claves seleccionado:\nDESCRIBE TABLES;\nTambién puedes revisar la definición de la tabla:\nDESCRIBE TABLE sensores;"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#insertar-y-consultar-registros",
+    "href": "apuntes/09_comandos_cassandra.html#insertar-y-consultar-registros",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "5 Insertar y consultar registros",
+    "text": "5 Insertar y consultar registros\nRegistraremos tres sensores instalados en diferentes espacios de una universidad.\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nPara consultar todos los sensores:\nSELECT * FROM sensores;\nEl orden de las filas puede ser diferente al orden en el que se insertaron.\nTambién podemos recuperar únicamente la información de un sensor:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\nO seleccionar solo algunas columnas:\nSELECT sensor_id, edificio, aula\nFROM sensores\nWHERE sensor_id = 'sensor_002';"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#actualizar-y-eliminar-registros",
+    "href": "apuntes/09_comandos_cassandra.html#actualizar-y-eliminar-registros",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "6 Actualizar y eliminar registros",
+    "text": "6 Actualizar y eliminar registros\nSupongamos que el primer sensor fue trasladado del aula 101 al aula 102. Podemos modificar su ubicación mediante UPDATE:\nUPDATE sensores\nSET aula = '102'\nWHERE sensor_id = 'sensor_001';\nComprueba el cambio:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\nPara practicar la eliminación sin perder nuestros tres sensores principales, agregaremos un registro temporal:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_004', 'C', 'Almacén', 'Temperatura');\nElimínalo utilizando su clave primaria:\nDELETE FROM sensores\nWHERE sensor_id = 'sensor_004';\nComprueba que ya no aparezca:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_004';\n\n\n\n\n\n\nImportantConsideración sobre UPDATE\n\n\n\nEn Cassandra, UPDATE también puede crear una fila si no existe un registro con la clave primaria indicada. Por ello, es importante revisar cuidadosamente las claves antes de ejecutar una actualización."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#diseñar-una-tabla-para-las-mediciones",
+    "href": "apuntes/09_comandos_cassandra.html#diseñar-una-tabla-para-las-mediciones",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "7 Diseñar una tabla para las mediciones",
+    "text": "7 Diseñar una tabla para las mediciones\nLa tabla sensores almacena la información general de cada dispositivo, pero un sensor puede generar numerosas lecturas durante el día. Para guardar ese historial, crearemos una segunda tabla.\nAntes de definirla, debemos decidir qué consulta necesitamos realizar. En este ejemplo queremos recuperar las mediciones de un sensor durante una fecha determinada, comenzando por las más recientes.\nCREATE TABLE IF NOT EXISTS mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\n\n7.1 Clave de partición\nLa expresión (sensor_id, fecha) constituye una clave de partición compuesta. Las lecturas que comparten ambos valores pertenecen a la misma partición lógica.\nPor ejemplo, las mediciones de sensor_001 del 29 de septiembre de 2026 se agrupan en una partición diferente de las lecturas de ese mismo sensor del día siguiente.\n\n\n7.2 Columna de agrupamiento\nmomento es una columna de agrupamiento (clustering column). Distingue las diferentes lecturas dentro de la partición y permite organizarlas por fecha y hora. La opción DESC establece el orden descendente: primero las mediciones más recientes.\n\n\n\n\n\n\nTip¿Por qué utilizar dos tablas?\n\n\n\nLa tabla sensores permite consultar los datos generales de un dispositivo. La tabla mediciones está diseñada para consultar eficientemente su historial de lecturas por día. En Cassandra es habitual diseñar las tablas a partir de las consultas que realizará la aplicación."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
+    "href": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "8 Registrar mediciones de temperatura y humedad",
+    "text": "8 Registrar mediciones de temperatura y humedad\nInsertaremos varias lecturas para sensor_001 y una lectura para sensor_002. En este ejemplo utilizaremos horas expresadas en UTC (Z) para que todos los alumnos obtengan resultados consistentes, independientemente de la zona horaria de su equipo.\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:00:00Z', 22.4, 45.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:05:00Z', 22.8, 46.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:10:00Z', 23.1, 44.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_002', '2026-09-29', '2026-09-29T09:00:00Z', 21.7, 48.0);\nEl sensor exterior solo registra temperatura. Podemos omitir la columna humedad:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura)\nVALUES\n('sensor_003', '2026-09-29', '2026-09-29T09:00:00Z', 25.6);\nEn este caso, la humedad no tiene un valor registrado. Esto permite ilustrar que una fila no necesita contener valores en todas las columnas no clave."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-mediciones",
+    "href": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-mediciones",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "9 Consultar el historial de mediciones",
+    "text": "9 Consultar el historial de mediciones\n\n9.1 Consultar las mediciones de un sensor en un día\nSELECT * FROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\nLa consulta recupera las tres lecturas de ese sensor y las presenta de la más reciente a la más antigua, de acuerdo con la definición de la tabla.\n\n\n9.2 Seleccionar algunas columnas\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\n\n\n9.3 Consultar un intervalo de tiempo\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29'\n  AND momento &gt;= '2026-09-29T09:05:00Z';\nEsta consulta obtiene las mediciones realizadas a partir de las 09:05 UTC, dentro de la partición indicada.\n\n\n\n\n\n\nWarningLas consultas se diseñan a partir de las claves\n\n\n\nEn Cassandra no todas las consultas que parecen naturales en SQL se pueden ejecutar de forma eficiente. La tabla mediciones está organizada para consultar un sensor y una fecha. Consultar directamente todas las mediciones con temperatura superior a 25 °C, sin indicar las claves de partición, requeriría otro diseño de tabla o una estrategia específica de consulta. Evitaremos utilizar ALLOW FILTERING como solución habitual."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión-y-detener-cassandra",
+    "href": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión-y-detener-cassandra",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "10 Cerrar la sesión y detener Cassandra",
+    "text": "10 Cerrar la sesión y detener Cassandra\nPara salir de la consola cqlsh, escribe:\nexit;\nDe regreso en PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCassandra dejará de ejecutarse, pero el contenedor y sus datos permanecerán disponibles mientras no se elimine. Cuando vuelvas a trabajar, inicia Docker Desktop y ejecuta docker start cassandra-lab."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#para-recordar",
+    "href": "apuntes/09_comandos_cassandra.html#para-recordar",
+    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "section": "11 Para recordar",
+    "text": "11 Para recordar\n\nDocker Desktop administra el contenedor en el que se ejecuta Cassandra.\ncqlsh es la consola en la que escribimos instrucciones CQL.\nUn keyspace agrupa tablas y define la configuración de replicación.\nLa clave de partición determina cómo se agrupan y distribuyen los datos.\nLas columnas de agrupamiento organizan las filas dentro de una partición.\nEn Cassandra conviene diseñar cada tabla en función de las consultas que necesita la aplicación.\n\nCon estas operaciones ya podemos desarrollar una práctica en la que los alumnos registren y consulten el historial de distintos sensores ambientales."
   }
 ]

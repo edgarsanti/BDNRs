@@ -95,3 +95,15 @@ Introducción al modelo de familias de columnas, su organización, escalabilidad
    href="apuntes/08_bases_orientadas_columnas.html">
    Abrir apunte
 </a>
+
+
+---
+
+## Apache Cassandra: comandos y consultas con CQL
+
+Introducción al uso de Apache Cassandra mediante comandos CQL para crear espacios de claves, definir tablas, insertar, actualizar y consultar registros. Se utilizará un sistema de monitoreo de temperatura y humedad como ejemplo práctico.
+
+<a class="btn btn-primary"
+   href="apuntes/09_comandos_cassandra.html">
+   Abrir apunte
+</a>

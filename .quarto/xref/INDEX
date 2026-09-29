@@ -58,5 +58,17 @@
   },
   "apuntes/08_bases_orientadas_columnas.qmd": {
     "08_bases_orientadas_columnas.html": "bf138068"
+  },
+  "manuales/manuales/01_instalacion_cassandra_windows.qmd": {
+    "01_instalacion_cassandra_windows.html": "923ea5b7"
+  },
+  "manuales/ejemplo_entrada_manuales.qmd": {
+    "ejemplo_entrada_manuales.html": "05fc9baf"
+  },
+  "manuales/01_instalacion_cassandra_windows.qmd": {
+    "01_instalacion_cassandra_windows.html": "da0c95a0"
+  },
+  "apuntes/09_comandos_cassandra.qmd": {
+    "09_comandos_cassandra.html": "a0837fcd"
   }
 }

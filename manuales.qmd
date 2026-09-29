@@ -28,3 +28,15 @@ Guía paso a paso para instalar y configurar:
     style="border:none;">
   </iframe>
 </div>
+
+---
+
+## Instalación de Apache Cassandra en Windows
+
+Tutorial paso a paso para instalar Docker Desktop, ejecutar
+Apache Cassandra y realizar las primeras consultas con CQL.
+
+<a class="btn btn-primary"
+   href="manuales/01_instalacion_cassandra_windows.html">
+   Abrir manual
+</a>
