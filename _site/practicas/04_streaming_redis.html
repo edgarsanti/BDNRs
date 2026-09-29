@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>practicas – Bases de Datos No Relacionales</title>
+<title>Práctica 4. Gestión de una plataforma de streaming con Redis – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bases de Datos No Relacionales</span>
     </a>
   </div>
@@ -96,27 +96,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./diapositivas.html"> 
+    <a class="nav-link" href="../diapositivas.html"> 
 <span class="menu-text">Diapositivas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./apuntes.html"> 
+    <a class="nav-link" href="../apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./practicas.html" aria-current="page"> 
+    <a class="nav-link" href="../practicas.html"> 
 <span class="menu-text">Prácticas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./manuales.html"> 
+    <a class="nav-link" href="../manuales.html"> 
 <span class="menu-text">Manuales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datasets.html"> 
+    <a class="nav-link" href="../datasets.html"> 
 <span class="menu-text">Datasets</span></a>
   </li>  
 </ul>
@@ -142,53 +142,178 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#práctica-1.-consultas-con-mongodb" id="toc-práctica-1.-consultas-con-mongodb" class="nav-link active" data-scroll-target="#práctica-1.-consultas-con-mongodb">Práctica 1. Consultas con MongoDB</a></li>
-  <li><a href="#práctica-2.-modelado-de-relaciones-con-sample_mflix" id="toc-práctica-2.-modelado-de-relaciones-con-sample_mflix" class="nav-link" data-scroll-target="#práctica-2.-modelado-de-relaciones-con-sample_mflix">Práctica 2. Modelado de relaciones con <code>sample_mflix</code></a></li>
-  <li><a href="#práctica-3.-manejo-de-datos-clavevalor-con-redis" id="toc-práctica-3.-manejo-de-datos-clavevalor-con-redis" class="nav-link" data-scroll-target="#práctica-3.-manejo-de-datos-clavevalor-con-redis">Práctica 3. Manejo de datos clave–valor con Redis</a></li>
-  <li><a href="#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis" id="toc-práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis" class="nav-link" data-scroll-target="#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis">Práctica 4. Gestión de una plataforma de streaming con Redis</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo"><span class="header-section-number">1</span> Objetivo</a></li>
+  <li><a href="#descripción" id="toc-descripción" class="nav-link" data-scroll-target="#descripción"><span class="header-section-number">2</span> Descripción</a></li>
+  <li><a href="#indicaciones-generales" id="toc-indicaciones-generales" class="nav-link" data-scroll-target="#indicaciones-generales"><span class="header-section-number">3</span> Indicaciones generales</a></li>
+  <li><a href="#registro-del-catálogo-de-películas" id="toc-registro-del-catálogo-de-películas" class="nav-link" data-scroll-target="#registro-del-catálogo-de-películas"><span class="header-section-number">4</span> Registro del catálogo de películas</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-de-cómo-documentar-la-actividad" id="toc-ejemplo-de-cómo-documentar-la-actividad" class="nav-link" data-scroll-target="#ejemplo-de-cómo-documentar-la-actividad"><span class="header-section-number">4.1</span> Ejemplo de cómo documentar la actividad</a></li>
+  </ul></li>
+  <li><a href="#administración-de-sesiones" id="toc-administración-de-sesiones" class="nav-link" data-scroll-target="#administración-de-sesiones"><span class="header-section-number">5</span> Administración de sesiones</a></li>
+  <li><a href="#función-continuar-viendo" id="toc-función-continuar-viendo" class="nav-link" data-scroll-target="#función-continuar-viendo"><span class="header-section-number">6</span> Función “Continuar viendo”</a></li>
+  <li><a href="#contador-de-reproducciones" id="toc-contador-de-reproducciones" class="nav-link" data-scroll-target="#contador-de-reproducciones"><span class="header-section-number">7</span> Contador de reproducciones</a></li>
+  <li><a href="#películas-favoritas" id="toc-películas-favoritas" class="nav-link" data-scroll-target="#películas-favoritas"><span class="header-section-number">8</span> Películas favoritas</a></li>
+  <li><a href="#ranking-de-películas" id="toc-ranking-de-películas" class="nav-link" data-scroll-target="#ranking-de-películas"><span class="header-section-number">9</span> Ranking de películas</a></li>
+  <li><a href="#evidencia-de-entrega" id="toc-evidencia-de-entrega" class="nav-link" data-scroll-target="#evidencia-de-entrega"><span class="header-section-number">10</span> Evidencia de entrega</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Práctica 4. Gestión de una plataforma de streaming con Redis</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="práctica-1.-consultas-con-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-1.-consultas-con-mongodb">Práctica 1. Consultas con MongoDB</h2>
-<p>En esta práctica se trabaja con la base de datos de ejemplo <code>sample_mflix</code> y la colección <code>movies</code>, utilizando MongoDB Shell, MongoDB Compass y <code>mongoexport</code>.</p>
-<p>Se abordan:</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivo" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="objetivo"><span class="header-section-number">1</span> Objetivo</h2>
+<p>Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios.</p>
+</section>
+<section id="descripción" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="descripción"><span class="header-section-number">2</span> Descripción</h2>
+<p>Una plataforma de streaming necesita almacenar y consultar información relacionada con su catálogo de películas y la actividad de sus usuarios.</p>
+<p>En esta práctica utilizarás Redis para simular algunas de estas funciones, seleccionando los comandos adecuados para cada actividad.</p>
+<div id="fig-streaming-redis" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-streaming-redis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/modelo_streaming_redis.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-streaming-redis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Funcionamiento general de una plataforma de streaming que utiliza Redis.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="indicaciones-generales" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="indicaciones-generales"><span class="header-section-number">3</span> Indicaciones generales</h2>
+<p>Durante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.</p>
+<p>El documento deberá incluir una portada con tu nombre, matrícula y grupo.</p>
+<p>Para cada actividad, incorpora los siguientes elementos:</p>
+<ol type="1">
+<li><strong>Descripción:</strong> explica brevemente qué realizaste.</li>
+<li><strong>Comandos utilizados:</strong> escribe los comandos que ejecutaste en Redis.</li>
+<li><strong>Evidencia:</strong> inserta una captura de pantalla donde se observen los comandos y sus resultados.</li>
+</ol>
+<p>Completa cada apartado conforme avances en la práctica. No es necesario tomar una captura por cada comando, siempre que las evidencias permitan verificar las operaciones solicitadas.</p>
+<p>Al finalizar, convierte el documento de Word a PDF y entrégalo en Eminus.</p>
+</section>
+<section id="registro-del-catálogo-de-películas" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="registro-del-catálogo-de-películas"><span class="header-section-number">4</span> Registro del catálogo de películas</h2>
+<p>Imagina que administras una plataforma de streaming.</p>
+<p>Registra al menos <strong>cinco películas</strong> utilizando la estructura <code>HASH</code>.</p>
+<p>Cada película deberá contener los siguientes atributos:</p>
 <ul>
-<li>consultas básicas sobre documentos;</li>
-<li>operadores de comparación;</li>
-<li>consultas sobre campos anidados;</li>
-<li>consultas sobre arreglos;</li>
-<li>uso de <code>$exists</code>;</li>
-<li>combinación de condiciones;</li>
-<li>conteo de documentos con <code>countDocuments()</code>;</li>
-<li>uso de MongoDB Compass;</li>
-<li>construcción de una consulta propia;</li>
-<li>exportación de resultados en JSON o CSV.</li>
+<li>Identificador.</li>
+<li>Título.</li>
+<li>Género.</li>
+<li>Año de estreno.</li>
+<li>Duración en minutos.</li>
 </ul>
-<p><a class="btn btn-primary" href="practicas/01_mongodb_local.html"> Abrir práctica </a></p>
+<p>Utiliza nombres de claves que permitan identificar fácilmente cada película.</p>
+<p>Una vez registradas, consulta la información para comprobar que los datos se almacenaron correctamente.</p>
+<section id="ejemplo-de-cómo-documentar-la-actividad" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="ejemplo-de-cómo-documentar-la-actividad"><span class="header-section-number">4.1</span> Ejemplo de cómo documentar la actividad</h3>
+<p>La siguiente imagen muestra un ejemplo del registro de las tres películas de la trilogía de Batman de Christopher Nolan.</p>
+<p>Observa cómo se utilizan los comandos <code>HSET</code> para almacenar la información y <code>HGETALL</code> para consultar los datos de cada película.</p>
+<div id="fig-ejemplo-batman" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ejemplo-batman-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tutorial_registro_redis_peliculas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ejemplo-batman-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Ejemplo de registro de la trilogía de Batman en Redis y presentación de la evidencia en un documento.
+</figcaption>
+</figure>
+</div>
+<p>Este ejemplo sirve como referencia para elaborar tu documento. Deberás seleccionar tus propias películas y registrar sus respectivos atributos.</p>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos.</p>
 </section>
-<section id="práctica-2.-modelado-de-relaciones-con-sample_mflix" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-2.-modelado-de-relaciones-con-sample_mflix">Práctica 2. Modelado de relaciones con <code>sample_mflix</code></h2>
-<p>Análisis de la estructura de la base <code>sample_mflix</code> mediante <strong>MongoDB Compass</strong> y <strong>Data Modeling</strong>, identificando relaciones entre colecciones, campos de referencia e información incrustada.</p>
-<p><a class="btn btn-primary" href="practicas/02_modelado_relaciones_mongodb.html"> Abrir práctica </a></p>
-<hr>
 </section>
-<section id="práctica-3.-manejo-de-datos-clavevalor-con-redis" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-3.-manejo-de-datos-clavevalor-con-redis">Práctica 3. Manejo de datos clave–valor con Redis</h2>
-<p>Aplicación de los principales comandos y estructuras de Redis mediante el escenario de una tienda en línea. Se trabajará con productos, stock, sesiones, contadores, colas, usuarios únicos y rankings.</p>
-<p><a class="btn btn-primary" href="practicas/03_redis_clave_valor.html"> Abrir práctica </a></p>
-<hr>
+<section id="administración-de-sesiones" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="administración-de-sesiones"><span class="header-section-number">5</span> Administración de sesiones</h2>
+<p>La plataforma necesita identificar temporalmente a los usuarios que han iniciado sesión.</p>
+<p>Registra <strong>tres sesiones</strong> utilizando la estructura <code>STRING</code>.</p>
+<p>Cada sesión deberá:</p>
+<ul>
+<li>Tener una clave que permita identificarla.</li>
+<li>Almacenar el identificador del usuario.</li>
+<li>Expirar automáticamente después de 10 minutos.</li>
+</ul>
+<p>Comprueba que las sesiones se almacenaron correctamente y consulta el tiempo restante de al menos una de ellas.</p>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos.</p>
 </section>
-<section id="práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis" class="level2">
-<h2 class="anchored" data-anchor-id="práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis">Práctica 4. Gestión de una plataforma de streaming con Redis</h2>
-<p>Simulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.</p>
-<p><a class="btn btn-primary" href="practicas/04_streaming_redis.html"> Abrir práctica </a></p>
+<section id="función-continuar-viendo" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="función-continuar-viendo"><span class="header-section-number">6</span> Función “Continuar viendo”</h2>
+<p>La plataforma debe recordar la última película que estaba reproduciendo cada usuario.</p>
+<p>Registra la siguiente información para <strong>tres usuarios</strong>:</p>
+<ul>
+<li>Identificador del usuario.</li>
+<li>Identificador de la última película reproducida.</li>
+<li>Segundo exacto en el que se detuvo la reproducción.</li>
+</ul>
+<p>Selecciona una estructura de Redis que permita almacenar esta información.</p>
+<p>Posteriormente, consulta los datos registrados para comprobar que es posible recuperar la última película y el segundo en el que cada usuario detuvo su reproducción.</p>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos.</p>
+</section>
+<section id="contador-de-reproducciones" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="contador-de-reproducciones"><span class="header-section-number">7</span> Contador de reproducciones</h2>
+<p>La plataforma necesita conocer cuántas veces se reproduce cada película.</p>
+<p>Implementa un contador para las <strong>cinco películas</strong> registradas anteriormente.</p>
+<p>Realiza las siguientes operaciones:</p>
+<ol type="1">
+<li>Inicializa los contadores.</li>
+<li>Simula varias reproducciones incrementando los contadores.</li>
+<li>Consulta el número total de reproducciones de cada película.</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos.</p>
+</section>
+<section id="películas-favoritas" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="películas-favoritas"><span class="header-section-number">8</span> Películas favoritas</h2>
+<p>Cada usuario podrá guardar sus películas favoritas.</p>
+<p>Utiliza la estructura <code>SET</code> para registrar las películas favoritas de <strong>tres usuarios</strong>.</p>
+<p>Realiza las siguientes operaciones:</p>
+<ol type="1">
+<li>Agrega tres películas favoritas por usuario.</li>
+<li>Consulta las películas favoritas registradas para cada uno.</li>
+<li>Comprueba que la información se almacenó correctamente.</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos.</p>
+</section>
+<section id="ranking-de-películas" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="ranking-de-películas"><span class="header-section-number">9</span> Ranking de películas</h2>
+<p>La plataforma necesita identificar las películas con mayor número de reproducciones.</p>
+<p>Utiliza la estructura <code>SORTED SET</code> para crear un ranking de las cinco películas registradas.</p>
+<p>Asigna una puntuación a cada película que represente su número de reproducciones.</p>
+<p>Consulta el ranking de mayor a menor, mostrando las películas y sus respectivas puntuaciones.</p>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, los comandos utilizados y una captura del ranking obtenido.</p>
+</section>
+<section id="evidencia-de-entrega" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="evidencia-de-entrega"><span class="header-section-number">10</span> Evidencia de entrega</h2>
+<p>Entrega un documento en PDF que contenga:</p>
+<ul>
+<li>Portada con nombre, matrícula y grupo.</li>
+<li>Las seis actividades desarrolladas.</li>
+<li>Una breve descripción de lo realizado en cada actividad.</li>
+<li>Los comandos utilizados.</li>
+<li>Capturas de pantalla de los resultados obtenidos.</li>
+</ul>
+<p><strong>Importante:</strong> Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.</p>
+<p>El documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus.</p>
 
 
 </section>

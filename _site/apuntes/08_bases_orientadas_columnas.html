@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fundamentos de las bases de datos orientadas a columnas – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../diapositivas.html"> 
+<span class="menu-text">Diapositivas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#qué-son-las-bases-de-datos-orientadas-a-columnas" id="toc-qué-son-las-bases-de-datos-orientadas-a-columnas" class="nav-link" data-scroll-target="#qué-son-las-bases-de-datos-orientadas-a-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos orientadas a columnas?</a></li>
+  <li><a href="#cómo-se-organiza-la-información" id="toc-cómo-se-organiza-la-información" class="nav-link" data-scroll-target="#cómo-se-organiza-la-información"><span class="header-section-number">3</span> ¿Cómo se organiza la información?</a>
+  <ul class="collapse">
+  <li><a href="#clave-de-fila" id="toc-clave-de-fila" class="nav-link" data-scroll-target="#clave-de-fila"><span class="header-section-number">3.1</span> Clave de fila</a></li>
+  <li><a href="#columnas" id="toc-columnas" class="nav-link" data-scroll-target="#columnas"><span class="header-section-number">3.2</span> Columnas</a></li>
+  <li><a href="#familias-de-columnas" id="toc-familias-de-columnas" class="nav-link" data-scroll-target="#familias-de-columnas"><span class="header-section-number">3.3</span> Familias de columnas</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-de-organización" id="toc-ejemplo-de-organización" class="nav-link" data-scroll-target="#ejemplo-de-organización"><span class="header-section-number">4</span> Ejemplo de organización</a>
+  <ul class="collapse">
+  <li><a href="#qué-son-los-datos-dispersos" id="toc-qué-son-los-datos-dispersos" class="nav-link" data-scroll-target="#qué-son-los-datos-dispersos"><span class="header-section-number">4.1</span> ¿Qué son los datos dispersos?</a></li>
+  </ul></li>
+  <li><a href="#diferencias-respecto-al-modelo-relacional" id="toc-diferencias-respecto-al-modelo-relacional" class="nav-link" data-scroll-target="#diferencias-respecto-al-modelo-relacional"><span class="header-section-number">5</span> Diferencias respecto al modelo relacional</a></li>
+  <li><a href="#distribución-y-escalabilidad-horizontal" id="toc-distribución-y-escalabilidad-horizontal" class="nav-link" data-scroll-target="#distribución-y-escalabilidad-horizontal"><span class="header-section-number">6</span> Distribución y escalabilidad horizontal</a>
+  <ul class="collapse">
+  <li><a href="#escalabilidad-vertical" id="toc-escalabilidad-vertical" class="nav-link" data-scroll-target="#escalabilidad-vertical"><span class="header-section-number">6.1</span> Escalabilidad vertical</a></li>
+  <li><a href="#escalabilidad-horizontal" id="toc-escalabilidad-horizontal" class="nav-link" data-scroll-target="#escalabilidad-horizontal"><span class="header-section-number">6.2</span> Escalabilidad horizontal</a></li>
+  </ul></li>
+  <li><a href="#particionamiento-de-los-datos" id="toc-particionamiento-de-los-datos" class="nav-link" data-scroll-target="#particionamiento-de-los-datos"><span class="header-section-number">7</span> Particionamiento de los datos</a></li>
+  <li><a href="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" id="toc-ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="nav-link" data-scroll-target="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">8</span> Ejemplo aplicado: monitoreo de temperatura y humedad</a>
+  <ul class="collapse">
+  <li><a href="#información-del-dispositivo" id="toc-información-del-dispositivo" class="nav-link" data-scroll-target="#información-del-dispositivo"><span class="header-section-number">8.1</span> Información del dispositivo</a></li>
+  <li><a href="#información-de-las-mediciones" id="toc-información-de-las-mediciones" class="nav-link" data-scroll-target="#información-de-las-mediciones"><span class="header-section-number">8.2</span> Información de las mediciones</a></li>
+  <li><a href="#qué-consultas-podríamos-realizar" id="toc-qué-consultas-podríamos-realizar" class="nav-link" data-scroll-target="#qué-consultas-podríamos-realizar"><span class="header-section-number">8.3</span> ¿Qué consultas podríamos realizar?</a></li>
+  </ul></li>
+  <li><a href="#ventajas-del-modelo" id="toc-ventajas-del-modelo" class="nav-link" data-scroll-target="#ventajas-del-modelo"><span class="header-section-number">9</span> Ventajas del modelo</a></li>
+  <li><a href="#limitaciones-y-consideraciones" id="toc-limitaciones-y-consideraciones" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones"><span class="header-section-number">10</span> Limitaciones y consideraciones</a>
+  <ul class="collapse">
+  <li><a href="#diseño-de-las-consultas" id="toc-diseño-de-las-consultas" class="nav-link" data-scroll-target="#diseño-de-las-consultas"><span class="header-section-number">10.1</span> Diseño de las consultas</a></li>
+  <li><a href="#claves-de-partición" id="toc-claves-de-partición" class="nav-link" data-scroll-target="#claves-de-partición"><span class="header-section-number">10.2</span> Claves de partición</a></li>
+  <li><a href="#relaciones-entre-entidades" id="toc-relaciones-entre-entidades" class="nav-link" data-scroll-target="#relaciones-entre-entidades"><span class="header-section-number">10.3</span> Relaciones entre entidades</a></li>
+  <li><a href="#complejidad-operativa" id="toc-complejidad-operativa" class="nav-link" data-scroll-target="#complejidad-operativa"><span class="header-section-number">10.4</span> Complejidad operativa</a></li>
+  </ul></li>
+  <li><a href="#tecnologías-representativas" id="toc-tecnologías-representativas" class="nav-link" data-scroll-target="#tecnologías-representativas"><span class="header-section-number">11</span> Tecnologías representativas</a>
+  <ul class="collapse">
+  <li><a href="#apache-cassandra" id="toc-apache-cassandra" class="nav-link" data-scroll-target="#apache-cassandra"><span class="header-section-number">11.1</span> Apache Cassandra</a></li>
+  <li><a href="#apache-hbase" id="toc-apache-hbase" class="nav-link" data-scroll-target="#apache-hbase"><span class="header-section-number">11.2</span> Apache HBase</a></li>
+  <li><a href="#google-bigtable" id="toc-google-bigtable" class="nav-link" data-scroll-target="#google-bigtable"><span class="header-section-number">11.3</span> Google Bigtable</a></li>
+  </ul></li>
+  <li><a href="#relación-con-los-modelos-anteriores" id="toc-relación-con-los-modelos-anteriores" class="nav-link" data-scroll-target="#relación-con-los-modelos-anteriores"><span class="header-section-number">12</span> Relación con los modelos anteriores</a></li>
+  <li><a href="#cierre" id="toc-cierre" class="nav-link" data-scroll-target="#cierre"><span class="header-section-number">13</span> Cierre</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fundamentos de las bases de datos orientadas a columnas</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>Las bases de datos orientadas a columnas son un modelo de bases de datos no relacionales que permite organizar la información mediante claves de fila y columnas que pueden agruparse en familias.</p>
+<p>Este modelo está presente en sistemas diseñados para almacenar grandes volúmenes de información y distribuir los datos entre diferentes servidores.</p>
+<p>Para comprender su funcionamiento, utilizaremos como ejemplo un sistema de monitoreo ambiental que registra constantemente la temperatura y la humedad mediante sensores instalados en diferentes edificios.</p>
+<p>A partir de este ejemplo, estudiaremos cómo se organiza la información, qué son las familias de columnas y cómo funcionan conceptos como el particionamiento y la escalabilidad horizontal.</p>
+</section>
+<section id="qué-son-las-bases-de-datos-orientadas-a-columnas" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="qué-son-las-bases-de-datos-orientadas-a-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos orientadas a columnas?</h2>
+<p>Las bases de datos de familias de columnas, también conocidas como bases de datos de columnas amplias (<em>wide-column</em>), organizan la información mediante filas identificadas por una clave y columnas que pueden agruparse en familias.</p>
+<p>Este modelo está presente en tecnologías como Apache Cassandra, Apache HBase y Google Bigtable, aunque cada una tiene características particulares.</p>
+<p>Imaginemos una universidad que cuenta con sensores ambientales instalados en diferentes edificios.</p>
+<p>Cada sensor genera información sobre la temperatura, la humedad y el estado del dispositivo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sensor_001
+    edificio: A
+    aula: 101
+    temperatura: 22.4
+    humedad: 45
+    bateria: 85</code></pre>
+<p>En este caso, toda la información corresponde a un mismo sensor, identificado mediante la clave <code>sensor_001</code>.</p>
+<p>En determinados sistemas de familias de columnas, los registros pueden contener distintos conjuntos de columnas. Por ejemplo, algunos sensores pueden registrar temperatura y humedad, mientras que otros únicamente registran temperatura.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea principal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El modelo de familias de columnas organiza la información mediante claves de fila y grupos de columnas relacionadas.</p>
+<p>Su diseño puede facilitar el almacenamiento de grandes cantidades de registros y la distribución de datos entre varios servidores.</p>
+</div>
+</div>
+</section>
+<section id="cómo-se-organiza-la-información" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="cómo-se-organiza-la-información"><span class="header-section-number">3</span> ¿Cómo se organiza la información?</h2>
+<p>Para comprender este modelo, primero debemos identificar tres elementos principales:</p>
+<ul>
+<li>Clave de fila.</li>
+<li>Columnas.</li>
+<li>Familias de columnas.</li>
+</ul>
+<section id="clave-de-fila" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="clave-de-fila"><span class="header-section-number">3.1</span> Clave de fila</h3>
+<p>La clave de fila (<em>row key</em>) permite identificar un registro.</p>
+<p>Por ejemplo, en nuestro sistema de monitoreo ambiental podemos tener los siguientes sensores:</p>
+<pre class="text"><code>sensor_001
+sensor_002
+sensor_003</code></pre>
+<p>Cada identificador corresponde a un dispositivo diferente.</p>
+<p>A partir de esta clave podemos localizar la información relacionada con cada sensor.</p>
+</section>
+<section id="columnas" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="columnas"><span class="header-section-number">3.2</span> Columnas</h3>
+<p>Las columnas representan características o datos asociados con cada registro.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sensor_001
+    edificio: A
+    aula: 101
+    temperatura: 22.4
+    humedad: 45</code></pre>
+<p>En este caso, las columnas contienen información sobre la ubicación del sensor y las mediciones realizadas.</p>
+</section>
+<section id="familias-de-columnas" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="familias-de-columnas"><span class="header-section-number">3.3</span> Familias de columnas</h3>
+<p>Una familia de columnas es una agrupación de columnas relacionadas.</p>
+<p>Siguiendo nuestro ejemplo, podemos organizar conceptualmente la información en tres familias.</p>
+<p><strong>Ubicación</strong></p>
+<p>Contiene los datos que permiten identificar dónde se encuentra el dispositivo.</p>
+<pre class="text"><code>ubicacion
+    edificio: A
+    aula: 101</code></pre>
+<p><strong>Mediciones</strong></p>
+<p>Contiene las variables ambientales registradas por el sensor.</p>
+<pre class="text"><code>mediciones
+    temperatura: 22.4
+    humedad: 45</code></pre>
+<p><strong>Estado</strong></p>
+<p>Contiene información sobre el funcionamiento del dispositivo.</p>
+<pre class="text"><code>estado
+    bateria: 85
+    alerta: No</code></pre>
+<p>Esta separación nos permite comprender cómo pueden agruparse diferentes tipos de información.</p>
+<p>La implementación exacta depende de la tecnología utilizada. Por ejemplo, HBase trabaja con familias de columnas explícitas, mientras que Cassandra organiza los datos mediante tablas, particiones, filas y columnas definidas en un esquema.</p>
+</section>
+</section>
+<section id="ejemplo-de-organización" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ejemplo-de-organización"><span class="header-section-number">4</span> Ejemplo de organización</h2>
+<p>Consideremos un sistema de monitoreo ambiental que recibe información de sensores instalados en diferentes edificios.</p>
+<p>Cada sensor se identifica mediante una clave de fila y sus datos pueden organizarse en grupos relacionados con la ubicación, las mediciones y el estado del dispositivo.</p>
+<div id="fig-organizacion-columnas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-organizacion-columnas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/organizacion_columnas.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-organizacion-columnas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema de sensores.
+</figcaption>
+</figure>
+</div>
+<p>La <a href="#fig-organizacion-columnas" class="quarto-xref">Figure&nbsp;1</a> muestra conceptualmente tres sensores con diferentes características.</p>
+<p>Algunos registran temperatura y humedad, mientras que otros no cuentan con todas las mediciones o los datos de funcionamiento.</p>
+<p>Esta representación permite comprender el concepto de <strong>datos dispersos</strong>.</p>
+<section id="qué-son-los-datos-dispersos" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="qué-son-los-datos-dispersos"><span class="header-section-number">4.1</span> ¿Qué son los datos dispersos?</h3>
+<p>Son conjuntos de datos en los que no todos los registros contienen información para todas las columnas posibles.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sensor</th>
+<th style="text-align: right;">Temperatura</th>
+<th style="text-align: right;">Humedad</th>
+<th style="text-align: right;">Batería</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sensor_001</td>
+<td style="text-align: right;">22.4</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">85</td>
+</tr>
+<tr class="even">
+<td>sensor_002</td>
+<td style="text-align: right;">24.8</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>sensor_003</td>
+<td style="text-align: right;">18.1</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">40</td>
+</tr>
+</tbody>
+</table>
+<p>El segundo sensor no reportó información sobre su batería y el tercero no registró humedad.</p>
+<p>En determinados sistemas de familias de columnas, los datos ausentes no necesitan almacenarse como valores individuales.</p>
+<p>Esto puede resultar conveniente cuando se trabaja con dispositivos que tienen diferentes capacidades.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Una distinción importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No todos los sistemas de familias de columnas permiten agregar libremente cualquier columna a cada registro.</p>
+<p>En Cassandra, las columnas ordinarias se definen mediante un esquema. Por esta razón, debemos distinguir las características del modelo general de las reglas particulares de cada tecnología.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="diferencias-respecto-al-modelo-relacional" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="diferencias-respecto-al-modelo-relacional"><span class="header-section-number">5</span> Diferencias respecto al modelo relacional</h2>
+<p>Las bases de datos relacionales y las bases de datos de familias de columnas pueden representar información mediante filas y columnas.</p>
+<p>Sin embargo, existen diferencias importantes en su organización, distribución y diseño.</p>
+<p>Consideremos el mismo sistema de monitoreo ambiental.</p>
+<p>En una base de datos relacional podemos representar la información de los sensores mediante una tabla:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sensor</th>
+<th>Edificio</th>
+<th style="text-align: right;">Temperatura</th>
+<th style="text-align: right;">Humedad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sensor_001</td>
+<td>A</td>
+<td style="text-align: right;">22.4</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="even">
+<td>sensor_002</td>
+<td>A</td>
+<td style="text-align: right;">24.8</td>
+<td style="text-align: right;">60</td>
+</tr>
+<tr class="odd">
+<td>sensor_003</td>
+<td>B</td>
+<td style="text-align: right;">18.1</td>
+<td style="text-align: right;">78</td>
+</tr>
+</tbody>
+</table>
+<p>Si necesitamos conservar un historial de mediciones, podemos crear una tabla adicional y relacionarla con la información de los sensores.</p>
+<p>En un sistema de familias de columnas, la organización depende de la tecnología utilizada y de las consultas que necesitamos realizar.</p>
+<p>Por ejemplo, en Cassandra podríamos diseñar una tabla que agrupe las mediciones por sensor y fecha, de manera que resulte sencillo recuperar su historial durante un periodo determinado.</p>
+<p>La siguiente tabla resume algunas diferencias generales:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Modelo relacional</th>
+<th>Modelo de familias de columnas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Organización</td>
+<td>Tablas relacionadas</td>
+<td>Filas y columnas organizadas según el sistema</td>
+</tr>
+<tr class="even">
+<td>Esquema</td>
+<td>Generalmente definido</td>
+<td>Depende de la tecnología</td>
+</tr>
+<tr class="odd">
+<td>Relaciones</td>
+<td>Puede utilizar llaves foráneas y JOIN</td>
+<td>Suele favorecer consultas previamente definidas</td>
+</tr>
+<tr class="even">
+<td>Distribución</td>
+<td>Depende del gestor y su arquitectura</td>
+<td>Existen sistemas diseñados para distribuir datos entre nodos</td>
+</tr>
+<tr class="odd">
+<td>Ejemplos</td>
+<td>PostgreSQL, MySQL</td>
+<td>Cassandra, HBase</td>
+</tr>
+</tbody>
+</table>
+<p>Estas diferencias no significan que un modelo sea superior al otro.</p>
+<p>Por ejemplo, un sistema universitario que administra estudiantes, materias, inscripciones y calificaciones puede funcionar mediante una base de datos relacional.</p>
+<p>En cambio, un sistema que recibe continuamente grandes cantidades de mediciones provenientes de sensores puede beneficiarse de una base de datos distribuida diseñada para grandes volúmenes de escritura.</p>
+<p>La elección depende de la información que necesitamos almacenar y de las consultas que realizará la aplicación.</p>
+</section>
+<section id="distribución-y-escalabilidad-horizontal" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="distribución-y-escalabilidad-horizontal"><span class="header-section-number">6</span> Distribución y escalabilidad horizontal</h2>
+<p>Una característica importante de sistemas como Cassandra es su capacidad para distribuir información entre diferentes servidores.</p>
+<p>Para comprenderlo, imaginemos una universidad con sensores instalados en todos sus edificios.</p>
+<p>Al principio solamente tenemos diez sensores. Sin embargo, el proyecto crece y posteriormente incorpora cientos o miles de dispositivos.</p>
+<p>Cada sensor puede generar varias mediciones por minuto.</p>
+<p>La cantidad de información almacenada comienza a crecer rápidamente.</p>
+<section id="escalabilidad-vertical" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="escalabilidad-vertical"><span class="header-section-number">6.1</span> Escalabilidad vertical</h3>
+<p>La escalabilidad vertical consiste en aumentar los recursos de un servidor.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Incrementar la memoria RAM.</li>
+<li>Incorporar un procesador más potente.</li>
+<li>Ampliar la capacidad de almacenamiento.</li>
+</ul>
+<p>Esta estrategia puede resultar útil, pero el crecimiento de un solo servidor tiene límites.</p>
+</section>
+<section id="escalabilidad-horizontal" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="escalabilidad-horizontal"><span class="header-section-number">6.2</span> Escalabilidad horizontal</h3>
+<p>La escalabilidad horizontal consiste en incorporar servidores adicionales para distribuir el trabajo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>                 Aplicación
+                     |
+          -----------------------
+          |          |          |
+        Nodo 1     Nodo 2     Nodo 3
+          |          |          |
+          -----------------------
+                     |
+          Base de datos distribuida</code></pre>
+<p>En este ejemplo, los nodos participan en el almacenamiento y procesamiento de los datos.</p>
+<p>Al añadir más servidores, el sistema puede disponer de recursos adicionales para atender nuevas necesidades.</p>
+<p>Sin embargo, agregar servidores no garantiza automáticamente un mejor rendimiento. También influyen la distribución de los datos, el diseño de las consultas y la configuración del sistema.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escalabilidad vertical:</strong> aumentar los recursos de un servidor.</p>
+<p><strong>Escalabilidad horizontal:</strong> incorporar más servidores para distribuir el trabajo.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="particionamiento-de-los-datos" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="particionamiento-de-los-datos"><span class="header-section-number">7</span> Particionamiento de los datos</h2>
+<p>Cuando una base de datos utiliza varios servidores, necesita establecer cómo distribuir la información.</p>
+<p>El <strong>particionamiento</strong> consiste en dividir los datos en conjuntos que puedan almacenarse y procesarse de manera distribuida.</p>
+<p>Consideremos un sistema que recibe información de cientos de sensores.</p>
+<p>Una posible estrategia consiste en organizar los registros mediante identificadores de sensor y periodos de tiempo.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sensor_001 / septiembre 2026
+sensor_001 / octubre 2026
+
+sensor_002 / septiembre 2026
+sensor_002 / octubre 2026</code></pre>
+<p>Esta organización permitiría agrupar las mediciones de cada sensor correspondientes a un periodo determinado.</p>
+<p>La estrategia concreta depende de las consultas que necesita realizar la aplicación.</p>
+<p>En Cassandra, la <strong>clave de partición</strong> determina cómo se distribuyen los registros entre los nodos del clúster.</p>
+<p>Una clave mal diseñada puede concentrar demasiada información o demasiadas solicitudes en determinadas particiones.</p>
+<p>Por esta razón, antes de diseñar una tabla debemos preguntarnos qué datos necesitamos recuperar y cómo realizaremos las consultas.</p>
+</section>
+<section id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">8</span> Ejemplo aplicado: monitoreo de temperatura y humedad</h2>
+<p>Imaginemos que una universidad instala sensores ambientales en diferentes edificios.</p>
+<p>Cada dispositivo registra periódicamente información sobre las condiciones del lugar donde se encuentra.</p>
+<p>Los sensores pueden generar los siguientes datos:</p>
+<ul>
+<li>Identificador del sensor.</li>
+<li>Edificio.</li>
+<li>Aula o zona.</li>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+<li>Fecha y hora de la medición.</li>
+<li>Estado del dispositivo.</li>
+</ul>
+<div id="fig-monitoreo-ambiental" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monitoreo-ambiental-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/monitoreo_ambiental_con_bases_columnares.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monitoreo-ambiental-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de datos de familias de columnas.
+</figcaption>
+</figure>
+</div>
+<p>La <a href="#fig-monitoreo-ambiental" class="quarto-xref">Figure&nbsp;2</a> representa conceptualmente cómo puede organizarse la información de diferentes sensores mediante familias de columnas.</p>
+<section id="información-del-dispositivo" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="información-del-dispositivo"><span class="header-section-number">8.1</span> Información del dispositivo</h3>
+<p>Cada sensor necesita un identificador y una ubicación.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sensor_001
+    edificio: A
+    aula: 101</code></pre>
+<p>Estos datos permiten identificar el lugar donde se realizan las mediciones.</p>
+</section>
+<section id="información-de-las-mediciones" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="información-de-las-mediciones"><span class="header-section-number">8.2</span> Información de las mediciones</h3>
+<p>Un mismo sensor puede generar múltiples registros a lo largo del día.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sensor</th>
+<th>Fecha y hora</th>
+<th style="text-align: right;">Temperatura</th>
+<th style="text-align: right;">Humedad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sensor_001</td>
+<td>10:00</td>
+<td style="text-align: right;">22.4</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="even">
+<td>sensor_001</td>
+<td>10:05</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="odd">
+<td>sensor_001</td>
+<td>10:10</td>
+<td style="text-align: right;">23.1</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td>sensor_002</td>
+<td>10:00</td>
+<td style="text-align: right;">24.8</td>
+<td style="text-align: right;">60</td>
+</tr>
+<tr class="odd">
+<td>sensor_002</td>
+<td>10:05</td>
+<td style="text-align: right;">25.0</td>
+<td style="text-align: right;">61</td>
+</tr>
+</tbody>
+</table>
+<p>Observa que un sensor no genera un único registro de temperatura y humedad.</p>
+<p>Produce diferentes mediciones conforme transcurre el tiempo.</p>
+<p>Por lo tanto, necesitamos una estructura que permita conservar el historial, no solamente la última lectura recibida.</p>
+</section>
+<section id="qué-consultas-podríamos-realizar" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="qué-consultas-podríamos-realizar"><span class="header-section-number">8.3</span> ¿Qué consultas podríamos realizar?</h3>
+<p>Una aplicación de monitoreo ambiental podría necesitar responder preguntas como:</p>
+<ol type="1">
+<li>¿Cuáles fueron las mediciones del sensor 001 durante una fecha determinada?</li>
+<li>¿Qué temperatura registró un sensor durante las últimas horas?</li>
+<li>¿En qué momento se alcanzó determinada temperatura?</li>
+<li>¿Qué registros históricos necesitamos recuperar para realizar un análisis?</li>
+</ol>
+<p>El diseño de la base de datos debe considerar estas consultas desde el principio.</p>
+<p>Por ejemplo, si utilizáramos Cassandra, podríamos organizar las mediciones con una clave de partición formada por el identificador del sensor y la fecha, y ordenar las lecturas mediante la hora de registro.</p>
+<p>Así sería posible consultar el historial de un dispositivo durante un periodo específico.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Una consideración sobre el ejemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La imagen muestra una representación conceptual de las familias de columnas y las características de cada sensor.</p>
+<p>Para conservar todas las mediciones históricas en Cassandra, necesitaremos diseñar una tabla que permita almacenar múltiples lecturas por sensor, utilizando una clave de partición y columnas de agrupamiento adecuadas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="ventajas-del-modelo" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="ventajas-del-modelo"><span class="header-section-number">9</span> Ventajas del modelo</h2>
+<p>Entre las ventajas que pueden ofrecer los sistemas de familias de columnas se encuentran las siguientes:</p>
+<p><strong>Distribución de la información.</strong> Tecnologías como Cassandra están diseñadas para trabajar con varios nodos.</p>
+<p><strong>Escalabilidad horizontal.</strong> Permiten incorporar servidores adicionales para atender mayores necesidades de almacenamiento y procesamiento.</p>
+<p><strong>Manejo de grandes volúmenes de datos.</strong> Pueden utilizarse en aplicaciones que generan numerosos registros, como plataformas de monitoreo, sistemas de eventos o aplicaciones distribuidas.</p>
+<p><strong>Organización orientada a las consultas.</strong> En Cassandra, las tablas se diseñan considerando las consultas que la aplicación necesita realizar.</p>
+<p>Estas características dependen de la tecnología, la arquitectura y el diseño de la base de datos.</p>
+</section>
+<section id="limitaciones-y-consideraciones" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="limitaciones-y-consideraciones"><span class="header-section-number">10</span> Limitaciones y consideraciones</h2>
+<p>También existen aspectos importantes que debemos considerar.</p>
+<section id="diseño-de-las-consultas" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="diseño-de-las-consultas"><span class="header-section-number">10.1</span> Diseño de las consultas</h3>
+<p>En Cassandra es necesario pensar anticipadamente qué consultas realizará la aplicación.</p>
+<p>No conviene diseñar las tablas como si fueran tablas relacionales que posteriormente se combinarán mediante múltiples JOIN.</p>
+</section>
+<section id="claves-de-partición" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="claves-de-partición"><span class="header-section-number">10.2</span> Claves de partición</h3>
+<p>Una mala elección de la clave de partición puede generar una distribución poco equilibrada de la información.</p>
+</section>
+<section id="relaciones-entre-entidades" class="level3" data-number="10.3">
+<h3 data-number="10.3" class="anchored" data-anchor-id="relaciones-entre-entidades"><span class="header-section-number">10.3</span> Relaciones entre entidades</h3>
+<p>Cuando una aplicación necesita realizar relaciones complejas entre muchas tablas o ejecutar consultas cambiantes, otros modelos pueden resultar más convenientes.</p>
+</section>
+<section id="complejidad-operativa" class="level3" data-number="10.4">
+<h3 data-number="10.4" class="anchored" data-anchor-id="complejidad-operativa"><span class="header-section-number">10.4</span> Complejidad operativa</h3>
+<p>Administrar una base de datos distribuida implica comprender conceptos adicionales, como nodos, replicación, consistencia y disponibilidad.</p>
+<p>La implementación requiere considerar las características y necesidades reales del sistema.</p>
+</section>
+</section>
+<section id="tecnologías-representativas" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="tecnologías-representativas"><span class="header-section-number">11</span> Tecnologías representativas</h2>
+<p>Dentro de esta familia encontramos diferentes tecnologías.</p>
+<section id="apache-cassandra" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="apache-cassandra"><span class="header-section-number">11.1</span> Apache Cassandra</h3>
+<p>Es una base de datos no relacional distribuida que utiliza el modelo de columnas amplias.</p>
+<p>Permite distribuir información entre diferentes nodos y utiliza un lenguaje de consultas denominado CQL (<em>Cassandra Query Language</em>).</p>
+<p>En las siguientes clases utilizaremos Cassandra para crear tablas, insertar registros y recuperar información.</p>
+</section>
+<section id="apache-hbase" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="apache-hbase"><span class="header-section-number">11.2</span> Apache HBase</h3>
+<p>Es una base de datos distribuida inspirada en el modelo de Google Bigtable.</p>
+<p>Utiliza claves de fila y familias de columnas, y forma parte del ecosistema de Apache Hadoop.</p>
+</section>
+<section id="google-bigtable" class="level3" data-number="11.3">
+<h3 data-number="11.3" class="anchored" data-anchor-id="google-bigtable"><span class="header-section-number">11.3</span> Google Bigtable</h3>
+<p>Es un servicio de base de datos de columnas amplias administrado por Google Cloud.</p>
+<p>Está diseñado para almacenar grandes cantidades de información y atender aplicaciones que necesitan trabajar con datos a gran escala.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tecnología</th>
+<th>Característica general</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Apache Cassandra</td>
+<td>Base de datos distribuida de columnas amplias</td>
+</tr>
+<tr class="even">
+<td>Apache HBase</td>
+<td>Almacenamiento distribuido con familias de columnas</td>
+</tr>
+<tr class="odd">
+<td>Google Bigtable</td>
+<td>Servicio administrado de columnas amplias</td>
+</tr>
+</tbody>
+</table>
+<p>Aunque pertenecen a una misma familia general, estas tecnologías tienen diferencias importantes en su arquitectura, modelo de datos y forma de realizar consultas.</p>
+</section>
+</section>
+<section id="relación-con-los-modelos-anteriores" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="relación-con-los-modelos-anteriores"><span class="header-section-number">12</span> Relación con los modelos anteriores</h2>
+<p>Hasta ahora hemos estudiado tres modelos principales de bases de datos no relacionales.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Organización principal</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Documental</td>
+<td>Documentos con campos y valores</td>
+<td>MongoDB</td>
+</tr>
+<tr class="even">
+<td>Clave–valor</td>
+<td>Claves asociadas con valores</td>
+<td>Redis</td>
+</tr>
+<tr class="odd">
+<td>Familias de columnas</td>
+<td>Filas y columnas organizadas según el sistema</td>
+<td>Cassandra</td>
+</tr>
+</tbody>
+</table>
+<p>Estos modelos no son necesariamente excluyentes.</p>
+<p>Una misma aplicación puede utilizar distintas tecnologías cuando cada una responde a una necesidad específica.</p>
+<p>Por ejemplo, en un sistema de monitoreo ambiental podríamos utilizar:</p>
+<ul>
+<li>Una base documental para almacenar información general de los dispositivos.</li>
+<li>Redis para consultar rápidamente la última temperatura registrada.</li>
+<li>Cassandra para conservar un historial de mediciones distribuido entre varios servidores.</li>
+</ul>
+<p>La decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación.</p>
+</section>
+<section id="cierre" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="cierre"><span class="header-section-number">13</span> Cierre</h2>
+<p>Las bases de datos de familias de columnas constituyen otra alternativa para organizar y almacenar información.</p>
+<p>Sistemas como Cassandra pueden resultar útiles cuando una aplicación maneja grandes volúmenes de registros y necesita distribuir sus datos entre diferentes servidores.</p>
+<p>El ejemplo de monitoreo ambiental nos permitió identificar la importancia de organizar correctamente las mediciones y considerar las consultas que realizará la aplicación.</p>
+<p>En la siguiente clase estudiaremos Apache Cassandra y utilizaremos CQL para crear y consultar una base de datos.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

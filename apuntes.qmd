@@ -83,3 +83,15 @@ Comandos principales de Redis para trabajar con strings, hashes, listas, sets, s
 </a>
 
 ---
+
+
+---
+
+## Fundamentos de las bases de datos orientadas a columnas
+
+Introducción al modelo de familias de columnas, su organización, escalabilidad horizontal, particionamiento y aplicaciones mediante un ejemplo de monitoreo ambiental.
+
+<a class="btn btn-primary"
+   href="apuntes/08_bases_orientadas_columnas.html">
+   Abrir apunte
+</a>

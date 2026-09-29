@@ -39,3 +39,17 @@ Aplicación de los principales comandos y estructuras de Redis mediante el escen
    href="practicas/03_redis_clave_valor.html">
    Abrir práctica
 </a>
+
+
+
+
+---
+
+## Práctica 4. Gestión de una plataforma de streaming con Redis
+
+Simulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.
+
+<a class="btn btn-primary"
+   href="practicas/04_streaming_redis.html">
+   Abrir práctica
+</a>

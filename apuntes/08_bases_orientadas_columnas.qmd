@@ -1,0 +1,474 @@
+
+---
+title: "Fundamentos de las bases de datos orientadas a columnas"
+toc: true
+number-sections: true
+---
+
+## Introducción
+
+Las bases de datos orientadas a columnas son un modelo de bases de datos no relacionales que permite organizar la información mediante claves de fila y columnas que pueden agruparse en familias.
+
+Este modelo está presente en sistemas diseñados para almacenar grandes volúmenes de información y distribuir los datos entre diferentes servidores.
+
+Para comprender su funcionamiento, utilizaremos como ejemplo un sistema de monitoreo ambiental que registra constantemente la temperatura y la humedad mediante sensores instalados en diferentes edificios.
+
+A partir de este ejemplo, estudiaremos cómo se organiza la información, qué son las familias de columnas y cómo funcionan conceptos como el particionamiento y la escalabilidad horizontal.
+
+## ¿Qué son las bases de datos orientadas a columnas?
+
+Las bases de datos de familias de columnas, también conocidas como bases de datos de columnas amplias (*wide-column*), organizan la información mediante filas identificadas por una clave y columnas que pueden agruparse en familias.
+
+Este modelo está presente en tecnologías como Apache Cassandra, Apache HBase y Google Bigtable, aunque cada una tiene características particulares.
+
+Imaginemos una universidad que cuenta con sensores ambientales instalados en diferentes edificios.
+
+Cada sensor genera información sobre la temperatura, la humedad y el estado del dispositivo.
+
+Por ejemplo:
+
+```text
+sensor_001
+    edificio: A
+    aula: 101
+    temperatura: 22.4
+    humedad: 45
+    bateria: 85
+```
+
+En este caso, toda la información corresponde a un mismo sensor, identificado mediante la clave `sensor_001`.
+
+En determinados sistemas de familias de columnas, los registros pueden contener distintos conjuntos de columnas. Por ejemplo, algunos sensores pueden registrar temperatura y humedad, mientras que otros únicamente registran temperatura.
+
+::: {.callout-note}
+## Idea principal
+
+El modelo de familias de columnas organiza la información mediante claves de fila y grupos de columnas relacionadas.
+
+Su diseño puede facilitar el almacenamiento de grandes cantidades de registros y la distribución de datos entre varios servidores.
+:::
+
+## ¿Cómo se organiza la información?
+
+Para comprender este modelo, primero debemos identificar tres elementos principales:
+
+- Clave de fila.
+- Columnas.
+- Familias de columnas.
+
+### Clave de fila
+
+La clave de fila (*row key*) permite identificar un registro.
+
+Por ejemplo, en nuestro sistema de monitoreo ambiental podemos tener los siguientes sensores:
+
+```text
+sensor_001
+sensor_002
+sensor_003
+```
+
+Cada identificador corresponde a un dispositivo diferente.
+
+A partir de esta clave podemos localizar la información relacionada con cada sensor.
+
+### Columnas
+
+Las columnas representan características o datos asociados con cada registro.
+
+Por ejemplo:
+
+```text
+sensor_001
+    edificio: A
+    aula: 101
+    temperatura: 22.4
+    humedad: 45
+```
+
+En este caso, las columnas contienen información sobre la ubicación del sensor y las mediciones realizadas.
+
+### Familias de columnas
+
+Una familia de columnas es una agrupación de columnas relacionadas.
+
+Siguiendo nuestro ejemplo, podemos organizar conceptualmente la información en tres familias.
+
+**Ubicación**
+
+Contiene los datos que permiten identificar dónde se encuentra el dispositivo.
+
+```text
+ubicacion
+    edificio: A
+    aula: 101
+```
+
+**Mediciones**
+
+Contiene las variables ambientales registradas por el sensor.
+
+```text
+mediciones
+    temperatura: 22.4
+    humedad: 45
+```
+
+**Estado**
+
+Contiene información sobre el funcionamiento del dispositivo.
+
+```text
+estado
+    bateria: 85
+    alerta: No
+```
+
+Esta separación nos permite comprender cómo pueden agruparse diferentes tipos de información.
+
+La implementación exacta depende de la tecnología utilizada. Por ejemplo, HBase trabaja con familias de columnas explícitas, mientras que Cassandra organiza los datos mediante tablas, particiones, filas y columnas definidas en un esquema.
+
+## Ejemplo de organización
+
+Consideremos un sistema de monitoreo ambiental que recibe información de sensores instalados en diferentes edificios.
+
+Cada sensor se identifica mediante una clave de fila y sus datos pueden organizarse en grupos relacionados con la ubicación, las mediciones y el estado del dispositivo.
+
+![Ejemplo de claves de fila y agrupación de columnas en un sistema de sensores.](imagenes/organizacion_columnas.png){#fig-organizacion-columnas width="100%"}
+
+La @fig-organizacion-columnas muestra conceptualmente tres sensores con diferentes características.
+
+Algunos registran temperatura y humedad, mientras que otros no cuentan con todas las mediciones o los datos de funcionamiento.
+
+Esta representación permite comprender el concepto de **datos dispersos**.
+
+### ¿Qué son los datos dispersos?
+
+Son conjuntos de datos en los que no todos los registros contienen información para todas las columnas posibles.
+
+Por ejemplo:
+
+| Sensor | Temperatura | Humedad | Batería |
+|---|---:|---:|---:|
+| sensor_001 | 22.4 | 45 | 85 |
+| sensor_002 | 24.8 | 60 | |
+| sensor_003 | 18.1 | | 40 |
+
+El segundo sensor no reportó información sobre su batería y el tercero no registró humedad.
+
+En determinados sistemas de familias de columnas, los datos ausentes no necesitan almacenarse como valores individuales.
+
+Esto puede resultar conveniente cuando se trabaja con dispositivos que tienen diferentes capacidades.
+
+::: {.callout-important}
+## Una distinción importante
+
+No todos los sistemas de familias de columnas permiten agregar libremente cualquier columna a cada registro.
+
+En Cassandra, las columnas ordinarias se definen mediante un esquema. Por esta razón, debemos distinguir las características del modelo general de las reglas particulares de cada tecnología.
+:::
+
+## Diferencias respecto al modelo relacional
+
+Las bases de datos relacionales y las bases de datos de familias de columnas pueden representar información mediante filas y columnas.
+
+Sin embargo, existen diferencias importantes en su organización, distribución y diseño.
+
+Consideremos el mismo sistema de monitoreo ambiental.
+
+En una base de datos relacional podemos representar la información de los sensores mediante una tabla:
+
+| Sensor | Edificio | Temperatura | Humedad |
+|---|---|---:|---:|
+| sensor_001 | A | 22.4 | 45 |
+| sensor_002 | A | 24.8 | 60 |
+| sensor_003 | B | 18.1 | 78 |
+
+Si necesitamos conservar un historial de mediciones, podemos crear una tabla adicional y relacionarla con la información de los sensores.
+
+En un sistema de familias de columnas, la organización depende de la tecnología utilizada y de las consultas que necesitamos realizar.
+
+Por ejemplo, en Cassandra podríamos diseñar una tabla que agrupe las mediciones por sensor y fecha, de manera que resulte sencillo recuperar su historial durante un periodo determinado.
+
+La siguiente tabla resume algunas diferencias generales:
+
+| Característica | Modelo relacional | Modelo de familias de columnas |
+|---|---|---|
+| Organización | Tablas relacionadas | Filas y columnas organizadas según el sistema |
+| Esquema | Generalmente definido | Depende de la tecnología |
+| Relaciones | Puede utilizar llaves foráneas y JOIN | Suele favorecer consultas previamente definidas |
+| Distribución | Depende del gestor y su arquitectura | Existen sistemas diseñados para distribuir datos entre nodos |
+| Ejemplos | PostgreSQL, MySQL | Cassandra, HBase |
+
+Estas diferencias no significan que un modelo sea superior al otro.
+
+Por ejemplo, un sistema universitario que administra estudiantes, materias, inscripciones y calificaciones puede funcionar mediante una base de datos relacional.
+
+En cambio, un sistema que recibe continuamente grandes cantidades de mediciones provenientes de sensores puede beneficiarse de una base de datos distribuida diseñada para grandes volúmenes de escritura.
+
+La elección depende de la información que necesitamos almacenar y de las consultas que realizará la aplicación.
+
+## Distribución y escalabilidad horizontal
+
+Una característica importante de sistemas como Cassandra es su capacidad para distribuir información entre diferentes servidores.
+
+Para comprenderlo, imaginemos una universidad con sensores instalados en todos sus edificios.
+
+Al principio solamente tenemos diez sensores. Sin embargo, el proyecto crece y posteriormente incorpora cientos o miles de dispositivos.
+
+Cada sensor puede generar varias mediciones por minuto.
+
+La cantidad de información almacenada comienza a crecer rápidamente.
+
+### Escalabilidad vertical
+
+La escalabilidad vertical consiste en aumentar los recursos de un servidor.
+
+Por ejemplo:
+
+- Incrementar la memoria RAM.
+- Incorporar un procesador más potente.
+- Ampliar la capacidad de almacenamiento.
+
+Esta estrategia puede resultar útil, pero el crecimiento de un solo servidor tiene límites.
+
+### Escalabilidad horizontal
+
+La escalabilidad horizontal consiste en incorporar servidores adicionales para distribuir el trabajo.
+
+Por ejemplo:
+
+```text
+                 Aplicación
+                     |
+          -----------------------
+          |          |          |
+        Nodo 1     Nodo 2     Nodo 3
+          |          |          |
+          -----------------------
+                     |
+          Base de datos distribuida
+```
+
+En este ejemplo, los nodos participan en el almacenamiento y procesamiento de los datos.
+
+Al añadir más servidores, el sistema puede disponer de recursos adicionales para atender nuevas necesidades.
+
+Sin embargo, agregar servidores no garantiza automáticamente un mejor rendimiento. También influyen la distribución de los datos, el diseño de las consultas y la configuración del sistema.
+
+::: {.callout-tip}
+## Para recordar
+
+**Escalabilidad vertical:** aumentar los recursos de un servidor.
+
+**Escalabilidad horizontal:** incorporar más servidores para distribuir el trabajo.
+:::
+
+## Particionamiento de los datos
+
+Cuando una base de datos utiliza varios servidores, necesita establecer cómo distribuir la información.
+
+El **particionamiento** consiste en dividir los datos en conjuntos que puedan almacenarse y procesarse de manera distribuida.
+
+Consideremos un sistema que recibe información de cientos de sensores.
+
+Una posible estrategia consiste en organizar los registros mediante identificadores de sensor y periodos de tiempo.
+
+Por ejemplo:
+
+```text
+sensor_001 / septiembre 2026
+sensor_001 / octubre 2026
+
+sensor_002 / septiembre 2026
+sensor_002 / octubre 2026
+```
+
+Esta organización permitiría agrupar las mediciones de cada sensor correspondientes a un periodo determinado.
+
+La estrategia concreta depende de las consultas que necesita realizar la aplicación.
+
+En Cassandra, la **clave de partición** determina cómo se distribuyen los registros entre los nodos del clúster.
+
+Una clave mal diseñada puede concentrar demasiada información o demasiadas solicitudes en determinadas particiones.
+
+Por esta razón, antes de diseñar una tabla debemos preguntarnos qué datos necesitamos recuperar y cómo realizaremos las consultas.
+
+## Ejemplo aplicado: monitoreo de temperatura y humedad
+
+Imaginemos que una universidad instala sensores ambientales en diferentes edificios.
+
+Cada dispositivo registra periódicamente información sobre las condiciones del lugar donde se encuentra.
+
+Los sensores pueden generar los siguientes datos:
+
+- Identificador del sensor.
+- Edificio.
+- Aula o zona.
+- Temperatura.
+- Humedad.
+- Fecha y hora de la medición.
+- Estado del dispositivo.
+
+![Ejemplo de un sistema de monitoreo ambiental mediante bases de datos de familias de columnas.](imagenes/monitoreo_ambiental_con_bases_columnares.png){#fig-monitoreo-ambiental width="100%"}
+
+La @fig-monitoreo-ambiental representa conceptualmente cómo puede organizarse la información de diferentes sensores mediante familias de columnas.
+
+### Información del dispositivo
+
+Cada sensor necesita un identificador y una ubicación.
+
+Por ejemplo:
+
+```text
+sensor_001
+    edificio: A
+    aula: 101
+```
+
+Estos datos permiten identificar el lugar donde se realizan las mediciones.
+
+### Información de las mediciones
+
+Un mismo sensor puede generar múltiples registros a lo largo del día.
+
+Por ejemplo:
+
+| Sensor | Fecha y hora | Temperatura | Humedad |
+|---|---|---:|---:|
+| sensor_001 | 10:00 | 22.4 | 45 |
+| sensor_001 | 10:05 | 22.8 | 46 |
+| sensor_001 | 10:10 | 23.1 | 47 |
+| sensor_002 | 10:00 | 24.8 | 60 |
+| sensor_002 | 10:05 | 25.0 | 61 |
+
+Observa que un sensor no genera un único registro de temperatura y humedad.
+
+Produce diferentes mediciones conforme transcurre el tiempo.
+
+Por lo tanto, necesitamos una estructura que permita conservar el historial, no solamente la última lectura recibida.
+
+### ¿Qué consultas podríamos realizar?
+
+Una aplicación de monitoreo ambiental podría necesitar responder preguntas como:
+
+1. ¿Cuáles fueron las mediciones del sensor 001 durante una fecha determinada?
+2. ¿Qué temperatura registró un sensor durante las últimas horas?
+3. ¿En qué momento se alcanzó determinada temperatura?
+4. ¿Qué registros históricos necesitamos recuperar para realizar un análisis?
+
+El diseño de la base de datos debe considerar estas consultas desde el principio.
+
+Por ejemplo, si utilizáramos Cassandra, podríamos organizar las mediciones con una clave de partición formada por el identificador del sensor y la fecha, y ordenar las lecturas mediante la hora de registro.
+
+Así sería posible consultar el historial de un dispositivo durante un periodo específico.
+
+::: {.callout-note}
+## Una consideración sobre el ejemplo
+
+La imagen muestra una representación conceptual de las familias de columnas y las características de cada sensor.
+
+Para conservar todas las mediciones históricas en Cassandra, necesitaremos diseñar una tabla que permita almacenar múltiples lecturas por sensor, utilizando una clave de partición y columnas de agrupamiento adecuadas.
+:::
+
+## Ventajas del modelo
+
+Entre las ventajas que pueden ofrecer los sistemas de familias de columnas se encuentran las siguientes:
+
+**Distribución de la información.** Tecnologías como Cassandra están diseñadas para trabajar con varios nodos.
+
+**Escalabilidad horizontal.** Permiten incorporar servidores adicionales para atender mayores necesidades de almacenamiento y procesamiento.
+
+**Manejo de grandes volúmenes de datos.** Pueden utilizarse en aplicaciones que generan numerosos registros, como plataformas de monitoreo, sistemas de eventos o aplicaciones distribuidas.
+
+**Organización orientada a las consultas.** En Cassandra, las tablas se diseñan considerando las consultas que la aplicación necesita realizar.
+
+Estas características dependen de la tecnología, la arquitectura y el diseño de la base de datos.
+
+## Limitaciones y consideraciones
+
+También existen aspectos importantes que debemos considerar.
+
+### Diseño de las consultas
+
+En Cassandra es necesario pensar anticipadamente qué consultas realizará la aplicación.
+
+No conviene diseñar las tablas como si fueran tablas relacionales que posteriormente se combinarán mediante múltiples JOIN.
+
+### Claves de partición
+
+Una mala elección de la clave de partición puede generar una distribución poco equilibrada de la información.
+
+### Relaciones entre entidades
+
+Cuando una aplicación necesita realizar relaciones complejas entre muchas tablas o ejecutar consultas cambiantes, otros modelos pueden resultar más convenientes.
+
+### Complejidad operativa
+
+Administrar una base de datos distribuida implica comprender conceptos adicionales, como nodos, replicación, consistencia y disponibilidad.
+
+La implementación requiere considerar las características y necesidades reales del sistema.
+
+## Tecnologías representativas
+
+Dentro de esta familia encontramos diferentes tecnologías.
+
+### Apache Cassandra
+
+Es una base de datos no relacional distribuida que utiliza el modelo de columnas amplias.
+
+Permite distribuir información entre diferentes nodos y utiliza un lenguaje de consultas denominado CQL (*Cassandra Query Language*).
+
+En las siguientes clases utilizaremos Cassandra para crear tablas, insertar registros y recuperar información.
+
+### Apache HBase
+
+Es una base de datos distribuida inspirada en el modelo de Google Bigtable.
+
+Utiliza claves de fila y familias de columnas, y forma parte del ecosistema de Apache Hadoop.
+
+### Google Bigtable
+
+Es un servicio de base de datos de columnas amplias administrado por Google Cloud.
+
+Está diseñado para almacenar grandes cantidades de información y atender aplicaciones que necesitan trabajar con datos a gran escala.
+
+| Tecnología | Característica general |
+|---|---|
+| Apache Cassandra | Base de datos distribuida de columnas amplias |
+| Apache HBase | Almacenamiento distribuido con familias de columnas |
+| Google Bigtable | Servicio administrado de columnas amplias |
+
+Aunque pertenecen a una misma familia general, estas tecnologías tienen diferencias importantes en su arquitectura, modelo de datos y forma de realizar consultas.
+
+## Relación con los modelos anteriores
+
+Hasta ahora hemos estudiado tres modelos principales de bases de datos no relacionales.
+
+| Modelo | Organización principal | Ejemplo |
+|---|---|---|
+| Documental | Documentos con campos y valores | MongoDB |
+| Clave–valor | Claves asociadas con valores | Redis |
+| Familias de columnas | Filas y columnas organizadas según el sistema | Cassandra |
+
+Estos modelos no son necesariamente excluyentes.
+
+Una misma aplicación puede utilizar distintas tecnologías cuando cada una responde a una necesidad específica.
+
+Por ejemplo, en un sistema de monitoreo ambiental podríamos utilizar:
+
+- Una base documental para almacenar información general de los dispositivos.
+- Redis para consultar rápidamente la última temperatura registrada.
+- Cassandra para conservar un historial de mediciones distribuido entre varios servidores.
+
+La decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación.
+
+## Cierre
+
+Las bases de datos de familias de columnas constituyen otra alternativa para organizar y almacenar información.
+
+Sistemas como Cassandra pueden resultar útiles cuando una aplicación maneja grandes volúmenes de registros y necesita distribuir sus datos entre diferentes servidores.
+
+El ejemplo de monitoreo ambiental nos permitió identificar la importancia de organizar correctamente las mediciones y considerar las consultas que realizará la aplicación.
+
+En la siguiente clase estudiaremos Apache Cassandra y utilizaremos CQL para crear y consultar una base de datos.

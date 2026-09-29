@@ -52,5 +52,11 @@
   },
   "practicas/03_redis_clave_valor.qmd": {
     "03_redis_clave_valor.html": "c4a5254d"
+  },
+  "practicas/04_streaming_redis.qmd": {
+    "04_streaming_redis.html": "5007b564"
+  },
+  "apuntes/08_bases_orientadas_columnas.qmd": {
+    "08_bases_orientadas_columnas.html": "bf138068"
   }
 }
