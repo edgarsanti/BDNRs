@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Fundamentos de las bases de datos orientadas a columnas – Bases de Datos No Relacionales</title>
+<title>Fundamentos de las bases de datos de familias de columnas – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -143,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
-  <li><a href="#qué-son-las-bases-de-datos-orientadas-a-columnas" id="toc-qué-son-las-bases-de-datos-orientadas-a-columnas" class="nav-link" data-scroll-target="#qué-son-las-bases-de-datos-orientadas-a-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos orientadas a columnas?</a></li>
+  <li><a href="#qué-son-las-bases-de-datos-de-familias-de-columnas" id="toc-qué-son-las-bases-de-datos-de-familias-de-columnas" class="nav-link" data-scroll-target="#qué-son-las-bases-de-datos-de-familias-de-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos de familias de columnas?</a></li>
   <li><a href="#cómo-se-organiza-la-información" id="toc-cómo-se-organiza-la-información" class="nav-link" data-scroll-target="#cómo-se-organiza-la-información"><span class="header-section-number">3</span> ¿Cómo se organiza la información?</a>
   <ul class="collapse">
   <li><a href="#clave-de-fila" id="toc-clave-de-fila" class="nav-link" data-scroll-target="#clave-de-fila"><span class="header-section-number">3.1</span> Clave de fila</a></li>
@@ -160,29 +160,39 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#escalabilidad-vertical" id="toc-escalabilidad-vertical" class="nav-link" data-scroll-target="#escalabilidad-vertical"><span class="header-section-number">6.1</span> Escalabilidad vertical</a></li>
   <li><a href="#escalabilidad-horizontal" id="toc-escalabilidad-horizontal" class="nav-link" data-scroll-target="#escalabilidad-horizontal"><span class="header-section-number">6.2</span> Escalabilidad horizontal</a></li>
   </ul></li>
-  <li><a href="#particionamiento-de-los-datos" id="toc-particionamiento-de-los-datos" class="nav-link" data-scroll-target="#particionamiento-de-los-datos"><span class="header-section-number">7</span> Particionamiento de los datos</a></li>
-  <li><a href="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" id="toc-ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="nav-link" data-scroll-target="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">8</span> Ejemplo aplicado: monitoreo de temperatura y humedad</a>
+  <li><a href="#clúster-y-nodos" id="toc-clúster-y-nodos" class="nav-link" data-scroll-target="#clúster-y-nodos"><span class="header-section-number">7</span> Clúster y nodos</a></li>
+  <li><a href="#particionamiento-de-los-datos" id="toc-particionamiento-de-los-datos" class="nav-link" data-scroll-target="#particionamiento-de-los-datos"><span class="header-section-number">8</span> Particionamiento de los datos</a>
   <ul class="collapse">
-  <li><a href="#información-del-dispositivo" id="toc-información-del-dispositivo" class="nav-link" data-scroll-target="#información-del-dispositivo"><span class="header-section-number">8.1</span> Información del dispositivo</a></li>
-  <li><a href="#información-de-las-mediciones" id="toc-información-de-las-mediciones" class="nav-link" data-scroll-target="#información-de-las-mediciones"><span class="header-section-number">8.2</span> Información de las mediciones</a></li>
-  <li><a href="#qué-consultas-podríamos-realizar" id="toc-qué-consultas-podríamos-realizar" class="nav-link" data-scroll-target="#qué-consultas-podríamos-realizar"><span class="header-section-number">8.3</span> ¿Qué consultas podríamos realizar?</a></li>
+  <li><a href="#por-qué-es-importante-la-clave-de-partición" id="toc-por-qué-es-importante-la-clave-de-partición" class="nav-link" data-scroll-target="#por-qué-es-importante-la-clave-de-partición"><span class="header-section-number">8.1</span> ¿Por qué es importante la clave de partición?</a></li>
   </ul></li>
-  <li><a href="#ventajas-del-modelo" id="toc-ventajas-del-modelo" class="nav-link" data-scroll-target="#ventajas-del-modelo"><span class="header-section-number">9</span> Ventajas del modelo</a></li>
-  <li><a href="#limitaciones-y-consideraciones" id="toc-limitaciones-y-consideraciones" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones"><span class="header-section-number">10</span> Limitaciones y consideraciones</a>
+  <li><a href="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" id="toc-ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="nav-link" data-scroll-target="#ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">9</span> Ejemplo aplicado: monitoreo de temperatura y humedad</a>
   <ul class="collapse">
-  <li><a href="#diseño-de-las-consultas" id="toc-diseño-de-las-consultas" class="nav-link" data-scroll-target="#diseño-de-las-consultas"><span class="header-section-number">10.1</span> Diseño de las consultas</a></li>
-  <li><a href="#claves-de-partición" id="toc-claves-de-partición" class="nav-link" data-scroll-target="#claves-de-partición"><span class="header-section-number">10.2</span> Claves de partición</a></li>
-  <li><a href="#relaciones-entre-entidades" id="toc-relaciones-entre-entidades" class="nav-link" data-scroll-target="#relaciones-entre-entidades"><span class="header-section-number">10.3</span> Relaciones entre entidades</a></li>
-  <li><a href="#complejidad-operativa" id="toc-complejidad-operativa" class="nav-link" data-scroll-target="#complejidad-operativa"><span class="header-section-number">10.4</span> Complejidad operativa</a></li>
+  <li><a href="#información-del-dispositivo" id="toc-información-del-dispositivo" class="nav-link" data-scroll-target="#información-del-dispositivo"><span class="header-section-number">9.1</span> Información del dispositivo</a></li>
+  <li><a href="#información-de-las-mediciones" id="toc-información-de-las-mediciones" class="nav-link" data-scroll-target="#información-de-las-mediciones"><span class="header-section-number">9.2</span> Información de las mediciones</a></li>
   </ul></li>
-  <li><a href="#tecnologías-representativas" id="toc-tecnologías-representativas" class="nav-link" data-scroll-target="#tecnologías-representativas"><span class="header-section-number">11</span> Tecnologías representativas</a>
+  <li><a href="#qué-consultas-podríamos-realizar" id="toc-qué-consultas-podríamos-realizar" class="nav-link" data-scroll-target="#qué-consultas-podríamos-realizar"><span class="header-section-number">10</span> ¿Qué consultas podríamos realizar?</a></li>
+  <li><a href="#ventajas-del-modelo" id="toc-ventajas-del-modelo" class="nav-link" data-scroll-target="#ventajas-del-modelo"><span class="header-section-number">11</span> Ventajas del modelo</a>
   <ul class="collapse">
-  <li><a href="#apache-cassandra" id="toc-apache-cassandra" class="nav-link" data-scroll-target="#apache-cassandra"><span class="header-section-number">11.1</span> Apache Cassandra</a></li>
-  <li><a href="#apache-hbase" id="toc-apache-hbase" class="nav-link" data-scroll-target="#apache-hbase"><span class="header-section-number">11.2</span> Apache HBase</a></li>
-  <li><a href="#google-bigtable" id="toc-google-bigtable" class="nav-link" data-scroll-target="#google-bigtable"><span class="header-section-number">11.3</span> Google Bigtable</a></li>
+  <li><a href="#distribución-de-la-información" id="toc-distribución-de-la-información" class="nav-link" data-scroll-target="#distribución-de-la-información"><span class="header-section-number">11.1</span> Distribución de la información</a></li>
+  <li><a href="#escalabilidad-horizontal-1" id="toc-escalabilidad-horizontal-1" class="nav-link" data-scroll-target="#escalabilidad-horizontal-1"><span class="header-section-number">11.2</span> Escalabilidad horizontal</a></li>
+  <li><a href="#manejo-de-grandes-volúmenes-de-datos" id="toc-manejo-de-grandes-volúmenes-de-datos" class="nav-link" data-scroll-target="#manejo-de-grandes-volúmenes-de-datos"><span class="header-section-number">11.3</span> Manejo de grandes volúmenes de datos</a></li>
+  <li><a href="#organización-orientada-a-las-consultas" id="toc-organización-orientada-a-las-consultas" class="nav-link" data-scroll-target="#organización-orientada-a-las-consultas"><span class="header-section-number">11.4</span> Organización orientada a las consultas</a></li>
   </ul></li>
-  <li><a href="#relación-con-los-modelos-anteriores" id="toc-relación-con-los-modelos-anteriores" class="nav-link" data-scroll-target="#relación-con-los-modelos-anteriores"><span class="header-section-number">12</span> Relación con los modelos anteriores</a></li>
-  <li><a href="#cierre" id="toc-cierre" class="nav-link" data-scroll-target="#cierre"><span class="header-section-number">13</span> Cierre</a></li>
+  <li><a href="#limitaciones-y-consideraciones" id="toc-limitaciones-y-consideraciones" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones"><span class="header-section-number">12</span> Limitaciones y consideraciones</a>
+  <ul class="collapse">
+  <li><a href="#diseño-de-las-consultas" id="toc-diseño-de-las-consultas" class="nav-link" data-scroll-target="#diseño-de-las-consultas"><span class="header-section-number">12.1</span> Diseño de las consultas</a></li>
+  <li><a href="#claves-de-partición" id="toc-claves-de-partición" class="nav-link" data-scroll-target="#claves-de-partición"><span class="header-section-number">12.2</span> Claves de partición</a></li>
+  <li><a href="#relaciones-entre-entidades" id="toc-relaciones-entre-entidades" class="nav-link" data-scroll-target="#relaciones-entre-entidades"><span class="header-section-number">12.3</span> Relaciones entre entidades</a></li>
+  <li><a href="#complejidad-operativa" id="toc-complejidad-operativa" class="nav-link" data-scroll-target="#complejidad-operativa"><span class="header-section-number">12.4</span> Complejidad operativa</a></li>
+  </ul></li>
+  <li><a href="#tecnologías-representativas" id="toc-tecnologías-representativas" class="nav-link" data-scroll-target="#tecnologías-representativas"><span class="header-section-number">13</span> Tecnologías representativas</a>
+  <ul class="collapse">
+  <li><a href="#apache-cassandra" id="toc-apache-cassandra" class="nav-link" data-scroll-target="#apache-cassandra"><span class="header-section-number">13.1</span> Apache Cassandra</a></li>
+  <li><a href="#apache-hbase" id="toc-apache-hbase" class="nav-link" data-scroll-target="#apache-hbase"><span class="header-section-number">13.2</span> Apache HBase</a></li>
+  <li><a href="#google-bigtable" id="toc-google-bigtable" class="nav-link" data-scroll-target="#google-bigtable"><span class="header-section-number">13.3</span> Google Bigtable</a></li>
+  </ul></li>
+  <li><a href="#relación-con-los-modelos-anteriores" id="toc-relación-con-los-modelos-anteriores" class="nav-link" data-scroll-target="#relación-con-los-modelos-anteriores"><span class="header-section-number">14</span> Relación con los modelos anteriores</a></li>
+  <li><a href="#cierre" id="toc-cierre" class="nav-link" data-scroll-target="#cierre"><span class="header-section-number">15</span> Cierre</a></li>
   </ul>
 </nav>
     </div>
@@ -191,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Fundamentos de las bases de datos orientadas a columnas</h1>
+<h1 class="title">Fundamentos de las bases de datos de familias de columnas</h1>
 </div>
 
 
@@ -210,26 +220,40 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introducción" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
-<p>Las bases de datos orientadas a columnas son un modelo de bases de datos no relacionales que permite organizar la información mediante claves de fila y columnas que pueden agruparse en familias.</p>
-<p>Este modelo está presente en sistemas diseñados para almacenar grandes volúmenes de información y distribuir los datos entre diferentes servidores.</p>
-<p>Para comprender su funcionamiento, utilizaremos como ejemplo un sistema de monitoreo ambiental que registra constantemente la temperatura y la humedad mediante sensores instalados en diferentes edificios.</p>
-<p>A partir de este ejemplo, estudiaremos cómo se organiza la información, qué son las familias de columnas y cómo funcionan conceptos como el particionamiento y la escalabilidad horizontal.</p>
+<p>Las bases de datos de <strong>familias de columnas</strong>, también conocidas como bases de datos de <strong>columnas amplias</strong> (<em>wide-column</em>), constituyen un modelo de bases de datos no relacionales diseñado para organizar grandes cantidades de información y facilitar su distribución entre diferentes servidores.</p>
+<p>Aunque utilizan conceptos como filas y columnas, su organización no necesariamente sigue la misma lógica de una base de datos relacional.</p>
+<p>Para comprender su funcionamiento, utilizaremos como ejemplo un sistema de <strong>monitoreo ambiental</strong> que registra constantemente información proveniente de sensores instalados en diferentes edificios de una universidad.</p>
+<p>Cada sensor puede generar datos como:</p>
+<ul>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+<li>Ubicación.</li>
+<li>Estado del dispositivo.</li>
+<li>Fecha y hora de cada medición.</li>
+</ul>
+<p>A partir de este ejemplo estudiaremos cómo se organiza la información, qué son las familias de columnas y cómo funcionan conceptos como el <strong>particionamiento</strong> y la <strong>escalabilidad horizontal</strong>.</p>
+<hr>
 </section>
-<section id="qué-son-las-bases-de-datos-orientadas-a-columnas" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="qué-son-las-bases-de-datos-orientadas-a-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos orientadas a columnas?</h2>
-<p>Las bases de datos de familias de columnas, también conocidas como bases de datos de columnas amplias (<em>wide-column</em>), organizan la información mediante filas identificadas por una clave y columnas que pueden agruparse en familias.</p>
-<p>Este modelo está presente en tecnologías como Apache Cassandra, Apache HBase y Google Bigtable, aunque cada una tiene características particulares.</p>
+<section id="qué-son-las-bases-de-datos-de-familias-de-columnas" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="qué-son-las-bases-de-datos-de-familias-de-columnas"><span class="header-section-number">2</span> ¿Qué son las bases de datos de familias de columnas?</h2>
+<p>Las bases de datos de familias de columnas organizan la información mediante filas identificadas por una clave y columnas que pueden representar diferentes características de los registros.</p>
+<p>Este modelo está presente en tecnologías como:</p>
+<ul>
+<li>Apache Cassandra.</li>
+<li>Apache HBase.</li>
+<li>Google Bigtable.</li>
+</ul>
+<p>Aunque pertenecen a una misma familia general, cada una implementa el modelo de manera diferente.</p>
 <p>Imaginemos una universidad que cuenta con sensores ambientales instalados en diferentes edificios.</p>
-<p>Cada sensor genera información sobre la temperatura, la humedad y el estado del dispositivo.</p>
-<p>Por ejemplo:</p>
+<p>Uno de estos sensores podría registrar la siguiente información:</p>
 <pre class="text"><code>sensor_001
     edificio: A
     aula: 101
     temperatura: 22.4
     humedad: 45
     bateria: 85</code></pre>
-<p>En este caso, toda la información corresponde a un mismo sensor, identificado mediante la clave <code>sensor_001</code>.</p>
-<p>En determinados sistemas de familias de columnas, los registros pueden contener distintos conjuntos de columnas. Por ejemplo, algunos sensores pueden registrar temperatura y humedad, mientras que otros únicamente registran temperatura.</p>
+<p>Toda esta información corresponde al dispositivo identificado como <code>sensor_001</code>.</p>
+<p>En algunos sistemas de familias de columnas, los registros pueden contener diferentes conjuntos de información. Por ejemplo, algunos sensores podrían registrar temperatura y humedad, mientras que otros únicamente temperatura.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -240,14 +264,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El modelo de familias de columnas organiza la información mediante claves de fila y grupos de columnas relacionadas.</p>
-<p>Su diseño puede facilitar el almacenamiento de grandes cantidades de registros y la distribución de datos entre varios servidores.</p>
+<p>El modelo de familias de columnas permite organizar grandes cantidades de información mediante claves de fila, columnas y estructuras diseñadas para distribuir los datos entre diferentes servidores.</p>
 </div>
 </div>
+<hr>
 </section>
 <section id="cómo-se-organiza-la-información" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="cómo-se-organiza-la-información"><span class="header-section-number">3</span> ¿Cómo se organiza la información?</h2>
-<p>Para comprender este modelo, primero debemos identificar tres elementos principales:</p>
+<p>Para comprender este modelo podemos identificar tres elementos generales:</p>
 <ul>
 <li>Clave de fila.</li>
 <li>Columnas.</li>
@@ -255,13 +279,13 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <section id="clave-de-fila" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="clave-de-fila"><span class="header-section-number">3.1</span> Clave de fila</h3>
-<p>La clave de fila (<em>row key</em>) permite identificar un registro.</p>
-<p>Por ejemplo, en nuestro sistema de monitoreo ambiental podemos tener los siguientes sensores:</p>
+<p>La <strong>clave de fila</strong> (<em>row key</em>) permite identificar un registro.</p>
+<p>Por ejemplo, nuestro sistema podría tener los siguientes sensores:</p>
 <pre class="text"><code>sensor_001
 sensor_002
 sensor_003</code></pre>
 <p>Cada identificador corresponde a un dispositivo diferente.</p>
-<p>A partir de esta clave podemos localizar la información relacionada con cada sensor.</p>
+<p>A partir de esta clave es posible localizar la información asociada con cada sensor.</p>
 </section>
 <section id="columnas" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="columnas"><span class="header-section-number">3.2</span> Columnas</h3>
@@ -272,35 +296,48 @@ sensor_003</code></pre>
     aula: 101
     temperatura: 22.4
     humedad: 45</code></pre>
-<p>En este caso, las columnas contienen información sobre la ubicación del sensor y las mediciones realizadas.</p>
+<p>En este caso, las columnas contienen información sobre la ubicación del dispositivo y las condiciones ambientales registradas.</p>
 </section>
 <section id="familias-de-columnas" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="familias-de-columnas"><span class="header-section-number">3.3</span> Familias de columnas</h3>
-<p>Una familia de columnas es una agrupación de columnas relacionadas.</p>
-<p>Siguiendo nuestro ejemplo, podemos organizar conceptualmente la información en tres familias.</p>
+<p>Una <strong>familia de columnas</strong> representa una agrupación lógica de columnas relacionadas.</p>
+<p>Siguiendo nuestro ejemplo, podemos imaginar tres grupos de información.</p>
 <p><strong>Ubicación</strong></p>
-<p>Contiene los datos que permiten identificar dónde se encuentra el dispositivo.</p>
 <pre class="text"><code>ubicacion
     edificio: A
     aula: 101</code></pre>
 <p><strong>Mediciones</strong></p>
-<p>Contiene las variables ambientales registradas por el sensor.</p>
 <pre class="text"><code>mediciones
     temperatura: 22.4
     humedad: 45</code></pre>
 <p><strong>Estado</strong></p>
-<p>Contiene información sobre el funcionamiento del dispositivo.</p>
 <pre class="text"><code>estado
     bateria: 85
     alerta: No</code></pre>
-<p>Esta separación nos permite comprender cómo pueden agruparse diferentes tipos de información.</p>
-<p>La implementación exacta depende de la tecnología utilizada. Por ejemplo, HBase trabaja con familias de columnas explícitas, mientras que Cassandra organiza los datos mediante tablas, particiones, filas y columnas definidas en un esquema.</p>
+<p>Esta representación nos permite comprender conceptualmente cómo puede agruparse información relacionada.</p>
+<p>Sin embargo, la implementación concreta depende de la tecnología utilizada.</p>
+<p>Por ejemplo, <strong>HBase trabaja explícitamente con familias de columnas</strong>, mientras que <strong>Cassandra organiza la información mediante tablas, particiones, filas y columnas definidas en un esquema</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>No es una tabla relacional tradicional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Aunque Cassandra utiliza tablas, filas y columnas, su diseño no sigue exactamente la misma lógica que una base de datos relacional.</p>
+<p>En Cassandra, las tablas se diseñan principalmente considerando las consultas que la aplicación necesita realizar.</p>
+</div>
+</div>
+<hr>
 </section>
 </section>
 <section id="ejemplo-de-organización" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="ejemplo-de-organización"><span class="header-section-number">4</span> Ejemplo de organización</h2>
-<p>Consideremos un sistema de monitoreo ambiental que recibe información de sensores instalados en diferentes edificios.</p>
-<p>Cada sensor se identifica mediante una clave de fila y sus datos pueden organizarse en grupos relacionados con la ubicación, las mediciones y el estado del dispositivo.</p>
+<p>Consideremos nuevamente nuestro sistema de monitoreo ambiental.</p>
+<p>Cada sensor se identifica mediante una clave y registra distintos tipos de información relacionados con su ubicación, sus mediciones y el estado del dispositivo.</p>
 <div id="fig-organizacion-columnas" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-organizacion-columnas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -312,11 +349,11 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 </figure>
 </div>
 <p>La <a href="#fig-organizacion-columnas" class="quarto-xref">Figure&nbsp;1</a> muestra conceptualmente tres sensores con diferentes características.</p>
-<p>Algunos registran temperatura y humedad, mientras que otros no cuentan con todas las mediciones o los datos de funcionamiento.</p>
-<p>Esta representación permite comprender el concepto de <strong>datos dispersos</strong>.</p>
+<p>Algunos dispositivos pueden registrar temperatura y humedad, mientras que otros podrían no generar todas las variables disponibles.</p>
+<p>Esta situación permite introducir el concepto de <strong>datos dispersos</strong>.</p>
 <section id="qué-son-los-datos-dispersos" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="qué-son-los-datos-dispersos"><span class="header-section-number">4.1</span> ¿Qué son los datos dispersos?</h3>
-<p>Son conjuntos de datos en los que no todos los registros contienen información para todas las columnas posibles.</p>
+<p>Los datos dispersos son conjuntos de información en los que no todos los registros contienen valores para todas las columnas posibles.</p>
 <p>Por ejemplo:</p>
 <table class="caption-top table">
 <thead>
@@ -350,7 +387,7 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 </table>
 <p>El segundo sensor no reportó información sobre su batería y el tercero no registró humedad.</p>
 <p>En determinados sistemas de familias de columnas, los datos ausentes no necesitan almacenarse como valores individuales.</p>
-<p>Esto puede resultar conveniente cuando se trabaja con dispositivos que tienen diferentes capacidades.</p>
+<p>Esto puede resultar útil cuando se trabaja con dispositivos que tienen diferentes capacidades o producen distintos tipos de información.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -362,17 +399,19 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 </div>
 <div class="callout-body-container callout-body">
 <p>No todos los sistemas de familias de columnas permiten agregar libremente cualquier columna a cada registro.</p>
-<p>En Cassandra, las columnas ordinarias se definen mediante un esquema. Por esta razón, debemos distinguir las características del modelo general de las reglas particulares de cada tecnología.</p>
+<p>En Cassandra, las columnas ordinarias deben definirse mediante un esquema.</p>
+<p>Por esta razón, debemos distinguir entre las características generales del modelo y la implementación específica de cada tecnología.</p>
 </div>
 </div>
+<hr>
 </section>
 </section>
 <section id="diferencias-respecto-al-modelo-relacional" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="diferencias-respecto-al-modelo-relacional"><span class="header-section-number">5</span> Diferencias respecto al modelo relacional</h2>
 <p>Las bases de datos relacionales y las bases de datos de familias de columnas pueden representar información mediante filas y columnas.</p>
-<p>Sin embargo, existen diferencias importantes en su organización, distribución y diseño.</p>
-<p>Consideremos el mismo sistema de monitoreo ambiental.</p>
-<p>En una base de datos relacional podemos representar la información de los sensores mediante una tabla:</p>
+<p>Sin embargo, existen diferencias importantes en la forma en que se diseñan, distribuyen y consultan los datos.</p>
+<p>Consideremos nuevamente nuestro sistema de monitoreo ambiental.</p>
+<p>En una base de datos relacional podríamos tener una tabla como la siguiente:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -403,9 +442,23 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 </tr>
 </tbody>
 </table>
-<p>Si necesitamos conservar un historial de mediciones, podemos crear una tabla adicional y relacionarla con la información de los sensores.</p>
+<p>Si necesitamos conservar el historial de mediciones, podríamos crear otra tabla y relacionarla con la información de los sensores.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>SENSORES
+------------------------
+sensor_id
+edificio
+aula
+
+MEDICIONES
+------------------------
+medicion_id
+sensor_id
+fecha_hora
+temperatura
+humedad</code></pre>
 <p>En un sistema de familias de columnas, la organización depende de la tecnología utilizada y de las consultas que necesitamos realizar.</p>
-<p>Por ejemplo, en Cassandra podríamos diseñar una tabla que agrupe las mediciones por sensor y fecha, de manera que resulte sencillo recuperar su historial durante un periodo determinado.</p>
+<p>En Cassandra, por ejemplo, podríamos diseñar una tabla específicamente para recuperar las mediciones de un sensor durante una fecha determinada.</p>
 <p>La siguiente tabla resume algunas diferencias generales:</p>
 <table class="caption-top table">
 <colgroup>
@@ -417,76 +470,122 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 <tr class="header">
 <th>Característica</th>
 <th>Modelo relacional</th>
-<th>Modelo de familias de columnas</th>
+<th>Familias de columnas</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Organización</td>
 <td>Tablas relacionadas</td>
-<td>Filas y columnas organizadas según el sistema</td>
+<td>Filas, columnas y estructuras según la tecnología</td>
 </tr>
 <tr class="even">
 <td>Esquema</td>
 <td>Generalmente definido</td>
-<td>Depende de la tecnología</td>
+<td>Depende del sistema</td>
 </tr>
 <tr class="odd">
 <td>Relaciones</td>
-<td>Puede utilizar llaves foráneas y JOIN</td>
-<td>Suele favorecer consultas previamente definidas</td>
+<td>Llaves foráneas y <code>JOIN</code></td>
+<td>Generalmente se evitan relaciones complejas</td>
 </tr>
 <tr class="even">
-<td>Distribución</td>
-<td>Depende del gestor y su arquitectura</td>
-<td>Existen sistemas diseñados para distribuir datos entre nodos</td>
+<td>Diseño</td>
+<td>Basado en entidades y relaciones</td>
+<td>Puede orientarse a las consultas</td>
 </tr>
 <tr class="odd">
+<td>Distribución</td>
+<td>Depende del gestor</td>
+<td>Algunos sistemas están diseñados para múltiples nodos</td>
+</tr>
+<tr class="even">
 <td>Ejemplos</td>
 <td>PostgreSQL, MySQL</td>
 <td>Cassandra, HBase</td>
 </tr>
 </tbody>
 </table>
-<p>Estas diferencias no significan que un modelo sea superior al otro.</p>
-<p>Por ejemplo, un sistema universitario que administra estudiantes, materias, inscripciones y calificaciones puede funcionar mediante una base de datos relacional.</p>
-<p>En cambio, un sistema que recibe continuamente grandes cantidades de mediciones provenientes de sensores puede beneficiarse de una base de datos distribuida diseñada para grandes volúmenes de escritura.</p>
-<p>La elección depende de la información que necesitamos almacenar y de las consultas que realizará la aplicación.</p>
+<p>Estas diferencias no significan que un modelo sea mejor que otro.</p>
+<p>Cada uno responde a necesidades diferentes.</p>
+<p>Por ejemplo, un sistema universitario que administra estudiantes, materias, inscripciones y calificaciones puede funcionar adecuadamente mediante una base de datos relacional.</p>
+<p>En cambio, una aplicación que recibe constantemente millones de mediciones provenientes de sensores puede beneficiarse de una base de datos distribuida diseñada para manejar grandes volúmenes de escritura.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La elección de una base de datos depende del tipo de información que necesitamos almacenar, de la cantidad de datos y de las consultas que realizará la aplicación.</p>
+</div>
+</div>
+<hr>
 </section>
 <section id="distribución-y-escalabilidad-horizontal" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="distribución-y-escalabilidad-horizontal"><span class="header-section-number">6</span> Distribución y escalabilidad horizontal</h2>
 <p>Una característica importante de sistemas como Cassandra es su capacidad para distribuir información entre diferentes servidores.</p>
-<p>Para comprenderlo, imaginemos una universidad con sensores instalados en todos sus edificios.</p>
-<p>Al principio solamente tenemos diez sensores. Sin embargo, el proyecto crece y posteriormente incorpora cientos o miles de dispositivos.</p>
-<p>Cada sensor puede generar varias mediciones por minuto.</p>
-<p>La cantidad de información almacenada comienza a crecer rápidamente.</p>
+<p>Para comprenderlo, imaginemos que nuestra universidad comienza con únicamente diez sensores.</p>
+<p>Cada sensor registra información cada cinco minutos.</p>
+<p>Con el tiempo, el proyecto crece y se instalan:</p>
+<pre class="text"><code>10 sensores
+100 sensores
+1,000 sensores
+10,000 sensores</code></pre>
+<p>Cada uno genera nuevas mediciones constantemente.</p>
+<p>La cantidad de información comienza a crecer rápidamente.</p>
+<p>Una forma de afrontar este crecimiento consiste en aumentar los recursos del servidor.</p>
 <section id="escalabilidad-vertical" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="escalabilidad-vertical"><span class="header-section-number">6.1</span> Escalabilidad vertical</h3>
-<p>La escalabilidad vertical consiste en aumentar los recursos de un servidor.</p>
+<p>La <strong>escalabilidad vertical</strong> consiste en aumentar los recursos disponibles en un mismo servidor.</p>
 <p>Por ejemplo:</p>
 <ul>
 <li>Incrementar la memoria RAM.</li>
 <li>Incorporar un procesador más potente.</li>
-<li>Ampliar la capacidad de almacenamiento.</li>
+<li>Aumentar la capacidad de almacenamiento.</li>
 </ul>
-<p>Esta estrategia puede resultar útil, pero el crecimiento de un solo servidor tiene límites.</p>
+<p>Podemos representarlo de la siguiente manera:</p>
+<pre class="text"><code>Servidor
+
+RAM: 8 GB
+      ↓
+RAM: 16 GB
+      ↓
+RAM: 32 GB</code></pre>
+<p>Esta estrategia puede ser útil, pero existe un límite físico y económico para el crecimiento de una sola máquina.</p>
 </section>
 <section id="escalabilidad-horizontal" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="escalabilidad-horizontal"><span class="header-section-number">6.2</span> Escalabilidad horizontal</h3>
-<p>La escalabilidad horizontal consiste en incorporar servidores adicionales para distribuir el trabajo.</p>
+<p>La <strong>escalabilidad horizontal</strong> consiste en incorporar servidores adicionales para distribuir el trabajo.</p>
 <p>Por ejemplo:</p>
-<pre class="text"><code>                 Aplicación
-                     |
-          -----------------------
-          |          |          |
-        Nodo 1     Nodo 2     Nodo 3
-          |          |          |
-          -----------------------
-                     |
-          Base de datos distribuida</code></pre>
-<p>En este ejemplo, los nodos participan en el almacenamiento y procesamiento de los datos.</p>
-<p>Al añadir más servidores, el sistema puede disponer de recursos adicionales para atender nuevas necesidades.</p>
-<p>Sin embargo, agregar servidores no garantiza automáticamente un mejor rendimiento. También influyen la distribución de los datos, el diseño de las consultas y la configuración del sistema.</p>
+<pre class="text"><code>                  Aplicación
+                       |
+          -------------------------
+          |           |           |
+        Nodo 1      Nodo 2      Nodo 3
+          |           |           |
+          -------------------------
+                       |
+              Datos distribuidos</code></pre>
+<p>En este escenario, diferentes nodos participan en el almacenamiento y procesamiento de la información.</p>
+<p>Si las necesidades del sistema aumentan, podrían agregarse más nodos.</p>
+<pre class="text"><code>Nodo 1
+Nodo 2
+Nodo 3
+Nodo 4
+Nodo 5</code></pre>
+<p>Esta capacidad es especialmente importante en aplicaciones que generan grandes cantidades de información.</p>
+<p>Sin embargo, agregar servidores no garantiza automáticamente un mejor rendimiento.</p>
+<p>También influyen factores como:</p>
+<ul>
+<li>La forma en que se distribuyen los datos.</li>
+<li>El diseño de las consultas.</li>
+<li>La configuración del sistema.</li>
+<li>La capacidad de cada nodo.</li>
+</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -501,28 +600,107 @@ Figure&nbsp;1: Ejemplo de claves de fila y agrupación de columnas en un sistema
 <p><strong>Escalabilidad horizontal:</strong> incorporar más servidores para distribuir el trabajo.</p>
 </div>
 </div>
+<hr>
 </section>
 </section>
-<section id="particionamiento-de-los-datos" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="particionamiento-de-los-datos"><span class="header-section-number">7</span> Particionamiento de los datos</h2>
-<p>Cuando una base de datos utiliza varios servidores, necesita establecer cómo distribuir la información.</p>
-<p>El <strong>particionamiento</strong> consiste en dividir los datos en conjuntos que puedan almacenarse y procesarse de manera distribuida.</p>
-<p>Consideremos un sistema que recibe información de cientos de sensores.</p>
-<p>Una posible estrategia consiste en organizar los registros mediante identificadores de sensor y periodos de tiempo.</p>
+<section id="clúster-y-nodos" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="clúster-y-nodos"><span class="header-section-number">7</span> Clúster y nodos</h2>
+<p>En una base de datos distribuida como Cassandra, diferentes servidores pueden trabajar de manera conjunta.</p>
+<p>Cada servidor que forma parte del sistema se denomina <strong>nodo</strong>.</p>
+<p>Un conjunto de nodos que trabajan de manera coordinada forma un <strong>clúster</strong>.</p>
 <p>Por ejemplo:</p>
-<pre class="text"><code>sensor_001 / septiembre 2026
-sensor_001 / octubre 2026
+<pre class="text"><code>                Clúster de Cassandra
 
-sensor_002 / septiembre 2026
-sensor_002 / octubre 2026</code></pre>
-<p>Esta organización permitiría agrupar las mediciones de cada sensor correspondientes a un periodo determinado.</p>
-<p>La estrategia concreta depende de las consultas que necesita realizar la aplicación.</p>
-<p>En Cassandra, la <strong>clave de partición</strong> determina cómo se distribuyen los registros entre los nodos del clúster.</p>
-<p>Una clave mal diseñada puede concentrar demasiada información o demasiadas solicitudes en determinadas particiones.</p>
-<p>Por esta razón, antes de diseñar una tabla debemos preguntarnos qué datos necesitamos recuperar y cómo realizaremos las consultas.</p>
+        ┌──────────┐
+        │  Nodo 1  │
+        └──────────┘
+
+        ┌──────────┐
+        │  Nodo 2  │
+        └──────────┘
+
+        ┌──────────┐
+        │  Nodo 3  │
+        └──────────┘</code></pre>
+<p>Los datos pueden distribuirse entre los diferentes nodos del clúster.</p>
+<p>Esto nos lleva a una pregunta importante:</p>
+<blockquote class="blockquote">
+<p>¿Cómo determina el sistema qué datos deben almacenarse juntos y cómo distribuirlos entre los nodos?</p>
+</blockquote>
+<p>Para comprenderlo necesitamos estudiar el <strong>particionamiento</strong>.</p>
+<hr>
 </section>
-<section id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">8</span> Ejemplo aplicado: monitoreo de temperatura y humedad</h2>
+<section id="particionamiento-de-los-datos" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="particionamiento-de-los-datos"><span class="header-section-number">8</span> Particionamiento de los datos</h2>
+<p>Cuando una base de datos utiliza varios servidores necesita determinar cómo distribuir la información entre ellos.</p>
+<p>El <strong>particionamiento</strong> consiste en dividir los datos en conjuntos que puedan almacenarse y procesarse de manera distribuida.</p>
+<p>Imaginemos nuevamente nuestro sistema de sensores.</p>
+<p>Podemos tener miles de dispositivos generando mediciones constantemente.</p>
+<p>Una posible estrategia consiste en agrupar las mediciones utilizando:</p>
+<ul>
+<li>El identificador del sensor.</li>
+<li>La fecha de las mediciones.</li>
+</ul>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(sensor_001, 2026-10-01)
+
+(sensor_001, 2026-10-02)
+
+(sensor_002, 2026-10-01)
+
+(sensor_002, 2026-10-02)</code></pre>
+<p>Cada combinación agrupa las mediciones de un sensor correspondientes a un día determinado.</p>
+<p>Podríamos visualizarlo de la siguiente manera:</p>
+<pre class="text"><code>(sensor_001, 2026-10-01)
+    10:00   22.4 °C   45 %
+    10:05   22.8 °C   46 %
+    10:10   23.1 °C   47 %
+
+(sensor_002, 2026-10-01)
+    10:00   24.8 °C   60 %
+    10:05   25.0 °C   61 %</code></pre>
+<p>De esta manera, las mediciones correspondientes al mismo sensor y fecha se encuentran agrupadas.</p>
+<p>En Cassandra, la <strong>clave de partición</strong> determina cómo se distribuyen los datos entre los nodos del clúster.</p>
+<p>Conceptualmente podríamos tener:</p>
+<pre class="text"><code>Clave de partición
+
+(sensor_id, fecha)</code></pre>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(sensor_001, 2026-10-01)
+(sensor_001, 2026-10-02)
+(sensor_002, 2026-10-01)</code></pre>
+<p>Cada una representa una partición diferente.</p>
+<section id="por-qué-es-importante-la-clave-de-partición" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="por-qué-es-importante-la-clave-de-partición"><span class="header-section-number">8.1</span> ¿Por qué es importante la clave de partición?</h3>
+<p>Una buena clave de partición ayuda a distribuir los datos de manera adecuada.</p>
+<p>Una mala elección puede provocar que demasiados registros se concentren en una misma partición o que determinadas partes del sistema reciban demasiadas solicitudes.</p>
+<p>Por esta razón, en Cassandra debemos pensar desde el inicio:</p>
+<blockquote class="blockquote">
+<p>¿Qué información necesito consultar?</p>
+</blockquote>
+<p>Por ejemplo, si frecuentemente necesitamos responder:</p>
+<blockquote class="blockquote">
+<p>¿Cuáles fueron las mediciones del sensor 001 durante el 1 de octubre?</p>
+</blockquote>
+<p>Entonces organizar la información mediante el sensor y la fecha puede resultar conveniente.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Una idea fundamental de Cassandra
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En Cassandra normalmente primero pensamos en las consultas que realizará la aplicación y después diseñamos las tablas necesarias para responderlas eficientemente.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="ejemplo-aplicado-monitoreo-de-temperatura-y-humedad"><span class="header-section-number">9</span> Ejemplo aplicado: monitoreo de temperatura y humedad</h2>
 <p>Imaginemos que una universidad instala sensores ambientales en diferentes edificios.</p>
 <p>Cada dispositivo registra periódicamente información sobre las condiciones del lugar donde se encuentra.</p>
 <p>Los sensores pueden generar los siguientes datos:</p>
@@ -545,25 +723,25 @@ Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de da
 </figcaption>
 </figure>
 </div>
-<p>La <a href="#fig-monitoreo-ambiental" class="quarto-xref">Figure&nbsp;2</a> representa conceptualmente cómo puede organizarse la información de diferentes sensores mediante familias de columnas.</p>
-<section id="información-del-dispositivo" class="level3" data-number="8.1">
-<h3 data-number="8.1" class="anchored" data-anchor-id="información-del-dispositivo"><span class="header-section-number">8.1</span> Información del dispositivo</h3>
+<p>La <a href="#fig-monitoreo-ambiental" class="quarto-xref">Figure&nbsp;2</a> representa conceptualmente cómo puede organizarse la información generada por diferentes sensores.</p>
+<section id="información-del-dispositivo" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="información-del-dispositivo"><span class="header-section-number">9.1</span> Información del dispositivo</h3>
 <p>Cada sensor necesita un identificador y una ubicación.</p>
 <p>Por ejemplo:</p>
 <pre class="text"><code>sensor_001
     edificio: A
     aula: 101</code></pre>
-<p>Estos datos permiten identificar el lugar donde se realizan las mediciones.</p>
+<p>Estos datos permiten identificar dónde se encuentra instalado el dispositivo.</p>
 </section>
-<section id="información-de-las-mediciones" class="level3" data-number="8.2">
-<h3 data-number="8.2" class="anchored" data-anchor-id="información-de-las-mediciones"><span class="header-section-number">8.2</span> Información de las mediciones</h3>
-<p>Un mismo sensor puede generar múltiples registros a lo largo del día.</p>
+<section id="información-de-las-mediciones" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="información-de-las-mediciones"><span class="header-section-number">9.2</span> Información de las mediciones</h3>
+<p>Un mismo sensor puede generar múltiples registros durante el día.</p>
 <p>Por ejemplo:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Sensor</th>
-<th>Fecha y hora</th>
+<th>Hora</th>
 <th style="text-align: right;">Temperatura</th>
 <th style="text-align: right;">Humedad</th>
 </tr>
@@ -601,22 +779,41 @@ Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de da
 </tr>
 </tbody>
 </table>
-<p>Observa que un sensor no genera un único registro de temperatura y humedad.</p>
-<p>Produce diferentes mediciones conforme transcurre el tiempo.</p>
-<p>Por lo tanto, necesitamos una estructura que permita conservar el historial, no solamente la última lectura recibida.</p>
+<p>Observa que un sensor no genera una única temperatura.</p>
+<p>Produce nuevas mediciones conforme transcurre el tiempo.</p>
+<p>Por lo tanto, necesitamos una estructura que permita conservar el <strong>historial de mediciones</strong> y no solamente la última lectura recibida.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>sensor_001
+
+10:00 → 22.4 °C
+10:05 → 22.8 °C
+10:10 → 23.1 °C</code></pre>
+<p>Esta característica será importante cuando trabajemos posteriormente con Apache Cassandra.</p>
+<hr>
 </section>
-<section id="qué-consultas-podríamos-realizar" class="level3" data-number="8.3">
-<h3 data-number="8.3" class="anchored" data-anchor-id="qué-consultas-podríamos-realizar"><span class="header-section-number">8.3</span> ¿Qué consultas podríamos realizar?</h3>
-<p>Una aplicación de monitoreo ambiental podría necesitar responder preguntas como:</p>
+</section>
+<section id="qué-consultas-podríamos-realizar" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="qué-consultas-podríamos-realizar"><span class="header-section-number">10</span> ¿Qué consultas podríamos realizar?</h2>
+<p>Antes de diseñar una base de datos es importante identificar las consultas que realizará la aplicación.</p>
+<p>Nuestro sistema de monitoreo ambiental podría necesitar responder preguntas como:</p>
 <ol type="1">
 <li>¿Cuáles fueron las mediciones del sensor 001 durante una fecha determinada?</li>
 <li>¿Qué temperatura registró un sensor durante las últimas horas?</li>
 <li>¿En qué momento se alcanzó determinada temperatura?</li>
 <li>¿Qué registros históricos necesitamos recuperar para realizar un análisis?</li>
 </ol>
-<p>El diseño de la base de datos debe considerar estas consultas desde el principio.</p>
-<p>Por ejemplo, si utilizáramos Cassandra, podríamos organizar las mediciones con una clave de partición formada por el identificador del sensor y la fecha, y ordenar las lecturas mediante la hora de registro.</p>
-<p>Así sería posible consultar el historial de un dispositivo durante un periodo específico.</p>
+<p>Estas preguntas influyen en la forma en que organizaremos los datos.</p>
+<p>Por ejemplo, si utilizamos Cassandra, podríamos organizar las mediciones mediante:</p>
+<pre class="text"><code>sensor + fecha</code></pre>
+<p>y posteriormente ordenar las diferentes lecturas mediante la hora.</p>
+<p>Conceptualmente:</p>
+<pre class="text"><code>(sensor_001, 2026-10-01)
+
+    10:00
+    10:05
+    10:10
+    10:15</code></pre>
+<p>Esto permitiría recuperar fácilmente el historial de un dispositivo durante un periodo determinado.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -627,60 +824,101 @@ Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de da
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La imagen muestra una representación conceptual de las familias de columnas y las características de cada sensor.</p>
-<p>Para conservar todas las mediciones históricas en Cassandra, necesitaremos diseñar una tabla que permita almacenar múltiples lecturas por sensor, utilizando una clave de partición y columnas de agrupamiento adecuadas.</p>
+<p>Las figuras utilizadas en este apunte representan conceptualmente las características del modelo de familias de columnas.</p>
+<p>Cuando trabajemos específicamente con Cassandra utilizaremos tablas, claves de partición y columnas de agrupamiento para almacenar múltiples mediciones de cada sensor.</p>
 </div>
 </div>
+<hr>
+</section>
+<section id="ventajas-del-modelo" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="ventajas-del-modelo"><span class="header-section-number">11</span> Ventajas del modelo</h2>
+<p>Los sistemas de familias de columnas pueden ofrecer diferentes ventajas dependiendo de la tecnología utilizada y del problema que se desea resolver.</p>
+<section id="distribución-de-la-información" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="distribución-de-la-información"><span class="header-section-number">11.1</span> Distribución de la información</h3>
+<p>Tecnologías como Cassandra están diseñadas para trabajar con varios nodos.</p>
+<p>Esto permite distribuir los datos entre diferentes servidores.</p>
+</section>
+<section id="escalabilidad-horizontal-1" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="escalabilidad-horizontal-1"><span class="header-section-number">11.2</span> Escalabilidad horizontal</h3>
+<p>El sistema puede incorporar nodos adicionales cuando aumentan las necesidades de almacenamiento o procesamiento.</p>
+</section>
+<section id="manejo-de-grandes-volúmenes-de-datos" class="level3" data-number="11.3">
+<h3 data-number="11.3" class="anchored" data-anchor-id="manejo-de-grandes-volúmenes-de-datos"><span class="header-section-number">11.3</span> Manejo de grandes volúmenes de datos</h3>
+<p>Este tipo de sistemas puede utilizarse en aplicaciones que generan grandes cantidades de registros.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Sistemas de monitoreo.</li>
+<li>Sensores IoT.</li>
+<li>Registros de eventos.</li>
+<li>Aplicaciones distribuidas.</li>
+<li>Plataformas con grandes volúmenes de escritura.</li>
+</ul>
+</section>
+<section id="organización-orientada-a-las-consultas" class="level3" data-number="11.4">
+<h3 data-number="11.4" class="anchored" data-anchor-id="organización-orientada-a-las-consultas"><span class="header-section-number">11.4</span> Organización orientada a las consultas</h3>
+<p>En Cassandra, las tablas se diseñan considerando las consultas que la aplicación necesita realizar.</p>
+<p>Este enfoque es diferente al utilizado normalmente en el diseño de bases de datos relacionales.</p>
+<hr>
 </section>
 </section>
-<section id="ventajas-del-modelo" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="ventajas-del-modelo"><span class="header-section-number">9</span> Ventajas del modelo</h2>
-<p>Entre las ventajas que pueden ofrecer los sistemas de familias de columnas se encuentran las siguientes:</p>
-<p><strong>Distribución de la información.</strong> Tecnologías como Cassandra están diseñadas para trabajar con varios nodos.</p>
-<p><strong>Escalabilidad horizontal.</strong> Permiten incorporar servidores adicionales para atender mayores necesidades de almacenamiento y procesamiento.</p>
-<p><strong>Manejo de grandes volúmenes de datos.</strong> Pueden utilizarse en aplicaciones que generan numerosos registros, como plataformas de monitoreo, sistemas de eventos o aplicaciones distribuidas.</p>
-<p><strong>Organización orientada a las consultas.</strong> En Cassandra, las tablas se diseñan considerando las consultas que la aplicación necesita realizar.</p>
-<p>Estas características dependen de la tecnología, la arquitectura y el diseño de la base de datos.</p>
+<section id="limitaciones-y-consideraciones" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="limitaciones-y-consideraciones"><span class="header-section-number">12</span> Limitaciones y consideraciones</h2>
+<p>El modelo también presenta aspectos que debemos considerar.</p>
+<section id="diseño-de-las-consultas" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="diseño-de-las-consultas"><span class="header-section-number">12.1</span> Diseño de las consultas</h3>
+<p>En Cassandra es importante conocer anticipadamente las consultas que realizará la aplicación.</p>
+<p>No conviene diseñar las tablas como si fueran tablas relacionales que posteriormente serán combinadas mediante numerosos <code>JOIN</code>.</p>
 </section>
-<section id="limitaciones-y-consideraciones" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="limitaciones-y-consideraciones"><span class="header-section-number">10</span> Limitaciones y consideraciones</h2>
-<p>También existen aspectos importantes que debemos considerar.</p>
-<section id="diseño-de-las-consultas" class="level3" data-number="10.1">
-<h3 data-number="10.1" class="anchored" data-anchor-id="diseño-de-las-consultas"><span class="header-section-number">10.1</span> Diseño de las consultas</h3>
-<p>En Cassandra es necesario pensar anticipadamente qué consultas realizará la aplicación.</p>
-<p>No conviene diseñar las tablas como si fueran tablas relacionales que posteriormente se combinarán mediante múltiples JOIN.</p>
+<section id="claves-de-partición" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="claves-de-partición"><span class="header-section-number">12.2</span> Claves de partición</h3>
+<p>Una mala elección de la clave de partición puede generar una distribución poco equilibrada de los datos.</p>
+<p>También puede producir particiones demasiado grandes o concentrar demasiadas solicitudes en determinadas partes del sistema.</p>
 </section>
-<section id="claves-de-partición" class="level3" data-number="10.2">
-<h3 data-number="10.2" class="anchored" data-anchor-id="claves-de-partición"><span class="header-section-number">10.2</span> Claves de partición</h3>
-<p>Una mala elección de la clave de partición puede generar una distribución poco equilibrada de la información.</p>
+<section id="relaciones-entre-entidades" class="level3" data-number="12.3">
+<h3 data-number="12.3" class="anchored" data-anchor-id="relaciones-entre-entidades"><span class="header-section-number">12.3</span> Relaciones entre entidades</h3>
+<p>Cuando una aplicación requiere realizar relaciones complejas entre muchas entidades o ejecutar consultas muy variables, otros modelos de bases de datos pueden resultar más apropiados.</p>
 </section>
-<section id="relaciones-entre-entidades" class="level3" data-number="10.3">
-<h3 data-number="10.3" class="anchored" data-anchor-id="relaciones-entre-entidades"><span class="header-section-number">10.3</span> Relaciones entre entidades</h3>
-<p>Cuando una aplicación necesita realizar relaciones complejas entre muchas tablas o ejecutar consultas cambiantes, otros modelos pueden resultar más convenientes.</p>
+<section id="complejidad-operativa" class="level3" data-number="12.4">
+<h3 data-number="12.4" class="anchored" data-anchor-id="complejidad-operativa"><span class="header-section-number">12.4</span> Complejidad operativa</h3>
+<p>Trabajar con sistemas distribuidos implica comprender conceptos adicionales.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Nodos.</li>
+<li>Particiones.</li>
+<li>Replicación.</li>
+<li>Disponibilidad.</li>
+<li>Consistencia.</li>
+</ul>
+<p>Por esta razón, la elección de una tecnología debe considerar las necesidades reales de la aplicación.</p>
+<hr>
 </section>
-<section id="complejidad-operativa" class="level3" data-number="10.4">
-<h3 data-number="10.4" class="anchored" data-anchor-id="complejidad-operativa"><span class="header-section-number">10.4</span> Complejidad operativa</h3>
-<p>Administrar una base de datos distribuida implica comprender conceptos adicionales, como nodos, replicación, consistencia y disponibilidad.</p>
-<p>La implementación requiere considerar las características y necesidades reales del sistema.</p>
 </section>
+<section id="tecnologías-representativas" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="tecnologías-representativas"><span class="header-section-number">13</span> Tecnologías representativas</h2>
+<p>Dentro de las bases de datos de familias de columnas encontramos diferentes tecnologías.</p>
+<section id="apache-cassandra" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="apache-cassandra"><span class="header-section-number">13.1</span> Apache Cassandra</h3>
+<p>Apache Cassandra es una base de datos NoSQL distribuida que utiliza un modelo de columnas amplias.</p>
+<p>Está diseñada para distribuir información entre varios nodos y trabajar con grandes volúmenes de datos.</p>
+<p>Utiliza un lenguaje de consultas llamado <strong>CQL</strong> (<em>Cassandra Query Language</em>).</p>
+<p>En las siguientes clases utilizaremos Cassandra para:</p>
+<ul>
+<li>Crear espacios de claves.</li>
+<li>Crear tablas.</li>
+<li>Insertar registros.</li>
+<li>Consultar información.</li>
+<li>Trabajar con claves de partición.</li>
+<li>Organizar historiales de mediciones.</li>
+</ul>
 </section>
-<section id="tecnologías-representativas" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="tecnologías-representativas"><span class="header-section-number">11</span> Tecnologías representativas</h2>
-<p>Dentro de esta familia encontramos diferentes tecnologías.</p>
-<section id="apache-cassandra" class="level3" data-number="11.1">
-<h3 data-number="11.1" class="anchored" data-anchor-id="apache-cassandra"><span class="header-section-number">11.1</span> Apache Cassandra</h3>
-<p>Es una base de datos no relacional distribuida que utiliza el modelo de columnas amplias.</p>
-<p>Permite distribuir información entre diferentes nodos y utiliza un lenguaje de consultas denominado CQL (<em>Cassandra Query Language</em>).</p>
-<p>En las siguientes clases utilizaremos Cassandra para crear tablas, insertar registros y recuperar información.</p>
+<section id="apache-hbase" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="apache-hbase"><span class="header-section-number">13.2</span> Apache HBase</h3>
+<p>Apache HBase es una base de datos distribuida inspirada en el modelo de Google Bigtable.</p>
+<p>Utiliza claves de fila y familias de columnas y forma parte del ecosistema de Apache Hadoop.</p>
 </section>
-<section id="apache-hbase" class="level3" data-number="11.2">
-<h3 data-number="11.2" class="anchored" data-anchor-id="apache-hbase"><span class="header-section-number">11.2</span> Apache HBase</h3>
-<p>Es una base de datos distribuida inspirada en el modelo de Google Bigtable.</p>
-<p>Utiliza claves de fila y familias de columnas, y forma parte del ecosistema de Apache Hadoop.</p>
-</section>
-<section id="google-bigtable" class="level3" data-number="11.3">
-<h3 data-number="11.3" class="anchored" data-anchor-id="google-bigtable"><span class="header-section-number">11.3</span> Google Bigtable</h3>
-<p>Es un servicio de base de datos de columnas amplias administrado por Google Cloud.</p>
+<section id="google-bigtable" class="level3" data-number="13.3">
+<h3 data-number="13.3" class="anchored" data-anchor-id="google-bigtable"><span class="header-section-number">13.3</span> Google Bigtable</h3>
+<p>Google Bigtable es un servicio de base de datos de columnas amplias administrado por Google Cloud.</p>
 <p>Está diseñado para almacenar grandes cantidades de información y atender aplicaciones que necesitan trabajar con datos a gran escala.</p>
 <table class="caption-top table">
 <thead>
@@ -704,11 +942,12 @@ Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de da
 </tr>
 </tbody>
 </table>
-<p>Aunque pertenecen a una misma familia general, estas tecnologías tienen diferencias importantes en su arquitectura, modelo de datos y forma de realizar consultas.</p>
+<p>Aunque pertenecen a una misma familia general, estas tecnologías presentan diferencias importantes en su arquitectura, modelo de datos y forma de realizar consultas.</p>
+<hr>
 </section>
 </section>
-<section id="relación-con-los-modelos-anteriores" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="relación-con-los-modelos-anteriores"><span class="header-section-number">12</span> Relación con los modelos anteriores</h2>
+<section id="relación-con-los-modelos-anteriores" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="relación-con-los-modelos-anteriores"><span class="header-section-number">14</span> Relación con los modelos anteriores</h2>
 <p>Hasta ahora hemos estudiado tres modelos principales de bases de datos no relacionales.</p>
 <table class="caption-top table">
 <colgroup>
@@ -742,21 +981,42 @@ Figure&nbsp;2: Ejemplo de un sistema de monitoreo ambiental mediante bases de da
 </tbody>
 </table>
 <p>Estos modelos no son necesariamente excluyentes.</p>
-<p>Una misma aplicación puede utilizar distintas tecnologías cuando cada una responde a una necesidad específica.</p>
-<p>Por ejemplo, en un sistema de monitoreo ambiental podríamos utilizar:</p>
-<ul>
-<li>Una base documental para almacenar información general de los dispositivos.</li>
-<li>Redis para consultar rápidamente la última temperatura registrada.</li>
-<li>Cassandra para conservar un historial de mediciones distribuido entre varios servidores.</li>
-</ul>
+<p>Una misma aplicación puede utilizar diferentes tecnologías cuando cada una responde a una necesidad específica.</p>
+<p>Por ejemplo, en nuestro sistema de monitoreo ambiental podríamos utilizar:</p>
+<p><strong>MongoDB</strong></p>
+<pre class="text"><code>Información general de los sensores</code></pre>
+<p><strong>Redis</strong></p>
+<pre class="text"><code>Última temperatura registrada</code></pre>
+<p><strong>Cassandra</strong></p>
+<pre class="text"><code>Historial de miles o millones de mediciones</code></pre>
+<p>Podemos representarlo de la siguiente manera:</p>
+<pre class="text"><code>Aplicación de monitoreo
+         |
+ -------------------------
+ |           |           |
+MongoDB    Redis     Cassandra
+ |           |           |
+Datos      Datos      Historial
+generales  rápidos    de mediciones</code></pre>
 <p>La decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación.</p>
+<hr>
 </section>
-<section id="cierre" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="cierre"><span class="header-section-number">13</span> Cierre</h2>
-<p>Las bases de datos de familias de columnas constituyen otra alternativa para organizar y almacenar información.</p>
-<p>Sistemas como Cassandra pueden resultar útiles cuando una aplicación maneja grandes volúmenes de registros y necesita distribuir sus datos entre diferentes servidores.</p>
-<p>El ejemplo de monitoreo ambiental nos permitió identificar la importancia de organizar correctamente las mediciones y considerar las consultas que realizará la aplicación.</p>
-<p>En la siguiente clase estudiaremos Apache Cassandra y utilizaremos CQL para crear y consultar una base de datos.</p>
+<section id="cierre" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="cierre"><span class="header-section-number">15</span> Cierre</h2>
+<p>Las bases de datos de familias de columnas constituyen una alternativa para almacenar y distribuir grandes cantidades de información.</p>
+<p>A lo largo de este apunte observamos que sus características principales incluyen:</p>
+<ul>
+<li>Organización mediante claves y columnas.</li>
+<li>Posibilidad de trabajar con grandes volúmenes de datos.</li>
+<li>Distribución de información entre diferentes nodos.</li>
+<li>Escalabilidad horizontal.</li>
+<li>Uso de particiones para organizar los registros.</li>
+<li>Diseño de estructuras considerando las consultas de la aplicación.</li>
+</ul>
+<p>El ejemplo de monitoreo ambiental nos permitió comprender que un sensor puede generar numerosas mediciones a lo largo del tiempo.</p>
+<p>Por esta razón, no basta con almacenar únicamente la última temperatura registrada.</p>
+<p>Necesitamos una estructura que permita conservar y consultar todo el historial de información.</p>
+<p>En la siguiente clase utilizaremos <strong>Apache Cassandra</strong> y el lenguaje <strong>CQL</strong> para construir este sistema de monitoreo ambiental y observar cómo se aplican los conceptos estudiados.</p>
 
 
 </section>
