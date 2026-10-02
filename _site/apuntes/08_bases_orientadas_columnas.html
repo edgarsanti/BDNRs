@@ -192,7 +192,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#google-bigtable" id="toc-google-bigtable" class="nav-link" data-scroll-target="#google-bigtable"><span class="header-section-number">13.3</span> Google Bigtable</a></li>
   </ul></li>
   <li><a href="#relación-con-los-modelos-anteriores" id="toc-relación-con-los-modelos-anteriores" class="nav-link" data-scroll-target="#relación-con-los-modelos-anteriores"><span class="header-section-number">14</span> Relación con los modelos anteriores</a></li>
-  <li><a href="#cierre" id="toc-cierre" class="nav-link" data-scroll-target="#cierre"><span class="header-section-number">15</span> Cierre</a></li>
   </ul>
 </nav>
     </div>
@@ -1000,23 +999,6 @@ Datos      Datos      Historial
 generales  rápidos    de mediciones</code></pre>
 <p>La decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación.</p>
 <hr>
-</section>
-<section id="cierre" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="cierre"><span class="header-section-number">15</span> Cierre</h2>
-<p>Las bases de datos de familias de columnas constituyen una alternativa para almacenar y distribuir grandes cantidades de información.</p>
-<p>A lo largo de este apunte observamos que sus características principales incluyen:</p>
-<ul>
-<li>Organización mediante claves y columnas.</li>
-<li>Posibilidad de trabajar con grandes volúmenes de datos.</li>
-<li>Distribución de información entre diferentes nodos.</li>
-<li>Escalabilidad horizontal.</li>
-<li>Uso de particiones para organizar los registros.</li>
-<li>Diseño de estructuras considerando las consultas de la aplicación.</li>
-</ul>
-<p>El ejemplo de monitoreo ambiental nos permitió comprender que un sensor puede generar numerosas mediciones a lo largo del tiempo.</p>
-<p>Por esta razón, no basta con almacenar únicamente la última temperatura registrada.</p>
-<p>Necesitamos una estructura que permita conservar y consultar todo el historial de información.</p>
-<p>En la siguiente clase utilizaremos <strong>Apache Cassandra</strong> y el lenguaje <strong>CQL</strong> para construir este sistema de monitoreo ambiental y observar cómo se aplican los conceptos estudiados.</p>
 
 
 </section>

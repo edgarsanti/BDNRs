@@ -755,24 +755,3 @@ generales  rápidos    de mediciones
 La decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación.
 
 ---
-
-## Cierre
-
-Las bases de datos de familias de columnas constituyen una alternativa para almacenar y distribuir grandes cantidades de información.
-
-A lo largo de este apunte observamos que sus características principales incluyen:
-
-- Organización mediante claves y columnas.
-- Posibilidad de trabajar con grandes volúmenes de datos.
-- Distribución de información entre diferentes nodos.
-- Escalabilidad horizontal.
-- Uso de particiones para organizar los registros.
-- Diseño de estructuras considerando las consultas de la aplicación.
-
-El ejemplo de monitoreo ambiental nos permitió comprender que un sensor puede generar numerosas mediciones a lo largo del tiempo.
-
-Por esta razón, no basta con almacenar únicamente la última temperatura registrada.
-
-Necesitamos una estructura que permita conservar y consultar todo el historial de información.
-
-En la siguiente clase utilizaremos **Apache Cassandra** y el lenguaje **CQL** para construir este sistema de monitoreo ambiental y observar cómo se aplican los conceptos estudiados.
