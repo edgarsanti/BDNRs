@@ -658,13 +658,6 @@
     "text": "14 Relación con los modelos anteriores\nHasta ahora hemos estudiado tres modelos principales de bases de datos no relacionales.\n\n\n\n\n\n\n\n\nModelo\nOrganización principal\nEjemplo\n\n\n\n\nDocumental\nDocumentos con campos y valores\nMongoDB\n\n\nClave–valor\nClaves asociadas con valores\nRedis\n\n\nFamilias de columnas\nFilas y columnas organizadas según el sistema\nCassandra\n\n\n\nEstos modelos no son necesariamente excluyentes.\nUna misma aplicación puede utilizar diferentes tecnologías cuando cada una responde a una necesidad específica.\nPor ejemplo, en nuestro sistema de monitoreo ambiental podríamos utilizar:\nMongoDB\nInformación general de los sensores\nRedis\nÚltima temperatura registrada\nCassandra\nHistorial de miles o millones de mediciones\nPodemos representarlo de la siguiente manera:\nAplicación de monitoreo\n         |\n -------------------------\n |           |           |\nMongoDB    Redis     Cassandra\n |           |           |\nDatos      Datos      Historial\ngenerales  rápidos    de mediciones\nLa decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación."
   },
   {
-    "objectID": "apuntes/08_bases_orientadas_columnas.html#cierre",
-    "href": "apuntes/08_bases_orientadas_columnas.html#cierre",
-    "title": "Fundamentos de las bases de datos de familias de columnas",
-    "section": "15 Cierre",
-    "text": "15 Cierre\nLas bases de datos de familias de columnas constituyen una alternativa para almacenar y distribuir grandes cantidades de información.\nA lo largo de este apunte observamos que sus características principales incluyen:\n\nOrganización mediante claves y columnas.\nPosibilidad de trabajar con grandes volúmenes de datos.\nDistribución de información entre diferentes nodos.\nEscalabilidad horizontal.\nUso de particiones para organizar los registros.\nDiseño de estructuras considerando las consultas de la aplicación.\n\nEl ejemplo de monitoreo ambiental nos permitió comprender que un sensor puede generar numerosas mediciones a lo largo del tiempo.\nPor esta razón, no basta con almacenar únicamente la última temperatura registrada.\nNecesitamos una estructura que permita conservar y consultar todo el historial de información.\nEn la siguiente clase utilizaremos Apache Cassandra y el lenguaje CQL para construir este sistema de monitoreo ambiental y observar cómo se aplican los conceptos estudiados."
-  },
-  {
     "objectID": "apuntes/05_modelado_relaciones_mongodb.html",
     "href": "apuntes/05_modelado_relaciones_mongodb.html",
     "title": "Modelado de relaciones en MongoDB",
