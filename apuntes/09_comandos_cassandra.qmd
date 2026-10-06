@@ -1,5 +1,5 @@
 ---
-title: "Apache Cassandra: comandos y consultas con CQL"
+title: "Apache Cassandra: primeros comandos y consultas con CQL"
 subtitle: "Primeros comandos y ejemplo de monitoreo ambiental"
 toc: true
 toc-depth: 3
@@ -8,57 +8,196 @@ number-sections: true
 
 ## Introducción
 
-Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar. En este apunte utilizaremos **CQL (Cassandra Query Language)** para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.
+Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar.
 
-Se da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso. Para los ejemplos se utiliza el contenedor `cassandra-lab`.
+En este apunte utilizaremos **CQL (Cassandra Query Language)** para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.
+
+Se da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso.
+
+Para los ejemplos utilizaremos el contenedor:
+
+```text
+cassandra-lab
+```
+
+A lo largo del apunte retomaremos el ejemplo de monitoreo ambiental utilizado anteriormente para observar cómo los conceptos de **particionamiento**, **clave de partición** y **organización orientada a consultas** se aplican directamente en Cassandra.
+
+---
+
+## ¿Qué aprenderemos?
+
+Al finalizar este apunte podrás:
+
+- Iniciar Apache Cassandra mediante Docker.
+- Acceder a la consola `cqlsh`.
+- Crear y seleccionar un *keyspace*.
+- Crear tablas mediante CQL.
+- Insertar, consultar, actualizar y eliminar registros.
+- Identificar una clave primaria.
+- Identificar una clave de partición.
+- Utilizar columnas de agrupamiento.
+- Diseñar una tabla para consultar el historial de mediciones de un sensor.
+- Comprender por qué en Cassandra las tablas se diseñan de acuerdo con las consultas que realizará la aplicación.
+
+---
 
 ## Iniciar Apache Cassandra
 
-Abre **Docker Desktop** y espera a que el motor de Docker esté en ejecución. Después, abre **PowerShell** y ejecuta:
+Antes de comenzar, abre **Docker Desktop** y espera a que el motor de Docker esté funcionando.
 
-```powershell
+Después abre:
+
+- **PowerShell** en Windows, o
+- **Terminal** en macOS.
+
+Los comandos de Docker que utilizaremos son los mismos en ambos sistemas.
+
+Inicia el contenedor de Cassandra:
+
+```bash
 docker start cassandra-lab
 ```
 
-Si el contenedor ya está iniciado, no es necesario repetir este comando. Puedes comprobar su estado con:
+Si el contenedor ya está iniciado, Docker mostrará nuevamente su nombre.
 
-```powershell
+Para comprobar que se encuentra en ejecución:
+
+```bash
 docker ps
 ```
 
-En la lista debe aparecer `cassandra-lab` con el estado `Up`. Cassandra puede tardar un poco en estar listo, aunque el contenedor ya aparezca en ejecución.
+En la lista deberá aparecer:
 
-Para abrir la consola interactiva de Cassandra, ejecuta:
+```text
+cassandra-lab
+```
 
-```powershell
+con un estado similar a:
+
+```text
+Up
+```
+
+::: {.callout-note}
+## Cassandra puede tardar unos segundos
+
+Que el contenedor aparezca como `Up` significa que Docker ya lo inició.
+
+Sin embargo, Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones.
+
+Si intentas acceder inmediatamente y aparece un mensaje parecido a:
+
+```text
+Connection refused
+```
+
+espera unos segundos y vuelve a intentar la conexión.
+:::
+
+---
+
+## Acceder a la consola de Cassandra
+
+Para ingresar a Cassandra ejecuta:
+
+```bash
 docker exec -it cassandra-lab cqlsh
 ```
 
-Cuando la conexión se complete, aparecerá el indicador:
+Cuando la conexión se complete aparecerá un indicador similar a:
 
 ```text
 cqlsh>
 ```
 
+A partir de este momento, los comandos que escribamos se ejecutarán directamente en Cassandra.
+
 ::: {.callout-note title="¿Qué es cqlsh?"}
-`cqlsh` significa *Cassandra Query Language Shell*. Es una consola interactiva que permite ejecutar instrucciones CQL, de forma similar a `mongosh` en MongoDB o `redis-cli` en Redis.
+`cqlsh` significa *Cassandra Query Language Shell*.
+
+Es una consola interactiva que permite ejecutar instrucciones CQL, de forma similar a:
+
+- `mongosh` en MongoDB.
+- `redis-cli` en Redis.
 :::
+
+---
+
+## Comandos principales que utilizaremos
+
+Antes de comenzar a trabajar, revisemos algunos de los principales comandos de CQL que utilizaremos durante este apunte.
+
+| Comando | ¿Para qué sirve? | Ejemplo |
+|---|---|---|
+| `DESCRIBE KEYSPACES;` | Muestra los espacios de claves disponibles. | `DESCRIBE KEYSPACES;` |
+| `CREATE KEYSPACE` | Crea un nuevo espacio de claves. | `CREATE KEYSPACE monitoreo_ambiental ...;` |
+| `USE` | Selecciona el espacio de claves con el que vamos a trabajar. | `USE monitoreo_ambiental;` |
+| `DESCRIBE TABLES;` | Muestra las tablas existentes. | `DESCRIBE TABLES;` |
+| `CREATE TABLE` | Crea una nueva tabla. | `CREATE TABLE sensores (...);` |
+| `DESCRIBE TABLE` | Muestra la definición de una tabla. | `DESCRIBE TABLE sensores;` |
+| `INSERT INTO` | Inserta un registro. | `INSERT INTO sensores (...) VALUES (...);` |
+| `SELECT` | Consulta información almacenada. | `SELECT * FROM sensores;` |
+| `UPDATE` | Modifica valores de un registro. | `UPDATE sensores SET aula = '102' WHERE sensor_id = 'sensor_001';` |
+| `DELETE` | Elimina un registro o determinados valores. | `DELETE FROM sensores WHERE sensor_id = 'sensor_004';` |
+| `COUNT(*)` | Cuenta los registros que devuelve una consulta. | `SELECT COUNT(*) FROM sensores;` |
+| `exit;` | Cierra la consola `cqlsh`. | `exit;` |
+
+::: {.callout-important}
+## CQL se parece a SQL, pero Cassandra funciona diferente
+
+CQL utiliza instrucciones que pueden resultar familiares para quienes han trabajado con SQL.
+
+Sin embargo, Cassandra no funciona como una base de datos relacional tradicional.
+
+El diseño de las tablas y las consultas depende especialmente de:
+
+- las claves de partición;
+- las columnas de agrupamiento;
+- y las consultas que necesita realizar la aplicación.
+:::
+
+---
 
 ## Explorar los espacios de claves
 
 En Cassandra, un **keyspace** o *espacio de claves* agrupa las tablas de una aplicación y establece su configuración de replicación.
 
-Para consultar los espacios de claves disponibles, ejecuta:
+Podemos pensar en él como el espacio principal donde almacenaremos las tablas relacionadas con nuestro sistema.
+
+Para consultar los espacios de claves disponibles:
 
 ```sql
 DESCRIBE KEYSPACES;
 ```
 
-Los nombres que aparecen inicialmente corresponden, principalmente, a espacios utilizados por el propio sistema.
+Al instalar Cassandra aparecen varios espacios utilizados internamente por el sistema.
 
-### Crear un keyspace
+Por ejemplo:
 
-Crearemos un espacio llamado `monitoreo_ambiental`:
+```text
+system
+system_auth
+system_schema
+system_distributed
+```
+
+No modificaremos estos espacios.
+
+Crearemos uno propio para nuestro ejemplo.
+
+---
+
+## Crear un keyspace
+
+Nuestro sistema almacenará información relacionada con sensores ambientales.
+
+Crearemos un espacio denominado:
+
+```text
+monitoreo_ambiental
+```
+
+Ejecuta:
 
 ```sql
 CREATE KEYSPACE IF NOT EXISTS monitoreo_ambiental
@@ -68,23 +207,56 @@ WITH replication = {
 };
 ```
 
-`SimpleStrategy` y un factor de replicación de `1` son suficientes para este ejercicio con un solo nodo. No deben interpretarse como una configuración recomendada para producción.
+En este ejemplo utilizamos:
 
-Selecciona el espacio de claves:
+```text
+SimpleStrategy
+```
+
+y un factor de replicación de:
+
+```text
+1
+```
+
+porque estamos trabajando con **un único nodo de Cassandra dentro de Docker**.
+
+::: {.callout-warning}
+## Configuración de aprendizaje
+
+`SimpleStrategy` y un factor de replicación de `1` son suficientes para este ejercicio.
+
+No deben interpretarse como una configuración recomendada para un sistema de producción con múltiples nodos.
+:::
+
+Selecciona el *keyspace*:
 
 ```sql
 USE monitoreo_ambiental;
 ```
 
-El indicador de la consola cambiará a:
+El indicador cambiará a:
 
 ```text
 cqlsh:monitoreo_ambiental>
 ```
 
+Esto indica que los siguientes comandos se ejecutarán dentro de este espacio de claves.
+
+---
+
 ## Crear la tabla de sensores
 
-Primero almacenaremos los datos generales de cada sensor: su identificador, edificio, ubicación y tipo de medición.
+Primero almacenaremos la información general de cada sensor.
+
+Queremos conservar:
+
+- Identificador.
+- Edificio.
+- Aula o zona.
+- Tipo de medición.
+
+Crearemos la tabla:
 
 ```sql
 CREATE TABLE IF NOT EXISTS sensores (
@@ -95,21 +267,49 @@ CREATE TABLE IF NOT EXISTS sensores (
 );
 ```
 
-En esta tabla, `sensor_id` es la **clave primaria**. Su valor permite identificar cada sensor y no debe repetirse.
+En esta tabla:
 
-Para consultar las tablas del espacio de claves seleccionado:
+```text
+sensor_id
+```
+
+es la **clave primaria**.
+
+Su función es identificar de manera única cada sensor.
+
+Por ejemplo:
+
+```text
+sensor_001
+sensor_002
+sensor_003
+```
+
+No debemos utilizar el mismo identificador para dos sensores diferentes.
+
+### Consultar las tablas existentes
+
+Ejecuta:
 
 ```sql
 DESCRIBE TABLES;
 ```
 
-También puedes revisar la definición de la tabla:
+Deberá aparecer:
+
+```text
+sensores
+```
+
+También podemos consultar la definición completa de la tabla:
 
 ```sql
 DESCRIBE TABLE sensores;
 ```
 
-## Insertar y consultar registros
+---
+
+## Insertar registros
 
 Registraremos tres sensores instalados en diferentes espacios de una universidad.
 
@@ -124,22 +324,40 @@ INSERT INTO sensores (sensor_id, edificio, aula, tipo)
 VALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');
 ```
 
-Para consultar todos los sensores:
+Cada instrucción `INSERT INTO` agrega información asociada con una clave primaria.
+
+---
+
+## Consultar los sensores
+
+Para consultar todos los registros:
 
 ```sql
 SELECT * FROM sensores;
 ```
 
-El orden de las filas puede ser diferente al orden en el que se insertaron.
+Podríamos obtener un resultado similar a:
 
-También podemos recuperar únicamente la información de un sensor:
+```text
+ sensor_id   | edificio | aula         | tipo
+-------------+----------+--------------+------------------------
+ sensor_001  | A        | 101          | Temperatura y humedad
+ sensor_002  | A        | Laboratorio  | Temperatura y humedad
+ sensor_003  | B        | Exterior     | Temperatura
+```
+
+El orden de las filas puede ser diferente al orden en el que fueron insertadas.
+
+### Consultar un sensor específico
+
+Podemos utilizar su clave primaria:
 
 ```sql
 SELECT * FROM sensores
 WHERE sensor_id = 'sensor_001';
 ```
 
-O seleccionar solo algunas columnas:
+### Seleccionar únicamente algunas columnas
 
 ```sql
 SELECT sensor_id, edificio, aula
@@ -147,9 +365,13 @@ FROM sensores
 WHERE sensor_id = 'sensor_002';
 ```
 
-## Actualizar y eliminar registros
+---
 
-Supongamos que el primer sensor fue trasladado del aula `101` al aula `102`. Podemos modificar su ubicación mediante `UPDATE`:
+## Actualizar registros
+
+Supongamos que el sensor `sensor_001` fue trasladado del aula `101` al aula `102`.
+
+Podemos modificar su ubicación mediante:
 
 ```sql
 UPDATE sensores
@@ -164,36 +386,113 @@ SELECT * FROM sensores
 WHERE sensor_id = 'sensor_001';
 ```
 
-Para practicar la eliminación sin perder nuestros tres sensores principales, agregaremos un registro temporal:
+::: {.callout-important title="Consideración sobre UPDATE"}
+En Cassandra, `UPDATE` también puede crear una fila si no existe un registro con la clave primaria indicada.
+
+Por esta razón, debemos revisar cuidadosamente la clave utilizada antes de ejecutar una actualización.
+:::
+
+---
+
+## Eliminar registros
+
+Para practicar la eliminación sin perder nuestros tres sensores principales, agregaremos temporalmente un cuarto sensor:
 
 ```sql
 INSERT INTO sensores (sensor_id, edificio, aula, tipo)
 VALUES ('sensor_004', 'C', 'Almacén', 'Temperatura');
 ```
 
-Elimínalo utilizando su clave primaria:
-
-```sql
-DELETE FROM sensores
-WHERE sensor_id = 'sensor_004';
-```
-
-Comprueba que ya no aparezca:
+Comprueba que existe:
 
 ```sql
 SELECT * FROM sensores
 WHERE sensor_id = 'sensor_004';
 ```
 
-::: {.callout-important title="Consideración sobre UPDATE"}
-En Cassandra, `UPDATE` también puede crear una fila si no existe un registro con la clave primaria indicada. Por ello, es importante revisar cuidadosamente las claves antes de ejecutar una actualización.
-:::
+Ahora elimínalo:
 
-## Diseñar una tabla para las mediciones
+```sql
+DELETE FROM sensores
+WHERE sensor_id = 'sensor_004';
+```
 
-La tabla `sensores` almacena la información general de cada dispositivo, pero un sensor puede generar numerosas lecturas durante el día. Para guardar ese historial, crearemos una segunda tabla.
+Comprueba nuevamente:
 
-Antes de definirla, debemos decidir qué consulta necesitamos realizar. En este ejemplo queremos **recuperar las mediciones de un sensor durante una fecha determinada**, comenzando por las más recientes.
+```sql
+SELECT * FROM sensores
+WHERE sensor_id = 'sensor_004';
+```
+
+Si la eliminación se realizó correctamente, la consulta no devolverá filas.
+
+---
+
+## Del registro de sensores al historial de mediciones
+
+Hasta ahora tenemos una tabla que permite responder preguntas como:
+
+> ¿Dónde se encuentra el sensor 001?
+
+o:
+
+> ¿Qué tipo de información registra el sensor 002?
+
+Sin embargo, todavía no podemos responder una pregunta diferente:
+
+> ¿Qué temperaturas registró el sensor 001 durante un día determinado?
+
+El problema es que un sensor genera **muchas mediciones a lo largo del tiempo**.
+
+Por ejemplo:
+
+```text
+sensor_001
+
+09:00 → 22.4 °C
+09:05 → 22.8 °C
+09:10 → 23.1 °C
+```
+
+No queremos reemplazar la temperatura anterior cada vez que recibimos una nueva lectura.
+
+Necesitamos conservar el **historial de mediciones**.
+
+Para ello crearemos una segunda tabla.
+
+---
+
+## Diseñar la tabla a partir de la consulta
+
+Antes de crear la tabla debemos recordar una idea fundamental de Cassandra:
+
+> Primero pensamos qué consulta necesita realizar la aplicación y después diseñamos la tabla.
+
+En nuestro ejemplo queremos responder principalmente:
+
+> ¿Cuáles fueron las mediciones de un sensor durante una fecha determinada?
+
+Para ello utilizaremos:
+
+```text
+sensor_id + fecha
+```
+
+para agrupar las lecturas correspondientes al mismo dispositivo y día.
+
+Dentro de cada grupo utilizaremos:
+
+```text
+momento
+```
+
+para ordenar las diferentes mediciones.
+
+---
+
+## Crear la tabla de mediciones
+
+Ejecuta:
 
 ```sql
 CREATE TABLE IF NOT EXISTS mediciones (
@@ -206,47 +505,180 @@ CREATE TABLE IF NOT EXISTS mediciones (
 ) WITH CLUSTERING ORDER BY (momento DESC);
 ```
 
-### Clave de partición
+Esta tabla presenta una estructura más interesante que la tabla `sensores`.
 
-La expresión `(sensor_id, fecha)` constituye una **clave de partición compuesta**. Las lecturas que comparten ambos valores pertenecen a la misma partición lógica.
+La parte principal es:
 
-Por ejemplo, las mediciones de `sensor_001` del 29 de septiembre de 2026 se agrupan en una partición diferente de las lecturas de ese mismo sensor del día siguiente.
+```text
+PRIMARY KEY ((sensor_id, fecha), momento)
+```
 
-### Columna de agrupamiento
+Podemos interpretarla así:
 
-`momento` es una **columna de agrupamiento** (*clustering column*). Distingue las diferentes lecturas dentro de la partición y permite organizarlas por fecha y hora. La opción `DESC` establece el orden descendente: primero las mediciones más recientes.
+```text
+┌──────────────────────────────┐
+│ Clave de partición           │
+│ (sensor_id, fecha)           │
+└──────────────────────────────┘
+              +
+┌──────────────────────────────┐
+│ Columna de agrupamiento      │
+│ momento                      │
+└──────────────────────────────┘
+```
+
+---
+
+## Clave de partición
+
+La expresión:
+
+```text
+(sensor_id, fecha)
+```
+
+constituye una **clave de partición compuesta**.
+
+Esto significa que las lecturas que tienen el mismo:
+
+```text
+sensor_id
+```
+
+y la misma:
+
+```text
+fecha
+```
+
+pertenecen a la misma partición lógica.
+
+Por ejemplo:
+
+```text
+(sensor_001, 2026-09-29)
+
+    09:00 → 22.4 °C
+    09:05 → 22.8 °C
+    09:10 → 23.1 °C
+```
+
+Estas tres mediciones pertenecen a la misma partición.
+
+Sin embargo:
+
+```text
+(sensor_001, 2026-09-30)
+```
+
+corresponde a una partición diferente.
+
+También:
+
+```text
+(sensor_002, 2026-09-29)
+```
+
+corresponde a otra partición.
+
+::: {.callout-note}
+## Relación con el apunte anterior
+
+En el tema de familias de columnas observamos conceptualmente combinaciones como:
+
+```text
+(sensor_001, 2026-09-29)
+```
+
+Ahora estamos utilizando esa misma idea directamente en Cassandra mediante una clave de partición compuesta.
+:::
+
+---
+
+## Columna de agrupamiento
+
+La columna:
+
+```text
+momento
+```
+
+es una **columna de agrupamiento** (*clustering column*).
+
+Su función es:
+
+1. distinguir las diferentes filas dentro de una misma partición;
+2. organizar las mediciones por fecha y hora.
+
+La instrucción:
+
+```text
+CLUSTERING ORDER BY (momento DESC)
+```
+
+indica que las mediciones se mostrarán comenzando por las más recientes.
+
+Por ejemplo:
+
+```text
+09:10 → 23.1 °C
+09:05 → 22.8 °C
+09:00 → 22.4 °C
+```
 
 ::: {.callout-tip title="¿Por qué utilizar dos tablas?"}
-La tabla `sensores` permite consultar los datos generales de un dispositivo. La tabla `mediciones` está diseñada para consultar eficientemente su historial de lecturas por día. En Cassandra es habitual diseñar las tablas a partir de las consultas que realizará la aplicación.
+La tabla `sensores` responde preguntas relacionadas con la información general de cada dispositivo.
+
+La tabla `mediciones` responde preguntas relacionadas con el historial de lecturas.
+
+En Cassandra es normal tener diferentes tablas diseñadas para diferentes consultas.
 :::
+
+---
 
 ## Registrar mediciones de temperatura y humedad
 
-Insertaremos varias lecturas para `sensor_001` y una lectura para `sensor_002`. En este ejemplo utilizaremos horas expresadas en UTC (`Z`) para que todos los alumnos obtengan resultados consistentes, independientemente de la zona horaria de su equipo.
+Insertaremos tres mediciones para `sensor_001`.
+
+Utilizaremos horas expresadas en UTC mediante la letra `Z`.
 
 ```sql
 INSERT INTO mediciones
 (sensor_id, fecha, momento, temperatura, humedad)
 VALUES
 ('sensor_001', '2026-09-29', '2026-09-29T09:00:00Z', 22.4, 45.0);
+```
 
+Segunda medición:
+
+```sql
 INSERT INTO mediciones
 (sensor_id, fecha, momento, temperatura, humedad)
 VALUES
 ('sensor_001', '2026-09-29', '2026-09-29T09:05:00Z', 22.8, 46.0);
+```
 
+Tercera medición:
+
+```sql
 INSERT INTO mediciones
 (sensor_id, fecha, momento, temperatura, humedad)
 VALUES
 ('sensor_001', '2026-09-29', '2026-09-29T09:10:00Z', 23.1, 44.0);
+```
 
+También registraremos una lectura del segundo sensor:
+
+```sql
 INSERT INTO mediciones
 (sensor_id, fecha, momento, temperatura, humedad)
 VALUES
 ('sensor_002', '2026-09-29', '2026-09-29T09:00:00Z', 21.7, 48.0);
 ```
 
-El sensor exterior solo registra temperatura. Podemos omitir la columna `humedad`:
+El sensor exterior únicamente registra temperatura.
+
+Por ello podemos omitir la columna `humedad`:
 
 ```sql
 INSERT INTO mediciones
@@ -255,11 +687,15 @@ VALUES
 ('sensor_003', '2026-09-29', '2026-09-29T09:00:00Z', 25.6);
 ```
 
-En este caso, la humedad no tiene un valor registrado. Esto permite ilustrar que una fila no necesita contener valores en todas las columnas no clave.
+En este caso no existe un valor registrado para humedad.
 
-## Consultar el historial de mediciones
+Esto permite observar que una fila no necesita tener valores en todas las columnas que no forman parte de la clave primaria.
 
-### Consultar las mediciones de un sensor en un día
+---
+
+## Consultar el historial de un sensor
+
+Ahora podemos realizar la consulta para la cual diseñamos nuestra tabla.
 
 ```sql
 SELECT * FROM mediciones
@@ -267,9 +703,29 @@ WHERE sensor_id = 'sensor_001'
   AND fecha = '2026-09-29';
 ```
 
-La consulta recupera las tres lecturas de ese sensor y las presenta de la más reciente a la más antigua, de acuerdo con la definición de la tabla.
+La consulta recuperará las tres mediciones del sensor durante ese día.
 
-### Seleccionar algunas columnas
+Como definimos:
+
+```text
+CLUSTERING ORDER BY (momento DESC)
+```
+
+las mediciones aparecerán de la más reciente a la más antigua.
+
+Conceptualmente:
+
+```text
+09:10 → 23.1 °C
+09:05 → 22.8 °C
+09:00 → 22.4 °C
+```
+
+---
+
+## Seleccionar únicamente algunas columnas
+
+Podemos recuperar solamente la información que necesitamos:
 
 ```sql
 SELECT momento, temperatura, humedad
@@ -278,7 +734,32 @@ WHERE sensor_id = 'sensor_001'
   AND fecha = '2026-09-29';
 ```
 
-### Consultar un intervalo de tiempo
+---
+
+## Contar las mediciones
+
+Podemos comprobar cuántas mediciones existen dentro de esa partición:
+
+```sql
+SELECT COUNT(*)
+FROM mediciones
+WHERE sensor_id = 'sensor_001'
+  AND fecha = '2026-09-29';
+```
+
+El resultado esperado es:
+
+```text
+3
+```
+
+---
+
+## Consultar un intervalo de tiempo
+
+También podemos utilizar la columna de agrupamiento para consultar solamente una parte del historial.
+
+Por ejemplo:
 
 ```sql
 SELECT momento, temperatura, humedad
@@ -288,35 +769,213 @@ WHERE sensor_id = 'sensor_001'
   AND momento >= '2026-09-29T09:05:00Z';
 ```
 
-Esta consulta obtiene las mediciones realizadas a partir de las 09:05 UTC, dentro de la partición indicada.
+Esta consulta recuperará las mediciones realizadas a partir de las `09:05`.
 
-::: {.callout-warning title="Las consultas se diseñan a partir de las claves"}
-En Cassandra no todas las consultas que parecen naturales en SQL se pueden ejecutar de forma eficiente. La tabla `mediciones` está organizada para consultar un sensor y una fecha. Consultar directamente *todas las mediciones con temperatura superior a 25 °C*, sin indicar las claves de partición, requeriría otro diseño de tabla o una estrategia específica de consulta. Evitaremos utilizar `ALLOW FILTERING` como solución habitual.
+Conceptualmente:
+
+```text
+09:10 → 23.1 °C
+09:05 → 22.8 °C
+```
+
+Esto es posible porque `momento` es una columna de agrupamiento dentro de la partición.
+
+---
+
+## ¿Todas las consultas son posibles?
+
+Nuestra tabla fue diseñada específicamente para consultar:
+
+```text
+sensor + fecha
+```
+
+Por ejemplo:
+
+```sql
+SELECT *
+FROM mediciones
+WHERE sensor_id = 'sensor_001'
+  AND fecha = '2026-09-29';
+```
+
+Esta consulta se adapta perfectamente al diseño de la tabla.
+
+Sin embargo, podríamos imaginar otra pregunta:
+
+> ¿Cuáles son todas las mediciones con una temperatura superior a 25 °C?
+
+Podríamos pensar en escribir:
+
+```sql
+SELECT *
+FROM mediciones
+WHERE temperatura > 25;
+```
+
+Sin embargo, nuestra tabla **no fue diseñada específicamente para realizar esa consulta de forma eficiente**.
+
+::: {.callout-warning title="Diseñar según la consulta"}
+En Cassandra no todas las consultas que parecen naturales en SQL pueden realizarse eficientemente sobre cualquier tabla.
+
+Si consultar temperaturas superiores a determinado valor fuera una necesidad frecuente de nuestra aplicación, probablemente tendríamos que diseñar **otra tabla preparada para responder esa consulta**.
+
+Por esta razón evitaremos utilizar `ALLOW FILTERING` como solución habitual.
 :::
 
-## Cerrar la sesión y detener Cassandra
+---
 
-Para salir de la consola `cqlsh`, escribe:
+## Comparación de nuestras dos tablas
+
+Durante este apunte construimos dos tablas con propósitos diferentes.
+
+| Tabla | Propósito principal |
+|---|---|
+| `sensores` | Consultar información general de un dispositivo |
+| `mediciones` | Consultar el historial de un sensor durante una fecha |
+
+La tabla:
+
+```text
+sensores
+```
+
+utiliza:
+
+```text
+sensor_id
+```
+
+como clave primaria.
+
+La tabla:
+
+```text
+mediciones
+```
+
+utiliza:
+
+```text
+(sensor_id, fecha)
+```
+
+como clave de partición y:
+
+```text
+momento
+```
+
+como columna de agrupamiento.
+
+Esta diferencia refleja una de las ideas principales de Cassandra:
+
+> **Las tablas se diseñan de acuerdo con las consultas que necesita realizar la aplicación.**
+
+---
+
+## Cerrar la sesión
+
+Para salir de `cqlsh`:
 
 ```sql
 exit;
 ```
 
-De regreso en PowerShell, detén el contenedor:
+Regresarás a PowerShell o Terminal.
 
-```powershell
+---
+
+## Detener Cassandra
+
+Para detener el contenedor:
+
+```bash
 docker stop cassandra-lab
 ```
 
-Cassandra dejará de ejecutarse, pero el contenedor y sus datos permanecerán disponibles mientras no se elimine. Cuando vuelvas a trabajar, inicia Docker Desktop y ejecuta `docker start cassandra-lab`.
+Docker mostrará:
+
+```text
+cassandra-lab
+```
+
+El contenedor dejará de ejecutarse, pero no será eliminado.
+
+Los datos permanecerán almacenados mientras el contenedor continúe existiendo.
+
+Cuando quieras trabajar nuevamente con Cassandra:
+
+```bash
+docker start cassandra-lab
+```
+
+Espera unos segundos y accede nuevamente mediante:
+
+```bash
+docker exec -it cassandra-lab cqlsh
+```
+
+---
 
 ## Para recordar
 
-- **Docker Desktop** administra el contenedor en el que se ejecuta Cassandra.
-- **`cqlsh`** es la consola en la que escribimos instrucciones CQL.
-- Un **keyspace** agrupa tablas y define la configuración de replicación.
-- La **clave de partición** determina cómo se agrupan y distribuyen los datos.
+- **Docker Desktop** permite ejecutar Cassandra dentro de un contenedor.
+- **CQL** es el lenguaje utilizado para interactuar con Cassandra.
+- **`cqlsh`** es la consola donde ejecutamos instrucciones CQL.
+- Un **keyspace** agrupa las tablas de una aplicación.
+- Una **clave primaria** identifica y organiza las filas.
+- La **clave de partición** determina qué registros pertenecen a una misma partición.
+- Una clave de partición puede estar formada por más de una columna.
 - Las **columnas de agrupamiento** organizan las filas dentro de una partición.
-- En Cassandra conviene diseñar cada tabla en función de las consultas que necesita la aplicación.
+- Cassandra favorece un diseño de tablas pensado a partir de las consultas.
+- Diferentes consultas pueden requerir diferentes tablas.
 
-Con estas operaciones ya podemos desarrollar una práctica en la que los alumnos registren y consulten el historial de distintos sensores ambientales.
+---
+
+## ¿En qué situaciones podríamos utilizar este modelo?
+
+Las bases de datos de familias de columnas pueden resultar útiles cuando una aplicación genera grandes cantidades de registros y necesita almacenar o consultar información de manera distribuida.
+
+La siguiente tabla muestra algunos ejemplos.
+
+| Aplicación | Datos que podría almacenar | ¿Por qué podría utilizarse? |
+|---|---|---|
+| Monitoreo ambiental | Temperatura, humedad y estado de sensores | Los dispositivos generan mediciones constantemente y es necesario conservar su historial |
+| Internet de las cosas (IoT) | Lecturas de sensores, dispositivos y eventos | Puede recibir grandes cantidades de registros provenientes de numerosos dispositivos |
+| Monitoreo de servidores | Uso de CPU, memoria, almacenamiento y eventos | Los servidores generan métricas continuamente a lo largo del tiempo |
+| Telecomunicaciones | Registros de llamadas, conexiones y eventos de red | Puede producir grandes volúmenes de información de manera continua |
+| Plataformas digitales | Eventos de navegación, reproducciones o interacciones | Las acciones de los usuarios pueden generar millones de eventos |
+| Sistemas de transporte | Posición, velocidad y estado de vehículos | Cada vehículo puede enviar información constantemente |
+| Medidores inteligentes | Consumo eléctrico, agua o gas | Se generan mediciones periódicas que deben conservarse históricamente |
+| Registros de aplicaciones | Eventos, errores y actividad de los sistemas | Puede ser necesario almacenar grandes cantidades de registros para su posterior análisis |
+
+::: {.callout-note}
+## Un patrón común
+
+En muchos de estos ejemplos encontramos una situación similar:
+
+```text
+Muchos dispositivos o usuarios
+            ↓
+Generación continua de datos
+            ↓
+Gran cantidad de registros
+            ↓
+Necesidad de consultar información histórica
+```
+
+Este tipo de escenario puede beneficiarse de tecnologías distribuidas como Apache Cassandra.
+:::
+
+Sin embargo, esto no significa que Cassandra sea la mejor opción para cualquier aplicación.
+
+Si un sistema necesita realizar numerosas relaciones entre entidades, consultas muy variables o múltiples operaciones mediante `JOIN`, una base de datos relacional puede resultar más adecuada.
+
+La elección de la tecnología debe depender siempre de:
+
+- la estructura de los datos;
+- el volumen de información;
+- la velocidad con la que se generan nuevos registros;
+- las consultas que necesita realizar la aplicación;
+- y la forma en que se espera que el sistema crezca.

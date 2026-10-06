@@ -1,115 +1,381 @@
 [
   {
-    "objectID": "diapositivas.html",
-    "href": "diapositivas.html",
-    "title": "Diapositivas",
+    "objectID": "10_carga_masiva_cassandra.html",
+    "href": "10_carga_masiva_cassandra.html",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
     "section": "",
-    "text": "En esta sección se encuentran las presentaciones utilizadas durante las sesiones del curso."
+    "text": "En el apunte anterior trabajamos con Apache Cassandra utilizando una cantidad pequeña de registros para comprender los principales comandos de CQL, la creación de tablas, las claves de partición y las columnas de agrupamiento.\nEn este apunte utilizaremos el mismo sistema de monitoreo ambiental, pero trabajaremos con un volumen considerablemente mayor de información.\nSimularemos mediciones generadas por 100 sensores, registrando temperatura y humedad cada 15 minutos, desde el 1 de enero de 2025 hasta el 5 de octubre de 2026.\nEsto producirá:\n100 sensores\n×\n643 días\n×\n96 mediciones por día\n=\n6,172,800 registros\nEl objetivo será generar estos datos mediante Python, almacenarlos en un archivo CSV y posteriormente realizar una carga masiva en Apache Cassandra."
   },
   {
-    "objectID": "diapositivas.html#presentación-del-curso",
-    "href": "diapositivas.html#presentación-del-curso",
-    "title": "Diapositivas",
-    "section": "Presentación del curso",
-    "text": "Presentación del curso\nPresentación del curso y plan de trabajo\nOrganización de la experiencia educativa, unidades, forma de trabajo y criterios de evaluación.\n Abrir en nueva pestaña"
-  },
-  {
-    "objectID": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
-    "href": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
-    "title": "Diapositivas",
-    "section": "Tema 1. De las bases de datos relacionales a NoSQL",
-    "text": "Tema 1. De las bases de datos relacionales a NoSQL\nRepaso de bases de datos relacionales, datos estructurados y semiestructurados, JSON y modelos NoSQL.\n Abrir en nueva pestaña"
-  },
-  {
-    "objectID": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
-    "href": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
-    "title": "Diapositivas",
-    "section": "Tema 2. Escalabilidad y bases de datos distribuidas",
-    "text": "Tema 2. Escalabilidad y bases de datos distribuidas\nEscalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.\n Abrir en nueva pestaña"
-  },
-  {
-    "objectID": "apuntes.html",
-    "href": "apuntes.html",
-    "title": "Apuntes del curso",
+    "objectID": "10_carga_masiva_cassandra.html#introducción",
+    "href": "10_carga_masiva_cassandra.html#introducción",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
     "section": "",
-    "text": "En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.\nLos apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales."
+    "text": "En el apunte anterior trabajamos con Apache Cassandra utilizando una cantidad pequeña de registros para comprender los principales comandos de CQL, la creación de tablas, las claves de partición y las columnas de agrupamiento.\nEn este apunte utilizaremos el mismo sistema de monitoreo ambiental, pero trabajaremos con un volumen considerablemente mayor de información.\nSimularemos mediciones generadas por 100 sensores, registrando temperatura y humedad cada 15 minutos, desde el 1 de enero de 2025 hasta el 5 de octubre de 2026.\nEsto producirá:\n100 sensores\n×\n643 días\n×\n96 mediciones por día\n=\n6,172,800 registros\nEl objetivo será generar estos datos mediante Python, almacenarlos en un archivo CSV y posteriormente realizar una carga masiva en Apache Cassandra."
   },
   {
-    "objectID": "apuntes.html#de-las-bases-de-datos-relacionales-a-nosql",
-    "href": "apuntes.html#de-las-bases-de-datos-relacionales-a-nosql",
-    "title": "Apuntes del curso",
-    "section": "De las bases de datos relacionales a NoSQL",
-    "text": "De las bases de datos relacionales a NoSQL\nIntroducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#qué-aprenderemos",
+    "href": "10_carga_masiva_cassandra.html#qué-aprenderemos",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "0.2 ¿Qué aprenderemos?",
+    "text": "0.2 ¿Qué aprenderemos?\nAl finalizar este apunte podrás:\n\nIniciar Apache Cassandra mediante Docker.\nAcceder a la consola cqlsh.\nRevisar la estructura de una tabla existente.\nGenerar datos simulados mediante Python.\nCrear un archivo CSV con millones de registros.\nCopiar un archivo desde la computadora hacia un contenedor de Docker.\nRealizar una carga masiva de datos mediante cqlsh.\nVerificar la información almacenada.\nConsultar particiones específicas.\nConsultar intervalos de tiempo.\nComprender la relación entre el diseño de una tabla y las consultas permitidas en Cassandra."
   },
   {
-    "objectID": "apuntes.html#escalabilidad-y-bases-de-datos-distribuidas",
-    "href": "apuntes.html#escalabilidad-y-bases-de-datos-distribuidas",
-    "title": "Apuntes del curso",
-    "section": "Escalabilidad y bases de datos distribuidas",
-    "text": "Escalabilidad y bases de datos distribuidas\nConceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#cómo-se-organizarán-los-datos",
+    "href": "10_carga_masiva_cassandra.html#cómo-se-organizarán-los-datos",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "5.1 ¿Cómo se organizarán los datos?",
+    "text": "5.1 ¿Cómo se organizarán los datos?\nPara un sensor y una fecha determinada tendremos una partición.\nPor ejemplo:\n(sensor_001, 2025-01-01)\nDentro de esa partición tendremos todas las mediciones realizadas durante ese día:\n00:00\n00:15\n00:30\n00:45\n01:00\n...\n23:45\nComo registraremos información cada 15 minutos:\n4 mediciones por hora\n×\n24 horas\n=\n96 mediciones por día\nPara 100 sensores:\n100 × 96 = 9,600 mediciones diarias\nY durante 643 días:\n9,600 × 643\n=\n6,172,800 registros"
   },
   {
-    "objectID": "apuntes.html#bases-de-datos-orientadas-a-documentos",
-    "href": "apuntes.html#bases-de-datos-orientadas-a-documentos",
-    "title": "Apuntes del curso",
-    "section": "Bases de datos orientadas a documentos",
-    "text": "Bases de datos orientadas a documentos\nIntroducción al modelo documental, su estructura, características y principales aplicaciones.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#importar-las-bibliotecas",
+    "href": "10_carga_masiva_cassandra.html#importar-las-bibliotecas",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "6.1 6.1 Importar las bibliotecas",
+    "text": "6.1 6.1 Importar las bibliotecas\nEn la primera celda escribe:\nimport csv\nimport random\nfrom datetime import datetime, timedelta\nEjecuta la celda.\nEstas bibliotecas nos permitirán:\n\ncrear el archivo CSV;\ngenerar valores aleatorios;\ntrabajar con fechas y horas."
   },
   {
-    "objectID": "apuntes.html#consultas-y-manejo-de-documentos-en-mongodb",
-    "href": "apuntes.html#consultas-y-manejo-de-documentos-en-mongodb",
-    "title": "Apuntes del curso",
-    "section": "Consultas y manejo de documentos en MongoDB",
-    "text": "Consultas y manejo de documentos en MongoDB\nOperaciones básicas para insertar, consultar, filtrar y exportar documentos utilizando MongoDB.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#definir-los-parámetros-de-la-simulación",
+    "href": "10_carga_masiva_cassandra.html#definir-los-parámetros-de-la-simulación",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "6.2 6.2 Definir los parámetros de la simulación",
+    "text": "6.2 6.2 Definir los parámetros de la simulación\nEn una nueva celda escribe:\nnumero_sensores = 100\n\nfecha_inicio = datetime(2025, 1, 1)\nfecha_fin = datetime(2026, 10, 5, 23, 45)\n\nintervalo = timedelta(minutes=15)\n\narchivo = \"mediciones_ambientales.csv\"\nEstamos indicando que la simulación utilizará:\n100 sensores\ndesde:\n2025-01-01 00:00\nhasta:\n2026-10-05 23:45\ncon un intervalo de:\n15 minutos"
   },
   {
-    "objectID": "apuntes.html#modelado-de-relaciones-en-mongodb",
-    "href": "apuntes.html#modelado-de-relaciones-en-mongodb",
-    "title": "Apuntes del curso",
-    "section": "Modelado de relaciones en MongoDB",
-    "text": "Modelado de relaciones en MongoDB\nIntroducción al modelado de relaciones en bases documentales mediante documentos incrustados y referencias. Se revisan relaciones uno a uno, uno a muchos y muchos a muchos mediante un ejemplo práctico de biblioteca y su visualización con Data Modeling en MongoDB Compass.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#calcular-cuántos-registros-se-generarán",
+    "href": "10_carga_masiva_cassandra.html#calcular-cuántos-registros-se-generarán",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "6.3 6.3 Calcular cuántos registros se generarán",
+    "text": "6.3 6.3 Calcular cuántos registros se generarán\nAntes de crear el archivo podemos calcular la cantidad esperada de registros.\nEjecuta:\ndias = (fecha_fin.date() - fecha_inicio.date()).days + 1\n\nmediciones_por_dia = int(\n    timedelta(days=1) / intervalo\n)\n\ntotal_registros = (\n    numero_sensores\n    * dias\n    * mediciones_por_dia\n)\n\nprint(\"Días:\", dias)\nprint(\"Mediciones por día y sensor:\", mediciones_por_dia)\nprint(\"Total esperado:\", f\"{total_registros:,}\")\nEl resultado esperado es:\nDías: 643\nMediciones por día y sensor: 96\nTotal esperado: 6,172,800"
   },
   {
-    "objectID": "apuntes.html#bases-de-datos-clavevalor",
-    "href": "apuntes.html#bases-de-datos-clavevalor",
-    "title": "Apuntes del curso",
-    "section": "Bases de datos clave–valor",
-    "text": "Bases de datos clave–valor\nIntroducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#comprobar-el-tamaño-del-archivo",
+    "href": "10_carga_masiva_cassandra.html#comprobar-el-tamaño-del-archivo",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "8.1 Comprobar el tamaño del archivo",
+    "text": "8.1 Comprobar el tamaño del archivo\nTambién podemos revisar su tamaño:\nimport os\n\ntamano = os.path.getsize(archivo)\n\nprint(\n    \"Tamaño aproximado:\",\n    round(tamano / (1024 ** 2), 2),\n    \"MB\"\n)\nEl tamaño puede variar dependiendo de los valores generados."
   },
   {
-    "objectID": "apuntes.html#redis-comandos-y-práctica-con-bases-clavevalor",
-    "href": "apuntes.html#redis-comandos-y-práctica-con-bases-clavevalor",
-    "title": "Apuntes del curso",
-    "section": "Redis: comandos y práctica con bases clave–valor",
-    "text": "Redis: comandos y práctica con bases clave–valor\nComandos principales de Redis para trabajar con strings, hashes, listas, sets, sorted sets, expiración de claves, transacciones y otros elementos básicos.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#windows",
+    "href": "10_carga_masiva_cassandra.html#windows",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "10.1 Windows",
+    "text": "10.1 Windows\nPara facilitar los siguientes pasos, crea una carpeta:\nC:\\cassandra\nColoca dentro de ella el archivo:\nmediciones_ambientales.csv\nLa ruta completa será:\nC:\\cassandra\\mediciones_ambientales.csv"
   },
   {
-    "objectID": "apuntes.html#fundamentos-de-las-bases-de-datos-orientadas-a-columnas",
-    "href": "apuntes.html#fundamentos-de-las-bases-de-datos-orientadas-a-columnas",
-    "title": "Apuntes del curso",
-    "section": "Fundamentos de las bases de datos orientadas a columnas",
-    "text": "Fundamentos de las bases de datos orientadas a columnas\nIntroducción al modelo de familias de columnas, su organización, escalabilidad horizontal, particionamiento y aplicaciones mediante un ejemplo de monitoreo ambiental.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#macos",
+    "href": "10_carga_masiva_cassandra.html#macos",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "10.2 macOS",
+    "text": "10.2 macOS\nPuedes guardar el archivo, por ejemplo, en la carpeta:\nDownloads\nLa ruta tendrá una estructura similar a:\n/Users/usuario/Downloads/mediciones_ambientales.csv\nCada usuario deberá utilizar su propia ruta."
   },
   {
-    "objectID": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
-    "href": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
-    "title": "Apuntes del curso",
-    "section": "Apache Cassandra: comandos y consultas con CQL",
-    "text": "Apache Cassandra: comandos y consultas con CQL\nIntroducción al uso de Apache Cassandra mediante comandos CQL para crear espacios de claves, definir tablas, insertar, actualizar y consultar registros. Se utilizará un sistema de monitoreo de temperatura y humedad como ejemplo práctico.\n Abrir apunte"
+    "objectID": "10_carga_masiva_cassandra.html#windows-1",
+    "href": "10_carga_masiva_cassandra.html#windows-1",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "12.1 Windows",
+    "text": "12.1 Windows\nSi guardaste el archivo en:\nC:\\cassandra\\mediciones_ambientales.csv\nejecuta en PowerShell:\ndocker cp \"C:\\cassandra\\mediciones_ambientales.csv\" cassandra-lab:/tmp/mediciones_ambientales.csv"
   },
   {
-    "objectID": "datasets.html",
-    "href": "datasets.html",
-    "title": "Datasets",
+    "objectID": "10_carga_masiva_cassandra.html#macos-1",
+    "href": "10_carga_masiva_cassandra.html#macos-1",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "12.2 macOS",
+    "text": "12.2 macOS\nSi el archivo se encuentra en Downloads, la instrucción tendrá una estructura similar a:\ndocker cp ~/Downloads/mediciones_ambientales.csv cassandra-lab:/tmp/mediciones_ambientales.csv\nEn ambos casos estamos copiando el archivo hacia:\n/tmp/mediciones_ambientales.csv\ndentro del contenedor."
+  },
+  {
+    "objectID": "10_carga_masiva_cassandra.html#comprobar-que-el-archivo-fue-copiado",
+    "href": "10_carga_masiva_cassandra.html#comprobar-que-el-archivo-fue-copiado",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "12.3 Comprobar que el archivo fue copiado",
+    "text": "12.3 Comprobar que el archivo fue copiado\nPodemos comprobarlo mediante:\ndocker exec cassandra-lab ls -lh /tmp/mediciones_ambientales.csv\nDeberá aparecer información del archivo.\nPor ejemplo:\n-rw-r--r-- 1 root root ... /tmp/mediciones_ambientales.csv"
+  },
+  {
+    "objectID": "10_carga_masiva_cassandra.html#contar-los-registros-de-una-partición",
+    "href": "10_carga_masiva_cassandra.html#contar-los-registros-de-una-partición",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "15.1 Contar los registros de una partición",
+    "text": "15.1 Contar los registros de una partición\nEjecuta:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2025-01-01';\nEl resultado esperado es:\n96\nEsto corresponde a:\n24 horas\n×\n4 mediciones por hora\n=\n96 mediciones"
+  },
+  {
+    "objectID": "10_carga_masiva_cassandra.html#por-qué-funciona-esta-consulta",
+    "href": "10_carga_masiva_cassandra.html#por-qué-funciona-esta-consulta",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "18.1 ¿Por qué funciona esta consulta?",
+    "text": "18.1 ¿Por qué funciona esta consulta?\nPrimero proporcionamos la clave de partición completa:\nsensor_id\n+\nfecha\ny posteriormente aplicamos una condición sobre:\nmomento\nque es nuestra columna de agrupamiento.\nPor ello Cassandra puede localizar primero la partición y después recorrer únicamente el intervalo necesario."
+  },
+  {
+    "objectID": "10_carga_masiva_cassandra.html#consulta-adecuada",
+    "href": "10_carga_masiva_cassandra.html#consulta-adecuada",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "19.1 Consulta adecuada",
+    "text": "19.1 Consulta adecuada\nLa siguiente consulta utiliza la clave de partición:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_025'\n  AND fecha = '2026-03-15';\nCassandra sabe exactamente qué partición debe consultar.\nConceptualmente:\n(sensor_025, 2026-03-15)\n              ↓\n       96 mediciones"
+  },
+  {
+    "objectID": "10_carga_masiva_cassandra.html#consulta-que-no-corresponde-al-diseño",
+    "href": "10_carga_masiva_cassandra.html#consulta-que-no-corresponde-al-diseño",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "19.2 Consulta que no corresponde al diseño",
+    "text": "19.2 Consulta que no corresponde al diseño\nAhora imaginemos que queremos preguntar:\n\n¿Cuáles fueron todas las mediciones superiores a 30 °C?\n\nPodríamos intentar:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30;\nSin embargo, la tabla no fue diseñada para localizar registros mediante la columna:\ntemperatura\nPor lo tanto, Cassandra no puede identificar directamente qué partición debe consultar.\n\n\n\n\n\n\nImportantDiseño orientado a consultas\n\n\n\nEn Cassandra normalmente no diseñamos primero una tabla genérica para después realizar cualquier consulta.\nPrimero identificamos las consultas importantes de la aplicación y después diseñamos las tablas necesarias para responderlas eficientemente."
+  },
+  {
+    "objectID": "manuales.html",
+    "href": "manuales.html",
+    "title": "Manuales",
     "section": "",
-    "text": "En esta sección se encuentran los conjuntos de datos utilizados durante las prácticas y actividades del curso."
+    "text": "En esta sección se encuentran las guías utilizadas para instalar y configurar las herramientas necesarias para trabajar con MongoDB durante el curso."
   },
   {
-    "objectID": "datasets.html#datos-de-ejemplo-de-mongodb",
-    "href": "datasets.html#datos-de-ejemplo-de-mongodb",
-    "title": "Datasets",
-    "section": "Datos de ejemplo de MongoDB",
-    "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\n```text sample_airbnb sample_analytics sample_geospatial sample_guides sample_mflix sample_restaurants sample_supplies sample_training sample_weatherdata"
+    "objectID": "manuales.html#instalación-de-mongodb-en-windows",
+    "href": "manuales.html#instalación-de-mongodb-en-windows",
+    "title": "Manuales",
+    "section": "Instalación de MongoDB en Windows",
+    "text": "Instalación de MongoDB en Windows\nGuía paso a paso para instalar y configurar:\n\nMongoDB Community Server;\nMongoDB Shell;\nMongoDB Compass;\nMongoDB Database Tools.\n\n Abrir manual en nueva pestaña"
+  },
+  {
+    "objectID": "manuales.html#instalación-de-apache-cassandra-en-windows",
+    "href": "manuales.html#instalación-de-apache-cassandra-en-windows",
+    "title": "Manuales",
+    "section": "Instalación de Apache Cassandra en Windows",
+    "text": "Instalación de Apache Cassandra en Windows\nTutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra y realizar las primeras consultas con CQL.\n Abrir manual"
+  },
+  {
+    "objectID": "practicas.html",
+    "href": "practicas.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "En esta práctica se trabaja con la base de datos de ejemplo sample_mflix y la colección movies, utilizando MongoDB Shell, MongoDB Compass y mongoexport.\nSe abordan:\n\nconsultas básicas sobre documentos;\noperadores de comparación;\nconsultas sobre campos anidados;\nconsultas sobre arreglos;\nuso de $exists;\ncombinación de condiciones;\nconteo de documentos con countDocuments();\nuso de MongoDB Compass;\nconstrucción de una consulta propia;\nexportación de resultados en JSON o CSV.\n\n Abrir práctica"
+  },
+  {
+    "objectID": "practicas.html#práctica-1.-consultas-con-mongodb",
+    "href": "practicas.html#práctica-1.-consultas-con-mongodb",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "En esta práctica se trabaja con la base de datos de ejemplo sample_mflix y la colección movies, utilizando MongoDB Shell, MongoDB Compass y mongoexport.\nSe abordan:\n\nconsultas básicas sobre documentos;\noperadores de comparación;\nconsultas sobre campos anidados;\nconsultas sobre arreglos;\nuso de $exists;\ncombinación de condiciones;\nconteo de documentos con countDocuments();\nuso de MongoDB Compass;\nconstrucción de una consulta propia;\nexportación de resultados en JSON o CSV.\n\n Abrir práctica"
+  },
+  {
+    "objectID": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
+    "href": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
+    "title": "Bases de Datos No Relacionales",
+    "section": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "text": "Práctica 2. Modelado de relaciones con sample_mflix\nAnálisis de la estructura de la base sample_mflix mediante MongoDB Compass y Data Modeling, identificando relaciones entre colecciones, campos de referencia e información incrustada.\n Abrir práctica"
+  },
+  {
+    "objectID": "practicas.html#práctica-3.-manejo-de-datos-clavevalor-con-redis",
+    "href": "practicas.html#práctica-3.-manejo-de-datos-clavevalor-con-redis",
+    "title": "Bases de Datos No Relacionales",
+    "section": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "text": "Práctica 3. Manejo de datos clave–valor con Redis\nAplicación de los principales comandos y estructuras de Redis mediante el escenario de una tienda en línea. Se trabajará con productos, stock, sesiones, contadores, colas, usuarios únicos y rankings.\n Abrir práctica"
+  },
+  {
+    "objectID": "practicas.html#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis",
+    "href": "practicas.html#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis",
+    "title": "Bases de Datos No Relacionales",
+    "section": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "text": "Práctica 4. Gestión de una plataforma de streaming con Redis\nSimulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.\n Abrir práctica"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html",
+    "href": "apuntes/09_comandos_cassandra.html",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "",
+    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar.\nEn este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso.\nPara los ejemplos utilizaremos el contenedor:\ncassandra-lab\nA lo largo del apunte retomaremos el ejemplo de monitoreo ambiental utilizado anteriormente para observar cómo los conceptos de particionamiento, clave de partición y organización orientada a consultas se aplican directamente en Cassandra."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#introducción",
+    "href": "apuntes/09_comandos_cassandra.html#introducción",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "",
+    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar.\nEn este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso.\nPara los ejemplos utilizaremos el contenedor:\ncassandra-lab\nA lo largo del apunte retomaremos el ejemplo de monitoreo ambiental utilizado anteriormente para observar cómo los conceptos de particionamiento, clave de partición y organización orientada a consultas se aplican directamente en Cassandra."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#qué-aprenderemos",
+    "href": "apuntes/09_comandos_cassandra.html#qué-aprenderemos",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "2 ¿Qué aprenderemos?",
+    "text": "2 ¿Qué aprenderemos?\nAl finalizar este apunte podrás:\n\nIniciar Apache Cassandra mediante Docker.\nAcceder a la consola cqlsh.\nCrear y seleccionar un keyspace.\nCrear tablas mediante CQL.\nInsertar, consultar, actualizar y eliminar registros.\nIdentificar una clave primaria.\nIdentificar una clave de partición.\nUtilizar columnas de agrupamiento.\nDiseñar una tabla para consultar el historial de mediciones de un sensor.\nComprender por qué en Cassandra las tablas se diseñan de acuerdo con las consultas que realizará la aplicación."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
+    "href": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "3 Iniciar Apache Cassandra",
+    "text": "3 Iniciar Apache Cassandra\nAntes de comenzar, abre Docker Desktop y espera a que el motor de Docker esté funcionando.\nDespués abre:\n\nPowerShell en Windows, o\nTerminal en macOS.\n\nLos comandos de Docker que utilizaremos son los mismos en ambos sistemas.\nInicia el contenedor de Cassandra:\ndocker start cassandra-lab\nSi el contenedor ya está iniciado, Docker mostrará nuevamente su nombre.\nPara comprobar que se encuentra en ejecución:\ndocker ps\nEn la lista deberá aparecer:\ncassandra-lab\ncon un estado similar a:\nUp\n\n\n\n\n\n\nNoteCassandra puede tardar unos segundos\n\n\n\nQue el contenedor aparezca como Up significa que Docker ya lo inició.\nSin embargo, Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones.\nSi intentas acceder inmediatamente y aparece un mensaje parecido a:\nConnection refused\nespera unos segundos y vuelve a intentar la conexión."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#acceder-a-la-consola-de-cassandra",
+    "href": "apuntes/09_comandos_cassandra.html#acceder-a-la-consola-de-cassandra",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "4 Acceder a la consola de Cassandra",
+    "text": "4 Acceder a la consola de Cassandra\nPara ingresar a Cassandra ejecuta:\ndocker exec -it cassandra-lab cqlsh\nCuando la conexión se complete aparecerá un indicador similar a:\ncqlsh&gt;\nA partir de este momento, los comandos que escribamos se ejecutarán directamente en Cassandra.\n\n\n\n\n\n\nNote¿Qué es cqlsh?\n\n\n\ncqlsh significa Cassandra Query Language Shell.\nEs una consola interactiva que permite ejecutar instrucciones CQL, de forma similar a:\n\nmongosh en MongoDB.\nredis-cli en Redis."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#comandos-principales-que-utilizaremos",
+    "href": "apuntes/09_comandos_cassandra.html#comandos-principales-que-utilizaremos",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "5 Comandos principales que utilizaremos",
+    "text": "5 Comandos principales que utilizaremos\nAntes de comenzar a trabajar, revisemos algunos de los principales comandos de CQL que utilizaremos durante este apunte.\n\n\n\n\n\n\n\n\nComando\n¿Para qué sirve?\nEjemplo\n\n\n\n\nDESCRIBE KEYSPACES;\nMuestra los espacios de claves disponibles.\nDESCRIBE KEYSPACES;\n\n\nCREATE KEYSPACE\nCrea un nuevo espacio de claves.\nCREATE KEYSPACE monitoreo_ambiental ...;\n\n\nUSE\nSelecciona el espacio de claves con el que vamos a trabajar.\nUSE monitoreo_ambiental;\n\n\nDESCRIBE TABLES;\nMuestra las tablas existentes.\nDESCRIBE TABLES;\n\n\nCREATE TABLE\nCrea una nueva tabla.\nCREATE TABLE sensores (...);\n\n\nDESCRIBE TABLE\nMuestra la definición de una tabla.\nDESCRIBE TABLE sensores;\n\n\nINSERT INTO\nInserta un registro.\nINSERT INTO sensores (...) VALUES (...);\n\n\nSELECT\nConsulta información almacenada.\nSELECT * FROM sensores;\n\n\nUPDATE\nModifica valores de un registro.\nUPDATE sensores SET aula = '102' WHERE sensor_id = 'sensor_001';\n\n\nDELETE\nElimina un registro o determinados valores.\nDELETE FROM sensores WHERE sensor_id = 'sensor_004';\n\n\nCOUNT(*)\nCuenta los registros que devuelve una consulta.\nSELECT COUNT(*) FROM sensores;\n\n\nexit;\nCierra la consola cqlsh.\nexit;\n\n\n\n\n\n\n\n\n\nImportantCQL se parece a SQL, pero Cassandra funciona diferente\n\n\n\nCQL utiliza instrucciones que pueden resultar familiares para quienes han trabajado con SQL.\nSin embargo, Cassandra no funciona como una base de datos relacional tradicional.\nEl diseño de las tablas y las consultas depende especialmente de:\n\nlas claves de partición;\nlas columnas de agrupamiento;\ny las consultas que necesita realizar la aplicación."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
+    "href": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "6 Explorar los espacios de claves",
+    "text": "6 Explorar los espacios de claves\nEn Cassandra, un keyspace o espacio de claves agrupa las tablas de una aplicación y establece su configuración de replicación.\nPodemos pensar en él como el espacio principal donde almacenaremos las tablas relacionadas con nuestro sistema.\nPara consultar los espacios de claves disponibles:\nDESCRIBE KEYSPACES;\nAl instalar Cassandra aparecen varios espacios utilizados internamente por el sistema.\nPor ejemplo:\nsystem\nsystem_auth\nsystem_schema\nsystem_distributed\nNo modificaremos estos espacios.\nCrearemos uno propio para nuestro ejemplo."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#crear-un-keyspace",
+    "href": "apuntes/09_comandos_cassandra.html#crear-un-keyspace",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "7 Crear un keyspace",
+    "text": "7 Crear un keyspace\nNuestro sistema almacenará información relacionada con sensores ambientales.\nCrearemos un espacio denominado:\nmonitoreo_ambiental\nEjecuta:\nCREATE KEYSPACE IF NOT EXISTS monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEn este ejemplo utilizamos:\nSimpleStrategy\ny un factor de replicación de:\n1\nporque estamos trabajando con un único nodo de Cassandra dentro de Docker.\n\n\n\n\n\n\nWarningConfiguración de aprendizaje\n\n\n\nSimpleStrategy y un factor de replicación de 1 son suficientes para este ejercicio.\nNo deben interpretarse como una configuración recomendada para un sistema de producción con múltiples nodos.\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a:\ncqlsh:monitoreo_ambiental&gt;\nEsto indica que los siguientes comandos se ejecutarán dentro de este espacio de claves."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
+    "href": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "8 Crear la tabla de sensores",
+    "text": "8 Crear la tabla de sensores\nPrimero almacenaremos la información general de cada sensor.\nQueremos conservar:\n\nIdentificador.\nEdificio.\nAula o zona.\nTipo de medición.\n\nCrearemos la tabla:\nCREATE TABLE IF NOT EXISTS sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nEn esta tabla:\nsensor_id\nes la clave primaria.\nSu función es identificar de manera única cada sensor.\nPor ejemplo:\nsensor_001\nsensor_002\nsensor_003\nNo debemos utilizar el mismo identificador para dos sensores diferentes.\n\n8.1 Consultar las tablas existentes\nEjecuta:\nDESCRIBE TABLES;\nDeberá aparecer:\nsensores\nTambién podemos consultar la definición completa de la tabla:\nDESCRIBE TABLE sensores;"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#insertar-registros",
+    "href": "apuntes/09_comandos_cassandra.html#insertar-registros",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "9 Insertar registros",
+    "text": "9 Insertar registros\nRegistraremos tres sensores instalados en diferentes espacios de una universidad.\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nCada instrucción INSERT INTO agrega información asociada con una clave primaria."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#consultar-los-sensores",
+    "href": "apuntes/09_comandos_cassandra.html#consultar-los-sensores",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "10 Consultar los sensores",
+    "text": "10 Consultar los sensores\nPara consultar todos los registros:\nSELECT * FROM sensores;\nPodríamos obtener un resultado similar a:\n sensor_id   | edificio | aula         | tipo\n-------------+----------+--------------+------------------------\n sensor_001  | A        | 101          | Temperatura y humedad\n sensor_002  | A        | Laboratorio  | Temperatura y humedad\n sensor_003  | B        | Exterior     | Temperatura\nEl orden de las filas puede ser diferente al orden en el que fueron insertadas.\n\n10.1 Consultar un sensor específico\nPodemos utilizar su clave primaria:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\n\n\n10.2 Seleccionar únicamente algunas columnas\nSELECT sensor_id, edificio, aula\nFROM sensores\nWHERE sensor_id = 'sensor_002';"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#actualizar-registros",
+    "href": "apuntes/09_comandos_cassandra.html#actualizar-registros",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "11 Actualizar registros",
+    "text": "11 Actualizar registros\nSupongamos que el sensor sensor_001 fue trasladado del aula 101 al aula 102.\nPodemos modificar su ubicación mediante:\nUPDATE sensores\nSET aula = '102'\nWHERE sensor_id = 'sensor_001';\nComprueba el cambio:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\n\n\n\n\n\n\nImportantConsideración sobre UPDATE\n\n\n\nEn Cassandra, UPDATE también puede crear una fila si no existe un registro con la clave primaria indicada.\nPor esta razón, debemos revisar cuidadosamente la clave utilizada antes de ejecutar una actualización."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#eliminar-registros",
+    "href": "apuntes/09_comandos_cassandra.html#eliminar-registros",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "12 Eliminar registros",
+    "text": "12 Eliminar registros\nPara practicar la eliminación sin perder nuestros tres sensores principales, agregaremos temporalmente un cuarto sensor:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_004', 'C', 'Almacén', 'Temperatura');\nComprueba que existe:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_004';\nAhora elimínalo:\nDELETE FROM sensores\nWHERE sensor_id = 'sensor_004';\nComprueba nuevamente:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_004';\nSi la eliminación se realizó correctamente, la consulta no devolverá filas."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#del-registro-de-sensores-al-historial-de-mediciones",
+    "href": "apuntes/09_comandos_cassandra.html#del-registro-de-sensores-al-historial-de-mediciones",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "13 Del registro de sensores al historial de mediciones",
+    "text": "13 Del registro de sensores al historial de mediciones\nHasta ahora tenemos una tabla que permite responder preguntas como:\n\n¿Dónde se encuentra el sensor 001?\n\no:\n\n¿Qué tipo de información registra el sensor 002?\n\nSin embargo, todavía no podemos responder una pregunta diferente:\n\n¿Qué temperaturas registró el sensor 001 durante un día determinado?\n\nEl problema es que un sensor genera muchas mediciones a lo largo del tiempo.\nPor ejemplo:\nsensor_001\n\n09:00 → 22.4 °C\n09:05 → 22.8 °C\n09:10 → 23.1 °C\nNo queremos reemplazar la temperatura anterior cada vez que recibimos una nueva lectura.\nNecesitamos conservar el historial de mediciones.\nPara ello crearemos una segunda tabla."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#diseñar-la-tabla-a-partir-de-la-consulta",
+    "href": "apuntes/09_comandos_cassandra.html#diseñar-la-tabla-a-partir-de-la-consulta",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "14 Diseñar la tabla a partir de la consulta",
+    "text": "14 Diseñar la tabla a partir de la consulta\nAntes de crear la tabla debemos recordar una idea fundamental de Cassandra:\n\nPrimero pensamos qué consulta necesita realizar la aplicación y después diseñamos la tabla.\n\nEn nuestro ejemplo queremos responder principalmente:\n\n¿Cuáles fueron las mediciones de un sensor durante una fecha determinada?\n\nPara ello utilizaremos:\nsensor_id + fecha\npara agrupar las lecturas correspondientes al mismo dispositivo y día.\nDentro de cada grupo utilizaremos:\nmomento\npara ordenar las diferentes mediciones."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-mediciones",
+    "href": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-mediciones",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "15 Crear la tabla de mediciones",
+    "text": "15 Crear la tabla de mediciones\nEjecuta:\nCREATE TABLE IF NOT EXISTS mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\nEsta tabla presenta una estructura más interesante que la tabla sensores.\nLa parte principal es:\nPRIMARY KEY ((sensor_id, fecha), momento)\nPodemos interpretarla así:\n┌──────────────────────────────┐\n│ Clave de partición           │\n│ (sensor_id, fecha)           │\n└──────────────────────────────┘\n              +\n┌──────────────────────────────┐\n│ Columna de agrupamiento      │\n│ momento                      │\n└──────────────────────────────┘"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#clave-de-partición",
+    "href": "apuntes/09_comandos_cassandra.html#clave-de-partición",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "16 Clave de partición",
+    "text": "16 Clave de partición\nLa expresión:\n(sensor_id, fecha)\nconstituye una clave de partición compuesta.\nEsto significa que las lecturas que tienen el mismo:\nsensor_id\ny la misma:\nfecha\npertenecen a la misma partición lógica.\nPor ejemplo:\n(sensor_001, 2026-09-29)\n\n    09:00 → 22.4 °C\n    09:05 → 22.8 °C\n    09:10 → 23.1 °C\nEstas tres mediciones pertenecen a la misma partición.\nSin embargo:\n(sensor_001, 2026-09-30)\ncorresponde a una partición diferente.\nTambién:\n(sensor_002, 2026-09-29)\ncorresponde a otra partición.\n\n\n\n\n\n\nNoteRelación con el apunte anterior\n\n\n\nEn el tema de familias de columnas observamos conceptualmente combinaciones como:\n(sensor_001, 2026-09-29)\nAhora estamos utilizando esa misma idea directamente en Cassandra mediante una clave de partición compuesta."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#columna-de-agrupamiento",
+    "href": "apuntes/09_comandos_cassandra.html#columna-de-agrupamiento",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "17 Columna de agrupamiento",
+    "text": "17 Columna de agrupamiento\nLa columna:\nmomento\nes una columna de agrupamiento (clustering column).\nSu función es:\n\ndistinguir las diferentes filas dentro de una misma partición;\norganizar las mediciones por fecha y hora.\n\nLa instrucción:\nCLUSTERING ORDER BY (momento DESC)\nindica que las mediciones se mostrarán comenzando por las más recientes.\nPor ejemplo:\n09:10 → 23.1 °C\n09:05 → 22.8 °C\n09:00 → 22.4 °C\n\n\n\n\n\n\nTip¿Por qué utilizar dos tablas?\n\n\n\nLa tabla sensores responde preguntas relacionadas con la información general de cada dispositivo.\nLa tabla mediciones responde preguntas relacionadas con el historial de lecturas.\nEn Cassandra es normal tener diferentes tablas diseñadas para diferentes consultas."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
+    "href": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "18 Registrar mediciones de temperatura y humedad",
+    "text": "18 Registrar mediciones de temperatura y humedad\nInsertaremos tres mediciones para sensor_001.\nUtilizaremos horas expresadas en UTC mediante la letra Z.\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:00:00Z', 22.4, 45.0);\nSegunda medición:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:05:00Z', 22.8, 46.0);\nTercera medición:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:10:00Z', 23.1, 44.0);\nTambién registraremos una lectura del segundo sensor:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_002', '2026-09-29', '2026-09-29T09:00:00Z', 21.7, 48.0);\nEl sensor exterior únicamente registra temperatura.\nPor ello podemos omitir la columna humedad:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura)\nVALUES\n('sensor_003', '2026-09-29', '2026-09-29T09:00:00Z', 25.6);\nEn este caso no existe un valor registrado para humedad.\nEsto permite observar que una fila no necesita tener valores en todas las columnas que no forman parte de la clave primaria."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-un-sensor",
+    "href": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-un-sensor",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "19 Consultar el historial de un sensor",
+    "text": "19 Consultar el historial de un sensor\nAhora podemos realizar la consulta para la cual diseñamos nuestra tabla.\nSELECT * FROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\nLa consulta recuperará las tres mediciones del sensor durante ese día.\nComo definimos:\nCLUSTERING ORDER BY (momento DESC)\nlas mediciones aparecerán de la más reciente a la más antigua.\nConceptualmente:\n09:10 → 23.1 °C\n09:05 → 22.8 °C\n09:00 → 22.4 °C"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#seleccionar-únicamente-algunas-columnas-1",
+    "href": "apuntes/09_comandos_cassandra.html#seleccionar-únicamente-algunas-columnas-1",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "20 Seleccionar únicamente algunas columnas",
+    "text": "20 Seleccionar únicamente algunas columnas\nPodemos recuperar solamente la información que necesitamos:\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#contar-las-mediciones",
+    "href": "apuntes/09_comandos_cassandra.html#contar-las-mediciones",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "21 Contar las mediciones",
+    "text": "21 Contar las mediciones\nPodemos comprobar cuántas mediciones existen dentro de esa partición:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\nEl resultado esperado es:\n3"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#consultar-un-intervalo-de-tiempo",
+    "href": "apuntes/09_comandos_cassandra.html#consultar-un-intervalo-de-tiempo",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "22 Consultar un intervalo de tiempo",
+    "text": "22 Consultar un intervalo de tiempo\nTambién podemos utilizar la columna de agrupamiento para consultar solamente una parte del historial.\nPor ejemplo:\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29'\n  AND momento &gt;= '2026-09-29T09:05:00Z';\nEsta consulta recuperará las mediciones realizadas a partir de las 09:05.\nConceptualmente:\n09:10 → 23.1 °C\n09:05 → 22.8 °C\nEsto es posible porque momento es una columna de agrupamiento dentro de la partición."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#todas-las-consultas-son-posibles",
+    "href": "apuntes/09_comandos_cassandra.html#todas-las-consultas-son-posibles",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "23 ¿Todas las consultas son posibles?",
+    "text": "23 ¿Todas las consultas son posibles?\nNuestra tabla fue diseñada específicamente para consultar:\nsensor + fecha\nPor ejemplo:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\nEsta consulta se adapta perfectamente al diseño de la tabla.\nSin embargo, podríamos imaginar otra pregunta:\n\n¿Cuáles son todas las mediciones con una temperatura superior a 25 °C?\n\nPodríamos pensar en escribir:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 25;\nSin embargo, nuestra tabla no fue diseñada específicamente para realizar esa consulta de forma eficiente.\n\n\n\n\n\n\nWarningDiseñar según la consulta\n\n\n\nEn Cassandra no todas las consultas que parecen naturales en SQL pueden realizarse eficientemente sobre cualquier tabla.\nSi consultar temperaturas superiores a determinado valor fuera una necesidad frecuente de nuestra aplicación, probablemente tendríamos que diseñar otra tabla preparada para responder esa consulta.\nPor esta razón evitaremos utilizar ALLOW FILTERING como solución habitual."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#comparación-de-nuestras-dos-tablas",
+    "href": "apuntes/09_comandos_cassandra.html#comparación-de-nuestras-dos-tablas",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "24 Comparación de nuestras dos tablas",
+    "text": "24 Comparación de nuestras dos tablas\nDurante este apunte construimos dos tablas con propósitos diferentes.\n\n\n\nTabla\nPropósito principal\n\n\n\n\nsensores\nConsultar información general de un dispositivo\n\n\nmediciones\nConsultar el historial de un sensor durante una fecha\n\n\n\nLa tabla:\nsensores\nutiliza:\nsensor_id\ncomo clave primaria.\nLa tabla:\nmediciones\nutiliza:\n(sensor_id, fecha)\ncomo clave de partición y:\nmomento\ncomo columna de agrupamiento.\nEsta diferencia refleja una de las ideas principales de Cassandra:\n\nLas tablas se diseñan de acuerdo con las consultas que necesita realizar la aplicación."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión",
+    "href": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "25 Cerrar la sesión",
+    "text": "25 Cerrar la sesión\nPara salir de cqlsh:\nexit;\nRegresarás a PowerShell o Terminal."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#detener-cassandra",
+    "href": "apuntes/09_comandos_cassandra.html#detener-cassandra",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "26 Detener Cassandra",
+    "text": "26 Detener Cassandra\nPara detener el contenedor:\ndocker stop cassandra-lab\nDocker mostrará:\ncassandra-lab\nEl contenedor dejará de ejecutarse, pero no será eliminado.\nLos datos permanecerán almacenados mientras el contenedor continúe existiendo.\nCuando quieras trabajar nuevamente con Cassandra:\ndocker start cassandra-lab\nEspera unos segundos y accede nuevamente mediante:\ndocker exec -it cassandra-lab cqlsh"
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#para-recordar",
+    "href": "apuntes/09_comandos_cassandra.html#para-recordar",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "27 Para recordar",
+    "text": "27 Para recordar\n\nDocker Desktop permite ejecutar Cassandra dentro de un contenedor.\nCQL es el lenguaje utilizado para interactuar con Cassandra.\ncqlsh es la consola donde ejecutamos instrucciones CQL.\nUn keyspace agrupa las tablas de una aplicación.\nUna clave primaria identifica y organiza las filas.\nLa clave de partición determina qué registros pertenecen a una misma partición.\nUna clave de partición puede estar formada por más de una columna.\nLas columnas de agrupamiento organizan las filas dentro de una partición.\nCassandra favorece un diseño de tablas pensado a partir de las consultas.\nDiferentes consultas pueden requerir diferentes tablas."
+  },
+  {
+    "objectID": "apuntes/09_comandos_cassandra.html#en-qué-situaciones-podríamos-utilizar-este-modelo",
+    "href": "apuntes/09_comandos_cassandra.html#en-qué-situaciones-podríamos-utilizar-este-modelo",
+    "title": "Apache Cassandra: primeros comandos y consultas con CQL",
+    "section": "28 ¿En qué situaciones podríamos utilizar este modelo?",
+    "text": "28 ¿En qué situaciones podríamos utilizar este modelo?\nLas bases de datos de familias de columnas pueden resultar útiles cuando una aplicación genera grandes cantidades de registros y necesita almacenar o consultar información de manera distribuida.\nLa siguiente tabla muestra algunos ejemplos.\n\n\n\n\n\n\n\n\nAplicación\nDatos que podría almacenar\n¿Por qué podría utilizarse?\n\n\n\n\nMonitoreo ambiental\nTemperatura, humedad y estado de sensores\nLos dispositivos generan mediciones constantemente y es necesario conservar su historial\n\n\nInternet de las cosas (IoT)\nLecturas de sensores, dispositivos y eventos\nPuede recibir grandes cantidades de registros provenientes de numerosos dispositivos\n\n\nMonitoreo de servidores\nUso de CPU, memoria, almacenamiento y eventos\nLos servidores generan métricas continuamente a lo largo del tiempo\n\n\nTelecomunicaciones\nRegistros de llamadas, conexiones y eventos de red\nPuede producir grandes volúmenes de información de manera continua\n\n\nPlataformas digitales\nEventos de navegación, reproducciones o interacciones\nLas acciones de los usuarios pueden generar millones de eventos\n\n\nSistemas de transporte\nPosición, velocidad y estado de vehículos\nCada vehículo puede enviar información constantemente\n\n\nMedidores inteligentes\nConsumo eléctrico, agua o gas\nSe generan mediciones periódicas que deben conservarse históricamente\n\n\nRegistros de aplicaciones\nEventos, errores y actividad de los sistemas\nPuede ser necesario almacenar grandes cantidades de registros para su posterior análisis\n\n\n\n\n\n\n\n\n\nNoteUn patrón común\n\n\n\nEn muchos de estos ejemplos encontramos una situación similar:\nMuchos dispositivos o usuarios\n            ↓\nGeneración continua de datos\n            ↓\nGran cantidad de registros\n            ↓\nNecesidad de consultar información histórica\nEste tipo de escenario puede beneficiarse de tecnologías distribuidas como Apache Cassandra.\n\n\nSin embargo, esto no significa que Cassandra sea la mejor opción para cualquier aplicación.\nSi un sistema necesita realizar numerosas relaciones entre entidades, consultas muy variables o múltiples operaciones mediante JOIN, una base de datos relacional puede resultar más adecuada.\nLa elección de la tecnología debe depender siempre de:\n\nla estructura de los datos;\nel volumen de información;\nla velocidad con la que se generan nuevos registros;\nlas consultas que necesita realizar la aplicación;\ny la forma en que se espera que el sistema crezca."
   },
   {
     "objectID": "apuntes/01_relacional_a_nosql.html",
@@ -656,13 +922,6 @@
     "title": "Fundamentos de las bases de datos de familias de columnas",
     "section": "14 Relación con los modelos anteriores",
     "text": "14 Relación con los modelos anteriores\nHasta ahora hemos estudiado tres modelos principales de bases de datos no relacionales.\n\n\n\n\n\n\n\n\nModelo\nOrganización principal\nEjemplo\n\n\n\n\nDocumental\nDocumentos con campos y valores\nMongoDB\n\n\nClave–valor\nClaves asociadas con valores\nRedis\n\n\nFamilias de columnas\nFilas y columnas organizadas según el sistema\nCassandra\n\n\n\nEstos modelos no son necesariamente excluyentes.\nUna misma aplicación puede utilizar diferentes tecnologías cuando cada una responde a una necesidad específica.\nPor ejemplo, en nuestro sistema de monitoreo ambiental podríamos utilizar:\nMongoDB\nInformación general de los sensores\nRedis\nÚltima temperatura registrada\nCassandra\nHistorial de miles o millones de mediciones\nPodemos representarlo de la siguiente manera:\nAplicación de monitoreo\n         |\n -------------------------\n |           |           |\nMongoDB    Redis     Cassandra\n |           |           |\nDatos      Datos      Historial\ngenerales  rápidos    de mediciones\nLa decisión debe basarse en las necesidades de almacenamiento, consulta y procesamiento de la aplicación."
-  },
-  {
-    "objectID": "apuntes/08_bases_orientadas_columnas.html#cierre",
-    "href": "apuntes/08_bases_orientadas_columnas.html#cierre",
-    "title": "Fundamentos de las bases de datos de familias de columnas",
-    "section": "15 Cierre",
-    "text": "15 Cierre\nLas bases de datos de familias de columnas constituyen una alternativa para almacenar y distribuir grandes cantidades de información.\nA lo largo de este apunte observamos que sus características principales incluyen:\n\nOrganización mediante claves y columnas.\nPosibilidad de trabajar con grandes volúmenes de datos.\nDistribución de información entre diferentes nodos.\nEscalabilidad horizontal.\nUso de particiones para organizar los registros.\nDiseño de estructuras considerando las consultas de la aplicación.\n\nEl ejemplo de monitoreo ambiental nos permitió comprender que un sensor puede generar numerosas mediciones a lo largo del tiempo.\nPor esta razón, no basta con almacenar únicamente la última temperatura registrada.\nNecesitamos una estructura que permita conservar y consultar todo el historial de información.\nEn la siguiente clase utilizaremos Apache Cassandra y el lenguaje CQL para construir este sistema de monitoreo ambiental y observar cómo se aplican los conceptos estudiados."
   },
   {
     "objectID": "apuntes/05_modelado_relaciones_mongodb.html",
@@ -2380,143 +2639,325 @@
     "text": "27 En la siguiente sesión\nDespués de comprender los fundamentos de escalabilidad y sistemas distribuidos, podremos relacionar estos conceptos con gestores NoSQL concretos.\nMongoDB nos permitirá comenzar a trabajar con:\nbases de datos\ncolecciones\ndocumentos\ncampos\narreglos\nobjetos anidados\nconsultas\ny observar de manera práctica cómo funciona una base de datos orientada a documentos."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html",
-    "href": "apuntes/09_comandos_cassandra.html",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "objectID": "apuntes/10_carga_masiva_cassandra.html",
+    "href": "apuntes/10_carga_masiva_cassandra.html",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
     "section": "",
-    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar. En este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso. Para los ejemplos se utiliza el contenedor cassandra-lab."
+    "text": "En el apunte anterior trabajamos con Apache Cassandra utilizando una cantidad pequeña de registros para comprender los principales comandos de CQL, la creación de tablas, las claves de partición y las columnas de agrupamiento.\nEn este apunte utilizaremos el mismo sistema de monitoreo ambiental, pero trabajaremos con un volumen considerablemente mayor de información.\nSimularemos mediciones generadas por 100 sensores, registrando temperatura y humedad cada 15 minutos, desde el 1 de enero de 2025 hasta el 5 de octubre de 2026.\nEsto producirá:\n100 sensores\n×\n643 días\n×\n96 mediciones por día\n=\n6,172,800 registros\nEl objetivo será generar estos datos mediante Python en Google Colab, almacenarlos en un archivo CSV y posteriormente realizar una carga masiva en Apache Cassandra."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#introducción",
-    "href": "apuntes/09_comandos_cassandra.html#introducción",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#introducción",
+    "href": "apuntes/10_carga_masiva_cassandra.html#introducción",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
     "section": "",
-    "text": "Apache Cassandra es una base de datos NoSQL distribuida que organiza la información mediante tablas diseñadas de acuerdo con las consultas que se necesitan realizar. En este apunte utilizaremos CQL (Cassandra Query Language) para crear tablas, registrar datos y consultar las mediciones de una red de sensores ambientales.\nSe da por hecho que Apache Cassandra ya fue instalado mediante Docker, como se explica en el manual de instalación del curso. Para los ejemplos se utiliza el contenedor cassandra-lab."
+    "text": "En el apunte anterior trabajamos con Apache Cassandra utilizando una cantidad pequeña de registros para comprender los principales comandos de CQL, la creación de tablas, las claves de partición y las columnas de agrupamiento.\nEn este apunte utilizaremos el mismo sistema de monitoreo ambiental, pero trabajaremos con un volumen considerablemente mayor de información.\nSimularemos mediciones generadas por 100 sensores, registrando temperatura y humedad cada 15 minutos, desde el 1 de enero de 2025 hasta el 5 de octubre de 2026.\nEsto producirá:\n100 sensores\n×\n643 días\n×\n96 mediciones por día\n=\n6,172,800 registros\nEl objetivo será generar estos datos mediante Python en Google Colab, almacenarlos en un archivo CSV y posteriormente realizar una carga masiva en Apache Cassandra."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
-    "href": "apuntes/09_comandos_cassandra.html#iniciar-apache-cassandra",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "2 Iniciar Apache Cassandra",
-    "text": "2 Iniciar Apache Cassandra\nAbre Docker Desktop y espera a que el motor de Docker esté en ejecución. Después, abre PowerShell y ejecuta:\ndocker start cassandra-lab\nSi el contenedor ya está iniciado, no es necesario repetir este comando. Puedes comprobar su estado con:\ndocker ps\nEn la lista debe aparecer cassandra-lab con el estado Up. Cassandra puede tardar un poco en estar listo, aunque el contenedor ya aparezca en ejecución.\nPara abrir la consola interactiva de Cassandra, ejecuta:\ndocker exec -it cassandra-lab cqlsh\nCuando la conexión se complete, aparecerá el indicador:\ncqlsh&gt;\n\n\n\n\n\n\nNote¿Qué es cqlsh?\n\n\n\ncqlsh significa Cassandra Query Language Shell. Es una consola interactiva que permite ejecutar instrucciones CQL, de forma similar a mongosh en MongoDB o redis-cli en Redis."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#qué-aprenderemos",
+    "href": "apuntes/10_carga_masiva_cassandra.html#qué-aprenderemos",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "2 ¿Qué aprenderemos?",
+    "text": "2 ¿Qué aprenderemos?\nAl finalizar este apunte podrás:\n\nIniciar Apache Cassandra mediante Docker.\nAcceder a la consola cqlsh.\nRevisar la estructura de una tabla existente.\nGenerar datos simulados mediante Python.\nCrear un archivo CSV con millones de registros.\nCopiar un archivo desde la computadora hacia un contenedor de Docker.\nRealizar una carga masiva de datos mediante cqlsh.\nVerificar la información almacenada.\nConsultar una partición específica.\nConsultar intervalos de tiempo.\nComprender la relación entre el diseño de una tabla y las consultas en Cassandra."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
-    "href": "apuntes/09_comandos_cassandra.html#explorar-los-espacios-de-claves",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "3 Explorar los espacios de claves",
-    "text": "3 Explorar los espacios de claves\nEn Cassandra, un keyspace o espacio de claves agrupa las tablas de una aplicación y establece su configuración de replicación.\nPara consultar los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nLos nombres que aparecen inicialmente corresponden, principalmente, a espacios utilizados por el propio sistema.\n\n3.1 Crear un keyspace\nCrearemos un espacio llamado monitoreo_ambiental:\nCREATE KEYSPACE IF NOT EXISTS monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nSimpleStrategy y un factor de replicación de 1 son suficientes para este ejercicio con un solo nodo. No deben interpretarse como una configuración recomendada para producción.\nSelecciona el espacio de claves:\nUSE monitoreo_ambiental;\nEl indicador de la consola cambiará a:\ncqlsh:monitoreo_ambiental&gt;"
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#abrir-docker-desktop",
+    "href": "apuntes/10_carga_masiva_cassandra.html#abrir-docker-desktop",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "3 1. Abrir Docker Desktop",
+    "text": "3 1. Abrir Docker Desktop\nAntes de comenzar, abre Docker Desktop.\nEspera a que el motor de Docker se encuentre funcionando.\nDespués abre:\n\nPowerShell en Windows, o\nTerminal en macOS."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
-    "href": "apuntes/09_comandos_cassandra.html#crear-la-tabla-de-sensores",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "4 Crear la tabla de sensores",
-    "text": "4 Crear la tabla de sensores\nPrimero almacenaremos los datos generales de cada sensor: su identificador, edificio, ubicación y tipo de medición.\nCREATE TABLE IF NOT EXISTS sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nEn esta tabla, sensor_id es la clave primaria. Su valor permite identificar cada sensor y no debe repetirse.\nPara consultar las tablas del espacio de claves seleccionado:\nDESCRIBE TABLES;\nTambién puedes revisar la definición de la tabla:\nDESCRIBE TABLE sensores;"
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#iniciar-el-contenedor-de-cassandra",
+    "href": "apuntes/10_carga_masiva_cassandra.html#iniciar-el-contenedor-de-cassandra",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "4 2. Iniciar el contenedor de Cassandra",
+    "text": "4 2. Iniciar el contenedor de Cassandra\nInicia el contenedor utilizado en los ejercicios anteriores:\ndocker start cassandra-lab\nComprueba que se encuentre en ejecución:\ndocker ps\nDeberá aparecer:\ncassandra-lab\ncon un estado similar a:\nUp\n\n\n\n\n\n\nNote\n\n\n\nAunque el contenedor aparezca como Up, Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#insertar-y-consultar-registros",
-    "href": "apuntes/09_comandos_cassandra.html#insertar-y-consultar-registros",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "5 Insertar y consultar registros",
-    "text": "5 Insertar y consultar registros\nRegistraremos tres sensores instalados en diferentes espacios de una universidad.\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nPara consultar todos los sensores:\nSELECT * FROM sensores;\nEl orden de las filas puede ser diferente al orden en el que se insertaron.\nTambién podemos recuperar únicamente la información de un sensor:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\nO seleccionar solo algunas columnas:\nSELECT sensor_id, edificio, aula\nFROM sensores\nWHERE sensor_id = 'sensor_002';"
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#entrar-a-cqlsh",
+    "href": "apuntes/10_carga_masiva_cassandra.html#entrar-a-cqlsh",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "5 3. Entrar a cqlsh",
+    "text": "5 3. Entrar a cqlsh\nPara ingresar a la consola de Cassandra ejecuta:\ndocker exec -it cassandra-lab cqlsh\nCuando Cassandra esté disponible aparecerá:\ncqlsh&gt;"
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#actualizar-y-eliminar-registros",
-    "href": "apuntes/09_comandos_cassandra.html#actualizar-y-eliminar-registros",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "6 Actualizar y eliminar registros",
-    "text": "6 Actualizar y eliminar registros\nSupongamos que el primer sensor fue trasladado del aula 101 al aula 102. Podemos modificar su ubicación mediante UPDATE:\nUPDATE sensores\nSET aula = '102'\nWHERE sensor_id = 'sensor_001';\nComprueba el cambio:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_001';\nPara practicar la eliminación sin perder nuestros tres sensores principales, agregaremos un registro temporal:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_004', 'C', 'Almacén', 'Temperatura');\nElimínalo utilizando su clave primaria:\nDELETE FROM sensores\nWHERE sensor_id = 'sensor_004';\nComprueba que ya no aparezca:\nSELECT * FROM sensores\nWHERE sensor_id = 'sensor_004';\n\n\n\n\n\n\nImportantConsideración sobre UPDATE\n\n\n\nEn Cassandra, UPDATE también puede crear una fila si no existe un registro con la clave primaria indicada. Por ello, es importante revisar cuidadosamente las claves antes de ejecutar una actualización."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#seleccionar-el-keyspace",
+    "href": "apuntes/10_carga_masiva_cassandra.html#seleccionar-el-keyspace",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "6 4. Seleccionar el keyspace",
+    "text": "6 4. Seleccionar el keyspace\nUtilizaremos nuevamente el espacio de claves creado en el apunte anterior:\nUSE monitoreo_ambiental;\nEl indicador deberá cambiar a:\ncqlsh:monitoreo_ambiental&gt;\nPodemos comprobar las tablas existentes mediante:\nDESCRIBE TABLES;\nDeberían aparecer:\nsensores\nmediciones\n\n\n\n\n\n\nNote\n\n\n\nEn el apunte anterior creamos el keyspace utilizando:\nSimpleStrategy\ncon un factor de replicación de:\n1\nEsta configuración es adecuada para nuestra práctica porque estamos trabajando con un único nodo de Cassandra."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#diseñar-una-tabla-para-las-mediciones",
-    "href": "apuntes/09_comandos_cassandra.html#diseñar-una-tabla-para-las-mediciones",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "7 Diseñar una tabla para las mediciones",
-    "text": "7 Diseñar una tabla para las mediciones\nLa tabla sensores almacena la información general de cada dispositivo, pero un sensor puede generar numerosas lecturas durante el día. Para guardar ese historial, crearemos una segunda tabla.\nAntes de definirla, debemos decidir qué consulta necesitamos realizar. En este ejemplo queremos recuperar las mediciones de un sensor durante una fecha determinada, comenzando por las más recientes.\nCREATE TABLE IF NOT EXISTS mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\n\n7.1 Clave de partición\nLa expresión (sensor_id, fecha) constituye una clave de partición compuesta. Las lecturas que comparten ambos valores pertenecen a la misma partición lógica.\nPor ejemplo, las mediciones de sensor_001 del 29 de septiembre de 2026 se agrupan en una partición diferente de las lecturas de ese mismo sensor del día siguiente.\n\n\n7.2 Columna de agrupamiento\nmomento es una columna de agrupamiento (clustering column). Distingue las diferentes lecturas dentro de la partición y permite organizarlas por fecha y hora. La opción DESC establece el orden descendente: primero las mediciones más recientes.\n\n\n\n\n\n\nTip¿Por qué utilizar dos tablas?\n\n\n\nLa tabla sensores permite consultar los datos generales de un dispositivo. La tabla mediciones está diseñada para consultar eficientemente su historial de lecturas por día. En Cassandra es habitual diseñar las tablas a partir de las consultas que realizará la aplicación."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#revisar-la-tabla-mediciones",
+    "href": "apuntes/10_carga_masiva_cassandra.html#revisar-la-tabla-mediciones",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "7 5. Revisar la tabla mediciones",
+    "text": "7 5. Revisar la tabla mediciones\nAntes de generar los datos revisaremos la estructura de la tabla que recibirá las mediciones.\nEjecuta:\nDESCRIBE TABLE mediciones;\nLa estructura utilizada en el ejercicio anterior es:\nCREATE TABLE mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\nLa clave primaria es:\nPRIMARY KEY ((sensor_id, fecha), momento)\nEn esta expresión:\n(sensor_id, fecha)\nes la clave de partición.\nMientras que:\nmomento\nes la columna de agrupamiento.\n\n\n7.1 ¿Cómo se organizarán los datos?\nPara un sensor y una fecha determinada tendremos una partición.\nPor ejemplo:\n(sensor_001, 2025-01-01)\nDentro de esa partición tendremos todas las mediciones realizadas durante ese día:\n00:00\n00:15\n00:30\n00:45\n01:00\n...\n23:45\nComo registraremos información cada 15 minutos:\n4 mediciones por hora\n×\n24 horas\n=\n96 mediciones por día\nPara 100 sensores:\n100 × 96\n=\n9,600 mediciones por día\nY durante 643 días:\n9,600 × 643\n=\n6,172,800 registros"
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
-    "href": "apuntes/09_comandos_cassandra.html#registrar-mediciones-de-temperatura-y-humedad",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "8 Registrar mediciones de temperatura y humedad",
-    "text": "8 Registrar mediciones de temperatura y humedad\nInsertaremos varias lecturas para sensor_001 y una lectura para sensor_002. En este ejemplo utilizaremos horas expresadas en UTC (Z) para que todos los alumnos obtengan resultados consistentes, independientemente de la zona horaria de su equipo.\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:00:00Z', 22.4, 45.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:05:00Z', 22.8, 46.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_001', '2026-09-29', '2026-09-29T09:10:00Z', 23.1, 44.0);\n\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nVALUES\n('sensor_002', '2026-09-29', '2026-09-29T09:00:00Z', 21.7, 48.0);\nEl sensor exterior solo registra temperatura. Podemos omitir la columna humedad:\nINSERT INTO mediciones\n(sensor_id, fecha, momento, temperatura)\nVALUES\n('sensor_003', '2026-09-29', '2026-09-29T09:00:00Z', 25.6);\nEn este caso, la humedad no tiene un valor registrado. Esto permite ilustrar que una fila no necesita contener valores en todas las columnas no clave."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#generar-el-archivo-csv-en-google-colab",
+    "href": "apuntes/10_carga_masiva_cassandra.html#generar-el-archivo-csv-en-google-colab",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "8 6. Generar el archivo CSV en Google Colab",
+    "text": "8 6. Generar el archivo CSV en Google Colab\nLos datos no serán capturados manualmente.\nUtilizaremos Python para simular automáticamente las mediciones y generar un archivo CSV.\nAbre Google Colab y crea una nueva libreta.\n\n\n8.1 6.1 Importar las bibliotecas\nEn la primera celda escribe:\nimport csv\nimport random\nfrom datetime import datetime, timedelta\nEjecuta la celda.\nEstas bibliotecas nos permitirán:\n\ncrear el archivo CSV;\ngenerar valores aleatorios;\ntrabajar con fechas y horas.\n\n\n\n\n8.2 6.2 Definir los parámetros de la simulación\nEn una nueva celda escribe:\nnumero_sensores = 100\n\nfecha_inicio = datetime(2025, 1, 1)\nfecha_fin = datetime(2026, 10, 5, 23, 45)\n\nintervalo = timedelta(minutes=15)\n\narchivo = \"mediciones_ambientales.csv\"\nEstamos indicando que la simulación utilizará:\n100 sensores\ndesde:\n2025-01-01 00:00\nhasta:\n2026-10-05 23:45\ncon un intervalo de:\n15 minutos\n\n\n\n8.3 6.3 Calcular cuántos registros se generarán\nAntes de crear el archivo podemos calcular la cantidad esperada de registros.\nEjecuta:\ndias = (fecha_fin.date() - fecha_inicio.date()).days + 1\n\nmediciones_por_dia = int(\n    timedelta(days=1) / intervalo\n)\n\ntotal_registros = (\n    numero_sensores\n    * dias\n    * mediciones_por_dia\n)\n\nprint(\"Días:\", dias)\nprint(\"Mediciones por día y sensor:\", mediciones_por_dia)\nprint(\"Total esperado:\", f\"{total_registros:,}\")\nEl resultado esperado es:\nDías: 643\nMediciones por día y sensor: 96\nTotal esperado: 6,172,800"
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-mediciones",
-    "href": "apuntes/09_comandos_cassandra.html#consultar-el-historial-de-mediciones",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "9 Consultar el historial de mediciones",
-    "text": "9 Consultar el historial de mediciones\n\n9.1 Consultar las mediciones de un sensor en un día\nSELECT * FROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\nLa consulta recupera las tres lecturas de ese sensor y las presenta de la más reciente a la más antigua, de acuerdo con la definición de la tabla.\n\n\n9.2 Seleccionar algunas columnas\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29';\n\n\n9.3 Consultar un intervalo de tiempo\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-09-29'\n  AND momento &gt;= '2026-09-29T09:05:00Z';\nEsta consulta obtiene las mediciones realizadas a partir de las 09:05 UTC, dentro de la partición indicada.\n\n\n\n\n\n\nWarningLas consultas se diseñan a partir de las claves\n\n\n\nEn Cassandra no todas las consultas que parecen naturales en SQL se pueden ejecutar de forma eficiente. La tabla mediciones está organizada para consultar un sensor y una fecha. Consultar directamente todas las mediciones con temperatura superior a 25 °C, sin indicar las claves de partición, requeriría otro diseño de tabla o una estrategia específica de consulta. Evitaremos utilizar ALLOW FILTERING como solución habitual."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#generar-las-mediciones-simuladas",
+    "href": "apuntes/10_carga_masiva_cassandra.html#generar-las-mediciones-simuladas",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "9 7. Generar las mediciones simuladas",
+    "text": "9 7. Generar las mediciones simuladas\nAhora construiremos el archivo CSV.\nComo tendremos más de seis millones de registros, evitaremos almacenarlos todos simultáneamente en memoria.\nEn su lugar, Python irá escribiendo cada registro directamente en el archivo.\nEjecuta:\nwith open(archivo, \"w\", newline=\"\", encoding=\"utf-8\") as f:\n\n    writer = csv.writer(f)\n\n    writer.writerow([\n        \"sensor_id\",\n        \"fecha\",\n        \"momento\",\n        \"temperatura\",\n        \"humedad\"\n    ])\n\n    momento_actual = fecha_inicio\n    registros = 0\n\n    while momento_actual &lt;= fecha_fin:\n\n        for sensor in range(1, numero_sensores + 1):\n\n            sensor_id = f\"sensor_{sensor:03d}\"\n\n            temperatura = round(\n                random.uniform(18, 32),\n                1\n            )\n\n            humedad = round(\n                random.uniform(35, 80),\n                1\n            )\n\n            writer.writerow([\n                sensor_id,\n                momento_actual.strftime(\"%Y-%m-%d\"),\n                momento_actual.strftime(\"%Y-%m-%dT%H:%M:%SZ\"),\n                temperatura,\n                humedad\n            ])\n\n            registros += 1\n\n        momento_actual += intervalo\n\nprint(\"Archivo generado correctamente\")\nprint(\"Registros generados:\", f\"{registros:,}\")\nAl finalizar deberá aparecer:\nArchivo generado correctamente\nRegistros generados: 6,172,800\n\n\n\n\n\n\nNote\n\n\n\nEl proceso puede tardar algunos minutos debido a la cantidad de registros que se están generando."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión-y-detener-cassandra",
-    "href": "apuntes/09_comandos_cassandra.html#cerrar-la-sesión-y-detener-cassandra",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "10 Cerrar la sesión y detener Cassandra",
-    "text": "10 Cerrar la sesión y detener Cassandra\nPara salir de la consola cqlsh, escribe:\nexit;\nDe regreso en PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCassandra dejará de ejecutarse, pero el contenedor y sus datos permanecerán disponibles mientras no se elimine. Cuando vuelvas a trabajar, inicia Docker Desktop y ejecuta docker start cassandra-lab."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#revisar-la-estructura-del-archivo",
+    "href": "apuntes/10_carga_masiva_cassandra.html#revisar-la-estructura-del-archivo",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "10 8. Revisar la estructura del archivo",
+    "text": "10 8. Revisar la estructura del archivo\nAntes de descargar el archivo podemos observar sus primeras filas.\nEjecuta:\nimport pandas as pd\n\nmuestra = pd.read_csv(\n    archivo,\n    nrows=10\n)\n\nmuestra\nDeberás observar una estructura similar a:\n\n\n\nsensor_id\nfecha\nmomento\ntemperatura\nhumedad\n\n\n\n\nsensor_001\n2025-01-01\n2025-01-01T00:00:00Z\n22.4\n45.1\n\n\nsensor_002\n2025-01-01\n2025-01-01T00:00:00Z\n24.8\n52.6\n\n\nsensor_003\n2025-01-01\n2025-01-01T00:00:00Z\n21.7\n61.3\n\n\n\nLos valores de temperatura y humedad serán diferentes debido a que se generan aleatoriamente.\n\n\n10.1 Comprobar el tamaño del archivo\nTambién podemos revisar cuánto espacio ocupa el archivo:\nimport os\n\ntamano = os.path.getsize(archivo)\n\nprint(\n    \"Tamaño aproximado:\",\n    round(tamano / (1024 ** 2), 2),\n    \"MB\"\n)\nEl tamaño puede variar dependiendo de los valores generados."
   },
   {
-    "objectID": "apuntes/09_comandos_cassandra.html#para-recordar",
-    "href": "apuntes/09_comandos_cassandra.html#para-recordar",
-    "title": "Apache Cassandra: comandos y consultas con CQL",
-    "section": "11 Para recordar",
-    "text": "11 Para recordar\n\nDocker Desktop administra el contenedor en el que se ejecuta Cassandra.\ncqlsh es la consola en la que escribimos instrucciones CQL.\nUn keyspace agrupa tablas y define la configuración de replicación.\nLa clave de partición determina cómo se agrupan y distribuyen los datos.\nLas columnas de agrupamiento organizan las filas dentro de una partición.\nEn Cassandra conviene diseñar cada tabla en función de las consultas que necesita la aplicación.\n\nCon estas operaciones ya podemos desarrollar una práctica en la que los alumnos registren y consulten el historial de distintos sensores ambientales."
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#descargar-el-archivo",
+    "href": "apuntes/10_carga_masiva_cassandra.html#descargar-el-archivo",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "11 9. Descargar el archivo",
+    "text": "11 9. Descargar el archivo\nPara descargar el archivo desde Google Colab ejecuta:\nfrom google.colab import files\n\nfiles.download(\"mediciones_ambientales.csv\")\nEl navegador comenzará la descarga del archivo:\nmediciones_ambientales.csv\n\n\n\n\n\n\nWarning\n\n\n\nEl archivo contiene más de seis millones de registros, por lo que puede tener un tamaño considerable y tardar algunos segundos o minutos en descargarse."
   },
   {
-    "objectID": "practicas.html",
-    "href": "practicas.html",
-    "title": "Bases de Datos No Relacionales",
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#guardar-el-archivo-en-la-computadora",
+    "href": "apuntes/10_carga_masiva_cassandra.html#guardar-el-archivo-en-la-computadora",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "12 10. Guardar el archivo en la computadora",
+    "text": "12 10. Guardar el archivo en la computadora\nAhora necesitamos identificar dónde se encuentra el archivo descargado.\n\n12.1 Windows\nPara facilitar los siguientes pasos, podemos crear una carpeta:\nC:\\cassandra\nColoca dentro de ella:\nmediciones_ambientales.csv\nLa ruta completa será:\nC:\\cassandra\\mediciones_ambientales.csv\nEsta ruta será utilizada posteriormente para copiar el archivo al contenedor.\n\n\n\n12.2 macOS\nPuedes guardar el archivo en la carpeta Downloads.\nPor ejemplo:\n/Users/usuario/Downloads/mediciones_ambientales.csv\nTambién podemos utilizar la abreviatura:\n~/Downloads/mediciones_ambientales.csv\nCada usuario deberá utilizar la ruta correspondiente a su propia computadora."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#salir-temporalmente-de-cqlsh",
+    "href": "apuntes/10_carga_masiva_cassandra.html#salir-temporalmente-de-cqlsh",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "13 11. Salir temporalmente de cqlsh",
+    "text": "13 11. Salir temporalmente de cqlsh\nHasta este momento nos encontramos dentro de cqlsh.\nAntes de copiar el archivo necesitamos regresar a PowerShell o Terminal.\nEscribe:\nexit;\nNo es necesario detener Cassandra.\nEl contenedor:\ncassandra-lab\ndebe permanecer en ejecución."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#copiar-el-archivo-al-contenedor",
+    "href": "apuntes/10_carga_masiva_cassandra.html#copiar-el-archivo-al-contenedor",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "14 12. Copiar el archivo al contenedor",
+    "text": "14 12. Copiar el archivo al contenedor\nActualmente tenemos dos espacios diferentes:\nComputadora\n    ↓\nmediciones_ambientales.csv\ny:\nDocker\n    ↓\ncassandra-lab\n    ↓\nApache Cassandra\nEl archivo que está almacenado en nuestra computadora no es visible automáticamente dentro del contenedor.\nPor ello utilizaremos:\ndocker cp\nEste comando permite copiar archivos entre nuestra computadora y un contenedor de Docker.\n\n\n14.1 Windows\nSi guardaste el archivo en:\nC:\\cassandra\\mediciones_ambientales.csv\nejecuta en PowerShell:\ndocker cp \"C:\\cassandra\\mediciones_ambientales.csv\" cassandra-lab:/tmp/mediciones_ambientales.csv\n\n\n\n14.2 macOS\nSi el archivo se encuentra en Downloads, ejecuta:\ndocker cp ~/Downloads/mediciones_ambientales.csv cassandra-lab:/tmp/mediciones_ambientales.csv\nEn ambos casos estamos copiando el archivo hacia:\n/tmp/mediciones_ambientales.csv\ndentro del contenedor.\nConceptualmente:\nComputadora\n\nmediciones_ambientales.csv\n          ↓\n      docker cp\n          ↓\nContenedor cassandra-lab\n\n/tmp/mediciones_ambientales.csv\n\n\n\n14.3 Comprobar que el archivo fue copiado\nPodemos comprobar que el archivo existe dentro del contenedor mediante:\ndocker exec cassandra-lab ls -lh /tmp/mediciones_ambientales.csv\nDeberá aparecer información del archivo.\nPor ejemplo:\n-rw-r--r-- 1 root root ... /tmp/mediciones_ambientales.csv"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#entrar-nuevamente-a-cqlsh",
+    "href": "apuntes/10_carga_masiva_cassandra.html#entrar-nuevamente-a-cqlsh",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "15 13. Entrar nuevamente a cqlsh",
+    "text": "15 13. Entrar nuevamente a cqlsh\nAhora regresaremos a Cassandra:\ndocker exec -it cassandra-lab cqlsh\nSelecciona nuevamente nuestro espacio de claves:\nUSE monitoreo_ambiental;\nEl indicador deberá mostrar:\ncqlsh:monitoreo_ambiental&gt;"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#realizar-la-carga-masiva",
+    "href": "apuntes/10_carga_masiva_cassandra.html#realizar-la-carga-masiva",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "16 14. Realizar la carga masiva",
+    "text": "16 14. Realizar la carga masiva\nPara importar los datos utilizaremos el comando:\nCOPY FROM\nde cqlsh.\nEjecuta:\nCOPY mediciones\n(sensor_id, fecha, momento, temperatura, humedad)\nFROM '/tmp/mediciones_ambientales.csv'\nWITH HEADER = TRUE;\nEste comando indica:\nArchivo CSV\n        ↓\nCOPY FROM\n        ↓\nTabla mediciones\nLa opción:\nHEADER = TRUE\nindica que la primera fila contiene los nombres de las columnas.\n\n\n\n\n\n\nWarning\n\n\n\nLa operación puede tardar varios minutos porque estamos cargando más de seis millones de registros.\nEl tiempo dependerá de:\n\nla velocidad de la computadora;\nla memoria disponible;\nlos recursos asignados a Docker;\ny el rendimiento del almacenamiento.\n\n\n\nDurante el proceso cqlsh mostrará información sobre los registros procesados."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#verificar-la-carga",
+    "href": "apuntes/10_carga_masiva_cassandra.html#verificar-la-carga",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "17 15. Verificar la carga",
+    "text": "17 15. Verificar la carga\nUna vez terminada la importación podemos comprobar si los datos fueron almacenados correctamente.\nNo necesitamos mostrar los más de seis millones de registros.\nPodemos consultar directamente una partición.\nEjecuta:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2025-01-01';\nEsta consulta deberá recuperar las mediciones realizadas por:\nsensor_001\ndurante:\n2025-01-01\nComo registramos una medición cada 15 minutos, esperamos encontrar:\n96 registros\n\n\n17.1 Contar los registros de una partición\nPodemos comprobarlo con:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2025-01-01';\nEl resultado esperado es:\n96\nporque:\n24 horas\n×\n4 mediciones por hora\n=\n96 mediciones"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#consultar-una-partición-específica",
+    "href": "apuntes/10_carga_masiva_cassandra.html#consultar-una-partición-específica",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "18 16. Consultar una partición específica",
+    "text": "18 16. Consultar una partición específica\nAhora podemos consultar otro sensor y otra fecha.\nPor ejemplo:\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_050'\n  AND fecha = '2026-05-10';\nCassandra buscará la partición:\n(sensor_050, 2026-05-10)\ny recuperará las mediciones almacenadas dentro de ella.\nConceptualmente:\nsensor_050\n     +\n2026-05-10\n     ↓\nPartición\n     ↓\n96 mediciones"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#consultar-los-registros-más-recientes",
+    "href": "apuntes/10_carga_masiva_cassandra.html#consultar-los-registros-más-recientes",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "19 17. Consultar los registros más recientes",
+    "text": "19 17. Consultar los registros más recientes\nRecordemos que nuestra tabla fue definida mediante:\nCLUSTERING ORDER BY (momento DESC)\nEsto significa que las mediciones dentro de cada partición están organizadas desde la más reciente hacia la más antigua.\nPodemos consultar únicamente las primeras 10:\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-10-05'\nLIMIT 10;\nLa primera medición deberá corresponder aproximadamente a:\n23:45\nseguida por:\n23:30\n23:15\n23:00\n..."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#consultar-un-intervalo-de-tiempo",
+    "href": "apuntes/10_carga_masiva_cassandra.html#consultar-un-intervalo-de-tiempo",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "20 18. Consultar un intervalo de tiempo",
+    "text": "20 18. Consultar un intervalo de tiempo\nTambién podemos aprovechar la columna de agrupamiento:\nmomento\npara consultar solamente una parte del día.\nPor ejemplo:\nSELECT momento, temperatura, humedad\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-10-05'\n  AND momento &gt;= '2026-10-05T08:00:00Z'\n  AND momento &lt;= '2026-10-05T10:00:00Z';\nEsta consulta recuperará las mediciones realizadas entre:\n08:00\ny:\n10:00\n\n\n20.1 ¿Por qué funciona esta consulta?\nPrimero proporcionamos la clave de partición completa:\nsensor_id + fecha\nPor ejemplo:\n(sensor_001, 2026-10-05)\nDespués aplicamos un intervalo sobre:\nmomento\nque es nuestra columna de agrupamiento.\nDe esta manera Cassandra puede:\n1. Localizar la partición\n           ↓\n2. Buscar dentro de esa partición\n           ↓\n3. Recuperar únicamente el intervalo solicitado"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#comparar-diferentes-consultas",
+    "href": "apuntes/10_carga_masiva_cassandra.html#comparar-diferentes-consultas",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "21 19. Comparar diferentes consultas",
+    "text": "21 19. Comparar diferentes consultas\nLa carga de millones de registros permite comprender mejor por qué el diseño de las tablas es importante en Cassandra.\n\n21.1 Consulta adecuada\nLa siguiente consulta utiliza completamente la clave de partición:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_025'\n  AND fecha = '2026-03-15';\nCassandra puede identificar directamente:\n(sensor_025, 2026-03-15)\nConceptualmente:\n6,172,800 registros\n        ↓\n(sensor_025, 2026-03-15)\n        ↓\n96 registros\nNo necesita revisar todos los registros almacenados.\n\n\n\n21.2 Consulta que no corresponde al diseño\nAhora imaginemos que queremos responder:\n\n¿Cuáles fueron todas las mediciones con temperaturas superiores a 30 °C?\n\nPodríamos pensar en escribir:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30;\nSin embargo, nuestra tabla no fue diseñada para localizar registros mediante:\ntemperatura\nLa columna temperatura no forma parte de la clave de partición ni de las columnas de agrupamiento.\nPor lo tanto, Cassandra no puede identificar directamente qué partición debe consultar.\n\n\n\n\n\n\nImportantDiseño orientado a consultas\n\n\n\nEn Cassandra normalmente no diseñamos primero una tabla genérica para después realizar cualquier tipo de consulta.\nPrimero identificamos las consultas importantes de la aplicación y posteriormente diseñamos las tablas necesarias para responderlas de manera eficiente."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#cómo-se-organizaron-los-más-de-seis-millones-de-registros",
+    "href": "apuntes/10_carga_masiva_cassandra.html#cómo-se-organizaron-los-más-de-seis-millones-de-registros",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "22 20. ¿Cómo se organizaron los más de seis millones de registros?",
+    "text": "22 20. ¿Cómo se organizaron los más de seis millones de registros?\nAunque cargamos:\n6,172,800 registros\nno creamos una única partición con más de seis millones de filas.\nNuestra clave de partición es:\n(sensor_id, fecha)\nPor lo tanto, tenemos:\n100 sensores\n×\n643 días\n=\n64,300 particiones\nCada partición contiene:\n96 registros\nEntonces:\n64,300 particiones\n×\n96 registros\n=\n6,172,800 registros\nPodemos imaginarlo así:\n(sensor_001, 2025-01-01)\n        ↓\n     96 filas\n\n(sensor_001, 2025-01-02)\n        ↓\n     96 filas\n\n(sensor_001, 2025-01-03)\n        ↓\n     96 filas\n\n...\n\n(sensor_050, 2026-05-10)\n        ↓\n     96 filas\n\n...\n\n(sensor_100, 2026-10-05)\n        ↓\n     96 filas\nEsta organización permite comprender por qué la elección de la clave de partición es una decisión fundamental en Cassandra."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#relación-con-un-sistema-real",
+    "href": "apuntes/10_carga_masiva_cassandra.html#relación-con-un-sistema-real",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "23 21. Relación con un sistema real",
+    "text": "23 21. Relación con un sistema real\nEn nuestra práctica utilizamos Python para crear información simulada.\nSin embargo, en una aplicación real los datos podrían provenir directamente de:\n\nsensores ambientales;\ndispositivos IoT;\nservidores;\nsistemas de transporte;\nmedidores eléctricos;\naplicaciones móviles;\nplataformas digitales.\n\nPor ejemplo, un sensor podría enviar automáticamente:\nsensor_025\n2026-10-05\n14:15\n23.8 °C\n57 %\nQuince minutos después podría enviar:\nsensor_025\n2026-10-05\n14:30\n24.1 °C\n56 %\nEl proceso conceptual sería:\nSensores\n    ↓\nGeneración continua de datos\n    ↓\nAplicación\n    ↓\nApache Cassandra\n    ↓\nParticiones\n    ↓\nConsultas\nEn nuestra práctica:\nPython\nestá simulando el comportamiento de esos sensores."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#flujo-completo-de-la-práctica",
+    "href": "apuntes/10_carga_masiva_cassandra.html#flujo-completo-de-la-práctica",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "24 22. Flujo completo de la práctica",
+    "text": "24 22. Flujo completo de la práctica\nEl proceso realizado durante este apunte puede resumirse de la siguiente manera:\nGoogle Colab\n      ↓\nPython\n      ↓\nGeneración de mediciones\n      ↓\n6,172,800 registros\n      ↓\nArchivo CSV\n      ↓\nDescarga a la computadora\n      ↓\ndocker cp\n      ↓\nContenedor cassandra-lab\n      ↓\nCOPY FROM\n      ↓\nTabla mediciones\n      ↓\n64,300 particiones\n      ↓\nConsultas mediante CQL\nEste flujo también permite observar que Cassandra no necesariamente es la herramienta encargada de generar los datos.\nSu función principal en este ejercicio es:\nalmacenar\n+\norganizar\n+\nconsultar\nla información."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#cerrar-cqlsh",
+    "href": "apuntes/10_carga_masiva_cassandra.html#cerrar-cqlsh",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "25 23. Cerrar cqlsh",
+    "text": "25 23. Cerrar cqlsh\nCuando terminemos las consultas podemos salir de Cassandra mediante:\nexit;\nRegresaremos a PowerShell o Terminal."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#detener-cassandra",
+    "href": "apuntes/10_carga_masiva_cassandra.html#detener-cassandra",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "26 24. Detener Cassandra",
+    "text": "26 24. Detener Cassandra\nPara detener el contenedor ejecuta:\ndocker stop cassandra-lab\nDocker mostrará:\ncassandra-lab\nEl contenedor dejará de ejecutarse, pero no será eliminado.\nCuando necesites trabajar nuevamente con Cassandra:\ndocker start cassandra-lab\nEspera unos segundos y después ejecuta:\ndocker exec -it cassandra-lab cqlsh"
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#para-recordar",
+    "href": "apuntes/10_carga_masiva_cassandra.html#para-recordar",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "27 25. Para recordar",
+    "text": "27 25. Para recordar\n\nPython puede utilizarse para generar o preparar grandes cantidades de datos.\nGoogle Colab permite ejecutar el código de generación sin instalar Python localmente.\nCSV es un formato sencillo para transportar información entre diferentes herramientas.\nDocker ejecuta Cassandra dentro de un contenedor.\ndocker cp permite copiar archivos desde nuestra computadora hacia el contenedor.\nCOPY FROM permite importar registros desde un archivo CSV mediante cqlsh.\nLa tabla mediciones utiliza una clave de partición compuesta.\nCada combinación de sensor_id y fecha corresponde a una partición diferente.\nCada partición contiene 96 mediciones.\nLos 6,172,800 registros se organizan en 64,300 particiones.\nLa columna momento permite ordenar y consultar intervalos dentro de una partición.\nLas consultas que utilizan la clave de partición corresponden al diseño de nuestra tabla.\nEn Cassandra, el diseño de las tablas depende principalmente de las consultas que necesita realizar la aplicación."
+  },
+  {
+    "objectID": "apuntes/10_carga_masiva_cassandra.html#resultado-de-la-práctica",
+    "href": "apuntes/10_carga_masiva_cassandra.html#resultado-de-la-práctica",
+    "title": "Carga masiva y consultas de datos en Apache Cassandra",
+    "section": "28 26. Resultado de la práctica",
+    "text": "28 26. Resultado de la práctica\nDurante esta actividad partimos de una instalación local de Apache Cassandra y realizamos un flujo completo de trabajo con más de seis millones de registros.\nGeneramos información simulada mediante Python, la exportamos a CSV, copiamos el archivo hacia un contenedor de Docker y posteriormente utilizamos cqlsh para importar los datos a Cassandra.\nLa práctica también permitió relacionar tres conceptos importantes:\nGran volumen de datos\n        +\nParticionamiento\n        +\nDiseño orientado a consultas\nLos 6,172,800 registros fueron organizados mediante la combinación:\n(sensor_id, fecha)\nproduciendo:\n64,300 particiones\nde aproximadamente:\n96 registros cada una\nEsto permite observar que trabajar con grandes cantidades de información no consiste únicamente en almacenar muchos registros.\nTambién es necesario decidir cómo organizar los datos y qué consultas deberá realizar la aplicación."
+  },
+  {
+    "objectID": "datasets.html",
+    "href": "datasets.html",
+    "title": "Datasets",
     "section": "",
-    "text": "En esta práctica se trabaja con la base de datos de ejemplo sample_mflix y la colección movies, utilizando MongoDB Shell, MongoDB Compass y mongoexport.\nSe abordan:\n\nconsultas básicas sobre documentos;\noperadores de comparación;\nconsultas sobre campos anidados;\nconsultas sobre arreglos;\nuso de $exists;\ncombinación de condiciones;\nconteo de documentos con countDocuments();\nuso de MongoDB Compass;\nconstrucción de una consulta propia;\nexportación de resultados en JSON o CSV.\n\n Abrir práctica"
+    "text": "En esta sección se encuentran los conjuntos de datos utilizados durante las prácticas y actividades del curso."
   },
   {
-    "objectID": "practicas.html#práctica-1.-consultas-con-mongodb",
-    "href": "practicas.html#práctica-1.-consultas-con-mongodb",
-    "title": "Bases de Datos No Relacionales",
+    "objectID": "datasets.html#datos-de-ejemplo-de-mongodb",
+    "href": "datasets.html#datos-de-ejemplo-de-mongodb",
+    "title": "Datasets",
+    "section": "Datos de ejemplo de MongoDB",
+    "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\n```text sample_airbnb sample_analytics sample_geospatial sample_guides sample_mflix sample_restaurants sample_supplies sample_training sample_weatherdata"
+  },
+  {
+    "objectID": "apuntes.html",
+    "href": "apuntes.html",
+    "title": "Apuntes del curso",
     "section": "",
-    "text": "En esta práctica se trabaja con la base de datos de ejemplo sample_mflix y la colección movies, utilizando MongoDB Shell, MongoDB Compass y mongoexport.\nSe abordan:\n\nconsultas básicas sobre documentos;\noperadores de comparación;\nconsultas sobre campos anidados;\nconsultas sobre arreglos;\nuso de $exists;\ncombinación de condiciones;\nconteo de documentos con countDocuments();\nuso de MongoDB Compass;\nconstrucción de una consulta propia;\nexportación de resultados en JSON o CSV.\n\n Abrir práctica"
+    "text": "En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.\nLos apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales."
   },
   {
-    "objectID": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
-    "href": "practicas.html#práctica-2.-modelado-de-relaciones-con-sample_mflix",
-    "title": "Bases de Datos No Relacionales",
-    "section": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "text": "Práctica 2. Modelado de relaciones con sample_mflix\nAnálisis de la estructura de la base sample_mflix mediante MongoDB Compass y Data Modeling, identificando relaciones entre colecciones, campos de referencia e información incrustada.\n Abrir práctica"
+    "objectID": "apuntes.html#de-las-bases-de-datos-relacionales-a-nosql",
+    "href": "apuntes.html#de-las-bases-de-datos-relacionales-a-nosql",
+    "title": "Apuntes del curso",
+    "section": "De las bases de datos relacionales a NoSQL",
+    "text": "De las bases de datos relacionales a NoSQL\nIntroducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.\n Abrir apunte"
   },
   {
-    "objectID": "practicas.html#práctica-3.-manejo-de-datos-clavevalor-con-redis",
-    "href": "practicas.html#práctica-3.-manejo-de-datos-clavevalor-con-redis",
-    "title": "Bases de Datos No Relacionales",
-    "section": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "text": "Práctica 3. Manejo de datos clave–valor con Redis\nAplicación de los principales comandos y estructuras de Redis mediante el escenario de una tienda en línea. Se trabajará con productos, stock, sesiones, contadores, colas, usuarios únicos y rankings.\n Abrir práctica"
+    "objectID": "apuntes.html#escalabilidad-y-bases-de-datos-distribuidas",
+    "href": "apuntes.html#escalabilidad-y-bases-de-datos-distribuidas",
+    "title": "Apuntes del curso",
+    "section": "Escalabilidad y bases de datos distribuidas",
+    "text": "Escalabilidad y bases de datos distribuidas\nConceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.\n Abrir apunte"
   },
   {
-    "objectID": "practicas.html#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis",
-    "href": "practicas.html#práctica-4.-gestión-de-una-plataforma-de-streaming-con-redis",
-    "title": "Bases de Datos No Relacionales",
-    "section": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "text": "Práctica 4. Gestión de una plataforma de streaming con Redis\nSimulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.\n Abrir práctica"
+    "objectID": "apuntes.html#bases-de-datos-orientadas-a-documentos",
+    "href": "apuntes.html#bases-de-datos-orientadas-a-documentos",
+    "title": "Apuntes del curso",
+    "section": "Bases de datos orientadas a documentos",
+    "text": "Bases de datos orientadas a documentos\nIntroducción al modelo documental, su estructura, características y principales aplicaciones.\n Abrir apunte"
   },
   {
-    "objectID": "manuales.html",
-    "href": "manuales.html",
-    "title": "Manuales",
+    "objectID": "apuntes.html#consultas-y-manejo-de-documentos-en-mongodb",
+    "href": "apuntes.html#consultas-y-manejo-de-documentos-en-mongodb",
+    "title": "Apuntes del curso",
+    "section": "Consultas y manejo de documentos en MongoDB",
+    "text": "Consultas y manejo de documentos en MongoDB\nOperaciones básicas para insertar, consultar, filtrar y exportar documentos utilizando MongoDB.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#modelado-de-relaciones-en-mongodb",
+    "href": "apuntes.html#modelado-de-relaciones-en-mongodb",
+    "title": "Apuntes del curso",
+    "section": "Modelado de relaciones en MongoDB",
+    "text": "Modelado de relaciones en MongoDB\nIntroducción al modelado de relaciones en bases documentales mediante documentos incrustados y referencias. Se revisan relaciones uno a uno, uno a muchos y muchos a muchos mediante un ejemplo práctico de biblioteca y su visualización con Data Modeling en MongoDB Compass.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#bases-de-datos-clavevalor",
+    "href": "apuntes.html#bases-de-datos-clavevalor",
+    "title": "Apuntes del curso",
+    "section": "Bases de datos clave–valor",
+    "text": "Bases de datos clave–valor\nIntroducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#redis-comandos-y-práctica-con-bases-clavevalor",
+    "href": "apuntes.html#redis-comandos-y-práctica-con-bases-clavevalor",
+    "title": "Apuntes del curso",
+    "section": "Redis: comandos y práctica con bases clave–valor",
+    "text": "Redis: comandos y práctica con bases clave–valor\nComandos principales de Redis para trabajar con strings, hashes, listas, sets, sorted sets, expiración de claves, transacciones y otros elementos básicos.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#fundamentos-de-las-bases-de-datos-orientadas-a-columnas",
+    "href": "apuntes.html#fundamentos-de-las-bases-de-datos-orientadas-a-columnas",
+    "title": "Apuntes del curso",
+    "section": "Fundamentos de las bases de datos orientadas a columnas",
+    "text": "Fundamentos de las bases de datos orientadas a columnas\nIntroducción al modelo de familias de columnas, su organización, escalabilidad horizontal, particionamiento y aplicaciones mediante un ejemplo de monitoreo ambiental.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
+    "href": "apuntes.html#apache-cassandra-comandos-y-consultas-con-cql",
+    "title": "Apuntes del curso",
+    "section": "Apache Cassandra: comandos y consultas con CQL",
+    "text": "Apache Cassandra: comandos y consultas con CQL\nIntroducción al uso de Apache Cassandra mediante comandos CQL para crear espacios de claves, definir tablas, insertar, actualizar y consultar registros. Se utilizará un sistema de monitoreo de temperatura y humedad como ejemplo práctico.\n Abrir apunte"
+  },
+  {
+    "objectID": "apuntes.html#carga-masiva-y-consultas-de-datos-en-apache-cassandra",
+    "href": "apuntes.html#carga-masiva-y-consultas-de-datos-en-apache-cassandra",
+    "title": "Apuntes del curso",
+    "section": "Carga masiva y consultas de datos en Apache Cassandra",
+    "text": "Carga masiva y consultas de datos en Apache Cassandra\nSimulación de aproximadamente 100,000 mediciones ambientales para trabajar con carga masiva, particionamiento y consultas sobre grandes volúmenes de datos en Cassandra.\n Abrir apunte"
+  },
+  {
+    "objectID": "diapositivas.html",
+    "href": "diapositivas.html",
+    "title": "Diapositivas",
     "section": "",
-    "text": "En esta sección se encuentran las guías utilizadas para instalar y configurar las herramientas necesarias para trabajar con MongoDB durante el curso."
+    "text": "En esta sección se encuentran las presentaciones utilizadas durante las sesiones del curso."
   },
   {
-    "objectID": "manuales.html#instalación-de-mongodb-en-windows",
-    "href": "manuales.html#instalación-de-mongodb-en-windows",
-    "title": "Manuales",
-    "section": "Instalación de MongoDB en Windows",
-    "text": "Instalación de MongoDB en Windows\nGuía paso a paso para instalar y configurar:\n\nMongoDB Community Server;\nMongoDB Shell;\nMongoDB Compass;\nMongoDB Database Tools.\n\n Abrir manual en nueva pestaña"
+    "objectID": "diapositivas.html#presentación-del-curso",
+    "href": "diapositivas.html#presentación-del-curso",
+    "title": "Diapositivas",
+    "section": "Presentación del curso",
+    "text": "Presentación del curso\nPresentación del curso y plan de trabajo\nOrganización de la experiencia educativa, unidades, forma de trabajo y criterios de evaluación.\n Abrir en nueva pestaña"
   },
   {
-    "objectID": "manuales.html#instalación-de-apache-cassandra-en-windows",
-    "href": "manuales.html#instalación-de-apache-cassandra-en-windows",
-    "title": "Manuales",
-    "section": "Instalación de Apache Cassandra en Windows",
-    "text": "Instalación de Apache Cassandra en Windows\nTutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra y realizar las primeras consultas con CQL.\n Abrir manual"
+    "objectID": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
+    "href": "diapositivas.html#tema-1.-de-las-bases-de-datos-relacionales-a-nosql",
+    "title": "Diapositivas",
+    "section": "Tema 1. De las bases de datos relacionales a NoSQL",
+    "text": "Tema 1. De las bases de datos relacionales a NoSQL\nRepaso de bases de datos relacionales, datos estructurados y semiestructurados, JSON y modelos NoSQL.\n Abrir en nueva pestaña"
+  },
+  {
+    "objectID": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
+    "href": "diapositivas.html#tema-2.-escalabilidad-y-bases-de-datos-distribuidas",
+    "title": "Diapositivas",
+    "section": "Tema 2. Escalabilidad y bases de datos distribuidas",
+    "text": "Tema 2. Escalabilidad y bases de datos distribuidas\nEscalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.\n Abrir en nueva pestaña"
   }
 ]

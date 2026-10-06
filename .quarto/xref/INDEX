@@ -70,5 +70,11 @@
   },
   "apuntes/09_comandos_cassandra.qmd": {
     "09_comandos_cassandra.html": "a0837fcd"
+  },
+  "10_carga_masiva_cassandra.qmd": {
+    "10_carga_masiva_cassandra.html": "d8fc686e"
+  },
+  "apuntes/10_carga_masiva_cassandra.qmd": {
+    "10_carga_masiva_cassandra.html": "70ae8641"
   }
 }
