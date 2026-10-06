@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/diapositivas.html</loc>
-    <lastmod>2026-09-07T05:48:37.916Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/10_carga_masiva_cassandra.html</loc>
+    <lastmod>2026-10-06T05:27:41.592Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-09-29T06:02:31.202Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/manuales.html</loc>
+    <lastmod>2026-09-29T05:50:07.364Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/datasets.html</loc>
-    <lastmod>2026-09-07T05:48:37.916Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
+    <lastmod>2026-09-28T04:44:05.102Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/09_comandos_cassandra.html</loc>
+    <lastmod>2026-10-06T04:53:17.814Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/01_relacional_a_nosql.html</loc>
@@ -77,15 +81,19 @@
     <lastmod>2026-09-07T22:56:00.254Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/09_comandos_cassandra.html</loc>
-    <lastmod>2026-09-29T06:08:27.266Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/10_carga_masiva_cassandra.html</loc>
+    <lastmod>2026-10-06T05:52:35.427Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
-    <lastmod>2026-09-28T04:44:05.102Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/datasets.html</loc>
+    <lastmod>2026-09-07T05:48:37.916Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/manuales.html</loc>
-    <lastmod>2026-09-29T05:50:07.364Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
+    <lastmod>2026-10-06T05:01:15.761Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/diapositivas.html</loc>
+    <lastmod>2026-09-07T05:48:37.916Z</lastmod>
   </url>
 </urlset>
