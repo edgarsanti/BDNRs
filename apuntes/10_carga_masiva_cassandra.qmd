@@ -10,7 +10,7 @@ number-sections: true
 
 En el apunte anterior trabajamos con Apache Cassandra utilizando una cantidad pequeña de registros para comprender los principales comandos de CQL, la creación de tablas, las claves de partición y las columnas de agrupamiento.
 
-En este apunte utilizaremos el mismo sistema de monitoreo ambiental, pero trabajaremos con un volumen considerablemente mayor de información.
+En esta práctica mantendremos el mismo sistema de monitoreo ambiental, pero aumentaremos considerablemente el volumen de información.
 
 Simularemos mediciones generadas por **100 sensores**, registrando temperatura y humedad cada **15 minutos**, desde el **1 de enero de 2025 hasta el 5 de octubre de 2026**.
 
@@ -26,7 +26,41 @@ Esto producirá:
 6,172,800 registros
 ```
 
-El objetivo será generar estos datos mediante Python en Google Colab, almacenarlos en un archivo CSV y posteriormente realizar una carga masiva en Apache Cassandra.
+El objetivo no será solamente cargar millones de registros.
+
+También observaremos cómo Cassandra organiza esa información mediante **particiones** y cómo el diseño de la clave primaria permite realizar consultas eficientes.
+
+Para ello utilizaremos diferentes herramientas:
+
+```text
+Google Colab
+    ↓
+Python
+    ↓
+Archivo CSV
+    ↓
+Docker
+    ↓
+Apache Cassandra
+    ↓
+Consultas con CQL
+```
+
+Python se utilizará para **generar los datos simulados**.
+
+Docker permitirá ejecutar Cassandra dentro de un contenedor.
+
+Finalmente, Cassandra será utilizada para:
+
+```text
+almacenar
++
+organizar
++
+consultar
+```
+
+la información.
 
 ---
 
@@ -37,14 +71,19 @@ Al finalizar este apunte podrás:
 - Iniciar Apache Cassandra mediante Docker.
 - Acceder a la consola `cqlsh`.
 - Revisar la estructura de una tabla existente.
+- Recordar el funcionamiento de una clave de partición compuesta.
 - Generar datos simulados mediante Python.
 - Crear un archivo CSV con millones de registros.
+- Evitar almacenar millones de filas simultáneamente en memoria.
 - Copiar un archivo desde la computadora hacia un contenedor de Docker.
-- Realizar una carga masiva de datos mediante `cqlsh`.
+- Comprender la diferencia entre copiar un archivo e importar sus datos.
+- Realizar una carga masiva mediante el comando `COPY FROM` de `cqlsh`.
 - Verificar la información almacenada.
 - Consultar una partición específica.
+- Consultar los registros más recientes.
 - Consultar intervalos de tiempo.
-- Comprender la relación entre el diseño de una tabla y las consultas en Cassandra.
+- Identificar consultas que corresponden al diseño de una tabla.
+- Comprender por qué Cassandra utiliza un diseño orientado a consultas.
 
 ---
 
@@ -59,6 +98,12 @@ Después abre:
 - **PowerShell** en Windows, o
 - **Terminal** en macOS.
 
+::: {.callout-note}
+Los comandos de Docker que utilizaremos durante esta práctica son prácticamente los mismos en Windows y macOS.
+
+Lo que cambia principalmente es la ruta donde cada usuario almacena el archivo CSV.
+:::
+
 ---
 
 ## 2. Iniciar el contenedor de Cassandra
@@ -69,13 +114,27 @@ Inicia el contenedor utilizado en los ejercicios anteriores:
 docker start cassandra-lab
 ```
 
+El comando:
+
+```text
+docker start
+```
+
+permite iniciar un contenedor que ya fue creado previamente.
+
+En nuestro caso, el contenedor se llama:
+
+```text
+cassandra-lab
+```
+
 Comprueba que se encuentre en ejecución:
 
 ```bash
 docker ps
 ```
 
-Deberá aparecer:
+En la lista deberá aparecer:
 
 ```text
 cassandra-lab
@@ -88,12 +147,14 @@ Up
 ```
 
 ::: {.callout-note}
-Aunque el contenedor aparezca como `Up`, Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones.
+Que el contenedor aparezca como `Up` significa que Docker ya lo inició.
+
+Sin embargo, Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones.
 :::
 
 ---
 
-## 3. Entrar a cqlsh
+## 3. Entrar a `cqlsh`
 
 Para ingresar a la consola de Cassandra ejecuta:
 
@@ -101,11 +162,45 @@ Para ingresar a la consola de Cassandra ejecuta:
 docker exec -it cassandra-lab cqlsh
 ```
 
-Cuando Cassandra esté disponible aparecerá:
+Este comando puede interpretarse de la siguiente manera:
+
+```text
+docker exec
+    ↓
+ejecutar un comando dentro de un contenedor
+
+-it
+    ↓
+permitir interacción desde la terminal
+
+cassandra-lab
+    ↓
+nombre del contenedor
+
+cqlsh
+    ↓
+consola interactiva de Cassandra
+```
+
+`cqlsh` significa:
+
+```text
+Cassandra Query Language Shell
+```
+
+Es decir:
+
+```text
+consola del lenguaje de consultas de Cassandra
+```
+
+Cuando Cassandra esté disponible aparecerá un indicador similar a:
 
 ```text
 cqlsh>
 ```
+
+A partir de este momento, los comandos que escribamos se ejecutarán dentro de Cassandra.
 
 ---
 
@@ -121,6 +216,12 @@ El indicador deberá cambiar a:
 
 ```text
 cqlsh:monitoreo_ambiental>
+```
+
+Esto indica que las siguientes instrucciones se ejecutarán dentro del keyspace:
+
+```text
+monitoreo_ambiental
 ```
 
 Podemos comprobar las tablas existentes mediante:
@@ -149,14 +250,16 @@ con un factor de replicación de:
 1
 ```
 
-Esta configuración es adecuada para nuestra práctica porque estamos trabajando con un único nodo de Cassandra.
+Esta configuración es suficiente para nuestra práctica porque estamos trabajando con un único nodo de Cassandra.
+
+No debe interpretarse como una configuración recomendada para un clúster de producción.
 :::
 
 ---
 
 ## 5. Revisar la tabla `mediciones`
 
-Antes de generar los datos revisaremos la estructura de la tabla que recibirá las mediciones.
+Antes de generar millones de registros revisaremos la estructura de la tabla que recibirá las mediciones.
 
 Ejecuta:
 
@@ -177,19 +280,35 @@ CREATE TABLE mediciones (
 ) WITH CLUSTERING ORDER BY (momento DESC);
 ```
 
-La clave primaria es:
+La parte principal de nuestra tabla es:
 
 ```text
 PRIMARY KEY ((sensor_id, fecha), momento)
 ```
 
-En esta expresión:
+Podemos interpretarla así:
+
+```text
+PRIMARY KEY
+
+      ┌─────────────────────────┐
+      │ Clave de partición      │
+      │ (sensor_id, fecha)      │
+      └─────────────────────────┘
+                  +
+      ┌─────────────────────────┐
+      │ Columna de agrupamiento │
+      │ momento                 │
+      └─────────────────────────┘
+```
+
+La expresión:
 
 ```text
 (sensor_id, fecha)
 ```
 
-es la **clave de partición**.
+es una **clave de partición compuesta**.
 
 Mientras que:
 
@@ -197,13 +316,13 @@ Mientras que:
 momento
 ```
 
-es la **columna de agrupamiento**.
+es una **columna de agrupamiento** o *clustering column*.
 
 ---
 
-### ¿Cómo se organizarán los datos?
+### ¿Por qué utilizamos `sensor_id` y `fecha`?
 
-Para un sensor y una fecha determinada tendremos una partición.
+Queremos que las mediciones correspondientes al mismo sensor y al mismo día se encuentren agrupadas dentro de una misma partición.
 
 Por ejemplo:
 
@@ -211,7 +330,9 @@ Por ejemplo:
 (sensor_001, 2025-01-01)
 ```
 
-Dentro de esa partición tendremos todas las mediciones realizadas durante ese día:
+representará una partición.
+
+Dentro de ella encontraremos las mediciones de:
 
 ```text
 00:00
@@ -223,7 +344,47 @@ Dentro de esa partición tendremos todas las mediciones realizadas durante ese d
 23:45
 ```
 
-Como registraremos información cada 15 minutos:
+Pero:
+
+```text
+(sensor_001, 2025-01-02)
+```
+
+será una partición diferente.
+
+Y:
+
+```text
+(sensor_002, 2025-01-01)
+```
+
+también será otra partición.
+
+::: {.callout-important}
+## Recordatorio
+
+En Cassandra la clave de partición no solamente identifica información.
+
+También determina **cómo se distribuyen y organizan los datos**.
+:::
+
+---
+
+## 6. ¿Cómo se organizarán los datos?
+
+Registraremos una medición cada:
+
+```text
+15 minutos
+```
+
+En una hora tendremos:
+
+```text
+4 mediciones
+```
+
+Por lo tanto:
 
 ```text
 4 mediciones por hora
@@ -233,12 +394,18 @@ Como registraremos información cada 15 minutos:
 96 mediciones por día
 ```
 
+Para cada sensor tendremos entonces:
+
+```text
+96 registros por día
+```
+
 Para 100 sensores:
 
 ```text
 100 × 96
 =
-9,600 mediciones por día
+9,600 registros por día
 ```
 
 Y durante 643 días:
@@ -249,9 +416,51 @@ Y durante 643 días:
 6,172,800 registros
 ```
 
+Sin embargo, estos registros **no quedarán almacenados dentro de una sola partición**.
+
+La combinación:
+
+```text
+(sensor_id, fecha)
+```
+
+generará:
+
+```text
+100 sensores
+×
+643 días
+=
+64,300 particiones
+```
+
+Cada partición contendrá:
+
+```text
+96 registros
+```
+
+Conceptualmente:
+
+```text
+(sensor_001, 2025-01-01)
+        ↓
+     96 filas
+
+(sensor_001, 2025-01-02)
+        ↓
+     96 filas
+
+(sensor_002, 2025-01-01)
+        ↓
+     96 filas
+```
+
+Esta organización será importante cuando realicemos consultas.
+
 ---
 
-## 6. Generar el archivo CSV en Google Colab
+## 7. Generar el archivo CSV en Google Colab
 
 Los datos no serán capturados manualmente.
 
@@ -259,9 +468,19 @@ Utilizaremos **Python** para simular automáticamente las mediciones y generar u
 
 Abre **Google Colab** y crea una nueva libreta.
 
+La secuencia será:
+
+```text
+Python
+    ↓
+Generación automática de datos
+    ↓
+Archivo CSV
+```
+
 ---
 
-### 6.1 Importar las bibliotecas
+### 7.1 Importar las bibliotecas
 
 En la primera celda escribe:
 
@@ -273,15 +492,32 @@ from datetime import datetime, timedelta
 
 Ejecuta la celda.
 
-Estas bibliotecas nos permitirán:
+Utilizaremos:
 
-- crear el archivo CSV;
-- generar valores aleatorios;
-- trabajar con fechas y horas.
+```text
+csv
+```
+
+para crear y escribir el archivo CSV.
+
+```text
+random
+```
+
+para generar valores aleatorios de temperatura y humedad.
+
+Y:
+
+```text
+datetime
+timedelta
+```
+
+para trabajar con fechas, horas e intervalos de tiempo.
 
 ---
 
-### 6.2 Definir los parámetros de la simulación
+### 7.2 Definir los parámetros de la simulación
 
 En una nueva celda escribe:
 
@@ -320,9 +556,15 @@ con un intervalo de:
 15 minutos
 ```
 
+El archivo resultante se llamará:
+
+```text
+mediciones_ambientales.csv
+```
+
 ---
 
-### 6.3 Calcular cuántos registros se generarán
+### 7.3 Calcular cuántos registros se generarán
 
 Antes de crear el archivo podemos calcular la cantidad esperada de registros.
 
@@ -354,15 +596,19 @@ Mediciones por día y sensor: 96
 Total esperado: 6,172,800
 ```
 
+De esta manera verificamos el volumen de información **antes de comenzar la generación**.
+
 ---
 
-## 7. Generar las mediciones simuladas
+## 8. Generar las mediciones simuladas
 
 Ahora construiremos el archivo CSV.
 
-Como tendremos más de seis millones de registros, evitaremos almacenarlos todos simultáneamente en memoria.
+Podríamos pensar en crear primero una estructura con los más de seis millones de registros y después guardarla.
 
-En su lugar, Python irá escribiendo cada registro directamente en el archivo.
+Sin embargo, esto consumiría una cantidad considerable de memoria.
+
+En su lugar, escribiremos cada registro **directamente en el archivo**.
 
 Ejecuta:
 
@@ -421,13 +667,84 @@ Archivo generado correctamente
 Registros generados: 6,172,800
 ```
 
+---
+
+### ¿Qué está haciendo el código?
+
+Primero crea el archivo:
+
+```text
+mediciones_ambientales.csv
+```
+
+Después escribe los encabezados:
+
+```text
+sensor_id
+fecha
+momento
+temperatura
+humedad
+```
+
+Posteriormente comienza en:
+
+```text
+2025-01-01 00:00
+```
+
+y avanza en intervalos de:
+
+```text
+15 minutos
+```
+
+Para cada momento genera información correspondiente a:
+
+```text
+sensor_001
+sensor_002
+...
+sensor_100
+```
+
+La expresión:
+
+```python
+f"sensor_{sensor:03d}"
+```
+
+permite generar identificadores con tres dígitos.
+
+Por ejemplo:
+
+```text
+sensor_001
+sensor_002
+sensor_003
+...
+sensor_100
+```
+
+Los valores de temperatura se generan dentro del intervalo:
+
+```text
+18 °C a 32 °C
+```
+
+y los valores de humedad entre:
+
+```text
+35 % y 80 %
+```
+
 ::: {.callout-note}
 El proceso puede tardar algunos minutos debido a la cantidad de registros que se están generando.
 :::
 
 ---
 
-## 8. Revisar la estructura del archivo
+## 9. Revisar la estructura del archivo
 
 Antes de descargar el archivo podemos observar sus primeras filas.
 
@@ -452,13 +769,13 @@ Deberás observar una estructura similar a:
 | sensor_002 | 2025-01-01 | 2025-01-01T00:00:00Z | 24.8 | 52.6 |
 | sensor_003 | 2025-01-01 | 2025-01-01T00:00:00Z | 21.7 | 61.3 |
 
-Los valores de temperatura y humedad serán diferentes debido a que se generan aleatoriamente.
+Los valores de temperatura y humedad serán diferentes porque se generan aleatoriamente.
 
 ---
 
 ### Comprobar el tamaño del archivo
 
-También podemos revisar cuánto espacio ocupa el archivo:
+También podemos revisar cuánto espacio ocupa:
 
 ```python
 import os
@@ -472,11 +789,17 @@ print(
 )
 ```
 
-El tamaño puede variar dependiendo de los valores generados.
+El tamaño puede variar ligeramente dependiendo de los valores generados.
+
+::: {.callout-tip}
+Hasta este momento todavía no hemos utilizado Cassandra para almacenar estos datos.
+
+Solamente hemos creado un archivo CSV mediante Python.
+:::
 
 ---
 
-## 9. Descargar el archivo
+## 10. Descargar el archivo
 
 Para descargar el archivo desde Google Colab ejecuta:
 
@@ -486,25 +809,27 @@ from google.colab import files
 files.download("mediciones_ambientales.csv")
 ```
 
-El navegador comenzará la descarga del archivo:
+El navegador comenzará la descarga de:
 
 ```text
 mediciones_ambientales.csv
 ```
 
 ::: {.callout-warning}
-El archivo contiene más de seis millones de registros, por lo que puede tener un tamaño considerable y tardar algunos segundos o minutos en descargarse.
+El archivo contiene más de seis millones de registros.
+
+Por ello tendrá un tamaño considerable y la descarga puede tardar algunos segundos o minutos.
 :::
 
 ---
 
-## 10. Guardar el archivo en la computadora
+## 11. Guardar el archivo en la computadora
 
 Ahora necesitamos identificar dónde se encuentra el archivo descargado.
 
 ### Windows
 
-Para facilitar los siguientes pasos, podemos crear una carpeta:
+Para facilitar los siguientes pasos podemos crear una carpeta:
 
 ```text
 C:\cassandra
@@ -516,19 +841,21 @@ Coloca dentro de ella:
 mediciones_ambientales.csv
 ```
 
-La ruta completa será:
+La ruta será:
 
 ```text
 C:\cassandra\mediciones_ambientales.csv
 ```
 
-Esta ruta será utilizada posteriormente para copiar el archivo al contenedor.
-
 ---
 
 ### macOS
 
-Puedes guardar el archivo en la carpeta `Downloads`.
+Puedes utilizar la carpeta:
+
+```text
+Downloads
+```
 
 Por ejemplo:
 
@@ -536,21 +863,29 @@ Por ejemplo:
 /Users/usuario/Downloads/mediciones_ambientales.csv
 ```
 
-También podemos utilizar la abreviatura:
+También podemos utilizar:
 
 ```text
 ~/Downloads/mediciones_ambientales.csv
 ```
 
-Cada usuario deberá utilizar la ruta correspondiente a su propia computadora.
+El símbolo:
+
+```text
+~
+```
+
+representa la carpeta personal del usuario.
+
+::: {.callout-note}
+Cada estudiante deberá utilizar la ruta correspondiente a su propia computadora.
+:::
 
 ---
 
-## 11. Salir temporalmente de cqlsh
+## 12. Salir temporalmente de `cqlsh`
 
-Hasta este momento nos encontramos dentro de `cqlsh`.
-
-Antes de copiar el archivo necesitamos regresar a PowerShell o Terminal.
+Si todavía nos encontramos dentro de `cqlsh`, necesitamos regresar a PowerShell o Terminal antes de utilizar `docker cp`.
 
 Escribe:
 
@@ -558,7 +893,13 @@ Escribe:
 exit;
 ```
 
-No es necesario detener Cassandra.
+Esto cerrará únicamente:
+
+```text
+cqlsh
+```
+
+No detendrá Cassandra.
 
 El contenedor:
 
@@ -570,9 +911,11 @@ debe permanecer en ejecución.
 
 ---
 
-## 12. Copiar el archivo al contenedor
+## 13. Copiar el archivo al contenedor
 
-Actualmente tenemos dos espacios diferentes:
+Actualmente tenemos dos espacios diferentes.
+
+En nuestra computadora:
 
 ```text
 Computadora
@@ -580,7 +923,7 @@ Computadora
 mediciones_ambientales.csv
 ```
 
-y:
+Y dentro de Docker:
 
 ```text
 Docker
@@ -590,7 +933,7 @@ cassandra-lab
 Apache Cassandra
 ```
 
-El archivo que está almacenado en nuestra computadora no es visible automáticamente dentro del contenedor.
+El archivo almacenado en nuestra computadora **no aparece automáticamente dentro del contenedor**.
 
 Por ello utilizaremos:
 
@@ -634,6 +977,18 @@ En ambos casos estamos copiando el archivo hacia:
 
 dentro del contenedor.
 
+---
+
+### ¿Qué es `/tmp`?
+
+`/tmp` es un directorio utilizado habitualmente en sistemas Linux para almacenar archivos temporales.
+
+Nuestro contenedor utiliza un sistema basado en Linux, por ello podemos colocar temporalmente el CSV en:
+
+```text
+/tmp
+```
+
 Conceptualmente:
 
 ```text
@@ -648,6 +1003,16 @@ Contenedor cassandra-lab
 /tmp/mediciones_ambientales.csv
 ```
 
+::: {.callout-important}
+## Copiar no significa importar
+
+`docker cp` solamente copia el archivo hacia el sistema de archivos del contenedor.
+
+Todavía **no hemos cargado los registros a Cassandra**.
+
+La importación ocurrirá posteriormente mediante `COPY FROM`.
+:::
+
 ---
 
 ### Comprobar que el archivo fue copiado
@@ -658,9 +1023,23 @@ Podemos comprobar que el archivo existe dentro del contenedor mediante:
 docker exec cassandra-lab ls -lh /tmp/mediciones_ambientales.csv
 ```
 
-Deberá aparecer información del archivo.
+Aquí:
 
-Por ejemplo:
+```text
+ls
+```
+
+permite listar archivos.
+
+Y:
+
+```text
+-lh
+```
+
+muestra información adicional y un tamaño más fácil de leer.
+
+Deberá aparecer algo similar a:
 
 ```text
 -rw-r--r-- 1 root root ... /tmp/mediciones_ambientales.csv
@@ -668,7 +1047,7 @@ Por ejemplo:
 
 ---
 
-## 13. Entrar nuevamente a cqlsh
+## 14. Entrar nuevamente a `cqlsh`
 
 Ahora regresaremos a Cassandra:
 
@@ -688,17 +1067,31 @@ El indicador deberá mostrar:
 cqlsh:monitoreo_ambiental>
 ```
 
+Si queremos comprobar nuevamente nuestras tablas podemos ejecutar:
+
+```sql
+DESCRIBE TABLES;
+```
+
 ---
 
-## 14. Realizar la carga masiva
+## 15. Realizar la carga masiva
 
-Para importar los datos utilizaremos el comando:
+Ahora sí importaremos los datos hacia Cassandra.
+
+Para ello utilizaremos:
 
 ```text
 COPY FROM
 ```
 
-de `cqlsh`.
+`COPY` es un comando proporcionado por **`cqlsh`** para importar o exportar información.
+
+::: {.callout-note}
+`COPY FROM` pertenece a la herramienta `cqlsh`.
+
+No debe confundirse con una instrucción del servidor CQL como `SELECT`, `INSERT`, `UPDATE` o `DELETE`.
+:::
 
 Ejecuta:
 
@@ -709,7 +1102,7 @@ FROM '/tmp/mediciones_ambientales.csv'
 WITH HEADER = TRUE;
 ```
 
-Este comando indica:
+Podemos interpretarlo así:
 
 ```text
 Archivo CSV
@@ -719,13 +1112,41 @@ COPY FROM
 Tabla mediciones
 ```
 
-La opción:
+Estamos indicando:
+
+```text
+COPY mediciones
+```
+
+que los datos serán importados a la tabla:
+
+```text
+mediciones
+```
+
+Después especificamos las columnas:
+
+```text
+sensor_id
+fecha
+momento
+temperatura
+humedad
+```
+
+Y señalamos la ubicación del archivo:
+
+```text
+/tmp/mediciones_ambientales.csv
+```
+
+Finalmente:
 
 ```text
 HEADER = TRUE
 ```
 
-indica que la primera fila contiene los nombres de las columnas.
+indica que la primera fila del CSV contiene los nombres de las columnas.
 
 ::: {.callout-warning}
 La operación puede tardar varios minutos porque estamos cargando más de seis millones de registros.
@@ -735,20 +1156,25 @@ El tiempo dependerá de:
 - la velocidad de la computadora;
 - la memoria disponible;
 - los recursos asignados a Docker;
+- el procesador;
 - y el rendimiento del almacenamiento.
 :::
 
-Durante el proceso `cqlsh` mostrará información sobre los registros procesados.
+Durante la importación `cqlsh` mostrará información sobre los registros procesados.
+
+En equipos con recursos limitados pueden aparecer mensajes temporales de espera o reintentos.
+
+Lo importante será verificar al final que el proceso haya concluido correctamente.
 
 ---
 
-## 15. Verificar la carga
+## 16. Verificar la carga
 
-Una vez terminada la importación podemos comprobar si los datos fueron almacenados correctamente.
+Una vez terminada la importación debemos comprobar si los datos fueron almacenados correctamente.
 
-No necesitamos mostrar los más de seis millones de registros.
+No necesitamos consultar los más de seis millones de registros.
 
-Podemos consultar directamente una partición.
+Podemos solicitar directamente una partición.
 
 Ejecuta:
 
@@ -781,7 +1207,7 @@ Como registramos una medición cada 15 minutos, esperamos encontrar:
 
 ### Contar los registros de una partición
 
-Podemos comprobarlo con:
+Podemos comprobarlo mediante:
 
 ```sql
 SELECT COUNT(*)
@@ -806,9 +1232,15 @@ porque:
 96 mediciones
 ```
 
+Aquí estamos consultando una sola partición:
+
+```text
+(sensor_001, 2025-01-01)
+```
+
 ---
 
-## 16. Consultar una partición específica
+## 17. Consultar una partición específica
 
 Ahora podemos consultar otro sensor y otra fecha.
 
@@ -821,13 +1253,13 @@ WHERE sensor_id = 'sensor_050'
   AND fecha = '2026-05-10';
 ```
 
-Cassandra buscará la partición:
+Cassandra utilizará la clave:
 
 ```text
 (sensor_050, 2026-05-10)
 ```
 
-y recuperará las mediciones almacenadas dentro de ella.
+para localizar la partición correspondiente.
 
 Conceptualmente:
 
@@ -836,14 +1268,24 @@ sensor_050
      +
 2026-05-10
      ↓
+Clave de partición
+     ↓
 Partición
      ↓
 96 mediciones
 ```
 
+La consulta no necesita recorrer los:
+
+```text
+6,172,800 registros
+```
+
+para localizar esa información.
+
 ---
 
-## 17. Consultar los registros más recientes
+## 18. Consultar los registros más recientes
 
 Recordemos que nuestra tabla fue definida mediante:
 
@@ -851,7 +1293,13 @@ Recordemos que nuestra tabla fue definida mediante:
 CLUSTERING ORDER BY (momento DESC)
 ```
 
-Esto significa que las mediciones dentro de cada partición están organizadas desde la más reciente hacia la más antigua.
+`DESC` significa:
+
+```text
+descendente
+```
+
+Por ello las mediciones dentro de cada partición se encuentran organizadas comenzando por las más recientes.
 
 Podemos consultar únicamente las primeras 10:
 
@@ -863,7 +1311,13 @@ WHERE sensor_id = 'sensor_001'
 LIMIT 10;
 ```
 
-La primera medición deberá corresponder aproximadamente a:
+`LIMIT 10` indica que solamente queremos recuperar:
+
+```text
+10 filas
+```
+
+Debido al orden descendente, la primera deberá corresponder aproximadamente a:
 
 ```text
 23:45
@@ -875,12 +1329,13 @@ seguida por:
 23:30
 23:15
 23:00
+22:45
 ...
 ```
 
 ---
 
-## 18. Consultar un intervalo de tiempo
+## 19. Consultar un intervalo de tiempo
 
 También podemos aprovechar la columna de agrupamiento:
 
@@ -913,6 +1368,18 @@ y:
 10:00
 ```
 
+La letra:
+
+```text
+Z
+```
+
+indica que la hora fue expresada utilizando:
+
+```text
+UTC
+```
+
 ---
 
 ### ¿Por qué funciona esta consulta?
@@ -929,6 +1396,8 @@ Por ejemplo:
 (sensor_001, 2026-10-05)
 ```
 
+Cassandra puede localizar la partición correspondiente.
+
 Después aplicamos un intervalo sobre:
 
 ```text
@@ -937,21 +1406,25 @@ momento
 
 que es nuestra columna de agrupamiento.
 
-De esta manera Cassandra puede:
+El proceso puede imaginarse así:
 
 ```text
-1. Localizar la partición
-           ↓
-2. Buscar dentro de esa partición
-           ↓
-3. Recuperar únicamente el intervalo solicitado
+1. Identificar la clave de partición
+              ↓
+2. Localizar la partición
+              ↓
+3. Buscar dentro de la partición
+              ↓
+4. Aplicar el intervalo sobre momento
+              ↓
+5. Recuperar únicamente las filas solicitadas
 ```
 
 ---
 
-## 19. Comparar diferentes consultas
+## 20. Comparar diferentes consultas
 
-La carga de millones de registros permite comprender mejor por qué el diseño de las tablas es importante en Cassandra.
+La carga de millones de registros permite comprender mejor por qué el diseño de las tablas es tan importante en Cassandra.
 
 ### Consulta adecuada
 
@@ -964,7 +1437,7 @@ WHERE sensor_id = 'sensor_025'
   AND fecha = '2026-03-15';
 ```
 
-Cassandra puede identificar directamente:
+Cassandra puede identificar:
 
 ```text
 (sensor_025, 2026-03-15)
@@ -975,12 +1448,16 @@ Conceptualmente:
 ```text
 6,172,800 registros
         ↓
+Clave de partición
+        ↓
 (sensor_025, 2026-03-15)
+        ↓
+Una partición
         ↓
 96 registros
 ```
 
-No necesita revisar todos los registros almacenados.
+Esta consulta corresponde directamente al diseño de nuestra tabla.
 
 ---
 
@@ -990,7 +1467,7 @@ Ahora imaginemos que queremos responder:
 
 > ¿Cuáles fueron todas las mediciones con temperaturas superiores a 30 °C?
 
-Podríamos pensar en escribir:
+Podríamos intentar:
 
 ```sql
 SELECT *
@@ -998,27 +1475,77 @@ FROM mediciones
 WHERE temperatura > 30;
 ```
 
-Sin embargo, nuestra tabla no fue diseñada para localizar registros mediante:
+Sin embargo:
 
 ```text
 temperatura
 ```
 
-La columna `temperatura` no forma parte de la clave de partición ni de las columnas de agrupamiento.
+no forma parte de:
+
+- la clave de partición;
+- ni de las columnas de agrupamiento.
 
 Por lo tanto, Cassandra no puede identificar directamente qué partición debe consultar.
 
-::: {.callout-important}
-## Diseño orientado a consultas
+En condiciones normales Cassandra rechazará esta consulta y mostrará un mensaje relacionado con:
 
-En Cassandra normalmente no diseñamos primero una tabla genérica para después realizar cualquier tipo de consulta.
+```text
+ALLOW FILTERING
+```
 
-Primero identificamos las consultas importantes de la aplicación y posteriormente diseñamos las tablas necesarias para responderlas de manera eficiente.
+---
+
+### ¿Qué es `ALLOW FILTERING`?
+
+Podríamos intentar:
+
+```sql
+SELECT *
+FROM mediciones
+WHERE temperatura > 30
+ALLOW FILTERING;
+```
+
+La instrucción:
+
+```text
+ALLOW FILTERING
+```
+
+le indica a Cassandra que permita una consulta que puede requerir revisar y filtrar una cantidad considerable de datos.
+
+Sin embargo:
+
+::: {.callout-warning}
+## `ALLOW FILTERING` no corrige un mal diseño
+
+Que Cassandra permita ejecutar una consulta mediante `ALLOW FILTERING` no significa que sea una buena estrategia.
+
+Con grandes volúmenes de datos este tipo de consulta puede tener un rendimiento impredecible.
+
+Si consultar temperaturas superiores a determinado valor fuera una necesidad frecuente de nuestra aplicación, lo apropiado sería diseñar una estructura adicional orientada específicamente a esa consulta.
 :::
 
 ---
 
-## 20. ¿Cómo se organizaron los más de seis millones de registros?
+::: {.callout-important}
+## Diseño orientado a consultas
+
+En Cassandra normalmente no diseñamos primero una tabla genérica para posteriormente realizar cualquier consulta posible.
+
+Primero identificamos:
+
+```text
+¿Qué necesita consultar la aplicación?
+```
+
+y posteriormente diseñamos las tablas necesarias para responder esas consultas de manera eficiente.
+:::
+
+---
+
+## 21. ¿Cómo se organizaron los más de seis millones de registros?
 
 Aunque cargamos:
 
@@ -1034,7 +1561,7 @@ Nuestra clave de partición es:
 (sensor_id, fecha)
 ```
 
-Por lo tanto, tenemos:
+Por lo tanto:
 
 ```text
 100 sensores
@@ -1088,11 +1615,25 @@ Podemos imaginarlo así:
      96 filas
 ```
 
-Esta organización permite comprender por qué la elección de la clave de partición es una decisión fundamental en Cassandra.
+Esta es una de las ideas principales de la práctica.
+
+El objetivo no es solamente observar que Cassandra puede almacenar millones de registros.
+
+Queremos comprender:
+
+```text
+cómo se organizan
+```
+
+y:
+
+```text
+cómo esa organización facilita determinadas consultas
+```
 
 ---
 
-## 21. Relación con un sistema real
+## 22. Relación con un sistema real
 
 En nuestra práctica utilizamos Python para crear información simulada.
 
@@ -1126,7 +1667,7 @@ sensor_025
 56 %
 ```
 
-El proceso conceptual sería:
+El proceso conceptual podría ser:
 
 ```text
 Sensores
@@ -1150,9 +1691,15 @@ Python
 
 está simulando el comportamiento de esos sensores.
 
+::: {.callout-note}
+Cassandra no necesariamente es la herramienta encargada de generar la información.
+
+Su función en nuestro ejercicio consiste principalmente en almacenar, organizar y permitir la consulta de los datos.
+:::
+
 ---
 
-## 22. Flujo completo de la práctica
+## 23. Flujo completo de la práctica
 
 El proceso realizado durante este apunte puede resumirse de la siguiente manera:
 
@@ -1173,6 +1720,10 @@ docker cp
       ↓
 Contenedor cassandra-lab
       ↓
+/tmp/mediciones_ambientales.csv
+      ↓
+cqlsh
+      ↓
 COPY FROM
       ↓
 Tabla mediciones
@@ -1182,23 +1733,25 @@ Tabla mediciones
 Consultas mediante CQL
 ```
 
-Este flujo también permite observar que Cassandra no necesariamente es la herramienta encargada de **generar los datos**.
-
-Su función principal en este ejercicio es:
+Es importante distinguir dos momentos:
 
 ```text
-almacenar
-+
-organizar
-+
-consultar
+docker cp
 ```
 
-la información.
+únicamente **copia el archivo al contenedor**.
+
+Mientras que:
+
+```text
+COPY FROM
+```
+
+**importa los registros del CSV hacia la tabla de Cassandra**.
 
 ---
 
-## 23. Cerrar cqlsh
+## 24. Cerrar `cqlsh`
 
 Cuando terminemos las consultas podemos salir de Cassandra mediante:
 
@@ -1206,13 +1759,27 @@ Cuando terminemos las consultas podemos salir de Cassandra mediante:
 exit;
 ```
 
-Regresaremos a PowerShell o Terminal.
+Regresaremos a:
+
+```text
+PowerShell
+```
+
+o:
+
+```text
+Terminal
+```
+
+El contenedor continuará funcionando.
 
 ---
 
-## 24. Detener Cassandra
+## 25. Detener Cassandra
 
-Para detener el contenedor ejecuta:
+Cuando ya no necesitemos utilizar Cassandra podemos detener el contenedor.
+
+Ejecuta:
 
 ```bash
 docker stop cassandra-lab
@@ -1224,47 +1791,109 @@ Docker mostrará:
 cassandra-lab
 ```
 
-El contenedor dejará de ejecutarse, pero no será eliminado.
+El contenedor dejará de ejecutarse, pero:
 
-Cuando necesites trabajar nuevamente con Cassandra:
+```text
+NO será eliminado
+```
+
+Cuando necesitemos trabajar nuevamente con Cassandra ejecutaremos:
 
 ```bash
 docker start cassandra-lab
 ```
 
-Espera unos segundos y después ejecuta:
+Esperamos algunos segundos y posteriormente:
 
 ```bash
 docker exec -it cassandra-lab cqlsh
 ```
 
+::: {.callout-tip}
+Detener un contenedor no significa eliminarlo.
+
+Los datos almacenados continúan disponibles cuando volvamos a iniciarlo.
+:::
+
 ---
 
-## 25. Para recordar
+## 26. Para recordar
+
+Durante esta práctica trabajamos con más de:
+
+```text
+6 millones de registros
+```
+
+pero el aspecto más importante no fue únicamente el volumen.
+
+También observamos cómo Cassandra organiza esa información.
+
+Los principales puntos que debemos recordar son:
 
 - Python puede utilizarse para generar o preparar grandes cantidades de datos.
-- Google Colab permite ejecutar el código de generación sin instalar Python localmente.
+- Google Colab permite ejecutar Python sin instalarlo localmente.
 - CSV es un formato sencillo para transportar información entre diferentes herramientas.
+- El programa genera los datos fila por fila para evitar almacenar millones de registros simultáneamente en memoria.
 - Docker ejecuta Cassandra dentro de un contenedor.
+- La computadora y el contenedor tienen sistemas de archivos diferentes.
 - `docker cp` permite copiar archivos desde nuestra computadora hacia el contenedor.
-- `COPY FROM` permite importar registros desde un archivo CSV mediante `cqlsh`.
+- `/tmp` es un directorio temporal dentro del contenedor.
+- Copiar un archivo hacia Docker no significa que sus datos ya se encuentren almacenados en Cassandra.
+- `COPY FROM` es un comando de `cqlsh` que permite importar registros desde un archivo CSV.
+- `HEADER = TRUE` indica que la primera fila contiene los nombres de las columnas.
 - La tabla `mediciones` utiliza una clave de partición compuesta.
-- Cada combinación de `sensor_id` y `fecha` corresponde a una partición diferente.
+- La clave de partición es `(sensor_id, fecha)`.
+- Cada combinación de sensor y fecha corresponde a una partición diferente.
+- Tenemos 64,300 particiones.
 - Cada partición contiene 96 mediciones.
-- Los 6,172,800 registros se organizan en 64,300 particiones.
-- La columna `momento` permite ordenar y consultar intervalos dentro de una partición.
-- Las consultas que utilizan la clave de partición corresponden al diseño de nuestra tabla.
-- En Cassandra, el diseño de las tablas depende principalmente de las consultas que necesita realizar la aplicación.
+- Los 6,172,800 registros se distribuyen entre esas particiones.
+- `momento` es una columna de agrupamiento.
+- `momento` permite ordenar y consultar intervalos dentro de una partición.
+- `CLUSTERING ORDER BY (momento DESC)` permite recuperar primero las mediciones más recientes.
+- `LIMIT` permite restringir la cantidad de filas devueltas.
+- Las consultas que utilizan la clave de partición corresponden directamente al diseño de nuestra tabla.
+- Las consultas arbitrarias sobre columnas como `temperatura` pueden requerir filtrado.
+- `ALLOW FILTERING` puede permitir determinadas consultas, pero no sustituye un buen diseño.
+- En Cassandra las tablas se diseñan principalmente de acuerdo con las consultas que necesita realizar la aplicación.
 
 ---
 
-## 26. Resultado de la práctica
+## Resultado de la práctica
 
-Durante esta actividad partimos de una instalación local de Apache Cassandra y realizamos un flujo completo de trabajo con más de **seis millones de registros**.
+Durante esta actividad realizamos un flujo completo de trabajo con más de **seis millones de registros**.
 
-Generamos información simulada mediante Python, la exportamos a CSV, copiamos el archivo hacia un contenedor de Docker y posteriormente utilizamos `cqlsh` para importar los datos a Cassandra.
+Partimos de:
 
-La práctica también permitió relacionar tres conceptos importantes:
+```text
+Python
+```
+
+para generar información simulada.
+
+Posteriormente construimos:
+
+```text
+mediciones_ambientales.csv
+```
+
+Después utilizamos:
+
+```text
+docker cp
+```
+
+para trasladar el archivo hacia el contenedor de Cassandra.
+
+Finalmente usamos:
+
+```text
+COPY FROM
+```
+
+desde `cqlsh` para importar los registros a nuestra tabla.
+
+La práctica permitió relacionar tres ideas fundamentales:
 
 ```text
 Gran volumen de datos
@@ -1274,24 +1903,60 @@ Particionamiento
 Diseño orientado a consultas
 ```
 
-Los 6,172,800 registros fueron organizados mediante la combinación:
+Los:
+
+```text
+6,172,800 registros
+```
+
+no fueron almacenados dentro de una sola partición.
+
+La combinación:
 
 ```text
 (sensor_id, fecha)
 ```
 
-produciendo:
+produjo:
 
 ```text
 64,300 particiones
 ```
 
-de aproximadamente:
+con aproximadamente:
 
 ```text
-96 registros cada una
+96 registros por partición
 ```
 
-Esto permite observar que trabajar con grandes cantidades de información no consiste únicamente en almacenar muchos registros.
+La columna:
 
-También es necesario decidir **cómo organizar los datos y qué consultas deberá realizar la aplicación**.
+```text
+momento
+```
+
+permitió organizar las mediciones dentro de cada partición y realizar consultas por intervalos de tiempo.
+
+Por lo tanto, la idea principal de esta práctica no es solamente:
+
+```text
+Cassandra puede almacenar millones de registros
+```
+
+sino comprender que:
+
+```text
+la forma en que organizamos los datos
+        ↓
+determina las consultas que podemos realizar eficientemente
+```
+
+En Cassandra:
+
+```text
+primero identificamos las consultas
+        ↓
+después diseñamos las tablas
+```
+
+Esta es una de las diferencias más importantes respecto a la forma tradicional de diseñar bases de datos relacionales.
