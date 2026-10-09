@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
-    <lastmod>2026-09-28T04:44:05.102Z</lastmod>
+    <lastmod>2026-10-09T02:14:07.670Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/09_comandos_cassandra.html</loc>
@@ -45,16 +45,20 @@
     <lastmod>2026-09-28T05:12:22.344Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/manuales/01_instalacion_cassandra_windows.html</loc>
-    <lastmod>2026-09-29T11:44:34.000Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
+    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/index.html</loc>
     <lastmod>2026-09-07T05:48:37.943Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
-    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/manuales/01_instalacion_cassandra_windows.html</loc>
+    <lastmod>2026-09-29T11:44:34.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_consultas_cassandra.html</loc>
+    <lastmod>2026-10-09T02:28:28.634Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas/02_modelado_relaciones_mongodb.html</loc>
