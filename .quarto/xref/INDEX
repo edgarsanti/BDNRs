@@ -76,5 +76,8 @@
   },
   "apuntes/10_carga_masiva_cassandra.qmd": {
     "10_carga_masiva_cassandra.html": "70ae8641"
+  },
+  "practicas/05_consultas_cassandra.qmd": {
+    "05_consultas_cassandra.html": "799c4473"
   }
 }

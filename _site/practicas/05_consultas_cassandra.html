@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../diapositivas.html"> 
+<span class="menu-text">Diapositivas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo"><span class="header-section-number">1</span> Objetivo</a></li>
+  <li><a href="#descripción" id="toc-descripción" class="nav-link" data-scroll-target="#descripción"><span class="header-section-number">2</span> Descripción</a></li>
+  <li><a href="#indicaciones-generales" id="toc-indicaciones-generales" class="nav-link" data-scroll-target="#indicaciones-generales"><span class="header-section-number">3</span> Indicaciones generales</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-de-cómo-documentar-la-actividad" id="toc-ejemplo-de-cómo-documentar-la-actividad" class="nav-link" data-scroll-target="#ejemplo-de-cómo-documentar-la-actividad"><span class="header-section-number">3.1</span> Ejemplo de cómo documentar la actividad</a></li>
+  </ul></li>
+  <li><a href="#preparar-cassandra" id="toc-preparar-cassandra" class="nav-link" data-scroll-target="#preparar-cassandra"><span class="header-section-number">4</span> Preparar Cassandra</a></li>
+  <li><a href="#consulta-de-las-mediciones-de-un-sensor" id="toc-consulta-de-las-mediciones-de-un-sensor" class="nav-link" data-scroll-target="#consulta-de-las-mediciones-de-un-sensor"><span class="header-section-number">5</span> Consulta de las mediciones de un sensor</a></li>
+  <li><a href="#conteo-de-mediciones" id="toc-conteo-de-mediciones" class="nav-link" data-scroll-target="#conteo-de-mediciones"><span class="header-section-number">6</span> Conteo de mediciones</a></li>
+  <li><a href="#mediciones-más-recientes" id="toc-mediciones-más-recientes" class="nav-link" data-scroll-target="#mediciones-más-recientes"><span class="header-section-number">7</span> Mediciones más recientes</a></li>
+  <li><a href="#consulta-por-intervalo-de-tiempo" id="toc-consulta-por-intervalo-de-tiempo" class="nav-link" data-scroll-target="#consulta-por-intervalo-de-tiempo"><span class="header-section-number">8</span> Consulta por intervalo de tiempo</a></li>
+  <li><a href="#consulta-de-una-medición-específica" id="toc-consulta-de-una-medición-específica" class="nav-link" data-scroll-target="#consulta-de-una-medición-específica"><span class="header-section-number">9</span> Consulta de una medición específica</a></li>
+  <li><a href="#comparación-entre-sensores" id="toc-comparación-entre-sensores" class="nav-link" data-scroll-target="#comparación-entre-sensores"><span class="header-section-number">10</span> Comparación entre sensores</a></li>
+  <li><a href="#consulta-utilizando-solamente-el-sensor" id="toc-consulta-utilizando-solamente-el-sensor" class="nav-link" data-scroll-target="#consulta-utilizando-solamente-el-sensor"><span class="header-section-number">11</span> Consulta utilizando solamente el sensor</a></li>
+  <li><a href="#consulta-por-temperatura" id="toc-consulta-por-temperatura" class="nav-link" data-scroll-target="#consulta-por-temperatura"><span class="header-section-number">12</span> Consulta por temperatura</a></li>
+  <li><a href="#uso-de-allow-filtering" id="toc-uso-de-allow-filtering" class="nav-link" data-scroll-target="#uso-de-allow-filtering"><span class="header-section-number">13</span> Uso de <code>ALLOW FILTERING</code></a></li>
+  <li><a href="#diseño-orientado-a-consultas" id="toc-diseño-orientado-a-consultas" class="nav-link" data-scroll-target="#diseño-orientado-a-consultas"><span class="header-section-number">14</span> Diseño orientado a consultas</a></li>
+  <li><a href="#reflexión-final" id="toc-reflexión-final" class="nav-link" data-scroll-target="#reflexión-final"><span class="header-section-number">15</span> Reflexión final</a></li>
+  <li><a href="#evidencia-de-entrega" id="toc-evidencia-de-entrega" class="nav-link" data-scroll-target="#evidencia-de-entrega"><span class="header-section-number">16</span> Evidencia de entrega</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivo" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="objetivo"><span class="header-section-number">1</span> Objetivo</h2>
+<p>Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.</p>
+<p>Durante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas.</p>
+</section>
+<section id="descripción" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="descripción"><span class="header-section-number">2</span> Descripción</h2>
+<p>En la práctica anterior se generó e importó una base de datos con mediciones simuladas de temperatura y humedad.</p>
+<p>La tabla <code>mediciones</code> contiene información de:</p>
+<pre class="text"><code>100 sensores</code></pre>
+<p>durante:</p>
+<pre class="text"><code>127 días</code></pre>
+<p>con una medición cada:</p>
+<pre class="text"><code>15 minutos</code></pre>
+<p>En total se almacenaron:</p>
+<pre class="text"><code>1,219,200 registros</code></pre>
+<p>En esta práctica utilizarás esa misma información para realizar diferentes consultas en Apache Cassandra y analizar cómo influye el diseño de la tabla en la recuperación de los datos.</p>
+<p>La estructura de la tabla es:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> mediciones (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    sensor_id TEXT,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    fecha <span class="dt">DATE</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    momento <span class="dt">TIMESTAMP</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    temperatura <span class="dt">DECIMAL</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    humedad <span class="dt">DECIMAL</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> ((sensor_id, fecha), momento)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>) <span class="kw">WITH</span> CLUSTERING <span class="kw">ORDER</span> <span class="kw">BY</span> (momento <span class="kw">DESC</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La clave de partición está formada por:</p>
+<pre class="text"><code>(sensor_id, fecha)</code></pre>
+<p>mientras que:</p>
+<pre class="text"><code>momento</code></pre>
+<p>organiza los registros dentro de cada partición.</p>
+</section>
+<section id="indicaciones-generales" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="indicaciones-generales"><span class="header-section-number">3</span> Indicaciones generales</h2>
+<p>Durante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.</p>
+<p>El documento deberá incluir una portada con tu nombre, matrícula y grupo.</p>
+<p>Para cada actividad incorpora los siguientes elementos:</p>
+<ol type="1">
+<li><strong>Descripción:</strong> explica brevemente qué realizaste.</li>
+<li><strong>Consulta utilizada:</strong> escribe la instrucción CQL que ejecutaste.</li>
+<li><strong>Evidencia:</strong> inserta una captura de pantalla donde se observe la consulta y el resultado obtenido.</li>
+<li><strong>Respuesta:</strong> contesta las preguntas planteadas en cada actividad.</li>
+</ol>
+<p>Completa cada apartado conforme avances en la práctica.</p>
+<p>No es necesario incluir nuevamente el proceso de generación ni de importación del archivo CSV.</p>
+<p>Al finalizar, convierte el documento de Word a PDF y entrégalo en Eminus.</p>
+<section id="ejemplo-de-cómo-documentar-la-actividad" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="ejemplo-de-cómo-documentar-la-actividad"><span class="header-section-number">3.1</span> Ejemplo de cómo documentar la actividad</h3>
+<p>La siguiente imagen muestra un ejemplo de cómo puedes organizar en Word los resultados obtenidos durante la práctica.</p>
+<p>Para cada actividad incluye:</p>
+<ul>
+<li>Una breve descripción de lo realizado.</li>
+<li>La consulta CQL utilizada.</li>
+<li>El resultado obtenido.</li>
+<li>Una captura de pantalla como evidencia.</li>
+<li>Las respuestas a las preguntas correspondientes.</li>
+</ul>
+<div id="fig-ejemplo-cassandra" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ejemplo-cassandra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tutorial_consultas_cassandra.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ejemplo-cassandra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Ejemplo de presentación de los resultados de la práctica de Apache Cassandra en un documento de Word.
+</figcaption>
+</figure>
+</div>
+<p>Este ejemplo sirve únicamente como referencia para la presentación del documento. Los resultados pueden variar de acuerdo con las consultas realizadas y los valores almacenados en la base de datos.</p>
+<p><strong>Elabora tu documento conforme avances en cada una de las actividades de la práctica.</strong></p>
+</section>
+</section>
+<section id="preparar-cassandra" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="preparar-cassandra"><span class="header-section-number">4</span> Preparar Cassandra</h2>
+<p>Abre Docker Desktop y espera a que se encuentre funcionando.</p>
+<p>Después abre PowerShell en Windows o Terminal en macOS.</p>
+<p>Inicia el contenedor:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> start cassandra-lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Comprueba que se encuentre activo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después entra a Cassandra:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> cassandra-lab cqlsh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona el espacio de claves:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> monitoreo_ambiental;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Antes de comenzar, comprueba que los datos de la práctica anterior continúan almacenados.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-06-01'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>96</code></pre>
+<p>Si obtienes este resultado, puedes continuar con la práctica.</p>
+<hr>
+</section>
+<section id="consulta-de-las-mediciones-de-un-sensor" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="consulta-de-las-mediciones-de-un-sensor"><span class="header-section-number">5</span> Consulta de las mediciones de un sensor</h2>
+<p>Consulta todas las mediciones realizadas por:</p>
+<pre class="text"><code>sensor_020</code></pre>
+<p>durante:</p>
+<pre class="text"><code>15 de julio de 2026</code></pre>
+<p>La consulta deberá mostrar únicamente:</p>
+<ul>
+<li>Momento.</li>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+</ul>
+<p>Una vez realizada la consulta, responde:</p>
+<ol type="1">
+<li>¿Cuántos registros fueron recuperados?</li>
+<li>¿Por qué Cassandra puede localizar directamente esta información?</li>
+<li>¿Qué valores forman la clave de partición utilizada?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="conteo-de-mediciones" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="conteo-de-mediciones"><span class="header-section-number">6</span> Conteo de mediciones</h2>
+<p>Determina cuántas mediciones fueron registradas por:</p>
+<pre class="text"><code>sensor_035</code></pre>
+<p>el día:</p>
+<pre class="text"><code>20 de agosto de 2026</code></pre>
+<p>Utiliza una consulta que permita contar los registros almacenados en esa partición.</p>
+<p>Una vez realizada la consulta, responde:</p>
+<ol type="1">
+<li>¿Cuántos registros se obtuvieron?</li>
+<li>¿Por qué se espera encontrar 96 mediciones?</li>
+<li>¿Qué representa cada uno de esos registros?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="mediciones-más-recientes" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="mediciones-más-recientes"><span class="header-section-number">7</span> Mediciones más recientes</h2>
+<p>Consulta las:</p>
+<pre class="text"><code>5 mediciones más recientes</code></pre>
+<p>del:</p>
+<pre class="text"><code>sensor_075</code></pre>
+<p>durante el:</p>
+<pre class="text"><code>20 de septiembre de 2026</code></pre>
+<p>Muestra solamente:</p>
+<ul>
+<li>Momento.</li>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+</ul>
+<p>Una vez realizada la consulta, responde:</p>
+<ol type="1">
+<li>¿Cuál es la primera hora mostrada?</li>
+<li>¿Por qué las mediciones aparecen de la más reciente a la más antigua?</li>
+<li>¿Qué relación tiene este resultado con:</li>
+</ol>
+<pre class="text"><code>CLUSTERING ORDER BY (momento DESC)</code></pre>
+<p>?</p>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="consulta-por-intervalo-de-tiempo" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="consulta-por-intervalo-de-tiempo"><span class="header-section-number">8</span> Consulta por intervalo de tiempo</h2>
+<p>Consulta las mediciones del:</p>
+<pre class="text"><code>sensor_010</code></pre>
+<p>correspondientes al:</p>
+<pre class="text"><code>10 de agosto de 2026</code></pre>
+<p>entre las:</p>
+<pre class="text"><code>08:00</code></pre>
+<p>y las:</p>
+<pre class="text"><code>10:00</code></pre>
+<p>Muestra:</p>
+<ul>
+<li>Momento.</li>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+</ul>
+<p>Una vez realizada la consulta, responde:</p>
+<ol type="1">
+<li>¿Cuántas mediciones fueron recuperadas?</li>
+<li>¿Por qué es posible utilizar <code>momento</code> para establecer el intervalo?</li>
+<li>¿Qué función cumple <code>momento</code> dentro de la clave primaria?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="consulta-de-una-medición-específica" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="consulta-de-una-medición-específica"><span class="header-section-number">9</span> Consulta de una medición específica</h2>
+<p>Consulta la temperatura y humedad registradas por:</p>
+<pre class="text"><code>sensor_050</code></pre>
+<p>el día:</p>
+<pre class="text"><code>1 de septiembre de 2026</code></pre>
+<p>a las:</p>
+<pre class="text"><code>14:30</code></pre>
+<p>Muestra únicamente:</p>
+<ul>
+<li>Momento.</li>
+<li>Temperatura.</li>
+<li>Humedad.</li>
+</ul>
+<p>Una vez realizada la consulta, responde:</p>
+<ol type="1">
+<li>¿Qué columnas fueron necesarias para localizar exactamente ese registro?</li>
+<li>¿Qué parte corresponde a la clave de partición?</li>
+<li>¿Qué columna permite identificar la medición dentro de la partición?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="comparación-entre-sensores" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="comparación-entre-sensores"><span class="header-section-number">10</span> Comparación entre sensores</h2>
+<p>Consulta las primeras:</p>
+<pre class="text"><code>10 mediciones</code></pre>
+<p>del:</p>
+<pre class="text"><code>sensor_025</code></pre>
+<p>y del:</p>
+<pre class="text"><code>sensor_026</code></pre>
+<p>para el día:</p>
+<pre class="text"><code>5 de octubre de 2026</code></pre>
+<p>Realiza una consulta para cada sensor.</p>
+<p>Después responde:</p>
+<ol type="1">
+<li>¿Los registros de ambos sensores pertenecen a la misma partición?</li>
+<li>¿Por qué?</li>
+<li>¿Qué combinación de valores identifica cada partición?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, las consultas utilizadas, una captura de los resultados y las respuestas correspondientes.</p>
+</section>
+<section id="consulta-utilizando-solamente-el-sensor" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="consulta-utilizando-solamente-el-sensor"><span class="header-section-number">11</span> Consulta utilizando solamente el sensor</h2>
+<p>Intenta recuperar las mediciones utilizando únicamente:</p>
+<pre class="text"><code>sensor_id</code></pre>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Observa el mensaje generado por Cassandra.</p>
+<p>Después responde:</p>
+<ol type="1">
+<li>¿La consulta se ejecutó correctamente?</li>
+<li>¿Por qué no es suficiente utilizar solamente <code>sensor_id</code>?</li>
+<li>¿Qué otro campo forma parte de la clave de partición?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del mensaje obtenido y las respuestas correspondientes.</p>
+</section>
+<section id="consulta-por-temperatura" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="consulta-por-temperatura"><span class="header-section-number">12</span> Consulta por temperatura</h2>
+<p>Supongamos que necesitamos conocer todas las mediciones cuya temperatura sea superior a:</p>
+<pre class="text"><code>30 °C</code></pre>
+<p>Intenta ejecutar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> temperatura <span class="op">&gt;</span> <span class="dv">30</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Observa el resultado o mensaje generado por Cassandra.</p>
+<p>Después responde:</p>
+<ol type="1">
+<li>¿La consulta se ejecutó?</li>
+<li>¿<code>temperatura</code> forma parte de la clave de partición?</li>
+<li>¿<code>temperatura</code> es una columna de agrupamiento?</li>
+<li>¿Por qué Cassandra no puede localizar directamente esos registros?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="uso-de-allow-filtering" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="uso-de-allow-filtering"><span class="header-section-number">13</span> Uso de <code>ALLOW FILTERING</code></h2>
+<p>Ahora ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> temperatura <span class="op">&gt;</span> <span class="dv">30</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>ALLOW FILTERING;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Observa el resultado.</p>
+<p>Después responde:</p>
+<ol type="1">
+<li>¿Qué diferencia existe con la consulta anterior?</li>
+<li>¿Qué permite hacer <code>ALLOW FILTERING</code>?</li>
+<li>¿Consideras adecuado utilizar este tipo de consulta constantemente sobre más de un millón de registros?</li>
+<li>Explica brevemente por qué.</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>ALLOW FILTERING</code> permite ejecutar determinadas consultas que no corresponden directamente con el diseño de la tabla.</p>
+<p>Sin embargo, no significa que la consulta sea eficiente.</p>
+</div>
+</div>
+<p><strong>Documenta esta actividad en Word</strong> con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes.</p>
+</section>
+<section id="diseño-orientado-a-consultas" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="diseño-orientado-a-consultas"><span class="header-section-number">14</span> Diseño orientado a consultas</h2>
+<p>Imagina que una aplicación necesita responder frecuentemente la siguiente pregunta:</p>
+<blockquote class="blockquote">
+<p>¿Qué sensores registraron temperaturas superiores a 30 °C en una fecha determinada?</p>
+</blockquote>
+<p>La tabla actual fue diseñada principalmente para responder consultas como:</p>
+<blockquote class="blockquote">
+<p>¿Qué mediciones realizó un sensor durante un día?</p>
+</blockquote>
+<p>Responde:</p>
+<ol type="1">
+<li>¿La tabla <code>mediciones</code> está diseñada adecuadamente para buscar directamente todas las temperaturas superiores a 30 °C?</li>
+<li>¿Sería recomendable utilizar <code>ALLOW FILTERING</code> cada vez que se necesite esta información?</li>
+<li>¿Qué alternativa propondrías?</li>
+<li>¿Por qué en Cassandra es importante conocer primero las consultas que realizará una aplicación?</li>
+</ol>
+<p><strong>Documenta esta actividad en Word</strong> con tus respuestas.</p>
+</section>
+<section id="reflexión-final" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="reflexión-final"><span class="header-section-number">15</span> Reflexión final</h2>
+<p>Para finalizar, responde con tus propias palabras:</p>
+<ol type="1">
+<li>¿Cuál es la clave de partición de la tabla <code>mediciones</code>?</li>
+<li>¿Qué función cumple la columna <code>momento</code>?</li>
+<li>¿Por qué una consulta utilizando <code>sensor_id</code> y <code>fecha</code> es eficiente?</li>
+<li>¿Por qué una consulta utilizando solamente <code>temperatura</code> no corresponde con el diseño actual?</li>
+<li>Explica la siguiente idea:</li>
+</ol>
+<pre class="text"><code>En Cassandra primero pensamos en las consultas
+y después diseñamos las tablas.</code></pre>
+</section>
+<section id="evidencia-de-entrega" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="evidencia-de-entrega"><span class="header-section-number">16</span> Evidencia de entrega</h2>
+<p>Entrega un documento en PDF que contenga:</p>
+<ul>
+<li>Portada con nombre, matrícula y grupo.</li>
+<li>Las actividades desarrolladas.</li>
+<li>Una breve descripción de lo realizado en cada actividad.</li>
+<li>Las consultas utilizadas.</li>
+<li>Capturas de pantalla de los resultados obtenidos.</li>
+<li>Las respuestas a las preguntas planteadas.</li>
+<li>La reflexión final.</li>
+</ul>
+<p><strong>Importante:</strong> utiliza la base de datos de monitoreo ambiental creada en la práctica anterior. No es necesario volver a generar ni importar los 1,219,200 registros.</p>
+<p>El documento deberá elaborarse conforme se realizan los ejercicios en Cassandra. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

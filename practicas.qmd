@@ -53,3 +53,14 @@ Simulación de una plataforma de streaming utilizando Redis para administrar pel
    href="practicas/04_streaming_redis.html">
    Abrir práctica
 </a>
+
+
+## Práctica 5. Consultas en Apache Cassandra
+
+Aplicación de consultas sobre la base de monitoreo ambiental con más de un millón de registros, utilizando claves de partición, columnas de agrupamiento, consultas por intervalos y `ALLOW FILTERING`.
+
+<a class="btn btn-primary"
+   href="practicas/05_consultas_cassandra.html">
+   Abrir práctica
+</a>
+

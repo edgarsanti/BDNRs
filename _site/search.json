@@ -175,6 +175,13 @@
     "text": "Práctica 4. Gestión de una plataforma de streaming con Redis\nSimulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.\n Abrir práctica"
   },
   {
+    "objectID": "practicas.html#práctica-5.-consultas-en-apache-cassandra",
+    "href": "practicas.html#práctica-5.-consultas-en-apache-cassandra",
+    "title": "Bases de Datos No Relacionales",
+    "section": "Práctica 5. Consultas en Apache Cassandra",
+    "text": "Práctica 5. Consultas en Apache Cassandra\nAplicación de consultas sobre la base de monitoreo ambiental con más de un millón de registros, utilizando claves de partición, columnas de agrupamiento, consultas por intervalos y ALLOW FILTERING.\n Abrir práctica"
+  },
+  {
     "objectID": "apuntes/09_comandos_cassandra.html",
     "href": "apuntes/09_comandos_cassandra.html",
     "title": "Apache Cassandra: primeros comandos y consultas con CQL",
@@ -1316,6 +1323,83 @@
     "text": "10 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas seis actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLos comandos utilizados.\nCapturas de pantalla de los resultados obtenidos.\n\nImportante: Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
   },
   {
+    "objectID": "practicas/01_mongodb_local.html",
+    "href": "practicas/01_mongodb_local.html",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#objetivo",
+    "href": "practicas/01_mongodb_local.html#objetivo",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "2 1. Preparar MongoDB",
+    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "3 2. Cómo realizar las consultas",
+    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#actividad",
+    "href": "practicas/01_mongodb_local.html#actividad",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "4 3. Actividad",
+    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "5 4. Registrar los resultados",
+    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "6 5. Exportar la Consulta 9",
+    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#entrega",
+    "href": "practicas/01_mongodb_local.html#entrega",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "7 6. Entrega",
+    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "8 7. Criterios de revisión",
+    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "index.html#bienvenida",
+    "href": "index.html#bienvenida",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
     "objectID": "manuales/01_instalacion_cassandra_windows.html",
     "href": "manuales/01_instalacion_cassandra_windows.html",
     "title": "Instalación de Apache Cassandra en Windows con Docker",
@@ -1407,81 +1491,123 @@
     "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Bases de Datos No Relacionales",
+    "objectID": "practicas/05_consultas_cassandra.html",
+    "href": "practicas/05_consultas_cassandra.html",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
     "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
   },
   {
-    "objectID": "index.html#bienvenida",
-    "href": "index.html#bienvenida",
-    "title": "Bases de Datos No Relacionales",
+    "objectID": "practicas/05_consultas_cassandra.html#objetivo",
+    "href": "practicas/05_consultas_cassandra.html#objetivo",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
     "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html",
-    "href": "practicas/01_mongodb_local.html",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+    "objectID": "practicas/05_consultas_cassandra.html#descripción",
+    "href": "practicas/05_consultas_cassandra.html#descripción",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "2 Descripción",
+    "text": "2 Descripción\nEn la práctica anterior se generó e importó una base de datos con mediciones simuladas de temperatura y humedad.\nLa tabla mediciones contiene información de:\n100 sensores\ndurante:\n127 días\ncon una medición cada:\n15 minutos\nEn total se almacenaron:\n1,219,200 registros\nEn esta práctica utilizarás esa misma información para realizar diferentes consultas en Apache Cassandra y analizar cómo influye el diseño de la tabla en la recuperación de los datos.\nLa estructura de la tabla es:\nCREATE TABLE mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\nLa clave de partición está formada por:\n(sensor_id, fecha)\nmientras que:\nmomento\norganiza los registros dentro de cada partición."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#objetivo",
-    "href": "practicas/01_mongodb_local.html#objetivo",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+    "objectID": "practicas/05_consultas_cassandra.html#indicaciones-generales",
+    "href": "practicas/05_consultas_cassandra.html#indicaciones-generales",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "3 Indicaciones generales",
+    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nConsulta utilizada: escribe la instrucción CQL que ejecutaste.\nEvidencia: inserta una captura de pantalla donde se observe la consulta y el resultado obtenido.\nRespuesta: contesta las preguntas planteadas en cada actividad.\n\nCompleta cada apartado conforme avances en la práctica.\nNo es necesario incluir nuevamente el proceso de generación ni de importación del archivo CSV.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus.\n\n3.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo de cómo puedes organizar en Word los resultados obtenidos durante la práctica.\nPara cada actividad incluye:\n\nUna breve descripción de lo realizado.\nLa consulta CQL utilizada.\nEl resultado obtenido.\nUna captura de pantalla como evidencia.\nLas respuestas a las preguntas correspondientes.\n\n\n\n\n\n\n\nFigure 1: Ejemplo de presentación de los resultados de la práctica de Apache Cassandra en un documento de Word.\n\n\n\nEste ejemplo sirve únicamente como referencia para la presentación del documento. Los resultados pueden variar de acuerdo con las consultas realizadas y los valores almacenados en la base de datos.\nElabora tu documento conforme avances en cada una de las actividades de la práctica."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "2 1. Preparar MongoDB",
-    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
+    "objectID": "practicas/05_consultas_cassandra.html#preparar-cassandra",
+    "href": "practicas/05_consultas_cassandra.html#preparar-cassandra",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "4 Preparar Cassandra",
+    "text": "4 Preparar Cassandra\nAbre Docker Desktop y espera a que se encuentre funcionando.\nDespués abre PowerShell en Windows o Terminal en macOS.\nInicia el contenedor:\ndocker start cassandra-lab\nComprueba que se encuentre activo:\ndocker ps\nDespués entra a Cassandra:\ndocker exec -it cassandra-lab cqlsh\nSelecciona el espacio de claves:\nUSE monitoreo_ambiental;\nAntes de comenzar, comprueba que los datos de la práctica anterior continúan almacenados.\nEjecuta:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-06-01';\nEl resultado esperado es:\n96\nSi obtienes este resultado, puedes continuar con la práctica."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "3 2. Cómo realizar las consultas",
-    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
+    "href": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "5 Consulta de las mediciones de un sensor",
+    "text": "5 Consulta de las mediciones de un sensor\nConsulta todas las mediciones realizadas por:\nsensor_020\ndurante:\n15 de julio de 2026\nLa consulta deberá mostrar únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros fueron recuperados?\n¿Por qué Cassandra puede localizar directamente esta información?\n¿Qué valores forman la clave de partición utilizada?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#actividad",
-    "href": "practicas/01_mongodb_local.html#actividad",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "4 3. Actividad",
-    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
+    "objectID": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
+    "href": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "6 Conteo de mediciones",
+    "text": "6 Conteo de mediciones\nDetermina cuántas mediciones fueron registradas por:\nsensor_035\nel día:\n20 de agosto de 2026\nUtiliza una consulta que permita contar los registros almacenados en esa partición.\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros se obtuvieron?\n¿Por qué se espera encontrar 96 mediciones?\n¿Qué representa cada uno de esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "5 4. Registrar los resultados",
-    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
+    "objectID": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
+    "href": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "7 Mediciones más recientes",
+    "text": "7 Mediciones más recientes\nConsulta las:\n5 mediciones más recientes\ndel:\nsensor_075\ndurante el:\n20 de septiembre de 2026\nMuestra solamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuál es la primera hora mostrada?\n¿Por qué las mediciones aparecen de la más reciente a la más antigua?\n¿Qué relación tiene este resultado con:\n\nCLUSTERING ORDER BY (momento DESC)\n?\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "6 5. Exportar la Consulta 9",
-    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
+    "href": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "8 Consulta por intervalo de tiempo",
+    "text": "8 Consulta por intervalo de tiempo\nConsulta las mediciones del:\nsensor_010\ncorrespondientes al:\n10 de agosto de 2026\nentre las:\n08:00\ny las:\n10:00\nMuestra:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántas mediciones fueron recuperadas?\n¿Por qué es posible utilizar momento para establecer el intervalo?\n¿Qué función cumple momento dentro de la clave primaria?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#entrega",
-    "href": "practicas/01_mongodb_local.html#entrega",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "7 6. Entrega",
-    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
+    "href": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "9 Consulta de una medición específica",
+    "text": "9 Consulta de una medición específica\nConsulta la temperatura y humedad registradas por:\nsensor_050\nel día:\n1 de septiembre de 2026\na las:\n14:30\nMuestra únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Qué columnas fueron necesarias para localizar exactamente ese registro?\n¿Qué parte corresponde a la clave de partición?\n¿Qué columna permite identificar la medición dentro de la partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
   },
   {
-    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "8 7. Criterios de revisión",
-    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
+    "objectID": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
+    "href": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "10 Comparación entre sensores",
+    "text": "10 Comparación entre sensores\nConsulta las primeras:\n10 mediciones\ndel:\nsensor_025\ny del:\nsensor_026\npara el día:\n5 de octubre de 2026\nRealiza una consulta para cada sensor.\nDespués responde:\n\n¿Los registros de ambos sensores pertenecen a la misma partición?\n¿Por qué?\n¿Qué combinación de valores identifica cada partición?\n\nDocumenta esta actividad en Word con una breve descripción, las consultas utilizadas, una captura de los resultados y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
+    "href": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "11 Consulta utilizando solamente el sensor",
+    "text": "11 Consulta utilizando solamente el sensor\nIntenta recuperar las mediciones utilizando únicamente:\nsensor_id\nPor ejemplo:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_001';\nObserva el mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó correctamente?\n¿Por qué no es suficiente utilizar solamente sensor_id?\n¿Qué otro campo forma parte de la clave de partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del mensaje obtenido y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
+    "href": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "12 Consulta por temperatura",
+    "text": "12 Consulta por temperatura\nSupongamos que necesitamos conocer todas las mediciones cuya temperatura sea superior a:\n30 °C\nIntenta ejecutar:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30;\nObserva el resultado o mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó?\n¿temperatura forma parte de la clave de partición?\n¿temperatura es una columna de agrupamiento?\n¿Por qué Cassandra no puede localizar directamente esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
+    "href": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "13 Uso de ALLOW FILTERING",
+    "text": "13 Uso de ALLOW FILTERING\nAhora ejecuta:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30\nALLOW FILTERING;\nObserva el resultado.\nDespués responde:\n\n¿Qué diferencia existe con la consulta anterior?\n¿Qué permite hacer ALLOW FILTERING?\n¿Consideras adecuado utilizar este tipo de consulta constantemente sobre más de un millón de registros?\nExplica brevemente por qué.\n\n\n\n\n\n\n\nWarning\n\n\n\nALLOW FILTERING permite ejecutar determinadas consultas que no corresponden directamente con el diseño de la tabla.\nSin embargo, no significa que la consulta sea eficiente.\n\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
+    "href": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "14 Diseño orientado a consultas",
+    "text": "14 Diseño orientado a consultas\nImagina que una aplicación necesita responder frecuentemente la siguiente pregunta:\n\n¿Qué sensores registraron temperaturas superiores a 30 °C en una fecha determinada?\n\nLa tabla actual fue diseñada principalmente para responder consultas como:\n\n¿Qué mediciones realizó un sensor durante un día?\n\nResponde:\n\n¿La tabla mediciones está diseñada adecuadamente para buscar directamente todas las temperaturas superiores a 30 °C?\n¿Sería recomendable utilizar ALLOW FILTERING cada vez que se necesite esta información?\n¿Qué alternativa propondrías?\n¿Por qué en Cassandra es importante conocer primero las consultas que realizará una aplicación?\n\nDocumenta esta actividad en Word con tus respuestas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#reflexión-final",
+    "href": "practicas/05_consultas_cassandra.html#reflexión-final",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "15 Reflexión final",
+    "text": "15 Reflexión final\nPara finalizar, responde con tus propias palabras:\n\n¿Cuál es la clave de partición de la tabla mediciones?\n¿Qué función cumple la columna momento?\n¿Por qué una consulta utilizando sensor_id y fecha es eficiente?\n¿Por qué una consulta utilizando solamente temperatura no corresponde con el diseño actual?\nExplica la siguiente idea:\n\nEn Cassandra primero pensamos en las consultas\ny después diseñamos las tablas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
+    "href": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "16 Evidencia de entrega",
+    "text": "16 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLas consultas utilizadas.\nCapturas de pantalla de los resultados obtenidos.\nLas respuestas a las preguntas planteadas.\nLa reflexión final.\n\nImportante: utiliza la base de datos de monitoreo ambiental creada en la práctica anterior. No es necesario volver a generar ni importar los 1,219,200 registros.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Cassandra. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
   },
   {
     "objectID": "practicas/02_modelado_relaciones_mongodb.html",
