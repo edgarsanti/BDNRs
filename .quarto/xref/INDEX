@@ -79,5 +79,8 @@
   },
   "practicas/05_consultas_cassandra.qmd": {
     "05_consultas_cassandra.html": "799c4473"
+  },
+  "apuntes/11_bases_orientadas_grafos.qmd": {
+    "11_bases_orientadas_grafos.html": "83b7c25e"
   }
 }

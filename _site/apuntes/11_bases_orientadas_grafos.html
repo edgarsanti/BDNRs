@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fundamentos de las bases de datos orientadas a grafos – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../diapositivas.html"> 
+<span class="menu-text">Diapositivas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#qué-es-un-grafo" id="toc-qué-es-un-grafo" class="nav-link" data-scroll-target="#qué-es-un-grafo"><span class="header-section-number">2</span> ¿Qué es un grafo?</a></li>
+  <li><a href="#elementos-de-una-base-de-datos-orientada-a-grafos" id="toc-elementos-de-una-base-de-datos-orientada-a-grafos" class="nav-link" data-scroll-target="#elementos-de-una-base-de-datos-orientada-a-grafos"><span class="header-section-number">3</span> Elementos de una base de datos orientada a grafos</a>
+  <ul class="collapse">
+  <li><a href="#nodos" id="toc-nodos" class="nav-link" data-scroll-target="#nodos"><span class="header-section-number">3.1</span> Nodos</a></li>
+  <li><a href="#relaciones" id="toc-relaciones" class="nav-link" data-scroll-target="#relaciones"><span class="header-section-number">3.2</span> Relaciones</a></li>
+  <li><a href="#propiedades" id="toc-propiedades" class="nav-link" data-scroll-target="#propiedades"><span class="header-section-number">3.3</span> Propiedades</a></li>
+  </ul></li>
+  <li><a href="#etiquetas-y-tipos-de-relaciones" id="toc-etiquetas-y-tipos-de-relaciones" class="nav-link" data-scroll-target="#etiquetas-y-tipos-de-relaciones"><span class="header-section-number">4</span> Etiquetas y tipos de relaciones</a></li>
+  <li><a href="#grafos-dirigidos-y-no-dirigidos" id="toc-grafos-dirigidos-y-no-dirigidos" class="nav-link" data-scroll-target="#grafos-dirigidos-y-no-dirigidos"><span class="header-section-number">5</span> Grafos dirigidos y no dirigidos</a>
+  <ul class="collapse">
+  <li><a href="#grafo-dirigido" id="toc-grafo-dirigido" class="nav-link" data-scroll-target="#grafo-dirigido"><span class="header-section-number">5.1</span> Grafo dirigido</a></li>
+  <li><a href="#grafo-no-dirigido" id="toc-grafo-no-dirigido" class="nav-link" data-scroll-target="#grafo-no-dirigido"><span class="header-section-number">5.2</span> Grafo no dirigido</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-aplicado-una-red-social" id="toc-ejemplo-aplicado-una-red-social" class="nav-link" data-scroll-target="#ejemplo-aplicado-una-red-social"><span class="header-section-number">6</span> Ejemplo aplicado: una red social</a>
+  <ul class="collapse">
+  <li><a href="#a-quién-sigue-ana" id="toc-a-quién-sigue-ana" class="nav-link" data-scroll-target="#a-quién-sigue-ana"><span class="header-section-number">6.1</span> ¿A quién sigue Ana?</a></li>
+  <li><a href="#quiénes-siguen-a-luis" id="toc-quiénes-siguen-a-luis" class="nav-link" data-scroll-target="#quiénes-siguen-a-luis"><span class="header-section-number">6.2</span> ¿Quiénes siguen a Luis?</a></li>
+  <li><a href="#a-quién-podríamos-recomendar-seguir-a-ana" id="toc-a-quién-podríamos-recomendar-seguir-a-ana" class="nav-link" data-scroll-target="#a-quién-podríamos-recomendar-seguir-a-ana"><span class="header-section-number">6.3</span> ¿A quién podríamos recomendar seguir a Ana?</a></li>
+  </ul></li>
+  <li><a href="#relaciones-directas-e-indirectas" id="toc-relaciones-directas-e-indirectas" class="nav-link" data-scroll-target="#relaciones-directas-e-indirectas"><span class="header-section-number">7</span> Relaciones directas e indirectas</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-un-camino" id="toc-qué-es-un-camino" class="nav-link" data-scroll-target="#qué-es-un-camino"><span class="header-section-number">7.1</span> ¿Qué es un camino?</a></li>
+  </ul></li>
+  <li><a href="#recorridos-de-grafos" id="toc-recorridos-de-grafos" class="nav-link" data-scroll-target="#recorridos-de-grafos"><span class="header-section-number">8</span> Recorridos de grafos</a></li>
+  <li><a href="#comparación-con-una-base-de-datos-relacional" id="toc-comparación-con-una-base-de-datos-relacional" class="nav-link" data-scroll-target="#comparación-con-una-base-de-datos-relacional"><span class="header-section-number">9</span> Comparación con una base de datos relacional</a>
+  <ul class="collapse">
+  <li><a href="#tabla-usuarios" id="toc-tabla-usuarios" class="nav-link" data-scroll-target="#tabla-usuarios"><span class="header-section-number">9.1</span> Tabla <code>usuarios</code></a></li>
+  <li><a href="#tabla-seguimientos" id="toc-tabla-seguimientos" class="nav-link" data-scroll-target="#tabla-seguimientos"><span class="header-section-number">9.2</span> Tabla <code>seguimientos</code></a></li>
+  </ul></li>
+  <li><a href="#comparación-con-una-base-documental" id="toc-comparación-con-una-base-documental" class="nav-link" data-scroll-target="#comparación-con-una-base-documental"><span class="header-section-number">10</span> Comparación con una base documental</a></li>
+  <li><a href="#ejemplo-sistema-de-recomendaciones-de-películas" id="toc-ejemplo-sistema-de-recomendaciones-de-películas" class="nav-link" data-scroll-target="#ejemplo-sistema-de-recomendaciones-de-películas"><span class="header-section-number">11</span> Ejemplo: sistema de recomendaciones de películas</a></li>
+  <li><a href="#ejemplo-rutas-de-transporte" id="toc-ejemplo-rutas-de-transporte" class="nav-link" data-scroll-target="#ejemplo-rutas-de-transporte"><span class="header-section-number">12</span> Ejemplo: rutas de transporte</a></li>
+  <li><a href="#ejemplo-relaciones-académicas" id="toc-ejemplo-relaciones-académicas" class="nav-link" data-scroll-target="#ejemplo-relaciones-académicas"><span class="header-section-number">13</span> Ejemplo: relaciones académicas</a></li>
+  <li><a href="#grafos-y-ciencia-de-datos" id="toc-grafos-y-ciencia-de-datos" class="nav-link" data-scroll-target="#grafos-y-ciencia-de-datos"><span class="header-section-number">14</span> Grafos y Ciencia de Datos</a>
+  <ul class="collapse">
+  <li><a href="#análisis-de-redes-sociales" id="toc-análisis-de-redes-sociales" class="nav-link" data-scroll-target="#análisis-de-redes-sociales"><span class="header-section-number">14.1</span> Análisis de redes sociales</a></li>
+  <li><a href="#sistemas-de-recomendación" id="toc-sistemas-de-recomendación" class="nav-link" data-scroll-target="#sistemas-de-recomendación"><span class="header-section-number">14.2</span> Sistemas de recomendación</a></li>
+  <li><a href="#detección-de-comunidades" id="toc-detección-de-comunidades" class="nav-link" data-scroll-target="#detección-de-comunidades"><span class="header-section-number">14.3</span> Detección de comunidades</a></li>
+  <li><a href="#detección-de-patrones-inusuales" id="toc-detección-de-patrones-inusuales" class="nav-link" data-scroll-target="#detección-de-patrones-inusuales"><span class="header-section-number">14.4</span> Detección de patrones inusuales</a></li>
+  <li><a href="#redes-de-conocimiento" id="toc-redes-de-conocimiento" class="nav-link" data-scroll-target="#redes-de-conocimiento"><span class="header-section-number">14.5</span> Redes de conocimiento</a></li>
+  </ul></li>
+  <li><a href="#conceptos-básicos-del-análisis-de-grafos" id="toc-conceptos-básicos-del-análisis-de-grafos" class="nav-link" data-scroll-target="#conceptos-básicos-del-análisis-de-grafos"><span class="header-section-number">15</span> Conceptos básicos del análisis de grafos</a>
+  <ul class="collapse">
+  <li><a href="#grado-de-un-nodo" id="toc-grado-de-un-nodo" class="nav-link" data-scroll-target="#grado-de-un-nodo"><span class="header-section-number">15.1</span> Grado de un nodo</a></li>
+  <li><a href="#caminos-más-cortos" id="toc-caminos-más-cortos" class="nav-link" data-scroll-target="#caminos-más-cortos"><span class="header-section-number">15.2</span> Caminos más cortos</a></li>
+  <li><a href="#centralidad" id="toc-centralidad" class="nav-link" data-scroll-target="#centralidad"><span class="header-section-number">15.3</span> Centralidad</a></li>
+  <li><a href="#comunidades" id="toc-comunidades" class="nav-link" data-scroll-target="#comunidades"><span class="header-section-number">15.4</span> Comunidades</a></li>
+  </ul></li>
+  <li><a href="#ventajas-del-modelo-de-grafos" id="toc-ventajas-del-modelo-de-grafos" class="nav-link" data-scroll-target="#ventajas-del-modelo-de-grafos"><span class="header-section-number">16</span> Ventajas del modelo de grafos</a></li>
+  <li><a href="#limitaciones-y-consideraciones" id="toc-limitaciones-y-consideraciones" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones"><span class="header-section-number">17</span> Limitaciones y consideraciones</a></li>
+  <li><a href="#neo4j-como-ejemplo-de-base-de-datos-de-grafos" id="toc-neo4j-como-ejemplo-de-base-de-datos-de-grafos" class="nav-link" data-scroll-target="#neo4j-como-ejemplo-de-base-de-datos-de-grafos"><span class="header-section-number">18</span> Neo4j como ejemplo de base de datos de grafos</a>
+  <ul class="collapse">
+  <li><a href="#lenguaje-cypher" id="toc-lenguaje-cypher" class="nav-link" data-scroll-target="#lenguaje-cypher"><span class="header-section-number">18.1</span> Lenguaje Cypher</a></li>
+  </ul></li>
+  <li><a href="#comparación-de-los-cuatro-modelos-nosql" id="toc-comparación-de-los-cuatro-modelos-nosql" class="nav-link" data-scroll-target="#comparación-de-los-cuatro-modelos-nosql"><span class="header-section-number">19</span> Comparación de los cuatro modelos NoSQL</a>
+  <ul class="collapse">
+  <li><a href="#modelo-documental" id="toc-modelo-documental" class="nav-link" data-scroll-target="#modelo-documental"><span class="header-section-number">19.1</span> Modelo documental</a></li>
+  <li><a href="#modelo-clavevalor" id="toc-modelo-clavevalor" class="nav-link" data-scroll-target="#modelo-clavevalor"><span class="header-section-number">19.2</span> Modelo clave–valor</a></li>
+  <li><a href="#modelo-de-familias-de-columnas" id="toc-modelo-de-familias-de-columnas" class="nav-link" data-scroll-target="#modelo-de-familias-de-columnas"><span class="header-section-number">19.3</span> Modelo de familias de columnas</a></li>
+  <li><a href="#modelo-de-grafos" id="toc-modelo-de-grafos" class="nav-link" data-scroll-target="#modelo-de-grafos"><span class="header-section-number">19.4</span> Modelo de grafos</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-integrado-una-plataforma-digital" id="toc-ejemplo-integrado-una-plataforma-digital" class="nav-link" data-scroll-target="#ejemplo-integrado-una-plataforma-digital"><span class="header-section-number">20</span> Ejemplo integrado: una plataforma digital</a></li>
+  <li><a href="#actividad-de-autoevaluación" id="toc-actividad-de-autoevaluación" class="nav-link" data-scroll-target="#actividad-de-autoevaluación"><span class="header-section-number">21</span> Actividad de autoevaluación</a></li>
+  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar"><span class="header-section-number">22</span> Preguntas para reflexionar</a></li>
+  <li><a href="#ideas-clave" id="toc-ideas-clave" class="nav-link" data-scroll-target="#ideas-clave"><span class="header-section-number">23</span> Ideas clave</a></li>
+  <li><a href="#de-los-grafos-sencillos-a-las-redes-complejas" id="toc-de-los-grafos-sencillos-a-las-redes-complejas" class="nav-link" data-scroll-target="#de-los-grafos-sencillos-a-las-redes-complejas"><span class="header-section-number">24</span> De los grafos sencillos a las redes complejas</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-de-un-grafo-más-complejo" id="toc-ejemplo-de-un-grafo-más-complejo" class="nav-link" data-scroll-target="#ejemplo-de-un-grafo-más-complejo"><span class="header-section-number">24.1</span> Ejemplo de un grafo más complejo</a></li>
+  <li><a href="#qué-sucede-cuando-una-red-crece" id="toc-qué-sucede-cuando-una-red-crece" class="nav-link" data-scroll-target="#qué-sucede-cuando-una-red-crece"><span class="header-section-number">24.2</span> ¿Qué sucede cuando una red crece?</a></li>
+  <li><a href="#explorar-solamente-una-parte-del-grafo" id="toc-explorar-solamente-una-parte-del-grafo" class="nav-link" data-scroll-target="#explorar-solamente-una-parte-del-grafo"><span class="header-section-number">24.3</span> Explorar solamente una parte del grafo</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fundamentos de las bases de datos orientadas a grafos</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>Hasta ahora hemos estudiado tres modelos principales de bases de datos NoSQL:</p>
+<ul>
+<li><strong>Bases de datos documentales</strong>, utilizando MongoDB.</li>
+<li><strong>Bases de datos clave–valor</strong>, utilizando Redis.</li>
+<li><strong>Bases de datos de familias de columnas</strong>, utilizando Apache Cassandra.</li>
+</ul>
+<p>Cada modelo organiza y consulta información de una manera diferente. Ahora estudiaremos un cuarto modelo: las <strong>bases de datos orientadas a grafos</strong>.</p>
+<p>A diferencia de los modelos anteriores, estas bases se enfocan especialmente en representar y consultar las <strong>relaciones entre los datos</strong>.</p>
+<p>Pensemos en una red social donde las personas siguen a otras personas.</p>
+<div id="fig-grafos-red-introduccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-red-introduccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/01_red_social.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-red-introduccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Ejemplo introductorio de una red social representada como grafo.
+</figcaption>
+</figure>
+</div>
+<p>Como podemos observar en la <a href="#fig-grafos-red-introduccion" class="quarto-xref">Figure&nbsp;1</a>, no solamente interesa almacenar el nombre de cada persona. También queremos responder preguntas como:</p>
+<ul>
+<li>¿A quién sigue Ana?</li>
+<li>¿Qué personas siguen a Luis?</li>
+<li>¿Qué contactos tienen en común dos usuarios?</li>
+<li>¿A quién podríamos recomendar seguir?</li>
+</ul>
+<p>Para responderlas necesitamos conocer las conexiones entre las entidades.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En una base de datos orientada a grafos, las relaciones entre los datos son parte fundamental del modelo.</p>
+<p>Este enfoque resulta especialmente útil cuando necesitamos explorar conexiones, identificar patrones o recorrer relaciones entre entidades.</p>
+</div>
+</div>
+<p>En este apunte estudiaremos sus fundamentos.</p>
+<p>Posteriormente utilizaremos <strong>Neo4j</strong> y el lenguaje <strong>Cypher</strong> para construir grafos y realizar consultas.</p>
+<hr>
+</section>
+<section id="qué-es-un-grafo" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="qué-es-un-grafo"><span class="header-section-number">2</span> ¿Qué es un grafo?</h2>
+<p>Un <strong>grafo</strong> es una estructura matemática utilizada para representar elementos y las conexiones que existen entre ellos.</p>
+<p>Sus dos componentes fundamentales son:</p>
+<ul>
+<li><strong>Vértices o nodos:</strong> representan elementos.</li>
+<li><strong>Aristas o relaciones:</strong> representan conexiones entre esos elementos.</li>
+</ul>
+<p>Imaginemos tres personas:</p>
+<pre class="text"><code>Ana ───── Carlos ───── María</code></pre>
+<p>Cada persona es un nodo; cada línea es una conexión.</p>
+<p>En un sistema real los nodos podrían representar personas, ciudades, productos, películas, dispositivos o artículos académicos.</p>
+<div id="fig-grafos-definicion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-definicion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/02_que_es_grafo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-definicion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Nodos y conexiones en un grafo sencillo.
+</figcaption>
+</figure>
+</div>
+<p>La <a href="#fig-grafos-definicion" class="quarto-xref">Figure&nbsp;2</a> permite identificar visualmente un nodo y una relación.</p>
+<p>Los grafos se utilizan en:</p>
+<ul>
+<li>Redes sociales.</li>
+<li>Rutas de transporte.</li>
+<li>Redes de comunicación.</li>
+<li>Sistemas de recomendaciones.</li>
+<li>Relaciones familiares o académicas.</li>
+<li>Redes de conocimiento.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Una forma sencilla de entenderlo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una tabla puede responder:</p>
+<blockquote class="blockquote">
+<p>¿Cuáles son los datos de Ana?</p>
+</blockquote>
+<p>Un grafo facilita representar otra pregunta:</p>
+<blockquote class="blockquote">
+<p>¿Cómo está conectada Ana con María?</p>
+</blockquote>
+</div>
+</div>
+<hr>
+</section>
+<section id="elementos-de-una-base-de-datos-orientada-a-grafos" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="elementos-de-una-base-de-datos-orientada-a-grafos"><span class="header-section-number">3</span> Elementos de una base de datos orientada a grafos</h2>
+<p>Para comprender el modelo estudiaremos tres elementos principales:</p>
+<pre class="text"><code>NODOS
+  +
+RELACIONES
+  +
+PROPIEDADES</code></pre>
+<div id="fig-grafos-elementos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-elementos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/03_elementos_grafo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-elementos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Identificación de nodos, relaciones y propiedades.
+</figcaption>
+</figure>
+</div>
+<section id="nodos" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="nodos"><span class="header-section-number">3.1</span> Nodos</h3>
+<p>Los <strong>nodos</strong> representan entidades dentro del sistema.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(Ana)    (Carlos)    (María)</code></pre>
+<p>En un sistema universitario podríamos representar:</p>
+<pre class="text"><code>(Estudiante)    (Profesor)    (Materia)</code></pre>
+<p>Los nodos representan elementos identificables.</p>
+<p>No indican por sí solos qué relación mantienen con otros elementos.</p>
+</section>
+<section id="relaciones" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="relaciones"><span class="header-section-number">3.2</span> Relaciones</h3>
+<p>Las <strong>relaciones</strong> conectan nodos y describen el tipo de conexión:</p>
+<pre class="text"><code>(Ana) ─── CONOCE ───&gt; (Carlos)
+
+(Ana) ─── CURSA ────&gt; (Bases de Datos)</code></pre>
+<p>Por lo tanto, una relación contiene significado: no es solamente una línea entre entidades.</p>
+</section>
+<section id="propiedades" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="propiedades"><span class="header-section-number">3.3</span> Propiedades</h3>
+<p>Las <strong>propiedades</strong> son atributos que describen nodos o relaciones.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Ana
+├── edad: 21
+├── ciudad: Xalapa
+└── carrera: Ciencia de Datos</code></pre>
+<p>Una relación también puede tener propiedades:</p>
+<pre class="text"><code>(Ana) ─── CONOCE ───&gt; (Carlos)
+             │
+             └── desde: 2022</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Nodos:</strong> entidades.</li>
+<li><strong>Relaciones:</strong> conexiones.</li>
+<li><strong>Propiedades:</strong> características de nodos o relaciones.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="etiquetas-y-tipos-de-relaciones" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="etiquetas-y-tipos-de-relaciones"><span class="header-section-number">4</span> Etiquetas y tipos de relaciones</h2>
+<p>En una base de grafos como Neo4j, los nodos pueden clasificarse mediante <strong>etiquetas</strong>:</p>
+<pre class="text"><code>Persona
+Estudiante
+Profesor
+Materia
+Universidad</code></pre>
+<p>Un mismo nodo puede tener más de una etiqueta.</p>
+<p>Por ejemplo, Ana podría ser al mismo tiempo una persona y una estudiante:</p>
+<pre class="cypher"><code>(:Persona:Estudiante)</code></pre>
+<p>Las relaciones también tienen tipos, como:</p>
+<pre class="text"><code>SIGUE
+CONOCE
+CURSA
+IMPARTE
+COMPRÓ
+PERTENECE_A</code></pre>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(Ana:Estudiante)
+       │
+       │ CURSA
+       ↓
+(Bases de Datos:Materia)</code></pre>
+<p>Este ejemplo muestra que las etiquetas describen <strong>qué son los nodos</strong>, mientras que los tipos de relación describen <strong>cómo se conectan</strong>.</p>
+<hr>
+</section>
+<section id="grafos-dirigidos-y-no-dirigidos" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="grafos-dirigidos-y-no-dirigidos"><span class="header-section-number">5</span> Grafos dirigidos y no dirigidos</h2>
+<p>Las conexiones entre nodos no siempre se interpretan de la misma manera.</p>
+<p>En teoría de grafos distinguimos principalmente entre grafos <strong>dirigidos</strong> y <strong>no dirigidos</strong>.</p>
+<section id="grafo-dirigido" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="grafo-dirigido"><span class="header-section-number">5.1</span> Grafo dirigido</h3>
+<p>En un <strong>grafo dirigido</strong>, las conexiones tienen una dirección:</p>
+<pre class="text"><code>Ana ─── SIGUE ───&gt; Carlos</code></pre>
+<p>Significa que Ana sigue a Carlos, pero <strong>no implica</strong> que Carlos siga a Ana.</p>
+<p>Este tipo de conexión aparece en redes sociales donde los usuarios pueden seguir a otras personas sin que exista necesariamente una relación recíproca.</p>
+</section>
+<section id="grafo-no-dirigido" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="grafo-no-dirigido"><span class="header-section-number">5.2</span> Grafo no dirigido</h3>
+<p>En un <strong>grafo no dirigido</strong>, las conexiones no tienen una dirección:</p>
+<pre class="text"><code>Ana ───── Carlos</code></pre>
+<p>Esto podría representar una amistad mutua o una conexión física, siempre que esa interpretación corresponda al problema.</p>
+<div id="fig-grafos-direccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-direccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/04_grafos_dirigidos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-direccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Comparación entre grafos dirigidos y no dirigidos.
+</figcaption>
+</figure>
+</div>
+<p>La <a href="#fig-grafos-direccion" class="quarto-xref">Figure&nbsp;4</a> permite observar la diferencia entre ambos tipos de conexiones.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Una distinción importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En Neo4j las relaciones almacenadas tienen dirección, pero sus consultas permiten buscar patrones sin exigir un sentido determinado.</p>
+<p>Un grafo no dirigido, como concepto matemático, no es exactamente lo mismo que una consulta que ignora la dirección.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejemplo-aplicado-una-red-social" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="ejemplo-aplicado-una-red-social"><span class="header-section-number">6</span> Ejemplo aplicado: una red social</h2>
+<p>Imaginemos una plataforma con cinco usuarios:</p>
+<pre class="text"><code>Ana
+Carlos
+María
+Luis
+Sofía</code></pre>
+<p>Sus relaciones son:</p>
+<pre class="text"><code>Ana ─── SIGUE ───&gt; Carlos
+
+Ana ─── SIGUE ───&gt; María
+
+Carlos ─ SIGUE ───&gt; Luis
+
+María ── SIGUE ───&gt; Luis
+
+Sofía ── SIGUE ───&gt; María</code></pre>
+<div id="fig-grafos-seguimientos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-seguimientos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/05_ejemplo_red_social.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-seguimientos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Red social de cinco usuarios y sus relaciones de seguimiento.
+</figcaption>
+</figure>
+</div>
+<p>A partir de la <a href="#fig-grafos-seguimientos" class="quarto-xref">Figure&nbsp;5</a> podemos responder varias preguntas.</p>
+<section id="a-quién-sigue-ana" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="a-quién-sigue-ana"><span class="header-section-number">6.1</span> ¿A quién sigue Ana?</h3>
+<p>La respuesta es:</p>
+<pre class="text"><code>Carlos
+María</code></pre>
+</section>
+<section id="quiénes-siguen-a-luis" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="quiénes-siguen-a-luis"><span class="header-section-number">6.2</span> ¿Quiénes siguen a Luis?</h3>
+<p>La respuesta es:</p>
+<pre class="text"><code>Carlos
+María</code></pre>
+</section>
+<section id="a-quién-podríamos-recomendar-seguir-a-ana" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="a-quién-podríamos-recomendar-seguir-a-ana"><span class="header-section-number">6.3</span> ¿A quién podríamos recomendar seguir a Ana?</h3>
+<p>Luis podría ser una recomendación candidata porque es seguido por dos personas a quienes Ana ya sigue.</p>
+<p>Conceptualmente:</p>
+<pre class="text"><code>Ana
+ ├── sigue a Carlos ───&gt; Luis
+ │
+ └── sigue a María ────&gt; Luis</code></pre>
+<p>Esta es una aproximación sencilla a la lógica de algunos sistemas de recomendaciones.</p>
+<p>En aplicaciones reales también pueden intervenir intereses, interacciones y otros criterios.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Recomendaciones mediante conexiones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una aplicación puede explorar las relaciones de un usuario para identificar personas, productos o contenidos relacionados indirectamente.</p>
+<p>Sin embargo, una recomendación real puede considerar muchos otros factores, como preferencias, actividad y comportamiento de los usuarios.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="relaciones-directas-e-indirectas" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="relaciones-directas-e-indirectas"><span class="header-section-number">7</span> Relaciones directas e indirectas</h2>
+<p>Una relación <strong>directa</strong> conecta dos nodos mediante una sola arista.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Ana ───&gt; Carlos</code></pre>
+<p>Una conexión <strong>indirecta</strong> se establece mediante nodos intermedios.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Ana ───&gt; Carlos ───&gt; Luis</code></pre>
+<p>Ana puede llegar a Luis por medio de Carlos.</p>
+<p>También existe otro camino:</p>
+<pre class="text"><code>Ana ───&gt; María ───&gt; Luis</code></pre>
+<div id="fig-grafos-relaciones-indirectas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-relaciones-indirectas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/06_relaciones_directas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-relaciones-indirectas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Relaciones directas e indirectas entre personas.
+</figcaption>
+</figure>
+</div>
+<section id="qué-es-un-camino" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="qué-es-un-camino"><span class="header-section-number">7.1</span> ¿Qué es un camino?</h3>
+<p>Un <strong>camino</strong> es una secuencia de nodos conectados mediante relaciones.</p>
+<p>En el ejemplo:</p>
+<pre class="text"><code>Ana → Carlos → Luis</code></pre>
+<p>el recorrido contiene <strong>dos relaciones</strong>, por lo que tiene longitud 2 si medimos su longitud por el número de aristas.</p>
+<p>En un mismo grafo pueden existir diferentes caminos para conectar dos nodos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las relaciones directas permiten consultar vecinos inmediatos.</p>
+<p>Los caminos permiten explorar conexiones indirectas a través de uno o varios intermediarios.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="recorridos-de-grafos" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="recorridos-de-grafos"><span class="header-section-number">8</span> Recorridos de grafos</h2>
+<p>Un <strong>recorrido</strong> consiste en explorar nodos y relaciones siguiendo determinadas condiciones.</p>
+<p>Por ejemplo, partimos de Ana:</p>
+<pre class="text"><code>Ana ───&gt; Carlos ───&gt; Luis
+  └────&gt; María ─────&gt; Sofía</code></pre>
+<p>Podemos identificar dos niveles.</p>
+<p><strong>Primer nivel:</strong></p>
+<pre class="text"><code>Carlos
+María</code></pre>
+<p>Son los nodos que se encuentran a una relación de Ana.</p>
+<p><strong>Segundo nivel:</strong></p>
+<pre class="text"><code>Luis
+Sofía</code></pre>
+<p>Son los nodos a los que llegamos mediante dos relaciones.</p>
+<div id="fig-grafos-recorridos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-recorridos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/07_recorridos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-recorridos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Exploración de conexiones de primer y segundo nivel a partir de Ana.
+</figcaption>
+</figure>
+</div>
+<p>Los recorridos pueden servir para:</p>
+<ul>
+<li>Identificar contactos indirectos.</li>
+<li>Explorar redes de conocimiento.</li>
+<li>Encontrar conexiones entre personas.</li>
+<li>Analizar rutas y redes de transporte.</li>
+<li>Buscar patrones en sistemas de recomendaciones.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una base de grafos permite consultar no solamente las propiedades de un nodo, sino también sus relaciones y las conexiones que pueden recorrerse a partir de él.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="comparación-con-una-base-de-datos-relacional" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="comparación-con-una-base-de-datos-relacional"><span class="header-section-number">9</span> Comparación con una base de datos relacional</h2>
+<p>Pensemos nuevamente en una red social.</p>
+<p>En el modelo relacional podríamos almacenar personas en una tabla.</p>
+<section id="tabla-usuarios" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="tabla-usuarios"><span class="header-section-number">9.1</span> Tabla <code>usuarios</code></h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">id_usuario</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>Ana</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>Carlos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>María</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<p>Para representar los seguimientos podríamos usar otra tabla.</p>
+</section>
+<section id="tabla-seguimientos" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="tabla-seguimientos"><span class="header-section-number">9.2</span> Tabla <code>seguimientos</code></h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">usuario_origen</th>
+<th style="text-align: right;">usuario_destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+<p>La primera fila significa que Ana sigue a Carlos.</p>
+<p>Esta representación es válida y útil.</p>
+<p>En un modelo de grafos, las conexiones se representan explícitamente mediante relaciones entre nodos.</p>
+<div id="fig-grafos-comparacion-relacional" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-comparacion-relacional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/08_relacional_vs_grafos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-comparacion-relacional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: El mismo conjunto de relaciones representado con tablas y con un grafo.
+</figcaption>
+</figure>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Modelo relacional</th>
+<th>Modelo de grafos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Organización</td>
+<td>Tablas</td>
+<td>Nodos y relaciones</td>
+</tr>
+<tr class="even">
+<td>Entidades</td>
+<td>Filas</td>
+<td>Nodos</td>
+</tr>
+<tr class="odd">
+<td>Conexiones</td>
+<td>Llaves y tablas relacionadas</td>
+<td>Relaciones explícitas</td>
+</tr>
+<tr class="even">
+<td>Atributos</td>
+<td>Columnas</td>
+<td>Propiedades</td>
+</tr>
+<tr class="odd">
+<td>Lenguaje habitual</td>
+<td>SQL</td>
+<td>Cypher, entre otros</td>
+</tr>
+<tr class="even">
+<td>Consultas de varios niveles</td>
+<td><code>JOIN</code> y consultas recursivas</td>
+<td>Recorridos y patrones</td>
+</tr>
+<tr class="odd">
+<td>Gestor de ejemplo</td>
+<td>PostgreSQL</td>
+<td>Neo4j</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las bases de datos relacionales también permiten consultar relaciones complejas y realizar consultas recursivas.</p>
+<p>Los grafos no reemplazan automáticamente a las bases relacionales.</p>
+<p>La ventaja depende del problema y de las consultas que se necesitan realizar.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="comparación-con-una-base-documental" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="comparación-con-una-base-documental"><span class="header-section-number">10</span> Comparación con una base documental</h2>
+<p>MongoDB permite almacenar referencias o información incrustada.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">nombre</span><span class="op">:</span> <span class="st">"Ana"</span><span class="op">,</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">edad</span><span class="op">:</span> <span class="dv">21</span><span class="op">,</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">siguiendo</span><span class="op">:</span> [<span class="st">"Carlos"</span><span class="op">,</span> <span class="st">"María"</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ese documento permite conocer a quién sigue Ana.</p>
+<p>Pero si queremos saber a quiénes siguen Carlos y María, necesitamos recuperar información adicional.</p>
+<p>En un grafo podemos representar las conexiones directamente:</p>
+<pre class="text"><code>Ana ───&gt; Carlos ───&gt; Luis
+  └────&gt; María ─────&gt; Luis</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Modelo documental</th>
+<th>Modelo de grafos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Documentos con campos y valores</td>
+<td>Nodos con propiedades</td>
+</tr>
+<tr class="even">
+<td>Información incrustada o referenciada</td>
+<td>Conexiones explícitas</td>
+</tr>
+<tr class="odd">
+<td>Consultas de documentos</td>
+<td>Consultas de patrones y recorridos</td>
+</tr>
+<tr class="even">
+<td>Ejemplo: MongoDB</td>
+<td>Ejemplo: Neo4j</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Cuándo conviene cada modelo?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El modelo documental puede ser adecuado cuando almacenamos información que se consulta junta.</p>
+<p>El modelo de grafos puede ser más conveniente cuando el interés principal es recorrer y analizar conexiones entre entidades.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-sistema-de-recomendaciones-de-películas" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="ejemplo-sistema-de-recomendaciones-de-películas"><span class="header-section-number">11</span> Ejemplo: sistema de recomendaciones de películas</h2>
+<p>Una plataforma de streaming podría representar usuarios, películas y géneros como nodos.</p>
+<p>Imaginemos que:</p>
+<ul>
+<li>Ana vio las películas A y B.</li>
+<li>Carlos vio las películas A y C.</li>
+<li>La película A y la C pertenecen a Ciencia ficción.</li>
+<li>La película B pertenece a Drama.</li>
+</ul>
+<p>Podemos representarlo así:</p>
+<pre class="text"><code>Ana ── VIO ──&gt; Película A &lt;── VIO ── Carlos
+ │                                   │
+ └── VIO ───&gt; Película B              │
+                                     │
+                                  VIO│
+                                     ↓
+                                 Película C</code></pre>
+<div id="fig-grafos-recomendaciones" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-recomendaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/09_recomendaciones.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-recomendaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Red de usuarios, películas, géneros y una recomendación candidata.
+</figcaption>
+</figure>
+</div>
+<p>En este ejemplo, la película C podría considerarse una recomendación candidata para Ana porque Carlos la vio y ambos comparten el antecedente de haber visto la película A.</p>
+<p>Las relaciones también permiten explorar:</p>
+<ul>
+<li>Películas vistas por usuarios con intereses comunes.</li>
+<li>Películas que pertenecen al mismo género.</li>
+<li>Usuarios que comparten contenidos.</li>
+<li>Recomendaciones potenciales.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Una recomendación no es una certeza
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El hecho de compartir una película no garantiza que dos usuarios tengan los mismos gustos.</p>
+<p>En una aplicación real conviene combinar las conexiones con otros datos y criterios.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-rutas-de-transporte" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="ejemplo-rutas-de-transporte"><span class="header-section-number">12</span> Ejemplo: rutas de transporte</h2>
+<p>Los grafos también permiten representar redes de transporte.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Xalapa ───── Veracruz
+  │                │
+  │                │
+Puebla ─── Ciudad de México</code></pre>
+<p>Cada ciudad representa un nodo y cada conexión representa una ruta.</p>
+<p>Las relaciones pueden contener propiedades como:</p>
+<pre class="text"><code>distancia
+tiempo
+costo</code></pre>
+<p>Por ejemplo, imaginemos datos ficticios:</p>
+<pre class="text"><code>Ciudad A ─── 10 km ─── Ciudad B
+
+Ciudad B ─── 15 km ─── Ciudad C</code></pre>
+<p>Si una conexión tiene un valor numérico asociado, hablamos de un <strong>grafo ponderado</strong>.</p>
+<p>Con los pesos podemos estudiar caminos que minimicen distancia, tiempo o costo.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Grafos ponderados
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En un grafo ponderado, las aristas tienen valores numéricos llamados pesos.</p>
+<p>El significado de esos valores depende del problema.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-relaciones-académicas" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="ejemplo-relaciones-académicas"><span class="header-section-number">13</span> Ejemplo: relaciones académicas</h2>
+<p>Imaginemos una universidad con estudiantes, docentes y materias:</p>
+<pre class="text"><code>Ana ───── CURSA ─────&gt; Bases de Datos
+
+Luis ──── CURSA ─────&gt; Bases de Datos
+
+Carlos ── IMPARTE ───&gt; Bases de Datos</code></pre>
+<p>Las entidades podrían ampliarse para incluir:</p>
+<pre class="text"><code>facultades
+programas educativos
+proyectos
+áreas de investigación</code></pre>
+<p>Con este grafo podríamos preguntar:</p>
+<ul>
+<li>¿Qué materias cursa una persona?</li>
+<li>¿Quién imparte cierta materia?</li>
+<li>¿Qué estudiantes comparten materias?</li>
+<li>¿Qué docentes colaboran en un proyecto?</li>
+<li>¿Qué programas educativos comparten asignaturas?</li>
+</ul>
+<p>Este ejemplo muestra cómo un grafo permite integrar diferentes entidades alrededor de sus relaciones.</p>
+<hr>
+</section>
+<section id="grafos-y-ciencia-de-datos" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="grafos-y-ciencia-de-datos"><span class="header-section-number">14</span> Grafos y Ciencia de Datos</h2>
+<p>Representar información como red permite analizar características de su estructura.</p>
+<section id="análisis-de-redes-sociales" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="análisis-de-redes-sociales"><span class="header-section-number">14.1</span> Análisis de redes sociales</h3>
+<p>Permite estudiar interacciones y conexiones entre personas o comunidades.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>personas
+   ↓
+relaciones
+   ↓
+estructura de una red social</code></pre>
+</section>
+<section id="sistemas-de-recomendación" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="sistemas-de-recomendación"><span class="header-section-number">14.2</span> Sistemas de recomendación</h3>
+<p>Pueden utilizar conexiones entre usuarios, productos, películas e intereses para identificar candidatos a recomendar.</p>
+</section>
+<section id="detección-de-comunidades" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="detección-de-comunidades"><span class="header-section-number">14.3</span> Detección de comunidades</h3>
+<p>Consiste en identificar grupos de nodos con determinados patrones de conexión.</p>
+<p>Por ejemplo, dentro de una red social podrían existir conjuntos de personas que interactúan con mayor frecuencia entre sí.</p>
+</section>
+<section id="detección-de-patrones-inusuales" class="level3" data-number="14.4">
+<h3 data-number="14.4" class="anchored" data-anchor-id="detección-de-patrones-inusuales"><span class="header-section-number">14.4</span> Detección de patrones inusuales</h3>
+<p>En redes de cuentas, transacciones o dispositivos pueden estudiarse conexiones poco frecuentes o inusuales como parte de un análisis de anomalías.</p>
+</section>
+<section id="redes-de-conocimiento" class="level3" data-number="14.5">
+<h3 data-number="14.5" class="anchored" data-anchor-id="redes-de-conocimiento"><span class="header-section-number">14.5</span> Redes de conocimiento</h3>
+<p>Podemos representar relaciones entre publicaciones, autores y conceptos:</p>
+<pre class="text"><code>Artículo A ─── CITA ───&gt; Artículo B
+
+Artículo B ─── CITA ───&gt; Artículo C</code></pre>
+<p>Esta representación puede utilizarse para analizar redes de citas académicas.</p>
+<hr>
+</section>
+</section>
+<section id="conceptos-básicos-del-análisis-de-grafos" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="conceptos-básicos-del-análisis-de-grafos"><span class="header-section-number">15</span> Conceptos básicos del análisis de grafos</h2>
+<section id="grado-de-un-nodo" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="grado-de-un-nodo"><span class="header-section-number">15.1</span> Grado de un nodo</h3>
+<p>El <strong>grado</strong> es la cantidad de aristas incidentes a un nodo en un grafo no dirigido.</p>
+<pre class="text"><code>      Carlos
+         |
+         |
+Ana ─── María ─── Luis</code></pre>
+<p>En este ejemplo, María tiene <strong>grado 3</strong>.</p>
+<p>En grafos dirigidos se distingue entre:</p>
+<ul>
+<li><strong>Grado de entrada:</strong> cantidad de relaciones que llegan al nodo.</li>
+<li><strong>Grado de salida:</strong> cantidad de relaciones que salen del nodo.</li>
+</ul>
+<p>Por ejemplo:</p>
+<pre class="text"><code>Ana ───&gt; María
+
+Luis ───&gt; María
+
+María ──&gt; Carlos</code></pre>
+<p>María tiene:</p>
+<pre class="text"><code>grado de entrada = 2
+
+grado de salida = 1</code></pre>
+</section>
+<section id="caminos-más-cortos" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="caminos-más-cortos"><span class="header-section-number">15.2</span> Caminos más cortos</h3>
+<p>Se busca un camino mínimo entre dos nodos según el criterio elegido.</p>
+<p>Si todas las relaciones tienen el mismo costo, podemos minimizar la cantidad de aristas.</p>
+<p>Si existen pesos, podemos buscar el menor costo total.</p>
+</section>
+<section id="centralidad" class="level3" data-number="15.3">
+<h3 data-number="15.3" class="anchored" data-anchor-id="centralidad"><span class="header-section-number">15.3</span> Centralidad</h3>
+<p>La <strong>centralidad</strong> reúne diferentes medidas que describen la posición o importancia estructural de un nodo en una red.</p>
+<p>Algunas consideran:</p>
+<ul>
+<li>La cantidad de conexiones.</li>
+<li>Las distancias hacia otros nodos.</li>
+<li>Su participación en caminos.</li>
+<li>Las conexiones con otros nodos importantes.</li>
+</ul>
+<p>No existe una única medida adecuada para todos los problemas.</p>
+</section>
+<section id="comunidades" class="level3" data-number="15.4">
+<h3 data-number="15.4" class="anchored" data-anchor-id="comunidades"><span class="header-section-number">15.4</span> Comunidades</h3>
+<p>Son grupos de nodos que muestran patrones de conexión relativamente más intensos entre sus integrantes, según el criterio o algoritmo utilizado.</p>
+<p>Por ejemplo, en una red social puede haber grupos de personas con numerosos vínculos dentro de cada grupo y menos conexiones entre grupos diferentes.</p>
+<div id="fig-grafos-conceptos-analisis" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-conceptos-analisis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/10_analisis_grafos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-conceptos-analisis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Representación del grado, la centralidad y las comunidades de una red.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para Ciencia de Datos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una base de grafos permite almacenar y consultar conexiones.</p>
+<p>Posteriormente, técnicas de análisis de redes permiten estudiar caminos, centralidad, comunidades y otros patrones.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ventajas-del-modelo-de-grafos" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="ventajas-del-modelo-de-grafos"><span class="header-section-number">16</span> Ventajas del modelo de grafos</h2>
+<p>Entre las principales ventajas podemos mencionar:</p>
+<ul>
+<li>Representa explícitamente las relaciones entre entidades.</li>
+<li>Facilita modelar redes de información.</li>
+<li>Permite recorrer conexiones directas e indirectas.</li>
+<li>Facilita consultas basadas en patrones de relaciones.</li>
+<li>Representa diferentes tipos de nodos y conexiones.</li>
+<li>Resulta útil en recomendaciones, rutas y análisis de redes.</li>
+</ul>
+<p>Estas ventajas deben evaluarse siempre en función del problema.</p>
+<hr>
+</section>
+<section id="limitaciones-y-consideraciones" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="limitaciones-y-consideraciones"><span class="header-section-number">17</span> Limitaciones y consideraciones</h2>
+<p>También existen limitaciones:</p>
+<ul>
+<li>No todas las aplicaciones requieren explorar relaciones complejas.</li>
+<li>Algunas consultas tabulares son más naturales en una base relacional.</li>
+<li>Los recorridos muy amplios pueden utilizar muchos recursos.</li>
+<li>El rendimiento depende de la estructura y el tamaño del grafo.</li>
+<li>Distribuir grafos entre varios servidores puede introducir retos adicionales.</li>
+<li>Los nodos y relaciones necesitan un diseño adecuado.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>No utilizar grafos para cualquier problema
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una base de datos orientada a grafos no es automáticamente mejor que una relacional, documental o clave–valor.</p>
+<p>Debemos elegirla en función de las consultas y las relaciones que realmente necesitamos.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="neo4j-como-ejemplo-de-base-de-datos-de-grafos" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="neo4j-como-ejemplo-de-base-de-datos-de-grafos"><span class="header-section-number">18</span> Neo4j como ejemplo de base de datos de grafos</h2>
+<p><strong>Neo4j</strong> es uno de los gestores más conocidos de bases de datos orientadas a grafos.</p>
+<p>Utiliza un modelo denominado <strong>grafo de propiedades</strong> (<em>property graph</em>).</p>
+<p>Permite representar:</p>
+<pre class="text"><code>nodos
+relaciones
+etiquetas
+tipos de relaciones
+propiedades</code></pre>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(Ana:Persona) ─── SIGUE ───&gt; (Carlos:Persona)</code></pre>
+<section id="lenguaje-cypher" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="lenguaje-cypher"><span class="header-section-number">18.1</span> Lenguaje Cypher</h3>
+<p>Neo4j utiliza <strong>Cypher</strong>, un lenguaje que describe patrones mediante una sintaxis parecida a la representación visual de los grafos.</p>
+<p>Por ejemplo, el siguiente patrón representa una conexión; <strong>todavía no es una instrucción completa para crearla</strong>:</p>
+<pre class="cypher"><code>(ana)-[:SIGUE]-&gt;(carlos)</code></pre>
+<p>Los paréntesis representan nodos:</p>
+<pre class="cypher"><code>()</code></pre>
+<p>Los corchetes describen relaciones:</p>
+<pre class="cypher"><code>[]</code></pre>
+<p>Y la flecha indica la dirección:</p>
+<pre class="cypher"><code>-[]-&gt;</code></pre>
+<p>En el próximo tema utilizaremos instrucciones como:</p>
+<pre class="cypher"><code>CREATE
+MATCH
+RETURN
+WHERE
+SET
+DELETE</code></pre>
+<p>para trabajar directamente con Neo4j.</p>
+<hr>
+</section>
+</section>
+<section id="comparación-de-los-cuatro-modelos-nosql" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="comparación-de-los-cuatro-modelos-nosql"><span class="header-section-number">19</span> Comparación de los cuatro modelos NoSQL</h2>
+<p>Hasta ahora hemos estudiado los cuatro modelos principales de bases de datos NoSQL.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Organización principal</th>
+<th>Tecnología estudiada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Documental</td>
+<td>Documentos con campos y valores</td>
+<td>MongoDB</td>
+</tr>
+<tr class="even">
+<td>Clave–valor</td>
+<td>Claves asociadas con valores</td>
+<td>Redis</td>
+</tr>
+<tr class="odd">
+<td>Familias de columnas</td>
+<td>Tablas, particiones y columnas</td>
+<td>Cassandra</td>
+</tr>
+<tr class="even">
+<td>Grafos</td>
+<td>Nodos, relaciones y propiedades</td>
+<td>Neo4j (siguiente práctica)</td>
+</tr>
+</tbody>
+</table>
+<section id="modelo-documental" class="level3" data-number="19.1">
+<h3 data-number="19.1" class="anchored" data-anchor-id="modelo-documental"><span class="header-section-number">19.1</span> Modelo documental</h3>
+<p>Útil para documentos con estructuras anidadas y atributos variables.</p>
+</section>
+<section id="modelo-clavevalor" class="level3" data-number="19.2">
+<h3 data-number="19.2" class="anchored" data-anchor-id="modelo-clavevalor"><span class="header-section-number">19.2</span> Modelo clave–valor</h3>
+<p>Conveniente cuando conocemos la clave y necesitamos recuperar o actualizar rápidamente un valor.</p>
+</section>
+<section id="modelo-de-familias-de-columnas" class="level3" data-number="19.3">
+<h3 data-number="19.3" class="anchored" data-anchor-id="modelo-de-familias-de-columnas"><span class="header-section-number">19.3</span> Modelo de familias de columnas</h3>
+<p>Adecuado para ciertos escenarios de gran volumen de información distribuida y consultas orientadas por claves de partición.</p>
+</section>
+<section id="modelo-de-grafos" class="level3" data-number="19.4">
+<h3 data-number="19.4" class="anchored" data-anchor-id="modelo-de-grafos"><span class="header-section-number">19.4</span> Modelo de grafos</h3>
+<p>Especialmente útil cuando debemos explorar y analizar conexiones entre entidades.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea principal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No existe un único modelo adecuado para todos los problemas.</p>
+<p>La elección depende de:</p>
+<ul>
+<li>La estructura de los datos.</li>
+<li>Las relaciones existentes.</li>
+<li>Las consultas necesarias.</li>
+<li>El volumen de información.</li>
+<li>Los requisitos de rendimiento.</li>
+<li>La distribución y escalabilidad.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejemplo-integrado-una-plataforma-digital" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="ejemplo-integrado-una-plataforma-digital"><span class="header-section-number">20</span> Ejemplo integrado: una plataforma digital</h2>
+<p>Imaginemos una aplicación que registra usuarios, muestra películas, administra sesiones, almacena actividad y recomienda contenido.</p>
+<p>Podríamos considerar diferentes modelos de almacenamiento.</p>
+<p><strong>MongoDB</strong> podría almacenar:</p>
+<pre class="text"><code>Perfiles de usuarios
+Información de películas
+Metadatos</code></pre>
+<p><strong>Redis</strong> podría utilizarse para:</p>
+<pre class="text"><code>Sesiones
+Caché
+Contadores</code></pre>
+<p><strong>Cassandra</strong> podría conservar:</p>
+<pre class="text"><code>Historiales de reproducción
+Eventos generados continuamente
+Registros de actividad</code></pre>
+<p><strong>Neo4j</strong> podría modelar:</p>
+<pre class="text"><code>Relaciones entre usuarios
+Intereses compartidos
+Relaciones entre contenidos
+Candidatos para recomendaciones</code></pre>
+<p>Esta combinación es conceptual.</p>
+<p>En aplicaciones reales hace falta diseñar cómo se comunican los sistemas y cómo mantienen la información coherente.</p>
+<p>La utilización de diferentes tecnologías de almacenamiento se relaciona con la <strong>persistencia políglota</strong>.</p>
+<hr>
+</section>
+<section id="actividad-de-autoevaluación" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="actividad-de-autoevaluación"><span class="header-section-number">21</span> Actividad de autoevaluación</h2>
+<p>Relaciona cada situación con un concepto del tema.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situación</th>
+<th>Concepto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Una persona dentro de una red social</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>La conexión entre dos personas</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>La edad almacenada de una persona</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Ana sigue a Carlos, pero Carlos no necesariamente sigue a Ana</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Ana está conectada con Luis mediante Carlos</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Explorar conexiones a partir de un usuario</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Cantidad de aristas incidentes a un nodo en un grafo no dirigido</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Encontrar grupos de usuarios relacionados</td>
+<td>___</td>
+</tr>
+<tr class="odd">
+<td>Lenguaje utilizado para consultar Neo4j</td>
+<td>___</td>
+</tr>
+<tr class="even">
+<td>Gestor de bases de datos de grafos</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Posibles respuestas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Nodo.</li>
+<li>Relación.</li>
+<li>Propiedad.</li>
+<li>Relación dirigida.</li>
+<li>Camino o conexión indirecta.</li>
+<li>Recorrido.</li>
+<li>Grado.</li>
+<li>Comunidades.</li>
+<li>Cypher.</li>
+<li>Neo4j.</li>
+</ol>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="preguntas-para-reflexionar" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="preguntas-para-reflexionar"><span class="header-section-number">22</span> Preguntas para reflexionar</h2>
+<ol type="1">
+<li><p>¿Qué diferencia existe entre un nodo y una relación?</p></li>
+<li><p>¿Por qué las conexiones tienen tanta importancia en una base de grafos?</p></li>
+<li><p>¿Qué es una propiedad y dónde puede almacenarse?</p></li>
+<li><p>¿Cuál es la diferencia entre un grafo dirigido y uno no dirigido?</p></li>
+<li><p>¿Qué diferencia existe entre una conexión directa y una indirecta?</p></li>
+<li><p>¿Qué significa recorrer un grafo?</p></li>
+<li><p>¿Cómo podría usarse un grafo para recomendar personas dentro de una red social?</p></li>
+<li><p>¿Qué diferencias hay entre representar relaciones mediante tablas y mediante grafos?</p></li>
+<li><p>¿En qué situaciones podría convenir MongoDB en lugar de Neo4j?</p></li>
+<li><p>¿Qué aplicaciones de grafos identificas dentro de Ciencia de Datos?</p></li>
+<li><p>¿Qué representa el grado de un nodo?</p></li>
+<li><p>¿Por qué una base de grafos no es necesariamente la mejor opción para cualquier sistema?</p></li>
+</ol>
+<hr>
+</section>
+<section id="ideas-clave" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="ideas-clave"><span class="header-section-number">23</span> Ideas clave</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>1. Los grafos representan entidades y conexiones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los nodos representan entidades y las relaciones representan sus conexiones.</p>
+<p>Ambos pueden almacenar propiedades.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>2. Las conexiones pueden tener dirección
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una relación dirigida distingue quién inicia y quién recibe una conexión.</p>
+<p>Las relaciones no dirigidas no presentan ese sentido.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>3. Los recorridos permiten explorar la red
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Podemos estudiar conexiones inmediatas, caminos indirectos y diferentes niveles de relación.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>4. Los grafos tienen aplicaciones en Ciencia de Datos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Permiten estudiar recomendaciones, redes sociales, rutas, comunidades, centralidad y redes de conocimiento.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>5. Neo4j utiliza grafos de propiedades
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neo4j organiza la información mediante nodos y relaciones.</p>
+<p>Cypher permite describir y consultar patrones.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>6. El problema determina el modelo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MongoDB, Redis, Cassandra y Neo4j responden a diferentes necesidades.</p>
+<p>La elección debe basarse en el tipo de información y en las consultas que realizará la aplicación.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="de-los-grafos-sencillos-a-las-redes-complejas" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="de-los-grafos-sencillos-a-las-redes-complejas"><span class="header-section-number">24</span> De los grafos sencillos a las redes complejas</h2>
+<p>Hasta ahora hemos trabajado con ejemplos relativamente pequeños para comprender los principales elementos de las bases de datos orientadas a grafos.</p>
+<p>En nuestros primeros ejemplos utilizamos cuatro o cinco personas para identificar nodos, relaciones, propiedades y recorridos.</p>
+<p>Sin embargo, en aplicaciones reales podemos encontrar grafos mucho más grandes, donde existen diferentes tipos de entidades y numerosas conexiones.</p>
+<p>Por ejemplo, una red podría integrar:</p>
+<ul>
+<li>Personas.</li>
+<li>Empresas.</li>
+<li>Libros.</li>
+<li>Temas de interés.</li>
+<li>Proyectos.</li>
+<li>Eventos.</li>
+<li>Herramientas tecnológicas.</li>
+<li>Organizaciones.</li>
+</ul>
+<p>En este tipo de escenario, no solamente interesa conocer las características de cada entidad, sino también descubrir <strong>cómo se relacionan entre sí</strong>.</p>
+<section id="ejemplo-de-un-grafo-más-complejo" class="level3" data-number="24.1">
+<h3 data-number="24.1" class="anchored" data-anchor-id="ejemplo-de-un-grafo-más-complejo"><span class="header-section-number">24.1</span> Ejemplo de un grafo más complejo</h3>
+<p>Imaginemos una aplicación que almacena información sobre personas, libros, empresas y áreas de conocimiento.</p>
+<p>En ella podríamos registrar relaciones como:</p>
+<pre class="text"><code>Ana ─── TRABAJA_EN ───&gt; TechSolutions
+
+Carlos ─── AUTOR_DE ───&gt; Bases de Datos Modernas
+
+María ─── AUTOR_DE ───&gt; Diseño de Software
+
+TechSolutions ─── DESARROLLA ───&gt; Plataforma de Análisis
+
+Plataforma de Análisis ─── UTILIZA ───&gt; Neo4j</code></pre>
+<p>Estas relaciones pueden formar parte de una misma red.</p>
+<div id="fig-grafos-complejo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-complejo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/11_grafo_complejo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-complejo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Ejemplo de un grafo complejo con personas, empresas, libros, proyectos y diferentes relaciones.
+</figcaption>
+</figure>
+</div>
+<p>En la <a href="#fig-grafos-complejo" class="quarto-xref">Figure&nbsp;11</a> observamos que los nodos representan diferentes tipos de entidades.</p>
+<p>También encontramos distintas relaciones, como:</p>
+<ul>
+<li><code>AMIGO_DE</code>: conecta personas.</li>
+<li><code>TRABAJA_EN</code>: conecta personas con empresas.</li>
+<li><code>AUTOR_DE</code>: conecta personas con libros.</li>
+<li><code>LE_GUSTA</code>: relaciona personas con temas de interés.</li>
+<li><code>DESARROLLA</code>: conecta organizaciones con proyectos.</li>
+<li><code>UTILIZA</code>: relaciona proyectos con herramientas.</li>
+</ul>
+<p>A partir de esta estructura podríamos responder preguntas como:</p>
+<ul>
+<li>¿Qué personas trabajan en la misma empresa?</li>
+<li>¿Qué libros escribieron los empleados de determinada organización?</li>
+<li>¿Qué temas de interés comparten dos personas?</li>
+<li>¿Qué proyectos utilizan una herramienta específica?</li>
+<li>¿Qué conexiones existen entre una persona y determinado libro?</li>
+</ul>
+<p>Este ejemplo permite observar que un grafo puede integrar diferentes tipos de información dentro de una sola estructura.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Idea importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La principal característica del modelo de grafos no es solamente que pueda almacenar diferentes entidades.</p>
+<p>Su valor está en permitir representar y explorar las relaciones que existen entre ellas.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="qué-sucede-cuando-una-red-crece" class="level3" data-number="24.2">
+<h3 data-number="24.2" class="anchored" data-anchor-id="qué-sucede-cuando-una-red-crece"><span class="header-section-number">24.2</span> ¿Qué sucede cuando una red crece?</h3>
+<p>Ahora imaginemos que nuestra aplicación deja de trabajar con unas cuantas personas y comienza a almacenar información sobre miles de usuarios, organizaciones, proyectos y áreas de conocimiento.</p>
+<p>Cada nuevo elemento puede agregar:</p>
+<pre class="text"><code>nuevos nodos
+     +
+nuevas relaciones
+     ↓
+una red más grande</code></pre>
+<p>Por ejemplo, una plataforma podría contener:</p>
+<pre class="text"><code>10,000 usuarios
+
+2,000 proyectos
+
+500 organizaciones
+
+1,000 temas de interés</code></pre>
+<p>Estos valores son únicamente ilustrativos.</p>
+<p>Además, un mismo usuario podría relacionarse con numerosos proyectos, organizaciones y temas.</p>
+<p>Como consecuencia, la red podría contener una cantidad mucho mayor de conexiones que de entidades.</p>
+<div id="fig-grafos-gran-escala" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-gran-escala-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/12_grafo_gran_escala.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-gran-escala-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Ejemplo ilustrativo de una red de gran escala organizada en diferentes grupos de nodos.
+</figcaption>
+</figure>
+</div>
+<p>En la <a href="#fig-grafos-gran-escala" class="quarto-xref">Figure&nbsp;12</a> podemos observar una red más grande donde los nodos aparecen agrupados en diferentes conjuntos.</p>
+<p>Cada grupo representa conceptualmente un conjunto de entidades relacionadas, como:</p>
+<ul>
+<li>Usuarios.</li>
+<li>Universidades.</li>
+<li>Investigadores.</li>
+<li>Proyectos.</li>
+<li>Organizaciones.</li>
+<li>Herramientas.</li>
+<li>Áreas de interés.</li>
+</ul>
+<p>Algunos nodos mantienen numerosas conexiones dentro de su propio grupo.</p>
+<p>Otros permiten conectar diferentes grupos de la red.</p>
+<p>Esta estructura puede estudiarse mediante técnicas de análisis de grafos para identificar comunidades y patrones de conexión.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Una red grande no siempre es fácil de interpretar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cuando tenemos cientos, miles o millones de nodos, visualizar todas las conexiones al mismo tiempo puede resultar poco práctico.</p>
+<p>Por ello, las bases de datos de grafos permiten realizar consultas específicas y recuperar únicamente una parte de la información.</p>
+<p>No siempre necesitamos visualizar toda la red para responder una pregunta.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="explorar-solamente-una-parte-del-grafo" class="level3" data-number="24.3">
+<h3 data-number="24.3" class="anchored" data-anchor-id="explorar-solamente-una-parte-del-grafo"><span class="header-section-number">24.3</span> Explorar solamente una parte del grafo</h3>
+<p>Supongamos que nuestra red contiene una gran cantidad de personas, empresas, proyectos y libros.</p>
+<p>Sin embargo, queremos responder una pregunta concreta:</p>
+<blockquote class="blockquote">
+<p>¿Con qué entidades está relacionada Ana?</p>
+</blockquote>
+<p>Para ello no necesitamos analizar visualmente todas las conexiones de la red.</p>
+<p>Podemos comenzar desde el nodo que representa a Ana y explorar sus relaciones.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>                Ana
+                 │
+       ┌─────────┼─────────┐
+       │         │         │
+     Carlos    María   TechSolutions
+       │         │         │
+       ↓         ↓         ↓
+     Libro     Tema      Proyecto</code></pre>
+<p>En este caso distinguimos dos niveles de conexiones.</p>
+<p><strong>Primer nivel:</strong> nodos conectados directamente con Ana.</p>
+<p><strong>Segundo nivel:</strong> nodos a los que podemos llegar mediante una entidad intermedia.</p>
+<div id="fig-grafos-exploracion-compleja" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafos-exploracion-compleja-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imagenes/tema11/13_exploracion_grafo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafos-exploracion-compleja-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Exploración de conexiones directas e indirectas a partir de un nodo seleccionado.
+</figcaption>
+</figure>
+</div>
+<p>En la <a href="#fig-grafos-exploracion-compleja" class="quarto-xref">Figure&nbsp;13</a> podemos observar cómo algunas conexiones aparecen destacadas mientras que otras permanecen en segundo plano.</p>
+<p>Esto permite concentrarnos en un nodo y en su entorno cercano.</p>
+<p>Por ejemplo, una consulta podría buscar:</p>
+<ul>
+<li>Las personas relacionadas con Ana.</li>
+<li>Las organizaciones donde trabaja.</li>
+<li>Los eventos en los que participa.</li>
+<li>Los libros relacionados con sus contactos.</li>
+<li>Los proyectos conectados con su empresa.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Por qué son importantes los recorridos?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los recorridos permiten explorar una parte de la red a partir de un nodo inicial.</p>
+<p>En lugar de revisar manualmente cientos de conexiones, podemos utilizar consultas para recuperar los nodos y relaciones que cumplen determinadas condiciones.</p>
+<p>Esta es una de las principales razones por las que las bases de datos orientadas a grafos resultan útiles en sistemas donde las conexiones tienen especial importancia.</p>
+</div>
+</div>
+<hr>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

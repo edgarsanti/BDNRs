@@ -113,9 +113,23 @@ Introducción al uso de Apache Cassandra mediante comandos CQL para crear espaci
 
 ## Carga masiva y consultas de datos en Apache Cassandra
 
-Simulación de aproximadamente 100,000 mediciones ambientales para trabajar con carga masiva, particionamiento y consultas sobre grandes volúmenes de datos en Cassandra.
+
+Simulación de más de 1.2 millones de mediciones ambientales para trabajar con carga masiva, particionamiento y consultas sobre grandes volúmenes de datos en Apache Cassandra.
+
 
 <a class="btn btn-primary"
    href="apuntes/10_carga_masiva_cassandra.html">
+   Abrir apunte
+</a>
+
+
+---
+
+## Fundamentos de las bases de datos orientadas a grafos
+
+Introducción al modelo de grafos, sus principales elementos (nodos, relaciones y propiedades), grafos dirigidos y no dirigidos, recorridos y conexiones entre entidades. Se presentan ejemplos de redes sociales, sistemas de recomendaciones y redes complejas, así como sus aplicaciones en Ciencia de Datos.
+
+<a class="btn btn-primary"
+   href="apuntes/11_bases_orientadas_grafos.html">
    Abrir apunte
 </a>
