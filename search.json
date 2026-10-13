@@ -1498,13 +1498,6 @@
     "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
   },
   {
-    "objectID": "manuales/instalacion_neo4j_windows.html#conclusión",
-    "href": "manuales/instalacion_neo4j_windows.html#conclusión",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "12 Conclusión",
-    "text": "12 Conclusión\nEn este manual realizamos el proceso de descarga e instalación de Neo4j Desktop en Windows.\nComenzamos accediendo al sitio oficial de Neo4j, descargamos el instalador, seleccionamos las opciones de instalación y completamos la configuración inicial.\nFinalmente, identificamos la pantalla principal de la aplicación y algunas de sus herramientas.\nCon Neo4j Desktop instalado, contamos con el entorno necesario para continuar con la creación de una instancia local y comenzar a trabajar con bases de datos orientadas a grafos mediante el lenguaje Cypher."
-  },
-  {
     "objectID": "practicas/01_mongodb_local.html",
     "href": "practicas/01_mongodb_local.html",
     "title": "Práctica 1. Consultas con MongoDB",
