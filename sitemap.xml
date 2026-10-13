@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/manuales.html</loc>
-    <lastmod>2026-09-29T05:50:07.364Z</lastmod>
+    <lastmod>2026-10-13T05:12:19.687Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
@@ -55,6 +55,10 @@
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/index.html</loc>
     <lastmod>2026-09-07T05:48:37.943Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/manuales/instalacion_neo4j_windows.html</loc>
+    <lastmod>2026-10-13T05:08:45.243Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
