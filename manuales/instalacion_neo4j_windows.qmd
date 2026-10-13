@@ -236,13 +236,3 @@ Si podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha comp
 Esto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j.
 
 ---
-
-## Conclusión
-
-En este manual realizamos el proceso de descarga e instalación de **Neo4j Desktop en Windows**.
-
-Comenzamos accediendo al sitio oficial de Neo4j, descargamos el instalador, seleccionamos las opciones de instalación y completamos la configuración inicial.
-
-Finalmente, identificamos la pantalla principal de la aplicación y algunas de sus herramientas.
-
-Con Neo4j Desktop instalado, contamos con el entorno necesario para continuar con la creación de una instancia local y comenzar a trabajar con bases de datos orientadas a grafos mediante el lenguaje **Cypher**.
