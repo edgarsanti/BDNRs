@@ -82,5 +82,8 @@
   },
   "apuntes/11_bases_orientadas_grafos.qmd": {
     "11_bases_orientadas_grafos.html": "83b7c25e"
+  },
+  "manuales/instalacion_neo4j_windows.qmd": {
+    "instalacion_neo4j_windows.html": "0e5e64df"
   }
 }

@@ -140,6 +140,13 @@
     "text": "Instalación de Apache Cassandra en Windows\nTutorial paso a paso para instalar Docker Desktop, ejecutar Apache Cassandra y realizar las primeras consultas con CQL.\n Abrir manual"
   },
   {
+    "objectID": "manuales.html#instalación-de-neo4j-desktop-en-windows",
+    "href": "manuales.html#instalación-de-neo4j-desktop-en-windows",
+    "title": "Manuales",
+    "section": "Instalación de Neo4j Desktop en Windows",
+    "text": "Instalación de Neo4j Desktop en Windows\nManual paso a paso para descargar, instalar y configurar inicialmente Neo4j Desktop 2 en Windows. Se explica el proceso de instalación, la aceptación de la licencia y el reconocimiento de la interfaz principal, como preparación para trabajar con bases de datos orientadas a grafos.\n Abrir manual"
+  },
+  {
     "objectID": "practicas.html",
     "href": "practicas.html",
     "title": "Bases de Datos No Relacionales",
@@ -1405,6 +1412,97 @@
     "title": "Bases de Datos No Relacionales",
     "section": "",
     "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html",
+    "href": "manuales/instalacion_neo4j_windows.html",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "",
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#introducción",
+    "href": "manuales/instalacion_neo4j_windows.html#introducción",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "",
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "href": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "2 Requisitos previos",
+    "text": "2 Requisitos previos\nAntes de comenzar, es necesario contar con:\n\nUna computadora con Windows 10 u 11.\nConexión a Internet para descargar el instalador.\nEspacio disponible en disco.\nPermisos para instalar aplicaciones.\n\nEn el procedimiento documentado se utilizó Neo4j Desktop 2.2.1 en Windows 11.\n\n\n\n\n\n\nNoteImportante\n\n\n\nLas pantallas pueden presentar pequeñas diferencias dependiendo de la versión de Neo4j Desktop y del sistema operativo.\nEl procedimiento general de instalación es similar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "3 Descargar Neo4j Desktop",
+    "text": "3 Descargar Neo4j Desktop\nPrimero debemos acceder al sitio oficial de Neo4j:\nhttps://neo4j.com/download/\nEn la página de descargas buscamos la opción correspondiente a Neo4j Desktop para Windows.\nAl seleccionar la descarga, aparecerá un formulario solicitando algunos datos.\n\n\n\n\n\n\nFigure 1: Formulario de descarga de Neo4j Desktop.\n\n\n\nComo se muestra en la Figure 1, el formulario solicita:\n\nNombre.\nApellidos.\nCorreo electrónico.\nInstitución u organización.\nRol o actividad.\nPaís.\n\nCompleta los campos solicitados y selecciona Download Desktop.\n\n3.1 Confirmar la descarga\nDespués de enviar el formulario, aparecerá una página de confirmación.\n\n\n\n\n\n\nFigure 2: Confirmación de descarga de Neo4j Desktop.\n\n\n\nEn la Figure 2 podemos observar el mensaje de agradecimiento por descargar Neo4j Desktop.\nGeneralmente, la descarga comienza automáticamente.\nSi esto no sucede, podemos utilizar el enlace Windows (exe) que aparece en la página.\nTambién se muestran algunos recursos adicionales para conocer Neo4j.\n\n\n\n\n\n\nFigure 3: Recursos adicionales disponibles en la página de descarga.\n\n\n\nEstos materiales incluyen documentación, cursos y recursos para desarrolladores.\nNo es necesario utilizarlos para completar la instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "href": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "4 Ejecutar el instalador",
+    "text": "4 Ejecutar el instalador\nCuando termine la descarga, abrimos la carpeta Descargas de Windows.\nLocalizamos el instalador de Neo4j Desktop y hacemos doble clic para ejecutarlo.\nSi Windows solicita autorización para realizar cambios en el equipo, verificamos que se trate del instalador descargado desde el sitio oficial y confirmamos la operación.\nDespués aparecerá el asistente de instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "5 Seleccionar el tipo de instalación",
+    "text": "5 Seleccionar el tipo de instalación\nEl instalador permite elegir para quién estará disponible la aplicación.\n\n\n\n\n\n\nFigure 4: Selección del tipo de instalación de Neo4j Desktop.\n\n\n\nComo se observa en la Figure 4, existen dos posibilidades:\n\nTodos los usuarios: la aplicación estará disponible para las cuentas del equipo.\nSolo para mí: la aplicación se instalará para el usuario actual.\n\nPara esta práctica seleccionamos Solo para mí.\nEsta opción es suficiente cuando trabajamos en una computadora personal.\nPosteriormente hacemos clic en Siguiente."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "6 Seleccionar la carpeta de instalación",
+    "text": "6 Seleccionar la carpeta de instalación\nEl asistente solicitará indicar la ubicación donde se instalará Neo4j Desktop.\n\n\n\n\n\n\nFigure 5: Carpeta de destino para instalar Neo4j Desktop.\n\n\n\nEn la Figure 5 se muestra la carpeta predeterminada propuesta por Windows.\nNo es necesario modificar esta ubicación.\nEn el procedimiento documentado, el instalador indicó un espacio requerido de aproximadamente 1.1 GB.\nPara continuar, hacemos clic en Instalar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "7 Proceso de instalación",
+    "text": "7 Proceso de instalación\nDespués de seleccionar la carpeta de destino, comenzará la instalación.\n\n\n\n\n\n\nFigure 6: Proceso de instalación de Neo4j Desktop.\n\n\n\nDurante este procedimiento, el asistente muestra una barra de progreso, como se observa en la Figure 6.\nDebemos esperar hasta que termine.\nEl tiempo necesario dependerá de las características del equipo.\nNo es necesario ejecutar comandos ni realizar configuraciones adicionales durante esta etapa."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "8 Finalizar la instalación",
+    "text": "8 Finalizar la instalación\nCuando el instalador termine, aparecerá una pantalla indicando que Neo4j Desktop se instaló correctamente.\n\n\n\n\n\n\nFigure 7: Finalización de la instalación de Neo4j Desktop.\n\n\n\nEn la Figure 7 aparece la opción:\nEjecutar Neo4j Desktop 2\nDejamos marcada esta casilla para abrir la aplicación automáticamente.\nFinalmente, hacemos clic en Terminar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "9 Primera ejecución de Neo4j Desktop",
+    "text": "9 Primera ejecución de Neo4j Desktop\nLa primera vez que abrimos Neo4j Desktop, aparece una pantalla de bienvenida con el acuerdo de licencia.\n\n\n\n\n\n\nFigure 8: Pantalla de bienvenida y acuerdo de licencia de Neo4j Desktop.\n\n\n\nEn esta pantalla podemos revisar las condiciones de uso de la aplicación.\nSi estamos de acuerdo con los términos y el aviso de privacidad, hacemos clic en Continue.\nDespués de continuar, Neo4j Desktop abrirá su pantalla principal."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "10 Pantalla principal de Neo4j Desktop",
+    "text": "10 Pantalla principal de Neo4j Desktop\nUna vez completada la configuración inicial, podremos acceder a la interfaz de Neo4j Desktop.\n\n\n\n\n\n\nFigure 9: Pantalla principal de Neo4j Desktop 2.\n\n\n\nComo se observa en la Figure 9, la aplicación presenta diferentes opciones en el menú lateral.\nEntre las principales encontramos:\n\n\n\n\n\n\n\nOpción\nDescripción\n\n\n\n\nLocal instances\nPermite crear y administrar instancias locales de Neo4j.\n\n\nRemote connections\nPermite configurar conexiones a instancias remotas.\n\n\nImport\nHerramienta para importar datos.\n\n\nQuery\nEntorno para escribir y ejecutar consultas.\n\n\nBloom\nHerramienta para explorar visualmente grafos.\n\n\nDashboards\nPermite trabajar con paneles de visualización.\n\n\nSettings\nConfiguración de la aplicación.\n\n\n\n\n10.1 ¿Qué es una instancia local?\nUna instancia local es una instalación del sistema gestor Neo4j que se ejecuta en nuestra propia computadora.\nUna instancia puede administrar bases de datos, permitiendo almacenar nodos, relaciones y propiedades.\nEn la pantalla principal aparece el botón:\nCreate instance\nEste botón permite comenzar el proceso de creación de una instancia local.\n\n\n\n\n\n\nNoteDiferencia entre instancia y base de datos\n\n\n\nLa instancia corresponde al sistema gestor Neo4j que se ejecuta en la computadora.\nLa base de datos es el espacio lógico donde almacenamos y consultamos nuestros grafos.\nUna instancia puede administrar una o varias bases de datos, dependiendo de la edición y configuración utilizada."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "11 Comprobación de la instalación",
+    "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#conclusión",
+    "href": "manuales/instalacion_neo4j_windows.html#conclusión",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "12 Conclusión",
+    "text": "12 Conclusión\nEn este manual realizamos el proceso de descarga e instalación de Neo4j Desktop en Windows.\nComenzamos accediendo al sitio oficial de Neo4j, descargamos el instalador, seleccionamos las opciones de instalación y completamos la configuración inicial.\nFinalmente, identificamos la pantalla principal de la aplicación y algunas de sus herramientas.\nCon Neo4j Desktop instalado, contamos con el entorno necesario para continuar con la creación de una instancia local y comenzar a trabajar con bases de datos orientadas a grafos mediante el lenguaje Cypher."
   },
   {
     "objectID": "practicas/01_mongodb_local.html",

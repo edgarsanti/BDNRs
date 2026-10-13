@@ -40,3 +40,16 @@ Apache Cassandra y realizar las primeras consultas con CQL.
    href="manuales/01_instalacion_cassandra_windows.html">
    Abrir manual
 </a>
+
+
+
+---
+
+## Instalación de Neo4j Desktop en Windows
+
+Manual paso a paso para descargar, instalar y configurar inicialmente Neo4j Desktop 2 en Windows. Se explica el proceso de instalación, la aceptación de la licencia y el reconocimiento de la interfaz principal, como preparación para trabajar con bases de datos orientadas a grafos.
+
+<a class="btn btn-primary"
+   href="manuales/instalacion_neo4j_windows.html">
+   Abrir manual
+</a>
