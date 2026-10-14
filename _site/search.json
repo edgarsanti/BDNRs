@@ -3372,5 +3372,509 @@
     "title": "Diapositivas",
     "section": "Tema 2. Escalabilidad y bases de datos distribuidas",
     "text": "Tema 2. Escalabilidad y bases de datos distribuidas\nEscalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.\n Abrir en nueva pestaña"
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html",
+    "href": "apuntes/12_neo4j_comandos_practica.html",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "",
+    "text": "En el apunte anterior estudiamos los fundamentos de las bases de datos orientadas a grafos: nodos, relaciones, propiedades y caminos. Ahora utilizaremos Neo4j y su lenguaje de consultas Cypher para aplicar esos conceptos.\nConstruiremos una pequeña red social con cinco personas: Ana, Carlos, María, Luis y Sofía. Aprenderemos a crear nodos, establecer relaciones dirigidas, recuperar datos, aplicar filtros, identificar caminos indirectos y obtener recomendaciones a partir de contactos en común.\n\n\n\n\n\n\nNotaObjetivo\n\n\n\nUtilizar Neo4j y Cypher para crear y consultar grafos, identificar conexiones directas e indirectas y construir una regla básica de recomendación.\n\n\n\n\n\n\n\n\nTipCómo utilizar esta guía docente\n\n\n\nCada ejercicio contiene el código que debes ejecutar, una explicación línea por línea, un resultado esperado y una sugerencia para explicarlo durante la clase. Ejecuta los códigos de creación en el orden indicado y una sola vez."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#introducción",
+    "href": "apuntes/12_neo4j_comandos_practica.html#introducción",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "",
+    "text": "En el apunte anterior estudiamos los fundamentos de las bases de datos orientadas a grafos: nodos, relaciones, propiedades y caminos. Ahora utilizaremos Neo4j y su lenguaje de consultas Cypher para aplicar esos conceptos.\nConstruiremos una pequeña red social con cinco personas: Ana, Carlos, María, Luis y Sofía. Aprenderemos a crear nodos, establecer relaciones dirigidas, recuperar datos, aplicar filtros, identificar caminos indirectos y obtener recomendaciones a partir de contactos en común.\n\n\n\n\n\n\nNotaObjetivo\n\n\n\nUtilizar Neo4j y Cypher para crear y consultar grafos, identificar conexiones directas e indirectas y construir una regla básica de recomendación.\n\n\n\n\n\n\n\n\nTipCómo utilizar esta guía docente\n\n\n\nCada ejercicio contiene el código que debes ejecutar, una explicación línea por línea, un resultado esperado y una sugerencia para explicarlo durante la clase. Ejecuta los códigos de creación en el orden indicado y una sola vez."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#entorno-de-trabajo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#entorno-de-trabajo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "2 Entorno de trabajo",
+    "text": "2 Entorno de trabajo\nPara realizar los ejercicios utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y ejecutar consultas sobre bases de datos orientadas a grafos.\nEn nuestro caso, trabajaremos con una instancia local llamada:\nBDNR_Neo4j\nLa base de datos que utilizaremos se llama:\nneo4j\n\n2.1 Iniciar Neo4j Desktop\nAntes de comenzar:\n\nAbre Neo4j Desktop.\nEn el menú lateral, selecciona Local instances.\nLocaliza la instancia BDNR_Neo4j.\nInicia la instancia si todavía no está funcionando.\nComprueba que aparezca el estado RUNNING.\nEn el menú lateral, selecciona Query.\n\nEl editor Query permite escribir instrucciones Cypher y visualizar sus resultados.\n\n\n\n\n\n\nTip¿Qué significa RUNNING?\n\n\n\nEl estado RUNNING indica que el servidor Neo4j está ejecutándose.\nSi la instancia está detenida, primero debemos iniciarla para poder conectarnos y ejecutar consultas.\n\n\n\n\n2.2 Identificar el editor Query\nEn el editor encontraremos un espacio para escribir instrucciones y un área donde se mostrarán los resultados.\nDependiendo de la consulta, los resultados podrán visualizarse como:\n\nUn grafo.\nUna tabla.\nUn conjunto de registros.\n\nPara nuestros ejercicios utilizaremos principalmente las vistas Graph y Table."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#qué-es-cypher",
+    "href": "apuntes/12_neo4j_comandos_practica.html#qué-es-cypher",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "3 ¿Qué es Cypher?",
+    "text": "3 ¿Qué es Cypher?\nCypher es un lenguaje declarativo que permite definir patrones sobre nodos, relaciones y propiedades.\nUn patrón básico es:\n(a)-[:CONOCE]-&gt;(b)\nNo ejecutes esta línea aislada: es un ejemplo de patrón, no una consulta completa.\n\n(a) es un nodo representado por la variable a.\n[:CONOCE] expresa una relación de tipo CONOCE.\n-&gt; señala la dirección almacenada o buscada.\n(b) es el nodo del otro extremo.\n\nTambién podemos describir un nodo con propiedades:\n(a:Persona {nombre: 'Ana'})\n\na: variable temporal de la consulta.\n:Persona: etiqueta del nodo.\nnombre: clave de la propiedad.\n'Ana': valor de la propiedad.\n\n\n\n\nElemento\nFunción\n\n\n\n\n()\nRepresentar nodos\n\n\n[]\nRepresentar relaciones\n\n\n-&gt;\nEspecificar dirección\n\n\n:\nIntroducir una etiqueta o tipo\n\n\n{}\nEspecificar propiedades o subconsultas según el contexto\n\n\nCREATE\nCrear información\n\n\nMATCH\nBuscar patrones\n\n\nWHERE\nFiltrar coincidencias\n\n\nRETURN\nMostrar resultados\n\n\n\nPara explicar en clase: la variable a no se guarda en el nodo. La información persistente es la etiqueta Persona y la propiedad nombre."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#crear-nuestro-primer-nodo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#crear-nuestro-primer-nodo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "4 Crear nuestro primer nodo",
+    "text": "4 Crear nuestro primer nodo\nComenzaremos creando un nodo que represente a Ana.\nEjecutamos:\nCREATE (a:Persona {nombre: 'Ana'})\nRETURN a;\n\n4.1 Explicación línea por línea\nLínea 1: CREATE (a:Persona {nombre: 'Ana'})\n\nCREATE indica que queremos crear información nueva.\na es una variable temporal para referirnos al nodo.\nPersona es la etiqueta que tendrá el nodo.\nnombre es una propiedad.\n'Ana' es el valor de esa propiedad.\n\nEsta línea crea un nodo con la etiqueta Persona y el nombre Ana.\nLínea 2: RETURN a;\n\nRETURN indica que queremos mostrar un resultado.\na representa el nodo que acabamos de crear.\nEl punto y coma marca el final de la consulta.\n\n\n\n4.2 Resultado esperado\nEn la vista Graph aparecerá un nodo.\nConceptualmente:\n(Ana)\nEn la sección de información de la base de datos deberíamos observar:\nNodes (1)\nRelationships (0)\n\n\n4.3 Para explicar en clase\nEn este primer ejercicio estamos creando una entidad.\nTodavía no existe ninguna relación con otros nodos.\nLa información almacenada corresponde únicamente a la persona Ana.\n\n\n\n\n\n\nWarningImportante\n\n\n\nSi ejecutamos nuevamente este código, Neo4j creará otro nodo con el mismo nombre.\nCREATE no comprueba automáticamente si ya existe una persona llamada Ana.\nPor ello, ejecutaremos el código una sola vez."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#crear-un-segundo-nodo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#crear-un-segundo-nodo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "5 Crear un segundo nodo",
+    "text": "5 Crear un segundo nodo\nAhora agregaremos una segunda persona llamada Carlos.\nEjecutamos:\nCREATE (b:Persona {nombre: 'Carlos'})\nRETURN b;\n\n5.1 Explicación línea por línea\nLínea 1: CREATE (b:Persona {nombre: 'Carlos'})\n\nCREATE crea un nuevo nodo.\nb es una variable temporal.\n:Persona indica que el nodo representa a una persona.\n{nombre: 'Carlos'} almacena el nombre Carlos.\n\nLínea 2: RETURN b;\n\nDevuelve el nodo recién creado.\nPermite visualizarlo en Neo4j.\n\n\n\n5.2 Resultado esperado\nAhora tendremos dos nodos:\n(Ana)       (Carlos)\nEn el panel de información:\nNodes (2)\nRelationships (0)\n\n\n5.3 Para explicar en clase\nYa tenemos dos personas almacenadas en nuestra base de datos.\nSin embargo, todavía no hemos indicado que exista alguna conexión entre ellas.\nCrear nodos no significa crear relaciones automáticamente.\nLas conexiones deben establecerse explícitamente."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#crear-nuestra-primera-relación",
+    "href": "apuntes/12_neo4j_comandos_practica.html#crear-nuestra-primera-relación",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "6 Crear nuestra primera relación",
+    "text": "6 Crear nuestra primera relación\nVamos a indicar que Ana conoce a Carlos.\nMATCH (a:Persona {nombre: 'Ana'})\nMATCH (b:Persona {nombre: 'Carlos'})\nCREATE (a)-[:CONOCE]-&gt;(b)\nRETURN a, b;\nExplicación línea por línea\n\nLínea 1 — MATCH ... 'Ana': localiza el nodo Ana y lo identifica con a.\nLínea 2 — MATCH ... 'Carlos': localiza el nodo Carlos y lo identifica con b.\nLínea 3 — CREATE (a)-[:CONOCE]-&gt;(b): crea una relación de tipo CONOCE desde Ana hacia Carlos.\nLínea 4 — RETURN a, b;: devuelve los dos nodos. Esta forma no devuelve explícitamente una variable de relación; en el siguiente ejercicio recuperaremos la conexión completa.\n\nResultado esperado: dos nodos y una relación: Ana → Carlos.\nPara explicar en clase: MATCH encuentra nodos que ya existen; CREATE construye la conexión. La flecha importa: Ana→Carlos no implica que se haya creado Carlos→Ana."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-existentes",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-existentes",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "7 Consultar relaciones existentes",
+    "text": "7 Consultar relaciones existentes\nHasta ahora utilizamos CREATE para agregar información.\nAhora utilizaremos MATCH para recuperar datos que ya están almacenados.\nEjecutamos:\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\n\n7.1 Explicación\nEl patrón:\n(a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nbusca:\n\nUn nodo con la etiqueta Persona.\nUna relación de tipo CONOCE.\nOtro nodo con la etiqueta Persona.\n\nLa variable r representa la relación encontrada.\nLa instrucción:\nRETURN a, r, b;\ndevuelve los dos nodos y la relación que los conecta.\n\n\n7.2 Resultado esperado\nAna ─── CONOCE ───&gt; Carlos\nEsta consulta no modifica la base de datos.\n\n\n\n\n\n\nTipDiferencia entre CREATE y MATCH\n\n\n\nCREATE: agrega nodos o relaciones.\nMATCH: busca patrones existentes en el grafo.\nEsta diferencia es fundamental para trabajar con Cypher."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#agregar-más-personas-a-nuestra-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#agregar-más-personas-a-nuestra-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "8 Agregar más personas a nuestra red social",
+    "text": "8 Agregar más personas a nuestra red social\nAhora ampliaremos nuestro grafo agregando tres personas:\n\nMaría.\nLuis.\nSofía.\n\nEjecutamos:\nCREATE (m:Persona {nombre: 'María'})\nCREATE (l:Persona {nombre: 'Luis'})\nCREATE (s:Persona {nombre: 'Sofía'})\nRETURN m, l, s;\n\n8.1 Explicación\nEn este ejemplo utilizamos tres instrucciones CREATE, una por cada nodo.\nLas variables m, l y s permiten referirnos a los nodos durante la ejecución.\n\n\n8.2 Resultado esperado\nDespués de ejecutar el código tendremos cinco nodos en total:\nAna\nCarlos\nMaría\nLuis\nSofía\nY una sola relación, creada anteriormente:\nAna ─── CONOCE ───&gt; Carlos\nEn Neo4j deberíamos observar:\nNodes (5)\nRelationships (1)"
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#construir-las-relaciones-de-nuestra-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#construir-las-relaciones-de-nuestra-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "9 Construir las relaciones de nuestra red social",
+    "text": "9 Construir las relaciones de nuestra red social\nAhora crearemos cuatro relaciones adicionales.\nLa estructura que buscamos es:\nAna ─── CONOCE ───&gt; Carlos\n\nAna ─── CONOCE ───&gt; María\n\nCarlos ─ CONOCE ───&gt; Luis\n\nMaría ── CONOCE ───&gt; Luis\n\nSofía ── CONOCE ───&gt; María\nComo la relación entre Ana y Carlos ya existe, solamente necesitamos crear las otras cuatro.\nEjecutamos:\nMATCH (a:Persona {nombre: 'Ana'})\nMATCH (c:Persona {nombre: 'Carlos'})\nMATCH (m:Persona {nombre: 'María'})\nMATCH (l:Persona {nombre: 'Luis'})\nMATCH (s:Persona {nombre: 'Sofía'})\n\nCREATE (a)-[:CONOCE]-&gt;(m)\nCREATE (c)-[:CONOCE]-&gt;(l)\nCREATE (m)-[:CONOCE]-&gt;(l)\nCREATE (s)-[:CONOCE]-&gt;(m)\n\nRETURN a, c, m, l, s;\n\n9.1 Explicación\nPrimero utilizamos MATCH para recuperar los cinco nodos existentes.\nDespués utilizamos CREATE para agregar las relaciones.\nEn esta ocasión no creamos personas nuevas.\nSolamente estamos conectando nodos que ya existen.\n\n\n9.2 Resultado esperado\nAhora nuestra base de datos contiene:\nNodes (5)\nRelationships (5)\n\n\n9.3 Visualizar todas las conexiones\nPara recuperar las relaciones y mostrarlas en el grafo, ejecutamos:\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\nSeleccionamos la vista Graph.\nDe esta manera podemos visualizar las cinco personas y sus conexiones.\n\n\n\n\n\n\nNote¿Por qué devolvemos la relación?\n\n\n\nCuando ejecutamos:\nRETURN a, c, m, l, s;\nestamos devolviendo los nodos.\nPero si queremos recuperar explícitamente las relaciones para visualizarlas, conviene incluirlas en el resultado:\nRETURN a, r, b;\nEsto permite mostrar la estructura del grafo consultado."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-a-quién-conoce-ana",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-a-quién-conoce-ana",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "11 Consultar a quién conoce Ana",
+    "text": "11 Consultar a quién conoce Ana\nQueremos responder:\n\n¿Qué personas conoce Ana directamente?\n\nEjecutamos:\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nWHERE a.nombre = 'Ana'\nRETURN b.nombre AS Persona;\n\n11.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nBusca relaciones de tipo CONOCE entre dos personas.\n\na representa el origen.\nb representa el destino.\nLa flecha indica que buscamos relaciones desde a hacia b.\n\nLínea 2\nWHERE a.nombre = 'Ana'\nEstablece una condición.\n\nWHERE permite filtrar resultados.\na.nombre consulta la propiedad nombre del nodo a.\n= comprueba si el valor es igual al indicado.\n'Ana' es el valor que estamos buscando.\n\nPor lo tanto, solo consideramos las relaciones que salen de Ana.\nLínea 3\nRETURN b.nombre AS Persona;\n\nRETURN devuelve la información solicitada.\nb.nombre recupera el nombre del nodo de destino.\nAS Persona cambia el encabezado de la columna.\n\n\n\n11.2 Resultado esperado\n\n\n\nPersona\n\n\n\n\nCarlos\n\n\nMaría\n\n\n\n\n\n11.3 Para explicar en clase\nEsta consulta responde a una pregunta concreta sin mostrar toda la red.\nAdemás, permite introducir el concepto de filtro mediante WHERE.\n\n\n11.4 Visualizar las relaciones\nTambién podemos ejecutar:\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nWHERE a.nombre = 'Ana'\nRETURN a, r, b;\nExplicación\nLa búsqueda y el filtro son iguales a los anteriores.\nLa diferencia está en RETURN:\n\nAntes devolvíamos solamente los nombres.\nAhora devolvemos los nodos y sus relaciones.\n\nEn la vista Graph aparecerán Ana, Carlos y María."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-quiénes-conocen-a-luis",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-quiénes-conocen-a-luis",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "12 Consultar quiénes conocen a Luis",
+    "text": "12 Consultar quiénes conocen a Luis\nAhora responderemos:\n\n¿Qué personas tienen una relación CONOCE dirigida hacia Luis?\n\nEjecutamos:\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nWHERE b.nombre = 'Luis'\nRETURN a.nombre AS Persona;\n\n12.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nBusca relaciones dirigidas entre personas.\nLínea 2\nWHERE b.nombre = 'Luis'\nAquí buscamos relaciones cuyo nodo de destino sea Luis.\nEs diferente del ejercicio anterior, donde establecimos la condición sobre el nodo de origen.\nLínea 3\nRETURN a.nombre AS Persona;\nDevuelve los nombres de las personas que originan esas relaciones.\n\n\n12.2 Resultado esperado\n\n\n\nPersona\n\n\n\n\nCarlos\n\n\nMaría\n\n\n\n\n\n12.3 Para explicar en clase\nEsta consulta ayuda a comprender la importancia de la dirección de las relaciones.\nEn el ejercicio anterior buscamos conexiones que salen de Ana.\nAhora buscamos conexiones que llegan a Luis."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-en-diferentes-direcciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-en-diferentes-direcciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "12 Consultar relaciones en diferentes direcciones",
+    "text": "12 Consultar relaciones en diferentes direcciones\nHasta ahora hemos utilizado patrones dirigidos.\nPor ejemplo:\n(a)-[:CONOCE]-&gt;(b)\nBusca relaciones que van de a hacia b.\nTambién podemos invertir la dirección:\n(a)&lt;-[:CONOCE]-(b)\nEn este caso, la relación va de b hacia a.\nFinalmente, podemos escribir:\n(a)-[:CONOCE]-(b)\nEste patrón permite buscar relaciones sin exigir una dirección específica.\n\n12.1 Ejemplo: todas las personas conectadas con María\nEjecutamos:\nMATCH (m:Persona {nombre: 'María'})-[:CONOCE]-(p:Persona)\nRETURN DISTINCT p.nombre AS Persona;\n\n\n12.2 Resultado esperado\n\n\n\nPersona\n\n\n\n\nAna\n\n\nLuis\n\n\nSofía\n\n\n\nEn este ejemplo encontramos personas conectadas con María sin importar el sentido de la relación.\n\n\n\n\n\n\nImportantImportante\n\n\n\nUna consulta que no especifica dirección no cambia la dirección de las relaciones almacenadas.\nSolamente permite buscar coincidencias en cualquiera de los dos sentidos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#relaciones-directas-e-indirectas",
+    "href": "apuntes/12_neo4j_comandos_practica.html#relaciones-directas-e-indirectas",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "14 Relaciones directas e indirectas",
+    "text": "14 Relaciones directas e indirectas\nUna relación directa conecta dos nodos con una relación: Ana → Carlos.\nUna conexión indirecta puede involucrar intermediarios:\nAna → Carlos → Luis\nAna → María  → Luis\nLa base almacena las relaciones directas; Neo4j encuentra los caminos indirectos al consultar sus patrones."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-caminos-indirectos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-caminos-indirectos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "14 Consultar caminos indirectos",
+    "text": "14 Consultar caminos indirectos\nAhora preguntaremos:\n\n¿Por medio de quién está conectada Ana con Luis?\n\nEjecutamos:\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(intermedio:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN a.nombre AS Origen,\n       intermedio.nombre AS Intermediario,\n       b.nombre AS Destino;\n\n14.1 Explicación\nLa consulta busca un patrón formado por:\nOrigen ───&gt; Intermediario ───&gt; Destino\nEn nuestro caso:\n\nEl origen debe ser Ana.\nEl destino debe ser Luis.\nEl intermediario puede ser cualquier persona que cumpla el patrón.\n\n\n\n14.2 Resultado esperado\n\n\n\nOrigen\nIntermediario\nDestino\n\n\n\n\nAna\nCarlos\nLuis\n\n\nAna\nMaría\nLuis\n\n\n\nNeo4j encontró dos caminos diferentes.\n\n\n14.3 ¿Tenemos que almacenar esos caminos?\nNo.\nNosotros almacenamos las relaciones directas entre las personas.\nNeo4j puede recorrerlas y encontrar conexiones indirectas que cumplan el patrón solicitado.\n\n\n\n\n\n\nNoteIdea clave\n\n\n\nNeo4j no necesita que almacenemos manualmente cada conexión indirecta.\nPodemos utilizar Cypher para buscar caminos a través de las relaciones existentes.\nSin embargo, debemos indicar qué patrones o condiciones queremos explorar."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#trabajar-con-caminos-completos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#trabajar-con-caminos-completos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "15 Trabajar con caminos completos",
+    "text": "15 Trabajar con caminos completos\nHasta ahora recuperamos los nombres de las personas involucradas.\nTambién podemos recuperar un camino completo.\nPara ello utilizamos una variable:\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino;\n\n15.1 ¿Qué significa camino?\ncamino es una variable que representa una secuencia de nodos y relaciones.\nLa consulta busca caminos formados por dos relaciones de tipo CONOCE.\nEn nuestro ejemplo recupera:\nAna → Carlos → Luis\n\nAna → María → Luis\nEn la vista Graph podemos observar visualmente ambos caminos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#longitud-de-los-caminos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#longitud-de-los-caminos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "16 Longitud de los caminos",
+    "text": "16 Longitud de los caminos\nUn camino puede medirse por la cantidad de relaciones que lo forman.\nPor ejemplo:\nAna → Carlos → Luis\nContiene:\n\nTres nodos.\nDos relaciones.\n\nPor lo tanto, su longitud es 2.\nEn Cypher podemos utilizar la función length() para obtener la longitud de un camino.\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino,\n       length(camino) AS Longitud;\n\n16.1 Resultado esperado\nObtendremos dos caminos.\nCada uno tendrá:\nLongitud = 2\n\n\n\n\n\n\nTipPara recordar\n\n\n\nLa función length() devuelve la cantidad de relaciones de un camino.\nNo cuenta directamente la cantidad de nodos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#sistema-básico-de-recomendaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#sistema-básico-de-recomendaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "17 Sistema básico de recomendaciones",
+    "text": "17 Sistema básico de recomendaciones\nAhora utilizaremos las conexiones indirectas para construir un ejemplo sencillo de recomendaciones.\nSupongamos que una red social quiere recomendar nuevas personas a sus usuarios.\nUna regla posible sería:\n\nRecomendar personas que conocen nuestros contactos, pero con quienes todavía no tenemos una relación directa.\n\nEn nuestra red social tenemos:\nAna ───&gt; Carlos ───&gt; Luis\n  │\n  └────&gt; María ─────&gt; Luis\nAna conoce directamente a Carlos y María.\nAmbos conocen a Luis.\nPor lo tanto, Luis podría ser una recomendación candidata para Ana."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-personas-recomendadas",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-personas-recomendadas",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "18 Consultar personas recomendadas",
+    "text": "18 Consultar personas recomendadas\nEjecutamos:\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(contacto:Persona)\n      -[:CONOCE]-&gt;(recomendado:Persona)\nWHERE recomendado &lt;&gt; a\n  AND NOT EXISTS {\n      MATCH (a)-[:CONOCE]-&gt;(recomendado)\n  }\nRETURN recomendado.nombre AS Recomendacion,\n       COUNT(DISTINCT contacto) AS ContactosEnComun;\n\n18.1 Explicación del patrón\nPrimero buscamos:\nAna → Contacto → Recomendado\nEs decir, personas que podemos encontrar a través de los contactos directos de Ana.\n\n\n18.2 Evitar recomendar al mismo usuario\nLa condición:\nWHERE recomendado &lt;&gt; a\nevita que Ana aparezca como recomendación para sí misma.\n\n\n18.3 Evitar contactos que Ana ya conoce\nLa condición:\nAND NOT EXISTS {\n    MATCH (a)-[:CONOCE]-&gt;(recomendado)\n}\ncomprueba que todavía no exista una relación directa de Ana hacia la persona recomendada.\n\n\n18.4 Contar contactos compartidos\nFinalmente utilizamos:\nCOUNT(DISTINCT contacto)\nEsta función cuenta cuántos contactos diferentes conectan a Ana con cada persona recomendada.\nLa palabra DISTINCT evita contar repetidamente al mismo contacto.\n\n\n18.5 Resultado esperado\n\n\n\nRecomendacion\nContactosEnComun\n\n\n\n\nLuis\n2\n\n\n\nLuis aparece porque existen dos caminos:\nAna → Carlos → Luis\n\nAna → María → Luis\n\n\n\n\n\n\nImportant¿Neo4j recomienda automáticamente a Luis?\n\n\n\nNo exactamente.\nNosotros definimos una regla de recomendación mediante Cypher.\nNeo4j recorre las relaciones existentes y encuentra las personas que cumplen esa regla.\nEn un sistema real, las recomendaciones también podrían considerar intereses, interacciones, preferencias y otros criterios."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#visualizar-los-caminos-de-recomendación",
+    "href": "apuntes/12_neo4j_comandos_practica.html#visualizar-los-caminos-de-recomendación",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "20 Visualizar los caminos de recomendación",
+    "text": "20 Visualizar los caminos de recomendación\nTambién podemos mostrar los caminos que justifican la recomendación.\nEjecutamos:\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(contacto:Persona)\n      -[:CONOCE]-&gt;(recomendado:Persona)\nWHERE recomendado &lt;&gt; a\n  AND NOT EXISTS {\n      MATCH (a)-[:CONOCE]-&gt;(recomendado)\n  }\nRETURN camino;\n\n20.1 Explicación línea por línea\nLínea 1\nMATCH camino =\nAsigna una variable a cada camino encontrado.\nLínea 2\n(a:Persona {nombre: 'Ana'})\nEstablece el nodo inicial.\nLínea 3\n-[:CONOCE]-&gt;(contacto:Persona)\nBusca los contactos directos de Ana.\nLínea 4\n-[:CONOCE]-&gt;(recomendado:Persona)\nBusca personas conocidas por esos contactos.\nLíneas 5 a 8\nAplican las mismas condiciones del ejercicio anterior:\n\nEvitar recomendar a Ana.\nEvitar recomendar personas que Ana ya conoce directamente.\n\nÚltima línea\nRETURN camino;\nDevuelve las conexiones completas.\n\n\n20.2 Resultado esperado\nEn Graph observaremos:\nAna → Carlos → Luis\n\nAna → María → Luis\n\n\n20.3 Para explicar en clase\nEsta consulta resulta útil porque permite visualizar por qué se generó una recomendación.\nEn lugar de mostrar solamente el nombre Luis, podemos presentar las conexiones que lo relacionan con Ana."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-todo-nuestro-grafo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-todo-nuestro-grafo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "20 Consultar todo nuestro grafo",
+    "text": "20 Consultar todo nuestro grafo\nHasta ahora hemos realizado consultas específicas.\nPero también podemos recuperar todos los nodos y relaciones almacenados.\nPrimero consultaremos los nodos:\nMATCH (n)\nRETURN n;\n\n20.1 Explicación\nEl patrón:\n(n)\nrepresenta cualquier nodo del grafo.\nPor lo tanto, esta consulta devuelve todos los nodos de la base de datos.\nEn nuestro ejemplo esperamos encontrar cinco personas.\n\n\n20.2 Recuperar todas las relaciones\nEjecutamos:\nMATCH (a)-[r]-&gt;(b)\nRETURN a, r, b;\nEsta consulta busca todas las relaciones dirigidas entre nodos, independientemente del tipo de relación.\nEn nuestra red social esperamos visualizar cinco relaciones de tipo CONOCE.\n\n\n\n\n\n\nWarningConsultas sobre grafos grandes\n\n\n\nEn esta práctica podemos recuperar todos los nodos y relaciones porque tenemos una red muy pequeña.\nEn una base de datos con miles o millones de elementos, recuperar todo el grafo puede ser costoso o poco práctico.\nEn esos casos conviene utilizar filtros y límites para consultar únicamente la información necesaria."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultas-adicionales-para-practicar",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultas-adicionales-para-practicar",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "21 Consultas adicionales para practicar",
+    "text": "21 Consultas adicionales para practicar\nAhora que conocemos los principales comandos, podemos realizar algunos ejercicios adicionales.\n\n21.1 Ejercicio 1. Consultar todas las personas\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre;\nPregunta: ¿Cuántas personas existen en nuestra red social?\n\n\n21.2 Ejercicio 2. Ordenar los nombres\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC;\nPregunta: ¿Qué nombre aparece primero al ordenar alfabéticamente?\n\n\n21.3 Ejercicio 3. Consultar únicamente tres personas\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC\nLIMIT 3;\nPregunta: ¿Qué función cumple LIMIT?\n\n\n21.4 Ejercicio 4. Contar todos los nodos Persona\nMATCH (p:Persona)\nRETURN COUNT(p) AS TotalPersonas;\nResultado esperado: 5 personas.\n\n\n21.5 Ejercicio 5. Contar las relaciones CONOCE\nMATCH ()-[r:CONOCE]-&gt;()\nRETURN COUNT(r) AS TotalRelaciones;\nResultado esperado: 5 relaciones.\n\n\n21.6 Ejercicio 6. Consultar cuántas personas conoce cada usuario\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nRETURN a.nombre AS Persona,\n       COUNT(b) AS TotalContactos\nORDER BY TotalContactos DESC;\nEsta consulta cuenta las relaciones salientes de tipo CONOCE de cada persona que tiene al menos una.\nPregunta: ¿Quién tiene más relaciones salientes de tipo CONOCE?"
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#actividad-práctica",
+    "href": "apuntes/12_neo4j_comandos_practica.html#actividad-práctica",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "30 Actividad práctica",
+    "text": "30 Actividad práctica\nUtilizando la red social que construimos:\n\nConsulta todos los nodos.\nRecupera las relaciones CONOCE.\nIdentifica a quién conoce Ana.\nIdentifica quiénes conocen a Luis.\nBusca las personas conectadas con María sin restringir la dirección.\nEncuentra los caminos de dos relaciones desde Ana hasta Luis.\nCalcula la longitud de esos caminos.\nObtén las recomendaciones para Ana.\nCuenta los contactos intermediarios de cada recomendación.\nCalcula el número total de nodos y relaciones.\nOrdena alfabéticamente los nombres de las personas.\nDevuelve solo tres nombres mediante LIMIT.\nCuenta las relaciones salientes de cada persona.\n\n\n\n\n\n\n\nTipRespuestas esperadas para el docente\n\n\n\n\n\n\n5 personas y 5 relaciones.\nAna conoce a Carlos y María.\nCarlos y María conocen a Luis.\nMaría está conectada con Ana, Luis y Sofía.\nHay 2 caminos de longitud 2 entre Ana y Luis.\nRecomendación para Ana: Luis, con 2 contactos intermediarios.\nAna tiene 2 relaciones salientes; Carlos, María y Sofía tienen 1 cada uno."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#preguntas-para-reflexionar",
+    "href": "apuntes/12_neo4j_comandos_practica.html#preguntas-para-reflexionar",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "31 Preguntas para reflexionar",
+    "text": "31 Preguntas para reflexionar\n\n¿Qué diferencia hay entre nodo, relación y propiedad?\n¿Qué diferencias existen entre CREATE y MATCH?\n¿Por qué buscamos los nodos con MATCH antes de conectarlos con CREATE?\n¿Qué significa la dirección de una relación?\n¿Qué cambia cuando escribimos un patrón sin flecha?\n¿Qué hace WHERE?\n¿Por qué un camino indirecto no requiere crear una relación nueva?\n¿Qué mide length(camino)?\n¿Qué propósito tienen NOT EXISTS y DISTINCT en las recomendaciones?\n¿Por qué Neo4j encuentra conexiones pero no inventa por sí mismo la regla de recomendación?\n¿Para qué sirven COUNT(), ORDER BY y LIMIT?\n¿En qué casos sería útil elegir una base de datos orientada a grafos?"
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#ideas-clave",
+    "href": "apuntes/12_neo4j_comandos_practica.html#ideas-clave",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "32 Ideas clave",
+    "text": "32 Ideas clave\n\nCypher expresa consultas mediante patrones de nodos y relaciones.\nCREATE agrega información; MATCH recupera patrones existentes.\nWHERE permite filtrar coincidencias.\nLas relaciones tienen una dirección almacenada, aunque las consultas pueden buscar sin exigirla.\nLos caminos conectan nodos mediante una secuencia de relaciones.\nlength() mide el número de relaciones de un camino.\nLas recomendaciones dependen de reglas definidas por nosotros, no de decisiones automáticas del gestor.\nCOUNT(), DISTINCT, ORDER BY y LIMIT ayudan a resumir y presentar resultados."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#conclusión",
+    "href": "apuntes/12_neo4j_comandos_practica.html#conclusión",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "33 Conclusión",
+    "text": "33 Conclusión\nDurante esta práctica construimos una red social de cinco personas mediante Neo4j y Cypher. Creamos nodos y relaciones, recuperamos información, utilizamos filtros y exploramos conexiones directas e indirectas. Finalmente aplicamos una regla sencilla de recomendaciones basada en contactos en común.\nEl ejemplo muestra una de las fortalezas de las bases de datos orientadas a grafos: representar y explorar las conexiones entre entidades de forma explícita y comprensible."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#preparar-el-entorno-de-trabajo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#preparar-el-entorno-de-trabajo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "2 Preparar el entorno de trabajo",
+    "text": "2 Preparar el entorno de trabajo\nUtilizaremos Neo4j Desktop, la instancia local BDNR_Neo4j y la base de datos neo4j.\n\nAbre Neo4j Desktop.\nEn Local instances, localiza BDNR_Neo4j.\nInicia el servidor y confirma que se encuentre en estado RUNNING.\nAbre la sección Query.\nComprueba que estés trabajando en la base neo4j.\n\nPara explicar en clase: Desktop administra el entorno; la instancia ejecuta el servidor; la base de datos conserva los nodos y relaciones; Query permite enviar instrucciones Cypher.\n\n2.1 Verificar los datos iniciales\nMATCH (n)\nRETURN count(n) AS TotalNodos;\nExplicación línea por línea\n\nLínea 1 — MATCH (n): busca todos los nodos; no indicamos una etiqueta, de modo que n puede representar cualquier nodo.\nLínea 2 — RETURN count(n) AS TotalNodos;: cuenta los nodos encontrados y presenta la cifra con el encabezado TotalNodos.\n\nResultado esperado: 0 si la base está vacía. Si ya practicamos antes, podría aparecer un número mayor.\n\n\n\n\n\n\nAdvertenciaEvitar duplicados\n\n\n\nEsta guía presupone que todavía no hemos creado los cinco nodos del ejercicio. Volver a ejecutar CREATE puede duplicar datos. Al final incluimos un procedimiento de limpieza que solo debe usarse en una base dedicada a la práctica."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#introducción-al-lenguaje-cypher",
+    "href": "apuntes/12_neo4j_comandos_practica.html#introducción-al-lenguaje-cypher",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "3 Introducción al lenguaje Cypher",
+    "text": "3 Introducción al lenguaje Cypher\nCypher es un lenguaje declarativo utilizado para consultar y modificar información almacenada en grafos de propiedades como los que utiliza Neo4j.\nSu sintaxis permite representar patrones de nodos y relaciones.\nPor ejemplo:\n(a)-[:CONOCE]-&gt;(b)\nEste patrón puede interpretarse visualmente como:\n(a) ─── CONOCE ───&gt; (b)\n\n3.1 Elementos básicos de Cypher\n\n\n\nElemento\nSignificado\n\n\n\n\n()\nRepresenta un nodo.\n\n\n[]\nRepresenta una relación.\n\n\n-&gt;\nIndica una dirección.\n\n\n:Persona\nEtiqueta de un nodo.\n\n\n:CONOCE\nTipo de relación.\n\n\n{}\nPropiedades.\n\n\nCREATE\nCrea nodos o relaciones.\n\n\nMATCH\nBusca patrones existentes.\n\n\nRETURN\nDevuelve los resultados.\n\n\nWHERE\nEstablece condiciones.\n\n\n\n\n\n3.2 Ejemplo de un nodo\n(a:Persona {nombre: 'Ana'})\nExplicación de sus elementos\n\n( y ) delimitan el nodo.\na es una variable que utilizamos dentro de la consulta.\n:Persona es la etiqueta del nodo.\n{nombre: 'Ana'} especifica una propiedad y su valor.\n\n\n\n\n\n\n\nNoteDiferencia entre variable, etiqueta y propiedad\n\n\n\nLa variable permite referirnos a un nodo durante la consulta.\nLa etiqueta clasifica al nodo.\nLa propiedad almacena información sobre el nodo.\nPor ejemplo, en (a:Persona {nombre: 'Ana'}):\n\nVariable: a.\nEtiqueta: Persona.\nPropiedad: nombre.\nValor: Ana.\n\nLa variable a no se guarda como propiedad del nodo."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-nuestra-primera-relación",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-nuestra-primera-relación",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "7 Consultar nuestra primera relación",
+    "text": "7 Consultar nuestra primera relación\nAhora vamos a recuperar la relación que acabamos de crear.\nEjecutamos:\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\n\n7.1 Explicación línea por línea\nLínea 1: MATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nBuscamos un patrón formado por dos nodos y una relación.\n\nMATCH busca información existente.\n(a:Persona) representa el nodo de origen.\n[r:CONOCE] representa una relación de tipo CONOCE.\nr es una variable temporal que identifica la relación encontrada.\n-&gt; indica la dirección que debe cumplir.\n(b:Persona) representa el nodo de destino.\n\nLínea 2: RETURN a, r, b;\n\nDevuelve el nodo de origen.\nDevuelve la relación.\nDevuelve el nodo de destino.\n\nEsto permite visualizar la conexión completa.\n\n\n7.2 Resultado esperado\nAna ─── CONOCE ───&gt; Carlos\n\n\n7.3 ¿Qué diferencia existe con el ejercicio anterior?\nEn el ejercicio anterior utilizamos:\nCREATE\npara agregar una relación.\nAhora utilizamos:\nMATCH\npara buscar una relación que ya existe.\nEsta segunda consulta no modifica la base de datos.\n\n\n\n\n\n\nTipPara recordar\n\n\n\nCREATE agrega información.\nMATCH consulta información existente.\nRETURN determina qué información queremos mostrar."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#agregar-más-personas-a-la-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#agregar-más-personas-a-la-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "8 Agregar más personas a la red social",
+    "text": "8 Agregar más personas a la red social\nAhora ampliaremos nuestra base de datos.\nCrearemos tres nuevos nodos:\n\nMaría.\nLuis.\nSofía.\n\nEjecutamos:\nCREATE (m:Persona {nombre: 'María'})\nCREATE (l:Persona {nombre: 'Luis'})\nCREATE (s:Persona {nombre: 'Sofía'})\nRETURN m, l, s;\n\n8.1 Explicación línea por línea\nLínea 1: CREATE (m:Persona {nombre: 'María'})\nCrea un nodo con la etiqueta Persona y el nombre María.\nLa variable m representa ese nodo durante la consulta.\nLínea 2: CREATE (l:Persona {nombre: 'Luis'})\nCrea un segundo nodo llamado Luis.\nLa variable l representa al nuevo nodo.\nLínea 3: CREATE (s:Persona {nombre: 'Sofía'})\nCrea un tercer nodo llamado Sofía.\nLa variable s representa al nuevo nodo.\nLínea 4: RETURN m, l, s;\nDevuelve los tres nodos recién creados.\n\n\n8.2 Resultado esperado\nAhora tendremos cinco personas:\nAna\nCarlos\nMaría\nLuis\nSofía\nEl número de elementos debería ser:\nNodes (5)\nRelationships (1)\n\n\n8.3 Para explicar en clase\nAunque tenemos cinco personas, solamente existe una relación almacenada.\nLa relación que creamos anteriormente fue:\nAna ─── CONOCE ───&gt; Carlos\nAhora vamos a conectar las demás personas."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#construir-nuestra-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#construir-nuestra-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "9 Construir nuestra red social",
+    "text": "9 Construir nuestra red social\nQueremos representar las siguientes relaciones:\nAna ─── CONOCE ───&gt; Carlos\n\nAna ─── CONOCE ───&gt; María\n\nCarlos ─ CONOCE ───&gt; Luis\n\nMaría ── CONOCE ───&gt; Luis\n\nSofía ── CONOCE ───&gt; María\nLa primera relación ya existe.\nPor lo tanto, solamente vamos a crear las otras cuatro.\n\n9.1 Ejecutar el código\nMATCH (a:Persona {nombre: 'Ana'})\nMATCH (c:Persona {nombre: 'Carlos'})\nMATCH (m:Persona {nombre: 'María'})\nMATCH (l:Persona {nombre: 'Luis'})\nMATCH (s:Persona {nombre: 'Sofía'})\n\nCREATE (a)-[:CONOCE]-&gt;(m)\nCREATE (c)-[:CONOCE]-&gt;(l)\nCREATE (m)-[:CONOCE]-&gt;(l)\nCREATE (s)-[:CONOCE]-&gt;(m)\n\nRETURN a, c, m, l, s;\n\n\n9.2 Explicación línea por línea\nPrimera línea\nMATCH (a:Persona {nombre: 'Ana'})\nBusca el nodo de Ana y lo asigna a a.\nSegunda línea\nMATCH (c:Persona {nombre: 'Carlos'})\nBusca el nodo de Carlos y lo asigna a c.\nTercera línea\nMATCH (m:Persona {nombre: 'María'})\nBusca el nodo de María y lo asigna a m.\nCuarta línea\nMATCH (l:Persona {nombre: 'Luis'})\nBusca el nodo de Luis y lo asigna a l.\nQuinta línea\nMATCH (s:Persona {nombre: 'Sofía'})\nBusca el nodo de Sofía y lo asigna a s.\nHasta este punto solamente hemos localizado los nodos.\nSexta línea\nCREATE (a)-[:CONOCE]-&gt;(m)\nCrea una relación desde Ana hacia María.\nSéptima línea\nCREATE (c)-[:CONOCE]-&gt;(l)\nCrea una relación desde Carlos hacia Luis.\nOctava línea\nCREATE (m)-[:CONOCE]-&gt;(l)\nCrea una relación desde María hacia Luis.\nNovena línea\nCREATE (s)-[:CONOCE]-&gt;(m)\nCrea una relación desde Sofía hacia María.\nÚltima línea\nRETURN a, c, m, l, s;\nDevuelve los cinco nodos.\n\n\n9.3 Resultado esperado\nAl terminar tendremos:\nNodes (5)\nRelationships (5)\n\n\n9.4 Para explicar en clase\nEn esta consulta utilizamos MATCH para identificar nodos existentes y CREATE para conectarlos.\nLa misma instrucción puede contener varias cláusulas de búsqueda y de creación.\nEsto permite construir redes más complejas sin tener que crear cada relación en una consulta independiente."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#visualizar-toda-nuestra-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#visualizar-toda-nuestra-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "10 Visualizar toda nuestra red social",
+    "text": "10 Visualizar toda nuestra red social\nQueremos recuperar todas las relaciones de tipo CONOCE.\nEjecutamos:\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\n\n10.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nBusca todas las relaciones dirigidas CONOCE entre personas.\nNo indicamos nombres específicos.\nPor eso, Neo4j puede recuperar todas las coincidencias que cumplan ese patrón.\nLínea 2\nRETURN a, r, b;\nDevuelve los nodos de origen, las relaciones y los nodos de destino.\n\n\n10.2 Resultado esperado\nLa vista Graph mostrará nuestra red de cinco personas y cinco conexiones.\n\n\n10.3 Para explicar en clase\nAunque tenemos almacenadas cinco personas, no siempre es necesario recuperar toda la información.\nPodemos consultar únicamente las conexiones que cumplan determinadas condiciones.\nEn el siguiente ejercicio comenzaremos a utilizar filtros."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-sin-importar-la-dirección",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-relaciones-sin-importar-la-dirección",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "13 Consultar relaciones sin importar la dirección",
+    "text": "13 Consultar relaciones sin importar la dirección\nEn Neo4j las relaciones almacenadas tienen dirección.\nSin embargo, podemos buscar una conexión sin exigir un sentido específico.\nPor ejemplo:\n(a)-[:CONOCE]-(b)\nEste patrón busca relaciones CONOCE entre los nodos, independientemente de la dirección.\n\n13.1 Ejemplo: personas conectadas con María\nEjecutamos:\nMATCH (m:Persona {nombre: 'María'})-[:CONOCE]-(p:Persona)\nRETURN DISTINCT p.nombre AS Persona;\n\n\n13.2 Explicación línea por línea\nLínea 1\nMATCH (m:Persona {nombre: 'María'})-[:CONOCE]-(p:Persona)\n\nMATCH busca el patrón indicado.\nm representa el nodo de María.\n[:CONOCE] establece el tipo de relación.\n- sin flecha permite buscar en cualquiera de los dos sentidos.\np representa otra persona conectada con María.\n\nLínea 2\nRETURN DISTINCT p.nombre AS Persona;\n\nRETURN devuelve los nombres.\nDISTINCT evita repetir nombres idénticos en los resultados.\nAS Persona asigna un encabezado a la columna.\n\n\n\n13.3 Resultado esperado\n\n\n\nPersona\n\n\n\n\nAna\n\n\nLuis\n\n\nSofía\n\n\n\n\n\n13.4 Para explicar en clase\nAna tiene una relación dirigida hacia María.\nMaría tiene una relación dirigida hacia Luis.\nSofía tiene una relación dirigida hacia María.\nComo no exigimos una dirección, recuperamos las tres conexiones.\n\n\n\n\n\n\nImportantNo confundir el almacenamiento con la consulta\n\n\n\nQue una consulta ignore la dirección no significa que Neo4j convierta las relaciones en bidireccionales.\nLas relaciones mantienen la dirección con la que fueron creadas."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-los-intermediarios-entre-ana-y-luis",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-los-intermediarios-entre-ana-y-luis",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "15 Consultar los intermediarios entre Ana y Luis",
+    "text": "15 Consultar los intermediarios entre Ana y Luis\nAhora queremos responder:\n\n¿Por medio de qué personas está conectada Ana con Luis?\n\nEjecutamos:\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(intermedio:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN a.nombre AS Origen,\n       intermedio.nombre AS Intermediario,\n       b.nombre AS Destino;\n\n15.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona {nombre: 'Ana'})\nIndica que el camino debe comenzar en Ana.\nLínea 2\n-[:CONOCE]-&gt;(intermedio:Persona)\nBusca una relación CONOCE que sale de Ana y llega a otra persona.\nA esa persona la identificamos mediante la variable intermedio.\nLínea 3\n-[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nBusca una segunda relación CONOCE desde el intermediario hacia Luis.\nEl patrón completo exige dos relaciones consecutivas.\nLínea 4\nRETURN a.nombre AS Origen,\nDevuelve el nombre del nodo inicial con el encabezado Origen.\nLa coma indica que devolveremos más elementos.\nLínea 5\nintermedio.nombre AS Intermediario,\nDevuelve el nombre de la persona intermedia.\nLínea 6\nb.nombre AS Destino;\nDevuelve el nombre del nodo final.\n\n\n15.2 Resultado esperado\n\n\n\nOrigen\nIntermediario\nDestino\n\n\n\n\nAna\nCarlos\nLuis\n\n\nAna\nMaría\nLuis\n\n\n\n\n\n15.3 Para explicar en clase\nNeo4j encuentra dos caminos:\nAna → Carlos → Luis\n\nAna → María → Luis\nNo fue necesario crear una relación directa entre Ana y Luis.\nEl sistema recorrió las conexiones existentes para identificar ambos caminos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#recuperar-caminos-completos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#recuperar-caminos-completos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "16 Recuperar caminos completos",
+    "text": "16 Recuperar caminos completos\nEn el ejercicio anterior recuperamos los nombres de las personas.\nAhora queremos mostrar cada camino como una estructura completa.\nEjecutamos:\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino;\n\n16.1 Explicación línea por línea\nLínea 1\nMATCH camino =\nLa variable camino permitirá identificar cada camino completo encontrado.\nUn camino contiene nodos y relaciones.\nLínea 2\n(a:Persona {nombre: 'Ana'})\nEstablece a Ana como el nodo inicial.\nLínea 3\n-[:CONOCE]-&gt;(:Persona)\nIndica que debemos recorrer una relación hacia un nodo con la etiqueta Persona.\nEn este caso no asignamos una variable al nodo intermedio.\nEsto es válido porque no necesitamos utilizarlo individualmente en el resultado.\nLínea 4\n-[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nEstablece que la segunda relación debe llegar a Luis.\nLínea 5\nRETURN camino;\nDevuelve los caminos completos encontrados.\n\n\n16.2 Resultado esperado\nEn la vista Graph podremos observar los dos caminos que conectan a Ana con Luis.\n\n\n16.3 Para explicar en clase\nLa variable camino no representa un nodo.\nRepresenta una secuencia de nodos y relaciones.\nEsto nos permite recuperar y analizar recorridos completos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#calcular-la-longitud-de-un-camino",
+    "href": "apuntes/12_neo4j_comandos_practica.html#calcular-la-longitud-de-un-camino",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "17 Calcular la longitud de un camino",
+    "text": "17 Calcular la longitud de un camino\nLa longitud de un camino se puede medir mediante la cantidad de relaciones que contiene.\nPor ejemplo:\nAna → Carlos → Luis\nContiene tres nodos y dos relaciones.\nSu longitud es 2.\nEn Cypher utilizamos la función length().\nEjecutamos:\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino,\n       length(camino) AS Longitud;\n\n17.1 Explicación línea por línea\nLíneas 1 a 4\nBuscan los caminos de dos relaciones que conectan a Ana con Luis.\nSon las mismas instrucciones del ejercicio anterior.\nLínea 5\nRETURN camino,\nDevuelve el camino encontrado.\nLínea 6\nlength(camino) AS Longitud;\n\nlength() es una función de Cypher.\ncamino es el argumento que recibe.\nLa función devuelve la cantidad de relaciones del camino.\nAS Longitud asigna un nombre al resultado.\n\n\n\n17.2 Resultado esperado\nSe recuperarán dos caminos.\nAmbos tendrán:\nLongitud = 2\n\n\n17.3 Para explicar en clase\nEs importante no confundir la cantidad de nodos con la longitud del camino.\nEn este ejemplo hay tres nodos, pero solamente dos relaciones.\nPor eso la longitud es 2."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#introducción-a-los-sistemas-de-recomendaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#introducción-a-los-sistemas-de-recomendaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "18 Introducción a los sistemas de recomendaciones",
+    "text": "18 Introducción a los sistemas de recomendaciones\nAhora utilizaremos las conexiones indirectas para construir una recomendación sencilla.\nImaginemos que una red social quiere sugerir nuevos contactos a sus usuarios.\nPodemos utilizar esta regla:\n\nRecomendar personas que conocen los contactos directos de un usuario, pero que el usuario todavía no conoce directamente.\n\nEn nuestra red social:\nAna ───&gt; Carlos ───&gt; Luis\n  │\n  └────&gt; María ────&gt; Luis\nAna conoce a Carlos y María.\nAmbos conocen a Luis.\nPor lo tanto, Luis podría ser una recomendación para Ana.\n\n\n\n\n\n\nNote¿Neo4j recomienda automáticamente?\n\n\n\nNeo4j no decide por sí solo a quién debemos recomendar.\nNosotros definimos la regla mediante Cypher.\nNeo4j busca las personas que cumplen las condiciones indicadas.\nEn aplicaciones reales se pueden utilizar criterios más complejos, como intereses, actividad y comportamiento de los usuarios."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-posibles-recomendaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-posibles-recomendaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "19 Consultar posibles recomendaciones",
+    "text": "19 Consultar posibles recomendaciones\nEjecutamos:\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(contacto:Persona)\n      -[:CONOCE]-&gt;(recomendado:Persona)\nWHERE recomendado &lt;&gt; a\n  AND NOT EXISTS {\n      MATCH (a)-[:CONOCE]-&gt;(recomendado)\n  }\nRETURN recomendado.nombre AS Recomendacion,\n       COUNT(DISTINCT contacto) AS ContactosEnComun;\nEsta consulta incorpora varios elementos nuevos.\n\n19.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona {nombre: 'Ana'})\nEstablece que comenzaremos la búsqueda desde Ana.\nLínea 2\n-[:CONOCE]-&gt;(contacto:Persona)\nBusca personas que Ana conoce directamente.\nEn nuestro ejemplo serán Carlos y María.\nLínea 3\n-[:CONOCE]-&gt;(recomendado:Persona)\nBusca personas conocidas por los contactos de Ana.\nLa variable recomendado representa una posible recomendación.\nHasta este punto estamos explorando conexiones de segundo nivel.\nLínea 4\nWHERE recomendado &lt;&gt; a\nEstablece una condición para evitar recomendarle Ana a sí misma.\nEl operador &lt;&gt; significa diferente de.\nPor lo tanto, el nodo recomendado no puede ser el mismo nodo de Ana.\nLínea 5\nAND NOT EXISTS {\nAgrega otra condición.\n\nAND significa que ambas condiciones deben cumplirse.\nNOT EXISTS verifica que no exista un patrón determinado.\n{ inicia el bloque donde especificamos ese patrón.\n\nLínea 6\nMATCH (a)-[:CONOCE]-&gt;(recomendado)\nDentro del bloque comprobamos si Ana ya tiene una relación directa CONOCE hacia la persona recomendada.\nSi esa relación existe, la persona no debe aparecer como recomendación.\nLínea 7\n}\nCierra el bloque de NOT EXISTS.\nLínea 8\nRETURN recomendado.nombre AS Recomendacion,\nDevuelve el nombre de la persona recomendada.\nEl encabezado será Recomendacion.\nLínea 9\nCOUNT(DISTINCT contacto) AS ContactosEnComun;\nEsta instrucción combina una función de agregación y una condición para evitar duplicados.\n\nCOUNT() cuenta elementos.\nDISTINCT contacto considera una sola vez cada contacto diferente.\nAS ContactosEnComun asigna un encabezado a la columna.\n\nEn nuestro ejemplo, Carlos y María conducen hacia Luis.\nPor lo tanto, tenemos dos contactos diferentes que permiten llegar al mismo recomendado.\n\n\n19.2 Resultado esperado\n\n\n\nRecomendacion\nContactosEnComun\n\n\n\n\nLuis\n2\n\n\n\n\n\n19.3 Para explicar en clase\nEste ejercicio muestra cómo podemos utilizar las relaciones almacenadas para descubrir información nueva.\nNeo4j no crea automáticamente una relación entre Ana y Luis.\nSolamente identifica a Luis como un candidato a recomendación porque cumple la regla que definimos.\n\n\n\n\n\n\nTip¿Por qué utilizamos DISTINCT?\n\n\n\nPorque queremos contar contactos diferentes.\nSi un mismo contacto apareciera repetidamente en las coincidencias por algún otro motivo, DISTINCT evitaría contarlo varias veces dentro de esta agregación.\nAsí obtenemos la cantidad de contactos únicos que respaldan cada recomendación."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-todos-los-nodos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-todos-los-nodos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "21 Consultar todos los nodos",
+    "text": "21 Consultar todos los nodos\nMATCH (n)\nRETURN n;\n\nLínea 1: busca todos los nodos sin restringir la etiqueta.\nLínea 2: devuelve los nodos completos.\n\nResultado esperado: cinco personas.\nPara explicar en clase: en bases grandes no conviene recuperar indiscriminadamente todos los nodos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-todas-las-relaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-todas-las-relaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "22 Consultar todas las relaciones",
+    "text": "22 Consultar todas las relaciones\nMATCH (a)-[r]-&gt;(b)\nRETURN a, r, b;\n\nLínea 1: busca relaciones dirigidas de cualquier tipo entre cualquier par de nodos; las asigna a r.\nLínea 2: devuelve origen, relación y destino.\n\nResultado esperado: las cinco relaciones CONOCE."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-únicamente-los-nombres",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-únicamente-los-nombres",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "23 Consultar únicamente los nombres",
+    "text": "23 Consultar únicamente los nombres\nAhora vamos a recuperar solamente las propiedades de los nodos.\nEjecutamos:\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre;\n\n23.1 Explicación línea por línea\nLínea 1\nMATCH (p:Persona)\nBusca todos los nodos con la etiqueta Persona.\nLínea 2\nRETURN p.nombre AS Nombre;\nDevuelve solamente la propiedad nombre.\nNo devuelve los nodos completos.\n\n\n23.2 Resultado esperado\nObtendremos cinco filas, correspondientes a Ana, Carlos, María, Luis y Sofía.\nEl orden de los resultados no está garantizado mientras no indiquemos un orden explícito."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#ordenar-resultados-mediante-order-by",
+    "href": "apuntes/12_neo4j_comandos_practica.html#ordenar-resultados-mediante-order-by",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "24 Ordenar resultados mediante ORDER BY",
+    "text": "24 Ordenar resultados mediante ORDER BY\nTambién podemos ordenar las personas alfabéticamente.\nEjecutamos:\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC;\n\n24.1 Explicación línea por línea\nLínea 1\nMATCH (p:Persona)\nBusca los nodos con la etiqueta Persona.\nLínea 2\nRETURN p.nombre AS Nombre\nDevuelve el nombre de cada persona.\nLínea 3\nORDER BY Nombre ASC;\n\nORDER BY indica que queremos ordenar los resultados.\nNombre es la columna que utilizaremos.\nASC significa orden ascendente.\n\n\n\n24.2 Resultado esperado\nLos nombres aparecerán ordenados alfabéticamente.\n\n\n\n\n\n\nNoteASC y DESC\n\n\n\nASC significa orden ascendente.\nDESC significa orden descendente.\nEstos conceptos también los utilizamos anteriormente al trabajar con consultas en Apache Cassandra."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#limitar-la-cantidad-de-resultados",
+    "href": "apuntes/12_neo4j_comandos_practica.html#limitar-la-cantidad-de-resultados",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "25 Limitar la cantidad de resultados",
+    "text": "25 Limitar la cantidad de resultados\nEn ocasiones solamente queremos recuperar una parte de los registros.\nPara ello utilizamos LIMIT.\nEjecutamos:\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC\nLIMIT 3;\n\n25.1 Explicación línea por línea\nLínea 1\nMATCH (p:Persona)\nBusca todas las personas.\nLínea 2\nRETURN p.nombre AS Nombre\nDevuelve los nombres.\nLínea 3\nORDER BY Nombre ASC\nOrdena los nombres alfabéticamente.\nLínea 4\nLIMIT 3;\nLimita el resultado a tres filas.\n\n\n25.2 Resultado esperado\n\n\n\nNombre\n\n\n\n\nAna\n\n\nCarlos\n\n\nLuis\n\n\n\n\n\n25.3 Para explicar en clase\nPrimero buscamos todos los nodos Persona.\nDespués ordenamos los resultados.\nFinalmente mostramos solamente los tres primeros.\nLIMIT resulta especialmente útil cuando trabajamos con bases de datos grandes."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-los-nodos-almacenados",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-los-nodos-almacenados",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "26 Contar los nodos almacenados",
+    "text": "26 Contar los nodos almacenados\nAhora utilizaremos una función de agregación.\nEjecutamos:\nMATCH (p:Persona)\nRETURN COUNT(p) AS TotalPersonas;\n\n26.1 Explicación línea por línea\nLínea 1\nMATCH (p:Persona)\nBusca los nodos con la etiqueta Persona.\nLínea 2\nRETURN COUNT(p) AS TotalPersonas;\n\nCOUNT() cuenta los nodos encontrados.\np representa cada nodo.\nAS TotalPersonas asigna un nombre a la columna.\n\n\n\n26.2 Resultado esperado\n\n\n\nTotalPersonas\n\n\n\n\n5"
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-las-relaciones-del-grafo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-las-relaciones-del-grafo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "27 Contar las relaciones del grafo",
+    "text": "27 Contar las relaciones del grafo\nTambién podemos contar las relaciones existentes.\nEjecutamos:\nMATCH ()-[r:CONOCE]-&gt;()\nRETURN COUNT(r) AS TotalRelaciones;\n\n27.1 Explicación línea por línea\nLínea 1\nMATCH ()-[r:CONOCE]-&gt;()\nBusca todas las relaciones de tipo CONOCE.\nEn este ejemplo utilizamos paréntesis vacíos porque no necesitamos recuperar ni asignar variables a los nodos.\nLa variable r representa cada relación encontrada.\nLínea 2\nRETURN COUNT(r) AS TotalRelaciones;\nCuenta las relaciones encontradas.\n\n\n27.2 Resultado esperado\n\n\n\nTotalRelaciones\n\n\n\n\n5\n\n\n\n\n\n27.3 Para explicar en clase\nPodemos contar nodos y relaciones por separado.\nEsto permite conocer el tamaño básico de nuestro grafo.\nUna red podría contener miles de nodos y una cantidad mucho mayor de relaciones."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-cuántas-personas-conoce-cada-usuario",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-cuántas-personas-conoce-cada-usuario",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "28 Contar cuántas personas conoce cada usuario",
+    "text": "28 Contar cuántas personas conoce cada usuario\nAhora realizaremos una consulta de agregación un poco más interesante.\nQueremos responder:\n\n¿Cuántas relaciones CONOCE salen de cada persona?\n\nEjecutamos:\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nRETURN a.nombre AS Persona,\n       COUNT(b) AS TotalContactos\nORDER BY TotalContactos DESC;\n\n28.1 Explicación línea por línea\nLínea 1\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nBusca relaciones CONOCE dirigidas desde una persona hacia otra.\nLínea 2\nRETURN a.nombre AS Persona,\nDevuelve el nombre de la persona que origina la relación.\nLínea 3\nCOUNT(b) AS TotalContactos\nCuenta las coincidencias de destino para cada persona de origen.\nCypher agrupa los resultados según los elementos no agregados que aparecen en RETURN.\nLínea 4\nORDER BY TotalContactos DESC;\nOrdena los resultados de mayor a menor cantidad de contactos.\n\n\n28.2 Resultado esperado\n\n\n\nPersona\nTotalContactos\n\n\n\n\nAna\n2\n\n\nCarlos\n1\n\n\nMaría\n1\n\n\nSofía\n1\n\n\n\nLuis no aparece porque no tiene relaciones salientes de tipo CONOCE.\n\n\n28.3 Para explicar en clase\nEsta consulta permite identificar qué personas tienen más conexiones salientes.\nEs una aproximación sencilla al análisis de la estructura de una red.\nSin embargo, tener más conexiones no significa necesariamente ser la persona más importante de toda la red.\nPara estudiar ese aspecto existen diferentes medidas de centralidad."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#diferencia-entre-neo4j-y-los-otros-gestores-nosql",
+    "href": "apuntes/12_neo4j_comandos_practica.html#diferencia-entre-neo4j-y-los-otros-gestores-nosql",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "29 Diferencia entre Neo4j y los otros gestores NoSQL",
+    "text": "29 Diferencia entre Neo4j y los otros gestores NoSQL\nHasta ahora hemos utilizado cuatro tecnologías principales durante el curso.\n\n\n\n\n\n\n\n\nTecnología\nModelo de datos\nEjemplo de uso\n\n\n\n\nMongoDB\nDocumental\nAlmacenamiento de documentos.\n\n\nRedis\nClave–valor\nSesiones, caché y contadores.\n\n\nCassandra\nFamilias de columnas\nMediciones distribuidas y datos de gran volumen.\n\n\nNeo4j\nGrafos\nRedes sociales y relaciones entre entidades.\n\n\n\nEn MongoDB trabajamos con documentos.\nEn Redis utilizamos estructuras de datos asociadas a claves.\nEn Cassandra organizamos la información mediante particiones y columnas de agrupamiento.\nEn Neo4j representamos entidades y conexiones explícitas mediante nodos y relaciones.\n\n29.1 Para explicar en clase\nNo significa que Neo4j sea mejor para cualquier problema.\nSu principal ventaja aparece cuando necesitamos consultar conexiones entre diferentes entidades.\nPor ejemplo, en nuestra práctica pudimos descubrir caminos indirectos entre Ana y Luis sin almacenar una relación adicional entre ellos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#actividad-de-práctica",
+    "href": "apuntes/12_neo4j_comandos_practica.html#actividad-de-práctica",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "30 Actividad de práctica",
+    "text": "30 Actividad de práctica\nA partir de la red social construida, realiza los siguientes ejercicios.\n\nConsulta todos los nodos almacenados.\nConsulta todas las relaciones de tipo CONOCE.\nRecupera los nombres de las personas que Ana conoce directamente.\nIdentifica qué personas tienen una relación CONOCE dirigida hacia Luis.\nRecupera todas las personas conectadas con María, sin exigir dirección.\nIdentifica los caminos de dos relaciones entre Ana y Luis.\nObtén la longitud de cada camino.\nIdentifica qué persona podría recomendarse a Ana.\nCuenta cuántos contactos diferentes conectan a Ana con esa recomendación.\nConsulta cuántos nodos y relaciones existen en la base de datos.\nOrdena los nombres de las personas alfabéticamente.\nRecupera únicamente tres nombres utilizando LIMIT.\nCuenta las relaciones salientes de cada persona.\n\n\n\n\n\n\n\nTipResultados principales esperados\n\n\n\n\n\n\nTotal de personas: 5.\nTotal de relaciones: 5.\nAna conoce directamente a Carlos y María.\nCarlos y María tienen relaciones dirigidas hacia Luis.\nMaría está conectada con Ana, Luis y Sofía.\nExisten dos caminos dirigidos de longitud 2 entre Ana y Luis.\nLuis aparece como recomendación candidata para Ana.\nLuis tiene dos contactos intermediarios diferentes desde Ana.\nAna tiene dos relaciones salientes de tipo CONOCE."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#anexo-docente-reiniciar-únicamente-la-red-de-práctica",
+    "href": "apuntes/12_neo4j_comandos_practica.html#anexo-docente-reiniciar-únicamente-la-red-de-práctica",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "34 Anexo docente: reiniciar únicamente la red de práctica",
+    "text": "34 Anexo docente: reiniciar únicamente la red de práctica\nEn ocasiones puede ser necesario repetir los ejercicios desde el principio.\nSi ejecutamos varias veces las instrucciones CREATE, podemos generar nodos y relaciones duplicados.\nPara eliminar únicamente los nodos de nuestra red de ejemplo, podemos utilizar una consulta que seleccione las cinco personas por nombre.\nEsta operación elimina definitivamente los nodos encontrados y todas sus relaciones.\nMATCH (p:Persona)\nWHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']\nDETACH DELETE p;\n\n34.1 Explicación línea por línea\nLínea 1\nMATCH (p:Persona)\nBusca nodos con la etiqueta Persona.\nLínea 2\nWHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']\nSelecciona solamente los nodos cuyo nombre se encuentra en la lista indicada.\nLínea 3\nDETACH DELETE p;\n\nDELETE elimina nodos o relaciones.\nDETACH DELETE permite eliminar un nodo junto con sus relaciones conectadas.\n\n\n\n34.2 Comprobar el resultado\nDespués podemos ejecutar:\nMATCH (p:Persona)\nRETURN COUNT(p) AS TotalPersonas;\nSi solamente existían las cinco personas de nuestra práctica, el resultado esperado será:\nTotalPersonas = 0\n\n\n\n\n\n\nWarningPrecaución\n\n\n\nEste comando debe utilizarse solamente en una base de datos destinada a la práctica.\nSi existen otros nodos con la etiqueta Persona y los mismos nombres, también serían eliminados.\nNo debemos utilizarlo sobre bases de datos con información que necesitemos conservar.\n\n\nCon esto podemos comenzar nuevamente los ejercicios desde la creación de Ana."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#crear-nuestro-primer-nodo-ana",
+    "href": "apuntes/12_neo4j_comandos_practica.html#crear-nuestro-primer-nodo-ana",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "4 Crear nuestro primer nodo: Ana",
+    "text": "4 Crear nuestro primer nodo: Ana\nEjecuta:\nCREATE (a:Persona {nombre: 'Ana'})\nRETURN a;\nExplicación línea por línea\n\nLínea 1 — CREATE (a:Persona {nombre: 'Ana'}): crea un nodo, lo asigna temporalmente a a, le agrega la etiqueta Persona y guarda la propiedad nombre con el valor Ana.\nLínea 2 — RETURN a;: devuelve el nodo creado para mostrarlo en Neo4j. El punto y coma cierra la consulta.\n\nResultado esperado: un nodo llamado Ana; hasta el momento, un nodo y ninguna relación.\nPara explicar en clase: hemos creado una entidad, pero todavía no está conectada con nadie. CREATE genera elementos nuevos cada vez que se ejecuta."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#crear-un-segundo-nodo-carlos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#crear-un-segundo-nodo-carlos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "5 Crear un segundo nodo: Carlos",
+    "text": "5 Crear un segundo nodo: Carlos\nCREATE (b:Persona {nombre: 'Carlos'})\nRETURN b;\nExplicación línea por línea\n\nLínea 1: crea un nodo Persona con nombre = 'Carlos'; b es la variable que lo representa.\nLínea 2: devuelve el nodo nuevo.\n\nResultado esperado: dos nodos y cero relaciones.\nPara explicar en clase: dos nodos que aparecen separados no están relacionados por el simple hecho de existir en la misma base."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#consultar-una-relación-existente",
+    "href": "apuntes/12_neo4j_comandos_practica.html#consultar-una-relación-existente",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "7 Consultar una relación existente",
+    "text": "7 Consultar una relación existente\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\nExplicación línea por línea\n\nLínea 1: busca dos nodos con etiqueta Persona, conectados mediante una relación saliente CONOCE. La variable r representa la relación encontrada.\nLínea 2: devuelve el origen a, la relación r y el destino b, de modo que podemos visualizar la conexión en Graph.\n\nResultado esperado: Ana → Carlos.\nPara explicar en clase: esta consulta solo lee datos; no crea ni modifica elementos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#agregar-tres-personas",
+    "href": "apuntes/12_neo4j_comandos_practica.html#agregar-tres-personas",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "8 Agregar tres personas",
+    "text": "8 Agregar tres personas\nAhora agregaremos María, Luis y Sofía.\nCREATE (m:Persona {nombre: 'María'})\nCREATE (l:Persona {nombre: 'Luis'})\nCREATE (s:Persona {nombre: 'Sofía'})\nRETURN m, l, s;\nExplicación línea por línea\n\nLínea 1: crea el nodo María y lo asigna a m.\nLínea 2: crea el nodo Luis y lo asigna a l.\nLínea 3: crea el nodo Sofía y lo asigna a s.\nLínea 4: devuelve los tres nodos recién creados.\n\nResultado esperado: cinco nodos y una relación (Ana→Carlos).\nPara explicar en clase: podemos incluir varias cláusulas CREATE en una consulta; cada una incorpora nueva información."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#completar-las-conexiones-de-la-red-social",
+    "href": "apuntes/12_neo4j_comandos_practica.html#completar-las-conexiones-de-la-red-social",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "9 Completar las conexiones de la red social",
+    "text": "9 Completar las conexiones de la red social\nQueremos almacenar exactamente estas relaciones:\n\nAna → Carlos (ya existe).\nAna → María.\nCarlos → Luis.\nMaría → Luis.\nSofía → María.\n\nEjecuta una sola vez:\nMATCH (a:Persona {nombre: 'Ana'})\nMATCH (c:Persona {nombre: 'Carlos'})\nMATCH (m:Persona {nombre: 'María'})\nMATCH (l:Persona {nombre: 'Luis'})\nMATCH (s:Persona {nombre: 'Sofía'})\nCREATE (a)-[:CONOCE]-&gt;(m)\nCREATE (c)-[:CONOCE]-&gt;(l)\nCREATE (m)-[:CONOCE]-&gt;(l)\nCREATE (s)-[:CONOCE]-&gt;(m)\nRETURN a, c, m, l, s;\nExplicación línea por línea\n\nLínea 1: encuentra a Ana (a).\nLínea 2: encuentra a Carlos (c).\nLínea 3: encuentra a María (m).\nLínea 4: encuentra a Luis (l).\nLínea 5: encuentra a Sofía (s).\nLínea 6: crea Ana→María.\nLínea 7: crea Carlos→Luis.\nLínea 8: crea María→Luis.\nLínea 9: crea Sofía→María.\nLínea 10: devuelve los cinco nodos encontrados.\n\nResultado esperado: cinco nodos y cinco relaciones.\nPara explicar en clase: los MATCH iniciales localizan entidades; los CREATE posteriores conectan esas entidades. No volvemos a crear los nodos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#visualizar-el-grafo-completo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#visualizar-el-grafo-completo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "10 Visualizar el grafo completo",
+    "text": "10 Visualizar el grafo completo\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nRETURN a, r, b;\nExplicación línea por línea\n\nLínea 1: busca todas las relaciones dirigidas CONOCE entre nodos Persona.\nLínea 2: devuelve ambos extremos y la propia relación.\n\nResultado esperado: ver las cinco relaciones en la vista Graph.\nPara explicar en clase: devolver nodos y relaciones hace explícita la estructura que queremos mostrar; devolver únicamente nombres produce una tabla."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#a-quién-conoce-ana",
+    "href": "apuntes/12_neo4j_comandos_practica.html#a-quién-conoce-ana",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "11 ¿A quién conoce Ana?",
+    "text": "11 ¿A quién conoce Ana?\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nWHERE a.nombre = 'Ana'\nRETURN b.nombre AS Persona;\nExplicación línea por línea\n\nLínea 1: encuentra todas las conexiones dirigidas CONOCE entre personas.\nLínea 2: conserva solo aquellas cuyo nodo de origen se llama Ana. WHERE introduce una condición; = compara valores.\nLínea 3: devuelve únicamente el nombre del nodo de destino y llama Persona a la columna.\n\nResultado esperado: Carlos y María (el orden no está garantizado sin ORDER BY).\nPara explicar en clase: estamos buscando las relaciones salientes de Ana.\n\n11.1 Visualizar esas conexiones\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nWHERE a.nombre = 'Ana'\nRETURN a, r, b;\n\nLínea 1: busca relaciones CONOCE y las asigna a r.\nLínea 2: conserva las conexiones cuyo origen es Ana.\nLínea 3: devuelve nodos y relaciones para mostrarlos en Graph.\n\nResultado esperado: Ana→Carlos y Ana→María."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#quiénes-conocen-a-luis",
+    "href": "apuntes/12_neo4j_comandos_practica.html#quiénes-conocen-a-luis",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "12 ¿Quiénes conocen a Luis?",
+    "text": "12 ¿Quiénes conocen a Luis?\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nWHERE b.nombre = 'Luis'\nRETURN a.nombre AS Persona;\nExplicación línea por línea\n\nLínea 1: busca relaciones dirigidas CONOCE.\nLínea 2: filtra aquellas cuyo nodo de destino tiene nombre Luis.\nLínea 3: devuelve el nombre de la persona que origina cada relación.\n\nResultado esperado: Carlos y María.\nPara explicar en clase: en la consulta anterior filtramos por a (origen); aquí filtramos por b (destino).\n\n12.1 Mostrar quiénes conocen a Luis en Graph\nMATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)\nWHERE b.nombre = 'Luis'\nRETURN a, r, b;\n\nLínea 1: encuentra relaciones dirigidas y las guarda temporalmente en r.\nLínea 2: selecciona las relaciones que llegan a Luis.\nLínea 3: devuelve los elementos completos.\n\nResultado esperado: Carlos→Luis y María→Luis."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#buscar-relaciones-sin-exigir-dirección",
+    "href": "apuntes/12_neo4j_comandos_practica.html#buscar-relaciones-sin-exigir-dirección",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "13 Buscar relaciones sin exigir dirección",
+    "text": "13 Buscar relaciones sin exigir dirección\nCypher permite una búsqueda sin flecha: (a)-[:CONOCE]-(b). Esto no cambia la dirección almacenada; solo permite encontrar coincidencias en cualquiera de los dos sentidos.\nMATCH (m:Persona {nombre: 'María'})-[:CONOCE]-(p:Persona)\nRETURN DISTINCT p.nombre AS Persona;\nExplicación línea por línea\n\nLínea 1: encuentra personas conectadas con María mediante CONOCE, sin exigir si la flecha sale de María o llega hacia ella.\nLínea 2: devuelve nombres de personas conectadas. DISTINCT elimina valores repetidos en la salida.\n\nResultado esperado: Ana, Luis y Sofía.\nPara explicar en clase: se puede consultar un grafo ignorando la orientación de las relaciones, aunque estas sigan almacenadas con dirección."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#identificar-intermediarios-entre-ana-y-luis",
+    "href": "apuntes/12_neo4j_comandos_practica.html#identificar-intermediarios-entre-ana-y-luis",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "15 Identificar intermediarios entre Ana y Luis",
+    "text": "15 Identificar intermediarios entre Ana y Luis\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(intermedio:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN a.nombre AS Origen,\n       intermedio.nombre AS Intermediario,\n       b.nombre AS Destino;\nExplicación línea por línea\n\nLínea 1: exige que el nodo inicial sea Ana.\nLínea 2: recorre una relación CONOCE hacia una persona intermedia y la asigna a intermedio.\nLínea 3: exige otra relación CONOCE desde el intermediario hasta Luis.\nLínea 4: devuelve el nombre de Ana bajo la columna Origen.\nLínea 5: devuelve el nombre del intermediario.\nLínea 6: devuelve el nombre de Luis como Destino.\n\nResultado esperado: dos filas: Ana–Carlos–Luis y Ana–María–Luis.\nPara explicar en clase: solicitamos expresamente caminos dirigidos de dos relaciones. Neo4j no está adivinando lo que queremos, está buscando el patrón escrito."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#recuperar-el-camino-completo",
+    "href": "apuntes/12_neo4j_comandos_practica.html#recuperar-el-camino-completo",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "16 Recuperar el camino completo",
+    "text": "16 Recuperar el camino completo\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino;\nExplicación línea por línea\n\nLínea 1 — MATCH camino =: asigna cada camino coincidente a la variable camino.\nLínea 2: fija a Ana como nodo inicial.\nLínea 3: exige una relación hacia una persona intermedia; no le asignamos una variable porque no necesitamos devolverla por separado.\nLínea 4: exige una segunda relación hacia Luis.\nLínea 5: devuelve los caminos completos, con sus nodos y relaciones.\n\nResultado esperado: los caminos Ana→Carlos→Luis y Ana→María→Luis en la vista Graph.\nPara explicar en clase: camino representa una secuencia de elementos, no un nodo individual."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#calcular-la-longitud-de-los-caminos",
+    "href": "apuntes/12_neo4j_comandos_practica.html#calcular-la-longitud-de-los-caminos",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "17 Calcular la longitud de los caminos",
+    "text": "17 Calcular la longitud de los caminos\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(:Persona)\n      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})\nRETURN camino,\n       length(camino) AS Longitud;\nExplicación línea por línea\n\nLínea 1: identifica cada camino completo como camino.\nLínea 2: fija el origen Ana.\nLínea 3: recorre una relación hasta una persona intermedia.\nLínea 4: recorre otra relación hasta Luis.\nLínea 5: devuelve cada camino encontrado.\nLínea 6: calcula su longitud con length(camino) y llama Longitud a la columna.\n\nResultado esperado: dos caminos, cada uno con longitud 2.\nPara explicar en clase: la longitud cuenta relaciones, no nodos. Aquí cada camino tiene tres nodos y dos relaciones."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#introducción-a-las-recomendaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#introducción-a-las-recomendaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "18 Introducción a las recomendaciones",
+    "text": "18 Introducción a las recomendaciones\nImaginemos que una red social sugiere personas conocidas por nuestros contactos, siempre que todavía no las conozcamos directamente.\nEn nuestro caso, Ana conoce a Carlos y María; ambos conocen a Luis. Por ello, Luis es una recomendación candidata.\n\n\n\n\n\n\nNota¿Neo4j recomienda por sí mismo?\n\n\n\nNo. Nosotros definimos la regla con Cypher. Neo4j recorre las relaciones almacenadas y devuelve las coincidencias. La consulta no crea una relación Ana→Luis."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#obtener-recomendaciones-con-contactos-en-común",
+    "href": "apuntes/12_neo4j_comandos_practica.html#obtener-recomendaciones-con-contactos-en-común",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "19 Obtener recomendaciones con contactos en común",
+    "text": "19 Obtener recomendaciones con contactos en común\nMATCH (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(contacto:Persona)\n      -[:CONOCE]-&gt;(recomendado:Persona)\nWHERE recomendado &lt;&gt; a\n  AND NOT EXISTS {\n      MATCH (a)-[:CONOCE]-&gt;(recomendado)\n  }\nRETURN recomendado.nombre AS Recomendacion,\n       COUNT(DISTINCT contacto) AS ContactosEnComun;\nExplicación línea por línea\n\nLínea 1: establece a Ana como punto de partida.\nLínea 2: encuentra personas conocidas directamente por Ana y las asigna a contacto.\nLínea 3: encuentra a las personas conocidas por cada contacto y las asigna a recomendado.\nLínea 4 — WHERE recomendado &lt;&gt; a: descarta a la propia Ana (&lt;&gt; significa distinto de).\nLínea 5 — AND NOT EXISTS {: añade la condición de que no exista cierto patrón.\nLínea 6: el patrón que no debe existir es una relación directa Ana→recomendado.\nLínea 7 — }: cierra la subconsulta utilizada por NOT EXISTS.\nLínea 8: devuelve el nombre del candidato y titula la columna Recomendacion.\nLínea 9: cuenta los contactos intermediarios diferentes para cada candidato. COUNT agrega, DISTINCT evita duplicar un mismo contacto y AS define el encabezado.\n\nResultado esperado: Luis, con ContactosEnComun = 2.\nPara explicar en clase: Carlos y María son dos intermediarios distintos. La regla descarta a Ana y a cualquiera que Ana ya conozca directamente."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#visualizar-por-qué-se-generó-la-recomendación",
+    "href": "apuntes/12_neo4j_comandos_practica.html#visualizar-por-qué-se-generó-la-recomendación",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "20 Visualizar por qué se generó la recomendación",
+    "text": "20 Visualizar por qué se generó la recomendación\nMATCH camino =\n      (a:Persona {nombre: 'Ana'})\n      -[:CONOCE]-&gt;(contacto:Persona)\n      -[:CONOCE]-&gt;(recomendado:Persona)\nWHERE recomendado &lt;&gt; a\n  AND NOT EXISTS {\n      MATCH (a)-[:CONOCE]-&gt;(recomendado)\n  }\nRETURN camino;\nExplicación línea por línea\n\nLínea 1: asigna una variable a cada camino coincidente.\nLínea 2: fija el inicio en Ana.\nLínea 3: encuentra sus contactos directos.\nLínea 4: encuentra a los conocidos de esos contactos.\nLínea 5: evita recomendar a Ana.\nLíneas 6 a 8: descartan candidatos con relación directa desde Ana.\nÚltima línea: devuelve el camino completo para verlo gráficamente.\n\nResultado esperado: Ana→Carlos→Luis y Ana→María→Luis.\nPara explicar en clase: una buena recomendación puede acompañarse de una explicación: «Conoces a Carlos y María, quienes conocen a Luis»."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#recuperar-solo-los-nombres",
+    "href": "apuntes/12_neo4j_comandos_practica.html#recuperar-solo-los-nombres",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "23 Recuperar solo los nombres",
+    "text": "23 Recuperar solo los nombres\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre;\n\nLínea 1: busca nodos etiquetados como Persona.\nLínea 2: devuelve la propiedad nombre con el encabezado Nombre.\n\nResultado esperado: cinco filas. Sin ORDER BY, su orden no está garantizado."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#ordenar-con-order-by",
+    "href": "apuntes/12_neo4j_comandos_practica.html#ordenar-con-order-by",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "24 Ordenar con ORDER BY",
+    "text": "24 Ordenar con ORDER BY\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC;\n\nLínea 1: busca todas las personas.\nLínea 2: devuelve sus nombres.\nLínea 3: ordena ascendentemente por Nombre. ASC es ascendente y DESC sería descendente.\n\nResultado esperado: Ana, Carlos, Luis, María y Sofía en orden ascendente según las reglas de comparación utilizadas por la base de datos."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#limitar-resultados-con-limit",
+    "href": "apuntes/12_neo4j_comandos_practica.html#limitar-resultados-con-limit",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "25 Limitar resultados con LIMIT",
+    "text": "25 Limitar resultados con LIMIT\nMATCH (p:Persona)\nRETURN p.nombre AS Nombre\nORDER BY Nombre ASC\nLIMIT 3;\n\nLínea 1: busca todas las personas.\nLínea 2: devuelve sus nombres.\nLínea 3: ordena los nombres ascendentemente.\nLínea 4: restringe la salida a las primeras tres filas.\n\nResultado esperado: Ana, Carlos y Luis.\nPara explicar en clase: LIMIT es especialmente útil en bases de datos grandes; acompañarlo de ORDER BY permite saber qué registros seleccionamos primero."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-personas",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-personas",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "26 Contar personas",
+    "text": "26 Contar personas\nMATCH (p:Persona)\nRETURN COUNT(p) AS TotalPersonas;\n\nLínea 1: busca nodos Persona.\nLínea 2: los cuenta y muestra el resultado como TotalPersonas.\n\nResultado esperado: 5."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-relaciones",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-relaciones",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "27 Contar relaciones",
+    "text": "27 Contar relaciones\nMATCH ()-[r:CONOCE]-&gt;()\nRETURN COUNT(r) AS TotalRelaciones;\n\nLínea 1: busca relaciones CONOCE, sin asignar variables a sus nodos extremos; r identifica la relación.\nLínea 2: cuenta las relaciones encontradas.\n\nResultado esperado: 5."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#contar-los-contactos-salientes-por-persona",
+    "href": "apuntes/12_neo4j_comandos_practica.html#contar-los-contactos-salientes-por-persona",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "28 Contar los contactos salientes por persona",
+    "text": "28 Contar los contactos salientes por persona\nMATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)\nRETURN a.nombre AS Persona,\n       COUNT(b) AS TotalContactos\nORDER BY TotalContactos DESC;\nExplicación línea por línea\n\nLínea 1: encuentra relaciones CONOCE dirigidas desde a hasta b.\nLínea 2: devuelve el nombre del origen, que también actúa como criterio de agrupación.\nLínea 3: cuenta las coincidencias de destino de cada nombre de origen.\nLínea 4: ordena de mayor a menor cantidad de relaciones salientes.\n\nResultado esperado: Ana = 2, Carlos = 1, María = 1 y Sofía = 1. Luis no aparece porque no tiene relaciones salientes CONOCE.\nPara explicar en clase: tener dos conexiones salientes no significa automáticamente ser la persona más importante de la red; para analizar la importancia existen medidas específicas de centralidad."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#comparación-con-otros-gestores-nosql",
+    "href": "apuntes/12_neo4j_comandos_practica.html#comparación-con-otros-gestores-nosql",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "29 Comparación con otros gestores NoSQL",
+    "text": "29 Comparación con otros gestores NoSQL\n\n\n\n\n\n\n\n\nTecnología\nModelo principal\nAplicación representativa\n\n\n\n\nMongoDB\nDocumentos\nCatálogos e información semiestructurada\n\n\nRedis\nClave–valor y estructuras asociadas a claves\nCaché, sesiones, contadores\n\n\nCassandra\nColumnas anchas\nMediciones distribuidas por particiones\n\n\nNeo4j\nGrafos\nRedes de personas, productos o entidades conectadas\n\n\n\nPara explicar en clase: cada tecnología resuelve necesidades distintas. Neo4j facilita expresar consultas sobre relaciones explícitas y caminos; eso no lo convierte en el mejor gestor para cualquier problema."
+  },
+  {
+    "objectID": "apuntes/12_neo4j_comandos_practica.html#anexo-docente-reiniciar-el-ejercicio",
+    "href": "apuntes/12_neo4j_comandos_practica.html#anexo-docente-reiniciar-el-ejercicio",
+    "title": "Neo4j: primeros comandos y consultas con Cypher",
+    "section": "34 Anexo docente: reiniciar el ejercicio",
+    "text": "34 Anexo docente: reiniciar el ejercicio\n\n\n\n\n\n\nAdvertenciaAdvertencia: eliminación irreversible\n\n\n\nUtiliza las instrucciones siguientes solo si esta base contiene exclusivamente los datos de esta práctica. La coincidencia se realiza por etiqueta y nombre: si hay otros nodos Persona con esos nombres, también serán eliminados, junto con todas sus relaciones conectadas.\n\n\nAntes de borrar, revisa qué nodos coinciden:\nMATCH (p:Persona)\nWHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']\nRETURN p;\nExplicación línea por línea\n\nLínea 1: localiza nodos Persona.\nLínea 2: selecciona los que tienen alguno de los cinco nombres indicados. IN comprueba pertenencia a una lista.\nLínea 3: muestra los nodos seleccionados sin eliminarlos.\n\nSi verificaste que son únicamente los nodos de prueba y deseas eliminarlos, ejecuta:\nMATCH (p:Persona)\nWHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']\nDETACH DELETE p;\nExplicación línea por línea\n\nLínea 1: busca nodos Persona.\nLínea 2: filtra los cinco nombres del ejercicio.\nLínea 3: elimina los nodos seleccionados y las relaciones conectadas a ellos. DETACH DELETE modifica la base de datos.\n\nComprueba el resultado:\nMATCH (p:Persona)\nRETURN COUNT(p) AS TotalPersonas;\n\nLínea 1: busca los nodos que conserven la etiqueta Persona.\nLínea 2: devuelve cuántos quedan.\n\nResultado esperado: 0, siempre que las únicas personas almacenadas fueran las cinco del ejercicio.\n\n\n\n\n\n\nNotaRecordatorio final\n\n\n\nLas instrucciones de limpieza son opcionales y no forman parte del ejercicio que deben ejecutar los estudiantes sin supervisión. Para conservar resultados y evitar pérdidas, utiliza una base dedicada a los ejemplos de clase."
   }
 ]

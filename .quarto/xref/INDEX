@@ -85,5 +85,8 @@
   },
   "manuales/instalacion_neo4j_windows.qmd": {
     "instalacion_neo4j_windows.html": "0e5e64df"
+  },
+  "apuntes/12_neo4j_comandos_practica.qmd": {
+    "12_neo4j_comandos_practica.html": "d261a262"
   }
 }
