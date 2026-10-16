@@ -10,97 +10,150 @@ format:
     code-overflow: wrap
 ---
 
-## Introducción
+## ¿Qué es Cypher?
 
-En el apunte anterior estudiamos los fundamentos de las **bases de datos orientadas a grafos**: nodos, relaciones, propiedades y caminos. Ahora utilizaremos **Neo4j** y su lenguaje de consultas **Cypher** para aplicar esos conceptos.
+**Cypher** es el lenguaje con el que creamos y consultamos información en Neo4j. Su característica principal es que escribimos patrones que representan **nodos y relaciones**.
 
-Construiremos una pequeña red social con cinco personas: **Ana, Carlos, María, Luis y Sofía**. Aprenderemos a crear nodos, establecer relaciones dirigidas, recuperar datos, aplicar filtros, identificar caminos indirectos y obtener recomendaciones a partir de contactos en común.
+En esta guía utilizaremos nombres de variables descriptivos como `origen`, `destino`, `intermedio` y `relacion`, para distinguir claramente el papel de cada elemento.
 
-::: {.callout-note}
-## Objetivo
+```cypher
+(origen:Persona)-[:CONOCE]->(destino:Persona)
+```
 
-Utilizar Neo4j y Cypher para crear y consultar grafos, identificar conexiones directas e indirectas y construir una regla básica de recomendación.
+**Este es un patrón ilustrativo, no una consulta para ejecutar por sí sola.**
+
+- `(origen:Persona)`: nodo de partida con la **etiqueta** `Persona`.
+- `[:CONOCE]`: **tipo de relación** que conecta ambos nodos.
+- `->`: dirección de la relación, desde el origen hacia el destino.
+- `(destino:Persona)`: nodo al que llega la relación.
+
+Por ejemplo, para representar un nodo con propiedades escribimos:
+
+```cypher
+(persona:Persona {nombre: 'Ana'})
+```
+
+- `persona` es una **variable temporal** de la consulta.
+- `Persona` es la **etiqueta** del nodo almacenado.
+- `nombre` es una **propiedad**.
+- `'Ana'` es el **valor** de la propiedad.
+
+| Elemento | Función |
+|---|---|
+| `()` | Delimitar nodos |
+| `[]` | Delimitar relaciones |
+| `->` | Indicar dirección |
+| `:Persona` | Etiqueta de los nodos |
+| `:CONOCE` | Tipo de relación |
+| `{nombre: 'Ana'}` | Propiedad y valor |
+| `MATCH` | Buscar patrones existentes |
+| `CREATE` | Crear nodos o relaciones |
+| `WHERE` | Filtrar resultados |
+| `RETURN` | Mostrar resultados |
+
+::: {.callout-important}
+## No confundir variable, etiqueta y nombre
+
+En `MATCH (origen:Persona)`, **`origen` no es el nombre permanente de un nodo**. Es una variable que elegimos al escribir la consulta; podríamos llamarla `inicio` o `usuario`.
+
+En cambio, `Persona` sí es la etiqueta almacenada, y `nombre = 'Ana'` es una propiedad con un valor. Usar nombres descriptivos hace que nuestras consultas sean más fáciles de leer, pero **no cambia los datos**.
 :::
 
-::: {.callout-tip}
-## Cómo utilizar esta guía docente
+## Preparar una base limpia antes de la práctica
 
-Cada ejercicio contiene el **código que debes ejecutar**, una **explicación línea por línea**, un **resultado esperado** y una sugerencia para explicarlo durante la clase. Ejecuta los códigos de creación en el orden indicado y una sola vez.
-:::
+Antes de ejecutar los ejemplos vamos a comprobar si quedaron nodos y relaciones de clases anteriores. Esto evita que una segunda ejecución de `CREATE` produzca personas o conexiones duplicadas.
 
-## Preparar el entorno de trabajo
+En Neo4j Desktop, abre **Query** y confirma que la base seleccionada es `neo4j` dentro de la instancia `BDNR_Neo4j`.
 
-Utilizaremos **Neo4j Desktop**, la instancia local `BDNR_Neo4j` y la base de datos `neo4j`.
-
-1. Abre Neo4j Desktop.
-2. En **Local instances**, localiza `BDNR_Neo4j`.
-3. Inicia el servidor y confirma que se encuentre en estado **RUNNING**.
-4. Abre la sección **Query**.
-5. Comprueba que estés trabajando en la base `neo4j`.
-
-**Para explicar en clase:** Desktop administra el entorno; la instancia ejecuta el servidor; la base de datos conserva los nodos y relaciones; Query permite enviar instrucciones Cypher.
-
-### Verificar los datos iniciales
+### Revisar cuántos nodos hay
 
 ```cypher
 MATCH (n)
-RETURN count(n) AS TotalNodos;
+RETURN COUNT(n) AS TotalNodos;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1 — `MATCH (n)`:** busca todos los nodos; no indicamos una etiqueta, de modo que `n` puede representar cualquier nodo.
-- **Línea 2 — `RETURN count(n) AS TotalNodos;`:** cuenta los nodos encontrados y presenta la cifra con el encabezado `TotalNodos`.
+- **Línea 1 — `MATCH (n)`:** busca todos los nodos, sin restringirlos a una etiqueta.
+- **Línea 2 — `RETURN COUNT(n) AS TotalNodos;`:** cuenta las coincidencias y muestra la cantidad bajo el nombre `TotalNodos`.
 
-**Resultado esperado:** `0` si la base está vacía. Si ya practicamos antes, podría aparecer un número mayor.
+**Resultado esperado:** si ya trabajaste antes, puede aparecer un número mayor que cero. En nuestra práctica anterior aparecieron **7 nodos** por haber ejecutado varias veces algunos comandos.
+
+### Revisar cuántas relaciones hay
+
+```cypher
+MATCH ()-[r]->()
+RETURN COUNT(r) AS TotalRelaciones;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1 — `MATCH ()-[r]->()`:** busca relaciones de cualquier tipo entre nodos. Los paréntesis vacíos indican que no necesitamos asignar variables a los nodos de los extremos.
+- **Línea 2 — `RETURN COUNT(r) AS TotalRelaciones;`:** cuenta las relaciones encontradas y muestra el resultado.
+
+**Resultado esperado:** si hay conexiones anteriores, el valor será mayor que cero. En nuestra práctica anterior aparecieron **10 relaciones**.
+
+### Eliminar los datos de las prácticas anteriores
 
 ::: {.callout-warning}
-## Evitar duplicados
+## Advertencia: eliminación permanente
 
-Esta guía presupone que todavía no hemos creado los cinco nodos del ejercicio. Volver a ejecutar `CREATE` puede duplicar datos. Al final incluimos un procedimiento de limpieza **que solo debe usarse en una base dedicada a la práctica**.
+El siguiente comando borra **todos los nodos y todas las relaciones de la base de datos seleccionada**. Úsalo **únicamente si `neo4j` se dedica a este ejercicio y no contiene información que debamos conservar**. Si hay otros datos importantes, no ejecutes esta instrucción; primero debemos identificar únicamente los elementos de la práctica.
+
+No elimina la instancia, pero tampoco elimina índices ni restricciones que se hayan configurado en la base de datos.
 :::
 
-## ¿Qué es Cypher?
-
-**Cypher** es un lenguaje declarativo que permite definir patrones sobre nodos, relaciones y propiedades.
-
-Un patrón básico es:
+Si confirmaste que todos los datos se pueden borrar, ejecuta:
 
 ```cypher
-(a)-[:CONOCE]->(b)
+MATCH (n)
+DETACH DELETE n;
 ```
 
-No ejecutes esta línea aislada: es un ejemplo de **patrón**, no una consulta completa.
+**Explicación línea por línea**
 
-- `(a)` es un nodo representado por la variable `a`.
-- `[:CONOCE]` expresa una relación de tipo `CONOCE`.
-- `->` señala la dirección almacenada o buscada.
-- `(b)` es el nodo del otro extremo.
+- **Línea 1 — `MATCH (n)`:** identifica todos los nodos almacenados en la base seleccionada.
+- **Línea 2 — `DETACH DELETE n;`:** elimina esos nodos y, al mismo tiempo, todas las relaciones conectadas a ellos. A diferencia de `DELETE n`, puede eliminar nodos que aún tienen relaciones.
 
-También podemos describir un nodo con propiedades:
+**Resultado esperado:** los nodos y las relaciones anteriores se eliminan. La base queda lista para crear nuevamente nuestra red social.
+
+### Comprobar la limpieza
+
+Vuelve a ejecutar la consulta de nodos:
 
 ```cypher
-(a:Persona {nombre: 'Ana'})
+MATCH (n)
+RETURN COUNT(n) AS TotalNodos;
 ```
 
-- `a`: variable temporal de la consulta.
-- `:Persona`: etiqueta del nodo.
-- `nombre`: clave de la propiedad.
-- `'Ana'`: valor de la propiedad.
+**Explicación línea por línea**
 
-| Elemento | Función |
-|---|---|
-| `()` | Representar nodos |
-| `[]` | Representar relaciones |
-| `->` | Especificar dirección |
-| `:` | Introducir una etiqueta o tipo |
-| `{}` | Especificar propiedades o subconsultas según el contexto |
-| `CREATE` | Crear información |
-| `MATCH` | Buscar patrones |
-| `WHERE` | Filtrar coincidencias |
-| `RETURN` | Mostrar resultados |
+- **Línea 1:** busca los nodos que permanezcan en la base.
+- **Línea 2:** devuelve cuántos nodos quedan.
 
-**Para explicar en clase:** la variable `a` no se guarda en el nodo. La información persistente es la etiqueta `Persona` y la propiedad `nombre`.
+**Resultado esperado:** `TotalNodos = 0`.
+
+Ahora comprueba las relaciones:
+
+```cypher
+MATCH ()-[r]->()
+RETURN COUNT(r) AS TotalRelaciones;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca cualquier relación que permanezca almacenada.
+- **Línea 2:** devuelve el número de relaciones encontradas.
+
+**Resultado esperado:** `TotalRelaciones = 0`.
+
+::: {.callout-tip}
+## Para explicar en clase
+
+`CREATE` agrega elementos cada vez que se ejecuta, por eso repetir un ejercicio puede producir datos duplicados. Al limpiar previamente una **base dedicada a la práctica**, aseguramos que todos comiencen con los mismos resultados. Después de verificar los ceros, continuamos con la creación de Ana y Carlos.
+:::
+
+---
 
 ## Crear nuestro primer nodo: Ana
 
@@ -138,41 +191,41 @@ RETURN b;
 
 ## Crear nuestra primera relación
 
-Vamos a indicar que **Ana conoce a Carlos**.
+Vamos a indicar que **Ana conoce a Carlos**. En esta primera creación utilizamos variables descriptivas:
 
 ```cypher
-MATCH (a:Persona {nombre: 'Ana'})
-MATCH (b:Persona {nombre: 'Carlos'})
-CREATE (a)-[:CONOCE]->(b)
-RETURN a, b;
+MATCH (origen:Persona {nombre: 'Ana'})
+MATCH (destino:Persona {nombre: 'Carlos'})
+CREATE (origen)-[:CONOCE]->(destino)
+RETURN origen, destino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1 — `MATCH ... 'Ana'`:** localiza el nodo Ana y lo identifica con `a`.
-- **Línea 2 — `MATCH ... 'Carlos'`:** localiza el nodo Carlos y lo identifica con `b`.
-- **Línea 3 — `CREATE (a)-[:CONOCE]->(b)`:** crea una relación de tipo `CONOCE` desde Ana hacia Carlos.
-- **Línea 4 — `RETURN a, b;`:** devuelve los dos nodos. Esta forma no devuelve explícitamente una variable de relación; en el siguiente ejercicio recuperaremos la conexión completa.
+- **Línea 1:** encuentra el nodo cuya propiedad `nombre` vale `'Ana'` y lo representa con la variable `origen`.
+- **Línea 2:** encuentra el nodo cuyo `nombre` vale `'Carlos'` y lo representa con `destino`.
+- **Línea 3:** crea una relación `CONOCE` desde el nodo `origen` hasta `destino`.
+- **Línea 4:** muestra los nodos involucrados. La consulta crea la relación, aunque aquí no la devolvamos explícitamente.
 
-**Resultado esperado:** dos nodos y una relación: `Ana → Carlos`.
+**Resultado esperado:** dos nodos y una relación, `Ana → Carlos`.
 
-**Para explicar en clase:** `MATCH` encuentra nodos que ya existen; `CREATE` construye la conexión. La flecha importa: Ana→Carlos no implica que se haya creado Carlos→Ana.
+**Para explicar en clase:** `origen` y `destino` son nombres **elegidos para esta consulta**. No reemplazan a la etiqueta `Persona` ni a los nombres Ana y Carlos. `CREATE` se ejecuta solo una vez para evitar relaciones duplicadas.
 
 ## Consultar una relación existente
 
 ```cypher
-MATCH (a:Persona)-[r:CONOCE]->(b:Persona)
-RETURN a, r, b;
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+RETURN origen, relacion, destino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** busca dos nodos con etiqueta `Persona`, conectados mediante una relación saliente `CONOCE`. La variable `r` representa la relación encontrada.
-- **Línea 2:** devuelve el origen `a`, la relación `r` y el destino `b`, de modo que podemos visualizar la conexión en **Graph**.
+- **Línea 1:** busca una persona de origen conectada a una persona de destino por `CONOCE`. La variable `relacion` guarda la relación encontrada.
+- **Línea 2:** devuelve los dos nodos y la relación para mostrarla en **Graph**.
 
 **Resultado esperado:** `Ana → Carlos`.
 
-**Para explicar en clase:** esta consulta solo lee datos; no crea ni modifica elementos.
+**Para explicar en clase:** esta consulta no crea nuevos datos. Las variables `origen`, `relacion` y `destino` existen durante la consulta; **los valores que encuentran cambian de una coincidencia a otra**.
 
 ## Agregar tres personas
 
@@ -241,80 +294,93 @@ RETURN a, c, m, l, s;
 ## Visualizar el grafo completo
 
 ```cypher
-MATCH (a:Persona)-[r:CONOCE]->(b:Persona)
-RETURN a, r, b;
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+RETURN origen, relacion, destino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** busca todas las relaciones dirigidas `CONOCE` entre nodos `Persona`.
-- **Línea 2:** devuelve ambos extremos y la propia relación.
+- **Línea 1:** busca todas las relaciones `CONOCE` entre personas, sin exigir nombres determinados.
+- **Línea 2:** devuelve los dos extremos y sus relaciones para observarlos en **Graph**.
 
-**Resultado esperado:** ver las cinco relaciones en la vista **Graph**.
+**Resultado esperado:** cinco nodos y cinco relaciones en la red. 
 
-**Para explicar en clase:** devolver nodos y relaciones hace explícita la estructura que queremos mostrar; devolver únicamente nombres produce una tabla.
+**Para explicar en clase:** los nombres de las variables no son nombres de personas; en cada coincidencia `origen` y `destino` pueden representar nodos diferentes.
 
 ## ¿A quién conoce Ana?
 
+Primero consultaremos las relaciones **directas y salientes** desde Ana.
+
 ```cypher
-MATCH (a:Persona)-[:CONOCE]->(b:Persona)
-WHERE a.nombre = 'Ana'
-RETURN b.nombre AS Persona;
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN destino.nombre AS Persona;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** encuentra todas las conexiones dirigidas `CONOCE` entre personas.
-- **Línea 2:** conserva solo aquellas cuyo nodo de origen se llama Ana. `WHERE` introduce una condición; `=` compara valores.
-- **Línea 3:** devuelve únicamente el nombre del nodo de destino y llama `Persona` a la columna.
+- **Línea 1:** busca parejas de personas unidas mediante una relación dirigida `CONOCE`. `origen` y `destino` son **variables**, no etiquetas ni nombres almacenados.
+- **Línea 2:** exige que la propiedad `nombre` del nodo representado por `origen` sea `'Ana'`. El filtro no exige que la variable se llame `Ana`.
+- **Línea 3:** devuelve el valor de la propiedad `nombre` de cada `destino`, con el título `Persona`.
 
-**Resultado esperado:** Carlos y María (el orden no está garantizado sin `ORDER BY`).
+**Resultado esperado:** Carlos y María (sin orden garantizado).
 
-**Para explicar en clase:** estamos buscando las relaciones *salientes* de Ana.
+**Observa lo que ocurre en cada coincidencia:**
+
+| Variable `origen` | Variable `destino` |
+|---|---|
+| Ana | Carlos |
+| Ana | María |
+
+La variable `destino` representa primero a Carlos y después a María. No queda vinculada permanentemente a una sola persona.
+
+**Para explicar en clase:** la consulta no busca literalmente un nodo llamado `origen`; busca un **patrón** y le pone nombres temporales a los nodos encontrados.
 
 ### Visualizar esas conexiones
 
 ```cypher
-MATCH (a:Persona)-[r:CONOCE]->(b:Persona)
-WHERE a.nombre = 'Ana'
-RETURN a, r, b;
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen, relacion, destino;
 ```
 
-- **Línea 1:** busca relaciones `CONOCE` y las asigna a `r`.
-- **Línea 2:** conserva las conexiones cuyo origen es Ana.
-- **Línea 3:** devuelve nodos y relaciones para mostrarlos en Graph.
+- **Línea 1:** localiza las relaciones y asigna `relacion` a cada una.
+- **Línea 2:** restringe el origen a Ana.
+- **Línea 3:** devuelve nodos y relaciones completas para verlos en Graph.
 
 **Resultado esperado:** Ana→Carlos y Ana→María.
 
 ## ¿Quiénes conocen a Luis?
 
+Ahora buscamos las relaciones **entrantes** a Luis:
+
 ```cypher
-MATCH (a:Persona)-[:CONOCE]->(b:Persona)
-WHERE b.nombre = 'Luis'
-RETURN a.nombre AS Persona;
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen.nombre AS Persona;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** busca relaciones dirigidas `CONOCE`.
-- **Línea 2:** filtra aquellas cuyo nodo de *destino* tiene nombre Luis.
-- **Línea 3:** devuelve el nombre de la persona que origina cada relación.
+- **Línea 1:** busca relaciones que salen de `origen` y llegan a `destino`.
+- **Línea 2:** exige que `destino` sea el nodo con nombre Luis.
+- **Línea 3:** devuelve los nombres de los nodos de origen.
 
 **Resultado esperado:** Carlos y María.
 
-**Para explicar en clase:** en la consulta anterior filtramos por `a` (origen); aquí filtramos por `b` (destino).
+**Para explicar en clase:** `origen` y `destino` no cambian el sentido de las flechas. Su nombre solo explica el papel que tiene cada nodo en el patrón.
 
-### Mostrar quiénes conocen a Luis en Graph
+### Visualizar las conexiones entrantes a Luis
 
 ```cypher
-MATCH (a:Persona)-[r:CONOCE]->(b:Persona)
-WHERE b.nombre = 'Luis'
-RETURN a, r, b;
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen, relacion, destino;
 ```
 
-- **Línea 1:** encuentra relaciones dirigidas y las guarda temporalmente en `r`.
-- **Línea 2:** selecciona las relaciones que llegan a Luis.
-- **Línea 3:** devuelve los elementos completos.
+- **Línea 1:** identifica los nodos y las relaciones `CONOCE`.
+- **Línea 2:** selecciona las relaciones que terminan en Luis.
+- **Línea 3:** devuelve todos los elementos para la vista Graph.
 
 **Resultado esperado:** Carlos→Luis y María→Luis.
 
@@ -338,86 +404,189 @@ RETURN DISTINCT p.nombre AS Persona;
 
 ## Relaciones directas e indirectas
 
-Una relación **directa** conecta dos nodos con una relación: `Ana → Carlos`.
+Una **relación directa** conecta dos personas con una sola relación:
 
-Una conexión **indirecta** puede involucrar intermediarios:
+```text
+Ana → Carlos
+```
+
+Una **conexión indirecta** recorre dos o más relaciones, por ejemplo:
 
 ```text
 Ana → Carlos → Luis
 Ana → María  → Luis
 ```
 
-La base almacena las relaciones directas; Neo4j encuentra los caminos indirectos al consultar sus patrones.
+Ana **no tiene una relación directa** `CONOCE` hacia Luis. Sin embargo, puede llegar hasta él mediante dos personas distintas.
 
-## Identificar intermediarios entre Ana y Luis
+::: {.callout-note}
+## ¿Neo4j reconoce automáticamente las conexiones?
+
+Neo4j **recorre y encuentra** las relaciones que ya existen, siguiendo el patrón que escribimos en Cypher. No crea por sí mismo una nueva relación `Ana → Luis`, ni determina automáticamente cuál es nuestra definición de "contacto indirecto".
+:::
+
+## Buscar todas las conexiones a dos pasos desde Ana
+
+Antes de buscar específicamente a Luis, probaremos una consulta más general:
 
 ```cypher
-MATCH (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(b:Persona {nombre: 'Luis'})
-RETURN a.nombre AS Origen,
+MATCH (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen.nombre AS Origen,
        intermedio.nombre AS Intermediario,
-       b.nombre AS Destino;
+       destino.nombre AS Destino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** exige que el nodo inicial sea Ana.
-- **Línea 2:** recorre una relación `CONOCE` hacia una persona intermedia y la asigna a `intermedio`.
-- **Línea 3:** exige otra relación `CONOCE` desde el intermediario hasta Luis.
-- **Línea 4:** devuelve el nombre de Ana bajo la columna `Origen`.
-- **Línea 5:** devuelve el nombre del intermediario.
-- **Línea 6:** devuelve el nombre de Luis como `Destino`.
+- **Línea 1:** exige dos relaciones consecutivas `CONOCE` en el sentido de las flechas; `origen` es el inicio, `intermedio` es la persona que une los dos pasos y `destino` es el punto de llegada.
+- **Línea 2:** establece que los caminos deben comenzar en Ana.
+- **Línea 3:** devuelve el nombre inicial.
+- **Línea 4:** devuelve el nombre del intermediario.
+- **Línea 5:** devuelve el nombre del destino.
 
-**Resultado esperado:** dos filas: Ana–Carlos–Luis y Ana–María–Luis.
+**Resultado esperado:**
 
-**Para explicar en clase:** solicitamos expresamente caminos dirigidos de **dos relaciones**. Neo4j no está adivinando lo que queremos, está buscando el patrón escrito.
+| Origen | Intermediario | Destino |
+|---|---|---|
+| Ana | Carlos | Luis |
+| Ana | María | Luis |
 
-## Recuperar el camino completo
+**Para explicar en clase:** Luis aparece **dos veces** porque encontramos **dos caminos diferentes**, no porque existan dos nodos Luis. La consulta devolvió coincidencias del patrón.
+
+## Obtener solo los destinos indirectos sin repetición
+
+Si solo necesitamos los nombres de destino, podemos utilizar una variable intermedia anónima y `DISTINCT`:
 
 ```cypher
-MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(:Persona)
-      -[:CONOCE]->(b:Persona {nombre: 'Luis'})
+MATCH (origen:Persona)-[:CONOCE]->(:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN DISTINCT destino.nombre AS ConexionIndirecta;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** recorre exactamente dos relaciones; `(:Persona)` significa que exigimos un nodo intermedio con etiqueta `Persona` pero no necesitamos ponerle un nombre de variable.
+- **Línea 2:** comienza desde Ana.
+- **Línea 3:** devuelve los nombres de destino sin duplicarlos. `DISTINCT` elimina filas de nombre repetido.
+
+**Resultado esperado:** una sola fila, Luis.
+
+::: {.callout-tip}
+## ¿Es lo mismo "dos pasos" que "una recomendación"?
+
+No necesariamente. La consulta anterior busca destinos alcanzables en exactamente dos relaciones. En redes mayores podría incluir a alguien a quien Ana ya conoce directamente o incluso a Ana si existieran ciclos. Para una **recomendación de nuevos contactos** añadiremos filtros más adelante.
+:::
+
+## Visualizar las conexiones indirectas en Graph
+
+```cypher
+MATCH camino = (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
 RETURN camino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1 — `MATCH camino =`:** asigna cada camino coincidente a la variable `camino`.
-- **Línea 2:** fija a Ana como nodo inicial.
-- **Línea 3:** exige una relación hacia una persona intermedia; no le asignamos una variable porque no necesitamos devolverla por separado.
-- **Línea 4:** exige una segunda relación hacia Luis.
-- **Línea 5:** devuelve los caminos completos, con sus nodos y relaciones.
+- **Línea 1:** busca los mismos caminos de dos relaciones y asigna cada coincidencia completa a la variable `camino`.
+- **Línea 2:** restringe el origen a Ana.
+- **Línea 3:** devuelve cada camino completo, no solo los nombres.
 
-**Resultado esperado:** los caminos Ana→Carlos→Luis y Ana→María→Luis en la vista Graph.
+**Resultado esperado:** la vista Graph muestra Ana→Carlos→Luis y Ana→María→Luis.
 
-**Para explicar en clase:** `camino` representa una secuencia de elementos, no un nodo individual.
+## Identificar intermediarios entre Ana y Luis
+
+Si sabemos de antemano que queremos llegar específicamente a Luis, añadimos su nombre al patrón:
+
+```cypher
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
+RETURN origen.nombre AS Origen,
+       intermedio.nombre AS Intermediario,
+       destino.nombre AS Destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** fija a Ana como origen con `{nombre: 'Ana'}`.
+- **Línea 2:** recorre una relación hasta un intermediario, que será Carlos o María.
+- **Línea 3:** recorre una segunda relación hasta el nodo Luis.
+- **Línea 4:** devuelve el nombre de origen.
+- **Línea 5:** devuelve el nombre del intermediario.
+- **Línea 6:** devuelve el nombre del destino.
+
+**Resultado esperado:** dos filas, con Carlos y María como intermediarios.
+
+**Para explicar en clase:** `WHERE origen.nombre = 'Ana'` y `(origen:Persona {nombre: 'Ana'})` son dos maneras de expresar el filtro sobre Ana en estos ejemplos.
+
+## Recuperar un camino completo
+
+```cypher
+MATCH camino =
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
+RETURN camino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** crea la variable temporal `camino` para cada recorrido encontrado.
+- **Línea 2:** define a Ana como origen.
+- **Línea 3:** atraviesa una relación hacia el intermediario.
+- **Línea 4:** atraviesa otra relación hasta Luis.
+- **Línea 5:** devuelve la secuencia completa de nodos y relaciones.
+
+**Resultado esperado:** dos caminos en Graph.
 
 ## Calcular la longitud de los caminos
 
 ```cypher
 MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(:Persona)
-      -[:CONOCE]->(b:Persona {nombre: 'Luis'})
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
 RETURN camino,
        length(camino) AS Longitud;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** identifica cada camino completo como `camino`.
-- **Línea 2:** fija el origen Ana.
-- **Línea 3:** recorre una relación hasta una persona intermedia.
-- **Línea 4:** recorre otra relación hasta Luis.
-- **Línea 5:** devuelve cada camino encontrado.
-- **Línea 6:** calcula su longitud con `length(camino)` y llama `Longitud` a la columna.
+- **Línea 1:** identifica cada camino.
+- **Línea 2:** fija el origen.
+- **Línea 3:** busca el intermediario.
+- **Línea 4:** fija el destino.
+- **Línea 5:** devuelve el camino.
+- **Línea 6:** `length(camino)` cuenta el número de **relaciones** del camino; `AS Longitud` nombra la columna.
 
-**Resultado esperado:** dos caminos, cada uno con longitud **2**.
+**Resultado esperado:** dos caminos de longitud `2` (tres nodos y dos relaciones en cada uno).
 
-**Para explicar en clase:** la longitud cuenta **relaciones**, no nodos. Aquí cada camino tiene tres nodos y dos relaciones.
+**Para explicar en clase:** dos personas pueden estar conectadas indirectamente por varios caminos, incluso cuando la longitud de cada uno sea igual.
+
+## Buscar caminos con distintas longitudes (opcional)
+
+Cypher también permite patrones de longitud variable. En Neo4j moderno podemos buscar caminos de **dos o tres relaciones** mediante la sintaxis cuantificada:
+
+```cypher
+MATCH camino = (origen:Persona {nombre: 'Ana'})-[:CONOCE]->{2,3}(destino:Persona)
+RETURN destino.nombre AS Destino,
+       length(camino) AS Longitud;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca rutas dirigidas que partan de Ana y recorran entre dos y tres relaciones `CONOCE`; el fragmento `->{2,3}` fija el rango de repeticiones de la relación.
+- **Línea 2:** devuelve el nombre del destino.
+- **Línea 3:** devuelve la longitud de cada camino.
+
+**Resultado esperado en nuestra red:** Luis con longitud 2. El grafo actual no tiene otro camino dirigido de tres relaciones que parta de Ana.
+
+::: {.callout-note}
+## Esta parte es opcional
+
+Para comenzar la clase, la forma más sencilla es escribir explícitamente los dos pasos con `origen`, `intermedio` y `destino`. La sintaxis cuantificada puede reservarse para una sesión posterior.
+:::
 
 ## Introducción a las recomendaciones
 
@@ -433,61 +602,63 @@ No. Nosotros definimos la regla con Cypher. Neo4j recorre las relaciones almacen
 
 ## Obtener recomendaciones con contactos en común
 
+Para recomendar *nuevas* personas a Ana, utilizamos dos pasos y descartamos destinos que ya conozca o que sean ella misma.
+
 ```cypher
-MATCH (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(contacto:Persona)
-      -[:CONOCE]->(recomendado:Persona)
-WHERE recomendado <> a
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona)
+WHERE destino <> origen
   AND NOT EXISTS {
-      MATCH (a)-[:CONOCE]->(recomendado)
+      MATCH (origen)-[:CONOCE]->(destino)
   }
-RETURN recomendado.nombre AS Recomendacion,
-       COUNT(DISTINCT contacto) AS ContactosEnComun;
+RETURN destino.nombre AS Recomendacion,
+       COUNT(DISTINCT intermedio) AS ContactosEnComun;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** establece a Ana como punto de partida.
-- **Línea 2:** encuentra personas conocidas directamente por Ana y las asigna a `contacto`.
-- **Línea 3:** encuentra a las personas conocidas por cada `contacto` y las asigna a `recomendado`.
-- **Línea 4 — `WHERE recomendado <> a`:** descarta a la propia Ana (`<>` significa distinto de).
-- **Línea 5 — `AND NOT EXISTS {`:** añade la condición de que *no exista* cierto patrón.
-- **Línea 6:** el patrón que no debe existir es una relación directa Ana→recomendado.
-- **Línea 7 — `}`:** cierra la subconsulta utilizada por `NOT EXISTS`.
-- **Línea 8:** devuelve el nombre del candidato y titula la columna `Recomendacion`.
-- **Línea 9:** cuenta los contactos intermediarios *diferentes* para cada candidato. `COUNT` agrega, `DISTINCT` evita duplicar un mismo contacto y `AS` define el encabezado.
+- **Línea 1:** fija el origen de la recomendación en Ana.
+- **Línea 2:** busca a sus contactos directos y los representa con `intermedio`.
+- **Línea 3:** busca los contactos de cada intermediario y los representa con `destino`.
+- **Línea 4 — `WHERE destino <> origen`:** evita recomendar a Ana consigo misma. `<>` significa «distinto de».
+- **Línea 5 — `AND NOT EXISTS {`:** exige que no se cumpla el patrón siguiente.
+- **Línea 6:** define el patrón que debe faltar: una relación directa desde Ana al destino.
+- **Línea 7 — `}`:** cierra el bloque de la condición.
+- **Línea 8:** devuelve el nombre recomendado.
+- **Línea 9:** cuenta los intermediarios **diferentes** que llevan a cada destino. `DISTINCT` impide contar dos veces al mismo intermediario.
 
-**Resultado esperado:** Luis, con `ContactosEnComun = 2`.
+**Resultado esperado:** `Luis` con `ContactosEnComun = 2`.
 
-**Para explicar en clase:** Carlos y María son dos intermediarios distintos. La regla descarta a Ana y a cualquiera que Ana ya conozca directamente.
+**Para explicar en clase:** Neo4j no inventa una nueva conexión, ni decide solo cómo recomendar. Nosotros establecemos el criterio; el gestor encuentra las coincidencias.
 
 ## Visualizar por qué se generó la recomendación
 
 ```cypher
 MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(contacto:Persona)
-      -[:CONOCE]->(recomendado:Persona)
-WHERE recomendado <> a
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona)
+WHERE destino <> origen
   AND NOT EXISTS {
-      MATCH (a)-[:CONOCE]->(recomendado)
+      MATCH (origen)-[:CONOCE]->(destino)
   }
 RETURN camino;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** asigna una variable a cada camino coincidente.
-- **Línea 2:** fija el inicio en Ana.
-- **Línea 3:** encuentra sus contactos directos.
-- **Línea 4:** encuentra a los conocidos de esos contactos.
-- **Línea 5:** evita recomendar a Ana.
-- **Líneas 6 a 8:** descartan candidatos con relación directa desde Ana.
-- **Última línea:** devuelve el camino completo para verlo gráficamente.
+- **Línea 1:** asigna cada camino a `camino`.
+- **Línea 2:** selecciona a Ana como origen.
+- **Línea 3:** encuentra contactos directos.
+- **Línea 4:** encuentra contactos de esos intermediarios.
+- **Línea 5:** descarta al propio origen.
+- **Líneas 6 a 8:** descartan los destinos que Ana ya conoce directamente.
+- **Última línea:** devuelve los caminos completos.
 
 **Resultado esperado:** Ana→Carlos→Luis y Ana→María→Luis.
 
-**Para explicar en clase:** una buena recomendación puede acompañarse de una explicación: *«Conoces a Carlos y María, quienes conocen a Luis»*.
+**Para explicar en clase:** mostrar las rutas permite justificar por qué apareció Luis como recomendación.
 
 ## Consultar todos los nodos
 
@@ -586,15 +757,15 @@ RETURN COUNT(r) AS TotalRelaciones;
 ## Contar los contactos salientes por persona
 
 ```cypher
-MATCH (a:Persona)-[:CONOCE]->(b:Persona)
-RETURN a.nombre AS Persona,
-       COUNT(b) AS TotalContactos
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+RETURN origen.nombre AS Persona,
+       COUNT(destino) AS TotalContactos
 ORDER BY TotalContactos DESC;
 ```
 
 **Explicación línea por línea**
 
-- **Línea 1:** encuentra relaciones `CONOCE` dirigidas desde `a` hasta `b`.
+- **Línea 1:** encuentra relaciones `CONOCE` dirigidas desde `origen` hasta `destino`.
 - **Línea 2:** devuelve el nombre del origen, que también actúa como criterio de agrupación.
 - **Línea 3:** cuenta las coincidencias de destino de cada nombre de origen.
 - **Línea 4:** ordena de mayor a menor cantidad de relaciones salientes.
@@ -631,6 +802,8 @@ Utilizando la red social que construimos:
 11. Ordena alfabéticamente los nombres de las personas.
 12. Devuelve solo tres nombres mediante `LIMIT`.
 13. Cuenta las relaciones salientes de cada persona.
+14. Explica por qué Luis aparece dos veces en el resultado de caminos de dos pasos, pero una sola vez al usar `DISTINCT`.
+15. Modifica la consulta de relaciones indirectas para empezar desde Sofía y observa el destino alcanzado en dos pasos.
 
 ::: {.callout-tip collapse="true"}
 ## Respuestas esperadas para el docente
@@ -661,6 +834,9 @@ Utilizando la red social que construimos:
 
 ## Ideas clave
 
+- **Las variables `origen`, `intermedio` y `destino` identifican el papel de un nodo en una consulta; no son etiquetas ni nombres almacenados.**
+- **Una misma persona puede aparecer en varias coincidencias de un patrón y `DISTINCT` permite eliminar resultados repetidos.**
+
 - **Cypher** expresa consultas mediante patrones de nodos y relaciones.
 - **CREATE** agrega información; **MATCH** recupera patrones existentes.
 - **WHERE** permite filtrar coincidencias.
@@ -675,57 +851,3 @@ Utilizando la red social que construimos:
 Durante esta práctica construimos una red social de cinco personas mediante Neo4j y Cypher. Creamos nodos y relaciones, recuperamos información, utilizamos filtros y exploramos conexiones directas e indirectas. Finalmente aplicamos una regla sencilla de recomendaciones basada en contactos en común.
 
 El ejemplo muestra una de las fortalezas de las bases de datos orientadas a grafos: **representar y explorar las conexiones entre entidades** de forma explícita y comprensible.
-
-## Anexo docente: reiniciar el ejercicio
-
-::: {.callout-warning}
-## Advertencia: eliminación irreversible
-
-Utiliza las instrucciones siguientes **solo si esta base contiene exclusivamente los datos de esta práctica**. La coincidencia se realiza por etiqueta y nombre: si hay otros nodos `Persona` con esos nombres, también serán eliminados, junto con todas sus relaciones conectadas.
-:::
-
-Antes de borrar, revisa qué nodos coinciden:
-
-```cypher
-MATCH (p:Persona)
-WHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']
-RETURN p;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** localiza nodos `Persona`.
-- **Línea 2:** selecciona los que tienen alguno de los cinco nombres indicados. `IN` comprueba pertenencia a una lista.
-- **Línea 3:** muestra los nodos seleccionados sin eliminarlos.
-
-Si verificaste que son únicamente los nodos de prueba y deseas eliminarlos, ejecuta:
-
-```cypher
-MATCH (p:Persona)
-WHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']
-DETACH DELETE p;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca nodos `Persona`.
-- **Línea 2:** filtra los cinco nombres del ejercicio.
-- **Línea 3:** elimina los nodos seleccionados y las relaciones conectadas a ellos. `DETACH DELETE` **modifica la base de datos**.
-
-Comprueba el resultado:
-
-```cypher
-MATCH (p:Persona)
-RETURN COUNT(p) AS TotalPersonas;
-```
-
-- **Línea 1:** busca los nodos que conserven la etiqueta `Persona`.
-- **Línea 2:** devuelve cuántos quedan.
-
-**Resultado esperado:** 0, siempre que las únicas personas almacenadas fueran las cinco del ejercicio.
-
-::: {.callout-note}
-## Recordatorio final
-
-Las instrucciones de limpieza son opcionales y no forman parte del ejercicio que deben ejecutar los estudiantes sin supervisión. Para conservar resultados y evitar pérdidas, utiliza una base dedicada a los ejemplos de clase.
-:::

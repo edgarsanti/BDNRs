@@ -142,49 +142,54 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
-  <li><a href="#preparar-el-entorno-de-trabajo" id="toc-preparar-el-entorno-de-trabajo" class="nav-link" data-scroll-target="#preparar-el-entorno-de-trabajo"><span class="header-section-number">2</span> Preparar el entorno de trabajo</a>
+  <li><a href="#qué-es-cypher" id="toc-qué-es-cypher" class="nav-link active" data-scroll-target="#qué-es-cypher"><span class="header-section-number">1</span> ¿Qué es Cypher?</a></li>
+  <li><a href="#preparar-una-base-limpia-antes-de-la-práctica" id="toc-preparar-una-base-limpia-antes-de-la-práctica" class="nav-link" data-scroll-target="#preparar-una-base-limpia-antes-de-la-práctica"><span class="header-section-number">2</span> Preparar una base limpia antes de la práctica</a>
   <ul class="collapse">
-  <li><a href="#verificar-los-datos-iniciales" id="toc-verificar-los-datos-iniciales" class="nav-link" data-scroll-target="#verificar-los-datos-iniciales"><span class="header-section-number">2.1</span> Verificar los datos iniciales</a></li>
+  <li><a href="#revisar-cuántos-nodos-hay" id="toc-revisar-cuántos-nodos-hay" class="nav-link" data-scroll-target="#revisar-cuántos-nodos-hay"><span class="header-section-number">2.1</span> Revisar cuántos nodos hay</a></li>
+  <li><a href="#revisar-cuántas-relaciones-hay" id="toc-revisar-cuántas-relaciones-hay" class="nav-link" data-scroll-target="#revisar-cuántas-relaciones-hay"><span class="header-section-number">2.2</span> Revisar cuántas relaciones hay</a></li>
+  <li><a href="#eliminar-los-datos-de-las-prácticas-anteriores" id="toc-eliminar-los-datos-de-las-prácticas-anteriores" class="nav-link" data-scroll-target="#eliminar-los-datos-de-las-prácticas-anteriores"><span class="header-section-number">2.3</span> Eliminar los datos de las prácticas anteriores</a></li>
+  <li><a href="#comprobar-la-limpieza" id="toc-comprobar-la-limpieza" class="nav-link" data-scroll-target="#comprobar-la-limpieza"><span class="header-section-number">2.4</span> Comprobar la limpieza</a></li>
   </ul></li>
-  <li><a href="#qué-es-cypher" id="toc-qué-es-cypher" class="nav-link" data-scroll-target="#qué-es-cypher"><span class="header-section-number">3</span> ¿Qué es Cypher?</a></li>
-  <li><a href="#crear-nuestro-primer-nodo-ana" id="toc-crear-nuestro-primer-nodo-ana" class="nav-link" data-scroll-target="#crear-nuestro-primer-nodo-ana"><span class="header-section-number">4</span> Crear nuestro primer nodo: Ana</a></li>
-  <li><a href="#crear-un-segundo-nodo-carlos" id="toc-crear-un-segundo-nodo-carlos" class="nav-link" data-scroll-target="#crear-un-segundo-nodo-carlos"><span class="header-section-number">5</span> Crear un segundo nodo: Carlos</a></li>
-  <li><a href="#crear-nuestra-primera-relación" id="toc-crear-nuestra-primera-relación" class="nav-link" data-scroll-target="#crear-nuestra-primera-relación"><span class="header-section-number">6</span> Crear nuestra primera relación</a></li>
-  <li><a href="#consultar-una-relación-existente" id="toc-consultar-una-relación-existente" class="nav-link" data-scroll-target="#consultar-una-relación-existente"><span class="header-section-number">7</span> Consultar una relación existente</a></li>
-  <li><a href="#agregar-tres-personas" id="toc-agregar-tres-personas" class="nav-link" data-scroll-target="#agregar-tres-personas"><span class="header-section-number">8</span> Agregar tres personas</a></li>
-  <li><a href="#completar-las-conexiones-de-la-red-social" id="toc-completar-las-conexiones-de-la-red-social" class="nav-link" data-scroll-target="#completar-las-conexiones-de-la-red-social"><span class="header-section-number">9</span> Completar las conexiones de la red social</a></li>
-  <li><a href="#visualizar-el-grafo-completo" id="toc-visualizar-el-grafo-completo" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo"><span class="header-section-number">10</span> Visualizar el grafo completo</a></li>
-  <li><a href="#a-quién-conoce-ana" id="toc-a-quién-conoce-ana" class="nav-link" data-scroll-target="#a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</a>
+  <li><a href="#crear-nuestro-primer-nodo-ana" id="toc-crear-nuestro-primer-nodo-ana" class="nav-link" data-scroll-target="#crear-nuestro-primer-nodo-ana"><span class="header-section-number">3</span> Crear nuestro primer nodo: Ana</a></li>
+  <li><a href="#crear-un-segundo-nodo-carlos" id="toc-crear-un-segundo-nodo-carlos" class="nav-link" data-scroll-target="#crear-un-segundo-nodo-carlos"><span class="header-section-number">4</span> Crear un segundo nodo: Carlos</a></li>
+  <li><a href="#crear-nuestra-primera-relación" id="toc-crear-nuestra-primera-relación" class="nav-link" data-scroll-target="#crear-nuestra-primera-relación"><span class="header-section-number">5</span> Crear nuestra primera relación</a></li>
+  <li><a href="#consultar-una-relación-existente" id="toc-consultar-una-relación-existente" class="nav-link" data-scroll-target="#consultar-una-relación-existente"><span class="header-section-number">6</span> Consultar una relación existente</a></li>
+  <li><a href="#agregar-tres-personas" id="toc-agregar-tres-personas" class="nav-link" data-scroll-target="#agregar-tres-personas"><span class="header-section-number">7</span> Agregar tres personas</a></li>
+  <li><a href="#completar-las-conexiones-de-la-red-social" id="toc-completar-las-conexiones-de-la-red-social" class="nav-link" data-scroll-target="#completar-las-conexiones-de-la-red-social"><span class="header-section-number">8</span> Completar las conexiones de la red social</a></li>
+  <li><a href="#visualizar-el-grafo-completo" id="toc-visualizar-el-grafo-completo" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo"><span class="header-section-number">9</span> Visualizar el grafo completo</a></li>
+  <li><a href="#a-quién-conoce-ana" id="toc-a-quién-conoce-ana" class="nav-link" data-scroll-target="#a-quién-conoce-ana"><span class="header-section-number">10</span> ¿A quién conoce Ana?</a>
   <ul class="collapse">
-  <li><a href="#visualizar-esas-conexiones" id="toc-visualizar-esas-conexiones" class="nav-link" data-scroll-target="#visualizar-esas-conexiones"><span class="header-section-number">11.1</span> Visualizar esas conexiones</a></li>
+  <li><a href="#visualizar-esas-conexiones" id="toc-visualizar-esas-conexiones" class="nav-link" data-scroll-target="#visualizar-esas-conexiones"><span class="header-section-number">10.1</span> Visualizar esas conexiones</a></li>
   </ul></li>
-  <li><a href="#quiénes-conocen-a-luis" id="toc-quiénes-conocen-a-luis" class="nav-link" data-scroll-target="#quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</a>
+  <li><a href="#quiénes-conocen-a-luis" id="toc-quiénes-conocen-a-luis" class="nav-link" data-scroll-target="#quiénes-conocen-a-luis"><span class="header-section-number">11</span> ¿Quiénes conocen a Luis?</a>
   <ul class="collapse">
-  <li><a href="#mostrar-quiénes-conocen-a-luis-en-graph" id="toc-mostrar-quiénes-conocen-a-luis-en-graph" class="nav-link" data-scroll-target="#mostrar-quiénes-conocen-a-luis-en-graph"><span class="header-section-number">12.1</span> Mostrar quiénes conocen a Luis en Graph</a></li>
+  <li><a href="#visualizar-las-conexiones-entrantes-a-luis" id="toc-visualizar-las-conexiones-entrantes-a-luis" class="nav-link" data-scroll-target="#visualizar-las-conexiones-entrantes-a-luis"><span class="header-section-number">11.1</span> Visualizar las conexiones entrantes a Luis</a></li>
   </ul></li>
-  <li><a href="#buscar-relaciones-sin-exigir-dirección" id="toc-buscar-relaciones-sin-exigir-dirección" class="nav-link" data-scroll-target="#buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</a></li>
-  <li><a href="#relaciones-directas-e-indirectas" id="toc-relaciones-directas-e-indirectas" class="nav-link" data-scroll-target="#relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</a></li>
-  <li><a href="#identificar-intermediarios-entre-ana-y-luis" id="toc-identificar-intermediarios-entre-ana-y-luis" class="nav-link" data-scroll-target="#identificar-intermediarios-entre-ana-y-luis"><span class="header-section-number">15</span> Identificar intermediarios entre Ana y Luis</a></li>
-  <li><a href="#recuperar-el-camino-completo" id="toc-recuperar-el-camino-completo" class="nav-link" data-scroll-target="#recuperar-el-camino-completo"><span class="header-section-number">16</span> Recuperar el camino completo</a></li>
-  <li><a href="#calcular-la-longitud-de-los-caminos" id="toc-calcular-la-longitud-de-los-caminos" class="nav-link" data-scroll-target="#calcular-la-longitud-de-los-caminos"><span class="header-section-number">17</span> Calcular la longitud de los caminos</a></li>
-  <li><a href="#introducción-a-las-recomendaciones" id="toc-introducción-a-las-recomendaciones" class="nav-link" data-scroll-target="#introducción-a-las-recomendaciones"><span class="header-section-number">18</span> Introducción a las recomendaciones</a></li>
-  <li><a href="#obtener-recomendaciones-con-contactos-en-común" id="toc-obtener-recomendaciones-con-contactos-en-común" class="nav-link" data-scroll-target="#obtener-recomendaciones-con-contactos-en-común"><span class="header-section-number">19</span> Obtener recomendaciones con contactos en común</a></li>
-  <li><a href="#visualizar-por-qué-se-generó-la-recomendación" id="toc-visualizar-por-qué-se-generó-la-recomendación" class="nav-link" data-scroll-target="#visualizar-por-qué-se-generó-la-recomendación"><span class="header-section-number">20</span> Visualizar por qué se generó la recomendación</a></li>
-  <li><a href="#consultar-todos-los-nodos" id="toc-consultar-todos-los-nodos" class="nav-link" data-scroll-target="#consultar-todos-los-nodos"><span class="header-section-number">21</span> Consultar todos los nodos</a></li>
-  <li><a href="#consultar-todas-las-relaciones" id="toc-consultar-todas-las-relaciones" class="nav-link" data-scroll-target="#consultar-todas-las-relaciones"><span class="header-section-number">22</span> Consultar todas las relaciones</a></li>
-  <li><a href="#recuperar-solo-los-nombres" id="toc-recuperar-solo-los-nombres" class="nav-link" data-scroll-target="#recuperar-solo-los-nombres"><span class="header-section-number">23</span> Recuperar solo los nombres</a></li>
-  <li><a href="#ordenar-con-order-by" id="toc-ordenar-con-order-by" class="nav-link" data-scroll-target="#ordenar-con-order-by"><span class="header-section-number">24</span> Ordenar con ORDER BY</a></li>
-  <li><a href="#limitar-resultados-con-limit" id="toc-limitar-resultados-con-limit" class="nav-link" data-scroll-target="#limitar-resultados-con-limit"><span class="header-section-number">25</span> Limitar resultados con LIMIT</a></li>
-  <li><a href="#contar-personas" id="toc-contar-personas" class="nav-link" data-scroll-target="#contar-personas"><span class="header-section-number">26</span> Contar personas</a></li>
-  <li><a href="#contar-relaciones" id="toc-contar-relaciones" class="nav-link" data-scroll-target="#contar-relaciones"><span class="header-section-number">27</span> Contar relaciones</a></li>
-  <li><a href="#contar-los-contactos-salientes-por-persona" id="toc-contar-los-contactos-salientes-por-persona" class="nav-link" data-scroll-target="#contar-los-contactos-salientes-por-persona"><span class="header-section-number">28</span> Contar los contactos salientes por persona</a></li>
-  <li><a href="#comparación-con-otros-gestores-nosql" id="toc-comparación-con-otros-gestores-nosql" class="nav-link" data-scroll-target="#comparación-con-otros-gestores-nosql"><span class="header-section-number">29</span> Comparación con otros gestores NoSQL</a></li>
-  <li><a href="#actividad-práctica" id="toc-actividad-práctica" class="nav-link" data-scroll-target="#actividad-práctica"><span class="header-section-number">30</span> Actividad práctica</a></li>
-  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar"><span class="header-section-number">31</span> Preguntas para reflexionar</a></li>
-  <li><a href="#ideas-clave" id="toc-ideas-clave" class="nav-link" data-scroll-target="#ideas-clave"><span class="header-section-number">32</span> Ideas clave</a></li>
-  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión"><span class="header-section-number">33</span> Conclusión</a></li>
-  <li><a href="#anexo-docente-reiniciar-el-ejercicio" id="toc-anexo-docente-reiniciar-el-ejercicio" class="nav-link" data-scroll-target="#anexo-docente-reiniciar-el-ejercicio"><span class="header-section-number">34</span> Anexo docente: reiniciar el ejercicio</a></li>
+  <li><a href="#buscar-relaciones-sin-exigir-dirección" id="toc-buscar-relaciones-sin-exigir-dirección" class="nav-link" data-scroll-target="#buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">12</span> Buscar relaciones sin exigir dirección</a></li>
+  <li><a href="#relaciones-directas-e-indirectas" id="toc-relaciones-directas-e-indirectas" class="nav-link" data-scroll-target="#relaciones-directas-e-indirectas"><span class="header-section-number">13</span> Relaciones directas e indirectas</a></li>
+  <li><a href="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana" id="toc-buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="nav-link" data-scroll-target="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">14</span> Buscar todas las conexiones a dos pasos desde Ana</a></li>
+  <li><a href="#obtener-solo-los-destinos-indirectos-sin-repetición" id="toc-obtener-solo-los-destinos-indirectos-sin-repetición" class="nav-link" data-scroll-target="#obtener-solo-los-destinos-indirectos-sin-repetición"><span class="header-section-number">15</span> Obtener solo los destinos indirectos sin repetición</a></li>
+  <li><a href="#visualizar-las-conexiones-indirectas-en-graph" id="toc-visualizar-las-conexiones-indirectas-en-graph" class="nav-link" data-scroll-target="#visualizar-las-conexiones-indirectas-en-graph"><span class="header-section-number">16</span> Visualizar las conexiones indirectas en Graph</a></li>
+  <li><a href="#identificar-intermediarios-entre-ana-y-luis" id="toc-identificar-intermediarios-entre-ana-y-luis" class="nav-link" data-scroll-target="#identificar-intermediarios-entre-ana-y-luis"><span class="header-section-number">17</span> Identificar intermediarios entre Ana y Luis</a></li>
+  <li><a href="#recuperar-un-camino-completo" id="toc-recuperar-un-camino-completo" class="nav-link" data-scroll-target="#recuperar-un-camino-completo"><span class="header-section-number">18</span> Recuperar un camino completo</a></li>
+  <li><a href="#calcular-la-longitud-de-los-caminos" id="toc-calcular-la-longitud-de-los-caminos" class="nav-link" data-scroll-target="#calcular-la-longitud-de-los-caminos"><span class="header-section-number">19</span> Calcular la longitud de los caminos</a></li>
+  <li><a href="#buscar-caminos-con-distintas-longitudes-opcional" id="toc-buscar-caminos-con-distintas-longitudes-opcional" class="nav-link" data-scroll-target="#buscar-caminos-con-distintas-longitudes-opcional"><span class="header-section-number">20</span> Buscar caminos con distintas longitudes (opcional)</a></li>
+  <li><a href="#introducción-a-las-recomendaciones" id="toc-introducción-a-las-recomendaciones" class="nav-link" data-scroll-target="#introducción-a-las-recomendaciones"><span class="header-section-number">21</span> Introducción a las recomendaciones</a></li>
+  <li><a href="#obtener-recomendaciones-con-contactos-en-común" id="toc-obtener-recomendaciones-con-contactos-en-común" class="nav-link" data-scroll-target="#obtener-recomendaciones-con-contactos-en-común"><span class="header-section-number">22</span> Obtener recomendaciones con contactos en común</a></li>
+  <li><a href="#visualizar-por-qué-se-generó-la-recomendación" id="toc-visualizar-por-qué-se-generó-la-recomendación" class="nav-link" data-scroll-target="#visualizar-por-qué-se-generó-la-recomendación"><span class="header-section-number">23</span> Visualizar por qué se generó la recomendación</a></li>
+  <li><a href="#consultar-todos-los-nodos" id="toc-consultar-todos-los-nodos" class="nav-link" data-scroll-target="#consultar-todos-los-nodos"><span class="header-section-number">24</span> Consultar todos los nodos</a></li>
+  <li><a href="#consultar-todas-las-relaciones" id="toc-consultar-todas-las-relaciones" class="nav-link" data-scroll-target="#consultar-todas-las-relaciones"><span class="header-section-number">25</span> Consultar todas las relaciones</a></li>
+  <li><a href="#recuperar-solo-los-nombres" id="toc-recuperar-solo-los-nombres" class="nav-link" data-scroll-target="#recuperar-solo-los-nombres"><span class="header-section-number">26</span> Recuperar solo los nombres</a></li>
+  <li><a href="#ordenar-con-order-by" id="toc-ordenar-con-order-by" class="nav-link" data-scroll-target="#ordenar-con-order-by"><span class="header-section-number">27</span> Ordenar con ORDER BY</a></li>
+  <li><a href="#limitar-resultados-con-limit" id="toc-limitar-resultados-con-limit" class="nav-link" data-scroll-target="#limitar-resultados-con-limit"><span class="header-section-number">28</span> Limitar resultados con LIMIT</a></li>
+  <li><a href="#contar-personas" id="toc-contar-personas" class="nav-link" data-scroll-target="#contar-personas"><span class="header-section-number">29</span> Contar personas</a></li>
+  <li><a href="#contar-relaciones" id="toc-contar-relaciones" class="nav-link" data-scroll-target="#contar-relaciones"><span class="header-section-number">30</span> Contar relaciones</a></li>
+  <li><a href="#contar-los-contactos-salientes-por-persona" id="toc-contar-los-contactos-salientes-por-persona" class="nav-link" data-scroll-target="#contar-los-contactos-salientes-por-persona"><span class="header-section-number">31</span> Contar los contactos salientes por persona</a></li>
+  <li><a href="#comparación-con-otros-gestores-nosql" id="toc-comparación-con-otros-gestores-nosql" class="nav-link" data-scroll-target="#comparación-con-otros-gestores-nosql"><span class="header-section-number">32</span> Comparación con otros gestores NoSQL</a></li>
+  <li><a href="#actividad-práctica" id="toc-actividad-práctica" class="nav-link" data-scroll-target="#actividad-práctica"><span class="header-section-number">33</span> Actividad práctica</a></li>
+  <li><a href="#preguntas-para-reflexionar" id="toc-preguntas-para-reflexionar" class="nav-link" data-scroll-target="#preguntas-para-reflexionar"><span class="header-section-number">34</span> Preguntas para reflexionar</a></li>
+  <li><a href="#ideas-clave" id="toc-ideas-clave" class="nav-link" data-scroll-target="#ideas-clave"><span class="header-section-number">35</span> Ideas clave</a></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión"><span class="header-section-number">36</span> Conclusión</a></li>
   </ul>
 </nav>
     </div>
@@ -211,92 +216,25 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introducción" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
-<p>En el apunte anterior estudiamos los fundamentos de las <strong>bases de datos orientadas a grafos</strong>: nodos, relaciones, propiedades y caminos. Ahora utilizaremos <strong>Neo4j</strong> y su lenguaje de consultas <strong>Cypher</strong> para aplicar esos conceptos.</p>
-<p>Construiremos una pequeña red social con cinco personas: <strong>Ana, Carlos, María, Luis y Sofía</strong>. Aprenderemos a crear nodos, establecer relaciones dirigidas, recuperar datos, aplicar filtros, identificar caminos indirectos y obtener recomendaciones a partir de contactos en común.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Objetivo
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Utilizar Neo4j y Cypher para crear y consultar grafos, identificar conexiones directas e indirectas y construir una regla básica de recomendación.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Cómo utilizar esta guía docente
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Cada ejercicio contiene el <strong>código que debes ejecutar</strong>, una <strong>explicación línea por línea</strong>, un <strong>resultado esperado</strong> y una sugerencia para explicarlo durante la clase. Ejecuta los códigos de creación en el orden indicado y una sola vez.</p>
-</div>
-</div>
-</section>
-<section id="preparar-el-entorno-de-trabajo" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="preparar-el-entorno-de-trabajo"><span class="header-section-number">2</span> Preparar el entorno de trabajo</h2>
-<p>Utilizaremos <strong>Neo4j Desktop</strong>, la instancia local <code>BDNR_Neo4j</code> y la base de datos <code>neo4j</code>.</p>
-<ol type="1">
-<li>Abre Neo4j Desktop.</li>
-<li>En <strong>Local instances</strong>, localiza <code>BDNR_Neo4j</code>.</li>
-<li>Inicia el servidor y confirma que se encuentre en estado <strong>RUNNING</strong>.</li>
-<li>Abre la sección <strong>Query</strong>.</li>
-<li>Comprueba que estés trabajando en la base <code>neo4j</code>.</li>
-</ol>
-<p><strong>Para explicar en clase:</strong> Desktop administra el entorno; la instancia ejecuta el servidor; la base de datos conserva los nodos y relaciones; Query permite enviar instrucciones Cypher.</p>
-<section id="verificar-los-datos-iniciales" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="verificar-los-datos-iniciales"><span class="header-section-number">2.1</span> Verificar los datos iniciales</h3>
-<pre class="cypher"><code>MATCH (n)
-RETURN count(n) AS TotalNodos;</code></pre>
-<p><strong>Explicación línea por línea</strong></p>
+<section id="qué-es-cypher" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="qué-es-cypher"><span class="header-section-number">1</span> ¿Qué es Cypher?</h2>
+<p><strong>Cypher</strong> es el lenguaje con el que creamos y consultamos información en Neo4j. Su característica principal es que escribimos patrones que representan <strong>nodos y relaciones</strong>.</p>
+<p>En esta guía utilizaremos nombres de variables descriptivos como <code>origen</code>, <code>destino</code>, <code>intermedio</code> y <code>relacion</code>, para distinguir claramente el papel de cada elemento.</p>
+<pre class="cypher"><code>(origen:Persona)-[:CONOCE]-&gt;(destino:Persona)</code></pre>
+<p><strong>Este es un patrón ilustrativo, no una consulta para ejecutar por sí sola.</strong></p>
 <ul>
-<li><strong>Línea 1 — <code>MATCH (n)</code>:</strong> busca todos los nodos; no indicamos una etiqueta, de modo que <code>n</code> puede representar cualquier nodo.</li>
-<li><strong>Línea 2 — <code>RETURN count(n) AS TotalNodos;</code>:</strong> cuenta los nodos encontrados y presenta la cifra con el encabezado <code>TotalNodos</code>.</li>
+<li><code>(origen:Persona)</code>: nodo de partida con la <strong>etiqueta</strong> <code>Persona</code>.</li>
+<li><code>[:CONOCE]</code>: <strong>tipo de relación</strong> que conecta ambos nodos.</li>
+<li><code>-&gt;</code>: dirección de la relación, desde el origen hacia el destino.</li>
+<li><code>(destino:Persona)</code>: nodo al que llega la relación.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> <code>0</code> si la base está vacía. Si ya practicamos antes, podría aparecer un número mayor.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Advertencia</span>Evitar duplicados
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Esta guía presupone que todavía no hemos creado los cinco nodos del ejercicio. Volver a ejecutar <code>CREATE</code> puede duplicar datos. Al final incluimos un procedimiento de limpieza <strong>que solo debe usarse en una base dedicada a la práctica</strong>.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="qué-es-cypher" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="qué-es-cypher"><span class="header-section-number">3</span> ¿Qué es Cypher?</h2>
-<p><strong>Cypher</strong> es un lenguaje declarativo que permite definir patrones sobre nodos, relaciones y propiedades.</p>
-<p>Un patrón básico es:</p>
-<pre class="cypher"><code>(a)-[:CONOCE]-&gt;(b)</code></pre>
-<p>No ejecutes esta línea aislada: es un ejemplo de <strong>patrón</strong>, no una consulta completa.</p>
+<p>Por ejemplo, para representar un nodo con propiedades escribimos:</p>
+<pre class="cypher"><code>(persona:Persona {nombre: 'Ana'})</code></pre>
 <ul>
-<li><code>(a)</code> es un nodo representado por la variable <code>a</code>.</li>
-<li><code>[:CONOCE]</code> expresa una relación de tipo <code>CONOCE</code>.</li>
-<li><code>-&gt;</code> señala la dirección almacenada o buscada.</li>
-<li><code>(b)</code> es el nodo del otro extremo.</li>
-</ul>
-<p>También podemos describir un nodo con propiedades:</p>
-<pre class="cypher"><code>(a:Persona {nombre: 'Ana'})</code></pre>
-<ul>
-<li><code>a</code>: variable temporal de la consulta.</li>
-<li><code>:Persona</code>: etiqueta del nodo.</li>
-<li><code>nombre</code>: clave de la propiedad.</li>
-<li><code>'Ana'</code>: valor de la propiedad.</li>
+<li><code>persona</code> es una <strong>variable temporal</strong> de la consulta.</li>
+<li><code>Persona</code> es la <strong>etiqueta</strong> del nodo almacenado.</li>
+<li><code>nombre</code> es una <strong>propiedad</strong>.</li>
+<li><code>'Ana'</code> es el <strong>valor</strong> de la propiedad.</li>
 </ul>
 <table class="caption-top table">
 <thead>
@@ -308,46 +246,151 @@ RETURN count(n) AS TotalNodos;</code></pre>
 <tbody>
 <tr class="odd">
 <td><code>()</code></td>
-<td>Representar nodos</td>
+<td>Delimitar nodos</td>
 </tr>
 <tr class="even">
 <td><code>[]</code></td>
-<td>Representar relaciones</td>
+<td>Delimitar relaciones</td>
 </tr>
 <tr class="odd">
 <td><code>-&gt;</code></td>
-<td>Especificar dirección</td>
+<td>Indicar dirección</td>
 </tr>
 <tr class="even">
-<td><code>:</code></td>
-<td>Introducir una etiqueta o tipo</td>
+<td><code>:Persona</code></td>
+<td>Etiqueta de los nodos</td>
 </tr>
 <tr class="odd">
-<td><code>{}</code></td>
-<td>Especificar propiedades o subconsultas según el contexto</td>
+<td><code>:CONOCE</code></td>
+<td>Tipo de relación</td>
 </tr>
 <tr class="even">
-<td><code>CREATE</code></td>
-<td>Crear información</td>
+<td><code>{nombre: 'Ana'}</code></td>
+<td>Propiedad y valor</td>
 </tr>
 <tr class="odd">
 <td><code>MATCH</code></td>
-<td>Buscar patrones</td>
+<td>Buscar patrones existentes</td>
 </tr>
 <tr class="even">
-<td><code>WHERE</code></td>
-<td>Filtrar coincidencias</td>
+<td><code>CREATE</code></td>
+<td>Crear nodos o relaciones</td>
 </tr>
 <tr class="odd">
+<td><code>WHERE</code></td>
+<td>Filtrar resultados</td>
+</tr>
+<tr class="even">
 <td><code>RETURN</code></td>
 <td>Mostrar resultados</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Para explicar en clase:</strong> la variable <code>a</code> no se guarda en el nodo. La información persistente es la etiqueta <code>Persona</code> y la propiedad <code>nombre</code>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>No confundir variable, etiqueta y nombre
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En <code>MATCH (origen:Persona)</code>, <strong><code>origen</code> no es el nombre permanente de un nodo</strong>. Es una variable que elegimos al escribir la consulta; podríamos llamarla <code>inicio</code> o <code>usuario</code>.</p>
+<p>En cambio, <code>Persona</code> sí es la etiqueta almacenada, y <code>nombre = 'Ana'</code> es una propiedad con un valor. Usar nombres descriptivos hace que nuestras consultas sean más fáciles de leer, pero <strong>no cambia los datos</strong>.</p>
+</div>
+</div>
 </section>
-<section id="crear-nuestro-primer-nodo-ana" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="crear-nuestro-primer-nodo-ana"><span class="header-section-number">4</span> Crear nuestro primer nodo: Ana</h2>
+<section id="preparar-una-base-limpia-antes-de-la-práctica" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="preparar-una-base-limpia-antes-de-la-práctica"><span class="header-section-number">2</span> Preparar una base limpia antes de la práctica</h2>
+<p>Antes de ejecutar los ejemplos vamos a comprobar si quedaron nodos y relaciones de clases anteriores. Esto evita que una segunda ejecución de <code>CREATE</code> produzca personas o conexiones duplicadas.</p>
+<p>En Neo4j Desktop, abre <strong>Query</strong> y confirma que la base seleccionada es <code>neo4j</code> dentro de la instancia <code>BDNR_Neo4j</code>.</p>
+<section id="revisar-cuántos-nodos-hay" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="revisar-cuántos-nodos-hay"><span class="header-section-number">2.1</span> Revisar cuántos nodos hay</h3>
+<pre class="cypher"><code>MATCH (n)
+RETURN COUNT(n) AS TotalNodos;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1 — <code>MATCH (n)</code>:</strong> busca todos los nodos, sin restringirlos a una etiqueta.</li>
+<li><strong>Línea 2 — <code>RETURN COUNT(n) AS TotalNodos;</code>:</strong> cuenta las coincidencias y muestra la cantidad bajo el nombre <code>TotalNodos</code>.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> si ya trabajaste antes, puede aparecer un número mayor que cero. En nuestra práctica anterior aparecieron <strong>7 nodos</strong> por haber ejecutado varias veces algunos comandos.</p>
+</section>
+<section id="revisar-cuántas-relaciones-hay" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="revisar-cuántas-relaciones-hay"><span class="header-section-number">2.2</span> Revisar cuántas relaciones hay</h3>
+<pre class="cypher"><code>MATCH ()-[r]-&gt;()
+RETURN COUNT(r) AS TotalRelaciones;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1 — <code>MATCH ()-[r]-&gt;()</code>:</strong> busca relaciones de cualquier tipo entre nodos. Los paréntesis vacíos indican que no necesitamos asignar variables a los nodos de los extremos.</li>
+<li><strong>Línea 2 — <code>RETURN COUNT(r) AS TotalRelaciones;</code>:</strong> cuenta las relaciones encontradas y muestra el resultado.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> si hay conexiones anteriores, el valor será mayor que cero. En nuestra práctica anterior aparecieron <strong>10 relaciones</strong>.</p>
+</section>
+<section id="eliminar-los-datos-de-las-prácticas-anteriores" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="eliminar-los-datos-de-las-prácticas-anteriores"><span class="header-section-number">2.3</span> Eliminar los datos de las prácticas anteriores</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia: eliminación permanente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El siguiente comando borra <strong>todos los nodos y todas las relaciones de la base de datos seleccionada</strong>. Úsalo <strong>únicamente si <code>neo4j</code> se dedica a este ejercicio y no contiene información que debamos conservar</strong>. Si hay otros datos importantes, no ejecutes esta instrucción; primero debemos identificar únicamente los elementos de la práctica.</p>
+<p>No elimina la instancia, pero tampoco elimina índices ni restricciones que se hayan configurado en la base de datos.</p>
+</div>
+</div>
+<p>Si confirmaste que todos los datos se pueden borrar, ejecuta:</p>
+<pre class="cypher"><code>MATCH (n)
+DETACH DELETE n;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1 — <code>MATCH (n)</code>:</strong> identifica todos los nodos almacenados en la base seleccionada.</li>
+<li><strong>Línea 2 — <code>DETACH DELETE n;</code>:</strong> elimina esos nodos y, al mismo tiempo, todas las relaciones conectadas a ellos. A diferencia de <code>DELETE n</code>, puede eliminar nodos que aún tienen relaciones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> los nodos y las relaciones anteriores se eliminan. La base queda lista para crear nuevamente nuestra red social.</p>
+</section>
+<section id="comprobar-la-limpieza" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="comprobar-la-limpieza"><span class="header-section-number">2.4</span> Comprobar la limpieza</h3>
+<p>Vuelve a ejecutar la consulta de nodos:</p>
+<pre class="cypher"><code>MATCH (n)
+RETURN COUNT(n) AS TotalNodos;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca los nodos que permanezcan en la base.</li>
+<li><strong>Línea 2:</strong> devuelve cuántos nodos quedan.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> <code>TotalNodos = 0</code>.</p>
+<p>Ahora comprueba las relaciones:</p>
+<pre class="cypher"><code>MATCH ()-[r]-&gt;()
+RETURN COUNT(r) AS TotalRelaciones;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca cualquier relación que permanezca almacenada.</li>
+<li><strong>Línea 2:</strong> devuelve el número de relaciones encontradas.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> <code>TotalRelaciones = 0</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para explicar en clase
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>CREATE</code> agrega elementos cada vez que se ejecuta, por eso repetir un ejercicio puede producir datos duplicados. Al limpiar previamente una <strong>base dedicada a la práctica</strong>, aseguramos que todos comiencen con los mismos resultados. Después de verificar los ceros, continuamos con la creación de Ana y Carlos.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="crear-nuestro-primer-nodo-ana" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="crear-nuestro-primer-nodo-ana"><span class="header-section-number">3</span> Crear nuestro primer nodo: Ana</h2>
 <p>Ejecuta:</p>
 <pre class="cypher"><code>CREATE (a:Persona {nombre: 'Ana'})
 RETURN a;</code></pre>
@@ -359,8 +402,8 @@ RETURN a;</code></pre>
 <p><strong>Resultado esperado:</strong> un nodo llamado Ana; hasta el momento, un nodo y ninguna relación.</p>
 <p><strong>Para explicar en clase:</strong> hemos creado una entidad, pero todavía no está conectada con nadie. <code>CREATE</code> genera elementos nuevos cada vez que se ejecuta.</p>
 </section>
-<section id="crear-un-segundo-nodo-carlos" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="crear-un-segundo-nodo-carlos"><span class="header-section-number">5</span> Crear un segundo nodo: Carlos</h2>
+<section id="crear-un-segundo-nodo-carlos" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="crear-un-segundo-nodo-carlos"><span class="header-section-number">4</span> Crear un segundo nodo: Carlos</h2>
 <pre class="cypher"><code>CREATE (b:Persona {nombre: 'Carlos'})
 RETURN b;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
@@ -371,37 +414,37 @@ RETURN b;</code></pre>
 <p><strong>Resultado esperado:</strong> dos nodos y cero relaciones.</p>
 <p><strong>Para explicar en clase:</strong> dos nodos que aparecen separados no están relacionados por el simple hecho de existir en la misma base.</p>
 </section>
-<section id="crear-nuestra-primera-relación" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="crear-nuestra-primera-relación"><span class="header-section-number">6</span> Crear nuestra primera relación</h2>
-<p>Vamos a indicar que <strong>Ana conoce a Carlos</strong>.</p>
-<pre class="cypher"><code>MATCH (a:Persona {nombre: 'Ana'})
-MATCH (b:Persona {nombre: 'Carlos'})
-CREATE (a)-[:CONOCE]-&gt;(b)
-RETURN a, b;</code></pre>
+<section id="crear-nuestra-primera-relación" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="crear-nuestra-primera-relación"><span class="header-section-number">5</span> Crear nuestra primera relación</h2>
+<p>Vamos a indicar que <strong>Ana conoce a Carlos</strong>. En esta primera creación utilizamos variables descriptivas:</p>
+<pre class="cypher"><code>MATCH (origen:Persona {nombre: 'Ana'})
+MATCH (destino:Persona {nombre: 'Carlos'})
+CREATE (origen)-[:CONOCE]-&gt;(destino)
+RETURN origen, destino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1 — <code>MATCH ... 'Ana'</code>:</strong> localiza el nodo Ana y lo identifica con <code>a</code>.</li>
-<li><strong>Línea 2 — <code>MATCH ... 'Carlos'</code>:</strong> localiza el nodo Carlos y lo identifica con <code>b</code>.</li>
-<li><strong>Línea 3 — <code>CREATE (a)-[:CONOCE]-&gt;(b)</code>:</strong> crea una relación de tipo <code>CONOCE</code> desde Ana hacia Carlos.</li>
-<li><strong>Línea 4 — <code>RETURN a, b;</code>:</strong> devuelve los dos nodos. Esta forma no devuelve explícitamente una variable de relación; en el siguiente ejercicio recuperaremos la conexión completa.</li>
+<li><strong>Línea 1:</strong> encuentra el nodo cuya propiedad <code>nombre</code> vale <code>'Ana'</code> y lo representa con la variable <code>origen</code>.</li>
+<li><strong>Línea 2:</strong> encuentra el nodo cuyo <code>nombre</code> vale <code>'Carlos'</code> y lo representa con <code>destino</code>.</li>
+<li><strong>Línea 3:</strong> crea una relación <code>CONOCE</code> desde el nodo <code>origen</code> hasta <code>destino</code>.</li>
+<li><strong>Línea 4:</strong> muestra los nodos involucrados. La consulta crea la relación, aunque aquí no la devolvamos explícitamente.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> dos nodos y una relación: <code>Ana → Carlos</code>.</p>
-<p><strong>Para explicar en clase:</strong> <code>MATCH</code> encuentra nodos que ya existen; <code>CREATE</code> construye la conexión. La flecha importa: Ana→Carlos no implica que se haya creado Carlos→Ana.</p>
+<p><strong>Resultado esperado:</strong> dos nodos y una relación, <code>Ana → Carlos</code>.</p>
+<p><strong>Para explicar en clase:</strong> <code>origen</code> y <code>destino</code> son nombres <strong>elegidos para esta consulta</strong>. No reemplazan a la etiqueta <code>Persona</code> ni a los nombres Ana y Carlos. <code>CREATE</code> se ejecuta solo una vez para evitar relaciones duplicadas.</p>
 </section>
-<section id="consultar-una-relación-existente" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="consultar-una-relación-existente"><span class="header-section-number">7</span> Consultar una relación existente</h2>
-<pre class="cypher"><code>MATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)
-RETURN a, r, b;</code></pre>
+<section id="consultar-una-relación-existente" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="consultar-una-relación-existente"><span class="header-section-number">6</span> Consultar una relación existente</h2>
+<pre class="cypher"><code>MATCH (origen:Persona)-[relacion:CONOCE]-&gt;(destino:Persona)
+RETURN origen, relacion, destino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> busca dos nodos con etiqueta <code>Persona</code>, conectados mediante una relación saliente <code>CONOCE</code>. La variable <code>r</code> representa la relación encontrada.</li>
-<li><strong>Línea 2:</strong> devuelve el origen <code>a</code>, la relación <code>r</code> y el destino <code>b</code>, de modo que podemos visualizar la conexión en <strong>Graph</strong>.</li>
+<li><strong>Línea 1:</strong> busca una persona de origen conectada a una persona de destino por <code>CONOCE</code>. La variable <code>relacion</code> guarda la relación encontrada.</li>
+<li><strong>Línea 2:</strong> devuelve los dos nodos y la relación para mostrarla en <strong>Graph</strong>.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> <code>Ana → Carlos</code>.</p>
-<p><strong>Para explicar en clase:</strong> esta consulta solo lee datos; no crea ni modifica elementos.</p>
+<p><strong>Para explicar en clase:</strong> esta consulta no crea nuevos datos. Las variables <code>origen</code>, <code>relacion</code> y <code>destino</code> existen durante la consulta; <strong>los valores que encuentran cambian de una coincidencia a otra</strong>.</p>
 </section>
-<section id="agregar-tres-personas" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="agregar-tres-personas"><span class="header-section-number">8</span> Agregar tres personas</h2>
+<section id="agregar-tres-personas" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="agregar-tres-personas"><span class="header-section-number">7</span> Agregar tres personas</h2>
 <p>Ahora agregaremos María, Luis y Sofía.</p>
 <pre class="cypher"><code>CREATE (m:Persona {nombre: 'María'})
 CREATE (l:Persona {nombre: 'Luis'})
@@ -417,8 +460,8 @@ RETURN m, l, s;</code></pre>
 <p><strong>Resultado esperado:</strong> cinco nodos y una relación (Ana→Carlos).</p>
 <p><strong>Para explicar en clase:</strong> podemos incluir varias cláusulas <code>CREATE</code> en una consulta; cada una incorpora nueva información.</p>
 </section>
-<section id="completar-las-conexiones-de-la-red-social" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="completar-las-conexiones-de-la-red-social"><span class="header-section-number">9</span> Completar las conexiones de la red social</h2>
+<section id="completar-las-conexiones-de-la-red-social" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="completar-las-conexiones-de-la-red-social"><span class="header-section-number">8</span> Completar las conexiones de la red social</h2>
 <p>Queremos almacenar exactamente estas relaciones:</p>
 <ul>
 <li>Ana → Carlos (ya existe).</li>
@@ -454,72 +497,94 @@ RETURN a, c, m, l, s;</code></pre>
 <p><strong>Resultado esperado:</strong> <strong>cinco nodos y cinco relaciones</strong>.</p>
 <p><strong>Para explicar en clase:</strong> los <code>MATCH</code> iniciales localizan entidades; los <code>CREATE</code> posteriores conectan esas entidades. No volvemos a crear los nodos.</p>
 </section>
-<section id="visualizar-el-grafo-completo" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="visualizar-el-grafo-completo"><span class="header-section-number">10</span> Visualizar el grafo completo</h2>
-<pre class="cypher"><code>MATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)
-RETURN a, r, b;</code></pre>
+<section id="visualizar-el-grafo-completo" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="visualizar-el-grafo-completo"><span class="header-section-number">9</span> Visualizar el grafo completo</h2>
+<pre class="cypher"><code>MATCH (origen:Persona)-[relacion:CONOCE]-&gt;(destino:Persona)
+RETURN origen, relacion, destino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> busca todas las relaciones dirigidas <code>CONOCE</code> entre nodos <code>Persona</code>.</li>
-<li><strong>Línea 2:</strong> devuelve ambos extremos y la propia relación.</li>
+<li><strong>Línea 1:</strong> busca todas las relaciones <code>CONOCE</code> entre personas, sin exigir nombres determinados.</li>
+<li><strong>Línea 2:</strong> devuelve los dos extremos y sus relaciones para observarlos en <strong>Graph</strong>.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> ver las cinco relaciones en la vista <strong>Graph</strong>.</p>
-<p><strong>Para explicar en clase:</strong> devolver nodos y relaciones hace explícita la estructura que queremos mostrar; devolver únicamente nombres produce una tabla.</p>
+<p><strong>Resultado esperado:</strong> cinco nodos y cinco relaciones en la red.</p>
+<p><strong>Para explicar en clase:</strong> los nombres de las variables no son nombres de personas; en cada coincidencia <code>origen</code> y <code>destino</code> pueden representar nodos diferentes.</p>
 </section>
-<section id="a-quién-conoce-ana" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</h2>
-<pre class="cypher"><code>MATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)
-WHERE a.nombre = 'Ana'
-RETURN b.nombre AS Persona;</code></pre>
+<section id="a-quién-conoce-ana" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="a-quién-conoce-ana"><span class="header-section-number">10</span> ¿A quién conoce Ana?</h2>
+<p>Primero consultaremos las relaciones <strong>directas y salientes</strong> desde Ana.</p>
+<pre class="cypher"><code>MATCH (origen:Persona)-[:CONOCE]-&gt;(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN destino.nombre AS Persona;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> encuentra todas las conexiones dirigidas <code>CONOCE</code> entre personas.</li>
-<li><strong>Línea 2:</strong> conserva solo aquellas cuyo nodo de origen se llama Ana. <code>WHERE</code> introduce una condición; <code>=</code> compara valores.</li>
-<li><strong>Línea 3:</strong> devuelve únicamente el nombre del nodo de destino y llama <code>Persona</code> a la columna.</li>
+<li><strong>Línea 1:</strong> busca parejas de personas unidas mediante una relación dirigida <code>CONOCE</code>. <code>origen</code> y <code>destino</code> son <strong>variables</strong>, no etiquetas ni nombres almacenados.</li>
+<li><strong>Línea 2:</strong> exige que la propiedad <code>nombre</code> del nodo representado por <code>origen</code> sea <code>'Ana'</code>. El filtro no exige que la variable se llame <code>Ana</code>.</li>
+<li><strong>Línea 3:</strong> devuelve el valor de la propiedad <code>nombre</code> de cada <code>destino</code>, con el título <code>Persona</code>.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> Carlos y María (el orden no está garantizado sin <code>ORDER BY</code>).</p>
-<p><strong>Para explicar en clase:</strong> estamos buscando las relaciones <em>salientes</em> de Ana.</p>
-<section id="visualizar-esas-conexiones" class="level3" data-number="11.1">
-<h3 data-number="11.1" class="anchored" data-anchor-id="visualizar-esas-conexiones"><span class="header-section-number">11.1</span> Visualizar esas conexiones</h3>
-<pre class="cypher"><code>MATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)
-WHERE a.nombre = 'Ana'
-RETURN a, r, b;</code></pre>
+<p><strong>Resultado esperado:</strong> Carlos y María (sin orden garantizado).</p>
+<p><strong>Observa lo que ocurre en cada coincidencia:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable <code>origen</code></th>
+<th>Variable <code>destino</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<p>La variable <code>destino</code> representa primero a Carlos y después a María. No queda vinculada permanentemente a una sola persona.</p>
+<p><strong>Para explicar en clase:</strong> la consulta no busca literalmente un nodo llamado <code>origen</code>; busca un <strong>patrón</strong> y le pone nombres temporales a los nodos encontrados.</p>
+<section id="visualizar-esas-conexiones" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="visualizar-esas-conexiones"><span class="header-section-number">10.1</span> Visualizar esas conexiones</h3>
+<pre class="cypher"><code>MATCH (origen:Persona)-[relacion:CONOCE]-&gt;(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen, relacion, destino;</code></pre>
 <ul>
-<li><strong>Línea 1:</strong> busca relaciones <code>CONOCE</code> y las asigna a <code>r</code>.</li>
-<li><strong>Línea 2:</strong> conserva las conexiones cuyo origen es Ana.</li>
-<li><strong>Línea 3:</strong> devuelve nodos y relaciones para mostrarlos en Graph.</li>
+<li><strong>Línea 1:</strong> localiza las relaciones y asigna <code>relacion</code> a cada una.</li>
+<li><strong>Línea 2:</strong> restringe el origen a Ana.</li>
+<li><strong>Línea 3:</strong> devuelve nodos y relaciones completas para verlos en Graph.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> Ana→Carlos y Ana→María.</p>
 </section>
 </section>
-<section id="quiénes-conocen-a-luis" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</h2>
-<pre class="cypher"><code>MATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)
-WHERE b.nombre = 'Luis'
-RETURN a.nombre AS Persona;</code></pre>
+<section id="quiénes-conocen-a-luis" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="quiénes-conocen-a-luis"><span class="header-section-number">11</span> ¿Quiénes conocen a Luis?</h2>
+<p>Ahora buscamos las relaciones <strong>entrantes</strong> a Luis:</p>
+<pre class="cypher"><code>MATCH (origen:Persona)-[:CONOCE]-&gt;(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen.nombre AS Persona;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> busca relaciones dirigidas <code>CONOCE</code>.</li>
-<li><strong>Línea 2:</strong> filtra aquellas cuyo nodo de <em>destino</em> tiene nombre Luis.</li>
-<li><strong>Línea 3:</strong> devuelve el nombre de la persona que origina cada relación.</li>
+<li><strong>Línea 1:</strong> busca relaciones que salen de <code>origen</code> y llegan a <code>destino</code>.</li>
+<li><strong>Línea 2:</strong> exige que <code>destino</code> sea el nodo con nombre Luis.</li>
+<li><strong>Línea 3:</strong> devuelve los nombres de los nodos de origen.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> Carlos y María.</p>
-<p><strong>Para explicar en clase:</strong> en la consulta anterior filtramos por <code>a</code> (origen); aquí filtramos por <code>b</code> (destino).</p>
-<section id="mostrar-quiénes-conocen-a-luis-en-graph" class="level3" data-number="12.1">
-<h3 data-number="12.1" class="anchored" data-anchor-id="mostrar-quiénes-conocen-a-luis-en-graph"><span class="header-section-number">12.1</span> Mostrar quiénes conocen a Luis en Graph</h3>
-<pre class="cypher"><code>MATCH (a:Persona)-[r:CONOCE]-&gt;(b:Persona)
-WHERE b.nombre = 'Luis'
-RETURN a, r, b;</code></pre>
+<p><strong>Para explicar en clase:</strong> <code>origen</code> y <code>destino</code> no cambian el sentido de las flechas. Su nombre solo explica el papel que tiene cada nodo en el patrón.</p>
+<section id="visualizar-las-conexiones-entrantes-a-luis" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="visualizar-las-conexiones-entrantes-a-luis"><span class="header-section-number">11.1</span> Visualizar las conexiones entrantes a Luis</h3>
+<pre class="cypher"><code>MATCH (origen:Persona)-[relacion:CONOCE]-&gt;(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen, relacion, destino;</code></pre>
 <ul>
-<li><strong>Línea 1:</strong> encuentra relaciones dirigidas y las guarda temporalmente en <code>r</code>.</li>
-<li><strong>Línea 2:</strong> selecciona las relaciones que llegan a Luis.</li>
-<li><strong>Línea 3:</strong> devuelve los elementos completos.</li>
+<li><strong>Línea 1:</strong> identifica los nodos y las relaciones <code>CONOCE</code>.</li>
+<li><strong>Línea 2:</strong> selecciona las relaciones que terminan en Luis.</li>
+<li><strong>Línea 3:</strong> devuelve todos los elementos para la vista Graph.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> Carlos→Luis y María→Luis.</p>
 </section>
 </section>
-<section id="buscar-relaciones-sin-exigir-dirección" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</h2>
+<section id="buscar-relaciones-sin-exigir-dirección" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">12</span> Buscar relaciones sin exigir dirección</h2>
 <p>Cypher permite una búsqueda sin flecha: <code>(a)-[:CONOCE]-(b)</code>. Esto <strong>no cambia la dirección almacenada</strong>; solo permite encontrar coincidencias en cualquiera de los dos sentidos.</p>
 <pre class="cypher"><code>MATCH (m:Persona {nombre: 'María'})-[:CONOCE]-(p:Persona)
 RETURN DISTINCT p.nombre AS Persona;</code></pre>
@@ -531,74 +596,195 @@ RETURN DISTINCT p.nombre AS Persona;</code></pre>
 <p><strong>Resultado esperado:</strong> Ana, Luis y Sofía.</p>
 <p><strong>Para explicar en clase:</strong> se puede consultar un grafo ignorando la orientación de las relaciones, aunque estas sigan almacenadas con dirección.</p>
 </section>
-<section id="relaciones-directas-e-indirectas" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</h2>
-<p>Una relación <strong>directa</strong> conecta dos nodos con una relación: <code>Ana → Carlos</code>.</p>
-<p>Una conexión <strong>indirecta</strong> puede involucrar intermediarios:</p>
+<section id="relaciones-directas-e-indirectas" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="relaciones-directas-e-indirectas"><span class="header-section-number">13</span> Relaciones directas e indirectas</h2>
+<p>Una <strong>relación directa</strong> conecta dos personas con una sola relación:</p>
+<pre class="text"><code>Ana → Carlos</code></pre>
+<p>Una <strong>conexión indirecta</strong> recorre dos o más relaciones, por ejemplo:</p>
 <pre class="text"><code>Ana → Carlos → Luis
 Ana → María  → Luis</code></pre>
-<p>La base almacena las relaciones directas; Neo4j encuentra los caminos indirectos al consultar sus patrones.</p>
+<p>Ana <strong>no tiene una relación directa</strong> <code>CONOCE</code> hacia Luis. Sin embargo, puede llegar hasta él mediante dos personas distintas.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Neo4j reconoce automáticamente las conexiones?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neo4j <strong>recorre y encuentra</strong> las relaciones que ya existen, siguiendo el patrón que escribimos en Cypher. No crea por sí mismo una nueva relación <code>Ana → Luis</code>, ni determina automáticamente cuál es nuestra definición de “contacto indirecto”.</p>
+</div>
+</div>
 </section>
-<section id="identificar-intermediarios-entre-ana-y-luis" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="identificar-intermediarios-entre-ana-y-luis"><span class="header-section-number">15</span> Identificar intermediarios entre Ana y Luis</h2>
-<pre class="cypher"><code>MATCH (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]-&gt;(intermedio:Persona)
-      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})
-RETURN a.nombre AS Origen,
+<section id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">14</span> Buscar todas las conexiones a dos pasos desde Ana</h2>
+<p>Antes de buscar específicamente a Luis, probaremos una consulta más general:</p>
+<pre class="cypher"><code>MATCH (origen:Persona)-[:CONOCE]-&gt;(intermedio:Persona)-[:CONOCE]-&gt;(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen.nombre AS Origen,
        intermedio.nombre AS Intermediario,
-       b.nombre AS Destino;</code></pre>
+       destino.nombre AS Destino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> exige que el nodo inicial sea Ana.</li>
-<li><strong>Línea 2:</strong> recorre una relación <code>CONOCE</code> hacia una persona intermedia y la asigna a <code>intermedio</code>.</li>
-<li><strong>Línea 3:</strong> exige otra relación <code>CONOCE</code> desde el intermediario hasta Luis.</li>
-<li><strong>Línea 4:</strong> devuelve el nombre de Ana bajo la columna <code>Origen</code>.</li>
-<li><strong>Línea 5:</strong> devuelve el nombre del intermediario.</li>
-<li><strong>Línea 6:</strong> devuelve el nombre de Luis como <code>Destino</code>.</li>
+<li><strong>Línea 1:</strong> exige dos relaciones consecutivas <code>CONOCE</code> en el sentido de las flechas; <code>origen</code> es el inicio, <code>intermedio</code> es la persona que une los dos pasos y <code>destino</code> es el punto de llegada.</li>
+<li><strong>Línea 2:</strong> establece que los caminos deben comenzar en Ana.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre inicial.</li>
+<li><strong>Línea 4:</strong> devuelve el nombre del intermediario.</li>
+<li><strong>Línea 5:</strong> devuelve el nombre del destino.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> dos filas: Ana–Carlos–Luis y Ana–María–Luis.</p>
-<p><strong>Para explicar en clase:</strong> solicitamos expresamente caminos dirigidos de <strong>dos relaciones</strong>. Neo4j no está adivinando lo que queremos, está buscando el patrón escrito.</p>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Intermediario</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Para explicar en clase:</strong> Luis aparece <strong>dos veces</strong> porque encontramos <strong>dos caminos diferentes</strong>, no porque existan dos nodos Luis. La consulta devolvió coincidencias del patrón.</p>
 </section>
-<section id="recuperar-el-camino-completo" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="recuperar-el-camino-completo"><span class="header-section-number">16</span> Recuperar el camino completo</h2>
-<pre class="cypher"><code>MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]-&gt;(:Persona)
-      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})
+<section id="obtener-solo-los-destinos-indirectos-sin-repetición" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="obtener-solo-los-destinos-indirectos-sin-repetición"><span class="header-section-number">15</span> Obtener solo los destinos indirectos sin repetición</h2>
+<p>Si solo necesitamos los nombres de destino, podemos utilizar una variable intermedia anónima y <code>DISTINCT</code>:</p>
+<pre class="cypher"><code>MATCH (origen:Persona)-[:CONOCE]-&gt;(:Persona)-[:CONOCE]-&gt;(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN DISTINCT destino.nombre AS ConexionIndirecta;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> recorre exactamente dos relaciones; <code>(:Persona)</code> significa que exigimos un nodo intermedio con etiqueta <code>Persona</code> pero no necesitamos ponerle un nombre de variable.</li>
+<li><strong>Línea 2:</strong> comienza desde Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los nombres de destino sin duplicarlos. <code>DISTINCT</code> elimina filas de nombre repetido.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> una sola fila, Luis.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Es lo mismo “dos pasos” que “una recomendación”?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No necesariamente. La consulta anterior busca destinos alcanzables en exactamente dos relaciones. En redes mayores podría incluir a alguien a quien Ana ya conoce directamente o incluso a Ana si existieran ciclos. Para una <strong>recomendación de nuevos contactos</strong> añadiremos filtros más adelante.</p>
+</div>
+</div>
+</section>
+<section id="visualizar-las-conexiones-indirectas-en-graph" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="visualizar-las-conexiones-indirectas-en-graph"><span class="header-section-number">16</span> Visualizar las conexiones indirectas en Graph</h2>
+<pre class="cypher"><code>MATCH camino = (origen:Persona)-[:CONOCE]-&gt;(intermedio:Persona)-[:CONOCE]-&gt;(destino:Persona)
+WHERE origen.nombre = 'Ana'
 RETURN camino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1 — <code>MATCH camino =</code>:</strong> asigna cada camino coincidente a la variable <code>camino</code>.</li>
-<li><strong>Línea 2:</strong> fija a Ana como nodo inicial.</li>
-<li><strong>Línea 3:</strong> exige una relación hacia una persona intermedia; no le asignamos una variable porque no necesitamos devolverla por separado.</li>
-<li><strong>Línea 4:</strong> exige una segunda relación hacia Luis.</li>
-<li><strong>Línea 5:</strong> devuelve los caminos completos, con sus nodos y relaciones.</li>
+<li><strong>Línea 1:</strong> busca los mismos caminos de dos relaciones y asigna cada coincidencia completa a la variable <code>camino</code>.</li>
+<li><strong>Línea 2:</strong> restringe el origen a Ana.</li>
+<li><strong>Línea 3:</strong> devuelve cada camino completo, no solo los nombres.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> los caminos Ana→Carlos→Luis y Ana→María→Luis en la vista Graph.</p>
-<p><strong>Para explicar en clase:</strong> <code>camino</code> representa una secuencia de elementos, no un nodo individual.</p>
+<p><strong>Resultado esperado:</strong> la vista Graph muestra Ana→Carlos→Luis y Ana→María→Luis.</p>
 </section>
-<section id="calcular-la-longitud-de-los-caminos" class="level2" data-number="17">
-<h2 data-number="17" class="anchored" data-anchor-id="calcular-la-longitud-de-los-caminos"><span class="header-section-number">17</span> Calcular la longitud de los caminos</h2>
+<section id="identificar-intermediarios-entre-ana-y-luis" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="identificar-intermediarios-entre-ana-y-luis"><span class="header-section-number">17</span> Identificar intermediarios entre Ana y Luis</h2>
+<p>Si sabemos de antemano que queremos llegar específicamente a Luis, añadimos su nombre al patrón:</p>
+<pre class="cypher"><code>MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]-&gt;(intermedio:Persona)
+      -[:CONOCE]-&gt;(destino:Persona {nombre: 'Luis'})
+RETURN origen.nombre AS Origen,
+       intermedio.nombre AS Intermediario,
+       destino.nombre AS Destino;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> fija a Ana como origen con <code>{nombre: 'Ana'}</code>.</li>
+<li><strong>Línea 2:</strong> recorre una relación hasta un intermediario, que será Carlos o María.</li>
+<li><strong>Línea 3:</strong> recorre una segunda relación hasta el nodo Luis.</li>
+<li><strong>Línea 4:</strong> devuelve el nombre de origen.</li>
+<li><strong>Línea 5:</strong> devuelve el nombre del intermediario.</li>
+<li><strong>Línea 6:</strong> devuelve el nombre del destino.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos filas, con Carlos y María como intermediarios.</p>
+<p><strong>Para explicar en clase:</strong> <code>WHERE origen.nombre = 'Ana'</code> y <code>(origen:Persona {nombre: 'Ana'})</code> son dos maneras de expresar el filtro sobre Ana en estos ejemplos.</p>
+</section>
+<section id="recuperar-un-camino-completo" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="recuperar-un-camino-completo"><span class="header-section-number">18</span> Recuperar un camino completo</h2>
 <pre class="cypher"><code>MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]-&gt;(:Persona)
-      -[:CONOCE]-&gt;(b:Persona {nombre: 'Luis'})
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]-&gt;(intermedio:Persona)
+      -[:CONOCE]-&gt;(destino:Persona {nombre: 'Luis'})
+RETURN camino;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> crea la variable temporal <code>camino</code> para cada recorrido encontrado.</li>
+<li><strong>Línea 2:</strong> define a Ana como origen.</li>
+<li><strong>Línea 3:</strong> atraviesa una relación hacia el intermediario.</li>
+<li><strong>Línea 4:</strong> atraviesa otra relación hasta Luis.</li>
+<li><strong>Línea 5:</strong> devuelve la secuencia completa de nodos y relaciones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos caminos en Graph.</p>
+</section>
+<section id="calcular-la-longitud-de-los-caminos" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="calcular-la-longitud-de-los-caminos"><span class="header-section-number">19</span> Calcular la longitud de los caminos</h2>
+<pre class="cypher"><code>MATCH camino =
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]-&gt;(intermedio:Persona)
+      -[:CONOCE]-&gt;(destino:Persona {nombre: 'Luis'})
 RETURN camino,
        length(camino) AS Longitud;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> identifica cada camino completo como <code>camino</code>.</li>
-<li><strong>Línea 2:</strong> fija el origen Ana.</li>
-<li><strong>Línea 3:</strong> recorre una relación hasta una persona intermedia.</li>
-<li><strong>Línea 4:</strong> recorre otra relación hasta Luis.</li>
-<li><strong>Línea 5:</strong> devuelve cada camino encontrado.</li>
-<li><strong>Línea 6:</strong> calcula su longitud con <code>length(camino)</code> y llama <code>Longitud</code> a la columna.</li>
+<li><strong>Línea 1:</strong> identifica cada camino.</li>
+<li><strong>Línea 2:</strong> fija el origen.</li>
+<li><strong>Línea 3:</strong> busca el intermediario.</li>
+<li><strong>Línea 4:</strong> fija el destino.</li>
+<li><strong>Línea 5:</strong> devuelve el camino.</li>
+<li><strong>Línea 6:</strong> <code>length(camino)</code> cuenta el número de <strong>relaciones</strong> del camino; <code>AS Longitud</code> nombra la columna.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> dos caminos, cada uno con longitud <strong>2</strong>.</p>
-<p><strong>Para explicar en clase:</strong> la longitud cuenta <strong>relaciones</strong>, no nodos. Aquí cada camino tiene tres nodos y dos relaciones.</p>
+<p><strong>Resultado esperado:</strong> dos caminos de longitud <code>2</code> (tres nodos y dos relaciones en cada uno).</p>
+<p><strong>Para explicar en clase:</strong> dos personas pueden estar conectadas indirectamente por varios caminos, incluso cuando la longitud de cada uno sea igual.</p>
 </section>
-<section id="introducción-a-las-recomendaciones" class="level2" data-number="18">
-<h2 data-number="18" class="anchored" data-anchor-id="introducción-a-las-recomendaciones"><span class="header-section-number">18</span> Introducción a las recomendaciones</h2>
+<section id="buscar-caminos-con-distintas-longitudes-opcional" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="buscar-caminos-con-distintas-longitudes-opcional"><span class="header-section-number">20</span> Buscar caminos con distintas longitudes (opcional)</h2>
+<p>Cypher también permite patrones de longitud variable. En Neo4j moderno podemos buscar caminos de <strong>dos o tres relaciones</strong> mediante la sintaxis cuantificada:</p>
+<pre class="cypher"><code>MATCH camino = (origen:Persona {nombre: 'Ana'})-[:CONOCE]-&gt;{2,3}(destino:Persona)
+RETURN destino.nombre AS Destino,
+       length(camino) AS Longitud;</code></pre>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca rutas dirigidas que partan de Ana y recorran entre dos y tres relaciones <code>CONOCE</code>; el fragmento <code>-&gt;{2,3}</code> fija el rango de repeticiones de la relación.</li>
+<li><strong>Línea 2:</strong> devuelve el nombre del destino.</li>
+<li><strong>Línea 3:</strong> devuelve la longitud de cada camino.</li>
+</ul>
+<p><strong>Resultado esperado en nuestra red:</strong> Luis con longitud 2. El grafo actual no tiene otro camino dirigido de tres relaciones que parta de Ana.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esta parte es opcional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para comenzar la clase, la forma más sencilla es escribir explícitamente los dos pasos con <code>origen</code>, <code>intermedio</code> y <code>destino</code>. La sintaxis cuantificada puede reservarse para una sesión posterior.</p>
+</div>
+</div>
+</section>
+<section id="introducción-a-las-recomendaciones" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="introducción-a-las-recomendaciones"><span class="header-section-number">21</span> Introducción a las recomendaciones</h2>
 <p>Imaginemos que una red social sugiere personas conocidas por nuestros contactos, siempre que todavía no las conozcamos directamente.</p>
 <p>En nuestro caso, Ana conoce a Carlos y María; ambos conocen a Luis. Por ello, <strong>Luis es una recomendación candidata</strong>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -615,58 +801,59 @@ RETURN camino,
 </div>
 </div>
 </section>
-<section id="obtener-recomendaciones-con-contactos-en-común" class="level2" data-number="19">
-<h2 data-number="19" class="anchored" data-anchor-id="obtener-recomendaciones-con-contactos-en-común"><span class="header-section-number">19</span> Obtener recomendaciones con contactos en común</h2>
-<pre class="cypher"><code>MATCH (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]-&gt;(contacto:Persona)
-      -[:CONOCE]-&gt;(recomendado:Persona)
-WHERE recomendado &lt;&gt; a
+<section id="obtener-recomendaciones-con-contactos-en-común" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="obtener-recomendaciones-con-contactos-en-común"><span class="header-section-number">22</span> Obtener recomendaciones con contactos en común</h2>
+<p>Para recomendar <em>nuevas</em> personas a Ana, utilizamos dos pasos y descartamos destinos que ya conozca o que sean ella misma.</p>
+<pre class="cypher"><code>MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]-&gt;(intermedio:Persona)
+      -[:CONOCE]-&gt;(destino:Persona)
+WHERE destino &lt;&gt; origen
   AND NOT EXISTS {
-      MATCH (a)-[:CONOCE]-&gt;(recomendado)
+      MATCH (origen)-[:CONOCE]-&gt;(destino)
   }
-RETURN recomendado.nombre AS Recomendacion,
-       COUNT(DISTINCT contacto) AS ContactosEnComun;</code></pre>
+RETURN destino.nombre AS Recomendacion,
+       COUNT(DISTINCT intermedio) AS ContactosEnComun;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> establece a Ana como punto de partida.</li>
-<li><strong>Línea 2:</strong> encuentra personas conocidas directamente por Ana y las asigna a <code>contacto</code>.</li>
-<li><strong>Línea 3:</strong> encuentra a las personas conocidas por cada <code>contacto</code> y las asigna a <code>recomendado</code>.</li>
-<li><strong>Línea 4 — <code>WHERE recomendado &lt;&gt; a</code>:</strong> descarta a la propia Ana (<code>&lt;&gt;</code> significa distinto de).</li>
-<li><strong>Línea 5 — <code>AND NOT EXISTS {</code>:</strong> añade la condición de que <em>no exista</em> cierto patrón.</li>
-<li><strong>Línea 6:</strong> el patrón que no debe existir es una relación directa Ana→recomendado.</li>
-<li><strong>Línea 7 — <code>}</code>:</strong> cierra la subconsulta utilizada por <code>NOT EXISTS</code>.</li>
-<li><strong>Línea 8:</strong> devuelve el nombre del candidato y titula la columna <code>Recomendacion</code>.</li>
-<li><strong>Línea 9:</strong> cuenta los contactos intermediarios <em>diferentes</em> para cada candidato. <code>COUNT</code> agrega, <code>DISTINCT</code> evita duplicar un mismo contacto y <code>AS</code> define el encabezado.</li>
+<li><strong>Línea 1:</strong> fija el origen de la recomendación en Ana.</li>
+<li><strong>Línea 2:</strong> busca a sus contactos directos y los representa con <code>intermedio</code>.</li>
+<li><strong>Línea 3:</strong> busca los contactos de cada intermediario y los representa con <code>destino</code>.</li>
+<li><strong>Línea 4 — <code>WHERE destino &lt;&gt; origen</code>:</strong> evita recomendar a Ana consigo misma. <code>&lt;&gt;</code> significa «distinto de».</li>
+<li><strong>Línea 5 — <code>AND NOT EXISTS {</code>:</strong> exige que no se cumpla el patrón siguiente.</li>
+<li><strong>Línea 6:</strong> define el patrón que debe faltar: una relación directa desde Ana al destino.</li>
+<li><strong>Línea 7 — <code>}</code>:</strong> cierra el bloque de la condición.</li>
+<li><strong>Línea 8:</strong> devuelve el nombre recomendado.</li>
+<li><strong>Línea 9:</strong> cuenta los intermediarios <strong>diferentes</strong> que llevan a cada destino. <code>DISTINCT</code> impide contar dos veces al mismo intermediario.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> Luis, con <code>ContactosEnComun = 2</code>.</p>
-<p><strong>Para explicar en clase:</strong> Carlos y María son dos intermediarios distintos. La regla descarta a Ana y a cualquiera que Ana ya conozca directamente.</p>
+<p><strong>Resultado esperado:</strong> <code>Luis</code> con <code>ContactosEnComun = 2</code>.</p>
+<p><strong>Para explicar en clase:</strong> Neo4j no inventa una nueva conexión, ni decide solo cómo recomendar. Nosotros establecemos el criterio; el gestor encuentra las coincidencias.</p>
 </section>
-<section id="visualizar-por-qué-se-generó-la-recomendación" class="level2" data-number="20">
-<h2 data-number="20" class="anchored" data-anchor-id="visualizar-por-qué-se-generó-la-recomendación"><span class="header-section-number">20</span> Visualizar por qué se generó la recomendación</h2>
+<section id="visualizar-por-qué-se-generó-la-recomendación" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="visualizar-por-qué-se-generó-la-recomendación"><span class="header-section-number">23</span> Visualizar por qué se generó la recomendación</h2>
 <pre class="cypher"><code>MATCH camino =
-      (a:Persona {nombre: 'Ana'})
-      -[:CONOCE]-&gt;(contacto:Persona)
-      -[:CONOCE]-&gt;(recomendado:Persona)
-WHERE recomendado &lt;&gt; a
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]-&gt;(intermedio:Persona)
+      -[:CONOCE]-&gt;(destino:Persona)
+WHERE destino &lt;&gt; origen
   AND NOT EXISTS {
-      MATCH (a)-[:CONOCE]-&gt;(recomendado)
+      MATCH (origen)-[:CONOCE]-&gt;(destino)
   }
 RETURN camino;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> asigna una variable a cada camino coincidente.</li>
-<li><strong>Línea 2:</strong> fija el inicio en Ana.</li>
-<li><strong>Línea 3:</strong> encuentra sus contactos directos.</li>
-<li><strong>Línea 4:</strong> encuentra a los conocidos de esos contactos.</li>
-<li><strong>Línea 5:</strong> evita recomendar a Ana.</li>
-<li><strong>Líneas 6 a 8:</strong> descartan candidatos con relación directa desde Ana.</li>
-<li><strong>Última línea:</strong> devuelve el camino completo para verlo gráficamente.</li>
+<li><strong>Línea 1:</strong> asigna cada camino a <code>camino</code>.</li>
+<li><strong>Línea 2:</strong> selecciona a Ana como origen.</li>
+<li><strong>Línea 3:</strong> encuentra contactos directos.</li>
+<li><strong>Línea 4:</strong> encuentra contactos de esos intermediarios.</li>
+<li><strong>Línea 5:</strong> descarta al propio origen.</li>
+<li><strong>Líneas 6 a 8:</strong> descartan los destinos que Ana ya conoce directamente.</li>
+<li><strong>Última línea:</strong> devuelve los caminos completos.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> Ana→Carlos→Luis y Ana→María→Luis.</p>
-<p><strong>Para explicar en clase:</strong> una buena recomendación puede acompañarse de una explicación: <em>«Conoces a Carlos y María, quienes conocen a Luis»</em>.</p>
+<p><strong>Para explicar en clase:</strong> mostrar las rutas permite justificar por qué apareció Luis como recomendación.</p>
 </section>
-<section id="consultar-todos-los-nodos" class="level2" data-number="21">
-<h2 data-number="21" class="anchored" data-anchor-id="consultar-todos-los-nodos"><span class="header-section-number">21</span> Consultar todos los nodos</h2>
+<section id="consultar-todos-los-nodos" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="consultar-todos-los-nodos"><span class="header-section-number">24</span> Consultar todos los nodos</h2>
 <pre class="cypher"><code>MATCH (n)
 RETURN n;</code></pre>
 <ul>
@@ -676,8 +863,8 @@ RETURN n;</code></pre>
 <p><strong>Resultado esperado:</strong> cinco personas.</p>
 <p><strong>Para explicar en clase:</strong> en bases grandes no conviene recuperar indiscriminadamente todos los nodos.</p>
 </section>
-<section id="consultar-todas-las-relaciones" class="level2" data-number="22">
-<h2 data-number="22" class="anchored" data-anchor-id="consultar-todas-las-relaciones"><span class="header-section-number">22</span> Consultar todas las relaciones</h2>
+<section id="consultar-todas-las-relaciones" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="consultar-todas-las-relaciones"><span class="header-section-number">25</span> Consultar todas las relaciones</h2>
 <pre class="cypher"><code>MATCH (a)-[r]-&gt;(b)
 RETURN a, r, b;</code></pre>
 <ul>
@@ -686,8 +873,8 @@ RETURN a, r, b;</code></pre>
 </ul>
 <p><strong>Resultado esperado:</strong> las cinco relaciones <code>CONOCE</code>.</p>
 </section>
-<section id="recuperar-solo-los-nombres" class="level2" data-number="23">
-<h2 data-number="23" class="anchored" data-anchor-id="recuperar-solo-los-nombres"><span class="header-section-number">23</span> Recuperar solo los nombres</h2>
+<section id="recuperar-solo-los-nombres" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="recuperar-solo-los-nombres"><span class="header-section-number">26</span> Recuperar solo los nombres</h2>
 <pre class="cypher"><code>MATCH (p:Persona)
 RETURN p.nombre AS Nombre;</code></pre>
 <ul>
@@ -696,8 +883,8 @@ RETURN p.nombre AS Nombre;</code></pre>
 </ul>
 <p><strong>Resultado esperado:</strong> cinco filas. Sin <code>ORDER BY</code>, su orden no está garantizado.</p>
 </section>
-<section id="ordenar-con-order-by" class="level2" data-number="24">
-<h2 data-number="24" class="anchored" data-anchor-id="ordenar-con-order-by"><span class="header-section-number">24</span> Ordenar con ORDER BY</h2>
+<section id="ordenar-con-order-by" class="level2" data-number="27">
+<h2 data-number="27" class="anchored" data-anchor-id="ordenar-con-order-by"><span class="header-section-number">27</span> Ordenar con ORDER BY</h2>
 <pre class="cypher"><code>MATCH (p:Persona)
 RETURN p.nombre AS Nombre
 ORDER BY Nombre ASC;</code></pre>
@@ -708,8 +895,8 @@ ORDER BY Nombre ASC;</code></pre>
 </ul>
 <p><strong>Resultado esperado:</strong> Ana, Carlos, Luis, María y Sofía en orden ascendente según las reglas de comparación utilizadas por la base de datos.</p>
 </section>
-<section id="limitar-resultados-con-limit" class="level2" data-number="25">
-<h2 data-number="25" class="anchored" data-anchor-id="limitar-resultados-con-limit"><span class="header-section-number">25</span> Limitar resultados con LIMIT</h2>
+<section id="limitar-resultados-con-limit" class="level2" data-number="28">
+<h2 data-number="28" class="anchored" data-anchor-id="limitar-resultados-con-limit"><span class="header-section-number">28</span> Limitar resultados con LIMIT</h2>
 <pre class="cypher"><code>MATCH (p:Persona)
 RETURN p.nombre AS Nombre
 ORDER BY Nombre ASC
@@ -723,8 +910,8 @@ LIMIT 3;</code></pre>
 <p><strong>Resultado esperado:</strong> Ana, Carlos y Luis.</p>
 <p><strong>Para explicar en clase:</strong> <code>LIMIT</code> es especialmente útil en bases de datos grandes; acompañarlo de <code>ORDER BY</code> permite saber qué registros seleccionamos primero.</p>
 </section>
-<section id="contar-personas" class="level2" data-number="26">
-<h2 data-number="26" class="anchored" data-anchor-id="contar-personas"><span class="header-section-number">26</span> Contar personas</h2>
+<section id="contar-personas" class="level2" data-number="29">
+<h2 data-number="29" class="anchored" data-anchor-id="contar-personas"><span class="header-section-number">29</span> Contar personas</h2>
 <pre class="cypher"><code>MATCH (p:Persona)
 RETURN COUNT(p) AS TotalPersonas;</code></pre>
 <ul>
@@ -733,8 +920,8 @@ RETURN COUNT(p) AS TotalPersonas;</code></pre>
 </ul>
 <p><strong>Resultado esperado:</strong> 5.</p>
 </section>
-<section id="contar-relaciones" class="level2" data-number="27">
-<h2 data-number="27" class="anchored" data-anchor-id="contar-relaciones"><span class="header-section-number">27</span> Contar relaciones</h2>
+<section id="contar-relaciones" class="level2" data-number="30">
+<h2 data-number="30" class="anchored" data-anchor-id="contar-relaciones"><span class="header-section-number">30</span> Contar relaciones</h2>
 <pre class="cypher"><code>MATCH ()-[r:CONOCE]-&gt;()
 RETURN COUNT(r) AS TotalRelaciones;</code></pre>
 <ul>
@@ -743,15 +930,15 @@ RETURN COUNT(r) AS TotalRelaciones;</code></pre>
 </ul>
 <p><strong>Resultado esperado:</strong> 5.</p>
 </section>
-<section id="contar-los-contactos-salientes-por-persona" class="level2" data-number="28">
-<h2 data-number="28" class="anchored" data-anchor-id="contar-los-contactos-salientes-por-persona"><span class="header-section-number">28</span> Contar los contactos salientes por persona</h2>
-<pre class="cypher"><code>MATCH (a:Persona)-[:CONOCE]-&gt;(b:Persona)
-RETURN a.nombre AS Persona,
-       COUNT(b) AS TotalContactos
+<section id="contar-los-contactos-salientes-por-persona" class="level2" data-number="31">
+<h2 data-number="31" class="anchored" data-anchor-id="contar-los-contactos-salientes-por-persona"><span class="header-section-number">31</span> Contar los contactos salientes por persona</h2>
+<pre class="cypher"><code>MATCH (origen:Persona)-[:CONOCE]-&gt;(destino:Persona)
+RETURN origen.nombre AS Persona,
+       COUNT(destino) AS TotalContactos
 ORDER BY TotalContactos DESC;</code></pre>
 <p><strong>Explicación línea por línea</strong></p>
 <ul>
-<li><strong>Línea 1:</strong> encuentra relaciones <code>CONOCE</code> dirigidas desde <code>a</code> hasta <code>b</code>.</li>
+<li><strong>Línea 1:</strong> encuentra relaciones <code>CONOCE</code> dirigidas desde <code>origen</code> hasta <code>destino</code>.</li>
 <li><strong>Línea 2:</strong> devuelve el nombre del origen, que también actúa como criterio de agrupación.</li>
 <li><strong>Línea 3:</strong> cuenta las coincidencias de destino de cada nombre de origen.</li>
 <li><strong>Línea 4:</strong> ordena de mayor a menor cantidad de relaciones salientes.</li>
@@ -759,8 +946,8 @@ ORDER BY TotalContactos DESC;</code></pre>
 <p><strong>Resultado esperado:</strong> Ana = 2, Carlos = 1, María = 1 y Sofía = 1. Luis no aparece porque no tiene relaciones salientes <code>CONOCE</code>.</p>
 <p><strong>Para explicar en clase:</strong> tener dos conexiones salientes no significa automáticamente ser la persona más importante de la red; para analizar la importancia existen medidas específicas de centralidad.</p>
 </section>
-<section id="comparación-con-otros-gestores-nosql" class="level2" data-number="29">
-<h2 data-number="29" class="anchored" data-anchor-id="comparación-con-otros-gestores-nosql"><span class="header-section-number">29</span> Comparación con otros gestores NoSQL</h2>
+<section id="comparación-con-otros-gestores-nosql" class="level2" data-number="32">
+<h2 data-number="32" class="anchored" data-anchor-id="comparación-con-otros-gestores-nosql"><span class="header-section-number">32</span> Comparación con otros gestores NoSQL</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -799,8 +986,8 @@ ORDER BY TotalContactos DESC;</code></pre>
 </table>
 <p><strong>Para explicar en clase:</strong> cada tecnología resuelve necesidades distintas. Neo4j facilita expresar consultas sobre relaciones explícitas y caminos; eso no lo convierte en el mejor gestor para cualquier problema.</p>
 </section>
-<section id="actividad-práctica" class="level2" data-number="30">
-<h2 data-number="30" class="anchored" data-anchor-id="actividad-práctica"><span class="header-section-number">30</span> Actividad práctica</h2>
+<section id="actividad-práctica" class="level2" data-number="33">
+<h2 data-number="33" class="anchored" data-anchor-id="actividad-práctica"><span class="header-section-number">33</span> Actividad práctica</h2>
 <p>Utilizando la red social que construimos:</p>
 <ol type="1">
 <li>Consulta todos los nodos.</li>
@@ -816,9 +1003,11 @@ ORDER BY TotalContactos DESC;</code></pre>
 <li>Ordena alfabéticamente los nombres de las personas.</li>
 <li>Devuelve solo tres nombres mediante <code>LIMIT</code>.</li>
 <li>Cuenta las relaciones salientes de cada persona.</li>
+<li>Explica por qué Luis aparece dos veces en el resultado de caminos de dos pasos, pero una sola vez al usar <code>DISTINCT</code>.</li>
+<li>Modifica la consulta de relaciones indirectas para empezar desde Sofía y observa el destino alcanzado en dos pasos.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -827,7 +1016,7 @@ ORDER BY TotalContactos DESC;</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>5 personas y 5 relaciones.</li>
@@ -842,8 +1031,8 @@ ORDER BY TotalContactos DESC;</code></pre>
 </div>
 </div>
 </section>
-<section id="preguntas-para-reflexionar" class="level2" data-number="31">
-<h2 data-number="31" class="anchored" data-anchor-id="preguntas-para-reflexionar"><span class="header-section-number">31</span> Preguntas para reflexionar</h2>
+<section id="preguntas-para-reflexionar" class="level2" data-number="34">
+<h2 data-number="34" class="anchored" data-anchor-id="preguntas-para-reflexionar"><span class="header-section-number">34</span> Preguntas para reflexionar</h2>
 <ol type="1">
 <li>¿Qué diferencia hay entre nodo, relación y propiedad?</li>
 <li>¿Qué diferencias existen entre <code>CREATE</code> y <code>MATCH</code>?</li>
@@ -859,80 +1048,25 @@ ORDER BY TotalContactos DESC;</code></pre>
 <li>¿En qué casos sería útil elegir una base de datos orientada a grafos?</li>
 </ol>
 </section>
-<section id="ideas-clave" class="level2" data-number="32">
-<h2 data-number="32" class="anchored" data-anchor-id="ideas-clave"><span class="header-section-number">32</span> Ideas clave</h2>
+<section id="ideas-clave" class="level2" data-number="35">
+<h2 data-number="35" class="anchored" data-anchor-id="ideas-clave"><span class="header-section-number">35</span> Ideas clave</h2>
 <ul>
-<li><strong>Cypher</strong> expresa consultas mediante patrones de nodos y relaciones.</li>
-<li><strong>CREATE</strong> agrega información; <strong>MATCH</strong> recupera patrones existentes.</li>
-<li><strong>WHERE</strong> permite filtrar coincidencias.</li>
-<li>Las relaciones tienen una <strong>dirección almacenada</strong>, aunque las consultas pueden buscar sin exigirla.</li>
-<li>Los <strong>caminos</strong> conectan nodos mediante una secuencia de relaciones.</li>
-<li><strong>length()</strong> mide el número de relaciones de un camino.</li>
-<li>Las <strong>recomendaciones</strong> dependen de reglas definidas por nosotros, no de decisiones automáticas del gestor.</li>
-<li><strong>COUNT()</strong>, <strong>DISTINCT</strong>, <strong>ORDER BY</strong> y <strong>LIMIT</strong> ayudan a resumir y presentar resultados.</li>
+<li><p><strong>Las variables <code>origen</code>, <code>intermedio</code> y <code>destino</code> identifican el papel de un nodo en una consulta; no son etiquetas ni nombres almacenados.</strong></p></li>
+<li><p><strong>Una misma persona puede aparecer en varias coincidencias de un patrón y <code>DISTINCT</code> permite eliminar resultados repetidos.</strong></p></li>
+<li><p><strong>Cypher</strong> expresa consultas mediante patrones de nodos y relaciones.</p></li>
+<li><p><strong>CREATE</strong> agrega información; <strong>MATCH</strong> recupera patrones existentes.</p></li>
+<li><p><strong>WHERE</strong> permite filtrar coincidencias.</p></li>
+<li><p>Las relaciones tienen una <strong>dirección almacenada</strong>, aunque las consultas pueden buscar sin exigirla.</p></li>
+<li><p>Los <strong>caminos</strong> conectan nodos mediante una secuencia de relaciones.</p></li>
+<li><p><strong>length()</strong> mide el número de relaciones de un camino.</p></li>
+<li><p>Las <strong>recomendaciones</strong> dependen de reglas definidas por nosotros, no de decisiones automáticas del gestor.</p></li>
+<li><p><strong>COUNT()</strong>, <strong>DISTINCT</strong>, <strong>ORDER BY</strong> y <strong>LIMIT</strong> ayudan a resumir y presentar resultados.</p></li>
 </ul>
 </section>
-<section id="conclusión" class="level2" data-number="33">
-<h2 data-number="33" class="anchored" data-anchor-id="conclusión"><span class="header-section-number">33</span> Conclusión</h2>
+<section id="conclusión" class="level2" data-number="36">
+<h2 data-number="36" class="anchored" data-anchor-id="conclusión"><span class="header-section-number">36</span> Conclusión</h2>
 <p>Durante esta práctica construimos una red social de cinco personas mediante Neo4j y Cypher. Creamos nodos y relaciones, recuperamos información, utilizamos filtros y exploramos conexiones directas e indirectas. Finalmente aplicamos una regla sencilla de recomendaciones basada en contactos en común.</p>
 <p>El ejemplo muestra una de las fortalezas de las bases de datos orientadas a grafos: <strong>representar y explorar las conexiones entre entidades</strong> de forma explícita y comprensible.</p>
-</section>
-<section id="anexo-docente-reiniciar-el-ejercicio" class="level2" data-number="34">
-<h2 data-number="34" class="anchored" data-anchor-id="anexo-docente-reiniciar-el-ejercicio"><span class="header-section-number">34</span> Anexo docente: reiniciar el ejercicio</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Advertencia</span>Advertencia: eliminación irreversible
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Utiliza las instrucciones siguientes <strong>solo si esta base contiene exclusivamente los datos de esta práctica</strong>. La coincidencia se realiza por etiqueta y nombre: si hay otros nodos <code>Persona</code> con esos nombres, también serán eliminados, junto con todas sus relaciones conectadas.</p>
-</div>
-</div>
-<p>Antes de borrar, revisa qué nodos coinciden:</p>
-<pre class="cypher"><code>MATCH (p:Persona)
-WHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']
-RETURN p;</code></pre>
-<p><strong>Explicación línea por línea</strong></p>
-<ul>
-<li><strong>Línea 1:</strong> localiza nodos <code>Persona</code>.</li>
-<li><strong>Línea 2:</strong> selecciona los que tienen alguno de los cinco nombres indicados. <code>IN</code> comprueba pertenencia a una lista.</li>
-<li><strong>Línea 3:</strong> muestra los nodos seleccionados sin eliminarlos.</li>
-</ul>
-<p>Si verificaste que son únicamente los nodos de prueba y deseas eliminarlos, ejecuta:</p>
-<pre class="cypher"><code>MATCH (p:Persona)
-WHERE p.nombre IN ['Ana', 'Carlos', 'María', 'Luis', 'Sofía']
-DETACH DELETE p;</code></pre>
-<p><strong>Explicación línea por línea</strong></p>
-<ul>
-<li><strong>Línea 1:</strong> busca nodos <code>Persona</code>.</li>
-<li><strong>Línea 2:</strong> filtra los cinco nombres del ejercicio.</li>
-<li><strong>Línea 3:</strong> elimina los nodos seleccionados y las relaciones conectadas a ellos. <code>DETACH DELETE</code> <strong>modifica la base de datos</strong>.</li>
-</ul>
-<p>Comprueba el resultado:</p>
-<pre class="cypher"><code>MATCH (p:Persona)
-RETURN COUNT(p) AS TotalPersonas;</code></pre>
-<ul>
-<li><strong>Línea 1:</strong> busca los nodos que conserven la etiqueta <code>Persona</code>.</li>
-<li><strong>Línea 2:</strong> devuelve cuántos quedan.</li>
-</ul>
-<p><strong>Resultado esperado:</strong> 0, siempre que las únicas personas almacenadas fueran las cinco del ejercicio.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Recordatorio final
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Las instrucciones de limpieza son opcionales y no forman parte del ejercicio que deben ejecutar los estudiantes sin supervisión. Para conservar resultados y evitar pérdidas, utiliza una base dedicada a los ejemplos de clase.</p>
-</div>
-</div>
 
 
 </section>
