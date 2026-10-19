@@ -133,3 +133,15 @@ Introducción al modelo de grafos, sus principales elementos (nodos, relaciones 
    href="apuntes/11_bases_orientadas_grafos.html">
    Abrir apunte
 </a>
+
+
+---
+
+## Neo4j: primeros comandos y consultas con Cypher
+
+Introducción práctica a Neo4j y al lenguaje Cypher para crear nodos, establecer relaciones y consultar grafos. Se revisan los comandos básicos para construir y explorar una red social.
+
+<a class="btn btn-primary"
+   href="apuntes/12_neo4j_comandos_practica.html">
+   Abrir apunte
+</a>
