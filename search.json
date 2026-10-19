@@ -3546,7 +3546,14 @@
     "href": "datasets.html#datos-de-ejemplo-de-mongodb",
     "title": "Datasets",
     "section": "Datos de ejemplo de MongoDB",
-    "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\n```text sample_airbnb sample_analytics sample_geospatial sample_guides sample_mflix sample_restaurants sample_supplies sample_training sample_weatherdata"
+    "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\nsample_airbnb\nsample_analytics\nsample_geospatial\nsample_guides\nsample_mflix\nsample_restaurants\nsample_supplies\nsample_training\nsample_weatherdata"
+  },
+  {
+    "objectID": "datasets.html#mediciones-ambientales",
+    "href": "datasets.html#mediciones-ambientales",
+    "title": "Datasets",
+    "section": "Mediciones ambientales",
+    "text": "Mediciones ambientales\nConjunto de datos simulados utilizado durante las prácticas de Apache Cassandra.\nContiene más de 1.2 millones de registros de temperatura y humedad provenientes de sensores ambientales, que permiten trabajar con carga masiva de datos, particionamiento y consultas mediante CQL.\n Descargar dataset CSV"
   },
   {
     "objectID": "apuntes.html",
