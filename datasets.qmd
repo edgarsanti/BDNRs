@@ -20,3 +20,18 @@ sample_restaurants
 sample_supplies
 sample_training
 sample_weatherdata
+```
+
+---
+
+## Mediciones ambientales
+
+Conjunto de datos simulados utilizado durante las prácticas de Apache Cassandra.
+
+Contiene más de 1.2 millones de registros de temperatura y humedad provenientes de sensores ambientales, que permiten trabajar con carga masiva de datos, particionamiento y consultas mediante CQL.
+
+<a class="btn btn-primary"
+   href="datasets/mediciones_ambientales.csv"
+   download>
+   Descargar dataset CSV
+</a>

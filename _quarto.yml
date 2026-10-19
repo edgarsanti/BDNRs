@@ -11,9 +11,6 @@ website:
       - href: index.qmd
         text: Inicio
 
-      - href: diapositivas.qmd
-        text: Diapositivas
-
       - href: apuntes.qmd
         text: Apuntes
 
@@ -42,3 +39,6 @@ format:
       body-width: 1050px
       margin-width: 170px
       gutter-width: 15px
+
+resources:
+  - datasets/mediciones_ambientales.csv

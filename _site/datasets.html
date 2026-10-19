@@ -100,10 +100,6 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./diapositivas.html"> 
-<span class="menu-text">Diapositivas</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
@@ -143,6 +139,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#datos-de-ejemplo-de-mongodb" id="toc-datos-de-ejemplo-de-mongodb" class="nav-link active" data-scroll-target="#datos-de-ejemplo-de-mongodb">Datos de ejemplo de MongoDB</a></li>
+  <li><a href="#mediciones-ambientales" id="toc-mediciones-ambientales" class="nav-link" data-scroll-target="#mediciones-ambientales">Mediciones ambientales</a></li>
   </ul>
 </nav>
     </div>
@@ -173,7 +170,22 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="datos-de-ejemplo-de-mongodb">Datos de ejemplo de MongoDB</h2>
 <p>MongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.</p>
 <p>Entre ellas se encuentran:</p>
-<p>```text sample_airbnb sample_analytics sample_geospatial sample_guides sample_mflix sample_restaurants sample_supplies sample_training sample_weatherdata</p>
+<pre class="text"><code>sample_airbnb
+sample_analytics
+sample_geospatial
+sample_guides
+sample_mflix
+sample_restaurants
+sample_supplies
+sample_training
+sample_weatherdata</code></pre>
+<hr>
+</section>
+<section id="mediciones-ambientales" class="level2">
+<h2 class="anchored" data-anchor-id="mediciones-ambientales">Mediciones ambientales</h2>
+<p>Conjunto de datos simulados utilizado durante las prácticas de Apache Cassandra.</p>
+<p>Contiene más de 1.2 millones de registros de temperatura y humedad provenientes de sensores ambientales, que permiten trabajar con carga masiva de datos, particionamiento y consultas mediante CQL.</p>
+<p><a class="btn btn-primary" href="datasets/mediciones_ambientales.csv" download=""> Descargar dataset CSV </a></p>
 
 
 </section>
@@ -252,7 +264,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
