@@ -197,6 +197,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#visualizar-el-grafo-completo" id="toc-visualizar-el-grafo-completo" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo"><span class="header-section-number">7.1</span> Visualizar el grafo completo</a></li>
   </ul></li>
+  <li><a href="#eliminar-nodos-y-relaciones-específicas" id="toc-eliminar-nodos-y-relaciones-específicas" class="nav-link" data-scroll-target="#eliminar-nodos-y-relaciones-específicas"><span class="header-section-number">8</span> Eliminar nodos y relaciones específicas</a>
+  <ul class="collapse">
+  <li><a href="#eliminar-una-relación-específica" id="toc-eliminar-una-relación-específica" class="nav-link" data-scroll-target="#eliminar-una-relación-específica"><span class="header-section-number">8.1</span> Eliminar una relación específica</a></li>
+  <li><a href="#eliminar-la-relación" id="toc-eliminar-la-relación" class="nav-link" data-scroll-target="#eliminar-la-relación"><span class="header-section-number">8.2</span> Eliminar la relación</a></li>
+  <li><a href="#comprobar-la-eliminación-de-la-relación" id="toc-comprobar-la-eliminación-de-la-relación" class="nav-link" data-scroll-target="#comprobar-la-eliminación-de-la-relación"><span class="header-section-number">8.3</span> Comprobar la eliminación de la relación</a></li>
+  <li><a href="#crear-nuevamente-la-relación-eliminada" id="toc-crear-nuevamente-la-relación-eliminada" class="nav-link" data-scroll-target="#crear-nuevamente-la-relación-eliminada"><span class="header-section-number">8.4</span> Crear nuevamente la relación eliminada</a></li>
+  </ul></li>
+  <li><a href="#eliminar-un-nodo-específico" id="toc-eliminar-un-nodo-específico" class="nav-link" data-scroll-target="#eliminar-un-nodo-específico"><span class="header-section-number">9</span> Eliminar un nodo específico</a>
+  <ul class="collapse">
+  <li><a href="#eliminar-el-nodo-y-sus-relaciones" id="toc-eliminar-el-nodo-y-sus-relaciones" class="nav-link" data-scroll-target="#eliminar-el-nodo-y-sus-relaciones"><span class="header-section-number">9.1</span> Eliminar el nodo y sus relaciones</a></li>
+  <li><a href="#comprobar-que-sofía-se-eliminó" id="toc-comprobar-que-sofía-se-eliminó" class="nav-link" data-scroll-target="#comprobar-que-sofía-se-eliminó"><span class="header-section-number">9.2</span> Comprobar que Sofía se eliminó</a></li>
+  <li><a href="#crear-nuevamente-el-nodo-de-sofía" id="toc-crear-nuevamente-el-nodo-de-sofía" class="nav-link" data-scroll-target="#crear-nuevamente-el-nodo-de-sofía"><span class="header-section-number">9.3</span> Crear nuevamente el nodo de Sofía</a></li>
+  <li><a href="#recuperar-la-relación-sofía-maría" id="toc-recuperar-la-relación-sofía-maría" class="nav-link" data-scroll-target="#recuperar-la-relación-sofía-maría"><span class="header-section-number">9.4</span> Recuperar la relación Sofía → María</a></li>
+  </ul></li>
+  <li><a href="#verificar-que-recuperamos-toda-la-red" id="toc-verificar-que-recuperamos-toda-la-red" class="nav-link" data-scroll-target="#verificar-que-recuperamos-toda-la-red"><span class="header-section-number">10</span> Verificar que recuperamos toda la red</a>
+  <ul class="collapse">
+  <li><a href="#resumen-de-los-comandos-de-eliminación" id="toc-resumen-de-los-comandos-de-eliminación" class="nav-link" data-scroll-target="#resumen-de-los-comandos-de-eliminación"><span class="header-section-number">10.1</span> Resumen de los comandos de eliminación</a></li>
+  </ul></li>
+  <li><a href="#a-quién-conoce-ana" id="toc-a-quién-conoce-ana" class="nav-link" data-scroll-target="#a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</a>
+  <ul class="collapse">
+  <li><a href="#qué-representan-las-variables" id="toc-qué-representan-las-variables" class="nav-link" data-scroll-target="#qué-representan-las-variables"><span class="header-section-number">11.1</span> ¿Qué representan las variables?</a></li>
+  <li><a href="#visualizar-las-conexiones-directas-de-ana" id="toc-visualizar-las-conexiones-directas-de-ana" class="nav-link" data-scroll-target="#visualizar-las-conexiones-directas-de-ana"><span class="header-section-number">11.2</span> Visualizar las conexiones directas de Ana</a></li>
+  </ul></li>
+  <li><a href="#quiénes-conocen-a-luis" id="toc-quiénes-conocen-a-luis" class="nav-link" data-scroll-target="#quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</a>
+  <ul class="collapse">
+  <li><a href="#visualizar-las-relaciones-entrantes-a-luis" id="toc-visualizar-las-relaciones-entrantes-a-luis" class="nav-link" data-scroll-target="#visualizar-las-relaciones-entrantes-a-luis"><span class="header-section-number">12.1</span> Visualizar las relaciones entrantes a Luis</a></li>
+  </ul></li>
+  <li><a href="#buscar-relaciones-sin-exigir-dirección" id="toc-buscar-relaciones-sin-exigir-dirección" class="nav-link" data-scroll-target="#buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</a></li>
+  <li><a href="#relaciones-directas-e-indirectas" id="toc-relaciones-directas-e-indirectas" class="nav-link" data-scroll-target="#relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</a></li>
+  <li><a href="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana" id="toc-buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="nav-link" data-scroll-target="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">15</span> Buscar todas las conexiones a dos pasos desde Ana</a>
+  <ul class="collapse">
+  <li><a href="#qué-representa-cada-variable" id="toc-qué-representa-cada-variable" class="nav-link" data-scroll-target="#qué-representa-cada-variable"><span class="header-section-number">15.1</span> ¿Qué representa cada variable?</a></li>
+  <li><a href="#por-qué-luis-aparece-dos-veces" id="toc-por-qué-luis-aparece-dos-veces" class="nav-link" data-scroll-target="#por-qué-luis-aparece-dos-veces"><span class="header-section-number">15.2</span> ¿Por qué Luis aparece dos veces?</a></li>
+  </ul></li>
+  <li><a href="#obtener-solamente-los-destinos-indirectos" id="toc-obtener-solamente-los-destinos-indirectos" class="nav-link" data-scroll-target="#obtener-solamente-los-destinos-indirectos"><span class="header-section-number">16</span> Obtener solamente los destinos indirectos</a>
+  <ul class="collapse">
+  <li><a href="#qué-hace-distinct" id="toc-qué-hace-distinct" class="nav-link" data-scroll-target="#qué-hace-distinct"><span class="header-section-number">16.1</span> ¿Qué hace DISTINCT?</a></li>
+  </ul></li>
+  <li><a href="#visualizar-las-conexiones-indirectas" id="toc-visualizar-las-conexiones-indirectas" class="nav-link" data-scroll-target="#visualizar-las-conexiones-indirectas"><span class="header-section-number">17</span> Visualizar las conexiones indirectas</a></li>
+  <li><a href="#buscar-conexiones-entre-ana-y-luis" id="toc-buscar-conexiones-entre-ana-y-luis" class="nav-link" data-scroll-target="#buscar-conexiones-entre-ana-y-luis"><span class="header-section-number">18</span> Buscar conexiones entre Ana y Luis</a></li>
+  <li><a href="#recuperar-los-caminos-completos-entre-ana-y-luis" id="toc-recuperar-los-caminos-completos-entre-ana-y-luis" class="nav-link" data-scroll-target="#recuperar-los-caminos-completos-entre-ana-y-luis"><span class="header-section-number">19</span> Recuperar los caminos completos entre Ana y Luis</a></li>
   </ul>
 </nav>
     </div>
@@ -587,9 +628,678 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Línea 2:</strong> devuelve los nodos y relaciones.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> la red completa de cinco personas y cinco relaciones.</p>
-
-
+<!-- INICIO DE LA PARTE 2: ELIMINACIÓN DE NODOS Y RELACIONES -->
+<hr>
 </section>
+</section>
+<section id="eliminar-nodos-y-relaciones-específicas" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="eliminar-nodos-y-relaciones-específicas"><span class="header-section-number">8</span> Eliminar nodos y relaciones específicas</h2>
+<p>Hasta ahora hemos aprendido a crear nodos y relaciones en Neo4j.</p>
+<p>Sin embargo, también podemos eliminar elementos específicos sin borrar toda la base de datos.</p>
+<p>Existen dos operaciones importantes:</p>
+<ul>
+<li><strong>Eliminar una relación:</strong> desaparece la conexión, pero los nodos permanecen.</li>
+<li><strong>Eliminar un nodo:</strong> desaparece el nodo seleccionado. Si tiene relaciones, podemos utilizar <code>DETACH DELETE</code> para eliminarlas también.</li>
+</ul>
+<section id="eliminar-una-relación-específica" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="eliminar-una-relación-específica"><span class="header-section-number">8.1</span> Eliminar una relación específica</h3>
+<p>Supongamos que queremos eliminar únicamente la relación entre Ana y Carlos.</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos</p>
+</blockquote>
+<p>Primero verificamos que la relación exista.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca el nodo llamado Ana.</li>
+<li><strong>Línea 2:</strong> busca una relación dirigida de tipo <code>CONOCE</code> y la representa mediante <code>relacion</code>.</li>
+<li><strong>Línea 3:</strong> establece que el destino debe ser Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve los elementos encontrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> la relación Ana → Carlos.</p>
+</section>
+<section id="eliminar-la-relación" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="eliminar-la-relación"><span class="header-section-number">8.2</span> Eliminar la relación</h3>
+<p>Ahora eliminaremos esa conexión.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> relacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> localiza a Ana como origen.</li>
+<li><strong>Línea 2:</strong> busca la relación dirigida <code>CONOCE</code>.</li>
+<li><strong>Línea 3:</strong> exige que Carlos sea el destino.</li>
+<li><strong>Línea 4:</strong> <code>DELETE relacion</code> elimina la relación encontrada.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> desaparece la conexión Ana → Carlos, pero ambos nodos permanecen almacenados.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Qué ocurre con los nodos?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al utilizar <code>DELETE relacion</code>, solamente eliminamos las conexiones seleccionadas.</p>
+<p>Los nodos de origen y destino siguen existiendo.</p>
+<p>Si hubiera varias relaciones que cumplieran el patrón, se eliminarían todas esas coincidencias.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-la-eliminación-de-la-relación" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="comprobar-la-eliminación-de-la-relación"><span class="header-section-number">8.3</span> Comprobar la eliminación de la relación</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Líneas 1 a 3:</strong> buscan nuevamente la relación Ana → Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve las coincidencias, si existen.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> ninguna relación encontrada.</p>
+</section>
+<section id="crear-nuevamente-la-relación-eliminada" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="crear-nuevamente-la-relación-eliminada"><span class="header-section-number">8.4</span> Crear nuevamente la relación eliminada</h3>
+<p>Para continuar con nuestra práctica, recuperaremos la conexión entre Ana y Carlos.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca a Ana.</li>
+<li><strong>Línea 2:</strong> busca a Carlos.</li>
+<li><strong>Línea 3:</strong> crea nuevamente la relación Ana → Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve los nodos involucrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> volvemos a tener cinco nodos y cinco relaciones.</p>
+<hr>
+</section>
+</section>
+<section id="eliminar-un-nodo-específico" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="eliminar-un-nodo-específico"><span class="header-section-number">9</span> Eliminar un nodo específico</h2>
+<p>Ahora supongamos que queremos eliminar a Sofía.</p>
+<p>Actualmente existe la conexión:</p>
+<blockquote class="blockquote">
+<p>Sofía → María</p>
+</blockquote>
+<p>Primero consultaremos el nodo de Sofía.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca un nodo con etiqueta <code>Persona</code> y nombre Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo encontrado.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> un nodo llamado Sofía.</p>
+<section id="eliminar-el-nodo-y-sus-relaciones" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="eliminar-el-nodo-y-sus-relaciones"><span class="header-section-number">9.1</span> Eliminar el nodo y sus relaciones</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>DETACH <span class="kw">DELETE</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca el nodo de Sofía.</li>
+<li><strong>Línea 2:</strong> elimina ese nodo y todas sus relaciones conectadas.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> Sofía desaparece del grafo junto con su relación hacia María.</p>
+<p>Nuestra red tendrá ahora:</p>
+<ul>
+<li>Cuatro nodos.</li>
+<li>Cuatro relaciones.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Diferencia entre DELETE y DETACH DELETE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>DELETE persona</code> permite eliminar un nodo solamente si no tiene relaciones conectadas.</p>
+<p>Si el nodo tiene relaciones, debemos eliminarlas primero o utilizar <code>DETACH DELETE persona</code>.</p>
+<p><code>DETACH DELETE</code> elimina el nodo junto con sus relaciones.</p>
+<p>Si hubiera varios nodos con el nombre Sofía, esta consulta eliminaría todos los que cumplieran la condición.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-que-sofía-se-eliminó" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="comprobar-que-sofía-se-eliminó"><span class="header-section-number">9.2</span> Comprobar que Sofía se eliminó</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca nuevamente a Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo si todavía existe.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> ninguna coincidencia.</p>
+</section>
+<section id="crear-nuevamente-el-nodo-de-sofía" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="crear-nuevamente-el-nodo-de-sofía"><span class="header-section-number">9.3</span> Crear nuevamente el nodo de Sofía</h3>
+<p>Para recuperar nuestra red original, primero crearemos nuevamente el nodo.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> crea nuevamente el nodo Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo creado.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> cinco nodos y cuatro relaciones.</p>
+</section>
+<section id="recuperar-la-relación-sofía-maría" class="level3" data-number="9.4">
+<h3 data-number="9.4" class="anchored" data-anchor-id="recuperar-la-relación-sofía-maría"><span class="header-section-number">9.4</span> Recuperar la relación Sofía → María</h3>
+<p>Ahora crearemos la conexión que tenía Sofía antes de eliminarla.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Persona</span> {nombre: <span class="st">'María'</span>})</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca a Sofía.</li>
+<li><strong>Línea 2:</strong> busca a María.</li>
+<li><strong>Línea 3:</strong> crea la relación dirigida desde Sofía hacia María.</li>
+<li><strong>Línea 4:</strong> devuelve los nodos involucrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> nuevamente tendremos cinco nodos y cinco relaciones.</p>
+<hr>
+</section>
+</section>
+<section id="verificar-que-recuperamos-toda-la-red" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="verificar-que-recuperamos-toda-la-red"><span class="header-section-number">10</span> Verificar que recuperamos toda la red</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todas las relaciones de tipo <code>CONOCE</code> entre personas.</li>
+<li><strong>Línea 2:</strong> devuelve los nodos y sus conexiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> las cinco relaciones originales.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+</tr>
+<tr class="odd">
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>María</td>
+<td>Luis</td>
+</tr>
+<tr class="odd">
+<td>Sofía</td>
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<section id="resumen-de-los-comandos-de-eliminación" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="resumen-de-los-comandos-de-eliminación"><span class="header-section-number">10.1</span> Resumen de los comandos de eliminación</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Comando</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DELETE relacion</code></td>
+<td>Elimina una relación seleccionada.</td>
+</tr>
+<tr class="even">
+<td><code>DELETE persona</code></td>
+<td>Elimina un nodo sin relaciones conectadas.</td>
+</tr>
+<tr class="odd">
+<td><code>DETACH DELETE persona</code></td>
+<td>Elimina el nodo y sus relaciones.</td>
+</tr>
+<tr class="even">
+<td><code>MATCH (n) DETACH DELETE n</code></td>
+<td>Elimina todos los nodos y relaciones de la base seleccionada.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de eliminar elementos, podemos ejecutar una consulta con <code>MATCH</code> y <code>RETURN</code> para comprobar qué nodos o relaciones serán afectados.</p>
+<p>Después de utilizar <code>DELETE</code> o <code>DETACH DELETE</code>, podemos repetir la consulta para verificar que la eliminación se realizó correctamente.</p>
+<p>Los ejemplos de esta sección recuperan la red original para que podamos continuar con las consultas siguientes.</p>
+</div>
+</div>
+<!-- INICIO DE LA PARTE 3: CONSULTAS Y RECORRIDOS DEL GRAFO -->
+<hr>
+</section>
+</section>
+<section id="a-quién-conoce-ana" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</h2>
+<p>Ahora que tenemos la red completa, comenzaremos a consultar las relaciones directas.</p>
+<p>Queremos responder:</p>
+<blockquote class="blockquote">
+<p>¿Qué personas conoce Ana?</p>
+</blockquote>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones dirigidas <code>CONOCE</code> entre dos personas.</li>
+<li><strong>Línea 2:</strong> establece que el nodo de origen debe tener el nombre Ana.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre de cada destino.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<p>El orden de las filas no está garantizado si no utilizamos <code>ORDER BY</code>.</p>
+<section id="qué-representan-las-variables" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="qué-representan-las-variables"><span class="header-section-number">11.1</span> ¿Qué representan las variables?</h3>
+<p>En esta consulta, <code>origen</code> y <code>destino</code> son variables temporales.</p>
+<p>Neo4j encuentra dos coincidencias:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<p>La variable <code>destino</code> representa a Carlos en la primera coincidencia y a María en la segunda.</p>
+<p>Las variables nos ayudan a identificar los nodos durante la ejecución de cada consulta.</p>
+</section>
+<section id="visualizar-las-conexiones-directas-de-ana" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="visualizar-las-conexiones-directas-de-ana"><span class="header-section-number">11.2</span> Visualizar las conexiones directas de Ana</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca las relaciones <code>CONOCE</code> y las asigna temporalmente a <code>relacion</code>.</li>
+<li><strong>Línea 2:</strong> selecciona las relaciones que salen de Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los nodos y sus conexiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar Ana → Carlos y Ana → María.</p>
+<hr>
+</section>
+</section>
+<section id="quiénes-conocen-a-luis" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</h2>
+<p>Ahora queremos encontrar las relaciones que llegan a Luis.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino.nombre <span class="op">=</span> <span class="st">'Luis'</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones dirigidas entre personas.</li>
+<li><strong>Línea 2:</strong> establece que el destino debe ser Luis.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre de cada origen.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<section id="visualizar-las-relaciones-entrantes-a-luis" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="visualizar-las-relaciones-entrantes-a-luis"><span class="header-section-number">12.1</span> Visualizar las relaciones entrantes a Luis</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino.nombre <span class="op">=</span> <span class="st">'Luis'</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca conexiones <code>CONOCE</code>.</li>
+<li><strong>Línea 2:</strong> selecciona las conexiones que llegan a Luis.</li>
+<li><strong>Línea 3:</strong> devuelve los elementos completos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar Carlos → Luis y María → Luis.</p>
+<hr>
+</section>
+</section>
+<section id="buscar-relaciones-sin-exigir-dirección" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</h2>
+<p>Las relaciones almacenadas en Neo4j tienen dirección.</p>
+<p>Sin embargo, podemos buscar conexiones sin importar el sentido de la flecha.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>MATCH (maria<span class="ch">:Persona</span> {nombre: <span class="st">'María'</span>})<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-</span>(persona<span class="ch">:Persona</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="kw">DISTINCT</span> persona.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca personas conectadas con María mediante <code>CONOCE</code>, sin exigir una dirección.</li>
+<li><strong>Línea 2:</strong> devuelve los nombres encontrados sin repeticiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+</tr>
+<tr class="even">
+<td>Luis</td>
+</tr>
+<tr class="odd">
+<td>Sofía</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Dirección de las relaciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una consulta sin flecha no modifica la dirección de las relaciones almacenadas.</p>
+<p>Solamente permite encontrar coincidencias en cualquiera de los dos sentidos.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="relaciones-directas-e-indirectas" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</h2>
+<p>Una relación <strong>directa</strong> conecta dos nodos mediante una sola relación.</p>
+<p>Por ejemplo:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos</p>
+</blockquote>
+<p>Una conexión <strong>indirecta</strong> utiliza dos o más relaciones.</p>
+<p>Por ejemplo:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos → Luis</p>
+<p>Ana → María → Luis</p>
+</blockquote>
+<p>Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Neo4j encuentra automáticamente las conexiones?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neo4j puede recorrer las relaciones almacenadas para encontrar caminos entre los nodos.</p>
+<p>Nosotros debemos indicar el patrón que queremos buscar mediante Cypher.</p>
+<p>Neo4j no crea automáticamente una relación nueva entre Ana y Luis.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">15</span> Buscar todas las conexiones a dos pasos desde Ana</h2>
+<p>Queremos responder:</p>
+<blockquote class="blockquote">
+<p>¿A qué personas puede llegar Ana después de recorrer dos relaciones CONOCE?</p>
+</blockquote>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Origen,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>       intermedio.nombre <span class="kw">AS</span> Intermediario,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>       destino.nombre <span class="kw">AS</span> Destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca un patrón formado por tres personas y dos relaciones consecutivas.</li>
+<li><strong>Línea 2:</strong> establece que el origen debe ser Ana.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre del origen.</li>
+<li><strong>Línea 4:</strong> devuelve el nombre del intermediario.</li>
+<li><strong>Línea 5:</strong> devuelve el nombre del destino.</li>
+</ul>
+<section id="qué-representa-cada-variable" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="qué-representa-cada-variable"><span class="header-section-number">15.1</span> ¿Qué representa cada variable?</h3>
+<ul>
+<li><code>origen</code>: persona donde comienza el recorrido.</li>
+<li><code>intermedio</code>: persona que conecta el origen con el destino.</li>
+<li><code>destino</code>: persona donde termina el recorrido.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Intermediario</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="por-qué-luis-aparece-dos-veces" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="por-qué-luis-aparece-dos-veces"><span class="header-section-number">15.2</span> ¿Por qué Luis aparece dos veces?</h3>
+<p>Porque Neo4j encontró dos caminos diferentes:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos → Luis</p>
+<p>Ana → María → Luis</p>
+</blockquote>
+<p>Esto no significa que existan dos nodos llamados Luis.</p>
+<p>Significa que podemos llegar al mismo nodo mediante dos caminos diferentes.</p>
+<hr>
+</section>
+</section>
+<section id="obtener-solamente-los-destinos-indirectos" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="obtener-solamente-los-destinos-indirectos"><span class="header-section-number">16</span> Obtener solamente los destinos indirectos</h2>
+<p>Si únicamente queremos obtener los nombres de los destinos, podemos utilizar <code>DISTINCT</code>.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="kw">DISTINCT</span> destino.nombre <span class="kw">AS</span> ConexionIndirecta;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca caminos de exactamente dos relaciones. <code>(:Persona)</code> representa una persona intermedia sin asignarle una variable.</li>
+<li><strong>Línea 2:</strong> selecciona los caminos que comienzan en Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los nombres de destino sin repeticiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ConexionIndirecta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<section id="qué-hace-distinct" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="qué-hace-distinct"><span class="header-section-number">16.1</span> ¿Qué hace DISTINCT?</h3>
+<p><code>DISTINCT</code> elimina valores repetidos de los resultados.</p>
+<p>Aunque existen dos caminos hacia Luis, su nombre solamente aparecerá una vez.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Dos pasos no siempre significa una recomendación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una consulta de dos pasos identifica destinos alcanzables mediante dos relaciones.</p>
+<p>En una red más grande, algunos destinos podrían ser personas que Ana ya conoce.</p>
+<p>Para recomendar contactos nuevos necesitaremos agregar otras condiciones.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="visualizar-las-conexiones-indirectas" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="visualizar-las-conexiones-indirectas"><span class="header-section-number">17</span> Visualizar las conexiones indirectas</h2>
+<p>Podemos recuperar los caminos completos.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca caminos de dos relaciones y asigna cada camino encontrado a la variable <code>camino</code>.</li>
+<li><strong>Línea 2:</strong> establece que los caminos comiencen en Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los caminos completos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar los caminos Ana → Carlos → Luis y Ana → María → Luis.</p>
+<hr>
+</section>
+<section id="buscar-conexiones-entre-ana-y-luis" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="buscar-conexiones-entre-ana-y-luis"><span class="header-section-number">18</span> Buscar conexiones entre Ana y Luis</h2>
+<p>Ahora queremos encontrar específicamente los caminos indirectos entre Ana y Luis.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span> {nombre: <span class="st">'Luis'</span>})</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Origen,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>       intermedio.nombre <span class="kw">AS</span> Intermediario,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>       destino.nombre <span class="kw">AS</span> Destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> establece que el origen debe ser Ana.</li>
+<li><strong>Línea 2:</strong> busca una relación hacia una persona intermedia.</li>
+<li><strong>Línea 3:</strong> busca una segunda relación que llegue a Luis.</li>
+<li><strong>Línea 4:</strong> devuelve el origen.</li>
+<li><strong>Línea 5:</strong> devuelve el intermediario.</li>
+<li><strong>Línea 6:</strong> devuelve el destino.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Intermediario</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="recuperar-los-caminos-completos-entre-ana-y-luis" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="recuperar-los-caminos-completos-entre-ana-y-luis"><span class="header-section-number">19</span> Recuperar los caminos completos entre Ana y Luis</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>      (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span> {nombre: <span class="st">'Luis'</span>})</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> asigna a <code>camino</code> cada recorrido encontrado.</li>
+<li><strong>Línea 2:</strong> establece el origen.</li>
+<li><strong>Línea 3:</strong> busca el intermediario.</li>
+<li><strong>Línea 4:</strong> establece el destino.</li>
+<li><strong>Línea 5:</strong> devuelve el camino completo.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos caminos en la vista Graph.</p>
+<hr>
+
+
 </section>
 
 </main> <!-- /main -->
