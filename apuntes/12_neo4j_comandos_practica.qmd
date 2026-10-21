@@ -348,3 +348,633 @@ RETURN origen, relacion, destino;
 - **Línea 2:** devuelve los nodos y relaciones.
 
 **Resultado esperado:** la red completa de cinco personas y cinco relaciones.
+
+
+
+<!-- INICIO DE LA PARTE 2: ELIMINACIÓN DE NODOS Y RELACIONES -->
+
+---
+
+## Eliminar nodos y relaciones específicas
+
+Hasta ahora hemos aprendido a crear nodos y relaciones en Neo4j.
+
+Sin embargo, también podemos eliminar elementos específicos sin borrar toda la base de datos.
+
+Existen dos operaciones importantes:
+
+- **Eliminar una relación:** desaparece la conexión, pero los nodos permanecen.
+- **Eliminar un nodo:** desaparece el nodo seleccionado. Si tiene relaciones, podemos utilizar `DETACH DELETE` para eliminarlas también.
+
+### Eliminar una relación específica
+
+Supongamos que queremos eliminar únicamente la relación entre Ana y Carlos.
+
+> Ana → Carlos
+
+Primero verificamos que la relación exista.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[relacion:CONOCE]->
+      (destino:Persona {nombre: 'Carlos'})
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca el nodo llamado Ana.
+- **Línea 2:** busca una relación dirigida de tipo `CONOCE` y la representa mediante `relacion`.
+- **Línea 3:** establece que el destino debe ser Carlos.
+- **Línea 4:** devuelve los elementos encontrados.
+
+**Resultado esperado:** la relación Ana → Carlos.
+
+### Eliminar la relación
+
+Ahora eliminaremos esa conexión.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[relacion:CONOCE]->
+      (destino:Persona {nombre: 'Carlos'})
+DELETE relacion;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** localiza a Ana como origen.
+- **Línea 2:** busca la relación dirigida `CONOCE`.
+- **Línea 3:** exige que Carlos sea el destino.
+- **Línea 4:** `DELETE relacion` elimina la relación encontrada.
+
+**Resultado esperado:** desaparece la conexión Ana → Carlos, pero ambos nodos permanecen almacenados.
+
+::: {.callout-note}
+## ¿Qué ocurre con los nodos?
+
+Al utilizar `DELETE relacion`, solamente eliminamos las conexiones seleccionadas.
+
+Los nodos de origen y destino siguen existiendo.
+
+Si hubiera varias relaciones que cumplieran el patrón, se eliminarían todas esas coincidencias.
+:::
+
+### Comprobar la eliminación de la relación
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[relacion:CONOCE]->
+      (destino:Persona {nombre: 'Carlos'})
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Líneas 1 a 3:** buscan nuevamente la relación Ana → Carlos.
+- **Línea 4:** devuelve las coincidencias, si existen.
+
+**Resultado esperado:** ninguna relación encontrada.
+
+### Crear nuevamente la relación eliminada
+
+Para continuar con nuestra práctica, recuperaremos la conexión entre Ana y Carlos.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+MATCH (destino:Persona {nombre: 'Carlos'})
+CREATE (origen)-[:CONOCE]->(destino)
+RETURN origen, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca a Ana.
+- **Línea 2:** busca a Carlos.
+- **Línea 3:** crea nuevamente la relación Ana → Carlos.
+- **Línea 4:** devuelve los nodos involucrados.
+
+**Resultado esperado:** volvemos a tener cinco nodos y cinco relaciones.
+
+---
+
+## Eliminar un nodo específico
+
+Ahora supongamos que queremos eliminar a Sofía.
+
+Actualmente existe la conexión:
+
+> Sofía → María
+
+Primero consultaremos el nodo de Sofía.
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona {nombre: 'Sofía'})
+RETURN persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca un nodo con etiqueta `Persona` y nombre Sofía.
+- **Línea 2:** devuelve el nodo encontrado.
+
+**Resultado esperado:** un nodo llamado Sofía.
+
+### Eliminar el nodo y sus relaciones
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona {nombre: 'Sofía'})
+DETACH DELETE persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca el nodo de Sofía.
+- **Línea 2:** elimina ese nodo y todas sus relaciones conectadas.
+
+**Resultado esperado:** Sofía desaparece del grafo junto con su relación hacia María.
+
+Nuestra red tendrá ahora:
+
+- Cuatro nodos.
+- Cuatro relaciones.
+
+::: {.callout-warning}
+## Diferencia entre DELETE y DETACH DELETE
+
+`DELETE persona` permite eliminar un nodo solamente si no tiene relaciones conectadas.
+
+Si el nodo tiene relaciones, debemos eliminarlas primero o utilizar `DETACH DELETE persona`.
+
+`DETACH DELETE` elimina el nodo junto con sus relaciones.
+
+Si hubiera varios nodos con el nombre Sofía, esta consulta eliminaría todos los que cumplieran la condición.
+:::
+
+### Comprobar que Sofía se eliminó
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona {nombre: 'Sofía'})
+RETURN persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca nuevamente a Sofía.
+- **Línea 2:** devuelve el nodo si todavía existe.
+
+**Resultado esperado:** ninguna coincidencia.
+
+### Crear nuevamente el nodo de Sofía
+
+Para recuperar nuestra red original, primero crearemos nuevamente el nodo.
+
+Ejecutamos:
+
+```sql
+CREATE (persona:Persona {nombre: 'Sofía'})
+RETURN persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** crea nuevamente el nodo Sofía.
+- **Línea 2:** devuelve el nodo creado.
+
+**Resultado esperado:** cinco nodos y cuatro relaciones.
+
+### Recuperar la relación Sofía → María
+
+Ahora crearemos la conexión que tenía Sofía antes de eliminarla.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Sofía'})
+MATCH (destino:Persona {nombre: 'María'})
+CREATE (origen)-[:CONOCE]->(destino)
+RETURN origen, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca a Sofía.
+- **Línea 2:** busca a María.
+- **Línea 3:** crea la relación dirigida desde Sofía hacia María.
+- **Línea 4:** devuelve los nodos involucrados.
+
+**Resultado esperado:** nuevamente tendremos cinco nodos y cinco relaciones.
+
+---
+
+## Verificar que recuperamos toda la red
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca todas las relaciones de tipo `CONOCE` entre personas.
+- **Línea 2:** devuelve los nodos y sus conexiones.
+
+**Resultado esperado:** las cinco relaciones originales.
+
+| Origen | Destino |
+|---|---|
+| Ana | Carlos |
+| Ana | María |
+| Carlos | Luis |
+| María | Luis |
+| Sofía | María |
+
+### Resumen de los comandos de eliminación
+
+| Comando | Función |
+|---|---|
+| `DELETE relacion` | Elimina una relación seleccionada. |
+| `DELETE persona` | Elimina un nodo sin relaciones conectadas. |
+| `DETACH DELETE persona` | Elimina el nodo y sus relaciones. |
+| `MATCH (n) DETACH DELETE n` | Elimina todos los nodos y relaciones de la base seleccionada. |
+
+::: {.callout-tip}
+## Para recordar
+
+Antes de eliminar elementos, podemos ejecutar una consulta con `MATCH` y `RETURN` para comprobar qué nodos o relaciones serán afectados.
+
+Después de utilizar `DELETE` o `DETACH DELETE`, podemos repetir la consulta para verificar que la eliminación se realizó correctamente.
+
+Los ejemplos de esta sección recuperan la red original para que podamos continuar con las consultas siguientes.
+:::
+
+
+<!-- INICIO DE LA PARTE 3: CONSULTAS Y RECORRIDOS DEL GRAFO -->
+
+---
+
+## ¿A quién conoce Ana?
+
+Ahora que tenemos la red completa, comenzaremos a consultar las relaciones directas.
+
+Queremos responder:
+
+> ¿Qué personas conoce Ana?
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN destino.nombre AS Persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca relaciones dirigidas `CONOCE` entre dos personas.
+- **Línea 2:** establece que el nodo de origen debe tener el nombre Ana.
+- **Línea 3:** devuelve el nombre de cada destino.
+
+**Resultado esperado:**
+
+| Persona |
+|---|
+| Carlos |
+| María |
+
+El orden de las filas no está garantizado si no utilizamos `ORDER BY`.
+
+### ¿Qué representan las variables?
+
+En esta consulta, `origen` y `destino` son variables temporales.
+
+Neo4j encuentra dos coincidencias:
+
+| Origen | Destino |
+|---|---|
+| Ana | Carlos |
+| Ana | María |
+
+La variable `destino` representa a Carlos en la primera coincidencia y a María en la segunda.
+
+Las variables nos ayudan a identificar los nodos durante la ejecución de cada consulta.
+
+### Visualizar las conexiones directas de Ana
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca las relaciones `CONOCE` y las asigna temporalmente a `relacion`.
+- **Línea 2:** selecciona las relaciones que salen de Ana.
+- **Línea 3:** devuelve los nodos y sus conexiones.
+
+**Resultado esperado:** visualizar Ana → Carlos y Ana → María.
+
+---
+
+## ¿Quiénes conocen a Luis?
+
+Ahora queremos encontrar las relaciones que llegan a Luis.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen.nombre AS Persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca relaciones dirigidas entre personas.
+- **Línea 2:** establece que el destino debe ser Luis.
+- **Línea 3:** devuelve el nombre de cada origen.
+
+**Resultado esperado:**
+
+| Persona |
+|---|
+| Carlos |
+| María |
+
+### Visualizar las relaciones entrantes a Luis
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
+WHERE destino.nombre = 'Luis'
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca conexiones `CONOCE`.
+- **Línea 2:** selecciona las conexiones que llegan a Luis.
+- **Línea 3:** devuelve los elementos completos.
+
+**Resultado esperado:** visualizar Carlos → Luis y María → Luis.
+
+---
+
+## Buscar relaciones sin exigir dirección
+
+Las relaciones almacenadas en Neo4j tienen dirección.
+
+Sin embargo, podemos buscar conexiones sin importar el sentido de la flecha.
+
+Ejecutamos:
+
+```sql
+MATCH (maria:Persona {nombre: 'María'})-[:CONOCE]-(persona:Persona)
+RETURN DISTINCT persona.nombre AS Persona;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca personas conectadas con María mediante `CONOCE`, sin exigir una dirección.
+- **Línea 2:** devuelve los nombres encontrados sin repeticiones.
+
+**Resultado esperado:**
+
+| Persona |
+|---|
+| Ana |
+| Luis |
+| Sofía |
+
+::: {.callout-note}
+## Dirección de las relaciones
+
+Una consulta sin flecha no modifica la dirección de las relaciones almacenadas.
+
+Solamente permite encontrar coincidencias en cualquiera de los dos sentidos.
+:::
+
+---
+
+## Relaciones directas e indirectas
+
+Una relación **directa** conecta dos nodos mediante una sola relación.
+
+Por ejemplo:
+
+> Ana → Carlos
+
+Una conexión **indirecta** utiliza dos o más relaciones.
+
+Por ejemplo:
+
+> Ana → Carlos → Luis
+>
+> Ana → María → Luis
+
+Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.
+
+::: {.callout-note}
+## ¿Neo4j encuentra automáticamente las conexiones?
+
+Neo4j puede recorrer las relaciones almacenadas para encontrar caminos entre los nodos.
+
+Nosotros debemos indicar el patrón que queremos buscar mediante Cypher.
+
+Neo4j no crea automáticamente una relación nueva entre Ana y Luis.
+:::
+
+---
+
+## Buscar todas las conexiones a dos pasos desde Ana
+
+Queremos responder:
+
+> ¿A qué personas puede llegar Ana después de recorrer dos relaciones CONOCE?
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN origen.nombre AS Origen,
+       intermedio.nombre AS Intermediario,
+       destino.nombre AS Destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca un patrón formado por tres personas y dos relaciones consecutivas.
+- **Línea 2:** establece que el origen debe ser Ana.
+- **Línea 3:** devuelve el nombre del origen.
+- **Línea 4:** devuelve el nombre del intermediario.
+- **Línea 5:** devuelve el nombre del destino.
+
+### ¿Qué representa cada variable?
+
+- `origen`: persona donde comienza el recorrido.
+- `intermedio`: persona que conecta el origen con el destino.
+- `destino`: persona donde termina el recorrido.
+
+**Resultado esperado:**
+
+| Origen | Intermediario | Destino |
+|---|---|---|
+| Ana | Carlos | Luis |
+| Ana | María | Luis |
+
+### ¿Por qué Luis aparece dos veces?
+
+Porque Neo4j encontró dos caminos diferentes:
+
+> Ana → Carlos → Luis
+>
+> Ana → María → Luis
+
+Esto no significa que existan dos nodos llamados Luis.
+
+Significa que podemos llegar al mismo nodo mediante dos caminos diferentes.
+
+---
+
+## Obtener solamente los destinos indirectos
+
+Si únicamente queremos obtener los nombres de los destinos, podemos utilizar `DISTINCT`.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[:CONOCE]->(:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN DISTINCT destino.nombre AS ConexionIndirecta;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca caminos de exactamente dos relaciones. `(:Persona)` representa una persona intermedia sin asignarle una variable.
+- **Línea 2:** selecciona los caminos que comienzan en Ana.
+- **Línea 3:** devuelve los nombres de destino sin repeticiones.
+
+**Resultado esperado:**
+
+| ConexionIndirecta |
+|---|
+| Luis |
+
+### ¿Qué hace DISTINCT?
+
+`DISTINCT` elimina valores repetidos de los resultados.
+
+Aunque existen dos caminos hacia Luis, su nombre solamente aparecerá una vez.
+
+::: {.callout-tip}
+## Dos pasos no siempre significa una recomendación
+
+Una consulta de dos pasos identifica destinos alcanzables mediante dos relaciones.
+
+En una red más grande, algunos destinos podrían ser personas que Ana ya conoce.
+
+Para recomendar contactos nuevos necesitaremos agregar otras condiciones.
+:::
+
+---
+
+## Visualizar las conexiones indirectas
+
+Podemos recuperar los caminos completos.
+
+Ejecutamos:
+
+```sql
+MATCH camino = (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
+WHERE origen.nombre = 'Ana'
+RETURN camino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca caminos de dos relaciones y asigna cada camino encontrado a la variable `camino`.
+- **Línea 2:** establece que los caminos comiencen en Ana.
+- **Línea 3:** devuelve los caminos completos.
+
+**Resultado esperado:** visualizar los caminos Ana → Carlos → Luis y Ana → María → Luis.
+
+---
+
+## Buscar conexiones entre Ana y Luis
+
+Ahora queremos encontrar específicamente los caminos indirectos entre Ana y Luis.
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
+RETURN origen.nombre AS Origen,
+       intermedio.nombre AS Intermediario,
+       destino.nombre AS Destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** establece que el origen debe ser Ana.
+- **Línea 2:** busca una relación hacia una persona intermedia.
+- **Línea 3:** busca una segunda relación que llegue a Luis.
+- **Línea 4:** devuelve el origen.
+- **Línea 5:** devuelve el intermediario.
+- **Línea 6:** devuelve el destino.
+
+**Resultado esperado:**
+
+| Origen | Intermediario | Destino |
+|---|---|---|
+| Ana | Carlos | Luis |
+| Ana | María | Luis |
+
+---
+
+## Recuperar los caminos completos entre Ana y Luis
+
+Ejecutamos:
+
+```sql
+MATCH camino =
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
+RETURN camino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** asigna a `camino` cada recorrido encontrado.
+- **Línea 2:** establece el origen.
+- **Línea 3:** busca el intermediario.
+- **Línea 4:** establece el destino.
+- **Línea 5:** devuelve el camino completo.
+
+**Resultado esperado:** dos caminos en la vista Graph.
+
+---
+

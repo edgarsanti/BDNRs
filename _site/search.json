@@ -3549,6 +3549,13 @@
     "text": "Datos de ejemplo de MongoDB\nMongoDB proporciona diferentes bases de datos de ejemplo que permiten practicar consultas, filtros y operaciones sobre documentos.\nEntre ellas se encuentran:\nsample_airbnb\nsample_analytics\nsample_geospatial\nsample_guides\nsample_mflix\nsample_restaurants\nsample_supplies\nsample_training\nsample_weatherdata"
   },
   {
+    "objectID": "datasets.html#mediciones-ambientales",
+    "href": "datasets.html#mediciones-ambientales",
+    "title": "Datasets",
+    "section": "Mediciones ambientales",
+    "text": "Mediciones ambientales\nConjunto de datos simulados utilizado durante las prácticas de Apache Cassandra.\nContiene más de 1.2 millones de registros de temperatura y humedad provenientes de sensores ambientales, que permiten trabajar con carga masiva de datos, particionamiento y consultas mediante CQL.\n Descargar dataset CSV"
+  },
+  {
     "objectID": "apuntes.html",
     "href": "apuntes.html",
     "title": "Apuntes del curso",
@@ -3666,12 +3673,5 @@
     "title": "Diapositivas",
     "section": "Tema 2. Escalabilidad y bases de datos distribuidas",
     "text": "Tema 2. Escalabilidad y bases de datos distribuidas\nEscalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.\n Abrir en nueva pestaña"
-  },
-  {
-    "objectID": "datasets.html#mediciones-ambientales",
-    "href": "datasets.html#mediciones-ambientales",
-    "title": "Datasets",
-    "section": "Mediciones ambientales",
-    "text": "Mediciones ambientales\nConjunto de datos simulados utilizado durante las prácticas de Apache Cassandra.\nContiene más de 1.2 millones de registros de temperatura y humedad provenientes de sensores ambientales, que permiten trabajar con carga masiva de datos, particionamiento y consultas mediante CQL.\n Descargar dataset CSV"
   }
 ]
