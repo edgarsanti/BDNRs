@@ -978,3 +978,597 @@ RETURN camino;
 
 ---
 
+## Calcular la longitud de los caminos
+
+La longitud de un camino corresponde al número de relaciones que contiene.
+
+Ejecutamos:
+
+```sql
+MATCH camino =
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
+RETURN camino,
+       length(camino) AS Longitud;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** identifica cada camino completo.
+- **Línea 2:** establece el origen.
+- **Línea 3:** busca el intermediario.
+- **Línea 4:** establece el destino.
+- **Línea 5:** devuelve cada camino.
+- **Línea 6:** calcula la longitud mediante `length()`.
+
+**Resultado esperado:** dos caminos con longitud 2.
+
+::: {.callout-tip}
+## Para recordar
+
+La longitud de un camino cuenta las relaciones, no los nodos.
+
+Por ejemplo, en el camino:
+
+**Ana → Carlos → Luis**
+
+tenemos tres nodos y dos relaciones.
+
+Por lo tanto, su longitud es 2.
+:::
+
+---
+
+## Introducción a los sistemas de recomendaciones
+
+Imaginemos que queremos recomendar nuevas personas a un usuario de nuestra red social.
+
+Podemos establecer la siguiente regla:
+
+> Recomendar personas que conocen nuestros contactos, pero que nosotros todavía no conocemos directamente.
+
+En nuestro ejemplo:
+
+> Ana → Carlos → Luis
+>
+> Ana → María → Luis
+
+Ana conoce directamente a Carlos y María.
+
+Ambos conocen a Luis.
+
+Por lo tanto, Luis podría ser una recomendación para Ana.
+
+---
+
+## Obtener recomendaciones mediante contactos en común
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona)
+WHERE destino <> origen
+  AND NOT EXISTS {
+      MATCH (origen)-[:CONOCE]->(destino)
+  }
+RETURN destino.nombre AS Recomendacion,
+       COUNT(DISTINCT intermedio) AS ContactosEnComun;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** establece a Ana como origen.
+- **Línea 2:** busca los contactos directos de Ana.
+- **Línea 3:** busca personas conocidas por esos contactos.
+- **Línea 4:** evita recomendar a Ana consigo misma. El operador `<>` significa diferente de.
+- **Línea 5:** agrega una condición mediante `NOT EXISTS`.
+- **Línea 6:** comprueba que no exista una relación directa desde Ana hacia la persona recomendada.
+- **Línea 7:** cierra el bloque de la condición.
+- **Línea 8:** devuelve el nombre de la persona recomendada.
+- **Línea 9:** cuenta los contactos intermediarios diferentes mediante `COUNT(DISTINCT intermedio)`.
+
+**Resultado esperado:**
+
+| Recomendacion | ContactosEnComun |
+|---|---:|
+| Luis | 2 |
+
+### ¿Por qué se recomienda a Luis?
+
+Porque existen dos contactos que permiten llegar hasta él: Carlos y María.
+
+La consulta no crea una relación entre Ana y Luis. Solamente identifica una recomendación candidata.
+
+---
+
+## Visualizar los caminos de recomendación
+
+Ejecutamos:
+
+```sql
+MATCH camino =
+      (origen:Persona {nombre: 'Ana'})
+      -[:CONOCE]->(intermedio:Persona)
+      -[:CONOCE]->(destino:Persona)
+WHERE destino <> origen
+  AND NOT EXISTS {
+      MATCH (origen)-[:CONOCE]->(destino)
+  }
+RETURN camino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** asigna una variable a cada camino.
+- **Línea 2:** establece a Ana como origen.
+- **Línea 3:** busca los contactos directos.
+- **Línea 4:** busca los contactos de esos intermediarios.
+- **Línea 5:** evita recomendar a Ana.
+- **Líneas 6 a 8:** descartan personas que Ana ya conoce directamente.
+- **Última línea:** devuelve los caminos completos.
+
+**Resultado esperado:** dos caminos de recomendación hacia Luis.
+
+---
+
+## Consultar todos los nodos
+
+Ejecutamos:
+
+```sql
+MATCH (n)
+RETURN n;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca todos los nodos almacenados.
+- **Línea 2:** devuelve los nodos.
+
+**Resultado esperado:** cinco personas.
+
+---
+
+## Consultar todas las relaciones
+
+Ejecutamos:
+
+```sql
+MATCH (origen)-[relacion]->(destino)
+RETURN origen, relacion, destino;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca relaciones de cualquier tipo.
+- **Línea 2:** devuelve los nodos y las relaciones.
+
+**Resultado esperado:** cinco relaciones.
+
+---
+
+## Recuperar únicamente los nombres
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona)
+RETURN persona.nombre AS Nombre;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca todos los nodos `Persona`.
+- **Línea 2:** devuelve sus nombres.
+
+**Resultado esperado:** cinco nombres, sin un orden garantizado.
+
+---
+
+## Ordenar resultados con ORDER BY
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona)
+RETURN persona.nombre AS Nombre
+ORDER BY Nombre ASC;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca todas las personas.
+- **Línea 2:** devuelve los nombres.
+- **Línea 3:** ordena los resultados de forma ascendente.
+
+**Resultado esperado:** los nombres ordenados según las reglas de comparación utilizadas por Neo4j.
+
+::: {.callout-note}
+## ASC y DESC
+
+- `ASC`: orden ascendente.
+- `DESC`: orden descendente.
+:::
+
+---
+
+## Limitar resultados con LIMIT
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona)
+RETURN persona.nombre AS Nombre
+ORDER BY Nombre ASC
+LIMIT 3;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca las personas.
+- **Línea 2:** devuelve sus nombres.
+- **Línea 3:** ordena los resultados.
+- **Línea 4:** muestra únicamente tres registros.
+
+**Resultado esperado:** Ana, Carlos y Luis.
+
+---
+
+## Contar las personas almacenadas
+
+Ejecutamos:
+
+```sql
+MATCH (persona:Persona)
+RETURN COUNT(persona) AS TotalPersonas;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca los nodos con etiqueta `Persona`.
+- **Línea 2:** cuenta los nodos encontrados.
+
+**Resultado esperado:** 5 personas.
+
+---
+
+## Contar las relaciones CONOCE
+
+Ejecutamos:
+
+```sql
+MATCH ()-[relacion:CONOCE]->()
+RETURN COUNT(relacion) AS TotalRelaciones;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca todas las relaciones de tipo `CONOCE`.
+- **Línea 2:** cuenta esas relaciones.
+
+**Resultado esperado:** 5 relaciones.
+
+---
+
+## Contar los contactos de cada persona
+
+Ejecutamos:
+
+```sql
+MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
+RETURN origen.nombre AS Persona,
+       COUNT(destino) AS TotalContactos
+ORDER BY TotalContactos DESC;
+```
+
+**Explicación línea por línea**
+
+- **Línea 1:** busca relaciones salientes `CONOCE`.
+- **Línea 2:** devuelve el nombre de la persona de origen.
+- **Línea 3:** cuenta los destinos asociados a cada nombre de origen.
+- **Línea 4:** ordena los resultados de mayor a menor.
+
+**Resultado esperado:**
+
+| Persona | TotalContactos |
+|---|---:|
+| Ana | 2 |
+| Carlos | 1 |
+| María | 1 |
+| Sofía | 1 |
+
+Luis no aparece porque no tiene relaciones salientes `CONOCE`.
+
+---
+
+## Ideas clave
+
+- **Cypher** permite trabajar con nodos y relaciones mediante patrones.
+- **Las variables** representan temporalmente los elementos encontrados.
+- **Las etiquetas** permiten clasificar los nodos.
+- **Las propiedades** almacenan información.
+- **CREATE** agrega nodos o relaciones.
+- **MATCH** busca patrones existentes.
+- **WHERE** permite establecer condiciones.
+- **RETURN** determina qué información mostramos.
+- **DELETE** elimina elementos seleccionados.
+- **DETACH DELETE** permite eliminar nodos y sus relaciones.
+- **Las relaciones tienen dirección**, aunque podemos consultarlas sin exigirla.
+- **Los caminos indirectos** utilizan varias relaciones existentes.
+- **DISTINCT** elimina resultados repetidos.
+- **length()** devuelve la cantidad de relaciones de un camino.
+- **COUNT()** permite contar coincidencias.
+- **ORDER BY** permite ordenar resultados.
+- **LIMIT** restringe la cantidad de filas mostradas.
+- **Las recomendaciones** requieren definir criterios de búsqueda mediante consultas.
+
+
+
+
+
+
+
+
+---
+
+## Ejemplo de aplicación: red de transporte entre ciudades de México
+
+El siguiente ejemplo representa una red simulada de transporte entre 25 ciudades mexicanas. Cada ciudad corresponde a un nodo y las conexiones entre ellas representan rutas con información de distancia, tiempo y costo.
+
+### Creación de los nodos
+
+```sql
+UNWIND [
+  'Xalapa', 'Veracruz', 'Córdoba', 'Orizaba', 'Puebla',
+  'Ciudad de México', 'Toluca', 'Querétaro', 'Pachuca',
+  'Tlaxcala', 'Oaxaca', 'Tehuacán', 'Coatzacoalcos',
+  'Villahermosa', 'Tuxtla Gutiérrez', 'San Cristóbal de las Casas',
+  'Acapulco', 'Cuernavaca', 'Morelia', 'Guanajuato',
+  'León', 'San Luis Potosí', 'Guadalajara',
+  'Aguascalientes', 'Zacatecas'
+] AS nombre
+MERGE (ciudad:Ciudad {nombre: nombre})
+RETURN ciudad;
+```
+
+### Creación de las relaciones
+
+Cada relación `RUTA` contiene tres propiedades: `distancia_km`, `tiempo_min` y `costo`. Los valores son simulados con fines educativos.
+
+```sql
+UNWIND [
+  ['Xalapa', 'Veracruz', 105, 90, 170],
+  ['Xalapa', 'Puebla', 175, 150, 260],
+  ['Xalapa', 'Córdoba', 125, 125, 180],
+  ['Xalapa', 'Pachuca', 235, 210, 300],
+  ['Xalapa', 'Tlaxcala', 160, 155, 230],
+  ['Veracruz', 'Córdoba', 115, 105, 170],
+  ['Veracruz', 'Coatzacoalcos', 310, 250, 410],
+  ['Veracruz', 'Puebla', 285, 245, 380],
+  ['Córdoba', 'Orizaba', 25, 25, 50],
+  ['Córdoba', 'Tehuacán', 115, 115, 170],
+  ['Córdoba', 'Coatzacoalcos', 275, 240, 360],
+  ['Orizaba', 'Puebla', 150, 130, 210],
+  ['Orizaba', 'Tehuacán', 85, 80, 130],
+  ['Tehuacán', 'Puebla', 130, 115, 180],
+  ['Tehuacán', 'Oaxaca', 210, 190, 290],
+  ['Puebla', 'Ciudad de México', 135, 130, 220],
+  ['Puebla', 'Tlaxcala', 40, 40, 70],
+  ['Puebla', 'Cuernavaca', 155, 160, 220],
+  ['Puebla', 'Oaxaca', 345, 290, 450],
+  ['Puebla', 'Pachuca', 155, 150, 210],
+  ['Tlaxcala', 'Pachuca', 135, 125, 190],
+  ['Pachuca', 'Ciudad de México', 95, 95, 150],
+  ['Pachuca', 'Querétaro', 220, 205, 320],
+  ['Ciudad de México', 'Toluca', 65, 70, 110],
+  ['Ciudad de México', 'Cuernavaca', 90, 85, 130],
+  ['Ciudad de México', 'Querétaro', 220, 190, 330],
+  ['Ciudad de México', 'Acapulco', 380, 300, 520],
+  ['Ciudad de México', 'Morelia', 305, 260, 430],
+  ['Toluca', 'Morelia', 245, 215, 350],
+  ['Toluca', 'Querétaro', 190, 185, 270],
+  ['Cuernavaca', 'Acapulco', 285, 225, 390],
+  ['Cuernavaca', 'Oaxaca', 370, 330, 490],
+  ['Morelia', 'Guanajuato', 175, 160, 240],
+  ['Morelia', 'Guadalajara', 295, 260, 410],
+  ['Morelia', 'León', 195, 175, 270],
+  ['Querétaro', 'Guanajuato', 150, 135, 220],
+  ['Querétaro', 'León', 175, 150, 250],
+  ['Querétaro', 'San Luis Potosí', 205, 180, 290],
+  ['Guanajuato', 'León', 55, 55, 90],
+  ['Guanajuato', 'Guadalajara', 290, 260, 390],
+  ['León', 'Guadalajara', 225, 200, 320],
+  ['León', 'Aguascalientes', 125, 110, 190],
+  ['León', 'San Luis Potosí', 195, 175, 260],
+  ['San Luis Potosí', 'Aguascalientes', 165, 145, 240],
+  ['San Luis Potosí', 'Zacatecas', 195, 175, 260],
+  ['Aguascalientes', 'Zacatecas', 120, 105, 180],
+  ['Aguascalientes', 'Guadalajara', 225, 195, 310],
+  ['Zacatecas', 'Guadalajara', 335, 290, 450],
+  ['Oaxaca', 'Tuxtla Gutiérrez', 540, 450, 680],
+  ['Oaxaca', 'Coatzacoalcos', 330, 300, 440],
+  ['Coatzacoalcos', 'Villahermosa', 165, 145, 240],
+  ['Coatzacoalcos', 'Tuxtla Gutiérrez', 290, 250, 400],
+  ['Villahermosa', 'Tuxtla Gutiérrez', 250, 220, 350],
+  ['Tuxtla Gutiérrez', 'San Cristóbal de las Casas', 65, 75, 110],
+  ['Oaxaca', 'San Cristóbal de las Casas', 605, 520, 750],
+  ['Acapulco', 'Oaxaca', 530, 470, 700],
+  ['Acapulco', 'Morelia', 490, 430, 650],
+  ['Guadalajara', 'Zacatecas', 335, 290, 450],
+  ['Villahermosa', 'Coatzacoalcos', 165, 145, 240],
+  ['San Cristóbal de las Casas', 'Tuxtla Gutiérrez', 65, 75, 110]
+] AS datos
+
+MATCH (origen:Ciudad {nombre: datos[0]})
+MATCH (destino:Ciudad {nombre: datos[1]})
+
+MERGE (origen)-[ruta:RUTA]->(destino)
+SET ruta.distancia_km = datos[2],
+    ruta.tiempo_min = datos[3],
+    ruta.costo = datos[4]
+
+RETURN COUNT(ruta) AS RutasProcesadas;
+```
+
+### Verificación de nodos y relaciones
+
+```sql
+MATCH (c:Ciudad)
+RETURN COUNT(c) AS TotalCiudades;
+```
+
+**Resultado esperado:** 25 ciudades.
+
+```sql
+MATCH ()-[ruta:RUTA]->()
+RETURN COUNT(ruta) AS TotalRutas;
+```
+
+**Resultado esperado:** 60 relaciones.
+
+### Visualización del grafo en Neo4j
+
+```sql
+MATCH (origen:Ciudad)-[ruta:RUTA]->(destino:Ciudad)
+RETURN origen, ruta, destino;
+```
+
+### Visualización de la red de transporte
+
+```{mermaid}
+flowchart LR
+
+    XAL["Xalapa"]
+    VER["Veracruz"]
+    COR["Córdoba"]
+    ORI["Orizaba"]
+    PUE["Puebla"]
+    CDMX["Ciudad de México"]
+    TOL["Toluca"]
+    QRO["Querétaro"]
+    PAC["Pachuca"]
+    TLA["Tlaxcala"]
+    OAX["Oaxaca"]
+    TEH["Tehuacán"]
+    COA["Coatzacoalcos"]
+    VIL["Villahermosa"]
+    TUX["Tuxtla Gutiérrez"]
+    SAN["San Cristóbal de las Casas"]
+    ACA["Acapulco"]
+    CUE["Cuernavaca"]
+    MOR["Morelia"]
+    GTO["Guanajuato"]
+    LEO["León"]
+    SLP["San Luis Potosí"]
+    GDL["Guadalajara"]
+    AGS["Aguascalientes"]
+    ZAC["Zacatecas"]
+
+    XAL --> VER
+    XAL --> PUE
+    XAL --> COR
+    XAL --> PAC
+    XAL --> TLA
+
+    VER --> COR
+    VER --> COA
+    VER --> PUE
+
+    COR --> ORI
+    COR --> TEH
+    COR --> COA
+
+    ORI --> PUE
+    ORI --> TEH
+
+    TEH --> PUE
+    TEH --> OAX
+
+    PUE --> CDMX
+    PUE --> TLA
+    PUE --> CUE
+    PUE --> OAX
+    PUE --> PAC
+
+    TLA --> PAC
+
+    PAC --> CDMX
+    PAC --> QRO
+
+    CDMX --> TOL
+    CDMX --> CUE
+    CDMX --> QRO
+    CDMX --> ACA
+    CDMX --> MOR
+
+    TOL --> MOR
+    TOL --> QRO
+
+    CUE --> ACA
+    CUE --> OAX
+
+    MOR --> GTO
+    MOR --> GDL
+    MOR --> LEO
+
+    QRO --> GTO
+    QRO --> LEO
+    QRO --> SLP
+
+    GTO --> LEO
+    GTO --> GDL
+
+    LEO --> GDL
+    LEO --> AGS
+    LEO --> SLP
+
+    SLP --> AGS
+    SLP --> ZAC
+
+    AGS --> ZAC
+    AGS --> GDL
+
+    ZAC --> GDL
+    GDL --> ZAC
+
+    OAX --> TUX
+    OAX --> COA
+    OAX --> SAN
+
+    COA --> VIL
+    COA --> TUX
+
+    VIL --> TUX
+    VIL --> COA
+
+    TUX --> SAN
+    SAN --> TUX
+
+    ACA --> OAX
+    ACA --> MOR
+
+    classDef inicio fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef centro fill:#dcfce7,stroke:#16a34a,color:#166534
+
+    class XAL inicio
+    class CDMX,PUE,QRO,GDL centro
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -108,6 +108,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Buscar"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -196,6 +199,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#completar-nuestra-red-social" id="toc-completar-nuestra-red-social" class="nav-link" data-scroll-target="#completar-nuestra-red-social"><span class="header-section-number">7</span> Completar nuestra red social</a>
   <ul class="collapse">
   <li><a href="#visualizar-el-grafo-completo" id="toc-visualizar-el-grafo-completo" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo"><span class="header-section-number">7.1</span> Visualizar el grafo completo</a></li>
+  </ul></li>
+  <li><a href="#eliminar-nodos-y-relaciones-específicas" id="toc-eliminar-nodos-y-relaciones-específicas" class="nav-link" data-scroll-target="#eliminar-nodos-y-relaciones-específicas"><span class="header-section-number">8</span> Eliminar nodos y relaciones específicas</a>
+  <ul class="collapse">
+  <li><a href="#eliminar-una-relación-específica" id="toc-eliminar-una-relación-específica" class="nav-link" data-scroll-target="#eliminar-una-relación-específica"><span class="header-section-number">8.1</span> Eliminar una relación específica</a></li>
+  <li><a href="#eliminar-la-relación" id="toc-eliminar-la-relación" class="nav-link" data-scroll-target="#eliminar-la-relación"><span class="header-section-number">8.2</span> Eliminar la relación</a></li>
+  <li><a href="#comprobar-la-eliminación-de-la-relación" id="toc-comprobar-la-eliminación-de-la-relación" class="nav-link" data-scroll-target="#comprobar-la-eliminación-de-la-relación"><span class="header-section-number">8.3</span> Comprobar la eliminación de la relación</a></li>
+  <li><a href="#crear-nuevamente-la-relación-eliminada" id="toc-crear-nuevamente-la-relación-eliminada" class="nav-link" data-scroll-target="#crear-nuevamente-la-relación-eliminada"><span class="header-section-number">8.4</span> Crear nuevamente la relación eliminada</a></li>
+  </ul></li>
+  <li><a href="#eliminar-un-nodo-específico" id="toc-eliminar-un-nodo-específico" class="nav-link" data-scroll-target="#eliminar-un-nodo-específico"><span class="header-section-number">9</span> Eliminar un nodo específico</a>
+  <ul class="collapse">
+  <li><a href="#eliminar-el-nodo-y-sus-relaciones" id="toc-eliminar-el-nodo-y-sus-relaciones" class="nav-link" data-scroll-target="#eliminar-el-nodo-y-sus-relaciones"><span class="header-section-number">9.1</span> Eliminar el nodo y sus relaciones</a></li>
+  <li><a href="#comprobar-que-sofía-se-eliminó" id="toc-comprobar-que-sofía-se-eliminó" class="nav-link" data-scroll-target="#comprobar-que-sofía-se-eliminó"><span class="header-section-number">9.2</span> Comprobar que Sofía se eliminó</a></li>
+  <li><a href="#crear-nuevamente-el-nodo-de-sofía" id="toc-crear-nuevamente-el-nodo-de-sofía" class="nav-link" data-scroll-target="#crear-nuevamente-el-nodo-de-sofía"><span class="header-section-number">9.3</span> Crear nuevamente el nodo de Sofía</a></li>
+  <li><a href="#recuperar-la-relación-sofía-maría" id="toc-recuperar-la-relación-sofía-maría" class="nav-link" data-scroll-target="#recuperar-la-relación-sofía-maría"><span class="header-section-number">9.4</span> Recuperar la relación Sofía → María</a></li>
+  </ul></li>
+  <li><a href="#verificar-que-recuperamos-toda-la-red" id="toc-verificar-que-recuperamos-toda-la-red" class="nav-link" data-scroll-target="#verificar-que-recuperamos-toda-la-red"><span class="header-section-number">10</span> Verificar que recuperamos toda la red</a>
+  <ul class="collapse">
+  <li><a href="#resumen-de-los-comandos-de-eliminación" id="toc-resumen-de-los-comandos-de-eliminación" class="nav-link" data-scroll-target="#resumen-de-los-comandos-de-eliminación"><span class="header-section-number">10.1</span> Resumen de los comandos de eliminación</a></li>
+  </ul></li>
+  <li><a href="#a-quién-conoce-ana" id="toc-a-quién-conoce-ana" class="nav-link" data-scroll-target="#a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</a>
+  <ul class="collapse">
+  <li><a href="#qué-representan-las-variables" id="toc-qué-representan-las-variables" class="nav-link" data-scroll-target="#qué-representan-las-variables"><span class="header-section-number">11.1</span> ¿Qué representan las variables?</a></li>
+  <li><a href="#visualizar-las-conexiones-directas-de-ana" id="toc-visualizar-las-conexiones-directas-de-ana" class="nav-link" data-scroll-target="#visualizar-las-conexiones-directas-de-ana"><span class="header-section-number">11.2</span> Visualizar las conexiones directas de Ana</a></li>
+  </ul></li>
+  <li><a href="#quiénes-conocen-a-luis" id="toc-quiénes-conocen-a-luis" class="nav-link" data-scroll-target="#quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</a>
+  <ul class="collapse">
+  <li><a href="#visualizar-las-relaciones-entrantes-a-luis" id="toc-visualizar-las-relaciones-entrantes-a-luis" class="nav-link" data-scroll-target="#visualizar-las-relaciones-entrantes-a-luis"><span class="header-section-number">12.1</span> Visualizar las relaciones entrantes a Luis</a></li>
+  </ul></li>
+  <li><a href="#buscar-relaciones-sin-exigir-dirección" id="toc-buscar-relaciones-sin-exigir-dirección" class="nav-link" data-scroll-target="#buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</a></li>
+  <li><a href="#relaciones-directas-e-indirectas" id="toc-relaciones-directas-e-indirectas" class="nav-link" data-scroll-target="#relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</a></li>
+  <li><a href="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana" id="toc-buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="nav-link" data-scroll-target="#buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">15</span> Buscar todas las conexiones a dos pasos desde Ana</a>
+  <ul class="collapse">
+  <li><a href="#qué-representa-cada-variable" id="toc-qué-representa-cada-variable" class="nav-link" data-scroll-target="#qué-representa-cada-variable"><span class="header-section-number">15.1</span> ¿Qué representa cada variable?</a></li>
+  <li><a href="#por-qué-luis-aparece-dos-veces" id="toc-por-qué-luis-aparece-dos-veces" class="nav-link" data-scroll-target="#por-qué-luis-aparece-dos-veces"><span class="header-section-number">15.2</span> ¿Por qué Luis aparece dos veces?</a></li>
+  </ul></li>
+  <li><a href="#obtener-solamente-los-destinos-indirectos" id="toc-obtener-solamente-los-destinos-indirectos" class="nav-link" data-scroll-target="#obtener-solamente-los-destinos-indirectos"><span class="header-section-number">16</span> Obtener solamente los destinos indirectos</a>
+  <ul class="collapse">
+  <li><a href="#qué-hace-distinct" id="toc-qué-hace-distinct" class="nav-link" data-scroll-target="#qué-hace-distinct"><span class="header-section-number">16.1</span> ¿Qué hace DISTINCT?</a></li>
+  </ul></li>
+  <li><a href="#visualizar-las-conexiones-indirectas" id="toc-visualizar-las-conexiones-indirectas" class="nav-link" data-scroll-target="#visualizar-las-conexiones-indirectas"><span class="header-section-number">17</span> Visualizar las conexiones indirectas</a></li>
+  <li><a href="#buscar-conexiones-entre-ana-y-luis" id="toc-buscar-conexiones-entre-ana-y-luis" class="nav-link" data-scroll-target="#buscar-conexiones-entre-ana-y-luis"><span class="header-section-number">18</span> Buscar conexiones entre Ana y Luis</a></li>
+  <li><a href="#recuperar-los-caminos-completos-entre-ana-y-luis" id="toc-recuperar-los-caminos-completos-entre-ana-y-luis" class="nav-link" data-scroll-target="#recuperar-los-caminos-completos-entre-ana-y-luis"><span class="header-section-number">19</span> Recuperar los caminos completos entre Ana y Luis</a></li>
+  <li><a href="#calcular-la-longitud-de-los-caminos" id="toc-calcular-la-longitud-de-los-caminos" class="nav-link" data-scroll-target="#calcular-la-longitud-de-los-caminos"><span class="header-section-number">20</span> Calcular la longitud de los caminos</a></li>
+  <li><a href="#introducción-a-los-sistemas-de-recomendaciones" id="toc-introducción-a-los-sistemas-de-recomendaciones" class="nav-link" data-scroll-target="#introducción-a-los-sistemas-de-recomendaciones"><span class="header-section-number">21</span> Introducción a los sistemas de recomendaciones</a></li>
+  <li><a href="#obtener-recomendaciones-mediante-contactos-en-común" id="toc-obtener-recomendaciones-mediante-contactos-en-común" class="nav-link" data-scroll-target="#obtener-recomendaciones-mediante-contactos-en-común"><span class="header-section-number">22</span> Obtener recomendaciones mediante contactos en común</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-se-recomienda-a-luis" id="toc-por-qué-se-recomienda-a-luis" class="nav-link" data-scroll-target="#por-qué-se-recomienda-a-luis"><span class="header-section-number">22.1</span> ¿Por qué se recomienda a Luis?</a></li>
+  </ul></li>
+  <li><a href="#visualizar-los-caminos-de-recomendación" id="toc-visualizar-los-caminos-de-recomendación" class="nav-link" data-scroll-target="#visualizar-los-caminos-de-recomendación"><span class="header-section-number">23</span> Visualizar los caminos de recomendación</a></li>
+  <li><a href="#consultar-todos-los-nodos" id="toc-consultar-todos-los-nodos" class="nav-link" data-scroll-target="#consultar-todos-los-nodos"><span class="header-section-number">24</span> Consultar todos los nodos</a></li>
+  <li><a href="#consultar-todas-las-relaciones" id="toc-consultar-todas-las-relaciones" class="nav-link" data-scroll-target="#consultar-todas-las-relaciones"><span class="header-section-number">25</span> Consultar todas las relaciones</a></li>
+  <li><a href="#recuperar-únicamente-los-nombres" id="toc-recuperar-únicamente-los-nombres" class="nav-link" data-scroll-target="#recuperar-únicamente-los-nombres"><span class="header-section-number">26</span> Recuperar únicamente los nombres</a></li>
+  <li><a href="#ordenar-resultados-con-order-by" id="toc-ordenar-resultados-con-order-by" class="nav-link" data-scroll-target="#ordenar-resultados-con-order-by"><span class="header-section-number">27</span> Ordenar resultados con ORDER BY</a></li>
+  <li><a href="#limitar-resultados-con-limit" id="toc-limitar-resultados-con-limit" class="nav-link" data-scroll-target="#limitar-resultados-con-limit"><span class="header-section-number">28</span> Limitar resultados con LIMIT</a></li>
+  <li><a href="#contar-las-personas-almacenadas" id="toc-contar-las-personas-almacenadas" class="nav-link" data-scroll-target="#contar-las-personas-almacenadas"><span class="header-section-number">29</span> Contar las personas almacenadas</a></li>
+  <li><a href="#contar-las-relaciones-conoce" id="toc-contar-las-relaciones-conoce" class="nav-link" data-scroll-target="#contar-las-relaciones-conoce"><span class="header-section-number">30</span> Contar las relaciones CONOCE</a></li>
+  <li><a href="#contar-los-contactos-de-cada-persona" id="toc-contar-los-contactos-de-cada-persona" class="nav-link" data-scroll-target="#contar-los-contactos-de-cada-persona"><span class="header-section-number">31</span> Contar los contactos de cada persona</a></li>
+  <li><a href="#ideas-clave" id="toc-ideas-clave" class="nav-link" data-scroll-target="#ideas-clave"><span class="header-section-number">32</span> Ideas clave</a></li>
+  <li><a href="#ejemplo-de-aplicación-red-de-transporte-entre-ciudades-de-méxico" id="toc-ejemplo-de-aplicación-red-de-transporte-entre-ciudades-de-méxico" class="nav-link" data-scroll-target="#ejemplo-de-aplicación-red-de-transporte-entre-ciudades-de-méxico"><span class="header-section-number">33</span> Ejemplo de aplicación: red de transporte entre ciudades de México</a>
+  <ul class="collapse">
+  <li><a href="#creación-de-los-nodos" id="toc-creación-de-los-nodos" class="nav-link" data-scroll-target="#creación-de-los-nodos"><span class="header-section-number">33.1</span> Creación de los nodos</a></li>
+  <li><a href="#creación-de-las-relaciones" id="toc-creación-de-las-relaciones" class="nav-link" data-scroll-target="#creación-de-las-relaciones"><span class="header-section-number">33.2</span> Creación de las relaciones</a></li>
+  <li><a href="#verificación-de-nodos-y-relaciones" id="toc-verificación-de-nodos-y-relaciones" class="nav-link" data-scroll-target="#verificación-de-nodos-y-relaciones"><span class="header-section-number">33.3</span> Verificación de nodos y relaciones</a></li>
+  <li><a href="#visualización-del-grafo-en-neo4j" id="toc-visualización-del-grafo-en-neo4j" class="nav-link" data-scroll-target="#visualización-del-grafo-en-neo4j"><span class="header-section-number">33.4</span> Visualización del grafo en Neo4j</a></li>
+  <li><a href="#visualización-de-la-red-de-transporte" id="toc-visualización-de-la-red-de-transporte" class="nav-link" data-scroll-target="#visualización-de-la-red-de-transporte"><span class="header-section-number">33.5</span> Visualización de la red de transporte</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -587,6 +655,1221 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Línea 2:</strong> devuelve los nodos y relaciones.</li>
 </ul>
 <p><strong>Resultado esperado:</strong> la red completa de cinco personas y cinco relaciones.</p>
+<!-- INICIO DE LA PARTE 2: ELIMINACIÓN DE NODOS Y RELACIONES -->
+<hr>
+</section>
+</section>
+<section id="eliminar-nodos-y-relaciones-específicas" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="eliminar-nodos-y-relaciones-específicas"><span class="header-section-number">8</span> Eliminar nodos y relaciones específicas</h2>
+<p>Hasta ahora hemos aprendido a crear nodos y relaciones en Neo4j.</p>
+<p>Sin embargo, también podemos eliminar elementos específicos sin borrar toda la base de datos.</p>
+<p>Existen dos operaciones importantes:</p>
+<ul>
+<li><strong>Eliminar una relación:</strong> desaparece la conexión, pero los nodos permanecen.</li>
+<li><strong>Eliminar un nodo:</strong> desaparece el nodo seleccionado. Si tiene relaciones, podemos utilizar <code>DETACH DELETE</code> para eliminarlas también.</li>
+</ul>
+<section id="eliminar-una-relación-específica" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="eliminar-una-relación-específica"><span class="header-section-number">8.1</span> Eliminar una relación específica</h3>
+<p>Supongamos que queremos eliminar únicamente la relación entre Ana y Carlos.</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos</p>
+</blockquote>
+<p>Primero verificamos que la relación exista.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca el nodo llamado Ana.</li>
+<li><strong>Línea 2:</strong> busca una relación dirigida de tipo <code>CONOCE</code> y la representa mediante <code>relacion</code>.</li>
+<li><strong>Línea 3:</strong> establece que el destino debe ser Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve los elementos encontrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> la relación Ana → Carlos.</p>
+</section>
+<section id="eliminar-la-relación" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="eliminar-la-relación"><span class="header-section-number">8.2</span> Eliminar la relación</h3>
+<p>Ahora eliminaremos esa conexión.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> relacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> localiza a Ana como origen.</li>
+<li><strong>Línea 2:</strong> busca la relación dirigida <code>CONOCE</code>.</li>
+<li><strong>Línea 3:</strong> exige que Carlos sea el destino.</li>
+<li><strong>Línea 4:</strong> <code>DELETE relacion</code> elimina la relación encontrada.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> desaparece la conexión Ana → Carlos, pero ambos nodos permanecen almacenados.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Qué ocurre con los nodos?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al utilizar <code>DELETE relacion</code>, solamente eliminamos las conexiones seleccionadas.</p>
+<p>Los nodos de origen y destino siguen existiendo.</p>
+<p>Si hubiera varias relaciones que cumplieran el patrón, se eliminarían todas esas coincidencias.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-la-eliminación-de-la-relación" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="comprobar-la-eliminación-de-la-relación"><span class="header-section-number">8.3</span> Comprobar la eliminación de la relación</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Líneas 1 a 3:</strong> buscan nuevamente la relación Ana → Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve las coincidencias, si existen.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> ninguna relación encontrada.</p>
+</section>
+<section id="crear-nuevamente-la-relación-eliminada" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="crear-nuevamente-la-relación-eliminada"><span class="header-section-number">8.4</span> Crear nuevamente la relación eliminada</h3>
+<p>Para continuar con nuestra práctica, recuperaremos la conexión entre Ana y Carlos.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Persona</span> {nombre: <span class="st">'Carlos'</span>})</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca a Ana.</li>
+<li><strong>Línea 2:</strong> busca a Carlos.</li>
+<li><strong>Línea 3:</strong> crea nuevamente la relación Ana → Carlos.</li>
+<li><strong>Línea 4:</strong> devuelve los nodos involucrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> volvemos a tener cinco nodos y cinco relaciones.</p>
+<hr>
+</section>
+</section>
+<section id="eliminar-un-nodo-específico" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="eliminar-un-nodo-específico"><span class="header-section-number">9</span> Eliminar un nodo específico</h2>
+<p>Ahora supongamos que queremos eliminar a Sofía.</p>
+<p>Actualmente existe la conexión:</p>
+<blockquote class="blockquote">
+<p>Sofía → María</p>
+</blockquote>
+<p>Primero consultaremos el nodo de Sofía.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca un nodo con etiqueta <code>Persona</code> y nombre Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo encontrado.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> un nodo llamado Sofía.</p>
+<section id="eliminar-el-nodo-y-sus-relaciones" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="eliminar-el-nodo-y-sus-relaciones"><span class="header-section-number">9.1</span> Eliminar el nodo y sus relaciones</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>DETACH <span class="kw">DELETE</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca el nodo de Sofía.</li>
+<li><strong>Línea 2:</strong> elimina ese nodo y todas sus relaciones conectadas.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> Sofía desaparece del grafo junto con su relación hacia María.</p>
+<p>Nuestra red tendrá ahora:</p>
+<ul>
+<li>Cuatro nodos.</li>
+<li>Cuatro relaciones.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Diferencia entre DELETE y DETACH DELETE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>DELETE persona</code> permite eliminar un nodo solamente si no tiene relaciones conectadas.</p>
+<p>Si el nodo tiene relaciones, debemos eliminarlas primero o utilizar <code>DETACH DELETE persona</code>.</p>
+<p><code>DETACH DELETE</code> elimina el nodo junto con sus relaciones.</p>
+<p>Si hubiera varios nodos con el nombre Sofía, esta consulta eliminaría todos los que cumplieran la condición.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-que-sofía-se-eliminó" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="comprobar-que-sofía-se-eliminó"><span class="header-section-number">9.2</span> Comprobar que Sofía se eliminó</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca nuevamente a Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo si todavía existe.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> ninguna coincidencia.</p>
+</section>
+<section id="crear-nuevamente-el-nodo-de-sofía" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="crear-nuevamente-el-nodo-de-sofía"><span class="header-section-number">9.3</span> Crear nuevamente el nodo de Sofía</h3>
+<p>Para recuperar nuestra red original, primero crearemos nuevamente el nodo.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (persona<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> crea nuevamente el nodo Sofía.</li>
+<li><strong>Línea 2:</strong> devuelve el nodo creado.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> cinco nodos y cuatro relaciones.</p>
+</section>
+<section id="recuperar-la-relación-sofía-maría" class="level3" data-number="9.4">
+<h3 data-number="9.4" class="anchored" data-anchor-id="recuperar-la-relación-sofía-maría"><span class="header-section-number">9.4</span> Recuperar la relación Sofía → María</h3>
+<p>Ahora crearemos la conexión que tenía Sofía antes de eliminarla.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Sofía'</span>})</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Persona</span> {nombre: <span class="st">'María'</span>})</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca a Sofía.</li>
+<li><strong>Línea 2:</strong> busca a María.</li>
+<li><strong>Línea 3:</strong> crea la relación dirigida desde Sofía hacia María.</li>
+<li><strong>Línea 4:</strong> devuelve los nodos involucrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> nuevamente tendremos cinco nodos y cinco relaciones.</p>
+<hr>
+</section>
+</section>
+<section id="verificar-que-recuperamos-toda-la-red" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="verificar-que-recuperamos-toda-la-red"><span class="header-section-number">10</span> Verificar que recuperamos toda la red</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todas las relaciones de tipo <code>CONOCE</code> entre personas.</li>
+<li><strong>Línea 2:</strong> devuelve los nodos y sus conexiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> las cinco relaciones originales.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+</tr>
+<tr class="odd">
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>María</td>
+<td>Luis</td>
+</tr>
+<tr class="odd">
+<td>Sofía</td>
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<section id="resumen-de-los-comandos-de-eliminación" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="resumen-de-los-comandos-de-eliminación"><span class="header-section-number">10.1</span> Resumen de los comandos de eliminación</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Comando</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DELETE relacion</code></td>
+<td>Elimina una relación seleccionada.</td>
+</tr>
+<tr class="even">
+<td><code>DELETE persona</code></td>
+<td>Elimina un nodo sin relaciones conectadas.</td>
+</tr>
+<tr class="odd">
+<td><code>DETACH DELETE persona</code></td>
+<td>Elimina el nodo y sus relaciones.</td>
+</tr>
+<tr class="even">
+<td><code>MATCH (n) DETACH DELETE n</code></td>
+<td>Elimina todos los nodos y relaciones de la base seleccionada.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de eliminar elementos, podemos ejecutar una consulta con <code>MATCH</code> y <code>RETURN</code> para comprobar qué nodos o relaciones serán afectados.</p>
+<p>Después de utilizar <code>DELETE</code> o <code>DETACH DELETE</code>, podemos repetir la consulta para verificar que la eliminación se realizó correctamente.</p>
+<p>Los ejemplos de esta sección recuperan la red original para que podamos continuar con las consultas siguientes.</p>
+</div>
+</div>
+<!-- INICIO DE LA PARTE 3: CONSULTAS Y RECORRIDOS DEL GRAFO -->
+<hr>
+</section>
+</section>
+<section id="a-quién-conoce-ana" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="a-quién-conoce-ana"><span class="header-section-number">11</span> ¿A quién conoce Ana?</h2>
+<p>Ahora que tenemos la red completa, comenzaremos a consultar las relaciones directas.</p>
+<p>Queremos responder:</p>
+<blockquote class="blockquote">
+<p>¿Qué personas conoce Ana?</p>
+</blockquote>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones dirigidas <code>CONOCE</code> entre dos personas.</li>
+<li><strong>Línea 2:</strong> establece que el nodo de origen debe tener el nombre Ana.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre de cada destino.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<p>El orden de las filas no está garantizado si no utilizamos <code>ORDER BY</code>.</p>
+<section id="qué-representan-las-variables" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="qué-representan-las-variables"><span class="header-section-number">11.1</span> ¿Qué representan las variables?</h3>
+<p>En esta consulta, <code>origen</code> y <code>destino</code> son variables temporales.</p>
+<p>Neo4j encuentra dos coincidencias:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<p>La variable <code>destino</code> representa a Carlos en la primera coincidencia y a María en la segunda.</p>
+<p>Las variables nos ayudan a identificar los nodos durante la ejecución de cada consulta.</p>
+</section>
+<section id="visualizar-las-conexiones-directas-de-ana" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="visualizar-las-conexiones-directas-de-ana"><span class="header-section-number">11.2</span> Visualizar las conexiones directas de Ana</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca las relaciones <code>CONOCE</code> y las asigna temporalmente a <code>relacion</code>.</li>
+<li><strong>Línea 2:</strong> selecciona las relaciones que salen de Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los nodos y sus conexiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar Ana → Carlos y Ana → María.</p>
+<hr>
+</section>
+</section>
+<section id="quiénes-conocen-a-luis" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="quiénes-conocen-a-luis"><span class="header-section-number">12</span> ¿Quiénes conocen a Luis?</h2>
+<p>Ahora queremos encontrar las relaciones que llegan a Luis.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino.nombre <span class="op">=</span> <span class="st">'Luis'</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones dirigidas entre personas.</li>
+<li><strong>Línea 2:</strong> establece que el destino debe ser Luis.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre de cada origen.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Carlos</td>
+</tr>
+<tr class="even">
+<td>María</td>
+</tr>
+</tbody>
+</table>
+<section id="visualizar-las-relaciones-entrantes-a-luis" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="visualizar-las-relaciones-entrantes-a-luis"><span class="header-section-number">12.1</span> Visualizar las relaciones entrantes a Luis</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino.nombre <span class="op">=</span> <span class="st">'Luis'</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca conexiones <code>CONOCE</code>.</li>
+<li><strong>Línea 2:</strong> selecciona las conexiones que llegan a Luis.</li>
+<li><strong>Línea 3:</strong> devuelve los elementos completos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar Carlos → Luis y María → Luis.</p>
+<hr>
+</section>
+</section>
+<section id="buscar-relaciones-sin-exigir-dirección" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="buscar-relaciones-sin-exigir-dirección"><span class="header-section-number">13</span> Buscar relaciones sin exigir dirección</h2>
+<p>Las relaciones almacenadas en Neo4j tienen dirección.</p>
+<p>Sin embargo, podemos buscar conexiones sin importar el sentido de la flecha.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>MATCH (maria<span class="ch">:Persona</span> {nombre: <span class="st">'María'</span>})<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-</span>(persona<span class="ch">:Persona</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="kw">DISTINCT</span> persona.nombre <span class="kw">AS</span> Persona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca personas conectadas con María mediante <code>CONOCE</code>, sin exigir una dirección.</li>
+<li><strong>Línea 2:</strong> devuelve los nombres encontrados sin repeticiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+</tr>
+<tr class="even">
+<td>Luis</td>
+</tr>
+<tr class="odd">
+<td>Sofía</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Dirección de las relaciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una consulta sin flecha no modifica la dirección de las relaciones almacenadas.</p>
+<p>Solamente permite encontrar coincidencias en cualquiera de los dos sentidos.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="relaciones-directas-e-indirectas" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="relaciones-directas-e-indirectas"><span class="header-section-number">14</span> Relaciones directas e indirectas</h2>
+<p>Una relación <strong>directa</strong> conecta dos nodos mediante una sola relación.</p>
+<p>Por ejemplo:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos</p>
+</blockquote>
+<p>Una conexión <strong>indirecta</strong> utiliza dos o más relaciones.</p>
+<p>Por ejemplo:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos → Luis</p>
+<p>Ana → María → Luis</p>
+</blockquote>
+<p>Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Neo4j encuentra automáticamente las conexiones?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neo4j puede recorrer las relaciones almacenadas para encontrar caminos entre los nodos.</p>
+<p>Nosotros debemos indicar el patrón que queremos buscar mediante Cypher.</p>
+<p>Neo4j no crea automáticamente una relación nueva entre Ana y Luis.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="buscar-todas-las-conexiones-a-dos-pasos-desde-ana"><span class="header-section-number">15</span> Buscar todas las conexiones a dos pasos desde Ana</h2>
+<p>Queremos responder:</p>
+<blockquote class="blockquote">
+<p>¿A qué personas puede llegar Ana después de recorrer dos relaciones CONOCE?</p>
+</blockquote>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Origen,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>       intermedio.nombre <span class="kw">AS</span> Intermediario,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>       destino.nombre <span class="kw">AS</span> Destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca un patrón formado por tres personas y dos relaciones consecutivas.</li>
+<li><strong>Línea 2:</strong> establece que el origen debe ser Ana.</li>
+<li><strong>Línea 3:</strong> devuelve el nombre del origen.</li>
+<li><strong>Línea 4:</strong> devuelve el nombre del intermediario.</li>
+<li><strong>Línea 5:</strong> devuelve el nombre del destino.</li>
+</ul>
+<section id="qué-representa-cada-variable" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="qué-representa-cada-variable"><span class="header-section-number">15.1</span> ¿Qué representa cada variable?</h3>
+<ul>
+<li><code>origen</code>: persona donde comienza el recorrido.</li>
+<li><code>intermedio</code>: persona que conecta el origen con el destino.</li>
+<li><code>destino</code>: persona donde termina el recorrido.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Intermediario</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="por-qué-luis-aparece-dos-veces" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="por-qué-luis-aparece-dos-veces"><span class="header-section-number">15.2</span> ¿Por qué Luis aparece dos veces?</h3>
+<p>Porque Neo4j encontró dos caminos diferentes:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos → Luis</p>
+<p>Ana → María → Luis</p>
+</blockquote>
+<p>Esto no significa que existan dos nodos llamados Luis.</p>
+<p>Significa que podemos llegar al mismo nodo mediante dos caminos diferentes.</p>
+<hr>
+</section>
+</section>
+<section id="obtener-solamente-los-destinos-indirectos" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="obtener-solamente-los-destinos-indirectos"><span class="header-section-number">16</span> Obtener solamente los destinos indirectos</h2>
+<p>Si únicamente queremos obtener los nombres de los destinos, podemos utilizar <code>DISTINCT</code>.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="kw">DISTINCT</span> destino.nombre <span class="kw">AS</span> ConexionIndirecta;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca caminos de exactamente dos relaciones. <code>(:Persona)</code> representa una persona intermedia sin asignarle una variable.</li>
+<li><strong>Línea 2:</strong> selecciona los caminos que comienzan en Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los nombres de destino sin repeticiones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ConexionIndirecta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<section id="qué-hace-distinct" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="qué-hace-distinct"><span class="header-section-number">16.1</span> ¿Qué hace DISTINCT?</h3>
+<p><code>DISTINCT</code> elimina valores repetidos de los resultados.</p>
+<p>Aunque existen dos caminos hacia Luis, su nombre solamente aparecerá una vez.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Dos pasos no siempre significa una recomendación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una consulta de dos pasos identifica destinos alcanzables mediante dos relaciones.</p>
+<p>En una red más grande, algunos destinos podrían ser personas que Ana ya conoce.</p>
+<p>Para recomendar contactos nuevos necesitaremos agregar otras condiciones.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="visualizar-las-conexiones-indirectas" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="visualizar-las-conexiones-indirectas"><span class="header-section-number">17</span> Visualizar las conexiones indirectas</h2>
+<p>Podemos recuperar los caminos completos.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> origen.nombre <span class="op">=</span> <span class="st">'Ana'</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca caminos de dos relaciones y asigna cada camino encontrado a la variable <code>camino</code>.</li>
+<li><strong>Línea 2:</strong> establece que los caminos comiencen en Ana.</li>
+<li><strong>Línea 3:</strong> devuelve los caminos completos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> visualizar los caminos Ana → Carlos → Luis y Ana → María → Luis.</p>
+<hr>
+</section>
+<section id="buscar-conexiones-entre-ana-y-luis" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="buscar-conexiones-entre-ana-y-luis"><span class="header-section-number">18</span> Buscar conexiones entre Ana y Luis</h2>
+<p>Ahora queremos encontrar específicamente los caminos indirectos entre Ana y Luis.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span> {nombre: <span class="st">'Luis'</span>})</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Origen,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>       intermedio.nombre <span class="kw">AS</span> Intermediario,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>       destino.nombre <span class="kw">AS</span> Destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> establece que el origen debe ser Ana.</li>
+<li><strong>Línea 2:</strong> busca una relación hacia una persona intermedia.</li>
+<li><strong>Línea 3:</strong> busca una segunda relación que llegue a Luis.</li>
+<li><strong>Línea 4:</strong> devuelve el origen.</li>
+<li><strong>Línea 5:</strong> devuelve el intermediario.</li>
+<li><strong>Línea 6:</strong> devuelve el destino.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Origen</th>
+<th>Intermediario</th>
+<th>Destino</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td>Carlos</td>
+<td>Luis</td>
+</tr>
+<tr class="even">
+<td>Ana</td>
+<td>María</td>
+<td>Luis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="recuperar-los-caminos-completos-entre-ana-y-luis" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="recuperar-los-caminos-completos-entre-ana-y-luis"><span class="header-section-number">19</span> Recuperar los caminos completos entre Ana y Luis</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>      (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span> {nombre: <span class="st">'Luis'</span>})</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> asigna a <code>camino</code> cada recorrido encontrado.</li>
+<li><strong>Línea 2:</strong> establece el origen.</li>
+<li><strong>Línea 3:</strong> busca el intermediario.</li>
+<li><strong>Línea 4:</strong> establece el destino.</li>
+<li><strong>Línea 5:</strong> devuelve el camino completo.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos caminos en la vista Graph.</p>
+<hr>
+</section>
+<section id="calcular-la-longitud-de-los-caminos" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="calcular-la-longitud-de-los-caminos"><span class="header-section-number">20</span> Calcular la longitud de los caminos</h2>
+<p>La longitud de un camino corresponde al número de relaciones que contiene.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span> {nombre: <span class="st">'Luis'</span>})</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>       <span class="fu">length</span>(camino) <span class="kw">AS</span> Longitud;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> identifica cada camino completo.</li>
+<li><strong>Línea 2:</strong> establece el origen.</li>
+<li><strong>Línea 3:</strong> busca el intermediario.</li>
+<li><strong>Línea 4:</strong> establece el destino.</li>
+<li><strong>Línea 5:</strong> devuelve cada camino.</li>
+<li><strong>Línea 6:</strong> calcula la longitud mediante <code>length()</code>.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos caminos con longitud 2.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La longitud de un camino cuenta las relaciones, no los nodos.</p>
+<p>Por ejemplo, en el camino:</p>
+<p><strong>Ana → Carlos → Luis</strong></p>
+<p>tenemos tres nodos y dos relaciones.</p>
+<p>Por lo tanto, su longitud es 2.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="introducción-a-los-sistemas-de-recomendaciones" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="introducción-a-los-sistemas-de-recomendaciones"><span class="header-section-number">21</span> Introducción a los sistemas de recomendaciones</h2>
+<p>Imaginemos que queremos recomendar nuevas personas a un usuario de nuestra red social.</p>
+<p>Podemos establecer la siguiente regla:</p>
+<blockquote class="blockquote">
+<p>Recomendar personas que conocen nuestros contactos, pero que nosotros todavía no conocemos directamente.</p>
+</blockquote>
+<p>En nuestro ejemplo:</p>
+<blockquote class="blockquote">
+<p>Ana → Carlos → Luis</p>
+<p>Ana → María → Luis</p>
+</blockquote>
+<p>Ana conoce directamente a Carlos y María.</p>
+<p>Ambos conocen a Luis.</p>
+<p>Por lo tanto, Luis podría ser una recomendación para Ana.</p>
+<hr>
+</section>
+<section id="obtener-recomendaciones-mediante-contactos-en-común" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="obtener-recomendaciones-mediante-contactos-en-común"><span class="header-section-number">22</span> Obtener recomendaciones mediante contactos en común</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino <span class="op">&lt;&gt;</span> origen</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> {</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>      MATCH (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Recomendacion,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> intermedio) <span class="kw">AS</span> ContactosEnComun;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> establece a Ana como origen.</li>
+<li><strong>Línea 2:</strong> busca los contactos directos de Ana.</li>
+<li><strong>Línea 3:</strong> busca personas conocidas por esos contactos.</li>
+<li><strong>Línea 4:</strong> evita recomendar a Ana consigo misma. El operador <code>&lt;&gt;</code> significa diferente de.</li>
+<li><strong>Línea 5:</strong> agrega una condición mediante <code>NOT EXISTS</code>.</li>
+<li><strong>Línea 6:</strong> comprueba que no exista una relación directa desde Ana hacia la persona recomendada.</li>
+<li><strong>Línea 7:</strong> cierra el bloque de la condición.</li>
+<li><strong>Línea 8:</strong> devuelve el nombre de la persona recomendada.</li>
+<li><strong>Línea 9:</strong> cuenta los contactos intermediarios diferentes mediante <code>COUNT(DISTINCT intermedio)</code>.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Recomendacion</th>
+<th style="text-align: right;">ContactosEnComun</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Luis</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<section id="por-qué-se-recomienda-a-luis" class="level3" data-number="22.1">
+<h3 data-number="22.1" class="anchored" data-anchor-id="por-qué-se-recomienda-a-luis"><span class="header-section-number">22.1</span> ¿Por qué se recomienda a Luis?</h3>
+<p>Porque existen dos contactos que permiten llegar hasta él: Carlos y María.</p>
+<p>La consulta no crea una relación entre Ana y Luis. Solamente identifica una recomendación candidata.</p>
+<hr>
+</section>
+</section>
+<section id="visualizar-los-caminos-de-recomendación" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="visualizar-los-caminos-de-recomendación"><span class="header-section-number">23</span> Visualizar los caminos de recomendación</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>      (origen<span class="ch">:Persona</span> {nombre: <span class="st">'Ana'</span>})</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Persona</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> destino <span class="op">&lt;&gt;</span> origen</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> {</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      MATCH (origen)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> asigna una variable a cada camino.</li>
+<li><strong>Línea 2:</strong> establece a Ana como origen.</li>
+<li><strong>Línea 3:</strong> busca los contactos directos.</li>
+<li><strong>Línea 4:</strong> busca los contactos de esos intermediarios.</li>
+<li><strong>Línea 5:</strong> evita recomendar a Ana.</li>
+<li><strong>Líneas 6 a 8:</strong> descartan personas que Ana ya conoce directamente.</li>
+<li><strong>Última línea:</strong> devuelve los caminos completos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> dos caminos de recomendación hacia Luis.</p>
+<hr>
+</section>
+<section id="consultar-todos-los-nodos" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="consultar-todos-los-nodos"><span class="header-section-number">24</span> Consultar todos los nodos</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>MATCH (n)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> n;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todos los nodos almacenados.</li>
+<li><strong>Línea 2:</strong> devuelve los nodos.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> cinco personas.</p>
+<hr>
+</section>
+<section id="consultar-todas-las-relaciones" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="consultar-todas-las-relaciones"><span class="header-section-number">25</span> Consultar todas las relaciones</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen)<span class="op">-</span>[relacion]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, relacion, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones de cualquier tipo.</li>
+<li><strong>Línea 2:</strong> devuelve los nodos y las relaciones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> cinco relaciones.</p>
+<hr>
+</section>
+<section id="recuperar-únicamente-los-nombres" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="recuperar-únicamente-los-nombres"><span class="header-section-number">26</span> Recuperar únicamente los nombres</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona.nombre <span class="kw">AS</span> Nombre;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todos los nodos <code>Persona</code>.</li>
+<li><strong>Línea 2:</strong> devuelve sus nombres.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> cinco nombres, sin un orden garantizado.</p>
+<hr>
+</section>
+<section id="ordenar-resultados-con-order-by" class="level2" data-number="27">
+<h2 data-number="27" class="anchored" data-anchor-id="ordenar-resultados-con-order-by"><span class="header-section-number">27</span> Ordenar resultados con ORDER BY</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona.nombre <span class="kw">AS</span> Nombre</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Nombre <span class="kw">ASC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todas las personas.</li>
+<li><strong>Línea 2:</strong> devuelve los nombres.</li>
+<li><strong>Línea 3:</strong> ordena los resultados de forma ascendente.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> los nombres ordenados según las reglas de comparación utilizadas por Neo4j.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>ASC y DESC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>ASC</code>: orden ascendente.</li>
+<li><code>DESC</code>: orden descendente.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="limitar-resultados-con-limit" class="level2" data-number="28">
+<h2 data-number="28" class="anchored" data-anchor-id="limitar-resultados-con-limit"><span class="header-section-number">28</span> Limitar resultados con LIMIT</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> persona.nombre <span class="kw">AS</span> Nombre</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Nombre <span class="kw">ASC</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca las personas.</li>
+<li><strong>Línea 2:</strong> devuelve sus nombres.</li>
+<li><strong>Línea 3:</strong> ordena los resultados.</li>
+<li><strong>Línea 4:</strong> muestra únicamente tres registros.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> Ana, Carlos y Luis.</p>
+<hr>
+</section>
+<section id="contar-las-personas-almacenadas" class="level2" data-number="29">
+<h2 data-number="29" class="anchored" data-anchor-id="contar-las-personas-almacenadas"><span class="header-section-number">29</span> Contar las personas almacenadas</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>MATCH (persona<span class="ch">:Persona</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(persona) <span class="kw">AS</span> TotalPersonas;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca los nodos con etiqueta <code>Persona</code>.</li>
+<li><strong>Línea 2:</strong> cuenta los nodos encontrados.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> 5 personas.</p>
+<hr>
+</section>
+<section id="contar-las-relaciones-conoce" class="level2" data-number="30">
+<h2 data-number="30" class="anchored" data-anchor-id="contar-las-relaciones-conoce"><span class="header-section-number">30</span> Contar las relaciones CONOCE</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>MATCH ()<span class="op">-</span>[relacion<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(relacion) <span class="kw">AS</span> TotalRelaciones;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca todas las relaciones de tipo <code>CONOCE</code>.</li>
+<li><strong>Línea 2:</strong> cuenta esas relaciones.</li>
+</ul>
+<p><strong>Resultado esperado:</strong> 5 relaciones.</p>
+<hr>
+</section>
+<section id="contar-los-contactos-de-cada-persona" class="level2" data-number="31">
+<h2 data-number="31" class="anchored" data-anchor-id="contar-los-contactos-de-cada-persona"><span class="header-section-number">31</span> Contar los contactos de cada persona</h2>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Persona</span>)<span class="op">-</span>[<span class="ch">:CONOCE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Persona</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Persona,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(destino) <span class="kw">AS</span> TotalContactos</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> TotalContactos <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Explicación línea por línea</strong></p>
+<ul>
+<li><strong>Línea 1:</strong> busca relaciones salientes <code>CONOCE</code>.</li>
+<li><strong>Línea 2:</strong> devuelve el nombre de la persona de origen.</li>
+<li><strong>Línea 3:</strong> cuenta los destinos asociados a cada nombre de origen.</li>
+<li><strong>Línea 4:</strong> ordena los resultados de mayor a menor.</li>
+</ul>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Persona</th>
+<th style="text-align: right;">TotalContactos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ana</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td>Carlos</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td>María</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td>Sofía</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Luis no aparece porque no tiene relaciones salientes <code>CONOCE</code>.</p>
+<hr>
+</section>
+<section id="ideas-clave" class="level2" data-number="32">
+<h2 data-number="32" class="anchored" data-anchor-id="ideas-clave"><span class="header-section-number">32</span> Ideas clave</h2>
+<ul>
+<li><strong>Cypher</strong> permite trabajar con nodos y relaciones mediante patrones.</li>
+<li><strong>Las variables</strong> representan temporalmente los elementos encontrados.</li>
+<li><strong>Las etiquetas</strong> permiten clasificar los nodos.</li>
+<li><strong>Las propiedades</strong> almacenan información.</li>
+<li><strong>CREATE</strong> agrega nodos o relaciones.</li>
+<li><strong>MATCH</strong> busca patrones existentes.</li>
+<li><strong>WHERE</strong> permite establecer condiciones.</li>
+<li><strong>RETURN</strong> determina qué información mostramos.</li>
+<li><strong>DELETE</strong> elimina elementos seleccionados.</li>
+<li><strong>DETACH DELETE</strong> permite eliminar nodos y sus relaciones.</li>
+<li><strong>Las relaciones tienen dirección</strong>, aunque podemos consultarlas sin exigirla.</li>
+<li><strong>Los caminos indirectos</strong> utilizan varias relaciones existentes.</li>
+<li><strong>DISTINCT</strong> elimina resultados repetidos.</li>
+<li><strong>length()</strong> devuelve la cantidad de relaciones de un camino.</li>
+<li><strong>COUNT()</strong> permite contar coincidencias.</li>
+<li><strong>ORDER BY</strong> permite ordenar resultados.</li>
+<li><strong>LIMIT</strong> restringe la cantidad de filas mostradas.</li>
+<li><strong>Las recomendaciones</strong> requieren definir criterios de búsqueda mediante consultas.</li>
+</ul>
+<hr>
+</section>
+<section id="ejemplo-de-aplicación-red-de-transporte-entre-ciudades-de-méxico" class="level2" data-number="33">
+<h2 data-number="33" class="anchored" data-anchor-id="ejemplo-de-aplicación-red-de-transporte-entre-ciudades-de-méxico"><span class="header-section-number">33</span> Ejemplo de aplicación: red de transporte entre ciudades de México</h2>
+<p>El siguiente ejemplo representa una red simulada de transporte entre 25 ciudades mexicanas. Cada ciudad corresponde a un nodo y las conexiones entre ellas representan rutas con información de distancia, tiempo y costo.</p>
+<section id="creación-de-los-nodos" class="level3" data-number="33.1">
+<h3 data-number="33.1" class="anchored" data-anchor-id="creación-de-los-nodos"><span class="header-section-number">33.1</span> Creación de los nodos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Xalapa'</span>, <span class="st">'Veracruz'</span>, <span class="st">'Córdoba'</span>, <span class="st">'Orizaba'</span>, <span class="st">'Puebla'</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Ciudad de México'</span>, <span class="st">'Toluca'</span>, <span class="st">'Querétaro'</span>, <span class="st">'Pachuca'</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Tlaxcala'</span>, <span class="st">'Oaxaca'</span>, <span class="st">'Tehuacán'</span>, <span class="st">'Coatzacoalcos'</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Villahermosa'</span>, <span class="st">'Tuxtla Gutiérrez'</span>, <span class="st">'San Cristóbal de las Casas'</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Acapulco'</span>, <span class="st">'Cuernavaca'</span>, <span class="st">'Morelia'</span>, <span class="st">'Guanajuato'</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'León'</span>, <span class="st">'San Luis Potosí'</span>, <span class="st">'Guadalajara'</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Aguascalientes'</span>, <span class="st">'Zacatecas'</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (ciudad<span class="ch">:Ciudad</span> {nombre: nombre})</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> ciudad;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="creación-de-las-relaciones" class="level3" data-number="33.2">
+<h3 data-number="33.2" class="anchored" data-anchor-id="creación-de-las-relaciones"><span class="header-section-number">33.2</span> Creación de las relaciones</h3>
+<p>Cada relación <code>RUTA</code> contiene tres propiedades: <code>distancia_km</code>, <code>tiempo_min</code> y <code>costo</code>. Los valores son simulados con fines educativos.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Xalapa'</span>, <span class="st">'Veracruz'</span>, <span class="dv">105</span>, <span class="dv">90</span>, <span class="dv">170</span>],</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Xalapa'</span>, <span class="st">'Puebla'</span>, <span class="dv">175</span>, <span class="dv">150</span>, <span class="dv">260</span>],</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Xalapa'</span>, <span class="st">'Córdoba'</span>, <span class="dv">125</span>, <span class="dv">125</span>, <span class="dv">180</span>],</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Xalapa'</span>, <span class="st">'Pachuca'</span>, <span class="dv">235</span>, <span class="dv">210</span>, <span class="dv">300</span>],</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Xalapa'</span>, <span class="st">'Tlaxcala'</span>, <span class="dv">160</span>, <span class="dv">155</span>, <span class="dv">230</span>],</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Veracruz'</span>, <span class="st">'Córdoba'</span>, <span class="dv">115</span>, <span class="dv">105</span>, <span class="dv">170</span>],</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Veracruz'</span>, <span class="st">'Coatzacoalcos'</span>, <span class="dv">310</span>, <span class="dv">250</span>, <span class="dv">410</span>],</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Veracruz'</span>, <span class="st">'Puebla'</span>, <span class="dv">285</span>, <span class="dv">245</span>, <span class="dv">380</span>],</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Córdoba'</span>, <span class="st">'Orizaba'</span>, <span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">50</span>],</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Córdoba'</span>, <span class="st">'Tehuacán'</span>, <span class="dv">115</span>, <span class="dv">115</span>, <span class="dv">170</span>],</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Córdoba'</span>, <span class="st">'Coatzacoalcos'</span>, <span class="dv">275</span>, <span class="dv">240</span>, <span class="dv">360</span>],</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Orizaba'</span>, <span class="st">'Puebla'</span>, <span class="dv">150</span>, <span class="dv">130</span>, <span class="dv">210</span>],</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Orizaba'</span>, <span class="st">'Tehuacán'</span>, <span class="dv">85</span>, <span class="dv">80</span>, <span class="dv">130</span>],</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Tehuacán'</span>, <span class="st">'Puebla'</span>, <span class="dv">130</span>, <span class="dv">115</span>, <span class="dv">180</span>],</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Tehuacán'</span>, <span class="st">'Oaxaca'</span>, <span class="dv">210</span>, <span class="dv">190</span>, <span class="dv">290</span>],</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Puebla'</span>, <span class="st">'Ciudad de México'</span>, <span class="dv">135</span>, <span class="dv">130</span>, <span class="dv">220</span>],</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Puebla'</span>, <span class="st">'Tlaxcala'</span>, <span class="dv">40</span>, <span class="dv">40</span>, <span class="dv">70</span>],</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Puebla'</span>, <span class="st">'Cuernavaca'</span>, <span class="dv">155</span>, <span class="dv">160</span>, <span class="dv">220</span>],</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Puebla'</span>, <span class="st">'Oaxaca'</span>, <span class="dv">345</span>, <span class="dv">290</span>, <span class="dv">450</span>],</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Puebla'</span>, <span class="st">'Pachuca'</span>, <span class="dv">155</span>, <span class="dv">150</span>, <span class="dv">210</span>],</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Tlaxcala'</span>, <span class="st">'Pachuca'</span>, <span class="dv">135</span>, <span class="dv">125</span>, <span class="dv">190</span>],</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Pachuca'</span>, <span class="st">'Ciudad de México'</span>, <span class="dv">95</span>, <span class="dv">95</span>, <span class="dv">150</span>],</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Pachuca'</span>, <span class="st">'Querétaro'</span>, <span class="dv">220</span>, <span class="dv">205</span>, <span class="dv">320</span>],</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Ciudad de México'</span>, <span class="st">'Toluca'</span>, <span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">110</span>],</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Ciudad de México'</span>, <span class="st">'Cuernavaca'</span>, <span class="dv">90</span>, <span class="dv">85</span>, <span class="dv">130</span>],</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Ciudad de México'</span>, <span class="st">'Querétaro'</span>, <span class="dv">220</span>, <span class="dv">190</span>, <span class="dv">330</span>],</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Ciudad de México'</span>, <span class="st">'Acapulco'</span>, <span class="dv">380</span>, <span class="dv">300</span>, <span class="dv">520</span>],</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Ciudad de México'</span>, <span class="st">'Morelia'</span>, <span class="dv">305</span>, <span class="dv">260</span>, <span class="dv">430</span>],</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Toluca'</span>, <span class="st">'Morelia'</span>, <span class="dv">245</span>, <span class="dv">215</span>, <span class="dv">350</span>],</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Toluca'</span>, <span class="st">'Querétaro'</span>, <span class="dv">190</span>, <span class="dv">185</span>, <span class="dv">270</span>],</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Cuernavaca'</span>, <span class="st">'Acapulco'</span>, <span class="dv">285</span>, <span class="dv">225</span>, <span class="dv">390</span>],</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Cuernavaca'</span>, <span class="st">'Oaxaca'</span>, <span class="dv">370</span>, <span class="dv">330</span>, <span class="dv">490</span>],</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Morelia'</span>, <span class="st">'Guanajuato'</span>, <span class="dv">175</span>, <span class="dv">160</span>, <span class="dv">240</span>],</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Morelia'</span>, <span class="st">'Guadalajara'</span>, <span class="dv">295</span>, <span class="dv">260</span>, <span class="dv">410</span>],</span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Morelia'</span>, <span class="st">'León'</span>, <span class="dv">195</span>, <span class="dv">175</span>, <span class="dv">270</span>],</span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Querétaro'</span>, <span class="st">'Guanajuato'</span>, <span class="dv">150</span>, <span class="dv">135</span>, <span class="dv">220</span>],</span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Querétaro'</span>, <span class="st">'León'</span>, <span class="dv">175</span>, <span class="dv">150</span>, <span class="dv">250</span>],</span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Querétaro'</span>, <span class="st">'San Luis Potosí'</span>, <span class="dv">205</span>, <span class="dv">180</span>, <span class="dv">290</span>],</span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Guanajuato'</span>, <span class="st">'León'</span>, <span class="dv">55</span>, <span class="dv">55</span>, <span class="dv">90</span>],</span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Guanajuato'</span>, <span class="st">'Guadalajara'</span>, <span class="dv">290</span>, <span class="dv">260</span>, <span class="dv">390</span>],</span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'León'</span>, <span class="st">'Guadalajara'</span>, <span class="dv">225</span>, <span class="dv">200</span>, <span class="dv">320</span>],</span>
+<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'León'</span>, <span class="st">'Aguascalientes'</span>, <span class="dv">125</span>, <span class="dv">110</span>, <span class="dv">190</span>],</span>
+<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'León'</span>, <span class="st">'San Luis Potosí'</span>, <span class="dv">195</span>, <span class="dv">175</span>, <span class="dv">260</span>],</span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'San Luis Potosí'</span>, <span class="st">'Aguascalientes'</span>, <span class="dv">165</span>, <span class="dv">145</span>, <span class="dv">240</span>],</span>
+<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'San Luis Potosí'</span>, <span class="st">'Zacatecas'</span>, <span class="dv">195</span>, <span class="dv">175</span>, <span class="dv">260</span>],</span>
+<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Aguascalientes'</span>, <span class="st">'Zacatecas'</span>, <span class="dv">120</span>, <span class="dv">105</span>, <span class="dv">180</span>],</span>
+<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Aguascalientes'</span>, <span class="st">'Guadalajara'</span>, <span class="dv">225</span>, <span class="dv">195</span>, <span class="dv">310</span>],</span>
+<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Zacatecas'</span>, <span class="st">'Guadalajara'</span>, <span class="dv">335</span>, <span class="dv">290</span>, <span class="dv">450</span>],</span>
+<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Oaxaca'</span>, <span class="st">'Tuxtla Gutiérrez'</span>, <span class="dv">540</span>, <span class="dv">450</span>, <span class="dv">680</span>],</span>
+<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Oaxaca'</span>, <span class="st">'Coatzacoalcos'</span>, <span class="dv">330</span>, <span class="dv">300</span>, <span class="dv">440</span>],</span>
+<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Coatzacoalcos'</span>, <span class="st">'Villahermosa'</span>, <span class="dv">165</span>, <span class="dv">145</span>, <span class="dv">240</span>],</span>
+<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Coatzacoalcos'</span>, <span class="st">'Tuxtla Gutiérrez'</span>, <span class="dv">290</span>, <span class="dv">250</span>, <span class="dv">400</span>],</span>
+<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Villahermosa'</span>, <span class="st">'Tuxtla Gutiérrez'</span>, <span class="dv">250</span>, <span class="dv">220</span>, <span class="dv">350</span>],</span>
+<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Tuxtla Gutiérrez'</span>, <span class="st">'San Cristóbal de las Casas'</span>, <span class="dv">65</span>, <span class="dv">75</span>, <span class="dv">110</span>],</span>
+<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Oaxaca'</span>, <span class="st">'San Cristóbal de las Casas'</span>, <span class="dv">605</span>, <span class="dv">520</span>, <span class="dv">750</span>],</span>
+<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Acapulco'</span>, <span class="st">'Oaxaca'</span>, <span class="dv">530</span>, <span class="dv">470</span>, <span class="dv">700</span>],</span>
+<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Acapulco'</span>, <span class="st">'Morelia'</span>, <span class="dv">490</span>, <span class="dv">430</span>, <span class="dv">650</span>],</span>
+<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Guadalajara'</span>, <span class="st">'Zacatecas'</span>, <span class="dv">335</span>, <span class="dv">290</span>, <span class="dv">450</span>],</span>
+<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'Villahermosa'</span>, <span class="st">'Coatzacoalcos'</span>, <span class="dv">165</span>, <span class="dv">145</span>, <span class="dv">240</span>],</span>
+<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'San Cristóbal de las Casas'</span>, <span class="st">'Tuxtla Gutiérrez'</span>, <span class="dv">65</span>, <span class="dv">75</span>, <span class="dv">110</span>]</span>
+<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> datos</span>
+<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span> {nombre: datos[<span class="dv">0</span>]})</span>
+<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Ciudad</span> {nombre: datos[<span class="dv">1</span>]})</span>
+<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (origen)<span class="op">-</span>[ruta<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> ruta.distancia_km <span class="op">=</span> datos[<span class="dv">2</span>],</span>
+<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a>    ruta.tiempo_min <span class="op">=</span> datos[<span class="dv">3</span>],</span>
+<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a>    ruta.costo <span class="op">=</span> datos[<span class="dv">4</span>]</span>
+<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(ruta) <span class="kw">AS</span> RutasProcesadas;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="verificación-de-nodos-y-relaciones" class="level3" data-number="33.3">
+<h3 data-number="33.3" class="anchored" data-anchor-id="verificación-de-nodos-y-relaciones"><span class="header-section-number">33.3</span> Verificación de nodos y relaciones</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:Ciudad</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(c) <span class="kw">AS</span> TotalCiudades;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 25 ciudades.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>MATCH ()<span class="op">-</span>[ruta<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>()</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(ruta) <span class="kw">AS</span> TotalRutas;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 60 relaciones.</p>
+</section>
+<section id="visualización-del-grafo-en-neo4j" class="level3" data-number="33.4">
+<h3 data-number="33.4" class="anchored" data-anchor-id="visualización-del-grafo-en-neo4j"><span class="header-section-number">33.4</span> Visualización del grafo en Neo4j</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span>)<span class="op">-</span>[ruta<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, ruta, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="visualización-de-la-red-de-transporte" class="level3" data-number="33.5">
+<h3 data-number="33.5" class="anchored" data-anchor-id="visualización-de-la-red-de-transporte"><span class="header-section-number">33.5</span> Visualización de la red de transporte</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+
+    XAL["Xalapa"]
+    VER["Veracruz"]
+    COR["Córdoba"]
+    ORI["Orizaba"]
+    PUE["Puebla"]
+    CDMX["Ciudad de México"]
+    TOL["Toluca"]
+    QRO["Querétaro"]
+    PAC["Pachuca"]
+    TLA["Tlaxcala"]
+    OAX["Oaxaca"]
+    TEH["Tehuacán"]
+    COA["Coatzacoalcos"]
+    VIL["Villahermosa"]
+    TUX["Tuxtla Gutiérrez"]
+    SAN["San Cristóbal de las Casas"]
+    ACA["Acapulco"]
+    CUE["Cuernavaca"]
+    MOR["Morelia"]
+    GTO["Guanajuato"]
+    LEO["León"]
+    SLP["San Luis Potosí"]
+    GDL["Guadalajara"]
+    AGS["Aguascalientes"]
+    ZAC["Zacatecas"]
+
+    XAL --&gt; VER
+    XAL --&gt; PUE
+    XAL --&gt; COR
+    XAL --&gt; PAC
+    XAL --&gt; TLA
+
+    VER --&gt; COR
+    VER --&gt; COA
+    VER --&gt; PUE
+
+    COR --&gt; ORI
+    COR --&gt; TEH
+    COR --&gt; COA
+
+    ORI --&gt; PUE
+    ORI --&gt; TEH
+
+    TEH --&gt; PUE
+    TEH --&gt; OAX
+
+    PUE --&gt; CDMX
+    PUE --&gt; TLA
+    PUE --&gt; CUE
+    PUE --&gt; OAX
+    PUE --&gt; PAC
+
+    TLA --&gt; PAC
+
+    PAC --&gt; CDMX
+    PAC --&gt; QRO
+
+    CDMX --&gt; TOL
+    CDMX --&gt; CUE
+    CDMX --&gt; QRO
+    CDMX --&gt; ACA
+    CDMX --&gt; MOR
+
+    TOL --&gt; MOR
+    TOL --&gt; QRO
+
+    CUE --&gt; ACA
+    CUE --&gt; OAX
+
+    MOR --&gt; GTO
+    MOR --&gt; GDL
+    MOR --&gt; LEO
+
+    QRO --&gt; GTO
+    QRO --&gt; LEO
+    QRO --&gt; SLP
+
+    GTO --&gt; LEO
+    GTO --&gt; GDL
+
+    LEO --&gt; GDL
+    LEO --&gt; AGS
+    LEO --&gt; SLP
+
+    SLP --&gt; AGS
+    SLP --&gt; ZAC
+
+    AGS --&gt; ZAC
+    AGS --&gt; GDL
+
+    ZAC --&gt; GDL
+    GDL --&gt; ZAC
+
+    OAX --&gt; TUX
+    OAX --&gt; COA
+    OAX --&gt; SAN
+
+    COA --&gt; VIL
+    COA --&gt; TUX
+
+    VIL --&gt; TUX
+    VIL --&gt; COA
+
+    TUX --&gt; SAN
+    SAN --&gt; TUX
+
+    ACA --&gt; OAX
+    ACA --&gt; MOR
+
+    classDef inicio fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef centro fill:#dcfce7,stroke:#16a34a,color:#166534
+
+    class XAL inicio
+    class CDMX,PUE,QRO,GDL centro
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -666,7 +1949,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

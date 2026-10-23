@@ -1305,3 +1305,1092 @@ Luis no aparece porque no tiene relaciones salientes `CONOCE`.
 - **LIMIT** restringe la cantidad de filas mostradas.
 - **Las recomendaciones** requieren definir criterios de búsqueda mediante consultas.
 
+
+
+
+
+
+
+
+---
+
+## Ejemplo de aplicación: red de transporte entre ciudades de México
+
+El siguiente ejemplo representa una red simulada de transporte entre 25 ciudades mexicanas. Cada ciudad corresponde a un nodo y las conexiones entre ellas representan rutas con información de distancia, tiempo y costo.
+
+### Creación de los nodos
+
+```sql
+UNWIND [
+  'Xalapa', 'Veracruz', 'Córdoba', 'Orizaba', 'Puebla',
+  'Ciudad de México', 'Toluca', 'Querétaro', 'Pachuca',
+  'Tlaxcala', 'Oaxaca', 'Tehuacán', 'Coatzacoalcos',
+  'Villahermosa', 'Tuxtla Gutiérrez', 'San Cristóbal de las Casas',
+  'Acapulco', 'Cuernavaca', 'Morelia', 'Guanajuato',
+  'León', 'San Luis Potosí', 'Guadalajara',
+  'Aguascalientes', 'Zacatecas'
+] AS nombre
+MERGE (ciudad:Ciudad {nombre: nombre})
+RETURN ciudad;
+```
+
+### Creación de las relaciones
+
+Cada relación `RUTA` contiene tres propiedades: `distancia_km`, `tiempo_min` y `costo`. Los valores son simulados con fines educativos.
+
+```sql
+UNWIND [
+  ['Xalapa', 'Veracruz', 105, 90, 170],
+  ['Xalapa', 'Puebla', 175, 150, 260],
+  ['Xalapa', 'Córdoba', 125, 125, 180],
+  ['Xalapa', 'Pachuca', 235, 210, 300],
+  ['Xalapa', 'Tlaxcala', 160, 155, 230],
+  ['Veracruz', 'Córdoba', 115, 105, 170],
+  ['Veracruz', 'Coatzacoalcos', 310, 250, 410],
+  ['Veracruz', 'Puebla', 285, 245, 380],
+  ['Córdoba', 'Orizaba', 25, 25, 50],
+  ['Córdoba', 'Tehuacán', 115, 115, 170],
+  ['Córdoba', 'Coatzacoalcos', 275, 240, 360],
+  ['Orizaba', 'Puebla', 150, 130, 210],
+  ['Orizaba', 'Tehuacán', 85, 80, 130],
+  ['Tehuacán', 'Puebla', 130, 115, 180],
+  ['Tehuacán', 'Oaxaca', 210, 190, 290],
+  ['Puebla', 'Ciudad de México', 135, 130, 220],
+  ['Puebla', 'Tlaxcala', 40, 40, 70],
+  ['Puebla', 'Cuernavaca', 155, 160, 220],
+  ['Puebla', 'Oaxaca', 345, 290, 450],
+  ['Puebla', 'Pachuca', 155, 150, 210],
+  ['Tlaxcala', 'Pachuca', 135, 125, 190],
+  ['Pachuca', 'Ciudad de México', 95, 95, 150],
+  ['Pachuca', 'Querétaro', 220, 205, 320],
+  ['Ciudad de México', 'Toluca', 65, 70, 110],
+  ['Ciudad de México', 'Cuernavaca', 90, 85, 130],
+  ['Ciudad de México', 'Querétaro', 220, 190, 330],
+  ['Ciudad de México', 'Acapulco', 380, 300, 520],
+  ['Ciudad de México', 'Morelia', 305, 260, 430],
+  ['Toluca', 'Morelia', 245, 215, 350],
+  ['Toluca', 'Querétaro', 190, 185, 270],
+  ['Cuernavaca', 'Acapulco', 285, 225, 390],
+  ['Cuernavaca', 'Oaxaca', 370, 330, 490],
+  ['Morelia', 'Guanajuato', 175, 160, 240],
+  ['Morelia', 'Guadalajara', 295, 260, 410],
+  ['Morelia', 'León', 195, 175, 270],
+  ['Querétaro', 'Guanajuato', 150, 135, 220],
+  ['Querétaro', 'León', 175, 150, 250],
+  ['Querétaro', 'San Luis Potosí', 205, 180, 290],
+  ['Guanajuato', 'León', 55, 55, 90],
+  ['Guanajuato', 'Guadalajara', 290, 260, 390],
+  ['León', 'Guadalajara', 225, 200, 320],
+  ['León', 'Aguascalientes', 125, 110, 190],
+  ['León', 'San Luis Potosí', 195, 175, 260],
+  ['San Luis Potosí', 'Aguascalientes', 165, 145, 240],
+  ['San Luis Potosí', 'Zacatecas', 195, 175, 260],
+  ['Aguascalientes', 'Zacatecas', 120, 105, 180],
+  ['Aguascalientes', 'Guadalajara', 225, 195, 310],
+  ['Zacatecas', 'Guadalajara', 335, 290, 450],
+  ['Oaxaca', 'Tuxtla Gutiérrez', 540, 450, 680],
+  ['Oaxaca', 'Coatzacoalcos', 330, 300, 440],
+  ['Coatzacoalcos', 'Villahermosa', 165, 145, 240],
+  ['Coatzacoalcos', 'Tuxtla Gutiérrez', 290, 250, 400],
+  ['Villahermosa', 'Tuxtla Gutiérrez', 250, 220, 350],
+  ['Tuxtla Gutiérrez', 'San Cristóbal de las Casas', 65, 75, 110],
+  ['Oaxaca', 'San Cristóbal de las Casas', 605, 520, 750],
+  ['Acapulco', 'Oaxaca', 530, 470, 700],
+  ['Acapulco', 'Morelia', 490, 430, 650],
+  ['Guadalajara', 'Zacatecas', 335, 290, 450],
+  ['Villahermosa', 'Coatzacoalcos', 165, 145, 240],
+  ['San Cristóbal de las Casas', 'Tuxtla Gutiérrez', 65, 75, 110]
+] AS datos
+
+MATCH (origen:Ciudad {nombre: datos[0]})
+MATCH (destino:Ciudad {nombre: datos[1]})
+
+MERGE (origen)-[ruta:RUTA]->(destino)
+SET ruta.distancia_km = datos[2],
+    ruta.tiempo_min = datos[3],
+    ruta.costo = datos[4]
+
+RETURN COUNT(ruta) AS RutasProcesadas;
+```
+
+### Verificación de nodos y relaciones
+
+```sql
+MATCH (c:Ciudad)
+RETURN COUNT(c) AS TotalCiudades;
+```
+
+**Resultado esperado:** 25 ciudades.
+
+```sql
+MATCH ()-[ruta:RUTA]->()
+RETURN COUNT(ruta) AS TotalRutas;
+```
+
+**Resultado esperado:** 60 relaciones.
+
+### Visualización del grafo en Neo4j
+
+```sql
+MATCH (origen:Ciudad)-[ruta:RUTA]->(destino:Ciudad)
+RETURN origen, ruta, destino;
+```
+
+### Visualización de la red de transporte
+
+```{mermaid}
+flowchart LR
+
+    XAL["Xalapa"]
+    VER["Veracruz"]
+    COR["Córdoba"]
+    ORI["Orizaba"]
+    PUE["Puebla"]
+    CDMX["Ciudad de México"]
+    TOL["Toluca"]
+    QRO["Querétaro"]
+    PAC["Pachuca"]
+    TLA["Tlaxcala"]
+    OAX["Oaxaca"]
+    TEH["Tehuacán"]
+    COA["Coatzacoalcos"]
+    VIL["Villahermosa"]
+    TUX["Tuxtla Gutiérrez"]
+    SAN["San Cristóbal de las Casas"]
+    ACA["Acapulco"]
+    CUE["Cuernavaca"]
+    MOR["Morelia"]
+    GTO["Guanajuato"]
+    LEO["León"]
+    SLP["San Luis Potosí"]
+    GDL["Guadalajara"]
+    AGS["Aguascalientes"]
+    ZAC["Zacatecas"]
+
+    XAL --> VER
+    XAL --> PUE
+    XAL --> COR
+    XAL --> PAC
+    XAL --> TLA
+
+    VER --> COR
+    VER --> COA
+    VER --> PUE
+
+    COR --> ORI
+    COR --> TEH
+    COR --> COA
+
+    ORI --> PUE
+    ORI --> TEH
+
+    TEH --> PUE
+    TEH --> OAX
+
+    PUE --> CDMX
+    PUE --> TLA
+    PUE --> CUE
+    PUE --> OAX
+    PUE --> PAC
+
+    TLA --> PAC
+
+    PAC --> CDMX
+    PAC --> QRO
+
+    CDMX --> TOL
+    CDMX --> CUE
+    CDMX --> QRO
+    CDMX --> ACA
+    CDMX --> MOR
+
+    TOL --> MOR
+    TOL --> QRO
+
+    CUE --> ACA
+    CUE --> OAX
+
+    MOR --> GTO
+    MOR --> GDL
+    MOR --> LEO
+
+    QRO --> GTO
+    QRO --> LEO
+    QRO --> SLP
+
+    GTO --> LEO
+    GTO --> GDL
+
+    LEO --> GDL
+    LEO --> AGS
+    LEO --> SLP
+
+    SLP --> AGS
+    SLP --> ZAC
+
+    AGS --> ZAC
+    AGS --> GDL
+
+    ZAC --> GDL
+    GDL --> ZAC
+
+    OAX --> TUX
+    OAX --> COA
+    OAX --> SAN
+
+    COA --> VIL
+    COA --> TUX
+
+    VIL --> TUX
+    VIL --> COA
+
+    TUX --> SAN
+    SAN --> TUX
+
+    ACA --> OAX
+    ACA --> MOR
+
+    classDef inicio fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef centro fill:#dcfce7,stroke:#16a34a,color:#166534
+
+    class XAL inicio
+    class CDMX,PUE,QRO,GDL centro
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Consultas sobre la red de transporte
+
+A partir del grafo de 25 ciudades y 60 rutas, realizaremos consultas para explorar conexiones directas, recorridos alternativos, distancias, tiempos y costos.
+
+### Consultar las ciudades conectadas directamente con Xalapa
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})-[:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Ciudad;
+```
+
+**Resultado esperado:** Veracruz, Puebla, Córdoba, Pachuca y Tlaxcala.
+
+Esta consulta identifica las ciudades que tienen una ruta directa de salida desde Xalapa.
+
+### Consultar las distancias, tiempos y costos desde Xalapa
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})-[ruta:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Destino,
+       ruta.distancia_km AS DistanciaKM,
+       ruta.tiempo_min AS TiempoMin,
+       ruta.costo AS CostoMXN
+ORDER BY DistanciaKM;
+```
+
+**Resultado esperado:**
+
+| Destino | DistanciaKM | TiempoMin | CostoMXN |
+|---|---:|---:|---:|
+| Veracruz | 105 | 90 | 170 |
+| Córdoba | 125 | 125 | 180 |
+| Tlaxcala | 160 | 155 | 230 |
+| Puebla | 175 | 150 | 260 |
+| Pachuca | 235 | 210 | 300 |
+
+`ORDER BY` organiza los resultados según la distancia, de menor a mayor.
+
+### Identificar las ciudades con más rutas de salida
+
+```sql
+MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
+RETURN origen.nombre AS Ciudad,
+       COUNT(destino) AS TotalRutas
+ORDER BY TotalRutas DESC;
+```
+
+**Resultado esperado:** las ciudades se ordenan de acuerdo con el número de rutas de salida.
+
+Por ejemplo, Xalapa, Puebla y Ciudad de México tienen cinco conexiones de salida cada una.
+
+`COUNT()` cuenta las relaciones encontradas y `DESC` ordena de mayor a menor.
+
+### Consultar las ciudades a las que podemos llegar desde Xalapa con una escala
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})
+      -[:RUTA]->(intermedio:Ciudad)
+      -[:RUTA]->(destino:Ciudad)
+RETURN intermedio.nombre AS Escala,
+       destino.nombre AS Destino
+ORDER BY Destino;
+```
+
+**Resultado esperado:** una tabla con la ciudad intermedia y el destino final.
+
+Por ejemplo:
+
+- Xalapa → Puebla → Ciudad de México
+- Xalapa → Pachuca → Ciudad de México
+- Xalapa → Veracruz → Coatzacoalcos
+- Xalapa → Córdoba → Orizaba
+
+Esta consulta permite encontrar recorridos que utilizan exactamente dos relaciones, es decir, una escala.
+
+Un destino puede aparecer varias veces cuando existen distintos recorridos para llegar a él.
+
+### Encontrar rutas alternativas entre Xalapa y Ciudad de México
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN camino;
+```
+
+**Resultado esperado:** distintos caminos que conectan Xalapa con Ciudad de México, utilizando entre una y cuatro relaciones.
+
+Por ejemplo:
+
+- Xalapa → Puebla → Ciudad de México
+- Xalapa → Pachuca → Ciudad de México
+- Xalapa → Tlaxcala → Pachuca → Ciudad de México
+- Xalapa → Córdoba → Orizaba → Puebla → Ciudad de México
+
+La expresión `*1..4` permite buscar recorridos de entre una y cuatro relaciones.
+
+La variable `camino` almacena cada recorrido encontrado y permite visualizarlo en Neo4j mediante la vista **Graph**.
+
+### Calcular la distancia total de cada recorrido
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
+       reduce(total = 0, r IN relationships(camino) |
+              total + r.distancia_km) AS DistanciaTotal
+ORDER BY DistanciaTotal;
+```
+
+**Resultado esperado:** una tabla con los recorridos y su distancia total acumulada.
+
+Por ejemplo:
+
+| Recorrido | DistanciaTotal |
+|---|---:|
+| Xalapa → Puebla → Ciudad de México | 310 |
+| Xalapa → Pachuca → Ciudad de México | 330 |
+| Xalapa → Tlaxcala → Pachuca → Ciudad de México | 390 |
+
+La función `nodes(camino)` obtiene los nodos que forman el recorrido.
+
+La función `relationships(camino)` obtiene sus relaciones.
+
+Finalmente, `reduce()` suma las distancias de cada relación para obtener la distancia total.
+
+### Comparar distancia, tiempo y costo de las rutas
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
+       reduce(d = 0, r IN relationships(camino) |
+              d + r.distancia_km) AS DistanciaKM,
+       reduce(t = 0, r IN relationships(camino) |
+              t + r.tiempo_min) AS TiempoMin,
+       reduce(c = 0, r IN relationships(camino) |
+              c + r.costo) AS CostoMXN
+ORDER BY CostoMXN;
+```
+
+**Resultado esperado:** una tabla que compara la distancia, el tiempo y el costo acumulado de cada recorrido.
+
+Por ejemplo:
+
+| Recorrido | DistanciaKM | TiempoMin | CostoMXN |
+|---|---:|---:|---:|
+| Xalapa → Puebla → Ciudad de México | 310 | 280 | 480 |
+| Xalapa → Pachuca → Ciudad de México | 330 | 305 | 450 |
+
+Los resultados se ordenan por costo, de menor a mayor.
+
+Esta consulta permite observar que la ruta más corta en kilómetros no necesariamente es la más económica.
+
+### Encontrar el camino con menos conexiones
+
+```sql
+MATCH camino = shortestPath(
+    (origen:Ciudad {nombre: 'Xalapa'})
+    -[:RUTA*]->
+    (destino:Ciudad {nombre: 'Guadalajara'})
+)
+RETURN camino,
+       length(camino) AS NumeroConexiones;
+```
+
+**Resultado esperado:** un camino entre Xalapa y Guadalajara que utiliza el menor número de relaciones.
+
+`shortestPath()` busca el camino con menos conexiones y `length()` devuelve cuántas relaciones contiene.
+
+**Importante:** el camino con menos conexiones no necesariamente es el de menor distancia, tiempo o costo.
+
+### Identificar las ciudades que reciben más rutas
+
+```sql
+MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Ciudad,
+       COUNT(origen) AS RutasEntrantes
+ORDER BY RutasEntrantes DESC;
+```
+
+**Resultado esperado:** una tabla con las ciudades que reciben más conexiones directas.
+
+A diferencia de la consulta 3, aquí contamos las rutas que llegan a cada ciudad, en lugar de las que salen.
+
+### Visualizar las conexiones de una ciudad en ambos sentidos
+
+```sql
+MATCH (ciudad:Ciudad {nombre: 'Puebla'})-[ruta:RUTA]-(otra:Ciudad)
+RETURN ciudad, ruta, otra;
+```
+
+**Resultado esperado:** el grafo de Puebla y las ciudades conectadas con ella, incluyendo relaciones de entrada y de salida.
+
+En esta consulta no especificamos una dirección para `RUTA`, por lo que Neo4j considera las relaciones en ambos sentidos.
+
+Selecciona la vista **Graph** para visualizar estas conexiones.
+
+
+
+
+
+
+
+
+
+## Ejemplo de aplicación: infraestructura de TI y ciberseguridad
+
+El siguiente ejemplo representa una infraestructura tecnológica universitaria simulada, integrada por 30 nodos y 50 relaciones.
+
+### Creación de los nodos
+
+Se crearán computadoras, switches, routers, servidores, bases de datos, sistemas, usuarios y otros dispositivos de infraestructura.
+
+```sql
+UNWIND [
+  'PC-LAB01', 'PC-LAB02', 'PC-LAB03',
+  'PC-ADMIN01', 'PC-DOC01', 'PC-BIB01'
+] AS id
+MERGE (n:ActivoTI:Computadora {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'SW-LAB', 'SW-ADMIN', 'SW-DOC', 'SW-BIB'
+] AS id
+MERGE (n:ActivoTI:Switch {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'RTR-PRINCIPAL', 'RTR-RESPALDO'
+] AS id
+MERGE (n:ActivoTI:Router {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'SRV-WEB', 'SRV-ACADEMICO',
+  'SRV-ARCHIVOS', 'SRV-AUTENTICACION'
+] AS id
+MERGE (n:ActivoTI:Servidor {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'BD-ESCOLAR', 'BD-BIBLIOTECA', 'BD-PERSONAL'
+] AS id
+MERGE (n:ActivoTI:BaseDatos {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'SIS-PORTAL', 'SIS-BIBLIOTECA',
+  'SIS-CORREO', 'SIS-GESTION'
+] AS id
+MERGE (n:ActivoTI:Sistema {id: id})
+RETURN n;
+```
+
+```sql
+UNWIND [
+  'USR-ADMIN', 'USR-DOCENTE',
+  'USR-ESTUDIANTE', 'USR-BIBLIOTECARIO'
+] AS id
+MERGE (n:ActivoTI:Usuario {id: id})
+RETURN n;
+```
+
+```sql
+MERGE (fw:ActivoTI:Firewall {id: 'FW-PRINCIPAL'})
+MERGE (nas:ActivoTI:Almacenamiento {id: 'NAS-RESPALDO'})
+MERGE (vpn:ActivoTI:Gateway {id: 'VPN-ACCESO'})
+RETURN fw, nas, vpn;
+```
+
+### Creación de las relaciones
+
+Se establecerán las conexiones entre los dispositivos, las dependencias de los sistemas y los accesos de los usuarios.
+
+```sql
+UNWIND [
+  ['PC-LAB01', 'CONECTADO_A', 'SW-LAB'],
+  ['PC-LAB02', 'CONECTADO_A', 'SW-LAB'],
+  ['PC-LAB03', 'CONECTADO_A', 'SW-LAB'],
+  ['PC-ADMIN01', 'CONECTADO_A', 'SW-ADMIN'],
+  ['PC-DOC01', 'CONECTADO_A', 'SW-DOC'],
+  ['PC-BIB01', 'CONECTADO_A', 'SW-BIB'],
+
+  ['SW-LAB', 'CONECTADO_A', 'RTR-PRINCIPAL'],
+  ['SW-ADMIN', 'CONECTADO_A', 'RTR-PRINCIPAL'],
+  ['SW-DOC', 'CONECTADO_A', 'RTR-RESPALDO'],
+  ['SW-BIB', 'CONECTADO_A', 'RTR-RESPALDO'],
+
+  ['RTR-PRINCIPAL', 'CONECTADO_A', 'FW-PRINCIPAL'],
+  ['RTR-RESPALDO', 'CONECTADO_A', 'FW-PRINCIPAL'],
+
+  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-WEB'],
+  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-ACADEMICO'],
+  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-ARCHIVOS'],
+  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-AUTENTICACION'],
+
+  ['SRV-ACADEMICO', 'ALOJA', 'BD-ESCOLAR'],
+  ['SRV-ACADEMICO', 'ALOJA', 'BD-PERSONAL'],
+  ['SRV-WEB', 'ALOJA', 'BD-ESCOLAR'],
+  ['SRV-ARCHIVOS', 'ALOJA', 'BD-BIBLIOTECA'],
+  ['SRV-AUTENTICACION', 'ALOJA', 'BD-PERSONAL'],
+
+  ['SRV-WEB', 'ALOJA', 'SIS-PORTAL'],
+  ['SRV-ACADEMICO', 'ALOJA', 'SIS-GESTION'],
+  ['SRV-ACADEMICO', 'ALOJA', 'SIS-PORTAL'],
+  ['SRV-ARCHIVOS', 'ALOJA', 'SIS-BIBLIOTECA'],
+  ['SRV-WEB', 'ALOJA', 'SIS-CORREO'],
+  ['SRV-AUTENTICACION', 'ALOJA', 'SIS-CORREO'],
+
+  ['USR-ADMIN', 'UTILIZA', 'PC-ADMIN01'],
+  ['USR-DOCENTE', 'UTILIZA', 'PC-DOC01'],
+  ['USR-ESTUDIANTE', 'UTILIZA', 'PC-LAB01'],
+  ['USR-BIBLIOTECARIO', 'UTILIZA', 'PC-BIB01'],
+
+  ['USR-ADMIN', 'ACCEDE_A', 'SIS-GESTION'],
+  ['USR-ADMIN', 'ACCEDE_A', 'SIS-PORTAL'],
+  ['USR-DOCENTE', 'ACCEDE_A', 'SIS-PORTAL'],
+  ['USR-DOCENTE', 'ACCEDE_A', 'SIS-CORREO'],
+  ['USR-ESTUDIANTE', 'ACCEDE_A', 'SIS-PORTAL'],
+  ['USR-ESTUDIANTE', 'ACCEDE_A', 'SIS-BIBLIOTECA'],
+  ['USR-BIBLIOTECARIO', 'ACCEDE_A', 'SIS-BIBLIOTECA'],
+
+  ['SRV-WEB', 'RESPALDA_EN', 'NAS-RESPALDO'],
+  ['SRV-ACADEMICO', 'RESPALDA_EN', 'NAS-RESPALDO'],
+  ['SRV-ARCHIVOS', 'RESPALDA_EN', 'NAS-RESPALDO'],
+
+  ['VPN-ACCESO', 'CONECTADO_A', 'FW-PRINCIPAL'],
+  ['USR-ADMIN', 'ACCEDE_A', 'VPN-ACCESO'],
+  ['USR-DOCENTE', 'ACCEDE_A', 'VPN-ACCESO'],
+
+  ['SW-LAB', 'ENLAZADO_A', 'SW-ADMIN'],
+  ['SW-DOC', 'ENLAZADO_A', 'SW-BIB'],
+
+  ['SRV-WEB', 'DEPENDE_DE', 'SRV-AUTENTICACION'],
+  ['SRV-ACADEMICO', 'DEPENDE_DE', 'SRV-AUTENTICACION'],
+
+  ['FW-PRINCIPAL', 'RESPALDA_EN', 'NAS-RESPALDO'],
+  ['RTR-PRINCIPAL', 'ENLAZADO_A', 'RTR-RESPALDO']
+] AS datos
+
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[2]})
+
+CALL apoc.create.relationship(
+  origen,
+  datos[1],
+  {},
+  destino
+) YIELD rel
+
+RETURN COUNT(rel) AS RelacionesCreadas;
+```
+
+**Resultado esperado:** 50 relaciones creadas.
+
+**Nota:** la consulta anterior utiliza APOC, una extensión de Neo4j. Si la función `apoc.create.relationship` no está disponible en tu instalación, será necesario habilitar APOC o utilizar una alternativa compatible. Esta consulta crea relaciones nuevas cada vez que se ejecuta, por lo que no conviene repetirla sobre el mismo grafo.
+
+### Verificación de nodos y relaciones
+
+```sql
+MATCH (n:ActivoTI)
+RETURN COUNT(n) AS TotalNodos;
+```
+
+**Resultado esperado:** 30 nodos.
+
+```sql
+MATCH (:ActivoTI)-[r]->(:ActivoTI)
+RETURN COUNT(r) AS TotalRelaciones;
+```
+
+**Resultado esperado:** 50 relaciones.
+
+### Visualización del grafo en Neo4j
+
+```sql
+MATCH (origen:ActivoTI)-[relacion]->(destino:ActivoTI)
+RETURN origen, relacion, destino;
+```
+
+Selecciona la vista **Graph** para observar toda la infraestructura tecnológica.
+
+
+
+### Creación de las relaciones
+
+#### Conexiones entre equipos y dispositivos
+
+```sql
+UNWIND [
+  ['PC-LAB01', 'SW-LAB'],
+  ['PC-LAB02', 'SW-LAB'],
+  ['PC-LAB03', 'SW-LAB'],
+  ['PC-ADMIN01', 'SW-ADMIN'],
+  ['PC-DOC01', 'SW-DOC'],
+  ['PC-BIB01', 'SW-BIB'],
+  ['SW-LAB', 'RTR-PRINCIPAL'],
+  ['SW-ADMIN', 'RTR-PRINCIPAL'],
+  ['SW-DOC', 'RTR-RESPALDO'],
+  ['SW-BIB', 'RTR-RESPALDO'],
+  ['RTR-PRINCIPAL', 'FW-PRINCIPAL'],
+  ['RTR-RESPALDO', 'FW-PRINCIPAL'],
+  ['FW-PRINCIPAL', 'SRV-WEB'],
+  ['FW-PRINCIPAL', 'SRV-ACADEMICO'],
+  ['FW-PRINCIPAL', 'SRV-ARCHIVOS'],
+  ['FW-PRINCIPAL', 'SRV-AUTENTICACION'],
+  ['VPN-ACCESO', 'FW-PRINCIPAL']
+] AS datos
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[1]})
+MERGE (origen)-[r:CONECTADO_A]->(destino)
+RETURN COUNT(r) AS Conexiones;
+```
+
+#### Servidores, bases de datos y sistemas
+
+```sql
+UNWIND [
+  ['SRV-ACADEMICO', 'BD-ESCOLAR'],
+  ['SRV-ACADEMICO', 'BD-PERSONAL'],
+  ['SRV-WEB', 'BD-ESCOLAR'],
+  ['SRV-ARCHIVOS', 'BD-BIBLIOTECA'],
+  ['SRV-AUTENTICACION', 'BD-PERSONAL'],
+  ['SRV-WEB', 'SIS-PORTAL'],
+  ['SRV-ACADEMICO', 'SIS-GESTION'],
+  ['SRV-ACADEMICO', 'SIS-PORTAL'],
+  ['SRV-ARCHIVOS', 'SIS-BIBLIOTECA'],
+  ['SRV-WEB', 'SIS-CORREO'],
+  ['SRV-AUTENTICACION', 'SIS-CORREO']
+] AS datos
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[1]})
+MERGE (origen)-[r:ALOJA]->(destino)
+RETURN COUNT(r) AS Relaciones;
+```
+
+#### Equipos utilizados por los usuarios
+
+```sql
+UNWIND [
+  ['USR-ADMIN', 'PC-ADMIN01'],
+  ['USR-DOCENTE', 'PC-DOC01'],
+  ['USR-ESTUDIANTE', 'PC-LAB01'],
+  ['USR-BIBLIOTECARIO', 'PC-BIB01']
+] AS datos
+MATCH (usuario:ActivoTI {id: datos[0]})
+MATCH (equipo:ActivoTI {id: datos[1]})
+MERGE (usuario)-[r:UTILIZA]->(equipo)
+RETURN COUNT(r) AS Relaciones;
+```
+
+#### Acceso a sistemas y VPN
+
+```sql
+UNWIND [
+  ['USR-ADMIN', 'SIS-GESTION'],
+  ['USR-ADMIN', 'SIS-PORTAL'],
+  ['USR-DOCENTE', 'SIS-PORTAL'],
+  ['USR-DOCENTE', 'SIS-CORREO'],
+  ['USR-ESTUDIANTE', 'SIS-PORTAL'],
+  ['USR-ESTUDIANTE', 'SIS-BIBLIOTECA'],
+  ['USR-BIBLIOTECARIO', 'SIS-BIBLIOTECA'],
+  ['USR-ADMIN', 'VPN-ACCESO'],
+  ['USR-DOCENTE', 'VPN-ACCESO']
+] AS datos
+MATCH (usuario:ActivoTI {id: datos[0]})
+MATCH (recurso:ActivoTI {id: datos[1]})
+MERGE (usuario)-[r:ACCEDE_A]->(recurso)
+RETURN COUNT(r) AS Relaciones;
+```
+
+#### Relaciones de respaldo
+
+```sql
+UNWIND [
+  ['SRV-WEB', 'NAS-RESPALDO'],
+  ['SRV-ACADEMICO', 'NAS-RESPALDO'],
+  ['SRV-ARCHIVOS', 'NAS-RESPALDO'],
+  ['FW-PRINCIPAL', 'NAS-RESPALDO']
+] AS datos
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[1]})
+MERGE (origen)-[r:RESPALDA_EN]->(destino)
+RETURN COUNT(r) AS Relaciones;
+```
+
+#### Enlaces entre dispositivos
+
+```sql
+UNWIND [
+  ['SW-LAB', 'SW-ADMIN'],
+  ['SW-DOC', 'SW-BIB'],
+  ['RTR-PRINCIPAL', 'RTR-RESPALDO']
+] AS datos
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[1]})
+MERGE (origen)-[r:ENLAZADO_A]->(destino)
+RETURN COUNT(r) AS Relaciones;
+```
+
+#### Dependencias entre servidores
+
+```sql
+UNWIND [
+  ['SRV-WEB', 'SRV-AUTENTICACION'],
+  ['SRV-ACADEMICO', 'SRV-AUTENTICACION']
+] AS datos
+MATCH (origen:ActivoTI {id: datos[0]})
+MATCH (destino:ActivoTI {id: datos[1]})
+MERGE (origen)-[r:DEPENDE_DE]->(destino)
+RETURN COUNT(r) AS Relaciones;
+```
+
+
+### Visualización de la infraestructura tecnológica
+
+```{mermaid}
+flowchart LR
+
+    LAB01["PC LAB01"]
+    LAB02["PC LAB02"]
+    LAB03["PC LAB03"]
+    ADMINPC["PC ADMIN01"]
+    DOCPC["PC DOC01"]
+    BIBPC["PC BIB01"]
+
+    SWLAB["Switch Laboratorio"]
+    SWADMIN["Switch Administración"]
+    SWDOC["Switch Docentes"]
+    SWBIB["Switch Biblioteca"]
+
+    RTR1["Router Principal"]
+    RTR2["Router Respaldo"]
+    FW["Firewall Principal"]
+
+    WEB["Servidor Web"]
+    ACADEMICO["Servidor Académico"]
+    ARCHIVOS["Servidor Archivos"]
+    AUTH["Servidor Autenticación"]
+
+    BDE["BD Escolar"]
+    BDB["BD Biblioteca"]
+    BDP["BD Personal"]
+
+    PORTAL["Portal Escolar"]
+    BIBLIOTECA["Biblioteca Digital"]
+    CORREO["Correo"]
+    GESTION["Sistema Gestión"]
+
+    UADMIN["Administrador"]
+    UDOC["Docente"]
+    UEST["Estudiante"]
+    UBIB["Bibliotecario"]
+
+    NAS["NAS Respaldo"]
+    VPN["VPN Acceso"]
+
+    LAB01 --> SWLAB
+    LAB02 --> SWLAB
+    LAB03 --> SWLAB
+    ADMINPC --> SWADMIN
+    DOCPC --> SWDOC
+    BIBPC --> SWBIB
+
+    SWLAB --> RTR1
+    SWADMIN --> RTR1
+    SWDOC --> RTR2
+    SWBIB --> RTR2
+
+    RTR1 --> FW
+    RTR2 --> FW
+
+    FW --> WEB
+    FW --> ACADEMICO
+    FW --> ARCHIVOS
+    FW --> AUTH
+
+    ACADEMICO --> BDE
+    ACADEMICO --> BDP
+    WEB --> BDE
+    ARCHIVOS --> BDB
+    AUTH --> BDP
+
+    WEB --> PORTAL
+    ACADEMICO --> GESTION
+    ACADEMICO --> PORTAL
+    ARCHIVOS --> BIBLIOTECA
+    WEB --> CORREO
+    AUTH --> CORREO
+
+    UADMIN --> ADMINPC
+    UDOC --> DOCPC
+    UEST --> LAB01
+    UBIB --> BIBPC
+
+    UADMIN --> GESTION
+    UADMIN --> PORTAL
+    UDOC --> PORTAL
+    UDOC --> CORREO
+    UEST --> PORTAL
+    UEST --> BIBLIOTECA
+    UBIB --> BIBLIOTECA
+
+    WEB --> NAS
+    ACADEMICO --> NAS
+    ARCHIVOS --> NAS
+
+    VPN --> FW
+    UADMIN --> VPN
+    UDOC --> VPN
+
+    SWLAB --> SWADMIN
+    SWDOC --> SWBIB
+
+    WEB --> AUTH
+    ACADEMICO --> AUTH
+
+    FW --> NAS
+    RTR1 --> RTR2
+
+    classDef computadora fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef red fill:#dcfce7,stroke:#16a34a,color:#166534
+    classDef servidor fill:#f3e8ff,stroke:#9333ea,color:#581c87
+    classDef bd fill:#fef3c7,stroke:#d97706,color:#92400e
+    classDef usuario fill:#ffe4e6,stroke:#e11d48,color:#881337
+
+    class LAB01,LAB02,LAB03,ADMINPC,DOCPC,BIBPC computadora
+    class SWLAB,SWADMIN,SWDOC,SWBIB,RTR1,RTR2,FW,VPN red
+    class WEB,ACADEMICO,ARCHIVOS,AUTH,NAS servidor
+    class BDE,BDB,BDP bd
+    class UADMIN,UDOC,UEST,UBIB usuario
+```
+
+
+## Consultas sobre infraestructura de TI y ciberseguridad
+
+A partir de la infraestructura tecnológica simulada, realizaremos consultas para identificar conexiones entre dispositivos, accesos de usuarios, dependencias entre sistemas y posibles puntos de exposición.
+
+### Consultar las computadoras registradas
+
+```sql
+MATCH (equipo:Computadora)
+RETURN equipo.id AS Computadora
+ORDER BY Computadora;
+```
+
+**Resultado esperado:** las seis computadoras registradas en la infraestructura.
+
+Esta consulta utiliza la etiqueta `Computadora` para seleccionar únicamente los nodos de ese tipo.
+
+### Identificar los equipos conectados a un switch
+
+```sql
+MATCH (equipo:Computadora)-[:CONECTADO_A]->
+      (switch:Switch {id: 'SW-LAB'})
+RETURN equipo.id AS Computadora,
+       switch.id AS Switch;
+```
+
+**Resultado esperado:**
+
+| Computadora | Switch |
+|---|---|
+| PC-LAB01 | SW-LAB |
+| PC-LAB02 | SW-LAB |
+| PC-LAB03 | SW-LAB |
+
+Esta consulta permite identificar las computadoras conectadas directamente al switch del laboratorio.
+
+### Consultar los servidores conectados al firewall
+
+```sql
+MATCH (firewall:Firewall {id: 'FW-PRINCIPAL'})
+      -[:CONECTADO_A]->(servidor:Servidor)
+RETURN servidor.id AS Servidor
+ORDER BY Servidor;
+```
+
+**Resultado esperado:** SRV-WEB, SRV-ACADEMICO, SRV-ARCHIVOS y SRV-AUTENTICACION.
+
+La consulta identifica los servidores que tienen una conexión registrada desde el firewall principal.
+
+### Identificar las bases de datos alojadas en cada servidor
+
+```sql
+MATCH (servidor:Servidor)-[:ALOJA]->(bd:BaseDatos)
+RETURN servidor.id AS Servidor,
+       bd.id AS BaseDatos
+ORDER BY Servidor;
+```
+
+**Resultado esperado:** una tabla con las bases de datos asociadas a cada servidor.
+
+Por ejemplo, `SRV-ACADEMICO` aloja `BD-ESCOLAR` y `BD-PERSONAL`.
+
+Esta consulta permite conocer la distribución de las bases de datos dentro de la infraestructura.
+
+### Consultar los sistemas a los que accede cada usuario
+
+```sql
+MATCH (usuario:Usuario)-[:ACCEDE_A]->(sistema:Sistema)
+RETURN usuario.id AS Usuario,
+       sistema.id AS Sistema
+ORDER BY Usuario, Sistema;
+```
+
+**Resultado esperado:** una tabla que muestra los sistemas asociados con cada usuario.
+
+Por ejemplo:
+
+| Usuario | Sistema |
+|---|---|
+| USR-ADMIN | SIS-GESTION |
+| USR-ADMIN | SIS-PORTAL |
+| USR-DOCENTE | SIS-CORREO |
+| USR-DOCENTE | SIS-PORTAL |
+| USR-ESTUDIANTE | SIS-BIBLIOTECA |
+| USR-ESTUDIANTE | SIS-PORTAL |
+| USR-BIBLIOTECARIO | SIS-BIBLIOTECA |
+
+La relación `ACCEDE_A` representa los accesos registrados en el grafo simulado, no permisos verificados en un sistema real.
+
+### Identificar los servidores con mayor número de sistemas alojados
+
+```sql
+MATCH (servidor:Servidor)-[:ALOJA]->(sistema:Sistema)
+RETURN servidor.id AS Servidor,
+       COUNT(sistema) AS TotalSistemas
+ORDER BY TotalSistemas DESC, Servidor;
+```
+
+**Resultado esperado:**
+
+| Servidor | TotalSistemas |
+|---|---:|
+| SRV-ACADEMICO | 2 |
+| SRV-WEB | 2 |
+| SRV-ARCHIVOS | 1 |
+| SRV-AUTENTICACION | 1 |
+
+`COUNT()` permite identificar cuáles servidores alojan más sistemas de información.
+
+### Identificar los sistemas que dependen de un servidor
+
+```sql
+MATCH (servidor:Servidor {id: 'SRV-ACADEMICO'})
+      -[:ALOJA]->(sistema:Sistema)
+RETURN servidor.id AS Servidor,
+       sistema.id AS Sistema;
+```
+
+**Resultado esperado:** `SIS-GESTION` y `SIS-PORTAL`.
+
+Esta consulta permite reconocer los sistemas que podrían verse afectados si el servidor académico dejara de funcionar.
+
+### Consultar los servidores que dependen del servicio de autenticación
+
+```sql
+MATCH (servidor:Servidor)-[:DEPENDE_DE]->
+      (autenticacion:Servidor {id: 'SRV-AUTENTICACION'})
+RETURN servidor.id AS Servidor,
+       autenticacion.id AS Dependencia;
+```
+
+**Resultado esperado:** `SRV-WEB` y `SRV-ACADEMICO`.
+
+La consulta identifica las dependencias explícitas registradas entre servidores.
+
+Si el servicio de autenticación presenta una falla, ambos servidores podrían experimentar problemas en las funciones que dependen de él.
+
+### Identificar los sistemas asociados con un servidor dependiente de autenticación
+
+```sql
+MATCH (servidor:Servidor)-[:DEPENDE_DE]->
+      (autenticacion:Servidor {id: 'SRV-AUTENTICACION'})
+
+MATCH (servidor)-[:ALOJA]->(sistema:Sistema)
+
+RETURN autenticacion.id AS ServidorAutenticacion,
+       servidor.id AS ServidorDependiente,
+       sistema.id AS Sistema
+ORDER BY ServidorDependiente, Sistema;
+```
+
+**Resultado esperado:** una tabla que incluye los sistemas alojados en `SRV-WEB` y `SRV-ACADEMICO`.
+
+Esta consulta permite explorar dependencias indirectas y reconocer qué sistemas podrían estar relacionados con un incidente del servicio de autenticación.
+
+No demuestra que todos los sistemas dejarían de funcionar, sino que identifica posibles dependencias que deberían revisarse.
+
+### Visualizar las conexiones de un dispositivo crítico
+
+```sql
+MATCH camino = (firewall:Firewall {id: 'FW-PRINCIPAL'})
+               -[:CONECTADO_A*1..2]-
+               (dispositivo:ActivoTI)
+RETURN camino;
+```
+
+**Resultado esperado:** una visualización de las conexiones del firewall principal, incluyendo dispositivos alcanzables mediante una o dos relaciones `CONECTADO_A`, sin importar su dirección.
+
+Selecciona la vista **Graph** de Neo4j para observar los recorridos.
+
+La expresión `*1..2` permite explorar conexiones de uno o dos saltos.
+
+Esta consulta resulta útil para examinar la estructura de la infraestructura e identificar dispositivos cercanos a un componente importante.
+
+**Importante:** estas conexiones representan la topología registrada en la base de datos. No implican por sí mismas que exista comunicación permitida o que un atacante pueda acceder a los dispositivos.
