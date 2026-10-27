@@ -264,6 +264,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#verificación-de-nodos-y-relaciones" id="toc-verificación-de-nodos-y-relaciones" class="nav-link" data-scroll-target="#verificación-de-nodos-y-relaciones"><span class="header-section-number">33.3</span> Verificación de nodos y relaciones</a></li>
   <li><a href="#visualización-del-grafo-en-neo4j" id="toc-visualización-del-grafo-en-neo4j" class="nav-link" data-scroll-target="#visualización-del-grafo-en-neo4j"><span class="header-section-number">33.4</span> Visualización del grafo en Neo4j</a></li>
   <li><a href="#visualización-de-la-red-de-transporte" id="toc-visualización-de-la-red-de-transporte" class="nav-link" data-scroll-target="#visualización-de-la-red-de-transporte"><span class="header-section-number">33.5</span> Visualización de la red de transporte</a></li>
+  <li><a href="#consultas-sobre-la-red-de-transporte" id="toc-consultas-sobre-la-red-de-transporte" class="nav-link" data-scroll-target="#consultas-sobre-la-red-de-transporte"><span class="header-section-number">33.6</span> Consultas sobre la red de transporte</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-práctico-draft-de-la-nba-y-contratos-de-jugadores" id="toc-ejemplo-práctico-draft-de-la-nba-y-contratos-de-jugadores" class="nav-link" data-scroll-target="#ejemplo-práctico-draft-de-la-nba-y-contratos-de-jugadores"><span class="header-section-number">34</span> Ejemplo práctico: Draft de la NBA y contratos de jugadores</a>
+  <ul class="collapse">
+  <li><a href="#estructura-del-grafo" id="toc-estructura-del-grafo" class="nav-link" data-scroll-target="#estructura-del-grafo"><span class="header-section-number">34.1</span> Estructura del grafo</a></li>
+  <li><a href="#representación-gráfica-del-modelo" id="toc-representación-gráfica-del-modelo" class="nav-link" data-scroll-target="#representación-gráfica-del-modelo"><span class="header-section-number">34.2</span> Representación gráfica del modelo</a></li>
+  <li><a href="#crear-los-equipos" id="toc-crear-los-equipos" class="nav-link" data-scroll-target="#crear-los-equipos"><span class="header-section-number">34.3</span> Crear los equipos</a></li>
+  <li><a href="#crear-los-jugadores" id="toc-crear-los-jugadores" class="nav-link" data-scroll-target="#crear-los-jugadores"><span class="header-section-number">34.4</span> Crear los jugadores</a></li>
+  <li><a href="#crear-el-nodo-del-draft" id="toc-crear-el-nodo-del-draft" class="nav-link" data-scroll-target="#crear-el-nodo-del-draft"><span class="header-section-number">34.5</span> Crear el nodo del Draft</a></li>
+  <li><a href="#relacionar-los-jugadores-con-los-equipos" id="toc-relacionar-los-jugadores-con-los-equipos" class="nav-link" data-scroll-target="#relacionar-los-jugadores-con-los-equipos"><span class="header-section-number">34.6</span> Relacionar los jugadores con los equipos</a></li>
+  <li><a href="#relacionar-los-jugadores-con-el-draft" id="toc-relacionar-los-jugadores-con-el-draft" class="nav-link" data-scroll-target="#relacionar-los-jugadores-con-el-draft"><span class="header-section-number">34.7</span> Relacionar los jugadores con el Draft</a></li>
+  <li><a href="#agregar-las-propiedades-de-los-jugadores" id="toc-agregar-las-propiedades-de-los-jugadores" class="nav-link" data-scroll-target="#agregar-las-propiedades-de-los-jugadores"><span class="header-section-number">34.8</span> Agregar las propiedades de los jugadores</a></li>
+  <li><a href="#agregar-las-propiedades-de-los-equipos" id="toc-agregar-las-propiedades-de-los-equipos" class="nav-link" data-scroll-target="#agregar-las-propiedades-de-los-equipos"><span class="header-section-number">34.9</span> Agregar las propiedades de los equipos</a></li>
+  <li><a href="#crear-los-contratos" id="toc-crear-los-contratos" class="nav-link" data-scroll-target="#crear-los-contratos"><span class="header-section-number">34.10</span> Crear los contratos</a></li>
+  <li><a href="#relacionar-los-jugadores-con-sus-contratos" id="toc-relacionar-los-jugadores-con-sus-contratos" class="nav-link" data-scroll-target="#relacionar-los-jugadores-con-sus-contratos"><span class="header-section-number">34.11</span> Relacionar los jugadores con sus contratos</a></li>
+  <li><a href="#relacionar-los-contratos-con-los-equipos" id="toc-relacionar-los-contratos-con-los-equipos" class="nav-link" data-scroll-target="#relacionar-los-contratos-con-los-equipos"><span class="header-section-number">34.12</span> Relacionar los contratos con los equipos</a></li>
+  <li><a href="#visualizar-el-grafo-completo-1" id="toc-visualizar-el-grafo-completo-1" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo-1"><span class="header-section-number">34.13</span> Visualizar el grafo completo</a></li>
+  <li><a href="#consultas-de-ejemplo" id="toc-consultas-de-ejemplo" class="nav-link" data-scroll-target="#consultas-de-ejemplo"><span class="header-section-number">34.14</span> Consultas de ejemplo</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-práctico-gestión-de-infraestructura-de-ti-y-ciberseguridad" id="toc-ejemplo-práctico-gestión-de-infraestructura-de-ti-y-ciberseguridad" class="nav-link" data-scroll-target="#ejemplo-práctico-gestión-de-infraestructura-de-ti-y-ciberseguridad"><span class="header-section-number">35</span> Ejemplo práctico: Gestión de infraestructura de TI y ciberseguridad</a>
+  <ul class="collapse">
+  <li><a href="#estructura-del-grafo-1" id="toc-estructura-del-grafo-1" class="nav-link" data-scroll-target="#estructura-del-grafo-1"><span class="header-section-number">35.1</span> Estructura del grafo</a></li>
+  <li><a href="#representación-gráfica-del-modelo-1" id="toc-representación-gráfica-del-modelo-1" class="nav-link" data-scroll-target="#representación-gráfica-del-modelo-1"><span class="header-section-number">35.2</span> Representación gráfica del modelo</a></li>
+  <li><a href="#crear-los-departamentos" id="toc-crear-los-departamentos" class="nav-link" data-scroll-target="#crear-los-departamentos"><span class="header-section-number">35.3</span> Crear los departamentos</a></li>
+  <li><a href="#crear-los-usuarios" id="toc-crear-los-usuarios" class="nav-link" data-scroll-target="#crear-los-usuarios"><span class="header-section-number">35.4</span> Crear los usuarios</a></li>
+  <li><a href="#crear-los-servidores" id="toc-crear-los-servidores" class="nav-link" data-scroll-target="#crear-los-servidores"><span class="header-section-number">35.5</span> Crear los servidores</a></li>
+  <li><a href="#crear-las-aplicaciones" id="toc-crear-las-aplicaciones" class="nav-link" data-scroll-target="#crear-las-aplicaciones"><span class="header-section-number">35.6</span> Crear las aplicaciones</a></li>
+  <li><a href="#crear-las-bases-de-datos" id="toc-crear-las-bases-de-datos" class="nav-link" data-scroll-target="#crear-las-bases-de-datos"><span class="header-section-number">35.7</span> Crear las bases de datos</a></li>
+  <li><a href="#crear-las-vulnerabilidades" id="toc-crear-las-vulnerabilidades" class="nav-link" data-scroll-target="#crear-las-vulnerabilidades"><span class="header-section-number">35.8</span> Crear las vulnerabilidades</a></li>
+  <li><a href="#verificar-los-nodos-creados" id="toc-verificar-los-nodos-creados" class="nav-link" data-scroll-target="#verificar-los-nodos-creados"><span class="header-section-number">35.9</span> Verificar los nodos creados</a></li>
+  <li><a href="#relacionar-los-usuarios-con-sus-departamentos" id="toc-relacionar-los-usuarios-con-sus-departamentos" class="nav-link" data-scroll-target="#relacionar-los-usuarios-con-sus-departamentos"><span class="header-section-number">35.10</span> Relacionar los usuarios con sus departamentos</a></li>
+  <li><a href="#relacionar-los-usuarios-con-las-aplicaciones" id="toc-relacionar-los-usuarios-con-las-aplicaciones" class="nav-link" data-scroll-target="#relacionar-los-usuarios-con-las-aplicaciones"><span class="header-section-number">35.11</span> Relacionar los usuarios con las aplicaciones</a></li>
+  <li><a href="#relacionar-los-usuarios-con-los-servidores" id="toc-relacionar-los-usuarios-con-los-servidores" class="nav-link" data-scroll-target="#relacionar-los-usuarios-con-los-servidores"><span class="header-section-number">35.12</span> Relacionar los usuarios con los servidores</a></li>
+  <li><a href="#relacionar-los-servidores-con-las-aplicaciones" id="toc-relacionar-los-servidores-con-las-aplicaciones" class="nav-link" data-scroll-target="#relacionar-los-servidores-con-las-aplicaciones"><span class="header-section-number">35.13</span> Relacionar los servidores con las aplicaciones</a></li>
+  <li><a href="#relacionar-las-aplicaciones-con-las-bases-de-datos" id="toc-relacionar-las-aplicaciones-con-las-bases-de-datos" class="nav-link" data-scroll-target="#relacionar-las-aplicaciones-con-las-bases-de-datos"><span class="header-section-number">35.14</span> Relacionar las aplicaciones con las bases de datos</a></li>
+  <li><a href="#relacionar-los-servidores-con-las-bases-de-datos" id="toc-relacionar-los-servidores-con-las-bases-de-datos" class="nav-link" data-scroll-target="#relacionar-los-servidores-con-las-bases-de-datos"><span class="header-section-number">35.15</span> Relacionar los servidores con las bases de datos</a></li>
+  <li><a href="#relacionar-los-servidores-con-sus-vulnerabilidades" id="toc-relacionar-los-servidores-con-sus-vulnerabilidades" class="nav-link" data-scroll-target="#relacionar-los-servidores-con-sus-vulnerabilidades"><span class="header-section-number">35.16</span> Relacionar los servidores con sus vulnerabilidades</a></li>
+  <li><a href="#agregar-las-propiedades-de-los-servidores" id="toc-agregar-las-propiedades-de-los-servidores" class="nav-link" data-scroll-target="#agregar-las-propiedades-de-los-servidores"><span class="header-section-number">35.17</span> Agregar las propiedades de los servidores</a></li>
+  <li><a href="#agregar-las-propiedades-de-las-vulnerabilidades" id="toc-agregar-las-propiedades-de-las-vulnerabilidades" class="nav-link" data-scroll-target="#agregar-las-propiedades-de-las-vulnerabilidades"><span class="header-section-number">35.18</span> Agregar las propiedades de las vulnerabilidades</a></li>
+  <li><a href="#visualizar-el-grafo-completo-2" id="toc-visualizar-el-grafo-completo-2" class="nav-link" data-scroll-target="#visualizar-el-grafo-completo-2"><span class="header-section-number">35.19</span> Visualizar el grafo completo</a></li>
+  <li><a href="#consultas-de-ejemplo-1" id="toc-consultas-de-ejemplo-1" class="nav-link" data-scroll-target="#consultas-de-ejemplo-1"><span class="header-section-number">35.20</span> Consultas de ejemplo</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1118,6 +1159,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Por ejemplo:</p>
 <blockquote class="blockquote">
 <p>Ana → Carlos → Luis</p>
+</blockquote>
+<blockquote class="blockquote">
 <p>Ana → María → Luis</p>
 </blockquote>
 <p>Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.</p>
@@ -1193,6 +1236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Porque Neo4j encontró dos caminos diferentes:</p>
 <blockquote class="blockquote">
 <p>Ana → Carlos → Luis</p>
+</blockquote>
+<blockquote class="blockquote">
 <p>Ana → María → Luis</p>
 </blockquote>
 <p>Esto no significa que existan dos nodos llamados Luis.</p>
@@ -1375,6 +1420,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>En nuestro ejemplo:</p>
 <blockquote class="blockquote">
 <p>Ana → Carlos → Luis</p>
+</blockquote>
+<blockquote class="blockquote">
 <p>Ana → María → Luis</p>
 </blockquote>
 <p>Ana conoce directamente a Carlos y María.</p>
@@ -1463,7 +1510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Línea 1:</strong> busca todos los nodos almacenados.</li>
 <li><strong>Línea 2:</strong> devuelve los nodos.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> cinco personas.</p>
+<p><strong>Resultado esperado:</strong> cinco personas, si únicamente hemos creado la red social de esta práctica.</p>
 <hr>
 </section>
 <section id="consultar-todas-las-relaciones" class="level2" data-number="25">
@@ -1476,7 +1523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Línea 1:</strong> busca relaciones de cualquier tipo.</li>
 <li><strong>Línea 2:</strong> devuelve los nodos y las relaciones.</li>
 </ul>
-<p><strong>Resultado esperado:</strong> cinco relaciones.</p>
+<p><strong>Resultado esperado:</strong> cinco relaciones, si únicamente hemos creado la red social.</p>
 <hr>
 </section>
 <section id="recuperar-únicamente-los-nombres" class="level2" data-number="26">
@@ -1870,8 +1917,1359 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="consultas-sobre-la-red-de-transporte" class="level3" data-number="33.6">
+<h3 data-number="33.6" class="anchored" data-anchor-id="consultas-sobre-la-red-de-transporte"><span class="header-section-number">33.6</span> Consultas sobre la red de transporte</h3>
+<p>A partir del grafo de 25 ciudades y 60 rutas, realizaremos consultas para explorar conexiones directas, recorridos alternativos, distancias, tiempos y costos.</p>
+<section id="consultar-las-ciudades-conectadas-directamente-con-xalapa" class="level4" data-number="33.6.1">
+<h4 data-number="33.6.1" class="anchored" data-anchor-id="consultar-las-ciudades-conectadas-directamente-con-xalapa"><span class="header-section-number">33.6.1</span> Consultar las ciudades conectadas directamente con Xalapa</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})<span class="op">-</span>[<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Ciudad;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> Veracruz, Puebla, Córdoba, Pachuca y Tlaxcala.</p>
+<p>Esta consulta identifica las ciudades que tienen una ruta directa de salida desde Xalapa.</p>
+</section>
+<section id="consultar-las-distancias-tiempos-y-costos-desde-xalapa" class="level4" data-number="33.6.2">
+<h4 data-number="33.6.2" class="anchored" data-anchor-id="consultar-las-distancias-tiempos-y-costos-desde-xalapa"><span class="header-section-number">33.6.2</span> Consultar las distancias, tiempos y costos desde Xalapa</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})<span class="op">-</span>[ruta<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Destino,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>       ruta.distancia_km <span class="kw">AS</span> DistanciaKM,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>       ruta.tiempo_min <span class="kw">AS</span> TiempoMin,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>       ruta.costo <span class="kw">AS</span> CostoMXN</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> DistanciaKM;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Destino</th>
+<th style="text-align: right;">DistanciaKM</th>
+<th style="text-align: right;">TiempoMin</th>
+<th style="text-align: right;">CostoMXN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Veracruz</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">170</td>
+</tr>
+<tr class="even">
+<td>Córdoba</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">180</td>
+</tr>
+<tr class="odd">
+<td>Tlaxcala</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">155</td>
+<td style="text-align: right;">230</td>
+</tr>
+<tr class="even">
+<td>Puebla</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">260</td>
+</tr>
+<tr class="odd">
+<td>Pachuca</td>
+<td style="text-align: right;">235</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">300</td>
+</tr>
+</tbody>
+</table>
+<p><code>ORDER BY</code> organiza los resultados según la distancia, de menor a mayor.</p>
+</section>
+<section id="identificar-las-ciudades-con-más-rutas-de-salida" class="level4" data-number="33.6.3">
+<h4 data-number="33.6.3" class="anchored" data-anchor-id="identificar-las-ciudades-con-más-rutas-de-salida"><span class="header-section-number">33.6.3</span> Identificar las ciudades con más rutas de salida</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span>)<span class="op">-</span>[<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen.nombre <span class="kw">AS</span> Ciudad,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(destino) <span class="kw">AS</span> TotalRutas</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> TotalRutas <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> las ciudades se ordenan de acuerdo con el número de rutas de salida.</p>
+<p>Por ejemplo, Xalapa, Puebla y Ciudad de México tienen cinco conexiones de salida cada una.</p>
+<p><code>COUNT()</code> cuenta las relaciones encontradas y <code>DESC</code> ordena de mayor a menor.</p>
+</section>
+<section id="consultar-las-ciudades-a-las-que-podemos-llegar-desde-xalapa-con-una-escala" class="level4" data-number="33.6.4">
+<h4 data-number="33.6.4" class="anchored" data-anchor-id="consultar-las-ciudades-a-las-que-podemos-llegar-desde-xalapa-con-una-escala"><span class="header-section-number">33.6.4</span> Consultar las ciudades a las que podemos llegar desde Xalapa con una escala</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(intermedio<span class="ch">:Ciudad</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> intermedio.nombre <span class="kw">AS</span> Escala,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>       destino.nombre <span class="kw">AS</span> Destino</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> una tabla con la ciudad intermedia y el destino final.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Xalapa → Puebla → Ciudad de México</li>
+<li>Xalapa → Pachuca → Ciudad de México</li>
+<li>Xalapa → Veracruz → Coatzacoalcos</li>
+<li>Xalapa → Córdoba → Orizaba</li>
+</ul>
+<p>Esta consulta permite encontrar recorridos que utilizan exactamente dos relaciones, es decir, una escala.</p>
+<p>Un destino puede aparecer varias veces cuando existen distintos recorridos para llegar a él.</p>
+</section>
+<section id="encontrar-rutas-alternativas-entre-xalapa-y-ciudad-de-méxico" class="level4" data-number="33.6.5">
+<h4 data-number="33.6.5" class="anchored" data-anchor-id="encontrar-rutas-alternativas-entre-xalapa-y-ciudad-de-méxico"><span class="header-section-number">33.6.5</span> Encontrar rutas alternativas entre Xalapa y Ciudad de México</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>               <span class="op">-</span>[<span class="ch">:RUTA</span><span class="op">*</span><span class="dv">1</span><span class="op">..</span><span class="dv">4</span>]<span class="op">-&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>               (destino<span class="ch">:Ciudad</span> {nombre: <span class="st">'Ciudad de México'</span>})</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> distintos caminos que conectan Xalapa con Ciudad de México, utilizando entre una y cuatro relaciones.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Xalapa → Puebla → Ciudad de México</li>
+<li>Xalapa → Pachuca → Ciudad de México</li>
+<li>Xalapa → Tlaxcala → Pachuca → Ciudad de México</li>
+<li>Xalapa → Córdoba → Orizaba → Puebla → Ciudad de México</li>
+</ul>
+<p>La expresión <code>*1..4</code> permite buscar recorridos de entre una y cuatro relaciones.</p>
+<p>La variable <code>camino</code> almacena cada recorrido encontrado y permite visualizarlo en Neo4j mediante la vista <strong>Graph</strong>.</p>
+</section>
+<section id="calcular-la-distancia-total-de-cada-recorrido" class="level4" data-number="33.6.6">
+<h4 data-number="33.6.6" class="anchored" data-anchor-id="calcular-la-distancia-total-de-cada-recorrido"><span class="header-section-number">33.6.6</span> Calcular la distancia total de cada recorrido</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>               <span class="op">-</span>[<span class="ch">:RUTA</span><span class="op">*</span><span class="dv">1</span><span class="op">..</span><span class="dv">4</span>]<span class="op">-&gt;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>               (destino<span class="ch">:Ciudad</span> {nombre: <span class="st">'Ciudad de México'</span>})</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> [n <span class="kw">IN</span> nodes(camino) | n.nombre] <span class="kw">AS</span> Recorrido,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>       reduce(total <span class="op">=</span> <span class="dv">0</span>, r <span class="kw">IN</span> relationships(camino) |</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>              total <span class="op">+</span> r.distancia_km) <span class="kw">AS</span> DistanciaTotal</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> DistanciaTotal;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> una tabla con los recorridos y su distancia total acumulada.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Recorrido</th>
+<th style="text-align: right;">DistanciaTotal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Xalapa → Puebla → Ciudad de México</td>
+<td style="text-align: right;">310</td>
+</tr>
+<tr class="even">
+<td>Xalapa → Pachuca → Ciudad de México</td>
+<td style="text-align: right;">330</td>
+</tr>
+<tr class="odd">
+<td>Xalapa → Tlaxcala → Pachuca → Ciudad de México</td>
+<td style="text-align: right;">390</td>
+</tr>
+</tbody>
+</table>
+<p>La función <code>nodes(camino)</code> obtiene los nodos que forman el recorrido.</p>
+<p>La función <code>relationships(camino)</code> obtiene sus relaciones.</p>
+<p>Finalmente, <code>reduce()</code> suma las distancias de cada relación para obtener la distancia total.</p>
+</section>
+<section id="comparar-distancia-tiempo-y-costo-de-las-rutas" class="level4" data-number="33.6.7">
+<h4 data-number="33.6.7" class="anchored" data-anchor-id="comparar-distancia-tiempo-y-costo-de-las-rutas"><span class="header-section-number">33.6.7</span> Comparar distancia, tiempo y costo de las rutas</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>               <span class="op">-</span>[<span class="ch">:RUTA</span><span class="op">*</span><span class="dv">1</span><span class="op">..</span><span class="dv">4</span>]<span class="op">-&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>               (destino<span class="ch">:Ciudad</span> {nombre: <span class="st">'Ciudad de México'</span>})</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> [n <span class="kw">IN</span> nodes(camino) | n.nombre] <span class="kw">AS</span> Recorrido,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>       reduce(d <span class="op">=</span> <span class="dv">0</span>, r <span class="kw">IN</span> relationships(camino) |</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>              d <span class="op">+</span> r.distancia_km) <span class="kw">AS</span> DistanciaKM,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>       reduce(t <span class="op">=</span> <span class="dv">0</span>, r <span class="kw">IN</span> relationships(camino) |</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>              t <span class="op">+</span> r.tiempo_min) <span class="kw">AS</span> TiempoMin,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>       reduce(c <span class="op">=</span> <span class="dv">0</span>, r <span class="kw">IN</span> relationships(camino) |</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>              c <span class="op">+</span> r.costo) <span class="kw">AS</span> CostoMXN</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> CostoMXN;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> una tabla que compara la distancia, el tiempo y el costo acumulado de cada recorrido.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Recorrido</th>
+<th style="text-align: right;">DistanciaKM</th>
+<th style="text-align: right;">TiempoMin</th>
+<th style="text-align: right;">CostoMXN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Xalapa → Puebla → Ciudad de México</td>
+<td style="text-align: right;">310</td>
+<td style="text-align: right;">280</td>
+<td style="text-align: right;">480</td>
+</tr>
+<tr class="even">
+<td>Xalapa → Pachuca → Ciudad de México</td>
+<td style="text-align: right;">330</td>
+<td style="text-align: right;">305</td>
+<td style="text-align: right;">450</td>
+</tr>
+</tbody>
+</table>
+<p>Los resultados se ordenan por costo, de menor a mayor.</p>
+<p>Esta consulta permite observar que la ruta más corta en kilómetros no necesariamente es la más económica.</p>
+</section>
+<section id="encontrar-el-camino-con-menos-conexiones" class="level4" data-number="33.6.8">
+<h4 data-number="33.6.8" class="anchored" data-anchor-id="encontrar-el-camino-con-menos-conexiones"><span class="header-section-number">33.6.8</span> Encontrar el camino con menos conexiones</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span> shortestPath(</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    (origen<span class="ch">:Ciudad</span> {nombre: <span class="st">'Xalapa'</span>})</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>[<span class="ch">:RUTA</span><span class="op">*</span>]<span class="op">-&gt;</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    (destino<span class="ch">:Ciudad</span> {nombre: <span class="st">'Guadalajara'</span>})</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">length</span>(camino) <span class="kw">AS</span> NumeroConexiones;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> un camino entre Xalapa y Guadalajara que utiliza el menor número de relaciones.</p>
+<p><code>shortestPath()</code> busca el camino con menos conexiones y <code>length()</code> devuelve cuántas relaciones contiene.</p>
+<p><strong>Importante:</strong> el camino con menos conexiones no necesariamente es el de menor distancia, tiempo o costo.</p>
+</section>
+<section id="identificar-las-ciudades-que-reciben-más-rutas" class="level4" data-number="33.6.9">
+<h4 data-number="33.6.9" class="anchored" data-anchor-id="identificar-las-ciudades-que-reciben-más-rutas"><span class="header-section-number">33.6.9</span> Identificar las ciudades que reciben más rutas</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Ciudad</span>)<span class="op">-</span>[<span class="ch">:RUTA</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Ciudad</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> destino.nombre <span class="kw">AS</span> Ciudad,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(origen) <span class="kw">AS</span> RutasEntrantes</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> RutasEntrantes <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> una tabla con las ciudades que reciben más conexiones directas.</p>
+<p>A diferencia de la consulta 3, aquí contamos las rutas que llegan a cada ciudad, en lugar de las que salen.</p>
+</section>
+<section id="visualizar-las-conexiones-de-una-ciudad-en-ambos-sentidos" class="level4" data-number="33.6.10">
+<h4 data-number="33.6.10" class="anchored" data-anchor-id="visualizar-las-conexiones-de-una-ciudad-en-ambos-sentidos"><span class="header-section-number">33.6.10</span> Visualizar las conexiones de una ciudad en ambos sentidos</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>MATCH (ciudad<span class="ch">:Ciudad</span> {nombre: <span class="st">'Puebla'</span>})<span class="op">-</span>[ruta<span class="ch">:RUTA</span>]<span class="op">-</span>(otra<span class="ch">:Ciudad</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> ciudad, ruta, otra;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> el grafo de Puebla y las ciudades conectadas con ella, incluyendo relaciones de entrada y de salida.</p>
+<p>En esta consulta no especificamos una dirección para <code>RUTA</code>, por lo que Neo4j considera las relaciones en ambos sentidos.</p>
+<p>Selecciona la vista <strong>Graph</strong> para visualizar estas conexiones.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="ejemplo-práctico-draft-de-la-nba-y-contratos-de-jugadores" class="level2" data-number="34">
+<h2 data-number="34" class="anchored" data-anchor-id="ejemplo-práctico-draft-de-la-nba-y-contratos-de-jugadores"><span class="header-section-number">34</span> Ejemplo práctico: Draft de la NBA y contratos de jugadores</h2>
+<p>En este ejemplo se construirá un grafo en Neo4j para representar la selección de jugadores en el Draft de la NBA de 2023, los equipos que los seleccionaron y sus contratos. El objetivo es explorar las relaciones entre jugadores, equipos y contratos, así como realizar consultas relacionadas con salarios y posibles contrataciones.</p>
+<p>Se utilizarán los seis primeros jugadores seleccionados en el Draft de 2023 y diez equipos de la NBA. Los salarios, presupuestos y condiciones contractuales serán ficticios y se utilizarán únicamente con fines educativos.</p>
+<section id="estructura-del-grafo" class="level3" data-number="34.1">
+<h3 data-number="34.1" class="anchored" data-anchor-id="estructura-del-grafo"><span class="header-section-number">34.1</span> Estructura del grafo</h3>
+<p>El grafo estará compuesto por cuatro tipos de nodos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Jugador</code></td>
+<td>Representa a los jugadores seleccionados en el Draft.</td>
+</tr>
+<tr class="even">
+<td><code>Equipo</code></td>
+<td>Representa a los equipos de la NBA.</td>
+</tr>
+<tr class="odd">
+<td><code>Draft</code></td>
+<td>Representa el Draft de 2023.</td>
+</tr>
+<tr class="even">
+<td><code>Contrato</code></td>
+<td>Contiene información contractual de cada jugador.</td>
+</tr>
+</tbody>
+</table>
+<p>Se utilizarán las siguientes relaciones:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Relación</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SELECCIONADO_POR</code></td>
+<td>Conecta un jugador con el equipo que lo seleccionó.</td>
+</tr>
+<tr class="even">
+<td><code>PARTICIPO_EN</code></td>
+<td>Conecta un jugador con el Draft de 2023.</td>
+</tr>
+<tr class="odd">
+<td><code>TIENE_CONTRATO</code></td>
+<td>Conecta un jugador con su contrato.</td>
+</tr>
+<tr class="even">
+<td><code>CON_EQUIPO</code></td>
+<td>Conecta un contrato con el equipo correspondiente.</td>
+</tr>
+</tbody>
+</table>
+<p>Todos los nodos tendrán también la etiqueta <code>SimNBA</code>, que permitirá identificar los elementos de este ejemplo sin afectar los grafos de otras prácticas.</p>
+</section>
+<section id="representación-gráfica-del-modelo" class="level3" data-number="34.2">
+<h3 data-number="34.2" class="anchored" data-anchor-id="representación-gráfica-del-modelo"><span class="header-section-number">34.2</span> Representación gráfica del modelo</h3>
+<p>El siguiente diagrama muestra los tipos de nodos y las relaciones que se utilizarán para representar el Draft de la NBA y los contratos de los jugadores.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    J["Jugador"] --&gt;|SELECCIONADO_POR| E["Equipo"]
+    J --&gt;|PARTICIPO_EN| D["Draft 2023"]
+    J --&gt;|TIENE_CONTRATO| C["Contrato"]
+    C --&gt;|CON_EQUIPO| E
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>El diagrama representa la estructura general del modelo. Posteriormente, al ejecutar los comandos en Neo4j, se podrán visualizar los jugadores, equipos, contratos y relaciones concretas.</p>
+</section>
+<section id="crear-los-equipos" class="level3" data-number="34.3">
+<h3 data-number="34.3" class="anchored" data-anchor-id="crear-los-equipos"><span class="header-section-number">34.3</span> Crear los equipos</h3>
+<p>Primero se crean diez equipos utilizando la propiedad <code>nombre</code> como identificador.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'San Antonio Spurs'</span>,</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Charlotte Hornets'</span>,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Portland Trail Blazers'</span>,</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Houston Rockets'</span>,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Detroit Pistons'</span>,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Orlando Magic'</span>,</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Los Angeles Lakers'</span>,</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Golden State Warriors'</span>,</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Boston Celtics'</span>,</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'New York Knicks'</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (e<span class="ch">:SimNBA:Equipo</span> {nombre: nombre})</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> e;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar los equipos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>MATCH (e<span class="ch">:SimNBA:Equipo</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> e;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-los-jugadores" class="level3" data-number="34.4">
+<h3 data-number="34.4" class="anchored" data-anchor-id="crear-los-jugadores"><span class="header-section-number">34.4</span> Crear los jugadores</h3>
+<p>Se crean los seis primeros jugadores seleccionados en el Draft de 2023.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Victor Wembanyama'</span>,</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Brandon Miller'</span>,</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Scoot Henderson'</span>,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Amen Thompson'</span>,</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Ausar Thompson'</span>,</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Anthony Black'</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (j<span class="ch">:SimNBA:Jugador</span> {nombre: nombre})</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar los jugadores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-el-nodo-del-draft" class="level3" data-number="34.5">
+<h3 data-number="34.5" class="anchored" data-anchor-id="crear-el-nodo-del-draft"><span class="header-section-number">34.5</span> Crear el nodo del Draft</h3>
+<p>Se crea un nodo para representar el Draft de 2023.</p>
+<p>La propiedad <code>nombre</code> facilitará su identificación gráfica, mientras que <code>anio</code> permitirá realizar consultas por año.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (d<span class="ch">:SimNBA:Draft</span> {anio: <span class="dv">2023</span>})</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> d.nombre <span class="op">=</span> <span class="st">'Draft 2023'</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> d;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para verificar el número de nodos creados:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimNBA</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(n) <span class="kw">AS</span> TotalNodos;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 17 nodos, correspondientes a diez equipos, seis jugadores y un Draft.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para visualizar correctamente los nombres en Neo4j, se puede seleccionar la etiqueta <code>SimNBA</code> en el panel <strong>Results overview</strong> y configurar <strong>Customize Style → Caption → nombre</strong>.</p>
+</div>
+</div>
+</section>
+<section id="relacionar-los-jugadores-con-los-equipos" class="level3" data-number="34.6">
+<h3 data-number="34.6" class="anchored" data-anchor-id="relacionar-los-jugadores-con-los-equipos"><span class="header-section-number">34.6</span> Relacionar los jugadores con los equipos</h3>
+<p>Se establece la relación <code>SELECCIONADO_POR</code> entre cada jugador y el equipo que lo seleccionó.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Victor Wembanyama'</span>, equipo: <span class="st">'San Antonio Spurs'</span>},</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Brandon Miller'</span>, equipo: <span class="st">'Charlotte Hornets'</span>},</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Scoot Henderson'</span>, equipo: <span class="st">'Portland Trail Blazers'</span>},</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Amen Thompson'</span>, equipo: <span class="st">'Houston Rockets'</span>},</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Ausar Thompson'</span>, equipo: <span class="st">'Detroit Pistons'</span>},</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Anthony Black'</span>, equipo: <span class="st">'Orlando Magic'</span>}</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span> {nombre: dato.jugador})</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>MATCH (e<span class="ch">:SimNBA:Equipo</span> {nombre: dato.equipo})</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (j)<span class="op">-</span>[<span class="ch">:SELECCIONADO_POR</span>]<span class="op">-&gt;</span>(e)</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>       e.nombre <span class="kw">AS</span> Equipo;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[r<span class="ch">:SELECCIONADO_POR</span>]<span class="op">-&gt;</span>(e<span class="ch">:SimNBA:Equipo</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j, r, e;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-jugadores-con-el-draft" class="level3" data-number="34.7">
+<h3 data-number="34.7" class="anchored" data-anchor-id="relacionar-los-jugadores-con-el-draft"><span class="header-section-number">34.7</span> Relacionar los jugadores con el Draft</h3>
+<p>Se utiliza la relación <code>PARTICIPO_EN</code> para conectar a los seis jugadores con el Draft de 2023.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>MATCH (d<span class="ch">:SimNBA:Draft</span> {anio: <span class="dv">2023</span>})</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (j)<span class="op">-</span>[<span class="ch">:PARTICIPO_EN</span>]<span class="op">-&gt;</span>(d)</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>       d.anio <span class="kw">AS</span> Draft;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[r<span class="ch">:PARTICIPO_EN</span>]<span class="op">-&gt;</span>(d<span class="ch">:SimNBA:Draft</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j, r, d;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En esta visualización, los seis jugadores estarán conectados hacia un mismo nodo que representa el Draft de 2023.</p>
+</section>
+<section id="agregar-las-propiedades-de-los-jugadores" class="level3" data-number="34.8">
+<h3 data-number="34.8" class="anchored" data-anchor-id="agregar-las-propiedades-de-los-jugadores"><span class="header-section-number">34.8</span> Agregar las propiedades de los jugadores</h3>
+<p>Se incorporan las propiedades <code>posicion</code>, <code>nacionalidad</code> y <code>pick</code>. Esta última representa el número de selección de cada jugador en el Draft.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Victor Wembanyama'</span>, posicion: <span class="st">'Pívot'</span>,</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Francia'</span>, pick: <span class="dv">1</span>},</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Brandon Miller'</span>, posicion: <span class="st">'Alero'</span>,</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Estados Unidos'</span>, pick: <span class="dv">2</span>},</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Scoot Henderson'</span>, posicion: <span class="st">'Base'</span>,</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Estados Unidos'</span>, pick: <span class="dv">3</span>},</span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Amen Thompson'</span>, posicion: <span class="st">'Base'</span>,</span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Estados Unidos'</span>, pick: <span class="dv">4</span>},</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Ausar Thompson'</span>, posicion: <span class="st">'Alero'</span>,</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Estados Unidos'</span>, pick: <span class="dv">5</span>},</span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Anthony Black'</span>, posicion: <span class="st">'Base'</span>,</span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>   nacionalidad: <span class="st">'Estados Unidos'</span>, pick: <span class="dv">6</span>}</span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span> {nombre: dato.nombre})</span>
+<span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> j.posicion <span class="op">=</span> dato.posicion,</span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a>    j.nacionalidad <span class="op">=</span> dato.nacionalidad,</span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>    j.pick <span class="op">=</span> dato.pick</span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>       j.posicion <span class="kw">AS</span> Posicion,</span>
+<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>       j.nacionalidad <span class="kw">AS</span> Nacionalidad,</span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a>       j.pick <span class="kw">AS</span> Pick</span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Pick;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este caso, <code>MATCH</code> identifica los nodos existentes y <code>SET</code> agrega o actualiza sus propiedades sin crear nuevos jugadores.</p>
+</section>
+<section id="agregar-las-propiedades-de-los-equipos" class="level3" data-number="34.9">
+<h3 data-number="34.9" class="anchored" data-anchor-id="agregar-las-propiedades-de-los-equipos"><span class="header-section-number">34.9</span> Agregar las propiedades de los equipos</h3>
+<p>Se incorpora la ciudad y un presupuesto ficticio para cada equipo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'San Antonio Spurs'</span>, ciudad: <span class="st">'San Antonio'</span>, presupuesto: <span class="dv">35000000</span>},</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Charlotte Hornets'</span>, ciudad: <span class="st">'Charlotte'</span>, presupuesto: <span class="dv">22000000</span>},</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Portland Trail Blazers'</span>, ciudad: <span class="st">'Portland'</span>, presupuesto: <span class="dv">18000000</span>},</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Houston Rockets'</span>, ciudad: <span class="st">'Houston'</span>, presupuesto: <span class="dv">30000000</span>},</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Detroit Pistons'</span>, ciudad: <span class="st">'Detroit'</span>, presupuesto: <span class="dv">25000000</span>},</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Orlando Magic'</span>, ciudad: <span class="st">'Orlando'</span>, presupuesto: <span class="dv">20000000</span>},</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Los Angeles Lakers'</span>, ciudad: <span class="st">'Los Angeles'</span>, presupuesto: <span class="dv">28000000</span>},</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Golden State Warriors'</span>, ciudad: <span class="st">'San Francisco'</span>, presupuesto: <span class="dv">16000000</span>},</span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Boston Celtics'</span>, ciudad: <span class="st">'Boston'</span>, presupuesto: <span class="dv">12000000</span>},</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'New York Knicks'</span>, ciudad: <span class="st">'New York'</span>, presupuesto: <span class="dv">24000000</span>}</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>MATCH (e<span class="ch">:SimNBA:Equipo</span> {nombre: dato.nombre})</span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> e.ciudad <span class="op">=</span> dato.ciudad,</span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>    e.presupuesto <span class="op">=</span> dato.presupuesto</span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> e.nombre <span class="kw">AS</span> Equipo,</span>
+<span id="cb70-20"><a href="#cb70-20" aria-hidden="true" tabindex="-1"></a>       e.ciudad <span class="kw">AS</span> Ciudad,</span>
+<span id="cb70-21"><a href="#cb70-21" aria-hidden="true" tabindex="-1"></a>       e.presupuesto <span class="kw">AS</span> Presupuesto</span>
+<span id="cb70-22"><a href="#cb70-22" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Equipo;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-los-contratos" class="level3" data-number="34.10">
+<h3 data-number="34.10" class="anchored" data-anchor-id="crear-los-contratos"><span class="header-section-number">34.10</span> Crear los contratos</h3>
+<p>Se crea un contrato para cada jugador. Las propiedades representan el salario, periodo de vigencia, salario esperado y condiciones relacionadas con la agencia libre.</p>
+<p>Todos estos datos contractuales son simulados.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">1</span>, nombre: <span class="st">'Contrato Wembanyama'</span>, salario: <span class="dv">32000000</span>,</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2029</span>, salario_esperado: <span class="dv">40000000</span>,</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'No restringido'</span>, opcion: <span class="st">'Ninguna'</span>},</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">2</span>, nombre: <span class="st">'Contrato Miller'</span>, salario: <span class="dv">18000000</span>,</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2027</span>, salario_esperado: <span class="dv">22000000</span>,</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'No restringido'</span>, opcion: <span class="st">'Ninguna'</span>},</span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">3</span>, nombre: <span class="st">'Contrato Henderson'</span>, salario: <span class="dv">12000000</span>,</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2027</span>, salario_esperado: <span class="dv">16000000</span>,</span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'No restringido'</span>, opcion: <span class="st">'Ninguna'</span>},</span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">4</span>, nombre: <span class="st">'Contrato Amen Thompson'</span>, salario: <span class="dv">17000000</span>,</span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2028</span>, salario_esperado: <span class="dv">25000000</span>,</span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'No restringido'</span>, opcion: <span class="st">'Jugador'</span>},</span>
+<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">5</span>, nombre: <span class="st">'Contrato Ausar Thompson'</span>, salario: <span class="dv">14000000</span>,</span>
+<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2027</span>, salario_esperado: <span class="dv">19000000</span>,</span>
+<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'Restringido'</span>, opcion: <span class="st">'Ninguna'</span>},</span>
+<span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-22"><a href="#cb71-22" aria-hidden="true" tabindex="-1"></a>  {<span class="kw">id</span>: <span class="dv">6</span>, nombre: <span class="st">'Contrato Anthony Black'</span>, salario: <span class="dv">10000000</span>,</span>
+<span id="cb71-23"><a href="#cb71-23" aria-hidden="true" tabindex="-1"></a>   inicio: <span class="dv">2025</span>, fin: <span class="dv">2027</span>, salario_esperado: <span class="dv">14000000</span>,</span>
+<span id="cb71-24"><a href="#cb71-24" aria-hidden="true" tabindex="-1"></a>   agencia: <span class="st">'No restringido'</span>, opcion: <span class="st">'Ninguna'</span>}</span>
+<span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (c<span class="ch">:SimNBA:Contrato</span> {<span class="kw">id</span>: dato.<span class="kw">id</span>})</span>
+<span id="cb71-28"><a href="#cb71-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-29"><a href="#cb71-29" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> c.nombre <span class="op">=</span> dato.nombre,</span>
+<span id="cb71-30"><a href="#cb71-30" aria-hidden="true" tabindex="-1"></a>    c.salario <span class="op">=</span> dato.salario,</span>
+<span id="cb71-31"><a href="#cb71-31" aria-hidden="true" tabindex="-1"></a>    c.inicio <span class="op">=</span> dato.inicio,</span>
+<span id="cb71-32"><a href="#cb71-32" aria-hidden="true" tabindex="-1"></a>    c.fin <span class="op">=</span> dato.fin,</span>
+<span id="cb71-33"><a href="#cb71-33" aria-hidden="true" tabindex="-1"></a>    c.salario_esperado <span class="op">=</span> dato.salario_esperado,</span>
+<span id="cb71-34"><a href="#cb71-34" aria-hidden="true" tabindex="-1"></a>    c.agencia <span class="op">=</span> dato.agencia,</span>
+<span id="cb71-35"><a href="#cb71-35" aria-hidden="true" tabindex="-1"></a>    c.opcion <span class="op">=</span> dato.opcion</span>
+<span id="cb71-36"><a href="#cb71-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-37"><a href="#cb71-37" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> c;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para verificar los contratos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> c.nombre <span class="kw">AS</span> Contrato,</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>       c.salario <span class="kw">AS</span> Salario,</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>       c.inicio <span class="kw">AS</span> Inicio,</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>       c.fin <span class="kw">AS</span> Fin</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Salario <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-jugadores-con-sus-contratos" class="level3" data-number="34.11">
+<h3 data-number="34.11" class="anchored" data-anchor-id="relacionar-los-jugadores-con-sus-contratos"><span class="header-section-number">34.11</span> Relacionar los jugadores con sus contratos</h3>
+<p>Se utiliza la relación <code>TIENE_CONTRATO</code> para conectar cada jugador con su contrato.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Victor Wembanyama'</span>, contrato: <span class="dv">1</span>},</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Brandon Miller'</span>, contrato: <span class="dv">2</span>},</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Scoot Henderson'</span>, contrato: <span class="dv">3</span>},</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Amen Thompson'</span>, contrato: <span class="dv">4</span>},</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Ausar Thompson'</span>, contrato: <span class="dv">5</span>},</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>  {jugador: <span class="st">'Anthony Black'</span>, contrato: <span class="dv">6</span>}</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span> {nombre: dato.jugador})</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:SimNBA:Contrato</span> {<span class="kw">id</span>: dato.contrato})</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (j)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c)</span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>       c.nombre <span class="kw">AS</span> Contrato;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[r<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j, r, c;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-contratos-con-los-equipos" class="level3" data-number="34.12">
+<h3 data-number="34.12" class="anchored" data-anchor-id="relacionar-los-contratos-con-los-equipos"><span class="header-section-number">34.12</span> Relacionar los contratos con los equipos</h3>
+<p>Se utiliza la relación <code>CON_EQUIPO</code> para asociar cada contrato con el equipo correspondiente.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">1</span>, equipo: <span class="st">'San Antonio Spurs'</span>},</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">2</span>, equipo: <span class="st">'Charlotte Hornets'</span>},</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">3</span>, equipo: <span class="st">'Portland Trail Blazers'</span>},</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">4</span>, equipo: <span class="st">'Houston Rockets'</span>},</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">5</span>, equipo: <span class="st">'Detroit Pistons'</span>},</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  {contrato: <span class="dv">6</span>, equipo: <span class="st">'Orlando Magic'</span>}</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:SimNBA:Contrato</span> {<span class="kw">id</span>: dato.contrato})</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>MATCH (e<span class="ch">:SimNBA:Equipo</span> {nombre: dato.equipo})</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (c)<span class="op">-</span>[<span class="ch">:CON_EQUIPO</span>]<span class="op">-&gt;</span>(e)</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> c.nombre <span class="kw">AS</span> Contrato,</span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>       e.nombre <span class="kw">AS</span> Equipo;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:SimNBA:Contrato</span>)<span class="op">-</span>[r<span class="ch">:CON_EQUIPO</span>]<span class="op">-&gt;</span>(e<span class="ch">:SimNBA:Equipo</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> c, r, e;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="visualizar-el-grafo-completo-1" class="level3" data-number="34.13">
+<h3 data-number="34.13" class="anchored" data-anchor-id="visualizar-el-grafo-completo-1"><span class="header-section-number">34.13</span> Visualizar el grafo completo</h3>
+<p>Una vez creados los nodos y relaciones, se puede visualizar la estructura completa del ejemplo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimNBA</span>)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (n)<span class="op">-</span>[r]<span class="op">-&gt;</span>(m<span class="ch">:SimNBA</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> n, r, m;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Se utiliza <code>OPTIONAL MATCH</code> para incluir también los nodos que no tienen relaciones, como los equipos que todavía no están vinculados con algún jugador o contrato.</p>
+<p>El grafo contiene:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th style="text-align: right;">Cantidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Equipos</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td>Jugadores</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>Draft</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td>Contratos</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td><strong>Total de nodos</strong></td>
+<td style="text-align: right;"><strong>23</strong></td>
+</tr>
+<tr class="even">
+<td><code>SELECCIONADO_POR</code></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td><code>PARTICIPO_EN</code></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td><code>TIENE_CONTRATO</code></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td><code>CON_EQUIPO</code></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td><strong>Total de relaciones</strong></td>
+<td style="text-align: right;"><strong>24</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Para verificar los totales:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimNBA</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (n)<span class="op">-</span>[r]<span class="op">-&gt;</span>(m<span class="ch">:SimNBA</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> n) <span class="kw">AS</span> TotalNodos,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> r) <span class="kw">AS</span> TotalRelaciones;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="consultas-de-ejemplo" class="level3" data-number="34.14">
+<h3 data-number="34.14" class="anchored" data-anchor-id="consultas-de-ejemplo"><span class="header-section-number">34.14</span> Consultas de ejemplo</h3>
+<p>A continuación, se presentan cinco consultas que permiten explorar la información almacenada en el grafo.</p>
+<section id="jugadores-equipos-y-salarios" class="level4" data-number="34.14.1">
+<h4 data-number="34.14.1" class="anchored" data-anchor-id="jugadores-equipos-y-salarios"><span class="header-section-number">34.14.1</span> Jugadores, equipos y salarios</h4>
+<p>Identificar el equipo asociado al contrato de cada jugador y mostrar su salario, ordenado de mayor a menor.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CON_EQUIPO</span>]<span class="op">-&gt;</span>(e<span class="ch">:SimNBA:Equipo</span>)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>       e.nombre <span class="kw">AS</span> Equipo,</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>       c.salario <span class="kw">AS</span> Salario</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Salario <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="los-cinco-jugadores-con-mayores-salarios" class="level4" data-number="34.14.2">
+<h4 data-number="34.14.2" class="anchored" data-anchor-id="los-cinco-jugadores-con-mayores-salarios"><span class="header-section-number">34.14.2</span> Los cinco jugadores con mayores salarios</h4>
+<p>Identificar los cinco jugadores con los salarios más altos utilizando <code>ORDER BY</code> y <code>LIMIT</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>       c.salario <span class="kw">AS</span> Salario</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Salario <span class="kw">DESC</span></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="jugadores-cuyos-contratos-terminan-en-2027" class="level4" data-number="34.14.3">
+<h4 data-number="34.14.3" class="anchored" data-anchor-id="jugadores-cuyos-contratos-terminan-en-2027"><span class="header-section-number">34.14.3</span> Jugadores cuyos contratos terminan en 2027</h4>
+<p>Identificar los jugadores cuyos contratos ficticios finalizan en el año 2027.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> c.fin <span class="op">=</span> <span class="dv">2027</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>       c.salario <span class="kw">AS</span> Salario,</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>       c.fin <span class="kw">AS</span> Fin;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="posibles-agentes-libres-en-2027" class="level4" data-number="34.14.4">
+<h4 data-number="34.14.4" class="anchored" data-anchor-id="posibles-agentes-libres-en-2027"><span class="header-section-number">34.14.4</span> Posibles agentes libres en 2027</h4>
+<p>Identificar jugadores cuyos contratos finalizan en 2027, con agencia libre no restringida y sin opciones contractuales.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> c.fin <span class="op">=</span> <span class="dv">2027</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c.agencia <span class="op">=</span> <span class="st">'No restringido'</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c.opcion <span class="op">=</span> <span class="st">'Ninguna'</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>       c.fin <span class="kw">AS</span> Fin,</span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>       c.agencia <span class="kw">AS</span> Agencia,</span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>       c.salario_esperado <span class="kw">AS</span> SalarioEsperado;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="posibles-contrataciones-de-los-angeles-lakers" class="level4" data-number="34.14.5">
+<h4 data-number="34.14.5" class="anchored" data-anchor-id="posibles-contrataciones-de-los-angeles-lakers"><span class="header-section-number">34.14.5</span> Posibles contrataciones de Los Angeles Lakers</h4>
+<p>Identificar jugadores que cumplen las condiciones simuladas de agencia libre en 2027 y cuyo salario esperado no supera el presupuesto disponible de Los Angeles Lakers.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>MATCH (e<span class="ch">:SimNBA:Equipo</span> {nombre: <span class="st">'Los Angeles Lakers'</span>})</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>MATCH (j<span class="ch">:SimNBA:Jugador</span>)<span class="op">-</span>[<span class="ch">:TIENE_CONTRATO</span>]<span class="op">-&gt;</span>(c<span class="ch">:SimNBA:Contrato</span>)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> c.fin <span class="op">=</span> <span class="dv">2027</span></span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c.agencia <span class="op">=</span> <span class="st">'No restringido'</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c.opcion <span class="op">=</span> <span class="st">'Ninguna'</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c.salario_esperado <span class="op">&lt;=</span> e.presupuesto</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> j.nombre <span class="kw">AS</span> Jugador,</span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>       c.salario_esperado <span class="kw">AS</span> SalarioEsperado,</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>       e.nombre <span class="kw">AS</span> EquipoInteresado,</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>       e.presupuesto <span class="kw">AS</span> PresupuestoDisponible</span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> SalarioEsperado <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta permite explorar escenarios hipotéticos de contratación mediante las relaciones del grafo y las propiedades de jugadores, contratos y equipos. No representa la elegibilidad contractual ni las reglas salariales reales de la NBA.</p>
+</section>
+</section>
+</section>
+<section id="ejemplo-práctico-gestión-de-infraestructura-de-ti-y-ciberseguridad" class="level2" data-number="35">
+<h2 data-number="35" class="anchored" data-anchor-id="ejemplo-práctico-gestión-de-infraestructura-de-ti-y-ciberseguridad"><span class="header-section-number">35</span> Ejemplo práctico: Gestión de infraestructura de TI y ciberseguridad</h2>
+<p>En este ejemplo se construirá un grafo en Neo4j para representar la infraestructura tecnológica de una organización. Se incluirán usuarios, departamentos, servidores, aplicaciones, bases de datos y vulnerabilidades de seguridad.</p>
+<p>El objetivo es identificar cómo se relacionan estos elementos y utilizar consultas Cypher para explorar accesos, dependencias tecnológicas y posibles riesgos de ciberseguridad.</p>
+<p>Los nombres, equipos, configuraciones y vulnerabilidades utilizados en este ejemplo son ficticios y tienen fines educativos.</p>
+<section id="estructura-del-grafo-1" class="level3" data-number="35.1">
+<h3 data-number="35.1" class="anchored" data-anchor-id="estructura-del-grafo-1"><span class="header-section-number">35.1</span> Estructura del grafo</h3>
+<p>El grafo estará compuesto por seis tipos de nodos:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Departamento</code></td>
+<td>Representa las áreas de la organización.</td>
+</tr>
+<tr class="even">
+<td><code>Usuario</code></td>
+<td>Representa a las personas que utilizan los recursos tecnológicos.</td>
+</tr>
+<tr class="odd">
+<td><code>Servidor</code></td>
+<td>Representa los equipos que alojan aplicaciones y servicios.</td>
+</tr>
+<tr class="even">
+<td><code>Aplicacion</code></td>
+<td>Representa los sistemas utilizados por la organización.</td>
+</tr>
+<tr class="odd">
+<td><code>BaseDatos</code></td>
+<td>Representa los sistemas de almacenamiento de información.</td>
+</tr>
+<tr class="even">
+<td><code>Vulnerabilidad</code></td>
+<td>Representa posibles problemas de seguridad detectados.</td>
+</tr>
+</tbody>
+</table>
+<p>Se utilizarán siete tipos de relaciones:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Relación</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PERTENECE_A</code></td>
+<td>Relaciona un usuario con su departamento.</td>
+</tr>
+<tr class="even">
+<td><code>UTILIZA</code></td>
+<td>Relaciona un usuario con una aplicación.</td>
+</tr>
+<tr class="odd">
+<td><code>ACCEDE_A</code></td>
+<td>Representa el acceso directo de un usuario a un servidor.</td>
+</tr>
+<tr class="even">
+<td><code>ALOJA</code></td>
+<td>Relaciona un servidor con una aplicación alojada en él.</td>
+</tr>
+<tr class="odd">
+<td><code>CONSULTA</code></td>
+<td>Relaciona una aplicación con una base de datos.</td>
+</tr>
+<tr class="even">
+<td><code>CONECTADO_A</code></td>
+<td>Relaciona un servidor con una base de datos.</td>
+</tr>
+<tr class="odd">
+<td><code>TIENE_VULNERABILIDAD</code></td>
+<td>Relaciona un servidor con una vulnerabilidad detectada.</td>
+</tr>
+</tbody>
+</table>
+<p>Todos los nodos tendrán la etiqueta adicional <code>SimTI</code>, que permitirá identificar los elementos de este ejercicio y trabajar sin modificar los grafos de prácticas anteriores.</p>
+</section>
+<section id="representación-gráfica-del-modelo-1" class="level3" data-number="35.2">
+<h3 data-number="35.2" class="anchored" data-anchor-id="representación-gráfica-del-modelo-1"><span class="header-section-number">35.2</span> Representación gráfica del modelo</h3>
+<p>El siguiente diagrama muestra cómo se relacionan los usuarios, departamentos, servidores, aplicaciones, bases de datos y vulnerabilidades dentro de la infraestructura tecnológica de la organización.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    U["Usuario"] --&gt;|PERTENECE_A| D["Departamento"]
+    U --&gt;|UTILIZA| A["Aplicación"]
+    U --&gt;|ACCEDE_A| S["Servidor"]
+    S --&gt;|ALOJA| A
+    A --&gt;|CONSULTA| B["Base de datos"]
+    S --&gt;|CONECTADO_A| B
+    S --&gt;|TIENE_VULNERABILIDAD| V["Vulnerabilidad"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Este diagrama representa la estructura general del modelo. Posteriormente, Neo4j permitirá visualizar los elementos concretos de la infraestructura y las relaciones existentes entre ellos.</p>
+</section>
+<section id="crear-los-departamentos" class="level3" data-number="35.3">
+<h3 data-number="35.3" class="anchored" data-anchor-id="crear-los-departamentos"><span class="header-section-number">35.3</span> Crear los departamentos</h3>
+<p>Primero se crean cuatro departamentos de la organización.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Tecnologías de la Información'</span>,</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Finanzas'</span>,</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Recursos Humanos'</span>,</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Ventas'</span></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (d<span class="ch">:SimTI:Departamento</span> {nombre: nombre})</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> d;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar los departamentos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>MATCH (d<span class="ch">:SimTI:Departamento</span>)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> d;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-los-usuarios" class="level3" data-number="35.4">
+<h3 data-number="35.4" class="anchored" data-anchor-id="crear-los-usuarios"><span class="header-section-number">35.4</span> Crear los usuarios</h3>
+<p>Se crean ocho usuarios que pertenecen a diferentes departamentos.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb86"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Ana López'</span>,</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Luis García'</span>,</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Marta Hernández'</span>,</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Diego Ramírez'</span>,</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Sofía Martínez'</span>,</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Carla Torres'</span>,</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Pedro Sánchez'</span>,</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Laura Flores'</span></span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (u<span class="ch">:SimTI:Usuario</span> {nombre: nombre})</span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar los usuarios:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-los-servidores" class="level3" data-number="35.5">
+<h3 data-number="35.5" class="anchored" data-anchor-id="crear-los-servidores"><span class="header-section-number">35.5</span> Crear los servidores</h3>
+<p>Se crean cinco servidores que representan diferentes componentes de la infraestructura tecnológica.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb88"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'srv-web-01'</span>,</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'srv-app-01'</span>,</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'srv-db-01'</span>,</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'srv-auth-01'</span>,</span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'srv-backup-01'</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (s<span class="ch">:SimTI:Servidor</span> {nombre: nombre})</span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar los servidores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-las-aplicaciones" class="level3" data-number="35.6">
+<h3 data-number="35.6" class="anchored" data-anchor-id="crear-las-aplicaciones"><span class="header-section-number">35.6</span> Crear las aplicaciones</h3>
+<p>Se crean cinco aplicaciones utilizadas por la organización.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb90"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Portal Web'</span>,</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Sistema ERP'</span>,</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Sistema de Nómina'</span>,</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Directorio Corporativo'</span>,</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Sistema de Respaldos'</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (a<span class="ch">:SimTI:Aplicacion</span> {nombre: nombre})</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> a;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las aplicaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb91"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>MATCH (a<span class="ch">:SimTI:Aplicacion</span>)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> a;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-las-bases-de-datos" class="level3" data-number="35.7">
+<h3 data-number="35.7" class="anchored" data-anchor-id="crear-las-bases-de-datos"><span class="header-section-number">35.7</span> Crear las bases de datos</h3>
+<p>Se crean cuatro bases de datos que almacenan información de diferentes áreas de la organización.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb92"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'BD Clientes'</span>,</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'BD Finanzas'</span>,</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'BD Personal'</span>,</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'BD Auditoría'</span></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (b<span class="ch">:SimTI:BaseDatos</span> {nombre: nombre})</span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> b;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las bases de datos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>MATCH (b<span class="ch">:SimTI:BaseDatos</span>)</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> b;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="crear-las-vulnerabilidades" class="level3" data-number="35.8">
+<h3 data-number="35.8" class="anchored" data-anchor-id="crear-las-vulnerabilidades"><span class="header-section-number">35.8</span> Crear las vulnerabilidades</h3>
+<p>Se crean cinco vulnerabilidades ficticias que posteriormente se relacionarán con los servidores.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb94"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Parches pendientes'</span>,</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Servicio desactualizado'</span>,</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Configuración insegura'</span>,</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Credenciales débiles'</span>,</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Permisos excesivos'</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> nombre</span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (v<span class="ch">:SimTI:Vulnerabilidad</span> {nombre: nombre})</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> v;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las vulnerabilidades:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>MATCH (v<span class="ch">:SimTI:Vulnerabilidad</span>)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> v;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="verificar-los-nodos-creados" class="level3" data-number="35.9">
+<h3 data-number="35.9" class="anchored" data-anchor-id="verificar-los-nodos-creados"><span class="header-section-number">35.9</span> Verificar los nodos creados</h3>
+<p>Se consulta el número de nodos de cada tipo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb96"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimTI</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> labels(n) <span class="kw">AS</span> Etiquetas,</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(n) <span class="kw">AS</span> Total</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Total <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tipo de nodo</th>
+<th style="text-align: right;">Cantidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Departamento</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>Usuario</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>Servidor</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Aplicación</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td>Base de datos</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>Vulnerabilidad</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>31</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para que Neo4j muestre correctamente los nombres de todos los nodos, se puede seleccionar la etiqueta <code>SimTI</code> en el panel <strong>Results overview</strong> y configurar <strong>Customize Style → Caption → nombre</strong>.</p>
+</div>
+</div>
+</section>
+<section id="relacionar-los-usuarios-con-sus-departamentos" class="level3" data-number="35.10">
+<h3 data-number="35.10" class="anchored" data-anchor-id="relacionar-los-usuarios-con-sus-departamentos"><span class="header-section-number">35.10</span> Relacionar los usuarios con sus departamentos</h3>
+<p>Se utiliza la relación <code>PERTENECE_A</code> para identificar el departamento correspondiente a cada usuario.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Ana López'</span>, departamento: <span class="st">'Tecnologías de la Información'</span>},</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Luis García'</span>, departamento: <span class="st">'Tecnologías de la Información'</span>},</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Marta Hernández'</span>, departamento: <span class="st">'Finanzas'</span>},</span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Diego Ramírez'</span>, departamento: <span class="st">'Finanzas'</span>},</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Sofía Martínez'</span>, departamento: <span class="st">'Recursos Humanos'</span>},</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Carla Torres'</span>, departamento: <span class="st">'Recursos Humanos'</span>},</span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Pedro Sánchez'</span>, departamento: <span class="st">'Ventas'</span>},</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Laura Flores'</span>, departamento: <span class="st">'Ventas'</span>}</span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span> {nombre: dato.usuario})</span>
+<span id="cb97-13"><a href="#cb97-13" aria-hidden="true" tabindex="-1"></a>MATCH (d<span class="ch">:SimTI:Departamento</span> {nombre: dato.departamento})</span>
+<span id="cb97-14"><a href="#cb97-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-15"><a href="#cb97-15" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (u)<span class="op">-</span>[<span class="ch">:PERTENECE_A</span>]<span class="op">-&gt;</span>(d)</span>
+<span id="cb97-16"><a href="#cb97-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-17"><a href="#cb97-17" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u.nombre <span class="kw">AS</span> Usuario,</span>
+<span id="cb97-18"><a href="#cb97-18" aria-hidden="true" tabindex="-1"></a>       d.nombre <span class="kw">AS</span> Departamento;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar estas relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[r<span class="ch">:PERTENECE_A</span>]<span class="op">-&gt;</span>(d<span class="ch">:SimTI:Departamento</span>)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u, r, d;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-usuarios-con-las-aplicaciones" class="level3" data-number="35.11">
+<h3 data-number="35.11" class="anchored" data-anchor-id="relacionar-los-usuarios-con-las-aplicaciones"><span class="header-section-number">35.11</span> Relacionar los usuarios con las aplicaciones</h3>
+<p>Se utiliza la relación <code>UTILIZA</code> para identificar qué aplicaciones son utilizadas por cada usuario.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Ana López'</span>, aplicacion: <span class="st">'Directorio Corporativo'</span>},</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Ana López'</span>, aplicacion: <span class="st">'Sistema de Respaldos'</span>},</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Luis García'</span>, aplicacion: <span class="st">'Sistema de Respaldos'</span>},</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Luis García'</span>, aplicacion: <span class="st">'Directorio Corporativo'</span>},</span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Marta Hernández'</span>, aplicacion: <span class="st">'Sistema ERP'</span>},</span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Diego Ramírez'</span>, aplicacion: <span class="st">'Sistema ERP'</span>},</span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Sofía Martínez'</span>, aplicacion: <span class="st">'Sistema de Nómina'</span>},</span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Carla Torres'</span>, aplicacion: <span class="st">'Sistema de Nómina'</span>},</span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Pedro Sánchez'</span>, aplicacion: <span class="st">'Portal Web'</span>},</span>
+<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Laura Flores'</span>, aplicacion: <span class="st">'Portal Web'</span>}</span>
+<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span> {nombre: dato.usuario})</span>
+<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>MATCH (a<span class="ch">:SimTI:Aplicacion</span> {nombre: dato.aplicacion})</span>
+<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (u)<span class="op">-</span>[<span class="ch">:UTILIZA</span>]<span class="op">-&gt;</span>(a)</span>
+<span id="cb99-18"><a href="#cb99-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-19"><a href="#cb99-19" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u.nombre <span class="kw">AS</span> Usuario,</span>
+<span id="cb99-20"><a href="#cb99-20" aria-hidden="true" tabindex="-1"></a>       a.nombre <span class="kw">AS</span> Aplicacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[r<span class="ch">:UTILIZA</span>]<span class="op">-&gt;</span>(a<span class="ch">:SimTI:Aplicacion</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u, r, a;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-usuarios-con-los-servidores" class="level3" data-number="35.12">
+<h3 data-number="35.12" class="anchored" data-anchor-id="relacionar-los-usuarios-con-los-servidores"><span class="header-section-number">35.12</span> Relacionar los usuarios con los servidores</h3>
+<p>Se utiliza la relación <code>ACCEDE_A</code> para representar accesos directos a servidores, de acuerdo con el escenario ficticio.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb101"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Ana López'</span>, servidor: <span class="st">'srv-web-01'</span>},</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Luis García'</span>, servidor: <span class="st">'srv-db-01'</span>},</span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Marta Hernández'</span>, servidor: <span class="st">'srv-app-01'</span>},</span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Diego Ramírez'</span>, servidor: <span class="st">'srv-db-01'</span>},</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>  {usuario: <span class="st">'Sofía Martínez'</span>, servidor: <span class="st">'srv-auth-01'</span>}</span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span> {nombre: dato.usuario})</span>
+<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span> {nombre: dato.servidor})</span>
+<span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-12"><a href="#cb101-12" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (u)<span class="op">-</span>[<span class="ch">:ACCEDE_A</span>]<span class="op">-&gt;</span>(s)</span>
+<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u.nombre <span class="kw">AS</span> Usuario,</span>
+<span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>       s.nombre <span class="kw">AS</span> Servidor;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb102"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[r<span class="ch">:ACCEDE_A</span>]<span class="op">-&gt;</span>(s<span class="ch">:SimTI:Servidor</span>)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u, r, s;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-servidores-con-las-aplicaciones" class="level3" data-number="35.13">
+<h3 data-number="35.13" class="anchored" data-anchor-id="relacionar-los-servidores-con-las-aplicaciones"><span class="header-section-number">35.13</span> Relacionar los servidores con las aplicaciones</h3>
+<p>Se utiliza la relación <code>ALOJA</code> para representar qué aplicaciones se encuentran instaladas o alojadas en cada servidor.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb103"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-web-01'</span>, aplicacion: <span class="st">'Portal Web'</span>},</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-app-01'</span>, aplicacion: <span class="st">'Sistema ERP'</span>},</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-app-01'</span>, aplicacion: <span class="st">'Sistema de Nómina'</span>},</span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-auth-01'</span>, aplicacion: <span class="st">'Directorio Corporativo'</span>},</span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-backup-01'</span>, aplicacion: <span class="st">'Sistema de Respaldos'</span>}</span>
+<span id="cb103-7"><a href="#cb103-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb103-8"><a href="#cb103-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-9"><a href="#cb103-9" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span> {nombre: dato.servidor})</span>
+<span id="cb103-10"><a href="#cb103-10" aria-hidden="true" tabindex="-1"></a>MATCH (a<span class="ch">:SimTI:Aplicacion</span> {nombre: dato.aplicacion})</span>
+<span id="cb103-11"><a href="#cb103-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-12"><a href="#cb103-12" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (s)<span class="op">-</span>[<span class="ch">:ALOJA</span>]<span class="op">-&gt;</span>(a)</span>
+<span id="cb103-13"><a href="#cb103-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-14"><a href="#cb103-14" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb103-15"><a href="#cb103-15" aria-hidden="true" tabindex="-1"></a>       a.nombre <span class="kw">AS</span> Aplicacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb104"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)<span class="op">-</span>[r<span class="ch">:ALOJA</span>]<span class="op">-&gt;</span>(a<span class="ch">:SimTI:Aplicacion</span>)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s, r, a;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-las-aplicaciones-con-las-bases-de-datos" class="level3" data-number="35.14">
+<h3 data-number="35.14" class="anchored" data-anchor-id="relacionar-las-aplicaciones-con-las-bases-de-datos"><span class="header-section-number">35.14</span> Relacionar las aplicaciones con las bases de datos</h3>
+<p>Se utiliza la relación <code>CONSULTA</code> para identificar las bases de datos utilizadas por cada aplicación.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  {aplicacion: <span class="st">'Portal Web'</span>, base: <span class="st">'BD Clientes'</span>},</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  {aplicacion: <span class="st">'Sistema ERP'</span>, base: <span class="st">'BD Finanzas'</span>},</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  {aplicacion: <span class="st">'Sistema de Nómina'</span>, base: <span class="st">'BD Personal'</span>},</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>  {aplicacion: <span class="st">'Directorio Corporativo'</span>, base: <span class="st">'BD Auditoría'</span>},</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>  {aplicacion: <span class="st">'Sistema de Respaldos'</span>, base: <span class="st">'BD Auditoría'</span>}</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>MATCH (a<span class="ch">:SimTI:Aplicacion</span> {nombre: dato.aplicacion})</span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>MATCH (b<span class="ch">:SimTI:BaseDatos</span> {nombre: dato.base})</span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-12"><a href="#cb105-12" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (a)<span class="op">-</span>[<span class="ch">:CONSULTA</span>]<span class="op">-&gt;</span>(b)</span>
+<span id="cb105-13"><a href="#cb105-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-14"><a href="#cb105-14" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> a.nombre <span class="kw">AS</span> Aplicacion,</span>
+<span id="cb105-15"><a href="#cb105-15" aria-hidden="true" tabindex="-1"></a>       b.nombre <span class="kw">AS</span> BaseDatos;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb106"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>MATCH (a<span class="ch">:SimTI:Aplicacion</span>)<span class="op">-</span>[r<span class="ch">:CONSULTA</span>]<span class="op">-&gt;</span>(b<span class="ch">:SimTI:BaseDatos</span>)</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> a, r, b;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-servidores-con-las-bases-de-datos" class="level3" data-number="35.15">
+<h3 data-number="35.15" class="anchored" data-anchor-id="relacionar-los-servidores-con-las-bases-de-datos"><span class="header-section-number">35.15</span> Relacionar los servidores con las bases de datos</h3>
+<p>Se utiliza la relación <code>CONECTADO_A</code> para representar la conexión del servidor de bases de datos con los sistemas de almacenamiento utilizados por la organización.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-db-01'</span>, base: <span class="st">'BD Clientes'</span>},</span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-db-01'</span>, base: <span class="st">'BD Finanzas'</span>},</span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-db-01'</span>, base: <span class="st">'BD Personal'</span>},</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-db-01'</span>, base: <span class="st">'BD Auditoría'</span>}</span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb107-7"><a href="#cb107-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span> {nombre: dato.servidor})</span>
+<span id="cb107-9"><a href="#cb107-9" aria-hidden="true" tabindex="-1"></a>MATCH (b<span class="ch">:SimTI:BaseDatos</span> {nombre: dato.base})</span>
+<span id="cb107-10"><a href="#cb107-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-11"><a href="#cb107-11" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (s)<span class="op">-</span>[<span class="ch">:CONECTADO_A</span>]<span class="op">-&gt;</span>(b)</span>
+<span id="cb107-12"><a href="#cb107-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-13"><a href="#cb107-13" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb107-14"><a href="#cb107-14" aria-hidden="true" tabindex="-1"></a>       b.nombre <span class="kw">AS</span> BaseDatos;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb108"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)<span class="op">-</span>[r<span class="ch">:CONECTADO_A</span>]<span class="op">-&gt;</span>(b<span class="ch">:SimTI:BaseDatos</span>)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s, r, b;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="relacionar-los-servidores-con-sus-vulnerabilidades" class="level3" data-number="35.16">
+<h3 data-number="35.16" class="anchored" data-anchor-id="relacionar-los-servidores-con-sus-vulnerabilidades"><span class="header-section-number">35.16</span> Relacionar los servidores con sus vulnerabilidades</h3>
+<p>Se utiliza la relación <code>TIENE_VULNERABILIDAD</code> para identificar los problemas de seguridad asociados a los servidores.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-web-01'</span>, vulnerabilidad: <span class="st">'Parches pendientes'</span>},</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-app-01'</span>, vulnerabilidad: <span class="st">'Servicio desactualizado'</span>},</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-db-01'</span>, vulnerabilidad: <span class="st">'Configuración insegura'</span>},</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-auth-01'</span>, vulnerabilidad: <span class="st">'Credenciales débiles'</span>},</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>  {servidor: <span class="st">'srv-backup-01'</span>, vulnerabilidad: <span class="st">'Permisos excesivos'</span>}</span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span> {nombre: dato.servidor})</span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>MATCH (v<span class="ch">:SimTI:Vulnerabilidad</span> {nombre: dato.vulnerabilidad})</span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-12"><a href="#cb109-12" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (s)<span class="op">-</span>[<span class="ch">:TIENE_VULNERABILIDAD</span>]<span class="op">-&gt;</span>(v)</span>
+<span id="cb109-13"><a href="#cb109-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-14"><a href="#cb109-14" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb109-15"><a href="#cb109-15" aria-hidden="true" tabindex="-1"></a>       v.nombre <span class="kw">AS</span> Vulnerabilidad;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para visualizar las relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb110"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)<span class="op">-</span>[r<span class="ch">:TIENE_VULNERABILIDAD</span>]<span class="op">-&gt;</span>(v<span class="ch">:SimTI:Vulnerabilidad</span>)</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s, r, v;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="agregar-las-propiedades-de-los-servidores" class="level3" data-number="35.17">
+<h3 data-number="35.17" class="anchored" data-anchor-id="agregar-las-propiedades-de-los-servidores"><span class="header-section-number">35.17</span> Agregar las propiedades de los servidores</h3>
+<p>Se incorporan las propiedades <code>ip</code>, <code>sistema_operativo</code> y <code>estado</code> para describir los servidores.</p>
+<p>Las direcciones IP pertenecen a un rango reservado para documentación y no representan equipos reales.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'srv-web-01'</span>, ip: <span class="st">'192.0.2.10'</span>,</span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>   sistema_operativo: <span class="st">'Ubuntu Server'</span>, estado: <span class="st">'Activo'</span>},</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'srv-app-01'</span>, ip: <span class="st">'192.0.2.20'</span>,</span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>   sistema_operativo: <span class="st">'Windows Server'</span>, estado: <span class="st">'Activo'</span>},</span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'srv-db-01'</span>, ip: <span class="st">'192.0.2.30'</span>,</span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>   sistema_operativo: <span class="st">'Ubuntu Server'</span>, estado: <span class="st">'Activo'</span>},</span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-11"><a href="#cb111-11" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'srv-auth-01'</span>, ip: <span class="st">'192.0.2.40'</span>,</span>
+<span id="cb111-12"><a href="#cb111-12" aria-hidden="true" tabindex="-1"></a>   sistema_operativo: <span class="st">'Windows Server'</span>, estado: <span class="st">'Activo'</span>},</span>
+<span id="cb111-13"><a href="#cb111-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-14"><a href="#cb111-14" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'srv-backup-01'</span>, ip: <span class="st">'192.0.2.50'</span>,</span>
+<span id="cb111-15"><a href="#cb111-15" aria-hidden="true" tabindex="-1"></a>   sistema_operativo: <span class="st">'Ubuntu Server'</span>, estado: <span class="st">'Mantenimiento'</span>}</span>
+<span id="cb111-16"><a href="#cb111-16" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb111-17"><a href="#cb111-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-18"><a href="#cb111-18" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span> {nombre: dato.nombre})</span>
+<span id="cb111-19"><a href="#cb111-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-20"><a href="#cb111-20" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> s.ip <span class="op">=</span> dato.ip,</span>
+<span id="cb111-21"><a href="#cb111-21" aria-hidden="true" tabindex="-1"></a>    s.sistema_operativo <span class="op">=</span> dato.sistema_operativo,</span>
+<span id="cb111-22"><a href="#cb111-22" aria-hidden="true" tabindex="-1"></a>    s.estado <span class="op">=</span> dato.estado</span>
+<span id="cb111-23"><a href="#cb111-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-24"><a href="#cb111-24" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb111-25"><a href="#cb111-25" aria-hidden="true" tabindex="-1"></a>       s.ip <span class="kw">AS</span> IP,</span>
+<span id="cb111-26"><a href="#cb111-26" aria-hidden="true" tabindex="-1"></a>       s.sistema_operativo <span class="kw">AS</span> SistemaOperativo,</span>
+<span id="cb111-27"><a href="#cb111-27" aria-hidden="true" tabindex="-1"></a>       s.estado <span class="kw">AS</span> Estado;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="agregar-las-propiedades-de-las-vulnerabilidades" class="level3" data-number="35.18">
+<h3 data-number="35.18" class="anchored" data-anchor-id="agregar-las-propiedades-de-las-vulnerabilidades"><span class="header-section-number">35.18</span> Agregar las propiedades de las vulnerabilidades</h3>
+<p>Se incorpora la propiedad <code>severidad</code> para clasificar los problemas de seguridad de acuerdo con su nivel de riesgo dentro del escenario simulado.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb112"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Parches pendientes'</span>, severidad: <span class="st">'Alta'</span>},</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Servicio desactualizado'</span>, severidad: <span class="st">'Media'</span>},</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Configuración insegura'</span>, severidad: <span class="st">'Crítica'</span>},</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Credenciales débiles'</span>, severidad: <span class="st">'Alta'</span>},</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>  {nombre: <span class="st">'Permisos excesivos'</span>, severidad: <span class="st">'Alta'</span>}</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> dato</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>MATCH (v<span class="ch">:SimTI:Vulnerabilidad</span> {nombre: dato.nombre})</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> v.severidad <span class="op">=</span> dato.severidad</span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> v.nombre <span class="kw">AS</span> Vulnerabilidad,</span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>       v.severidad <span class="kw">AS</span> Severidad;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este ejemplo, las severidades son asignaciones ficticias y no provienen de una evaluación real de seguridad.</p>
+</section>
+<section id="visualizar-el-grafo-completo-2" class="level3" data-number="35.19">
+<h3 data-number="35.19" class="anchored" data-anchor-id="visualizar-el-grafo-completo-2"><span class="header-section-number">35.19</span> Visualizar el grafo completo</h3>
+<p>Una vez creados los nodos, relaciones y propiedades, se puede visualizar toda la infraestructura tecnológica de la organización.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimTI</span>)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (n)<span class="op">-</span>[r]<span class="op">-&gt;</span>(m<span class="ch">:SimTI</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> n, r, m;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La consulta utiliza <code>OPTIONAL MATCH</code> para incluir también los nodos que no tengan relaciones.</p>
+<p>El grafo contiene:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th style="text-align: right;">Cantidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Departamentos</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>Usuarios</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>Servidores</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Aplicaciones</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td>Bases de datos</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>Vulnerabilidades</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><strong>Total de nodos</strong></td>
+<td style="text-align: right;"><strong>31</strong></td>
+</tr>
+<tr class="even">
+<td><code>PERTENECE_A</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td><code>UTILIZA</code></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td><code>ACCEDE_A</code></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><code>ALOJA</code></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td><code>CONSULTA</code></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><code>CONECTADO_A</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td><code>TIENE_VULNERABILIDAD</code></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><strong>Total de relaciones</strong></td>
+<td style="text-align: right;"><strong>42</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Para verificar el total de nodos y relaciones:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb114"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>MATCH (n<span class="ch">:SimTI</span>)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (n)<span class="op">-</span>[r]<span class="op">-&gt;</span>(m<span class="ch">:SimTI</span>)</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> n) <span class="kw">AS</span> TotalNodos,</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> r) <span class="kw">AS</span> TotalRelaciones;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es de 31 nodos y 42 relaciones.</p>
+</section>
+<section id="consultas-de-ejemplo-1" class="level3" data-number="35.20">
+<h3 data-number="35.20" class="anchored" data-anchor-id="consultas-de-ejemplo-1"><span class="header-section-number">35.20</span> Consultas de ejemplo</h3>
+<p>A continuación, se presentan cinco consultas para explorar la infraestructura tecnológica y los posibles riesgos de ciberseguridad.</p>
+<section id="identificar-los-usuarios-y-sus-departamentos" class="level4" data-number="35.20.1">
+<h4 data-number="35.20.1" class="anchored" data-anchor-id="identificar-los-usuarios-y-sus-departamentos"><span class="header-section-number">35.20.1</span> Identificar los usuarios y sus departamentos</h4>
+<p>Esta consulta permite identificar a qué departamento pertenece cada usuario.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb115"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[<span class="ch">:PERTENECE_A</span>]<span class="op">-&gt;</span>(d<span class="ch">:SimTI:Departamento</span>)</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u.nombre <span class="kw">AS</span> Usuario,</span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>       d.nombre <span class="kw">AS</span> Departamento</span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Departamento, Usuario;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="identificar-las-aplicaciones-más-utilizadas" class="level4" data-number="35.20.2">
+<h4 data-number="35.20.2" class="anchored" data-anchor-id="identificar-las-aplicaciones-más-utilizadas"><span class="header-section-number">35.20.2</span> Identificar las aplicaciones más utilizadas</h4>
+<p>Esta consulta permite contar cuántos usuarios están relacionados con cada aplicación y ordenar los resultados de mayor a menor.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb116"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[<span class="ch">:UTILIZA</span>]<span class="op">-&gt;</span>(a<span class="ch">:SimTI:Aplicacion</span>)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> a.nombre <span class="kw">AS</span> Aplicacion,</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(u) <span class="kw">AS</span> TotalUsuarios</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> TotalUsuarios <span class="kw">DESC</span>, Aplicacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="identificar-los-servidores-con-vulnerabilidades-de-severidad-alta-o-crítica" class="level4" data-number="35.20.3">
+<h4 data-number="35.20.3" class="anchored" data-anchor-id="identificar-los-servidores-con-vulnerabilidades-de-severidad-alta-o-crítica"><span class="header-section-number">35.20.3</span> Identificar los servidores con vulnerabilidades de severidad alta o crítica</h4>
+<p>Esta consulta permite identificar los servidores que presentan vulnerabilidades clasificadas como <code>Alta</code> o <code>Crítica</code> dentro del escenario simulado.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb117"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)<span class="op">-</span>[<span class="ch">:TIENE_VULNERABILIDAD</span>]<span class="op">-&gt;</span>(v<span class="ch">:SimTI:Vulnerabilidad</span>)</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> v.severidad <span class="kw">IN</span> [<span class="st">'Alta'</span>, <span class="st">'Crítica'</span>]</span>
+<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a>       s.ip <span class="kw">AS</span> IP,</span>
+<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>       v.nombre <span class="kw">AS</span> Vulnerabilidad,</span>
+<span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a>       v.severidad <span class="kw">AS</span> Severidad</span>
+<span id="cb117-9"><a href="#cb117-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Severidad, Servidor;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="identificar-usuarios-con-acceso-directo-a-servidores-vulnerables" class="level4" data-number="35.20.4">
+<h4 data-number="35.20.4" class="anchored" data-anchor-id="identificar-usuarios-con-acceso-directo-a-servidores-vulnerables"><span class="header-section-number">35.20.4</span> Identificar usuarios con acceso directo a servidores vulnerables</h4>
+<p>Esta consulta permite identificar qué usuarios tienen acceso directo a servidores con vulnerabilidades registradas.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb118"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>MATCH (u<span class="ch">:SimTI:Usuario</span>)<span class="op">-</span>[<span class="ch">:ACCEDE_A</span>]<span class="op">-&gt;</span>(s<span class="ch">:SimTI:Servidor</span>)</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:TIENE_VULNERABILIDAD</span>]<span class="op">-&gt;</span>(v<span class="ch">:SimTI:Vulnerabilidad</span>)</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> u.nombre <span class="kw">AS</span> Usuario,</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>       s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>       v.nombre <span class="kw">AS</span> Vulnerabilidad,</span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a>       v.severidad <span class="kw">AS</span> Severidad</span>
+<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Usuario;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="identificar-aplicaciones-y-bases-de-datos-asociadas-a-servidores-vulnerables" class="level4" data-number="35.20.5">
+<h4 data-number="35.20.5" class="anchored" data-anchor-id="identificar-aplicaciones-y-bases-de-datos-asociadas-a-servidores-vulnerables"><span class="header-section-number">35.20.5</span> Identificar aplicaciones y bases de datos asociadas a servidores vulnerables</h4>
+<p>Esta consulta permite identificar las aplicaciones alojadas en servidores con vulnerabilidades y las bases de datos que utilizan.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>MATCH (s<span class="ch">:SimTI:Servidor</span>)<span class="op">-</span>[<span class="ch">:TIENE_VULNERABILIDAD</span>]<span class="op">-&gt;</span>(v<span class="ch">:SimTI:Vulnerabilidad</span>)</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>MATCH (s)<span class="op">-</span>[<span class="ch">:ALOJA</span>]<span class="op">-&gt;</span>(a<span class="ch">:SimTI:Aplicacion</span>)</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span>[<span class="ch">:CONSULTA</span>]<span class="op">-&gt;</span>(b<span class="ch">:SimTI:BaseDatos</span>)</span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> s.nombre <span class="kw">AS</span> Servidor,</span>
+<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>       v.nombre <span class="kw">AS</span> Vulnerabilidad,</span>
+<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>       a.nombre <span class="kw">AS</span> Aplicacion,</span>
+<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>       b.nombre <span class="kw">AS</span> BaseDatos</span>
+<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Servidor, Aplicacion;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta última consulta permite explorar las dependencias entre servidores, aplicaciones y bases de datos para identificar recursos que podrían verse afectados si una vulnerabilidad llegara a explotarse. La presencia de una relación no demuestra por sí misma que exista una vulneración de seguridad.</p>
 
 
+</section>
 </section>
 </section>
 
