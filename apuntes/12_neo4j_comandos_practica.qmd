@@ -1,3 +1,4 @@
+
 ---
 title: "Neo4j: primeros comandos y consultas con Cypher"
 subtitle: "Práctica de creación, consultas y recorridos de grafos"
@@ -351,6 +352,8 @@ RETURN origen, relacion, destino;
 
 
 
+
+
 <!-- INICIO DE LA PARTE 2: ELIMINACIÓN DE NODOS Y RELACIONES -->
 
 ---
@@ -624,7 +627,6 @@ Después de utilizar `DELETE` o `DETACH DELETE`, podemos repetir la consulta par
 Los ejemplos de esta sección recuperan la red original para que podamos continuar con las consultas siguientes.
 :::
 
-
 <!-- INICIO DE LA PARTE 3: CONSULTAS Y RECORRIDOS DEL GRAFO -->
 
 ---
@@ -789,7 +791,7 @@ Una conexión **indirecta** utiliza dos o más relaciones.
 Por ejemplo:
 
 > Ana → Carlos → Luis
->
+
 > Ana → María → Luis
 
 Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.
@@ -848,7 +850,7 @@ RETURN origen.nombre AS Origen,
 Porque Neo4j encontró dos caminos diferentes:
 
 > Ana → Carlos → Luis
->
+
 > Ana → María → Luis
 
 Esto no significa que existan dos nodos llamados Luis.
@@ -1031,7 +1033,7 @@ Podemos establecer la siguiente regla:
 En nuestro ejemplo:
 
 > Ana → Carlos → Luis
->
+
 > Ana → María → Luis
 
 Ana conoce directamente a Carlos y María.
@@ -1128,7 +1130,7 @@ RETURN n;
 - **Línea 1:** busca todos los nodos almacenados.
 - **Línea 2:** devuelve los nodos.
 
-**Resultado esperado:** cinco personas.
+**Resultado esperado:** cinco personas, si únicamente hemos creado la red social de esta práctica.
 
 ---
 
@@ -1146,7 +1148,7 @@ RETURN origen, relacion, destino;
 - **Línea 1:** busca relaciones de cualquier tipo.
 - **Línea 2:** devuelve los nodos y las relaciones.
 
-**Resultado esperado:** cinco relaciones.
+**Resultado esperado:** cinco relaciones, si únicamente hemos creado la red social.
 
 ---
 
@@ -1304,10 +1306,6 @@ Luis no aparece porque no tiene relaciones salientes `CONOCE`.
 - **ORDER BY** permite ordenar resultados.
 - **LIMIT** restringe la cantidad de filas mostradas.
 - **Las recomendaciones** requieren definir criterios de búsqueda mediante consultas.
-
-
-
-
 
 
 
@@ -1557,6 +1555,710 @@ flowchart LR
     class CDMX,PUE,QRO,GDL centro
 ```
 
+### Consultas sobre la red de transporte
+
+A partir del grafo de 25 ciudades y 60 rutas, realizaremos consultas para explorar conexiones directas, recorridos alternativos, distancias, tiempos y costos.
+
+#### Consultar las ciudades conectadas directamente con Xalapa
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})-[:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Ciudad;
+```
+
+**Resultado esperado:** Veracruz, Puebla, Córdoba, Pachuca y Tlaxcala.
+
+Esta consulta identifica las ciudades que tienen una ruta directa de salida desde Xalapa.
+
+#### Consultar las distancias, tiempos y costos desde Xalapa
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})-[ruta:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Destino,
+       ruta.distancia_km AS DistanciaKM,
+       ruta.tiempo_min AS TiempoMin,
+       ruta.costo AS CostoMXN
+ORDER BY DistanciaKM;
+```
+
+**Resultado esperado:**
+
+| Destino | DistanciaKM | TiempoMin | CostoMXN |
+|---|---:|---:|---:|
+| Veracruz | 105 | 90 | 170 |
+| Córdoba | 125 | 125 | 180 |
+| Tlaxcala | 160 | 155 | 230 |
+| Puebla | 175 | 150 | 260 |
+| Pachuca | 235 | 210 | 300 |
+
+`ORDER BY` organiza los resultados según la distancia, de menor a mayor.
+
+#### Identificar las ciudades con más rutas de salida
+
+```sql
+MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
+RETURN origen.nombre AS Ciudad,
+       COUNT(destino) AS TotalRutas
+ORDER BY TotalRutas DESC;
+```
+
+**Resultado esperado:** las ciudades se ordenan de acuerdo con el número de rutas de salida.
+
+Por ejemplo, Xalapa, Puebla y Ciudad de México tienen cinco conexiones de salida cada una.
+
+`COUNT()` cuenta las relaciones encontradas y `DESC` ordena de mayor a menor.
+
+#### Consultar las ciudades a las que podemos llegar desde Xalapa con una escala
+
+```sql
+MATCH (origen:Ciudad {nombre: 'Xalapa'})
+      -[:RUTA]->(intermedio:Ciudad)
+      -[:RUTA]->(destino:Ciudad)
+RETURN intermedio.nombre AS Escala,
+       destino.nombre AS Destino
+ORDER BY Destino;
+```
+
+**Resultado esperado:** una tabla con la ciudad intermedia y el destino final.
+
+Por ejemplo:
+
+- Xalapa → Puebla → Ciudad de México
+- Xalapa → Pachuca → Ciudad de México
+- Xalapa → Veracruz → Coatzacoalcos
+- Xalapa → Córdoba → Orizaba
+
+Esta consulta permite encontrar recorridos que utilizan exactamente dos relaciones, es decir, una escala.
+
+Un destino puede aparecer varias veces cuando existen distintos recorridos para llegar a él.
+
+#### Encontrar rutas alternativas entre Xalapa y Ciudad de México
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN camino;
+```
+
+**Resultado esperado:** distintos caminos que conectan Xalapa con Ciudad de México, utilizando entre una y cuatro relaciones.
+
+Por ejemplo:
+
+- Xalapa → Puebla → Ciudad de México
+- Xalapa → Pachuca → Ciudad de México
+- Xalapa → Tlaxcala → Pachuca → Ciudad de México
+- Xalapa → Córdoba → Orizaba → Puebla → Ciudad de México
+
+La expresión `*1..4` permite buscar recorridos de entre una y cuatro relaciones.
+
+La variable `camino` almacena cada recorrido encontrado y permite visualizarlo en Neo4j mediante la vista **Graph**.
+
+#### Calcular la distancia total de cada recorrido
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
+       reduce(total = 0, r IN relationships(camino) |
+              total + r.distancia_km) AS DistanciaTotal
+ORDER BY DistanciaTotal;
+```
+
+**Resultado esperado:** una tabla con los recorridos y su distancia total acumulada.
+
+Por ejemplo:
+
+| Recorrido | DistanciaTotal |
+|---|---:|
+| Xalapa → Puebla → Ciudad de México | 310 |
+| Xalapa → Pachuca → Ciudad de México | 330 |
+| Xalapa → Tlaxcala → Pachuca → Ciudad de México | 390 |
+
+La función `nodes(camino)` obtiene los nodos que forman el recorrido.
+
+La función `relationships(camino)` obtiene sus relaciones.
+
+Finalmente, `reduce()` suma las distancias de cada relación para obtener la distancia total.
+
+#### Comparar distancia, tiempo y costo de las rutas
+
+```sql
+MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
+               -[:RUTA*1..4]->
+               (destino:Ciudad {nombre: 'Ciudad de México'})
+RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
+       reduce(d = 0, r IN relationships(camino) |
+              d + r.distancia_km) AS DistanciaKM,
+       reduce(t = 0, r IN relationships(camino) |
+              t + r.tiempo_min) AS TiempoMin,
+       reduce(c = 0, r IN relationships(camino) |
+              c + r.costo) AS CostoMXN
+ORDER BY CostoMXN;
+```
+
+**Resultado esperado:** una tabla que compara la distancia, el tiempo y el costo acumulado de cada recorrido.
+
+Por ejemplo:
+
+| Recorrido | DistanciaKM | TiempoMin | CostoMXN |
+|---|---:|---:|---:|
+| Xalapa → Puebla → Ciudad de México | 310 | 280 | 480 |
+| Xalapa → Pachuca → Ciudad de México | 330 | 305 | 450 |
+
+Los resultados se ordenan por costo, de menor a mayor.
+
+Esta consulta permite observar que la ruta más corta en kilómetros no necesariamente es la más económica.
+
+#### Encontrar el camino con menos conexiones
+
+```sql
+MATCH camino = shortestPath(
+    (origen:Ciudad {nombre: 'Xalapa'})
+    -[:RUTA*]->
+    (destino:Ciudad {nombre: 'Guadalajara'})
+)
+RETURN camino,
+       length(camino) AS NumeroConexiones;
+```
+
+**Resultado esperado:** un camino entre Xalapa y Guadalajara que utiliza el menor número de relaciones.
+
+`shortestPath()` busca el camino con menos conexiones y `length()` devuelve cuántas relaciones contiene.
+
+**Importante:** el camino con menos conexiones no necesariamente es el de menor distancia, tiempo o costo.
+
+#### Identificar las ciudades que reciben más rutas
+
+```sql
+MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
+RETURN destino.nombre AS Ciudad,
+       COUNT(origen) AS RutasEntrantes
+ORDER BY RutasEntrantes DESC;
+```
+
+**Resultado esperado:** una tabla con las ciudades que reciben más conexiones directas.
+
+A diferencia de la consulta 3, aquí contamos las rutas que llegan a cada ciudad, en lugar de las que salen.
+
+#### Visualizar las conexiones de una ciudad en ambos sentidos
+
+```sql
+MATCH (ciudad:Ciudad {nombre: 'Puebla'})-[ruta:RUTA]-(otra:Ciudad)
+RETURN ciudad, ruta, otra;
+```
+
+**Resultado esperado:** el grafo de Puebla y las ciudades conectadas con ella, incluyendo relaciones de entrada y de salida.
+
+En esta consulta no especificamos una dirección para `RUTA`, por lo que Neo4j considera las relaciones en ambos sentidos.
+
+Selecciona la vista **Graph** para visualizar estas conexiones.
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+## Ejemplo práctico: Draft de la NBA y contratos de jugadores
+
+En este ejemplo se construirá un grafo en Neo4j para representar la selección de jugadores en el Draft de la NBA de 2023, los equipos que los seleccionaron y sus contratos. El objetivo es explorar las relaciones entre jugadores, equipos y contratos, así como realizar consultas relacionadas con salarios y posibles contrataciones.
+
+Se utilizarán los seis primeros jugadores seleccionados en el Draft de 2023 y diez equipos de la NBA. Los salarios, presupuestos y condiciones contractuales serán ficticios y se utilizarán únicamente con fines educativos.
+
+### Estructura del grafo
+
+El grafo estará compuesto por cuatro tipos de nodos:
+
+| Nodo | Descripción |
+|---|---|
+| `Jugador` | Representa a los jugadores seleccionados en el Draft. |
+| `Equipo` | Representa a los equipos de la NBA. |
+| `Draft` | Representa el Draft de 2023. |
+| `Contrato` | Contiene información contractual de cada jugador. |
+
+Se utilizarán las siguientes relaciones:
+
+| Relación | Descripción |
+|---|---|
+| `SELECCIONADO_POR` | Conecta un jugador con el equipo que lo seleccionó. |
+| `PARTICIPO_EN` | Conecta un jugador con el Draft de 2023. |
+| `TIENE_CONTRATO` | Conecta un jugador con su contrato. |
+| `CON_EQUIPO` | Conecta un contrato con el equipo correspondiente. |
+
+Todos los nodos tendrán también la etiqueta `SimNBA`, que permitirá identificar los elementos de este ejemplo sin afectar los grafos de otras prácticas.
+
+### Representación gráfica del modelo
+
+El siguiente diagrama muestra los tipos de nodos y las relaciones que se utilizarán para representar el Draft de la NBA y los contratos de los jugadores.
+
+```{mermaid}
+flowchart LR
+    J["Jugador"] -->|SELECCIONADO_POR| E["Equipo"]
+    J -->|PARTICIPO_EN| D["Draft 2023"]
+    J -->|TIENE_CONTRATO| C["Contrato"]
+    C -->|CON_EQUIPO| E
+```
+
+El diagrama representa la estructura general del modelo. Posteriormente, al ejecutar los comandos en Neo4j, se podrán visualizar los jugadores, equipos, contratos y relaciones concretas.
+
+### Crear los equipos
+
+Primero se crean diez equipos utilizando la propiedad `nombre` como identificador.
+
+```sql
+UNWIND [
+  'San Antonio Spurs',
+  'Charlotte Hornets',
+  'Portland Trail Blazers',
+  'Houston Rockets',
+  'Detroit Pistons',
+  'Orlando Magic',
+  'Los Angeles Lakers',
+  'Golden State Warriors',
+  'Boston Celtics',
+  'New York Knicks'
+] AS nombre
+
+MERGE (e:SimNBA:Equipo {nombre: nombre})
+
+RETURN e;
+```
+
+Para visualizar los equipos:
+
+```sql
+MATCH (e:SimNBA:Equipo)
+RETURN e;
+```
+
+### Crear los jugadores
+
+Se crean los seis primeros jugadores seleccionados en el Draft de 2023.
+
+```sql
+UNWIND [
+  'Victor Wembanyama',
+  'Brandon Miller',
+  'Scoot Henderson',
+  'Amen Thompson',
+  'Ausar Thompson',
+  'Anthony Black'
+] AS nombre
+
+MERGE (j:SimNBA:Jugador {nombre: nombre})
+
+RETURN j;
+```
+
+Para visualizar los jugadores:
+
+```sql
+MATCH (j:SimNBA:Jugador)
+RETURN j;
+```
+
+### Crear el nodo del Draft
+
+Se crea un nodo para representar el Draft de 2023.
+
+La propiedad `nombre` facilitará su identificación gráfica, mientras que `anio` permitirá realizar consultas por año.
+
+```sql
+MERGE (d:SimNBA:Draft {anio: 2023})
+
+SET d.nombre = 'Draft 2023'
+
+RETURN d;
+```
+
+Para verificar el número de nodos creados:
+
+```sql
+MATCH (n:SimNBA)
+RETURN COUNT(n) AS TotalNodos;
+```
+
+**Resultado esperado:** 17 nodos, correspondientes a diez equipos, seis jugadores y un Draft.
+
+::: {.callout-tip}
+Para visualizar correctamente los nombres en Neo4j, se puede seleccionar la etiqueta `SimNBA` en el panel **Results overview** y configurar **Customize Style → Caption → nombre**.
+:::
+
+### Relacionar los jugadores con los equipos
+
+Se establece la relación `SELECCIONADO_POR` entre cada jugador y el equipo que lo seleccionó.
+
+```sql
+UNWIND [
+  {jugador: 'Victor Wembanyama', equipo: 'San Antonio Spurs'},
+  {jugador: 'Brandon Miller', equipo: 'Charlotte Hornets'},
+  {jugador: 'Scoot Henderson', equipo: 'Portland Trail Blazers'},
+  {jugador: 'Amen Thompson', equipo: 'Houston Rockets'},
+  {jugador: 'Ausar Thompson', equipo: 'Detroit Pistons'},
+  {jugador: 'Anthony Black', equipo: 'Orlando Magic'}
+] AS dato
+
+MATCH (j:SimNBA:Jugador {nombre: dato.jugador})
+MATCH (e:SimNBA:Equipo {nombre: dato.equipo})
+
+MERGE (j)-[:SELECCIONADO_POR]->(e)
+
+RETURN j.nombre AS Jugador,
+       e.nombre AS Equipo;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (j:SimNBA:Jugador)-[r:SELECCIONADO_POR]->(e:SimNBA:Equipo)
+RETURN j, r, e;
+```
+
+### Relacionar los jugadores con el Draft
+
+Se utiliza la relación `PARTICIPO_EN` para conectar a los seis jugadores con el Draft de 2023.
+
+```sql
+MATCH (j:SimNBA:Jugador)
+MATCH (d:SimNBA:Draft {anio: 2023})
+
+MERGE (j)-[:PARTICIPO_EN]->(d)
+
+RETURN j.nombre AS Jugador,
+       d.anio AS Draft;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (j:SimNBA:Jugador)-[r:PARTICIPO_EN]->(d:SimNBA:Draft)
+RETURN j, r, d;
+```
+
+En esta visualización, los seis jugadores estarán conectados hacia un mismo nodo que representa el Draft de 2023.
+
+### Agregar las propiedades de los jugadores
+
+Se incorporan las propiedades `posicion`, `nacionalidad` y `pick`. Esta última representa el número de selección de cada jugador en el Draft.
+
+```sql
+UNWIND [
+  {nombre: 'Victor Wembanyama', posicion: 'Pívot',
+   nacionalidad: 'Francia', pick: 1},
+
+  {nombre: 'Brandon Miller', posicion: 'Alero',
+   nacionalidad: 'Estados Unidos', pick: 2},
+
+  {nombre: 'Scoot Henderson', posicion: 'Base',
+   nacionalidad: 'Estados Unidos', pick: 3},
+
+  {nombre: 'Amen Thompson', posicion: 'Base',
+   nacionalidad: 'Estados Unidos', pick: 4},
+
+  {nombre: 'Ausar Thompson', posicion: 'Alero',
+   nacionalidad: 'Estados Unidos', pick: 5},
+
+  {nombre: 'Anthony Black', posicion: 'Base',
+   nacionalidad: 'Estados Unidos', pick: 6}
+] AS dato
+
+MATCH (j:SimNBA:Jugador {nombre: dato.nombre})
+
+SET j.posicion = dato.posicion,
+    j.nacionalidad = dato.nacionalidad,
+    j.pick = dato.pick
+
+RETURN j.nombre AS Jugador,
+       j.posicion AS Posicion,
+       j.nacionalidad AS Nacionalidad,
+       j.pick AS Pick
+ORDER BY Pick;
+```
+
+En este caso, `MATCH` identifica los nodos existentes y `SET` agrega o actualiza sus propiedades sin crear nuevos jugadores.
+
+### Agregar las propiedades de los equipos
+
+Se incorpora la ciudad y un presupuesto ficticio para cada equipo.
+
+```sql
+UNWIND [
+  {nombre: 'San Antonio Spurs', ciudad: 'San Antonio', presupuesto: 35000000},
+  {nombre: 'Charlotte Hornets', ciudad: 'Charlotte', presupuesto: 22000000},
+  {nombre: 'Portland Trail Blazers', ciudad: 'Portland', presupuesto: 18000000},
+  {nombre: 'Houston Rockets', ciudad: 'Houston', presupuesto: 30000000},
+  {nombre: 'Detroit Pistons', ciudad: 'Detroit', presupuesto: 25000000},
+  {nombre: 'Orlando Magic', ciudad: 'Orlando', presupuesto: 20000000},
+  {nombre: 'Los Angeles Lakers', ciudad: 'Los Angeles', presupuesto: 28000000},
+  {nombre: 'Golden State Warriors', ciudad: 'San Francisco', presupuesto: 16000000},
+  {nombre: 'Boston Celtics', ciudad: 'Boston', presupuesto: 12000000},
+  {nombre: 'New York Knicks', ciudad: 'New York', presupuesto: 24000000}
+] AS dato
+
+MATCH (e:SimNBA:Equipo {nombre: dato.nombre})
+
+SET e.ciudad = dato.ciudad,
+    e.presupuesto = dato.presupuesto
+
+RETURN e.nombre AS Equipo,
+       e.ciudad AS Ciudad,
+       e.presupuesto AS Presupuesto
+ORDER BY Equipo;
+```
+
+### Crear los contratos
+
+Se crea un contrato para cada jugador. Las propiedades representan el salario, periodo de vigencia, salario esperado y condiciones relacionadas con la agencia libre.
+
+Todos estos datos contractuales son simulados.
+
+```sql
+UNWIND [
+  {id: 1, nombre: 'Contrato Wembanyama', salario: 32000000,
+   inicio: 2025, fin: 2029, salario_esperado: 40000000,
+   agencia: 'No restringido', opcion: 'Ninguna'},
+
+  {id: 2, nombre: 'Contrato Miller', salario: 18000000,
+   inicio: 2025, fin: 2027, salario_esperado: 22000000,
+   agencia: 'No restringido', opcion: 'Ninguna'},
+
+  {id: 3, nombre: 'Contrato Henderson', salario: 12000000,
+   inicio: 2025, fin: 2027, salario_esperado: 16000000,
+   agencia: 'No restringido', opcion: 'Ninguna'},
+
+  {id: 4, nombre: 'Contrato Amen Thompson', salario: 17000000,
+   inicio: 2025, fin: 2028, salario_esperado: 25000000,
+   agencia: 'No restringido', opcion: 'Jugador'},
+
+  {id: 5, nombre: 'Contrato Ausar Thompson', salario: 14000000,
+   inicio: 2025, fin: 2027, salario_esperado: 19000000,
+   agencia: 'Restringido', opcion: 'Ninguna'},
+
+  {id: 6, nombre: 'Contrato Anthony Black', salario: 10000000,
+   inicio: 2025, fin: 2027, salario_esperado: 14000000,
+   agencia: 'No restringido', opcion: 'Ninguna'}
+] AS dato
+
+MERGE (c:SimNBA:Contrato {id: dato.id})
+
+SET c.nombre = dato.nombre,
+    c.salario = dato.salario,
+    c.inicio = dato.inicio,
+    c.fin = dato.fin,
+    c.salario_esperado = dato.salario_esperado,
+    c.agencia = dato.agencia,
+    c.opcion = dato.opcion
+
+RETURN c;
+```
+
+Para verificar los contratos:
+
+```sql
+MATCH (c:SimNBA:Contrato)
+RETURN c.nombre AS Contrato,
+       c.salario AS Salario,
+       c.inicio AS Inicio,
+       c.fin AS Fin
+ORDER BY Salario DESC;
+```
+
+### Relacionar los jugadores con sus contratos
+
+Se utiliza la relación `TIENE_CONTRATO` para conectar cada jugador con su contrato.
+
+```sql
+UNWIND [
+  {jugador: 'Victor Wembanyama', contrato: 1},
+  {jugador: 'Brandon Miller', contrato: 2},
+  {jugador: 'Scoot Henderson', contrato: 3},
+  {jugador: 'Amen Thompson', contrato: 4},
+  {jugador: 'Ausar Thompson', contrato: 5},
+  {jugador: 'Anthony Black', contrato: 6}
+] AS dato
+
+MATCH (j:SimNBA:Jugador {nombre: dato.jugador})
+MATCH (c:SimNBA:Contrato {id: dato.contrato})
+
+MERGE (j)-[:TIENE_CONTRATO]->(c)
+
+RETURN j.nombre AS Jugador,
+       c.nombre AS Contrato;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (j:SimNBA:Jugador)-[r:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+RETURN j, r, c;
+```
+
+### Relacionar los contratos con los equipos
+
+Se utiliza la relación `CON_EQUIPO` para asociar cada contrato con el equipo correspondiente.
+
+```sql
+UNWIND [
+  {contrato: 1, equipo: 'San Antonio Spurs'},
+  {contrato: 2, equipo: 'Charlotte Hornets'},
+  {contrato: 3, equipo: 'Portland Trail Blazers'},
+  {contrato: 4, equipo: 'Houston Rockets'},
+  {contrato: 5, equipo: 'Detroit Pistons'},
+  {contrato: 6, equipo: 'Orlando Magic'}
+] AS dato
+
+MATCH (c:SimNBA:Contrato {id: dato.contrato})
+MATCH (e:SimNBA:Equipo {nombre: dato.equipo})
+
+MERGE (c)-[:CON_EQUIPO]->(e)
+
+RETURN c.nombre AS Contrato,
+       e.nombre AS Equipo;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (c:SimNBA:Contrato)-[r:CON_EQUIPO]->(e:SimNBA:Equipo)
+RETURN c, r, e;
+```
+
+### Visualizar el grafo completo
+
+Una vez creados los nodos y relaciones, se puede visualizar la estructura completa del ejemplo.
+
+```sql
+MATCH (n:SimNBA)
+OPTIONAL MATCH (n)-[r]->(m:SimNBA)
+RETURN n, r, m;
+```
+
+Se utiliza `OPTIONAL MATCH` para incluir también los nodos que no tienen relaciones, como los equipos que todavía no están vinculados con algún jugador o contrato.
+
+El grafo contiene:
+
+| Elemento | Cantidad |
+|---|---:|
+| Equipos | 10 |
+| Jugadores | 6 |
+| Draft | 1 |
+| Contratos | 6 |
+| **Total de nodos** | **23** |
+| `SELECCIONADO_POR` | 6 |
+| `PARTICIPO_EN` | 6 |
+| `TIENE_CONTRATO` | 6 |
+| `CON_EQUIPO` | 6 |
+| **Total de relaciones** | **24** |
+
+Para verificar los totales:
+
+```sql
+MATCH (n:SimNBA)
+OPTIONAL MATCH (n)-[r]->(m:SimNBA)
+RETURN COUNT(DISTINCT n) AS TotalNodos,
+       COUNT(DISTINCT r) AS TotalRelaciones;
+```
+
+### Consultas de ejemplo
+
+A continuación, se presentan cinco consultas que permiten explorar la información almacenada en el grafo.
+
+#### Jugadores, equipos y salarios
+
+Identificar el equipo asociado al contrato de cada jugador y mostrar su salario, ordenado de mayor a menor.
+
+```sql
+MATCH (j:SimNBA:Jugador)-[:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+      -[:CON_EQUIPO]->(e:SimNBA:Equipo)
+
+RETURN j.nombre AS Jugador,
+       e.nombre AS Equipo,
+       c.salario AS Salario
+ORDER BY Salario DESC;
+```
+
+#### Los cinco jugadores con mayores salarios
+
+Identificar los cinco jugadores con los salarios más altos utilizando `ORDER BY` y `LIMIT`.
+
+```sql
+MATCH (j:SimNBA:Jugador)-[:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+
+RETURN j.nombre AS Jugador,
+       c.salario AS Salario
+ORDER BY Salario DESC
+LIMIT 5;
+```
+
+#### Jugadores cuyos contratos terminan en 2027
+
+Identificar los jugadores cuyos contratos ficticios finalizan en el año 2027.
+
+```sql
+MATCH (j:SimNBA:Jugador)-[:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+
+WHERE c.fin = 2027
+
+RETURN j.nombre AS Jugador,
+       c.salario AS Salario,
+       c.fin AS Fin;
+```
+
+#### Posibles agentes libres en 2027
+
+Identificar jugadores cuyos contratos finalizan en 2027, con agencia libre no restringida y sin opciones contractuales.
+
+```sql
+MATCH (j:SimNBA:Jugador)-[:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+
+WHERE c.fin = 2027
+  AND c.agencia = 'No restringido'
+  AND c.opcion = 'Ninguna'
+
+RETURN j.nombre AS Jugador,
+       c.fin AS Fin,
+       c.agencia AS Agencia,
+       c.salario_esperado AS SalarioEsperado;
+```
+
+#### Posibles contrataciones de Los Angeles Lakers
+
+Identificar jugadores que cumplen las condiciones simuladas de agencia libre en 2027 y cuyo salario esperado no supera el presupuesto disponible de Los Angeles Lakers.
+
+```sql
+MATCH (e:SimNBA:Equipo {nombre: 'Los Angeles Lakers'})
+
+MATCH (j:SimNBA:Jugador)-[:TIENE_CONTRATO]->(c:SimNBA:Contrato)
+
+WHERE c.fin = 2027
+  AND c.agencia = 'No restringido'
+  AND c.opcion = 'Ninguna'
+  AND c.salario_esperado <= e.presupuesto
+
+RETURN j.nombre AS Jugador,
+       c.salario_esperado AS SalarioEsperado,
+       e.nombre AS EquipoInteresado,
+       e.presupuesto AS PresupuestoDisponible
+ORDER BY SalarioEsperado DESC;
+```
+
+Esta consulta permite explorar escenarios hipotéticos de contratación mediante las relaciones del grafo y las propiedades de jugadores, contratos y equipos. No representa la elegibilidad contractual ni las reglas salariales reales de la NBA.
 
 
 
@@ -1571,4 +2273,624 @@ flowchart LR
 
 
 
+## Ejemplo práctico: Gestión de infraestructura de TI y ciberseguridad
 
+En este ejemplo se construirá un grafo en Neo4j para representar la infraestructura tecnológica de una organización. Se incluirán usuarios, departamentos, servidores, aplicaciones, bases de datos y vulnerabilidades de seguridad.
+
+El objetivo es identificar cómo se relacionan estos elementos y utilizar consultas Cypher para explorar accesos, dependencias tecnológicas y posibles riesgos de ciberseguridad.
+
+Los nombres, equipos, configuraciones y vulnerabilidades utilizados en este ejemplo son ficticios y tienen fines educativos.
+
+### Estructura del grafo
+
+El grafo estará compuesto por seis tipos de nodos:
+
+| Nodo | Descripción |
+|---|---|
+| `Departamento` | Representa las áreas de la organización. |
+| `Usuario` | Representa a las personas que utilizan los recursos tecnológicos. |
+| `Servidor` | Representa los equipos que alojan aplicaciones y servicios. |
+| `Aplicacion` | Representa los sistemas utilizados por la organización. |
+| `BaseDatos` | Representa los sistemas de almacenamiento de información. |
+| `Vulnerabilidad` | Representa posibles problemas de seguridad detectados. |
+
+Se utilizarán siete tipos de relaciones:
+
+| Relación | Descripción |
+|---|---|
+| `PERTENECE_A` | Relaciona un usuario con su departamento. |
+| `UTILIZA` | Relaciona un usuario con una aplicación. |
+| `ACCEDE_A` | Representa el acceso directo de un usuario a un servidor. |
+| `ALOJA` | Relaciona un servidor con una aplicación alojada en él. |
+| `CONSULTA` | Relaciona una aplicación con una base de datos. |
+| `CONECTADO_A` | Relaciona un servidor con una base de datos. |
+| `TIENE_VULNERABILIDAD` | Relaciona un servidor con una vulnerabilidad detectada. |
+
+Todos los nodos tendrán la etiqueta adicional `SimTI`, que permitirá identificar los elementos de este ejercicio y trabajar sin modificar los grafos de prácticas anteriores.
+
+### Representación gráfica del modelo
+
+El siguiente diagrama muestra cómo se relacionan los usuarios, departamentos, servidores, aplicaciones, bases de datos y vulnerabilidades dentro de la infraestructura tecnológica de la organización.
+
+```{mermaid}
+flowchart LR
+    U["Usuario"] -->|PERTENECE_A| D["Departamento"]
+    U -->|UTILIZA| A["Aplicación"]
+    U -->|ACCEDE_A| S["Servidor"]
+    S -->|ALOJA| A
+    A -->|CONSULTA| B["Base de datos"]
+    S -->|CONECTADO_A| B
+    S -->|TIENE_VULNERABILIDAD| V["Vulnerabilidad"]
+```
+
+Este diagrama representa la estructura general del modelo. Posteriormente, Neo4j permitirá visualizar los elementos concretos de la infraestructura y las relaciones existentes entre ellos.
+
+### Crear los departamentos
+
+Primero se crean cuatro departamentos de la organización.
+
+```sql
+UNWIND [
+  'Tecnologías de la Información',
+  'Finanzas',
+  'Recursos Humanos',
+  'Ventas'
+] AS nombre
+
+MERGE (d:SimTI:Departamento {nombre: nombre})
+
+RETURN d;
+```
+
+Para visualizar los departamentos:
+
+```sql
+MATCH (d:SimTI:Departamento)
+RETURN d;
+```
+
+### Crear los usuarios
+
+Se crean ocho usuarios que pertenecen a diferentes departamentos.
+
+```sql
+UNWIND [
+  'Ana López',
+  'Luis García',
+  'Marta Hernández',
+  'Diego Ramírez',
+  'Sofía Martínez',
+  'Carla Torres',
+  'Pedro Sánchez',
+  'Laura Flores'
+] AS nombre
+
+MERGE (u:SimTI:Usuario {nombre: nombre})
+
+RETURN u;
+```
+
+Para visualizar los usuarios:
+
+```sql
+MATCH (u:SimTI:Usuario)
+RETURN u;
+```
+
+### Crear los servidores
+
+Se crean cinco servidores que representan diferentes componentes de la infraestructura tecnológica.
+
+```sql
+UNWIND [
+  'srv-web-01',
+  'srv-app-01',
+  'srv-db-01',
+  'srv-auth-01',
+  'srv-backup-01'
+] AS nombre
+
+MERGE (s:SimTI:Servidor {nombre: nombre})
+
+RETURN s;
+```
+
+Para visualizar los servidores:
+
+```sql
+MATCH (s:SimTI:Servidor)
+RETURN s;
+```
+
+### Crear las aplicaciones
+
+Se crean cinco aplicaciones utilizadas por la organización.
+
+```sql
+UNWIND [
+  'Portal Web',
+  'Sistema ERP',
+  'Sistema de Nómina',
+  'Directorio Corporativo',
+  'Sistema de Respaldos'
+] AS nombre
+
+MERGE (a:SimTI:Aplicacion {nombre: nombre})
+
+RETURN a;
+```
+
+Para visualizar las aplicaciones:
+
+```sql
+MATCH (a:SimTI:Aplicacion)
+RETURN a;
+```
+
+### Crear las bases de datos
+
+Se crean cuatro bases de datos que almacenan información de diferentes áreas de la organización.
+
+```sql
+UNWIND [
+  'BD Clientes',
+  'BD Finanzas',
+  'BD Personal',
+  'BD Auditoría'
+] AS nombre
+
+MERGE (b:SimTI:BaseDatos {nombre: nombre})
+
+RETURN b;
+```
+
+Para visualizar las bases de datos:
+
+```sql
+MATCH (b:SimTI:BaseDatos)
+RETURN b;
+```
+
+### Crear las vulnerabilidades
+
+Se crean cinco vulnerabilidades ficticias que posteriormente se relacionarán con los servidores.
+
+```sql
+UNWIND [
+  'Parches pendientes',
+  'Servicio desactualizado',
+  'Configuración insegura',
+  'Credenciales débiles',
+  'Permisos excesivos'
+] AS nombre
+
+MERGE (v:SimTI:Vulnerabilidad {nombre: nombre})
+
+RETURN v;
+```
+
+Para visualizar las vulnerabilidades:
+
+```sql
+MATCH (v:SimTI:Vulnerabilidad)
+RETURN v;
+```
+
+### Verificar los nodos creados
+
+Se consulta el número de nodos de cada tipo.
+
+```sql
+MATCH (n:SimTI)
+
+RETURN labels(n) AS Etiquetas,
+       COUNT(n) AS Total
+ORDER BY Total DESC;
+```
+
+El resultado esperado es:
+
+| Tipo de nodo | Cantidad |
+|---|---:|
+| Departamento | 4 |
+| Usuario | 8 |
+| Servidor | 5 |
+| Aplicación | 5 |
+| Base de datos | 4 |
+| Vulnerabilidad | 5 |
+| **Total** | **31** |
+
+::: {.callout-tip}
+Para que Neo4j muestre correctamente los nombres de todos los nodos, se puede seleccionar la etiqueta `SimTI` en el panel **Results overview** y configurar **Customize Style → Caption → nombre**.
+:::
+
+### Relacionar los usuarios con sus departamentos
+
+Se utiliza la relación `PERTENECE_A` para identificar el departamento correspondiente a cada usuario.
+
+```sql
+UNWIND [
+  {usuario: 'Ana López', departamento: 'Tecnologías de la Información'},
+  {usuario: 'Luis García', departamento: 'Tecnologías de la Información'},
+  {usuario: 'Marta Hernández', departamento: 'Finanzas'},
+  {usuario: 'Diego Ramírez', departamento: 'Finanzas'},
+  {usuario: 'Sofía Martínez', departamento: 'Recursos Humanos'},
+  {usuario: 'Carla Torres', departamento: 'Recursos Humanos'},
+  {usuario: 'Pedro Sánchez', departamento: 'Ventas'},
+  {usuario: 'Laura Flores', departamento: 'Ventas'}
+] AS dato
+
+MATCH (u:SimTI:Usuario {nombre: dato.usuario})
+MATCH (d:SimTI:Departamento {nombre: dato.departamento})
+
+MERGE (u)-[:PERTENECE_A]->(d)
+
+RETURN u.nombre AS Usuario,
+       d.nombre AS Departamento;
+```
+
+Para visualizar estas relaciones:
+
+```sql
+MATCH (u:SimTI:Usuario)-[r:PERTENECE_A]->(d:SimTI:Departamento)
+RETURN u, r, d;
+```
+
+### Relacionar los usuarios con las aplicaciones
+
+Se utiliza la relación `UTILIZA` para identificar qué aplicaciones son utilizadas por cada usuario.
+
+```sql
+UNWIND [
+  {usuario: 'Ana López', aplicacion: 'Directorio Corporativo'},
+  {usuario: 'Ana López', aplicacion: 'Sistema de Respaldos'},
+  {usuario: 'Luis García', aplicacion: 'Sistema de Respaldos'},
+  {usuario: 'Luis García', aplicacion: 'Directorio Corporativo'},
+  {usuario: 'Marta Hernández', aplicacion: 'Sistema ERP'},
+  {usuario: 'Diego Ramírez', aplicacion: 'Sistema ERP'},
+  {usuario: 'Sofía Martínez', aplicacion: 'Sistema de Nómina'},
+  {usuario: 'Carla Torres', aplicacion: 'Sistema de Nómina'},
+  {usuario: 'Pedro Sánchez', aplicacion: 'Portal Web'},
+  {usuario: 'Laura Flores', aplicacion: 'Portal Web'}
+] AS dato
+
+MATCH (u:SimTI:Usuario {nombre: dato.usuario})
+MATCH (a:SimTI:Aplicacion {nombre: dato.aplicacion})
+
+MERGE (u)-[:UTILIZA]->(a)
+
+RETURN u.nombre AS Usuario,
+       a.nombre AS Aplicacion;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (u:SimTI:Usuario)-[r:UTILIZA]->(a:SimTI:Aplicacion)
+RETURN u, r, a;
+```
+
+### Relacionar los usuarios con los servidores
+
+Se utiliza la relación `ACCEDE_A` para representar accesos directos a servidores, de acuerdo con el escenario ficticio.
+
+```sql
+UNWIND [
+  {usuario: 'Ana López', servidor: 'srv-web-01'},
+  {usuario: 'Luis García', servidor: 'srv-db-01'},
+  {usuario: 'Marta Hernández', servidor: 'srv-app-01'},
+  {usuario: 'Diego Ramírez', servidor: 'srv-db-01'},
+  {usuario: 'Sofía Martínez', servidor: 'srv-auth-01'}
+] AS dato
+
+MATCH (u:SimTI:Usuario {nombre: dato.usuario})
+MATCH (s:SimTI:Servidor {nombre: dato.servidor})
+
+MERGE (u)-[:ACCEDE_A]->(s)
+
+RETURN u.nombre AS Usuario,
+       s.nombre AS Servidor;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (u:SimTI:Usuario)-[r:ACCEDE_A]->(s:SimTI:Servidor)
+RETURN u, r, s;
+```
+
+### Relacionar los servidores con las aplicaciones
+
+Se utiliza la relación `ALOJA` para representar qué aplicaciones se encuentran instaladas o alojadas en cada servidor.
+
+```sql
+UNWIND [
+  {servidor: 'srv-web-01', aplicacion: 'Portal Web'},
+  {servidor: 'srv-app-01', aplicacion: 'Sistema ERP'},
+  {servidor: 'srv-app-01', aplicacion: 'Sistema de Nómina'},
+  {servidor: 'srv-auth-01', aplicacion: 'Directorio Corporativo'},
+  {servidor: 'srv-backup-01', aplicacion: 'Sistema de Respaldos'}
+] AS dato
+
+MATCH (s:SimTI:Servidor {nombre: dato.servidor})
+MATCH (a:SimTI:Aplicacion {nombre: dato.aplicacion})
+
+MERGE (s)-[:ALOJA]->(a)
+
+RETURN s.nombre AS Servidor,
+       a.nombre AS Aplicacion;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (s:SimTI:Servidor)-[r:ALOJA]->(a:SimTI:Aplicacion)
+RETURN s, r, a;
+```
+
+### Relacionar las aplicaciones con las bases de datos
+
+Se utiliza la relación `CONSULTA` para identificar las bases de datos utilizadas por cada aplicación.
+
+```sql
+UNWIND [
+  {aplicacion: 'Portal Web', base: 'BD Clientes'},
+  {aplicacion: 'Sistema ERP', base: 'BD Finanzas'},
+  {aplicacion: 'Sistema de Nómina', base: 'BD Personal'},
+  {aplicacion: 'Directorio Corporativo', base: 'BD Auditoría'},
+  {aplicacion: 'Sistema de Respaldos', base: 'BD Auditoría'}
+] AS dato
+
+MATCH (a:SimTI:Aplicacion {nombre: dato.aplicacion})
+MATCH (b:SimTI:BaseDatos {nombre: dato.base})
+
+MERGE (a)-[:CONSULTA]->(b)
+
+RETURN a.nombre AS Aplicacion,
+       b.nombre AS BaseDatos;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (a:SimTI:Aplicacion)-[r:CONSULTA]->(b:SimTI:BaseDatos)
+RETURN a, r, b;
+```
+
+### Relacionar los servidores con las bases de datos
+
+Se utiliza la relación `CONECTADO_A` para representar la conexión del servidor de bases de datos con los sistemas de almacenamiento utilizados por la organización.
+
+```sql
+UNWIND [
+  {servidor: 'srv-db-01', base: 'BD Clientes'},
+  {servidor: 'srv-db-01', base: 'BD Finanzas'},
+  {servidor: 'srv-db-01', base: 'BD Personal'},
+  {servidor: 'srv-db-01', base: 'BD Auditoría'}
+] AS dato
+
+MATCH (s:SimTI:Servidor {nombre: dato.servidor})
+MATCH (b:SimTI:BaseDatos {nombre: dato.base})
+
+MERGE (s)-[:CONECTADO_A]->(b)
+
+RETURN s.nombre AS Servidor,
+       b.nombre AS BaseDatos;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (s:SimTI:Servidor)-[r:CONECTADO_A]->(b:SimTI:BaseDatos)
+RETURN s, r, b;
+```
+
+### Relacionar los servidores con sus vulnerabilidades
+
+Se utiliza la relación `TIENE_VULNERABILIDAD` para identificar los problemas de seguridad asociados a los servidores.
+
+```sql
+UNWIND [
+  {servidor: 'srv-web-01', vulnerabilidad: 'Parches pendientes'},
+  {servidor: 'srv-app-01', vulnerabilidad: 'Servicio desactualizado'},
+  {servidor: 'srv-db-01', vulnerabilidad: 'Configuración insegura'},
+  {servidor: 'srv-auth-01', vulnerabilidad: 'Credenciales débiles'},
+  {servidor: 'srv-backup-01', vulnerabilidad: 'Permisos excesivos'}
+] AS dato
+
+MATCH (s:SimTI:Servidor {nombre: dato.servidor})
+MATCH (v:SimTI:Vulnerabilidad {nombre: dato.vulnerabilidad})
+
+MERGE (s)-[:TIENE_VULNERABILIDAD]->(v)
+
+RETURN s.nombre AS Servidor,
+       v.nombre AS Vulnerabilidad;
+```
+
+Para visualizar las relaciones:
+
+```sql
+MATCH (s:SimTI:Servidor)-[r:TIENE_VULNERABILIDAD]->(v:SimTI:Vulnerabilidad)
+RETURN s, r, v;
+```
+
+### Agregar las propiedades de los servidores
+
+Se incorporan las propiedades `ip`, `sistema_operativo` y `estado` para describir los servidores.
+
+Las direcciones IP pertenecen a un rango reservado para documentación y no representan equipos reales.
+
+```sql
+UNWIND [
+  {nombre: 'srv-web-01', ip: '192.0.2.10',
+   sistema_operativo: 'Ubuntu Server', estado: 'Activo'},
+
+  {nombre: 'srv-app-01', ip: '192.0.2.20',
+   sistema_operativo: 'Windows Server', estado: 'Activo'},
+
+  {nombre: 'srv-db-01', ip: '192.0.2.30',
+   sistema_operativo: 'Ubuntu Server', estado: 'Activo'},
+
+  {nombre: 'srv-auth-01', ip: '192.0.2.40',
+   sistema_operativo: 'Windows Server', estado: 'Activo'},
+
+  {nombre: 'srv-backup-01', ip: '192.0.2.50',
+   sistema_operativo: 'Ubuntu Server', estado: 'Mantenimiento'}
+] AS dato
+
+MATCH (s:SimTI:Servidor {nombre: dato.nombre})
+
+SET s.ip = dato.ip,
+    s.sistema_operativo = dato.sistema_operativo,
+    s.estado = dato.estado
+
+RETURN s.nombre AS Servidor,
+       s.ip AS IP,
+       s.sistema_operativo AS SistemaOperativo,
+       s.estado AS Estado;
+```
+
+### Agregar las propiedades de las vulnerabilidades
+
+Se incorpora la propiedad `severidad` para clasificar los problemas de seguridad de acuerdo con su nivel de riesgo dentro del escenario simulado.
+
+```sql
+UNWIND [
+  {nombre: 'Parches pendientes', severidad: 'Alta'},
+  {nombre: 'Servicio desactualizado', severidad: 'Media'},
+  {nombre: 'Configuración insegura', severidad: 'Crítica'},
+  {nombre: 'Credenciales débiles', severidad: 'Alta'},
+  {nombre: 'Permisos excesivos', severidad: 'Alta'}
+] AS dato
+
+MATCH (v:SimTI:Vulnerabilidad {nombre: dato.nombre})
+
+SET v.severidad = dato.severidad
+
+RETURN v.nombre AS Vulnerabilidad,
+       v.severidad AS Severidad;
+```
+
+En este ejemplo, las severidades son asignaciones ficticias y no provienen de una evaluación real de seguridad.
+
+### Visualizar el grafo completo
+
+Una vez creados los nodos, relaciones y propiedades, se puede visualizar toda la infraestructura tecnológica de la organización.
+
+```sql
+MATCH (n:SimTI)
+OPTIONAL MATCH (n)-[r]->(m:SimTI)
+RETURN n, r, m;
+```
+
+La consulta utiliza `OPTIONAL MATCH` para incluir también los nodos que no tengan relaciones.
+
+El grafo contiene:
+
+| Elemento | Cantidad |
+|---|---:|
+| Departamentos | 4 |
+| Usuarios | 8 |
+| Servidores | 5 |
+| Aplicaciones | 5 |
+| Bases de datos | 4 |
+| Vulnerabilidades | 5 |
+| **Total de nodos** | **31** |
+| `PERTENECE_A` | 8 |
+| `UTILIZA` | 10 |
+| `ACCEDE_A` | 5 |
+| `ALOJA` | 5 |
+| `CONSULTA` | 5 |
+| `CONECTADO_A` | 4 |
+| `TIENE_VULNERABILIDAD` | 5 |
+| **Total de relaciones** | **42** |
+
+Para verificar el total de nodos y relaciones:
+
+```sql
+MATCH (n:SimTI)
+OPTIONAL MATCH (n)-[r]->(m:SimTI)
+
+RETURN COUNT(DISTINCT n) AS TotalNodos,
+       COUNT(DISTINCT r) AS TotalRelaciones;
+```
+
+El resultado esperado es de 31 nodos y 42 relaciones.
+
+### Consultas de ejemplo
+
+A continuación, se presentan cinco consultas para explorar la infraestructura tecnológica y los posibles riesgos de ciberseguridad.
+
+#### Identificar los usuarios y sus departamentos
+
+Esta consulta permite identificar a qué departamento pertenece cada usuario.
+
+```sql
+MATCH (u:SimTI:Usuario)-[:PERTENECE_A]->(d:SimTI:Departamento)
+
+RETURN u.nombre AS Usuario,
+       d.nombre AS Departamento
+ORDER BY Departamento, Usuario;
+```
+
+#### Identificar las aplicaciones más utilizadas
+
+Esta consulta permite contar cuántos usuarios están relacionados con cada aplicación y ordenar los resultados de mayor a menor.
+
+```sql
+MATCH (u:SimTI:Usuario)-[:UTILIZA]->(a:SimTI:Aplicacion)
+
+RETURN a.nombre AS Aplicacion,
+       COUNT(u) AS TotalUsuarios
+ORDER BY TotalUsuarios DESC, Aplicacion;
+```
+
+#### Identificar los servidores con vulnerabilidades de severidad alta o crítica
+
+Esta consulta permite identificar los servidores que presentan vulnerabilidades clasificadas como `Alta` o `Crítica` dentro del escenario simulado.
+
+```sql
+MATCH (s:SimTI:Servidor)-[:TIENE_VULNERABILIDAD]->(v:SimTI:Vulnerabilidad)
+
+WHERE v.severidad IN ['Alta', 'Crítica']
+
+RETURN s.nombre AS Servidor,
+       s.ip AS IP,
+       v.nombre AS Vulnerabilidad,
+       v.severidad AS Severidad
+ORDER BY Severidad, Servidor;
+```
+
+#### Identificar usuarios con acceso directo a servidores vulnerables
+
+Esta consulta permite identificar qué usuarios tienen acceso directo a servidores con vulnerabilidades registradas.
+
+```sql
+MATCH (u:SimTI:Usuario)-[:ACCEDE_A]->(s:SimTI:Servidor)
+      -[:TIENE_VULNERABILIDAD]->(v:SimTI:Vulnerabilidad)
+
+RETURN u.nombre AS Usuario,
+       s.nombre AS Servidor,
+       v.nombre AS Vulnerabilidad,
+       v.severidad AS Severidad
+ORDER BY Usuario;
+```
+
+#### Identificar aplicaciones y bases de datos asociadas a servidores vulnerables
+
+Esta consulta permite identificar las aplicaciones alojadas en servidores con vulnerabilidades y las bases de datos que utilizan.
+
+```sql
+MATCH (s:SimTI:Servidor)-[:TIENE_VULNERABILIDAD]->(v:SimTI:Vulnerabilidad)
+
+MATCH (s)-[:ALOJA]->(a:SimTI:Aplicacion)
+      -[:CONSULTA]->(b:SimTI:BaseDatos)
+
+RETURN s.nombre AS Servidor,
+       v.nombre AS Vulnerabilidad,
+       a.nombre AS Aplicacion,
+       b.nombre AS BaseDatos
+ORDER BY Servidor, Aplicacion;
+```
+
+Esta última consulta permite explorar las dependencias entre servidores, aplicaciones y bases de datos para identificar recursos que podrían verse afectados si una vulnerabilidad llegara a explotarse. La presencia de una relación no demuestra por sí misma que exista una vulneración de seguridad.
