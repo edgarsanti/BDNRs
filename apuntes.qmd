@@ -145,3 +145,18 @@ Introducción práctica a Neo4j y al lenguaje Cypher para crear nodos, establece
    href="apuntes/12_neo4j_comandos_practica.html">
    Abrir apunte
 </a>
+
+
+
+
+---
+
+## El problema de los siete puentes de Königsberg
+
+Introducción a la teoría de grafos mediante el problema de los siete puentes de Königsberg. Se representa el problema en Neo4j y se utilizan los conceptos de grado y camino euleriano para demostrar cuándo existe un recorrido válido.
+
+<a class="btn btn-primary"
+   href="apuntes/13_siete_puentes_konigsberg.html">
+   Abrir apunte
+</a>
+
