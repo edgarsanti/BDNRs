@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
-    <lastmod>2026-10-09T02:14:07.670Z</lastmod>
+    <lastmod>2026-10-28T05:40:46.627Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/09_comandos_cassandra.html</loc>
@@ -37,20 +37,24 @@
     <lastmod>2026-10-02T16:40:22.209Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/07_redis_comandos_practica.html</loc>
-    <lastmod>2026-09-22T06:25:31.084Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/13_siete_puentes_konigsberg.html</loc>
+    <lastmod>2026-10-28T06:46:38.088Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
-    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
+    <lastmod>2026-09-14T05:51:30.587Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/02_modelado_relaciones_mongodb.html</loc>
-    <lastmod>2026-09-14T05:35:51.957Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/03_redis_clave_valor.html</loc>
+    <lastmod>2026-09-22T06:38:01.784Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_consultas_cassandra.html</loc>
-    <lastmod>2026-10-09T02:28:28.634Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/04_streaming_redis.html</loc>
+    <lastmod>2026-09-28T05:12:22.344Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
+    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/manuales/01_instalacion_cassandra_windows.html</loc>
@@ -65,20 +69,24 @@
     <lastmod>2026-10-13T18:03:03.291Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
-    <lastmod>2026-09-08T00:43:43.494Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_actividad_grafos_neo4j.html</loc>
+    <lastmod>2026-10-28T05:30:05.267Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/04_streaming_redis.html</loc>
-    <lastmod>2026-09-28T05:12:22.344Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_consultas_cassandra.html</loc>
+    <lastmod>2026-10-09T02:28:28.634Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/03_redis_clave_valor.html</loc>
-    <lastmod>2026-09-22T06:38:01.784Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/02_modelado_relaciones_mongodb.html</loc>
+    <lastmod>2026-09-14T05:35:51.957Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
-    <lastmod>2026-09-14T05:51:30.587Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
+    <lastmod>2026-09-07T05:48:37.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/07_redis_comandos_practica.html</loc>
+    <lastmod>2026-09-22T06:25:31.084Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/11_bases_orientadas_grafos.html</loc>
@@ -90,7 +98,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/12_2_neo4j_guia_completa.html</loc>
-    <lastmod>2026-10-23T16:25:10.549Z</lastmod>
+    <lastmod>2026-10-28T05:32:44.950Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/03_bases_orientadas_documentos.html</loc>
@@ -110,7 +118,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-10-19T05:48:03.695Z</lastmod>
+    <lastmod>2026-10-28T05:43:28.407Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/diapositivas.html</loc>
