@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Teoría de grafos aplicada: el problema de los siete puentes de Königsberg – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0ea5afa10b77752bedd114ac038d6662.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#el-problema-de-los-siete-puentes-de-königsberg" id="toc-el-problema-de-los-siete-puentes-de-königsberg" class="nav-link" data-scroll-target="#el-problema-de-los-siete-puentes-de-königsberg"><span class="header-section-number">2</span> El problema de los siete puentes de Königsberg</a>
+  <ul class="collapse">
+  <li><a href="#representación-histórica-de-la-ciudad" id="toc-representación-histórica-de-la-ciudad" class="nav-link" data-scroll-target="#representación-histórica-de-la-ciudad"><span class="header-section-number">2.1</span> Representación histórica de la ciudad</a></li>
+  <li><a href="#planteamiento-del-desafío" id="toc-planteamiento-del-desafío" class="nav-link" data-scroll-target="#planteamiento-del-desafío"><span class="header-section-number">2.2</span> Planteamiento del desafío</a></li>
+  </ul></li>
+  <li><a href="#representación-matemática-del-problema" id="toc-representación-matemática-del-problema" class="nav-link" data-scroll-target="#representación-matemática-del-problema"><span class="header-section-number">3</span> Representación matemática del problema</a>
+  <ul class="collapse">
+  <li><a href="#grafo-de-los-siete-puentes" id="toc-grafo-de-los-siete-puentes" class="nav-link" data-scroll-target="#grafo-de-los-siete-puentes"><span class="header-section-number">3.1</span> Grafo de los siete puentes</a></li>
+  <li><a href="#identificación-de-los-puentes" id="toc-identificación-de-los-puentes" class="nav-link" data-scroll-target="#identificación-de-los-puentes"><span class="header-section-number">3.2</span> Identificación de los puentes</a></li>
+  </ul></li>
+  <li><a href="#creación-del-grafo-en-neo4j" id="toc-creación-del-grafo-en-neo4j" class="nav-link" data-scroll-target="#creación-del-grafo-en-neo4j"><span class="header-section-number">4</span> Creación del grafo en Neo4j</a>
+  <ul class="collapse">
+  <li><a href="#creación-de-las-cuatro-zonas-de-tierra" id="toc-creación-de-las-cuatro-zonas-de-tierra" class="nav-link" data-scroll-target="#creación-de-las-cuatro-zonas-de-tierra"><span class="header-section-number">4.1</span> Creación de las cuatro zonas de tierra</a></li>
+  <li><a href="#creación-de-los-siete-puentes" id="toc-creación-de-los-siete-puentes" class="nav-link" data-scroll-target="#creación-de-los-siete-puentes"><span class="header-section-number">4.2</span> Creación de los siete puentes</a></li>
+  <li><a href="#verificación-del-número-de-nodos" id="toc-verificación-del-número-de-nodos" class="nav-link" data-scroll-target="#verificación-del-número-de-nodos"><span class="header-section-number">4.3</span> Verificación del número de nodos</a></li>
+  <li><a href="#verificación-del-número-de-puentes" id="toc-verificación-del-número-de-puentes" class="nav-link" data-scroll-target="#verificación-del-número-de-puentes"><span class="header-section-number">4.4</span> Verificación del número de puentes</a></li>
+  <li><a href="#visualización-del-grafo-en-neo4j" id="toc-visualización-del-grafo-en-neo4j" class="nav-link" data-scroll-target="#visualización-del-grafo-en-neo4j"><span class="header-section-number">4.5</span> Visualización del grafo en Neo4j</a></li>
+  </ul></li>
+  <li><a href="#grado-de-los-nodos" id="toc-grado-de-los-nodos" class="nav-link" data-scroll-target="#grado-de-los-nodos"><span class="header-section-number">5</span> Grado de los nodos</a>
+  <ul class="collapse">
+  <li><a href="#calcular-el-grado-de-cada-nodo" id="toc-calcular-el-grado-de-cada-nodo" class="nav-link" data-scroll-target="#calcular-el-grado-de-cada-nodo"><span class="header-section-number">5.1</span> Calcular el grado de cada nodo</a></li>
+  </ul></li>
+  <li><a href="#demostración-matemática-por-qué-no-existe-solución" id="toc-demostración-matemática-por-qué-no-existe-solución" class="nav-link" data-scroll-target="#demostración-matemática-por-qué-no-existe-solución"><span class="header-section-number">6</span> Demostración matemática: ¿por qué no existe solución?</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-un-camino-euleriano" id="toc-qué-es-un-camino-euleriano" class="nav-link" data-scroll-target="#qué-es-un-camino-euleriano"><span class="header-section-number">6.1</span> ¿Qué es un camino euleriano?</a></li>
+  <li><a href="#por-qué-importa-el-grado-de-los-nodos" id="toc-por-qué-importa-el-grado-de-los-nodos" class="nav-link" data-scroll-target="#por-qué-importa-el-grado-de-los-nodos"><span class="header-section-number">6.2</span> ¿Por qué importa el grado de los nodos?</a></li>
+  <li><a href="#condición-de-euler" id="toc-condición-de-euler" class="nav-link" data-scroll-target="#condición-de-euler"><span class="header-section-number">6.3</span> Condición de Euler</a></li>
+  <li><a href="#aplicación-al-problema-de-königsberg" id="toc-aplicación-al-problema-de-königsberg" class="nav-link" data-scroll-target="#aplicación-al-problema-de-königsberg"><span class="header-section-number">6.4</span> Aplicación al problema de Königsberg</a></li>
+  <li><a href="#comprobación-mediante-el-lema-del-apretón-de-manos" id="toc-comprobación-mediante-el-lema-del-apretón-de-manos" class="nav-link" data-scroll-target="#comprobación-mediante-el-lema-del-apretón-de-manos"><span class="header-section-number">6.5</span> Comprobación mediante el lema del apretón de manos</a></li>
+  <li><a href="#comprobación-mediante-cypher" id="toc-comprobación-mediante-cypher" class="nav-link" data-scroll-target="#comprobación-mediante-cypher"><span class="header-section-number">6.6</span> Comprobación mediante Cypher</a></li>
+  </ul></li>
+  <li><a href="#modificación-del-problema-agregar-un-octavo-puente" id="toc-modificación-del-problema-agregar-un-octavo-puente" class="nav-link" data-scroll-target="#modificación-del-problema-agregar-un-octavo-puente"><span class="header-section-number">7</span> Modificación del problema: agregar un octavo puente</a>
+  <ul class="collapse">
+  <li><a href="#representación-del-grafo-modificado" id="toc-representación-del-grafo-modificado" class="nav-link" data-scroll-target="#representación-del-grafo-modificado"><span class="header-section-number">7.1</span> Representación del grafo modificado</a></li>
+  <li><a href="#creación-del-octavo-puente-en-neo4j" id="toc-creación-del-octavo-puente-en-neo4j" class="nav-link" data-scroll-target="#creación-del-octavo-puente-en-neo4j"><span class="header-section-number">7.2</span> Creación del octavo puente en Neo4j</a></li>
+  <li><a href="#verificación-del-número-de-puentes-1" id="toc-verificación-del-número-de-puentes-1" class="nav-link" data-scroll-target="#verificación-del-número-de-puentes-1"><span class="header-section-number">7.3</span> Verificación del número de puentes</a></li>
+  <li><a href="#calcular-nuevamente-los-grados" id="toc-calcular-nuevamente-los-grados" class="nav-link" data-scroll-target="#calcular-nuevamente-los-grados"><span class="header-section-number">7.4</span> Calcular nuevamente los grados</a></li>
+  <li><a href="#demostración-matemática-del-nuevo-grafo" id="toc-demostración-matemática-del-nuevo-grafo" class="nav-link" data-scroll-target="#demostración-matemática-del-nuevo-grafo"><span class="header-section-number">7.5</span> Demostración matemática del nuevo grafo</a></li>
+  <li><a href="#comparación-de-los-grados" id="toc-comparación-de-los-grados" class="nav-link" data-scroll-target="#comparación-de-los-grados"><span class="header-section-number">7.6</span> Comparación de los grados</a></li>
+  <li><a href="#comprobación-del-lema-del-apretón-de-manos" id="toc-comprobación-del-lema-del-apretón-de-manos" class="nav-link" data-scroll-target="#comprobación-del-lema-del-apretón-de-manos"><span class="header-section-number">7.7</span> Comprobación del lema del apretón de manos</a></li>
+  <li><a href="#podríamos-agregar-el-puente-entre-otros-dos-nodos" id="toc-podríamos-agregar-el-puente-entre-otros-dos-nodos" class="nav-link" data-scroll-target="#podríamos-agregar-el-puente-entre-otros-dos-nodos"><span class="header-section-number">7.8</span> ¿Podríamos agregar el puente entre otros dos nodos?</a></li>
+  </ul></li>
+  <li><a href="#encontrar-un-recorrido-válido" id="toc-encontrar-un-recorrido-válido" class="nav-link" data-scroll-target="#encontrar-un-recorrido-válido"><span class="header-section-number">8</span> Encontrar un recorrido válido</a>
+  <ul class="collapse">
+  <li><a href="#intenta-encontrar-el-recorrido" id="toc-intenta-encontrar-el-recorrido" class="nav-link" data-scroll-target="#intenta-encontrar-el-recorrido"><span class="header-section-number">8.1</span> Intenta encontrar el recorrido</a></li>
+  </ul></li>
+  <li><a href="#comprobación-del-recorrido-en-neo4j" id="toc-comprobación-del-recorrido-en-neo4j" class="nav-link" data-scroll-target="#comprobación-del-recorrido-en-neo4j"><span class="header-section-number">9</span> Comprobación del recorrido en Neo4j</a>
+  <ul class="collapse">
+  <li><a href="#visualizar-el-recorrido-de-ocho-puentes" id="toc-visualizar-el-recorrido-de-ocho-puentes" class="nav-link" data-scroll-target="#visualizar-el-recorrido-de-ocho-puentes"><span class="header-section-number">9.1</span> Visualizar el recorrido de ocho puentes</a></li>
+  <li><a href="#mostrar-las-zonas-y-los-puentes-utilizados" id="toc-mostrar-las-zonas-y-los-puentes-utilizados" class="nav-link" data-scroll-target="#mostrar-las-zonas-y-los-puentes-utilizados"><span class="header-section-number">9.2</span> Mostrar las zonas y los puentes utilizados</a></li>
+  </ul></li>
+  <li><a href="#comparación-entre-el-problema-original-y-el-modificado" id="toc-comparación-entre-el-problema-original-y-el-modificado" class="nav-link" data-scroll-target="#comparación-entre-el-problema-original-y-el-modificado"><span class="header-section-number">10</span> Comparación entre el problema original y el modificado</a></li>
+  <li><a href="#preguntas" id="toc-preguntas" class="nav-link" data-scroll-target="#preguntas"><span class="header-section-number">11</span> Preguntas</a></li>
+  <li><a href="#reiniciar-el-ejercicio-en-neo4j" id="toc-reiniciar-el-ejercicio-en-neo4j" class="nav-link" data-scroll-target="#reiniciar-el-ejercicio-en-neo4j"><span class="header-section-number">12</span> Reiniciar el ejercicio en Neo4j</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Teoría de grafos aplicada: el problema de los siete puentes de Königsberg</h1>
+<p class="subtitle lead">Representación de grafos, caminos eulerianos y demostración matemática</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>El problema de los siete puentes de Königsberg es uno de los antecedentes más importantes de la teoría de grafos.</p>
+<p>En 1736, el matemático Leonhard Euler estudió si era posible recorrer todos los puentes de una ciudad atravesando cada uno exactamente una vez.</p>
+<p>Este problema permitió desarrollar conceptos fundamentales de la teoría de grafos, como el grado de los nodos y los caminos eulerianos.</p>
+<p>En este apunte representaremos el problema mediante un grafo, lo construiremos en Neo4j y utilizaremos una demostración matemática para determinar si existe un recorrido válido.</p>
+</section>
+<section id="el-problema-de-los-siete-puentes-de-königsberg" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="el-problema-de-los-siete-puentes-de-königsberg"><span class="header-section-number">2</span> El problema de los siete puentes de Königsberg</h2>
+<p>La ciudad de Königsberg, actualmente Kaliningrado, estaba atravesada por el río Pregel.</p>
+<p>El río dividía la ciudad en cuatro zonas de tierra, conectadas mediante siete puentes.</p>
+<p>El desafío consistía en responder la siguiente pregunta:</p>
+<blockquote class="blockquote">
+<p><strong>¿Es posible recorrer los siete puentes, atravesando cada uno exactamente una vez, sin importar dónde comienza o termina el recorrido?</strong></p>
+</blockquote>
+<section id="representación-histórica-de-la-ciudad" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="representación-histórica-de-la-ciudad"><span class="header-section-number">2.1</span> Representación histórica de la ciudad</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/konigsberg_mapa.webp" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Mapa histórico de Königsberg con sus siete puentes resaltados.</figcaption>
+</figure>
+</div>
+</section>
+<section id="planteamiento-del-desafío" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="planteamiento-del-desafío"><span class="header-section-number">2.2</span> Planteamiento del desafío</h3>
+<p>Observa el mapa anterior e imagina que estás caminando por la ciudad.</p>
+<p>Tu objetivo es atravesar los siete puentes, pero debes cumplir una condición: <strong>cada puente solamente puede cruzarse una vez</strong>.</p>
+<p>Puedes comenzar en cualquiera de las cuatro zonas y terminar donde quieras.</p>
+<p>Antes de continuar, intenta responder:</p>
+<ol type="1">
+<li>¿Qué recorrido seguirías para cruzar los siete puentes?</li>
+<li>¿Podrías comenzar en otra zona y conseguirlo?</li>
+<li>¿Qué sucede cuando llegas a una zona y ya utilizaste todos los puentes por los que podrías salir?</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ver una pista">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ver una pista
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No es necesario visitar cada zona una sola vez.</p>
+<p>Puedes regresar a una zona tantas veces como quieras, siempre que no vuelvas a cruzar un puente que ya utilizaste.</p>
+<p>La condición se aplica a los <strong>puentes</strong>, no a las zonas de tierra.</p>
+</div>
+</div>
+</div>
+<p>Por ahora no necesitamos conocer la respuesta. Primero representaremos la ciudad mediante un grafo y estudiaremos sus conexiones.</p>
+</section>
+</section>
+<section id="representación-matemática-del-problema" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="representación-matemática-del-problema"><span class="header-section-number">3</span> Representación matemática del problema</h2>
+<p>En teoría de grafos, podemos representar las zonas de tierra mediante <strong>nodos</strong> y los puentes mediante <strong>aristas</strong>.</p>
+<p>En nuestro ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th>Zona de tierra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Isla de Kneiphof</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Orilla norte</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>Orilla sur</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>Isla de Lomse</td>
+</tr>
+</tbody>
+</table>
+<p>Cada puente representa una conexión entre dos zonas de tierra.</p>
+<section id="grafo-de-los-siete-puentes" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="grafo-de-los-siete-puentes"><span class="header-section-number">3.1</span> Grafo de los siete puentes</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/konigsberg_grafo_nuevo.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Representación matemática corregida de los siete puentes mediante cuatro nodos.</figcaption>
+</figure>
+</div>
+<p>El grafo contiene cuatro nodos y siete aristas.</p>
+<p>Algunas zonas están conectadas mediante más de un puente.</p>
+<p>Por ejemplo, entre A y B existen dos conexiones diferentes.</p>
+<p>Este tipo de estructura se conoce como <strong>multigrafo</strong>, porque permite tener varias aristas entre los mismos nodos.</p>
+<p>Para este problema consideraremos los puentes como conexiones no dirigidas, es decir, que pueden cruzarse en cualquiera de los dos sentidos.</p>
+</section>
+<section id="identificación-de-los-puentes" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="identificación-de-los-puentes"><span class="header-section-number">3.2</span> Identificación de los puentes</h3>
+<p>Para trabajar con Neo4j, identificaremos cada puente mediante un número.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Puente</th>
+<th>Conexión</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>A – B</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>A – B</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>A – C</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>A – C</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>A – D</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>B – D</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>C – D</td>
+</tr>
+</tbody>
+</table>
+<p>Cada puente tendrá su propio número para distinguirlo de los demás, incluso cuando conecte las mismas zonas.</p>
+</section>
+</section>
+<section id="creación-del-grafo-en-neo4j" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="creación-del-grafo-en-neo4j"><span class="header-section-number">4</span> Creación del grafo en Neo4j</h2>
+<p>Ahora construiremos el problema utilizando Neo4j y el lenguaje Cypher.</p>
+<p>Utilizaremos la etiqueta <code>Zona</code> y las relaciones de tipo <code>PUENTE</code> para distinguir este ejemplo de los grafos que trabajamos anteriormente.</p>
+<section id="creación-de-las-cuatro-zonas-de-tierra" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="creación-de-las-cuatro-zonas-de-tierra"><span class="header-section-number">4.1</span> Creación de las cuatro zonas de tierra</h3>
+<p>Ejecuta la siguiente consulta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'Kneiphof'</span>],</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'B'</span>, <span class="st">'Orilla norte'</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'C'</span>, <span class="st">'Orilla sur'</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'D'</span>, <span class="st">'Lomse'</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> datos</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (zona<span class="ch">:Zona</span> {nombre: datos[<span class="dv">0</span>]})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> zona.descripcion <span class="op">=</span> datos[<span class="dv">1</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> zona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> cuatro nodos con la etiqueta <code>Zona</code>.</p>
+<p>Cada nodo tendrá las propiedades <code>nombre</code> y <code>descripcion</code>.</p>
+</section>
+<section id="creación-de-los-siete-puentes" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="creación-de-los-siete-puentes"><span class="header-section-number">4.2</span> Creación de los siete puentes</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>UNWIND [</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="dv">1</span>],</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="dv">2</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'C'</span>, <span class="dv">3</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'C'</span>, <span class="dv">4</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'A'</span>, <span class="st">'D'</span>, <span class="dv">5</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'B'</span>, <span class="st">'D'</span>, <span class="dv">6</span>],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  [<span class="st">'C'</span>, <span class="st">'D'</span>, <span class="dv">7</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>] <span class="kw">AS</span> datos</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Zona</span> {nombre: datos[<span class="dv">0</span>]})</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>MATCH (destino<span class="ch">:Zona</span> {nombre: datos[<span class="dv">1</span>]})</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (origen)<span class="op">-</span>[puente<span class="ch">:PUENTE</span> {numero: datos[<span class="dv">2</span>]}]<span class="op">-&gt;</span>(destino)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> PuentesProcesados;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 7 puentes procesados.</p>
+<p>Cada registro contiene el origen, el destino y el número del puente.</p>
+<p>Utilizamos <code>MERGE</code> para identificar cada puente mediante su número y evitar crear nuevamente la misma relación al repetir la consulta.</p>
+<p>Es importante conservar los números porque existen varios puentes que conectan las mismas zonas.</p>
+<p>Aunque Neo4j almacena las relaciones con una dirección, para este problema las analizaremos en ambos sentidos.</p>
+</section>
+<section id="verificación-del-número-de-nodos" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="verificación-del-número-de-nodos"><span class="header-section-number">4.3</span> Verificación del número de nodos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MATCH (zona<span class="ch">:Zona</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(zona) <span class="kw">AS</span> TotalZonas;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 4 zonas.</p>
+</section>
+<section id="verificación-del-número-de-puentes" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="verificación-del-número-de-puentes"><span class="header-section-number">4.4</span> Verificación del número de puentes</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>MATCH (<span class="ch">:Zona</span>)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-&gt;</span>(<span class="ch">:Zona</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> TotalPuentes;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 7 puentes.</p>
+</section>
+<section id="visualización-del-grafo-en-neo4j" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="visualización-del-grafo-en-neo4j"><span class="header-section-number">4.5</span> Visualización del grafo en Neo4j</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>MATCH (origen<span class="ch">:Zona</span>)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-&gt;</span>(destino<span class="ch">:Zona</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> origen, puente, destino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona la vista <strong>Graph</strong> para observar las cuatro zonas conectadas mediante siete relaciones.</p>
+</section>
+</section>
+<section id="grado-de-los-nodos" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="grado-de-los-nodos"><span class="header-section-number">5</span> Grado de los nodos</h2>
+<p>El <strong>grado de un nodo</strong> es la cantidad de aristas conectadas con él.</p>
+<p>En el problema de Königsberg, representa la cantidad de puentes que llegan a cada zona de tierra.</p>
+<section id="calcular-el-grado-de-cada-nodo" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="calcular-el-grado-de-cada-nodo"><span class="header-section-number">5.1</span> Calcular el grado de cada nodo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>MATCH (zona<span class="ch">:Zona</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (zona)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> zona.nombre <span class="kw">AS</span> Zona,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> Grado</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Zona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Zona</th>
+<th style="text-align: right;">Grado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+<p>Observa que utilizamos <code>-[puente:PUENTE]-</code> sin flecha, porque estamos contando los puentes independientemente de su dirección.</p>
+<p>Todos los nodos tienen grado impar.</p>
+</section>
+</section>
+<section id="demostración-matemática-por-qué-no-existe-solución" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="demostración-matemática-por-qué-no-existe-solución"><span class="header-section-number">6</span> Demostración matemática: ¿por qué no existe solución?</h2>
+<p>Ya representamos la ciudad mediante un grafo y comprobamos que tiene cuatro nodos y siete puentes.</p>
+<p>Ahora queremos demostrar matemáticamente por qué no es posible recorrer todos los puentes exactamente una vez.</p>
+<p>Para comprenderlo utilizaremos dos conceptos: el <strong>grado de los nodos</strong> y el <strong>camino euleriano</strong>.</p>
+<section id="qué-es-un-camino-euleriano" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="qué-es-un-camino-euleriano"><span class="header-section-number">6.1</span> ¿Qué es un camino euleriano?</h3>
+<p>Un camino euleriano es un recorrido que atraviesa todas las aristas de un grafo exactamente una vez.</p>
+<p>En el problema de Königsberg, esto significa cruzar los siete puentes sin repetir ninguno.</p>
+<p>Es importante recordar que podemos visitar una misma zona varias veces. La restricción consiste únicamente en no atravesar nuevamente un puente.</p>
+</section>
+<section id="por-qué-importa-el-grado-de-los-nodos" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="por-qué-importa-el-grado-de-los-nodos"><span class="header-section-number">6.2</span> ¿Por qué importa el grado de los nodos?</h3>
+<p>Recordemos que el grado de un nodo representa la cantidad de aristas conectadas con él.</p>
+<p>Imaginemos que estamos recorriendo la ciudad.</p>
+<p>Cada vez que llegamos a una zona intermedia por un puente, necesitamos utilizar otro puente diferente para salir.</p>
+<p>Por lo tanto, los puentes de esa zona deben poder organizarse en parejas:</p>
+<ul>
+<li>Un puente para entrar.</li>
+<li>Otro puente para salir.</li>
+</ul>
+<p>Por ejemplo, si una zona tiene cuatro puentes, podemos utilizarlos de la siguiente manera:</p>
+<ul>
+<li>Puente 1: entrada.</li>
+<li>Puente 2: salida.</li>
+<li>Puente 3: entrada.</li>
+<li>Puente 4: salida.</li>
+</ul>
+<p>Todos los puentes quedan organizados en parejas.</p>
+<p>Pero si una zona tiene tres puentes:</p>
+<ul>
+<li>Puente 1: entrada.</li>
+<li>Puente 2: salida.</li>
+<li>Puente 3: queda sin pareja.</li>
+</ul>
+<p>Ese puente adicional solamente puede formar parte del recorrido si la zona es nuestro punto de inicio o nuestro punto final.</p>
+<p>Esto nos lleva a una conclusión importante:</p>
+<blockquote class="blockquote">
+<p><strong>En un recorrido que atraviesa todas las aristas exactamente una vez, solamente el nodo inicial y el nodo final pueden tener grado impar.</strong></p>
+</blockquote>
+<p>Si comenzamos y terminamos en el mismo nodo, todos los nodos deben tener grado par.</p>
+</section>
+<section id="condición-de-euler" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="condición-de-euler"><span class="header-section-number">6.3</span> Condición de Euler</h3>
+<p>El razonamiento anterior permite establecer una regla matemática.</p>
+<p>En un grafo no dirigido y conectado:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Número de nodos impares</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Existe un circuito euleriano</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Existe un camino euleriano abierto</td>
+</tr>
+<tr class="odd">
+<td>Más de 2</td>
+<td>No existe un camino euleriano</td>
+</tr>
+</tbody>
+</table>
+<p>Un <strong>circuito euleriano</strong> comienza y termina en el mismo nodo.</p>
+<p>Un <strong>camino euleriano abierto</strong> comienza en un nodo y termina en otro diferente.</p>
+<p>Por lo tanto, para resolver el problema de Königsberg necesitamos comprobar cuántos nodos tienen grado impar.</p>
+</section>
+<section id="aplicación-al-problema-de-königsberg" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="aplicación-al-problema-de-königsberg"><span class="header-section-number">6.4</span> Aplicación al problema de Königsberg</h3>
+<p>En Neo4j obtuvimos los siguientes grados:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th style="text-align: right;">Grado</th>
+<th>Clasificación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">5</td>
+<td>Impar</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">3</td>
+<td>Impar</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">3</td>
+<td>Impar</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td style="text-align: right;">3</td>
+<td>Impar</td>
+</tr>
+</tbody>
+</table>
+<p>Observemos que los cuatro nodos tienen grado impar.</p>
+<p>Matemáticamente:</p>
+<p><span class="math display">\[
+\deg(A)=5,\quad \deg(B)=3,\quad
+\deg(C)=3,\quad \deg(D)=3
+\]</span></p>
+<p>Por lo tanto:</p>
+<p><span class="math display">\[
+\text{Nodos de grado impar}=4
+\]</span></p>
+<p>Pero acabamos de establecer que un camino euleriano solamente puede tener cero o dos nodos de grado impar.</p>
+<p>En nuestro caso:</p>
+<p><span class="math display">\[
+4&gt;2
+\]</span></p>
+<p>Esto significa que existen cuatro zonas que necesitarían funcionar como puntos de inicio o finalización, cuando un recorrido solamente puede tener un inicio y un final.</p>
+<p>En consecuencia:</p>
+<p><span class="math display">\[
+\boxed{\text{No existe un camino euleriano}}
+\]</span></p>
+<p><strong>El problema original de los siete puentes de Königsberg no tiene solución.</strong></p>
+<p>Esta conclusión no depende de qué puente intentemos cruzar primero ni de la zona donde comencemos.</p>
+<p>La imposibilidad se debe a la estructura matemática del grafo.</p>
+</section>
+<section id="comprobación-mediante-el-lema-del-apretón-de-manos" class="level3" data-number="6.5">
+<h3 data-number="6.5" class="anchored" data-anchor-id="comprobación-mediante-el-lema-del-apretón-de-manos"><span class="header-section-number">6.5</span> Comprobación mediante el lema del apretón de manos</h3>
+<p>Ahora revisaremos otra propiedad matemática de los grafos.</p>
+<p>El <strong>lema del apretón de manos</strong> establece que, en un grafo no dirigido, la suma de los grados de todos los nodos es igual al doble del número de aristas:</p>
+<p><span class="math display">\[
+\sum_{v\in V}\deg(v)=2|E|
+\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><span class="math inline">\(V\)</span> representa el conjunto de nodos.</li>
+<li><span class="math inline">\(E\)</span> representa el conjunto de aristas.</li>
+<li><span class="math inline">\(\deg(v)\)</span> representa el grado del nodo <span class="math inline">\(v\)</span>.</li>
+</ul>
+<p>¿Por qué multiplicamos el número de aristas por dos?</p>
+<p>Porque cada puente conecta dos zonas de tierra y, por lo tanto, contribuye al grado de ambos nodos.</p>
+<p>En nuestro problema:</p>
+<p><span class="math display">\[
+5+3+3+3=14
+\]</span></p>
+<p>Como tenemos siete puentes:</p>
+<p><span class="math display">\[
+2(7)=14
+\]</span></p>
+<p>Por lo tanto:</p>
+<p><span class="math display">\[
+\boxed{14=14}
+\]</span></p>
+<p>La igualdad confirma que la suma de los grados corresponde con el número de puentes.</p>
+<p>Sin embargo, es importante distinguir ambas ideas:</p>
+<ul>
+<li>El <strong>lema del apretón de manos</strong> comprueba la relación entre los grados y las aristas.</li>
+<li>La <strong>condición de Euler</strong> permite determinar si existe un recorrido que atraviese cada puente exactamente una vez.</li>
+</ul>
+<p>En nuestro caso, aunque se cumple el lema del apretón de manos, no existe un camino euleriano porque tenemos cuatro nodos de grado impar.</p>
+</section>
+<section id="comprobación-mediante-cypher" class="level3" data-number="6.6">
+<h3 data-number="6.6" class="anchored" data-anchor-id="comprobación-mediante-cypher"><span class="header-section-number">6.6</span> Comprobación mediante Cypher</h3>
+<p>Podemos identificar los nodos con grado impar utilizando la siguiente consulta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>MATCH (zona<span class="ch">:Zona</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (zona)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> zona, <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> grado</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grado % <span class="dv">2</span> <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> zona.nombre <span class="kw">AS</span> Zona,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>       grado <span class="kw">AS</span> GradoImpar</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Zona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> los cuatro nodos A, B, C y D.</p>
+<p>El operador <code>%</code> obtiene el residuo de una división.</p>
+<p>Cuando <code>grado % 2 = 1</code>, significa que el grado es impar.</p>
+<p>También podemos contar cuántos nodos impares existen:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>MATCH (zona<span class="ch">:Zona</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (zona)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> zona, <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> grado</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grado % <span class="dv">2</span> <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(zona) <span class="kw">AS</span> TotalNodosImpares;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 4.</p>
+<p>Este resultado confirma que el grafo original no cumple la condición de Euler.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="¿Por qué no tiene solución?">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Por qué no tiene solución?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>El grafo tiene cuatro nodos de grado impar:</p>
+<p><span class="math display">\[
+5,\ 3,\ 3,\ 3
+\]</span></p>
+<p>Para recorrer todas las aristas exactamente una vez, solamente podemos tener cero o dos nodos impares.</p>
+<p>Como tenemos cuatro:</p>
+<p><span class="math display">\[
+\boxed{\text{No existe un camino euleriano}}
+\]</span></p>
+<p>La imposibilidad depende de la estructura del grafo, no del recorrido que intentemos realizar.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modificación-del-problema-agregar-un-octavo-puente" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="modificación-del-problema-agregar-un-octavo-puente"><span class="header-section-number">7</span> Modificación del problema: agregar un octavo puente</h2>
+<p>Ahora modificaremos el grafo para comprobar qué sucede cuando agregamos una nueva conexión.</p>
+<p>Supongamos que se construye un octavo puente entre la orilla norte (B) y la orilla sur (C).</p>
+<section id="representación-del-grafo-modificado" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="representación-del-grafo-modificado"><span class="header-section-number">7.1</span> Representación del grafo modificado</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/konigsberg_grafo_modificado.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Grafo modificado: el puente 8, en rojo, une los nodos B y C.</figcaption>
+</figure>
+</div>
+<p>La nueva conexión cambia el grado de los nodos B y C, porque cada uno recibe un puente adicional.</p>
+</section>
+<section id="creación-del-octavo-puente-en-neo4j" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="creación-del-octavo-puente-en-neo4j"><span class="header-section-number">7.2</span> Creación del octavo puente en Neo4j</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>MATCH (b<span class="ch">:Zona</span> {nombre: <span class="st">'B'</span>})</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>MATCH (c<span class="ch">:Zona</span> {nombre: <span class="st">'C'</span>})</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">MERGE</span> (b)<span class="op">-</span>[puente<span class="ch">:PUENTE</span> {numero: <span class="dv">8</span>}]<span class="op">-&gt;</span>(c)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> b, puente, c;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> una nueva relación entre B y C, identificada como puente 8.</p>
+</section>
+<section id="verificación-del-número-de-puentes-1" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="verificación-del-número-de-puentes-1"><span class="header-section-number">7.3</span> Verificación del número de puentes</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MATCH (<span class="ch">:Zona</span>)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-&gt;</span>(<span class="ch">:Zona</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> TotalPuentes;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> 8.</p>
+</section>
+<section id="calcular-nuevamente-los-grados" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="calcular-nuevamente-los-grados"><span class="header-section-number">7.4</span> Calcular nuevamente los grados</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>MATCH (zona<span class="ch">:Zona</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>OPTIONAL MATCH (zona)<span class="op">-</span>[puente<span class="ch">:PUENTE</span>]<span class="op">-</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> zona.nombre <span class="kw">AS</span> Zona,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(puente) <span class="kw">AS</span> Grado</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Zona;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Zona</th>
+<th style="text-align: right;">Grado anterior</th>
+<th style="text-align: right;">Grado nuevo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+<p>Ahora solamente dos nodos tienen grado impar: A y D.</p>
+</section>
+<section id="demostración-matemática-del-nuevo-grafo" class="level3" data-number="7.5">
+<h3 data-number="7.5" class="anchored" data-anchor-id="demostración-matemática-del-nuevo-grafo"><span class="header-section-number">7.5</span> Demostración matemática del nuevo grafo</h3>
+<p>Recordemos que en el problema original teníamos cuatro nodos impares:</p>
+<p><span class="math display">\[
+5,\ 3,\ 3,\ 3
+\]</span></p>
+<p>Al agregar un puente entre B y C, el grado de ambos aumenta en una unidad.</p>
+<p>El nodo B tenía tres puentes y ahora tiene cuatro:</p>
+<p><span class="math display">\[
+\deg(B)=3+1=4
+\]</span></p>
+<p>El nodo C también tenía tres puentes y ahora tiene cuatro:</p>
+<p><span class="math display">\[
+\deg(C)=3+1=4
+\]</span></p>
+<p>Los nodos A y D no cambian, porque el nuevo puente no está conectado con ellos.</p>
+<p>Por lo tanto, ahora tenemos:</p>
+<p><span class="math display">\[
+5,\ 4,\ 4,\ 3
+\]</span></p>
+</section>
+<section id="comparación-de-los-grados" class="level3" data-number="7.6">
+<h3 data-number="7.6" class="anchored" data-anchor-id="comparación-de-los-grados"><span class="header-section-number">7.6</span> Comparación de los grados</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nodo</th>
+<th style="text-align: right;">Antes</th>
+<th style="text-align: right;">Después</th>
+<th>Clasificación final</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td>Impar</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td>Par</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td>Par</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td>Impar</td>
+</tr>
+</tbody>
+</table>
+<p>Observa que los nodos B y C ahora tienen un número par de conexiones.</p>
+<p>Esto significa que podemos entrar y salir de ellos utilizando parejas de puentes.</p>
+<p>Solamente A y D siguen teniendo grado impar.</p>
+<p>En consecuencia:</p>
+<p><span class="math display">\[
+\boxed{\text{Nodos impares}=2}
+\]</span></p>
+<p>Como el grafo sigue conectado y tiene exactamente dos nodos impares, cumple la condición de Euler para tener un camino euleriano abierto.</p>
+<p>Por lo tanto:</p>
+<p><span class="math display">\[
+\boxed{\text{Sí existe un camino euleriano}}
+\]</span></p>
+<p>El recorrido deberá comenzar en A y terminar en D, o comenzar en D y terminar en A.</p>
+</section>
+<section id="comprobación-del-lema-del-apretón-de-manos" class="level3" data-number="7.7">
+<h3 data-number="7.7" class="anchored" data-anchor-id="comprobación-del-lema-del-apretón-de-manos"><span class="header-section-number">7.7</span> Comprobación del lema del apretón de manos</h3>
+<p>Después de agregar el puente, la suma de los grados es:</p>
+<p><span class="math display">\[
+5+4+4+3=16
+\]</span></p>
+<p>Como ahora tenemos ocho puentes:</p>
+<p><span class="math display">\[
+2(8)=16
+\]</span></p>
+<p>Por lo tanto:</p>
+<p><span class="math display">\[
+\boxed{16=16}
+\]</span></p>
+<p>Nuevamente se cumple el lema del apretón de manos.</p>
+<p>Sin embargo, lo que permite el recorrido no es esta igualdad, sino que ahora solamente existen dos nodos de grado impar.</p>
+</section>
+<section id="podríamos-agregar-el-puente-entre-otros-dos-nodos" class="level3" data-number="7.8">
+<h3 data-number="7.8" class="anchored" data-anchor-id="podríamos-agregar-el-puente-entre-otros-dos-nodos"><span class="header-section-number">7.8</span> ¿Podríamos agregar el puente entre otros dos nodos?</h3>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ver respuesta">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ver respuesta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sí. Como los cuatro nodos originales tenían grado impar, agregar un puente entre cualquier pareja de nodos diferentes convertiría esos dos grados en pares.</p>
+<p>Los otros dos nodos conservarían grado impar.</p>
+<p>Por lo tanto, el nuevo grafo también tendría un camino euleriano abierto.</p>
+<p>Lo importante es conectar dos nodos de grado impar.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="encontrar-un-recorrido-válido" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="encontrar-un-recorrido-válido"><span class="header-section-number">8</span> Encontrar un recorrido válido</h2>
+<p>Ahora que sabemos matemáticamente que existe un camino euleriano, necesitamos encontrar un recorrido concreto que atraviese los ocho puentes exactamente una vez.</p>
+<p>Consideremos las conexiones:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Puente</th>
+<th>Conexión</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>A – B</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>A – B</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>A – C</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>A – C</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>A – D</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>B – D</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>C – D</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>B – C</td>
+</tr>
+</tbody>
+</table>
+<section id="intenta-encontrar-el-recorrido" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="intenta-encontrar-el-recorrido"><span class="header-section-number">8.1</span> Intenta encontrar el recorrido</h3>
+<p>Sabemos que:</p>
+<ul>
+<li>El recorrido debe comenzar en A o en D.</li>
+<li>Debe terminar en el otro nodo impar.</li>
+<li>No podemos repetir ningún puente.</li>
+<li>Podemos visitar varias veces los mismos nodos.</li>
+</ul>
+<p><strong>Actividad:</strong> utiliza el grafo modificado e intenta construir un recorrido válido.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ver recorrido resuelto paso a paso">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ver recorrido resuelto paso a paso
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Un recorrido válido es:</p>
+<p><strong>A → B → D → A → C → B → A → C → D</strong></p>
+<p>Veamos los puentes utilizados:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Paso</th>
+<th>Origen</th>
+<th>Destino</th>
+<th style="text-align: right;">Puente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>A</td>
+<td>B</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>B</td>
+<td>D</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>D</td>
+<td>A</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>A</td>
+<td>C</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>C</td>
+<td>B</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>B</td>
+<td>A</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>A</td>
+<td>C</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>C</td>
+<td>D</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<p>Los puentes se utilizan en el siguiente orden:</p>
+<p><strong>1 → 6 → 5 → 3 → 8 → 2 → 4 → 7</strong></p>
+<p>Comprobamos que:</p>
+<ul>
+<li>Se atraviesan los ocho puentes.</li>
+<li>Ningún puente se repite.</li>
+<li>El recorrido comienza en A.</li>
+<li>El recorrido termina en D.</li>
+</ul>
+<p>Por lo tanto, hemos encontrado un camino euleriano válido.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comprobación-del-recorrido-en-neo4j" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="comprobación-del-recorrido-en-neo4j"><span class="header-section-number">9</span> Comprobación del recorrido en Neo4j</h2>
+<p>Ahora utilizaremos Cypher para comprobar el recorrido anterior.</p>
+<section id="visualizar-el-recorrido-de-ocho-puentes" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="visualizar-el-recorrido-de-ocho-puentes"><span class="header-section-number">9.1</span> Visualizar el recorrido de ocho puentes</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  (inicio<span class="ch">:Zona</span> {nombre: <span class="st">'A'</span>})</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">-</span>[<span class="ch">:PUENTE</span><span class="op">*</span><span class="dv">8</span>]<span class="op">-</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  (fin<span class="ch">:Zona</span> {nombre: <span class="st">'D'</span>})</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> [r <span class="kw">IN</span> relationships(camino) | r.numero]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">7</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span> camino;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> un recorrido que comienza en A, utiliza los ocho puentes en el orden indicado y termina en D.</p>
+<p>Selecciona la vista <strong>Graph</strong> de Neo4j.</p>
+<p>Aunque las relaciones tienen dirección en Neo4j, utilizamos <code>-[:PUENTE*8]-</code> para permitir recorrerlas en cualquiera de los dos sentidos.</p>
+</section>
+<section id="mostrar-las-zonas-y-los-puentes-utilizados" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="mostrar-las-zonas-y-los-puentes-utilizados"><span class="header-section-number">9.2</span> Mostrar las zonas y los puentes utilizados</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>MATCH camino <span class="op">=</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  (inicio<span class="ch">:Zona</span> {nombre: <span class="st">'A'</span>})</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">-</span>[<span class="ch">:PUENTE</span><span class="op">*</span><span class="dv">8</span>]<span class="op">-</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  (fin<span class="ch">:Zona</span> {nombre: <span class="st">'D'</span>})</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> [r <span class="kw">IN</span> relationships(camino) | r.numero]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">7</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">RETURN</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  [n <span class="kw">IN</span> nodes(camino) | n.nombre] <span class="kw">AS</span> Recorrido,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  [r <span class="kw">IN</span> relationships(camino) | r.numero] <span class="kw">AS</span> PuentesUtilizados,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>(camino) <span class="kw">AS</span> TotalPuentes;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong></p>
+<ul>
+<li><strong>Recorrido:</strong> A, B, D, A, C, B, A, C, D.</li>
+<li><strong>Puentes utilizados:</strong> 1, 6, 5, 3, 8, 2, 4, 7.</li>
+<li><strong>TotalPuentes:</strong> 8.</li>
+</ul>
+<p>La función <code>nodes()</code> obtiene los nodos que forman el recorrido.</p>
+<p>La función <code>relationships()</code> recupera las relaciones utilizadas.</p>
+<p>La función <code>length()</code> devuelve el número de relaciones recorridas.</p>
+<p>En este ejemplo comprobamos que cada uno de los ocho puentes se utiliza exactamente una vez.</p>
+</section>
+</section>
+<section id="comparación-entre-el-problema-original-y-el-modificado" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="comparación-entre-el-problema-original-y-el-modificado"><span class="header-section-number">10</span> Comparación entre el problema original y el modificado</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Grafo original</th>
+<th>Grafo modificado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nodos</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>Puentes</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Grados</td>
+<td>5, 3, 3, 3</td>
+<td>5, 4, 4, 3</td>
+</tr>
+<tr class="even">
+<td>Nodos impares</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>¿Existe camino euleriano?</td>
+<td>No</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia es que, al agregar una arista entre dos nodos de grado impar, ambos pasan a tener grado par.</p>
+<p>De esta manera, el grafo modificado cumple las condiciones para construir un camino euleriano.</p>
+</section>
+<section id="preguntas" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="preguntas"><span class="header-section-number">11</span> Preguntas</h2>
+<p>A partir del problema trabajado, responde las siguientes preguntas:</p>
+<ol type="1">
+<li>¿Qué representan los nodos y las relaciones en el problema de Königsberg?</li>
+<li>¿Qué significa el grado de un nodo?</li>
+<li>¿Por qué no es posible recorrer los siete puentes exactamente una vez?</li>
+<li>¿Qué sucede con los grados cuando agregamos un puente?</li>
+<li>¿Por qué agregar un octavo puente permite encontrar un recorrido válido?</li>
+<li>¿Cuál es la diferencia entre un camino euleriano y un circuito euleriano?</li>
+<li>¿Qué diferencia existe entre volver a visitar un nodo y repetir una arista?</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ver respuestas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ver respuestas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>1. ¿Qué representan los nodos y las relaciones?</strong></p>
+<p>Los nodos representan las cuatro zonas de tierra de Königsberg, mientras que las relaciones o aristas representan los puentes que conectan estas zonas.</p>
+<p><strong>2. ¿Qué significa el grado de un nodo?</strong></p>
+<p>Es la cantidad de aristas conectadas con un nodo. Por ejemplo, el nodo A tiene grado 5 porque está conectado mediante cinco puentes.</p>
+<p><strong>3. ¿Por qué no es posible recorrer los siete puentes exactamente una vez?</strong></p>
+<p>Porque el grafo original tiene cuatro nodos de grado impar. Para que exista un camino euleriano en un grafo no dirigido y conectado, debe haber cero o dos nodos de grado impar.</p>
+<p><strong>4. ¿Qué sucede con los grados cuando agregamos un puente?</strong></p>
+<p>El grado de los dos nodos que conecta aumenta en una unidad. En nuestro ejemplo, los nodos B y C pasan de grado 3 a grado 4.</p>
+<p><strong>5. ¿Por qué agregar un octavo puente permite encontrar un recorrido válido?</strong></p>
+<p>Porque quedan únicamente dos nodos de grado impar: A y D. De esta manera, el grafo cumple la condición para tener un camino euleriano abierto.</p>
+<p><strong>6. ¿Cuál es la diferencia entre un camino euleriano y un circuito euleriano?</strong></p>
+<p>Un camino euleriano utiliza todas las aristas exactamente una vez. Un circuito euleriano también utiliza todas las aristas una sola vez, pero comienza y termina en el mismo nodo.</p>
+<p><strong>7. ¿Qué diferencia existe entre volver a visitar un nodo y repetir una arista?</strong></p>
+<p>Volver a visitar un nodo significa pasar nuevamente por una zona de tierra, lo cual está permitido.</p>
+<p>Repetir una arista significa volver a cruzar el mismo puente, lo cual no está permitido en un camino euleriano.</p>
+<p>Por ejemplo, en el recorrido:</p>
+<p><strong>A → B → D → A → C → B → A → C → D</strong></p>
+<p>Visitamos algunos nodos varias veces, pero utilizamos cada uno de los ocho puentes exactamente una vez.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="reiniciar-el-ejercicio-en-neo4j" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="reiniciar-el-ejercicio-en-neo4j"><span class="header-section-number">12</span> Reiniciar el ejercicio en Neo4j</h2>
+<p>Si ya agregaste el octavo puente y deseas repetir la práctica desde el problema original, puedes eliminar solamente esa relación:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>MATCH (<span class="ch">:Zona</span>)<span class="op">-</span>[puente<span class="ch">:PUENTE</span> {numero: <span class="dv">8</span>}]<span class="op">-&gt;</span>(<span class="ch">:Zona</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> puente;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Resultado esperado:</strong> el grafo vuelve a tener siete puentes y los grados originales son 5, 3, 3 y 3.</p>
+<p>Esta consulta no elimina las zonas de tierra ni los otros siete puentes.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

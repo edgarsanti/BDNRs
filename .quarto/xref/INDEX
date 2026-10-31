@@ -94,5 +94,17 @@
   },
   "apuntes/12_2_neo4j_guia_completa.qmd": {
     "12_2_neo4j_guia_completa.html": "83e32158"
+  },
+  "apuntes/13_siete_puentes_konigsberg.qmd": {
+    "13_siete_puentes_konigsberg.html": "a03317c7"
+  },
+  "practicas/05_actividad_grafos_neo4j.qmd": {
+    "05_actividad_grafos_neo4j.html": "6042921e"
+  },
+  "apuntes/14_introduccion_xml.qmd": {
+    "14_introduccion_xml.html": "998d39a6"
+  },
+  "apuntes/15_consultas_xml_xpath_xquery.qmd": {
+    "15_consultas_xml_xpath_xquery.html": "bee68e01"
   }
 }

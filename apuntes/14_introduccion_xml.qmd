@@ -1,0 +1,1640 @@
+---
+title: "Introducción a XML: estructura, elementos y atributos"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Introducción
+
+En los temas anteriores estudiamos los principales modelos de bases de datos no relacionales y trabajamos con herramientas como MongoDB, Redis, Cassandra y Neo4j.
+
+Ahora abordaremos la **representación y recuperación de información semiestructurada**, comenzando con XML (*Extensible Markup Language*).
+
+XML permite representar información mediante etiquetas organizadas jerárquicamente, facilitando su almacenamiento, interpretación e intercambio entre diferentes sistemas.
+
+Aunque actualmente JSON es ampliamente utilizado en aplicaciones web y bases de datos documentales, XML continúa siendo importante en numerosos sistemas y estándares.
+
+En este apunte aprenderemos a:
+
+- Comprender qué es XML y para qué se utiliza.
+- Reconocer sus aplicaciones en sistemas reales.
+- Comparar XML con JSON.
+- Identificar elementos, atributos y estructuras jerárquicas.
+- Reconocer las reglas de un documento XML bien formado.
+- Interpretar una representación XML de los apuntes de nuestro repositorio Quarto.
+- Construir y visualizar documentos XML.
+- Leer múltiples archivos XML mediante Python.
+- Consolidar información utilizando pandas.
+- Exportar los resultados a Excel.
+
+## ¿Qué es XML?
+
+XML significa *Extensible Markup Language*, en español **Lenguaje de Marcado Extensible**.
+
+Es un lenguaje de marcado diseñado para representar información mediante etiquetas que describen el significado de los datos.
+
+Una de sus características principales es que permite definir etiquetas propias, dependiendo de las necesidades de cada aplicación.
+
+Por ejemplo, podemos representar la información de un estudiante:
+
+```xml
+<estudiante>
+    <matricula>S12345</matricula>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+    <carrera>Ingeniería en Ciencia de Datos</carrera>
+</estudiante>
+```
+
+En este ejemplo:
+
+- `estudiante` representa el elemento principal.
+- `matricula` contiene un identificador del estudiante.
+- `nombre` identifica su nombre.
+- `edad` contiene su edad.
+- `carrera` indica el programa educativo.
+
+Las etiquetas permiten identificar qué representa cada valor almacenado.
+
+::: {.callout-note}
+**Importante**
+
+XML no es un sistema gestor de bases de datos.
+
+Es un lenguaje de marcado utilizado para representar e intercambiar información.
+
+Los documentos XML pueden almacenarse como archivos independientes o integrarse en diferentes aplicaciones y sistemas informáticos.
+:::
+
+## ¿Por qué utilizar XML?
+
+XML resulta útil cuando necesitamos representar información mediante una estructura organizada y comprensible para diferentes sistemas.
+
+Entre sus principales características encontramos:
+
+1. **Extensibilidad:** permite definir etiquetas propias.
+2. **Organización jerárquica:** los elementos pueden contener otros elementos.
+3. **Legibilidad:** las etiquetas permiten identificar el significado de los datos.
+4. **Interoperabilidad:** facilita el intercambio de información entre aplicaciones.
+5. **Portabilidad:** puede utilizarse en diferentes plataformas.
+6. **Validación:** es posible verificar su estructura mediante esquemas previamente definidos.
+
+XML puede representar documentos relativamente sencillos, pero también estructuras de información más complejas.
+
+## ¿Dónde se utiliza XML en la vida real?
+
+Aunque muchas veces no lo observamos directamente, XML está presente en documentos, aplicaciones y sistemas que utilizamos habitualmente.
+
+Su principal utilidad es permitir que diferentes programas interpreten información organizada mediante una estructura común.
+
+### Facturación electrónica en México
+
+Uno de los ejemplos más cercanos es la facturación electrónica.
+
+En México, los **Comprobantes Fiscales Digitales por Internet (CFDI)** utilizan XML para representar información fiscal estructurada.
+
+Estos archivos contienen información como:
+
+- Datos del emisor.
+- Datos del receptor.
+- Conceptos facturados.
+- Subtotal e impuestos.
+- Importe total.
+- Identificadores fiscales.
+
+Cuando solicitamos una factura, podemos recibir el archivo XML y una representación visual en PDF.
+
+El XML contiene los datos estructurados del comprobante, mientras que el PDF facilita su lectura.
+
+Por ejemplo, un sistema informático puede recuperar automáticamente el RFC del emisor, la fecha de emisión y el importe total de múltiples archivos XML.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Por qué es útil contar con una factura en XML y no solamente en PDF?**
+
+Porque XML permite que los sistemas informáticos recuperen, validen e intercambien información mediante una estructura definida.
+
+Por ejemplo, una aplicación puede procesar cientos de comprobantes y construir una tabla con sus fechas, emisores e importes sin capturarlos manualmente.
+
+:::
+
+### Documentos de Microsoft Office
+
+Otro ejemplo interesante son los documentos de Word, Excel y PowerPoint.
+
+Los formatos modernos de Microsoft Office utilizan tecnologías basadas en XML.
+
+| Aplicación | Extensión |
+|---|---|
+| Microsoft Word | `.docx` |
+| Microsoft Excel | `.xlsx` |
+| Microsoft PowerPoint | `.pptx` |
+
+Estos archivos contienen diferentes recursos y documentos XML organizados dentro de un paquete comprimido.
+
+Por ejemplo, un archivo de Word utiliza XML para representar párrafos, contenido, estilos y otras características del documento.
+
+::: {.callout-note}
+**Dato interesante**
+
+Un archivo `.docx` no es simplemente un documento de texto.
+
+Es un paquete que contiene diferentes archivos, incluidos documentos XML.
+
+Podemos crear una copia de un archivo `.docx`, cambiar la extensión de esa copia a `.zip` y descomprimirla.
+
+Dentro encontraremos archivos como `word/document.xml`, que contiene parte de la estructura y el contenido del documento.
+
+No es necesario modificar el archivo original para realizar esta exploración.
+:::
+
+### Sitios web y motores de búsqueda
+
+XML también se utiliza para proporcionar información sobre las páginas de un sitio web.
+
+Un ejemplo son los archivos `sitemap.xml`, utilizados para ayudar a los motores de búsqueda a descubrir direcciones de un sitio.
+
+Por ejemplo:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://ejemplo.com/</loc>
+    </url>
+    <url>
+        <loc>https://ejemplo.com/cursos</loc>
+    </url>
+</urlset>
+```
+
+En este documento:
+
+- `urlset` contiene las entradas del mapa del sitio.
+- `url` representa una entrada.
+- `loc` contiene la dirección de una página.
+
+El archivo puede facilitar el descubrimiento de páginas, aunque no garantiza que todas sean indexadas.
+
+### Gráficos vectoriales SVG
+
+Otro uso de XML aparece en los archivos SVG (*Scalable Vector Graphics*).
+
+SVG permite representar gráficos vectoriales mediante elementos que describen figuras, líneas, colores y otros componentes.
+
+Por ejemplo:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="200" height="100">
+    <circle cx="100" cy="50" r="35" fill="blue"/>
+</svg>
+```
+
+Este documento representa un círculo azul.
+
+A diferencia de una fotografía tradicional, un gráfico SVG puede modificarse directamente mediante código.
+
+### ¿Por qué seguimos estudiando XML?
+
+XML continúa siendo importante porque numerosos sistemas, documentos y estándares utilizan este formato.
+
+Además, comprender XML permite aprender a:
+
+- Interpretar información jerárquica.
+- Diseñar documentos estructurados.
+- Recuperar datos mediante programas.
+- Consultar documentos con XPath y XQuery.
+- Intercambiar información entre aplicaciones.
+
+XML y JSON pueden coexistir dentro de un mismo sistema. Su elección depende de los requisitos de cada aplicación.
+
+## XML y JSON: ¿en qué se diferencian?
+
+Anteriormente trabajamos con documentos JSON al utilizar MongoDB.
+
+XML y JSON permiten representar información, pero utilizan diferentes sintaxis y mecanismos de organización.
+
+### Ejemplo en XML
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+    <carrera>Ingeniería en Ciencia de Datos</carrera>
+</estudiante>
+```
+
+### Ejemplo en JSON
+
+```json
+{
+    "nombre": "Ana López",
+    "edad": 21,
+    "carrera": "Ingeniería en Ciencia de Datos"
+}
+```
+
+Ambos ejemplos representan información equivalente, aunque existen diferencias importantes.
+
+| Característica | XML | JSON |
+|---|---|---|
+| Organización | Etiquetas y elementos | Claves y valores |
+| Estructura jerárquica | Sí | Sí |
+| Atributos | Sí | No tiene atributos XML |
+| Tipos de datos | Texto que puede interpretarse según reglas o esquemas | Cadenas, números, booleanos, arreglos, objetos y `null` |
+| Consultas | XPath y XQuery | Dependen del sistema utilizado |
+| Aplicaciones | Documentos, estándares e intercambio de información | APIs, aplicaciones web y bases documentales |
+
+Una diferencia importante es que XML utiliza etiquetas de apertura y cierre, mientras que JSON organiza la información mediante objetos, arreglos y pares de clave y valor.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Podemos representar la misma información utilizando XML y JSON?**
+
+Sí.
+
+Ambos formatos permiten representar información equivalente.
+
+La diferencia se encuentra en su sintaxis, estructura y mecanismos de interpretación.
+
+:::
+
+## Estructura básica de un documento XML
+
+Un documento XML puede incluir una declaración inicial y debe contener un único elemento raíz.
+
+Observemos el siguiente ejemplo:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<estudiante matricula="S12345">
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+    <carrera>Ingeniería en Ciencia de Datos</carrera>
+</estudiante>
+```
+
+Podemos identificar los siguientes componentes:
+
+| Componente | Ejemplo | Descripción |
+|---|---|---|
+| Declaración XML | `<?xml version="1.0" encoding="UTF-8"?>` | Indica la versión y la codificación |
+| Elemento raíz | `estudiante` | Elemento principal del documento |
+| Atributo | `matricula="S12345"` | Información asociada a un elemento |
+| Elemento hijo | `nombre` | Elemento contenido dentro de otro |
+| Contenido | `Ana López` | Valor almacenado |
+| Etiqueta de cierre | `</estudiante>` | Indica dónde termina un elemento |
+
+### ¿Qué es un elemento raíz?
+
+Es el elemento principal que contiene la estructura de elementos del documento.
+
+Por ejemplo:
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+</estudiante>
+```
+
+En este caso, `estudiante` es el elemento raíz.
+
+::: {.callout-warning}
+Un documento XML bien formado debe contener **un único elemento raíz**.
+
+No podemos colocar varios elementos principales independientes sin agruparlos dentro de un elemento superior.
+:::
+
+
+## Elementos y atributos en XML
+
+Los documentos XML organizan la información mediante **elementos y atributos**.
+
+Aunque ambos permiten describir datos, cumplen funciones diferentes.
+
+### Elementos
+
+Un elemento puede contener texto, otros elementos o una combinación de ambos.
+
+Por ejemplo:
+
+```xml
+<nombre>Ana López</nombre>
+```
+
+En este caso encontramos:
+
+- `<nombre>`: etiqueta de apertura.
+- `Ana López`: contenido.
+- `</nombre>`: etiqueta de cierre.
+
+También existen elementos anidados:
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+</estudiante>
+```
+
+Aquí, `estudiante` contiene directamente dos elementos hijos.
+
+### Atributos
+
+Los atributos proporcionan información asociada a un elemento.
+
+Se escriben dentro de la etiqueta de apertura.
+
+Por ejemplo:
+
+```xml
+<estudiante matricula="S12345" semestre="5">
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+</estudiante>
+```
+
+En este documento:
+
+- `matricula` es un atributo.
+- `semestre` es otro atributo.
+- `nombre` y `edad` son elementos hijos.
+
+Los atributos se representan mediante pares de nombre y valor.
+
+### ¿Cuándo utilizar elementos y cuándo atributos?
+
+No existe una única manera de representar toda la información.
+
+Como criterio general, podemos utilizar elementos para describir el contenido principal y atributos para representar identificadores o propiedades breves.
+
+| Información | Representación propuesta |
+|---|---|
+| Nombre del estudiante | Elemento |
+| Edad | Elemento |
+| Matrícula | Atributo |
+| Semestre | Atributo |
+
+Esta distribución es una decisión de diseño, no una regla obligatoria de XML.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿La matrícula podría representarse como un elemento en lugar de un atributo?**
+
+Sí.
+
+Por ejemplo:
+
+```xml
+<estudiante>
+    <matricula>S12345</matricula>
+    <nombre>Ana López</nombre>
+</estudiante>
+```
+
+Ambas representaciones son posibles.
+
+La elección depende de cómo se diseñe el documento y de cómo se utilizará posteriormente su información.
+
+:::
+
+## Estructura jerárquica de XML
+
+Una de las características fundamentales de XML es que organiza sus elementos mediante una **estructura jerárquica de árbol**.
+
+Esto significa que los elementos pueden contener otros elementos y formar distintos niveles.
+
+La estructura permite identificar relaciones como padre, hijo, hermano, ancestro y descendiente.
+
+### Representación general
+
+```text
+                    Elemento raíz
+                         |
+                +--------+--------+
+                |                 |
+           Elemento A         Elemento B
+                |                 |
+           +----+----+       +----+----+
+           |         |       |         |
+         Hijo 1    Hijo 2  Hijo 3    Hijo 4
+```
+
+En este caso:
+
+- El elemento raíz es el punto de partida.
+- Los elementos A y B son hijos de la raíz.
+- Los elementos A y B son hermanos.
+- El elemento A es padre de Hijo 1 y Hijo 2.
+- Los elementos Hijo 1 y Hijo 2 son hermanos.
+- Los cuatro elementos inferiores son descendientes de la raíz.
+- Los elementos inferiores son hojas porque no contienen otros elementos hijos.
+
+### Conceptos principales
+
+| Concepto | Descripción |
+|---|---|
+| Raíz (*Root*) | Elemento principal del documento |
+| Padre (*Parent*) | Contiene directamente a otro elemento |
+| Hijo (*Child*) | Está contenido directamente dentro de otro |
+| Hermanos (*Siblings*) | Comparten el mismo padre |
+| Ancestro (*Ancestor*) | Se encuentra en un nivel superior de la jerarquía |
+| Descendiente (*Descendant*) | Se encuentra en algún nivel inferior |
+| Hoja (*Leaf*) | No contiene otros elementos hijos |
+| Atributo (*Attribute*) | Contiene información asociada a un elemento |
+
+::: {.callout-note}
+**Importante**
+
+Un mismo elemento puede ser hijo de otro y, al mismo tiempo, padre de otros elementos.
+
+Además de elementos, el modelo de datos XML incluye otros tipos de nodos, como atributos y nodos de texto.
+
+Estos conceptos serán importantes cuando estudiemos XPath.
+:::
+
+### Ejemplo aplicado: una universidad
+
+Observemos el siguiente documento:
+
+```xml
+<universidad>
+    <facultad nombre="Estadística e Informática">
+        <carrera>Ingeniería en Ciencia de Datos</carrera>
+        <estudiante>
+            <nombre>Ana López</nombre>
+            <semestre>5</semestre>
+        </estudiante>
+    </facultad>
+</universidad>
+```
+
+Su estructura jerárquica puede representarse así:
+
+```text
+universidad
+│
+└── facultad
+    │
+    ├── carrera
+    │
+    └── estudiante
+        │
+        ├── nombre
+        └── semestre
+```
+
+Podemos identificar las siguientes relaciones:
+
+- `universidad` es la raíz.
+- `facultad` es hijo de `universidad`.
+- `carrera` y `estudiante` son hermanos.
+- `estudiante` es padre de `nombre` y `semestre`.
+- `nombre` es descendiente de `universidad`.
+
+El elemento `facultad` también tiene un atributo llamado `nombre`. Ese atributo no es un elemento hijo.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿El elemento `estudiante` puede ser hijo y padre al mismo tiempo?**
+
+Sí.
+
+Es hijo de `facultad` y, al mismo tiempo, padre de `nombre` y `semestre`.
+
+:::
+
+## Ejemplo aplicado: representación de los apuntes de nuestro repositorio mediante XML
+
+Otro ejemplo de organización jerárquica es el repositorio que utilizamos durante el curso de **Bases de Datos No Relacionales**.
+
+Nuestro sitio web está desarrollado mediante Quarto y contiene diferentes apuntes organizados en archivos con extensión `.qmd`.
+
+Estos documentos abordan los temas estudiados durante el curso, como los fundamentos de NoSQL, MongoDB, Redis, Cassandra, Neo4j y XML.
+
+Aunque nuestro repositorio no es un documento XML, podemos representar información sobre sus archivos mediante este lenguaje.
+
+### ¿Qué información podemos representar?
+
+Para construir un catálogo de apuntes podemos utilizar los siguientes campos:
+
+| Campo | Descripción |
+|---|---|
+| Número | Número del apunte |
+| Nombre | Nombre del archivo `.qmd` |
+| Título | Tema desarrollado |
+| Formato | Extensión del documento |
+| Ruta | Ubicación relativa dentro del repositorio |
+
+La finalidad es construir un documento XML que describa los materiales del curso mediante una estructura jerárquica.
+
+### Representación del repositorio mediante XML
+
+Observemos el siguiente ejemplo:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<repositorio nombre="Bases de Datos No Relacionales">
+
+    <carpeta nombre="apuntes">
+
+        <archivo numero="14"
+                 nombre="14_introduccion_xml.qmd">
+            <titulo>Introducción a XML: estructura, elementos y atributos</titulo>
+            <formato>qmd</formato>
+            <ruta>apuntes/14_introduccion_xml.qmd</ruta>
+        </archivo>
+
+        <archivo numero="15"
+                 nombre="15_consultas_xml_xpath_xquery.qmd">
+            <titulo>Consultas XML mediante XPath y XQuery</titulo>
+            <formato>qmd</formato>
+            <ruta>apuntes/15_consultas_xml_xpath_xquery.qmd</ruta>
+        </archivo>
+
+    </carpeta>
+
+</repositorio>
+```
+
+El documento anterior muestra solamente dos apuntes para explicar la estructura.
+
+El catálogo completo puede incluir todos los archivos `.qmd` del curso, manteniendo un elemento `archivo` por cada apunte.
+
+### Identificar sus componentes
+
+| Concepto | Representación |
+|---|---|
+| Elemento raíz | `repositorio` |
+| Elemento hijo de la raíz | `carpeta` |
+| Elementos contenidos en la carpeta | `archivo` |
+| Elementos hijos de `archivo` | `titulo`, `formato`, `ruta` |
+| Atributos | `nombre`, `numero` |
+| Elementos hermanos | Los distintos elementos `archivo` |
+
+En esta estructura, `repositorio` contiene una carpeta llamada `apuntes`.
+
+Dentro de ella, cada documento está representado por un elemento `archivo`.
+
+A su vez, cada archivo contiene información sobre el título, el formato y la ruta del apunte.
+
+### Catálogo completo de los apuntes
+
+Para trabajar con todos los materiales del curso utilizaremos un documento denominado:
+
+`repositorio_apuntes.xml`
+
+Este archivo será proporcionado por el docente y contendrá los apuntes incluidos en el catálogo del repositorio.
+
+Los estudiantes podrán abrirlo en un navegador o en un editor de texto para observar su estructura.
+
+No será necesario descargar el proyecto completo de Quarto ni acceder a las carpetas de la computadora del docente.
+
+::: {.callout-note}
+**Importante**
+
+Nuestro repositorio de Quarto no está almacenado completamente en XML.
+
+Los apuntes originales son documentos `.qmd`, mientras que `repositorio_apuntes.xml` funciona como un catálogo que describe esos archivos.
+
+El catálogo no contiene necesariamente el texto completo de los apuntes, sino información como sus títulos, nombres y rutas.
+
+Si se agregan nuevos apuntes, el catálogo deberá actualizarse para reflejar esos cambios.
+:::
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué diferencia existe entre el archivo `14_introduccion_xml.qmd` y el documento `repositorio_apuntes.xml`?**
+
+El archivo `.qmd` contiene el contenido del apunte desarrollado mediante Quarto.
+
+El documento XML contiene información organizada sobre los apuntes del curso.
+
+Por lo tanto, tienen funciones diferentes.
+
+:::
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué sucedería si agregamos un nuevo apunte al catálogo?**
+
+Podríamos incorporar otro elemento `archivo` dentro del elemento `carpeta`.
+
+Por ejemplo:
+
+```xml
+<archivo numero="16"
+         nombre="16_json_mongodb_python.qmd">
+    <titulo>JSON y MongoDB con Python</titulo>
+    <formato>qmd</formato>
+    <ruta>apuntes/16_json_mongodb_python.qmd</ruta>
+</archivo>
+```
+
+Este es un ejemplo hipotético. Para representar un nuevo apunte real, utilizaríamos su nombre y título definitivos.
+
+:::
+
+### ¿Para qué nos servirá este catálogo?
+
+En esta sesión utilizamos el catálogo para comprender la organización jerárquica de XML.
+
+En el siguiente apunte aprenderemos a realizar consultas mediante XPath y XQuery.
+
+Por ejemplo, podremos recuperar los títulos de los apuntes, identificar sus atributos o contar los archivos registrados.
+
+De esta manera, utilizaremos información relacionada con un proyecto que ya conocemos.
+
+## Reglas de un documento XML bien formado
+
+Para que un documento XML pueda interpretarse correctamente, debe cumplir determinadas reglas sintácticas.
+
+Un documento que cumple estas reglas se denomina **documento XML bien formado**.
+
+### Regla 1. Debe existir un único elemento raíz
+
+**Incorrecto:**
+
+```xml
+<nombre>Ana López</nombre>
+<edad>21</edad>
+```
+
+Existen dos elementos principales independientes.
+
+**Correcto:**
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+</estudiante>
+```
+
+### Regla 2. Las etiquetas deben cerrarse correctamente
+
+**Incorrecto:**
+
+```xml
+<estudiante>
+    <nombre>Ana López
+    <edad>21</edad>
+</estudiante>
+```
+
+Falta cerrar el elemento `nombre`.
+
+**Correcto:**
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+    <edad>21</edad>
+</estudiante>
+```
+
+### Regla 3. Los elementos deben anidarse correctamente
+
+**Incorrecto:**
+
+```xml
+<estudiante>
+    <nombre>Ana López</estudiante>
+</nombre>
+```
+
+**Correcto:**
+
+```xml
+<estudiante>
+    <nombre>Ana López</nombre>
+</estudiante>
+```
+
+### Regla 4. XML distingue mayúsculas y minúsculas
+
+**Incorrecto:**
+
+```xml
+<Nombre>Ana López</nombre>
+```
+
+**Correcto:**
+
+```xml
+<nombre>Ana López</nombre>
+```
+
+Las etiquetas `Nombre` y `nombre` son diferentes para XML.
+
+### Regla 5. Los atributos deben utilizar comillas
+
+**Incorrecto:**
+
+```xml
+<estudiante matricula=S12345/>
+```
+
+**Correcto:**
+
+```xml
+<estudiante matricula="S12345"/>
+```
+
+### Regla 6. Deben manejarse los caracteres especiales
+
+Algunos caracteres tienen un significado especial dentro de XML.
+
+| Carácter | Representación XML |
+|---|---|
+| `&` | `&amp;` |
+| `<` | `&lt;` |
+| `>` | `&gt;` |
+| `"` | `&quot;` |
+| `'` | `&apos;` |
+
+Por ejemplo:
+
+```xml
+<empresa>Investigación &amp; Desarrollo</empresa>
+```
+
+::: {.callout-note}
+No todos los caracteres de la tabla necesitan sustituirse en cualquier contexto.
+
+Por ejemplo, las comillas pueden aparecer directamente dentro del texto de un elemento, pero deben tratarse de otra manera cuando forman parte del valor de un atributo delimitado por esas mismas comillas.
+
+:::
+
+### Documentos bien formados y documentos válidos
+
+Un documento **bien formado** cumple las reglas sintácticas de XML.
+
+Un documento **válido** cumple, además, las restricciones establecidas en un esquema o definición correspondiente.
+
+Para validar documentos pueden utilizarse mecanismos como:
+
+- DTD (*Document Type Definition*).
+- XML Schema (XSD).
+
+::: {.callout-warning}
+Un documento puede estar bien formado sin cumplir necesariamente la estructura requerida por una aplicación específica.
+:::
+
+## Actividad: identificación de errores
+
+Observa el siguiente documento:
+
+```xml
+<universidad>
+    <Estudiante matricula=S001>
+        <nombre>Ana López</Nombre>
+        <edad>21
+    </Estudiante>
+</universidad>
+```
+
+Identifica los errores y escribe una versión corregida.
+
+::: {.callout-tip collapse="true" title="Ver respuesta"}
+
+Los errores principales son:
+
+1. El atributo `matricula` no utiliza comillas.
+2. Las etiquetas `nombre` y `Nombre` no coinciden.
+3. El elemento `edad` no tiene etiqueta de cierre.
+
+**Documento corregido:**
+
+```xml
+<universidad>
+    <Estudiante matricula="S001">
+        <nombre>Ana López</nombre>
+        <edad>21</edad>
+    </Estudiante>
+</universidad>
+```
+
+:::
+
+## Práctica 1. Construcción de una biblioteca en XML
+
+Construiremos un documento XML para representar los libros de una biblioteca universitaria.
+
+Cada libro tendrá:
+
+- Un identificador.
+- Un título.
+- Un autor.
+- Un año de publicación.
+- Una categoría.
+- Su disponibilidad.
+
+### Herramientas
+
+Para esta práctica podemos utilizar:
+
+- Visual Studio Code.
+- Un editor de texto.
+- Un navegador para visualizar el archivo.
+
+El objetivo es construir un documento XML e identificar sus principales componentes.
+
+### Paso 1. Crear el documento
+
+En un editor de texto, crea un archivo llamado:
+
+`biblioteca.xml`
+
+Agrega el siguiente contenido:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<biblioteca>
+    <libro id="L001">
+        <titulo>Introducción a las bases de datos</titulo>
+        <autor>Ana López</autor>
+        <anio>2024</anio>
+        <categoria>Informática</categoria>
+        <disponible>true</disponible>
+    </libro>
+
+    <libro id="L002">
+        <titulo>Fundamentos de programación</titulo>
+        <autor>Carlos Pérez</autor>
+        <anio>2022</anio>
+        <categoria>Programación</categoria>
+        <disponible>false</disponible>
+    </libro>
+
+    <libro id="L003">
+        <titulo>Ciencia de datos con Python</titulo>
+        <autor>María García</autor>
+        <anio>2025</anio>
+        <categoria>Ciencia de Datos</categoria>
+        <disponible>true</disponible>
+    </libro>
+
+    <libro id="L004">
+        <titulo>Modelado de bases de datos</titulo>
+        <autor>Ana López</autor>
+        <anio>2023</anio>
+        <categoria>Informática</categoria>
+        <disponible>true</disponible>
+    </libro>
+</biblioteca>
+```
+
+### Paso 2. Identificar sus componentes
+
+| Componente | Resultado |
+|---|---|
+| Elemento raíz | `biblioteca` |
+| Elementos hijos de la raíz | `libro` |
+| Atributo de cada libro | `id` |
+| Elementos hijos de `libro` | `titulo`, `autor`, `anio`, `categoria`, `disponible` |
+| Cantidad de libros | 4 |
+
+### Paso 3. Reconocer la jerarquía
+
+```text
+biblioteca
+│
+├── libro (L001)
+│   ├── titulo
+│   ├── autor
+│   ├── anio
+│   ├── categoria
+│   └── disponible
+│
+├── libro (L002)
+├── libro (L003)
+└── libro (L004)
+```
+
+### Paso 4. Visualizar el documento
+
+Guarda `biblioteca.xml` y ábrelo en un navegador o en Visual Studio Code.
+
+Observa cómo se organizan los elementos y sus atributos.
+
+### Paso 5. Modificar la información
+
+Realiza lo siguiente:
+
+1. Agrega un quinto libro con identificador `L005`.
+2. Incluye su título, autor, año, categoría y disponibilidad.
+3. Verifica que los elementos estén correctamente anidados.
+4. Guarda el archivo.
+5. Comprueba que pueda visualizarse correctamente.
+
+::: {.callout-tip collapse="true" title="Ver ejemplo de solución"}
+
+Agrega este elemento antes de `</biblioteca>`:
+
+```xml
+<libro id="L005">
+    <titulo>Introducción al análisis de datos</titulo>
+    <autor>Laura Martínez</autor>
+    <anio>2026</anio>
+    <categoria>Ciencia de Datos</categoria>
+    <disponible>true</disponible>
+</libro>
+```
+
+Ahora el documento contiene cinco libros.
+
+:::
+
+
+## ¿Cómo se pueden leer y procesar archivos XML?
+
+Un documento XML es un archivo de texto que contiene información organizada mediante etiquetas, elementos y atributos.
+
+Podemos utilizar diferentes herramientas para leerlo, modificarlo o procesarlo.
+
+| Herramienta | Utilidad |
+|---|---|
+| Navegador web | Visualizar documentos XML |
+| Visual Studio Code | Crear, modificar y guardar archivos |
+| Python | Leer, transformar y extraer información |
+| BaseX | Gestionar y consultar documentos XML |
+| BXFiddle | Ejecutar consultas XPath y XQuery |
+
+En la siguiente práctica utilizaremos **Google Colab y Python** para leer múltiples documentos XML y convertirlos en una tabla de datos.
+
+El objetivo es demostrar cómo podemos recuperar información de diferentes archivos y organizarla para su posterior análisis.
+
+## Práctica 2. De archivos XML a una base de datos tabular
+
+Los documentos XML permiten representar información mediante elementos y atributos.
+
+Sin embargo, en muchas situaciones necesitamos reunir información procedente de distintos archivos para analizarla.
+
+Por ejemplo, una organización podría recibir numerosas facturas electrónicas durante el año.
+
+En lugar de abrir cada documento y capturar sus datos manualmente, podemos utilizar un programa que recupere automáticamente la información.
+
+### Objetivo
+
+Generar veinte archivos XML ficticios, recuperar su información mediante Python y construir una tabla de datos utilizando pandas.
+
+Posteriormente realizaremos consultas básicas, agrupaciones y exportaremos los resultados a Excel.
+
+### Procedimiento general
+
+```text
+         20 archivos XML
+                |
+                v
+         Lectura con Python
+                |
+                v
+       Extracción de campos
+                |
+                v
+      Consolidación con pandas
+                |
+                v
+          Tabla de datos
+                |
+         +------+------+
+         |             |
+         v             v
+      Consultas      Archivo Excel
+```
+
+::: {.callout-warning}
+**Importante**
+
+Utilizaremos archivos XML ficticios con una estructura simplificada.
+
+No representan CFDI válidos del SAT.
+
+Los proveedores, RFC e importes son ejemplos educativos y no deben utilizarse como comprobantes fiscales.
+
+El IVA se calculará con una tasa del 16 % únicamente para fines ilustrativos.
+:::
+
+### Paso 1. Abrir Google Colab
+
+Ingresa a:
+
+[Google Colab](https://colab.research.google.com/)
+
+
+### Paso 2. Generar veinte archivos XML
+
+Primero crearemos automáticamente veinte documentos XML.
+
+Cada archivo representará una factura ficticia con la siguiente información:
+
+- Identificador.
+- Fecha.
+- Nombre del emisor.
+- RFC ficticio.
+- Subtotal.
+- IVA.
+- Total.
+
+Ejecuta el siguiente código:
+
+```python
+from pathlib import Path
+from datetime import datetime, timedelta
+import xml.etree.ElementTree as ET
+import random
+
+# Generador reproducible
+generador = random.Random(42)
+
+# Crear carpeta de trabajo
+carpeta = Path("facturas_xml_apunte14")
+carpeta.mkdir(exist_ok=True)
+
+# Eliminar archivos XML de ejecuciones anteriores
+for archivo_anterior in carpeta.glob("factura_*.xml"):
+    archivo_anterior.unlink()
+
+# Proveedores ficticios
+proveedores = [
+    ("Papelería del Centro", "AAA010101AAA"),
+    ("Tecnología del Golfo", "BBB010101BBB"),
+    ("Servicios Universitarios", "CCC010101CCC"),
+    ("Suministros Digitales", "DDD010101DDD"),
+    ("Equipos del Sureste", "EEE010101EEE")
+]
+
+# Generar veinte documentos XML
+for i in range(1, 21):
+
+    # Seleccionar un proveedor
+    nombre, rfc = generador.choice(proveedores)
+
+    # Generar fecha
+    fecha = datetime(2026, 1, 1) + timedelta(
+        days=generador.randint(0, 273)
+    )
+
+    # Generar importes
+    subtotal = round(
+        generador.uniform(500, 10000), 2
+    )
+
+    iva = round(subtotal * 0.16, 2)
+    total = round(subtotal + iva, 2)
+
+    # Crear elemento raíz
+    factura = ET.Element(
+        "factura",
+        id=f"F{i:03d}",
+        fecha=fecha.strftime("%Y-%m-%d")
+    )
+
+    # Crear elemento emisor
+    ET.SubElement(
+        factura,
+        "emisor",
+        nombre=nombre,
+        rfc=rfc
+    )
+
+    # Agregar importes
+    ET.SubElement(
+        factura, "subtotal"
+    ).text = f"{subtotal:.2f}"
+
+    ET.SubElement(
+        factura, "iva"
+    ).text = f"{iva:.2f}"
+
+    ET.SubElement(
+        factura, "total"
+    ).text = f"{total:.2f}"
+
+    # Crear árbol XML
+    arbol = ET.ElementTree(factura)
+
+    # Aplicar sangría
+    ET.indent(arbol, space="    ")
+
+    # Definir ruta
+    ruta = carpeta / f"factura_{i:03d}.xml"
+
+    # Guardar documento XML
+    arbol.write(
+        ruta,
+        encoding="utf-8",
+        xml_declaration=True
+    )
+
+# Recuperar los archivos generados
+archivos_xml = sorted(
+    carpeta.glob("factura_*.xml")
+)
+
+print(
+    f"Archivos XML generados: {len(archivos_xml)}"
+)
+```
+
+**Resultado esperado:**
+
+```text
+Archivos XML generados: 20
+```
+
+Los documentos tendrán nombres como:
+
+```text
+factura_001.xml
+factura_002.xml
+factura_003.xml
+...
+factura_020.xml
+```
+
+Cada archivo contendrá información correspondiente a una factura ficticia.
+
+::: {.callout-note}
+**¿Por qué utilizamos una semilla aleatoria?**
+
+La instrucción `random.Random(42)` permite generar los mismos datos cuando ejecutamos el ejemplo desde el inicio.
+
+Esto facilita que el docente y los alumnos obtengan resultados reproducibles durante la clase.
+
+Además, eliminamos los archivos de ejecuciones anteriores para trabajar únicamente con las veinte facturas de la práctica.
+
+La eliminación se limita a los archivos que coinciden con `factura_*.xml` dentro de la carpeta creada para este ejercicio.
+:::
+
+### Paso 3. Inspeccionar un documento XML
+
+Antes de consolidar la información, observaremos uno de los archivos generados.
+
+Ejecuta:
+
+```python
+archivo = carpeta / "factura_001.xml"
+
+contenido = archivo.read_text(
+    encoding="utf-8"
+)
+
+print(contenido)
+```
+
+El resultado tendrá una estructura similar a esta:
+
+```xml
+<?xml version='1.0' encoding='utf-8'?>
+<factura id="F001" fecha="2026-03-10">
+    <emisor nombre="Papelería del Centro"
+            rfc="AAA010101AAA" />
+    <subtotal>1500.00</subtotal>
+    <iva>240.00</iva>
+    <total>1740.00</total>
+</factura>
+```
+
+El documento mostrado es ilustrativo. Los valores exactos se obtienen al ejecutar el código de generación.
+
+### Identificar sus componentes
+
+| Componente | Ejemplo |
+|---|---|
+| Elemento raíz | `factura` |
+| Atributos de la raíz | `id`, `fecha` |
+| Elemento hijo | `emisor` |
+| Atributos del emisor | `nombre`, `rfc` |
+| Elementos con importes | `subtotal`, `iva`, `total` |
+
+Observa que algunos valores se almacenan como atributos, mientras que otros aparecen como contenido de elementos.
+
+Esta diferencia será importante al recuperar la información mediante Python.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Cuántas facturas contiene el archivo `factura_001.xml`?**
+
+Contiene una factura.
+
+Cada uno de los veinte archivos representa un documento XML independiente.
+
+Por lo tanto, tenemos veinte documentos con una estructura similar.
+
+:::
+
+### Paso 4. Leer los veinte archivos XML
+
+Ahora utilizaremos la biblioteca `xml.etree.ElementTree` para interpretar los documentos XML.
+
+También utilizaremos pandas para organizar la información recuperada.
+
+Ejecuta el siguiente código:
+
+```python
+import pandas as pd
+
+# Lista para almacenar los registros
+registros = []
+
+# Recorrer los veinte archivos XML
+for archivo in archivos_xml:
+
+    # Leer el documento XML
+    arbol = ET.parse(archivo)
+
+    # Recuperar el elemento raíz
+    raiz = arbol.getroot()
+
+    # Localizar el elemento emisor
+    emisor = raiz.find("emisor")
+
+    # Extraer información
+    registro = {
+        "Factura": raiz.get("id"),
+        "Fecha": raiz.get("fecha"),
+        "Emisor": emisor.get("nombre"),
+        "RFC": emisor.get("rfc"),
+        "Subtotal": float(
+            raiz.findtext("subtotal")
+        ),
+        "IVA": float(
+            raiz.findtext("iva")
+        ),
+        "Total": float(
+            raiz.findtext("total")
+        )
+    }
+
+    # Agregar registro a la lista
+    registros.append(registro)
+
+# Construir una tabla con pandas
+df = pd.DataFrame(registros)
+
+# Mostrar información
+display(df)
+```
+
+### ¿Qué realiza este código?
+
+El procedimiento puede explicarse en cinco etapas:
+
+1. Recorre los archivos XML de la carpeta.
+2. Interpreta la estructura de cada documento.
+3. Recupera sus elementos y atributos.
+4. Almacena los valores obtenidos en registros de Python.
+5. Construye una tabla utilizando pandas.
+
+Para comprender mejor cómo recuperamos los campos, observemos las principales instrucciones.
+
+| Instrucción | Función |
+|---|---|
+| `ET.parse(archivo)` | Lee e interpreta un documento XML |
+| `arbol.getroot()` | Recupera el elemento raíz |
+| `raiz.get("id")` | Recupera el valor del atributo `id` |
+| `raiz.find("emisor")` | Localiza el elemento hijo `emisor` |
+| `emisor.get("nombre")` | Recupera el atributo `nombre` del emisor |
+| `raiz.findtext("total")` | Recupera el texto del elemento `total` |
+| `float(...)` | Convierte el texto recuperado en un número de punto flotante |
+| `pd.DataFrame(registros)` | Construye una tabla con los registros |
+
+Por ejemplo:
+
+```python
+raiz.get("id")
+```
+
+Recupera el identificador de la factura, almacenado como atributo.
+
+Mientras que:
+
+```python
+raiz.findtext("total")
+```
+
+Recupera el contenido del elemento `total`.
+
+Esta diferencia está relacionada con lo que aprendimos anteriormente sobre elementos y atributos en XML.
+
+### Resultado esperado
+
+La tabla tendrá **20 filas y 7 columnas**.
+
+| Columna | Contenido |
+|---|---|
+| Factura | Identificador |
+| Fecha | Fecha del documento |
+| Emisor | Nombre del proveedor |
+| RFC | RFC ficticio |
+| Subtotal | Importe antes de IVA |
+| IVA | Importe del impuesto |
+| Total | Importe total |
+
+::: {.callout-note}
+**¿Por qué obtenemos una fila por archivo XML?**
+
+En esta práctica, cada documento contiene la información de una sola factura.
+
+Por esa razón, el programa genera un registro por archivo y posteriormente lo incorpora a la tabla.
+
+Sin embargo, un documento XML también puede contener múltiples registros.
+
+En esos casos, el número de filas dependerá de cómo esté organizada la información y de cómo la recuperemos mediante Python.
+:::
+
+### Paso 5. Verificar la estructura de la tabla
+
+Podemos comprobar las dimensiones y los tipos de datos.
+
+```python
+print("Dimensiones:", df.shape)
+
+print("\nTipos de datos:")
+print(df.dtypes)
+```
+
+**Resultado esperado:**
+
+```text
+Dimensiones: (20, 7)
+```
+
+Esto significa que tenemos veinte registros y siete variables.
+
+::: {.callout-note}
+**Relación con los temas anteriores**
+
+Aquí estamos transformando información semiestructurada en una estructura tabular.
+
+Aunque el origen de los datos es XML, podemos utilizar pandas para analizar los resultados de manera similar a otros conjuntos de datos que hemos trabajado durante el curso.
+:::
+
+### Paso 6. Realizar consultas básicas con pandas
+
+Una vez consolidada la información, podemos realizar consultas.
+
+Estas consultas se ejecutan sobre la tabla resultante, no directamente sobre los archivos XML.
+
+#### Consulta 1. Facturas superiores a $5,000
+
+```python
+df[df["Total"] > 5000]
+```
+
+Esta instrucción recupera únicamente los registros cuyo importe total supera $5,000.
+
+#### Consulta 2. Ordenar de mayor a menor importe
+
+```python
+df.sort_values(
+    "Total",
+    ascending=False
+)
+```
+
+Permite identificar las facturas con los importes más altos.
+
+#### Consulta 3. Calcular el importe acumulado
+
+```python
+df["Total"].sum()
+```
+
+Calcula la suma de los importes de las veinte facturas.
+
+#### Consulta 4. Contar facturas por proveedor
+
+```python
+df["Emisor"].value_counts()
+```
+
+Permite identificar cuántas facturas corresponden a cada proveedor.
+
+#### Consulta 5. Calcular el importe por proveedor
+
+```python
+resumen = (
+    df.groupby("Emisor")["Total"]
+      .agg(
+          Cantidad="count",
+          Importe_total="sum"
+      )
+      .reset_index()
+)
+
+display(resumen)
+```
+
+Esta consulta permite conocer la cantidad de facturas y el importe acumulado correspondiente a cada proveedor.
+
+### Paso 7. Exportar la tabla a Excel
+
+Finalmente, exportaremos la base de datos consolidada.
+
+```python
+from google.colab import files
+
+nombre_archivo = "BD_Facturas_XML.xlsx"
+
+df.to_excel(
+    nombre_archivo,
+    index=False
+)
+
+files.download(nombre_archivo)
+```
+
+Obtendremos un archivo llamado:
+
+`BD_Facturas_XML.xlsx`
+
+Este archivo contiene la información recuperada de las veinte facturas XML.
+
+Podremos abrirlo en Excel o utilizarlo posteriormente en otras herramientas de análisis de datos.
+
+::: {.callout-note}
+**Consideración técnica**
+
+Para simplificar esta práctica, los importes se almacenan como números de punto flotante.
+
+En aplicaciones fiscales reales conviene utilizar tipos decimales apropiados y aplicar las reglas correspondientes de cálculo y redondeo.
+:::
+
+## Actividades de ampliación
+
+Los siguientes ejercicios son opcionales y permiten profundizar en el procesamiento y análisis de los datos recuperados.
+
+### Actividad 1. Crear un gráfico por proveedor
+
+Podemos representar el importe acumulado de las facturas mediante un gráfico de barras.
+
+```python
+import matplotlib.pyplot as plt
+
+totales = (
+    df.groupby("Emisor")["Total"]
+      .sum()
+      .sort_values(ascending=False)
+)
+
+totales.plot(kind="bar")
+
+plt.title("Importe total por proveedor")
+plt.xlabel("Proveedor")
+plt.ylabel("Importe ($)")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.show()
+```
+
+El gráfico permite identificar visualmente los proveedores con mayores importes acumulados.
+
+### Actividad 2. Descargar los archivos XML
+
+También podemos comprimir los veinte documentos XML y descargarlos.
+
+```python
+import shutil
+
+shutil.make_archive(
+    "Facturas_XML",
+    "zip",
+    carpeta
+)
+
+files.download("Facturas_XML.zip")
+```
+
+El archivo ZIP contendrá los veinte documentos XML generados durante la práctica.
+
+### Actividad 3. Analizar facturas por mes
+
+Podemos recuperar el mes de cada factura y calcular sus importes acumulados.
+
+```python
+# Crear una copia de la tabla original
+df_mensual = df.copy()
+
+# Convertir la columna de fechas
+df_mensual["Fecha"] = pd.to_datetime(
+    df_mensual["Fecha"]
+)
+
+# Extraer el mes
+df_mensual["Mes"] = (
+    df_mensual["Fecha"].dt.to_period("M")
+)
+
+# Calcular el importe acumulado por mes
+resumen_mensual = (
+    df_mensual.groupby("Mes")["Total"]
+      .sum()
+      .reset_index()
+)
+
+display(resumen_mensual)
+```
+
+Este ejercicio demuestra cómo podemos utilizar información obtenida de XML para realizar un análisis temporal.
+
+Además, utilizamos una copia de la tabla para conservar la estructura original de siete columnas.
+
+## Actividad individual
+
+A partir de los contenidos estudiados y las prácticas realizadas, desarrolla las siguientes actividades:
+
+1. Explica qué es XML y menciona dos aplicaciones reales.
+2. Identifica los elementos y atributos del documento `biblioteca.xml`.
+3. Agrega un quinto libro y verifica que el documento esté bien formado.
+4. Identifica los elementos y atributos del catálogo `repositorio_apuntes.xml` proporcionado por el docente.
+5. Determina cuántos apuntes se encuentran registrados en ese catálogo.
+6. Genera y consolida las veinte facturas XML mediante Python.
+7. Identifica el proveedor con mayor importe acumulado y las facturas superiores a $5,000.
+8. Exporta la base consolidada a Excel.
+
+::: {.callout-tip collapse="true" title="Ver orientaciones y respuestas"}
+
+**1. ¿Qué es XML?**
+
+Es un lenguaje de marcado que permite representar información mediante etiquetas y estructuras jerárquicas.
+
+Entre sus aplicaciones encontramos la facturación electrónica y los documentos digitales de Microsoft Office.
+
+**2. Elementos y atributos de la biblioteca**
+
+El elemento raíz es `biblioteca`.
+
+Cada libro se representa mediante un elemento `libro`, que contiene los elementos `titulo`, `autor`, `anio`, `categoria` y `disponible`.
+
+El identificador `id` se almacena como atributo.
+
+**3. Agregar un quinto libro**
+
+Debe incorporarse un nuevo elemento `libro` dentro de `biblioteca`, incluyendo sus respectivos campos.
+
+El documento debe conservar un único elemento raíz y todas sus etiquetas deben estar correctamente cerradas.
+
+**4. Identificar elementos y atributos del catálogo**
+
+El elemento raíz es `repositorio`.
+
+El elemento `carpeta` contiene los registros de los apuntes.
+
+Cada apunte se representa mediante un elemento `archivo`.
+
+Los nombres y números se almacenan como atributos; los títulos, formatos y rutas aparecen como elementos hijos.
+
+**5. Cantidad de apuntes registrados**
+
+La respuesta depende del contenido del archivo `repositorio_apuntes.xml` proporcionado por el docente.
+
+Para obtenerla, debemos contar los elementos `archivo` del catálogo.
+
+**6. Generación y consolidación de facturas**
+
+Deben generarse veinte documentos XML.
+
+Después de recuperar sus campos, la tabla consolidada debe contener veinte filas y siete columnas.
+
+**7. Consultar facturas e identificar el proveedor con mayor importe**
+
+Para recuperar facturas superiores a $5,000:
+
+```python
+df[df["Total"] > 5000]
+```
+
+Para identificar el proveedor con mayor importe acumulado:
+
+```python
+totales = (
+    df.groupby("Emisor")["Total"]
+      .sum()
+      .sort_values(ascending=False)
+)
+
+print(totales.head(1))
+```
+
+**8. Exportar a Excel**
+
+El archivo final debe llamarse:
+
+`BD_Facturas_XML.xlsx`
+
+Y debe contener la tabla consolidada.
+
+:::

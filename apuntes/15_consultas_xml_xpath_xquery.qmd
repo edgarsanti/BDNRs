@@ -1,0 +1,2015 @@
+---
+title: "Consultas XML mediante XPath y XQuery"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Introducción
+
+En el apunte anterior aprendimos a construir documentos XML mediante etiquetas, elementos, atributos y estructuras jerárquicas.
+
+También utilizamos Python para leer diferentes archivos XML y consolidar su información en una tabla de datos.
+
+Ahora estudiaremos una forma diferente de recuperar información.
+
+En lugar de convertir los documentos XML en una tabla, utilizaremos **XPath y XQuery** para consultar directamente su estructura.
+
+Estos lenguajes permiten localizar elementos, recuperar atributos, aplicar condiciones y construir resultados a partir de documentos XML.
+
+En este apunte aprenderemos a:
+
+- Comprender qué es XPath.
+- Utilizar BXFiddle para ejecutar consultas XML.
+- Seleccionar elementos y atributos.
+- Navegar por estructuras jerárquicas.
+- Aplicar filtros y condiciones.
+- Utilizar funciones de XPath.
+- Comprender qué es XQuery.
+- Construir consultas mediante expresiones FLWOR.
+- Ordenar, filtrar y transformar resultados.
+- Consultar el catálogo XML de nuestros apuntes.
+- Recuperar información de facturas XML.
+
+## ¿Qué es XPath?
+
+XPath significa *XML Path Language*.
+
+Es un lenguaje que permite seleccionar y navegar por los nodos de un documento XML mediante expresiones de ruta.
+
+Por ejemplo, si tenemos una biblioteca con cientos de libros, XPath puede ayudarnos a localizar:
+
+- Todos los libros.
+- Los títulos registrados.
+- Los autores.
+- Los libros publicados después de determinado año.
+- Los libros disponibles.
+- Los identificadores de los registros.
+
+XPath aprovecha la organización jerárquica del documento XML para recuperar información.
+
+### ¿Cómo funciona XPath?
+
+Observemos el siguiente ejemplo:
+
+```xml
+<biblioteca>
+    <libro id="L001">
+        <titulo>Introducción a XML</titulo>
+        <autor>Ana López</autor>
+    </libro>
+</biblioteca>
+```
+
+La estructura jerárquica es:
+
+```text
+biblioteca
+│
+└── libro
+    │
+    ├── titulo
+    └── autor
+```
+
+Para recuperar el elemento `titulo`, podemos escribir:
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Esta expresión sigue una ruta desde la raíz del documento hasta el elemento que necesitamos.
+
+::: {.callout-note}
+**Importante**
+
+XPath no modifica necesariamente la información del documento.
+
+En las consultas que realizaremos, lo utilizaremos principalmente para localizar y recuperar elementos o atributos.
+
+:::
+
+## Herramienta de trabajo: BXFiddle
+
+Utilizaremos **BXFiddle**, una herramienta en línea que permite ejecutar consultas XPath y XQuery mediante el motor BaseX.
+
+Accede desde:
+
+[https://fiddle.basex.org/](https://fiddle.basex.org/)
+
+No es necesario instalar programas ni crear una cuenta.
+
+### ¿Cómo está organizada la herramienta?
+
+Para realizar los ejercicios trabajaremos con tres áreas principales:
+
+1. **Editor de consultas:** donde escribiremos las expresiones XPath y XQuery.
+2. **Área de datos de entrada:** donde colocaremos el documento XML.
+3. **Panel de resultados:** donde observaremos la información recuperada.
+
+La distribución puede representarse de esta manera:
+
+```text
+┌──────────────────────────────┬──────────────────────┐
+│                              │                      │
+│  EDITOR SUPERIOR             │                      │
+│                              │                      │
+│  Consulta XPath o XQuery     │    RESULTADOS        │
+│                              │                      │
+│  /biblioteca/libro           │    de la consulta    │
+│                              │                      │
+├──────────────────────────────┤                      │
+│                              │                      │
+│  EDITOR INFERIOR             │                      │
+│                              │                      │
+│  Content-Type: xml           │                      │
+│                              │                      │
+│  <biblioteca>                │                      │
+│    ...                       │                      │
+│  </biblioteca>               │                      │
+│                              │                      │
+└──────────────────────────────┴──────────────────────┘
+```
+
+### Paso 1. Abrir BXFiddle
+
+Ingresa a:
+
+[https://fiddle.basex.org/](https://fiddle.basex.org/)
+
+La herramienta muestra un espacio para escribir consultas y otro para proporcionar datos de entrada.
+
+### Paso 2. Preparar el editor de consultas
+
+En el **editor superior izquierdo** escribiremos nuestras consultas.
+
+Por ejemplo:
+
+```xpath
+/biblioteca/libro
+```
+
+Aunque utilizaremos XPath, podemos mantener seleccionada la modalidad **XQuery**, porque las expresiones XPath que estudiaremos pueden utilizarse dentro de XQuery.
+
+### Paso 3. Preparar el documento XML
+
+En el **editor inferior izquierdo**, identifica el espacio para los datos de entrada.
+
+Selecciona o conserva el tipo de contenido:
+
+`Content-Type: xml`
+
+Ahí colocaremos el documento XML.
+
+### Paso 4. Ejecutar la consulta
+
+Con el XML en el editor inferior y la consulta en el superior, ejecuta la expresión mediante el control de ejecución si es necesario.
+
+Dependiendo de la configuración, BXFiddle también puede actualizar los resultados automáticamente.
+
+El resultado aparecerá en el panel derecho.
+
+::: {.callout-warning}
+**Error frecuente**
+
+Si colocamos el documento XML en el editor de consultas y la expresión XPath en el área de datos, la herramienta no estará configurada como necesitamos.
+
+Recuerda:
+
+- **Arriba:** consulta XPath o XQuery.
+- **Abajo:** documento XML.
+- **Derecha:** resultados.
+
+:::
+
+### Primera prueba
+
+Para familiarizarnos con BXFiddle utilizaremos un documento pequeño.
+
+**Editor inferior: XML**
+
+```xml
+<biblioteca>
+    <libro id="L001">
+        <titulo>Introducción a XML</titulo>
+    </libro>
+    <libro id="L002">
+        <titulo>Bases de datos</titulo>
+    </libro>
+</biblioteca>
+```
+
+**Editor superior: consulta**
+
+```xpath
+/biblioteca/libro
+```
+
+**Resultado esperado:** dos elementos `libro`.
+
+Ahora cambia únicamente la consulta por:
+
+```xpath
+count(/biblioteca/libro)
+```
+
+**Resultado esperado:**
+
+```text
+2
+```
+
+Si aparecen ambos resultados correctamente, podemos continuar con las consultas del apunte.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Por qué debemos colocar el documento XML en el editor inferior?**
+
+Porque ese documento proporciona la información sobre la que se ejecutarán las consultas.
+
+Las expresiones XPath y XQuery utilizan ese contexto para localizar los elementos y atributos solicitados.
+
+:::
+
+## Preparación de nuestra biblioteca XML
+
+Utilizaremos nuevamente la biblioteca universitaria desarrollada en el Apunte 14.
+
+Para mantener resultados iguales durante los ejercicios, trabajaremos con la versión original de **cuatro libros**.
+
+Si en la práctica anterior agregaste un quinto libro, no lo incluyas todavía en esta versión.
+
+### Documento XML de trabajo
+
+Sustituye el XML de prueba del editor inferior por el siguiente documento:
+
+```xml
+<biblioteca>
+    <libro id="L001">
+        <titulo>Introducción a las bases de datos</titulo>
+        <autor>Ana López</autor>
+        <anio>2024</anio>
+        <categoria>Informática</categoria>
+        <disponible>true</disponible>
+    </libro>
+
+    <libro id="L002">
+        <titulo>Fundamentos de programación</titulo>
+        <autor>Carlos Pérez</autor>
+        <anio>2022</anio>
+        <categoria>Programación</categoria>
+        <disponible>false</disponible>
+    </libro>
+
+    <libro id="L003">
+        <titulo>Ciencia de datos con Python</titulo>
+        <autor>María García</autor>
+        <anio>2025</anio>
+        <categoria>Ciencia de Datos</categoria>
+        <disponible>true</disponible>
+    </libro>
+
+    <libro id="L004">
+        <titulo>Modelado de bases de datos</titulo>
+        <autor>Ana López</autor>
+        <anio>2023</anio>
+        <categoria>Informática</categoria>
+        <disponible>true</disponible>
+    </libro>
+</biblioteca>
+```
+
+Este documento contiene cuatro libros.
+
+Cada uno tiene:
+
+- Identificador.
+- Título.
+- Autor.
+- Año de publicación.
+- Categoría.
+- Disponibilidad.
+
+### Identificar la estructura
+
+```text
+biblioteca
+│
+├── libro (L001)
+│   ├── titulo
+│   ├── autor
+│   ├── anio
+│   ├── categoria
+│   └── disponible
+│
+├── libro (L002)
+├── libro (L003)
+└── libro (L004)
+```
+
+::: {.callout-note}
+**Antes de continuar**
+
+Verifica que el documento esté colocado en el editor inferior de BXFiddle y que el tipo de contenido sea XML.
+
+Durante los siguientes ejercicios conservaremos este documento y modificaremos únicamente las consultas del editor superior.
+
+:::
+
+## Primeras consultas con XPath
+
+Comenzaremos con expresiones sencillas para comprender cómo XPath navega por los elementos de un documento.
+
+### Consulta 1. Seleccionar el elemento raíz
+
+```xpath
+/biblioteca
+```
+
+Esta expresión selecciona el elemento raíz del documento.
+
+**Resultado esperado:** el elemento `biblioteca` con sus cuatro libros.
+
+### Consulta 2. Seleccionar todos los libros
+
+```xpath
+/biblioteca/libro
+```
+
+Selecciona los elementos `libro` que se encuentran directamente dentro de `biblioteca`.
+
+**Resultado esperado:** cuatro elementos `libro`.
+
+### Consulta 3. Recuperar todos los títulos
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Selecciona los elementos `titulo` de los libros.
+
+**Resultado esperado:** cuatro elementos `titulo`.
+
+### Consulta 4. Recuperar los autores
+
+```xpath
+/biblioteca/libro/autor
+```
+
+Selecciona los elementos `autor` de cada libro.
+
+**Resultado esperado:** cuatro elementos, aunque algunos autores aparezcan repetidos.
+
+### Consulta 5. Recuperar los identificadores
+
+```xpath
+/biblioteca/libro/@id
+```
+
+El símbolo `@` permite seleccionar un atributo.
+
+**Valores esperados:**
+
+```text
+L001
+L002
+L003
+L004
+```
+
+La presentación visual puede variar porque la consulta selecciona nodos de atributo, no elementos XML completos.
+
+### Consulta 6. Recuperar solamente el texto de los títulos
+
+```xpath
+/biblioteca/libro/titulo/text()
+```
+
+La función de prueba de nodo `text()` selecciona los nodos de texto que están directamente dentro de cada elemento `titulo`.
+
+**Valores esperados:**
+
+```text
+Introducción a las bases de datos
+Fundamentos de programación
+Ciencia de datos con Python
+Modelado de bases de datos
+```
+
+### ¿Qué diferencia existe entre recuperar elementos y valores?
+
+Observa las siguientes expresiones:
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+```xpath
+/biblioteca/libro/titulo/text()
+```
+
+La primera recupera elementos XML completos, incluyendo sus etiquetas.
+
+La segunda selecciona sus nodos de texto.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué consulta utilizaríamos para recuperar el elemento completo de un título?**
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+**¿Y para recuperar su contenido de texto?**
+
+```xpath
+/biblioteca/libro/titulo/text()
+```
+
+:::
+
+## Operadores y rutas de XPath
+
+XPath dispone de símbolos y expresiones para navegar por los distintos niveles de un documento XML.
+
+| Operador | Función |
+|---|---|
+| `/` | Indica una ruta desde la raíz o separa pasos de navegación |
+| `//` | Permite buscar nodos en distintos niveles descendientes |
+| `@` | Selecciona atributos |
+| `.` | Representa el nodo actual |
+| `..` | Permite recuperar el nodo padre |
+| `*` | Selecciona elementos de cualquier nombre |
+| `[ ]` | Permite aplicar filtros o condiciones |
+| `text()` | Selecciona nodos de texto |
+| `and` | Combina condiciones que deben cumplirse |
+| `or` | Combina condiciones alternativas |
+
+### Ejemplo 1. Ruta desde la raíz
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Sigue una ruta desde el elemento principal del documento hasta los títulos.
+
+### Ejemplo 2. Buscar elementos descendientes
+
+```xpath
+//titulo
+```
+
+Permite seleccionar los elementos `titulo` encontrados en los niveles correspondientes del documento.
+
+En nuestra biblioteca devuelve cuatro títulos.
+
+### Ejemplo 3. Recuperar atributos
+
+```xpath
+//@id
+```
+
+Selecciona los atributos llamados `id` que se encuentran en el documento.
+
+### Ejemplo 4. Seleccionar cualquier elemento hijo
+
+```xpath
+/biblioteca/*
+```
+
+El símbolo `*` selecciona todos los elementos hijos de `biblioteca`, sin especificar su nombre.
+
+En nuestro caso devuelve los cuatro libros.
+
+### Ejemplo 5. Recuperar elementos padre
+
+```xpath
+/biblioteca/libro/titulo/..
+```
+
+Selecciona el elemento padre de cada `titulo`.
+
+Como los títulos están dentro de `libro`, el resultado corresponde a los cuatro elementos `libro`.
+
+::: {.callout-note}
+**Rutas absolutas y relativas**
+
+Una ruta que comienza con `/`, como `/biblioteca/libro`, se evalúa desde la raíz del árbol del documento.
+
+Una ruta como `titulo` se interpreta a partir del nodo de contexto actual.
+
+Por eso es importante conocer desde qué nodo se ejecuta cada expresión.
+
+:::
+
+## Filtrar información mediante XPath
+
+XPath también permite seleccionar elementos que cumplen determinadas condiciones.
+
+Los filtros se colocan entre corchetes `[ ]` y se conocen como **predicados**.
+
+### Consulta 7. Libros disponibles
+
+```xpath
+/biblioteca/libro[disponible = 'true']
+```
+
+Selecciona los libros cuyo elemento `disponible` contiene el valor `true`.
+
+**Resultado esperado:** L001, L003 y L004.
+
+### Consulta 8. Libros no disponibles
+
+```xpath
+/biblioteca/libro[disponible = 'false']
+```
+
+**Resultado esperado:** L002.
+
+### Consulta 9. Libros publicados después de 2023
+
+```xpath
+/biblioteca/libro[anio > 2023]
+```
+
+**Resultado esperado:** L001 y L003.
+
+### Consulta 10. Libros anteriores a 2024
+
+```xpath
+/biblioteca/libro[anio < 2024]
+```
+
+**Resultado esperado:** L002 y L004.
+
+### Consulta 11. Libros de Informática
+
+```xpath
+/biblioteca/libro[categoria = 'Informática']
+```
+
+**Resultado esperado:** L001 y L004.
+
+### Consulta 12. Libros escritos por Ana López
+
+```xpath
+/biblioteca/libro[autor = 'Ana López']
+```
+
+**Resultado esperado:** L001 y L004.
+
+### Consulta 13. Filtrar con dos condiciones
+
+```xpath
+/biblioteca/libro[
+    anio > 2023 and disponible = 'true'
+]
+```
+
+Selecciona los libros publicados después de 2023 que además están disponibles.
+
+**Resultado esperado:** L001 y L003.
+
+### Consulta 14. Filtrar mediante condiciones alternativas
+
+```xpath
+/biblioteca/libro[
+    categoria = 'Informática'
+    or categoria = 'Programación'
+]
+```
+
+Selecciona los libros que pertenecen a cualquiera de esas dos categorías.
+
+**Resultado esperado:** L001, L002 y L004.
+
+### Consulta 15. Recuperar los títulos de los libros disponibles
+
+```xpath
+/biblioteca/libro[disponible = 'true']/titulo
+```
+
+A diferencia de las consultas anteriores, ahora recuperamos únicamente los títulos de los libros que cumplen la condición.
+
+**Resultado esperado:** tres elementos `titulo`.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué diferencia existe entre estas expresiones?**
+
+```xpath
+/biblioteca/libro[anio > 2023]
+```
+
+```xpath
+/biblioteca/libro[
+    anio > 2023 and disponible = 'true'
+]
+```
+
+La primera selecciona los libros publicados después de 2023.
+
+La segunda agrega otra condición: que también estén disponibles.
+
+En nuestra biblioteca ambas recuperan los mismos dos libros, pero no necesariamente sucedería lo mismo con otros datos.
+
+:::
+
+## Funciones de XPath
+
+Además de seleccionar elementos, XPath incluye funciones que permiten contar registros, realizar cálculos y trabajar con valores.
+
+### Contar todos los libros
+
+```xpath
+count(/biblioteca/libro)
+```
+
+**Resultado esperado:**
+
+```text
+4
+```
+
+### Contar libros disponibles
+
+```xpath
+count(
+    /biblioteca/libro[disponible = 'true']
+)
+```
+
+**Resultado esperado:**
+
+```text
+3
+```
+
+### Contar libros no disponibles
+
+```xpath
+count(
+    /biblioteca/libro[disponible = 'false']
+)
+```
+
+**Resultado esperado:**
+
+```text
+1
+```
+
+### Seleccionar el primer libro
+
+```xpath
+/biblioteca/libro[1]
+```
+
+**Resultado esperado:** L001.
+
+### Seleccionar el último libro
+
+```xpath
+/biblioteca/libro[last()]
+```
+
+**Resultado esperado:** L004.
+
+### Recuperar el año de publicación más reciente
+
+```xpath
+max(/biblioteca/libro/anio)
+```
+
+**Resultado esperado:**
+
+```text
+2025
+```
+
+### Recuperar el año más antiguo
+
+```xpath
+min(/biblioteca/libro/anio)
+```
+
+**Resultado esperado:**
+
+```text
+2022
+```
+
+### Calcular el promedio de los años
+
+```xpath
+avg(/biblioteca/libro/anio)
+```
+
+**Resultado esperado:**
+
+```text
+2023.5
+```
+
+Este cálculo es ilustrativo y permite observar el funcionamiento de la función `avg()`.
+
+### Recuperar valores sin duplicados
+
+```xpath
+distinct-values(/biblioteca/libro/autor)
+```
+
+Devuelve los nombres de los autores sin repetir aquellos que aparecen en varios libros.
+
+**Valores esperados:** Ana López, Carlos Pérez y María García.
+
+::: {.callout-note}
+**Importante**
+
+Las funciones `min()`, `max()`, `avg()` y `distinct-values()` están disponibles en el entorno de consultas XPath/XQuery utilizado por BXFiddle.
+
+Aunque los años están almacenados como texto en XML, las funciones numéricas pueden interpretarlos como valores numéricos cuando corresponde.
+
+Para el ordenamiento en XQuery utilizaremos una conversión explícita con `xs:integer()`.
+:::
+
+## Actividad 1. Consultas con XPath
+
+Utilizando el documento XML de la biblioteca, escribe las expresiones necesarias para:
+
+1. Recuperar todos los elementos `libro`.
+2. Mostrar solamente los títulos.
+3. Recuperar los identificadores de los libros.
+4. Seleccionar los libros disponibles.
+5. Recuperar los títulos de los libros anteriores a 2024.
+6. Seleccionar los libros de Informática.
+7. Contar los libros escritos por Ana López.
+8. Recuperar el año de publicación más reciente.
+
+::: {.callout-tip collapse="true" title="Ver respuestas"}
+
+**1. Todos los libros**
+
+```xpath
+/biblioteca/libro
+```
+
+**2. Títulos**
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+**3. Identificadores**
+
+```xpath
+/biblioteca/libro/@id
+```
+
+**4. Libros disponibles**
+
+```xpath
+/biblioteca/libro[disponible = 'true']
+```
+
+**5. Títulos anteriores a 2024**
+
+```xpath
+/biblioteca/libro[anio < 2024]/titulo
+```
+
+**6. Categoría Informática**
+
+```xpath
+/biblioteca/libro[categoria = 'Informática']
+```
+
+**7. Libros de Ana López**
+
+```xpath
+count(/biblioteca/libro[autor = 'Ana López'])
+```
+
+**8. Año más reciente**
+
+```xpath
+max(/biblioteca/libro/anio)
+```
+
+:::
+
+
+## ¿Qué es XQuery?
+
+XPath permite seleccionar y navegar por los nodos de un documento XML.
+
+Sin embargo, en determinadas situaciones necesitamos consultas que incluyan filtros, ordenamientos, variables y construcción de nuevos resultados.
+
+Para ello podemos utilizar **XQuery (*XML Query Language*)**.
+
+XQuery es un lenguaje diseñado para consultar y transformar información, especialmente documentos XML.
+
+Una de sus características es que incorpora expresiones XPath para localizar información.
+
+Por ejemplo, podemos recuperar los libros de una biblioteca y construir un nuevo documento XML que contenga únicamente sus títulos y autores.
+
+### ¿En qué se diferencia de XPath?
+
+Con XPath podemos recuperar títulos:
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Mientras que con XQuery también podemos recorrer los libros y decidir qué devolver:
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+Ambas expresiones permiten recuperar los títulos.
+
+Sin embargo, XQuery ofrece estructuras adicionales para realizar consultas más elaboradas.
+
+::: {.callout-note}
+**Importante**
+
+En BXFiddle continuaremos trabajando con el mismo documento XML de la biblioteca.
+
+Las consultas XQuery también se escribirán en el editor superior, mientras que el documento XML permanecerá en el editor inferior.
+
+:::
+
+## Primer ejemplo con XQuery
+
+Comenzaremos recuperando los títulos de todos los libros.
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+En este ejemplo:
+
+- `for` permite recorrer los elementos seleccionados.
+- `$libro` es una variable que representa cada libro durante el recorrido.
+- `in` indica la secuencia de elementos.
+- `return` define qué información se devuelve.
+
+**Resultado esperado:** cuatro elementos `titulo`.
+
+### Comprender el recorrido
+
+El funcionamiento puede representarse así:
+
+```text
+        /biblioteca/libro
+                |
+                v
+          Recorre libros
+                |
+       +--------+--------+
+       |        |        |
+      L001     L002     ...
+       |        |
+       v        v
+     titulo   titulo
+                |
+                v
+            Resultados
+```
+
+En cada iteración, la variable `$libro` hace referencia a uno de los elementos seleccionados.
+
+Por ejemplo:
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/@id
+```
+
+Esta expresión recorre los libros y recupera sus identificadores.
+
+**Valores esperados:**
+
+```text
+L001
+L002
+L003
+L004
+```
+
+## Expresiones FLWOR
+
+Una de las construcciones más utilizadas en XQuery se conoce como **FLWOR**.
+
+Su nombre proviene de las cláusulas:
+
+| Cláusula | Función |
+|---|---|
+| `for` | Recorre elementos de una secuencia |
+| `let` | Asigna un valor o secuencia a una variable |
+| `where` | Aplica condiciones |
+| `order by` | Ordena los resultados |
+| `return` | Define la información que se devuelve |
+
+No todas las consultas necesitan utilizar las cinco cláusulas.
+
+### Ejemplo 1. Utilizar `for` y `return`
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+La consulta recorre los libros y devuelve sus títulos.
+
+### Ejemplo 2. Agregar una condición con `where`
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/disponible = 'true'
+return $libro/titulo
+```
+
+Ahora solamente recuperamos los títulos de los libros disponibles.
+
+**Resultado esperado:** tres títulos.
+
+### Ejemplo 3. Agregar `order by`
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/disponible = 'true'
+order by xs:integer($libro/anio) descending
+return $libro/titulo
+```
+
+Esta consulta:
+
+1. Recorre los libros.
+2. Selecciona únicamente los disponibles.
+3. Convierte el año a un valor entero para ordenarlo.
+4. Ordena los resultados de mayor a menor año.
+5. Devuelve los títulos.
+
+**Orden esperado:**
+
+```text
+Ciencia de datos con Python
+Introducción a las bases de datos
+Modelado de bases de datos
+```
+
+### Ejemplo 4. Utilizar `let`
+
+La cláusula `let` permite almacenar temporalmente un valor en una variable.
+
+```xquery
+let $total := count(/biblioteca/libro)
+return $total
+```
+
+**Resultado esperado:**
+
+```text
+4
+```
+
+Aquí, `$total` almacena el resultado de contar los libros.
+
+También podemos utilizar `let` dentro de una consulta que recorre registros:
+
+```xquery
+for $libro in /biblioteca/libro
+let $titulo := string($libro/titulo)
+return $titulo
+```
+
+En este ejemplo, la variable `$titulo` almacena el contenido del título de cada libro.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué diferencia existe entre `for` y `let`?**
+
+`for` permite iterar sobre los elementos de una secuencia.
+
+`let` asigna una secuencia o valor a una variable sin crear una iteración por cada elemento asignado.
+
+Ambas cláusulas pueden utilizarse dentro de una misma consulta XQuery.
+
+:::
+
+## Consultas prácticas con XQuery
+
+Continuaremos utilizando el documento de la biblioteca.
+
+### Consulta 1. Recuperar títulos
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+**Resultado esperado:** cuatro elementos `titulo`.
+
+### Consulta 2. Recuperar solamente el texto de los títulos
+
+```xquery
+for $libro in /biblioteca/libro
+return string($libro/titulo)
+```
+
+Esta consulta devuelve los títulos como valores de texto, sin sus etiquetas XML.
+
+### Consulta 3. Recuperar los títulos de libros disponibles
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/disponible = 'true'
+return $libro/titulo
+```
+
+**Resultado esperado:** tres títulos.
+
+### Consulta 4. Filtrar por año
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/anio > 2023
+return $libro/titulo
+```
+
+**Resultado esperado:**
+
+- Introducción a las bases de datos.
+- Ciencia de datos con Python.
+
+### Consulta 5. Ordenar los libros por año
+
+```xquery
+for $libro in /biblioteca/libro
+order by xs:integer($libro/anio) descending
+return $libro/titulo
+```
+
+**Orden esperado:**
+
+1. Ciencia de datos con Python — 2025.
+2. Introducción a las bases de datos — 2024.
+3. Modelado de bases de datos — 2023.
+4. Fundamentos de programación — 2022.
+
+::: {.callout-note}
+**¿Por qué utilizamos `xs:integer()`?**
+
+En nuestro XML, los años aparecen como contenido de texto.
+
+La instrucción `xs:integer()` convierte ese valor a un tipo numérico entero.
+
+Así el ordenamiento se realiza utilizando el valor numérico del año y no una comparación alfabética.
+:::
+
+### Consulta 6. Filtrar por autor y ordenar
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/autor = 'Ana López'
+order by xs:integer($libro/anio) descending
+return $libro/titulo
+```
+
+**Resultado esperado:** dos títulos, ordenados de 2024 a 2023.
+
+### Consulta 7. Recuperar autor y título
+
+XQuery también permite construir elementos XML nuevos.
+
+```xquery
+for $libro in /biblioteca/libro
+return
+    <resultado>
+        {$libro/autor}
+        {$libro/titulo}
+    </resultado>
+```
+
+**Ejemplo de resultado:**
+
+```xml
+<resultado>
+    <autor>Ana López</autor>
+    <titulo>Introducción a las bases de datos</titulo>
+</resultado>
+```
+
+Esta consulta genera un elemento `resultado` por cada libro.
+
+Si queremos construir un solo documento que agrupe todos esos registros, podemos utilizar un elemento raíz.
+
+```xquery
+<resultados>{
+    for $libro in /biblioteca/libro
+    return
+        <resultado>
+            {$libro/autor}
+            {$libro/titulo}
+        </resultado>
+}</resultados>
+```
+
+Ahora el resultado está contenido dentro del elemento `resultados`.
+
+### Consulta 8. Construir un resultado personalizado
+
+```xquery
+<libros_resumidos>{
+    for $libro in /biblioteca/libro
+    return
+        <libro>
+            <titulo>{
+                string($libro/titulo)
+            }</titulo>
+            <anio>{
+                string($libro/anio)
+            }</anio>
+        </libro>
+}</libros_resumidos>
+```
+
+Esta consulta construye un nuevo documento XML que contiene únicamente el título y el año de cada libro.
+
+**Estructura esperada:**
+
+```xml
+<libros_resumidos>
+    <libro>
+        <titulo>Introducción a las bases de datos</titulo>
+        <anio>2024</anio>
+    </libro>
+    <libro>
+        <titulo>Fundamentos de programación</titulo>
+        <anio>2022</anio>
+    </libro>
+    <libro>
+        <titulo>Ciencia de datos con Python</titulo>
+        <anio>2025</anio>
+    </libro>
+    <libro>
+        <titulo>Modelado de bases de datos</titulo>
+        <anio>2023</anio>
+    </libro>
+</libros_resumidos>
+```
+
+### Consulta 9. Obtener categorías sin duplicados
+
+```xquery
+distinct-values(
+    /biblioteca/libro/categoria
+)
+```
+
+Esta expresión recupera las diferentes categorías registradas.
+
+**Valores esperados:**
+
+```text
+Informática
+Programación
+Ciencia de Datos
+```
+
+El orden en que aparezcan no debe utilizarse como criterio de evaluación para esta consulta.
+
+### Consulta 10. Contar libros
+
+```xquery
+count(/biblioteca/libro)
+```
+
+**Resultado esperado:**
+
+```text
+4
+```
+
+### Consulta 11. Contar libros disponibles
+
+```xquery
+count(
+    /biblioteca/libro[disponible = 'true']
+)
+```
+
+**Resultado esperado:**
+
+```text
+3
+```
+
+### Consulta 12. Construir un resumen general
+
+```xquery
+<resumen>
+    <total_libros>{
+        count(/biblioteca/libro)
+    }</total_libros>
+
+    <disponibles>{
+        count(
+            /biblioteca/libro[
+                disponible = 'true'
+            ]
+        )
+    }</disponibles>
+
+    <no_disponibles>{
+        count(
+            /biblioteca/libro[
+                disponible = 'false'
+            ]
+        )
+    }</no_disponibles>
+</resumen>
+```
+
+**Resultado esperado:**
+
+```xml
+<resumen>
+    <total_libros>4</total_libros>
+    <disponibles>3</disponibles>
+    <no_disponibles>1</no_disponibles>
+</resumen>
+```
+
+Esta consulta demuestra una de las aplicaciones de XQuery: construir nuevos documentos XML a partir de información existente.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué ventaja tiene construir un nuevo documento XML mediante XQuery?**
+
+Podemos recuperar únicamente la información que necesitamos y organizarla en una estructura diferente.
+
+Por ejemplo, a partir de una biblioteca completa podemos crear un resumen con el número de libros disponibles y no disponibles.
+
+:::
+
+## XPath y XQuery: principales diferencias
+
+Aunque ambos lenguajes pueden recuperar información de documentos XML, se utilizan con diferentes niveles de complejidad.
+
+| Característica | XPath | XQuery |
+|---|---|---|
+| Propósito principal | Navegar y seleccionar información | Consultar y transformar información |
+| Selección de elementos | Sí | Sí |
+| Selección de atributos | Sí | Sí |
+| Filtros | Sí | Sí |
+| Funciones | Sí | Sí |
+| Variables y expresiones | Sí, según la versión y el entorno | Sí |
+| Ordenamiento mediante FLWOR | No | Sí |
+| Construcción de nuevos elementos XML | No es su finalidad principal | Sí |
+| Cláusulas FLWOR | No | Sí |
+
+::: {.callout-note}
+**Importante**
+
+XPath y XQuery están estrechamente relacionados.
+
+XQuery puede utilizar expresiones XPath para recuperar elementos y después aplicar otras operaciones, como ordenamientos, condiciones o construcción de resultados.
+
+Por eso, aprender XPath facilita comprender XQuery.
+:::
+
+## Actividad 2. Consultas con XQuery
+
+Utilizando el documento XML de la biblioteca, resuelve las siguientes consultas:
+
+1. Recupera los títulos de todos los libros.
+2. Muestra únicamente los títulos de los libros disponibles.
+3. Recupera los títulos de los libros publicados después de 2023.
+4. Ordena los libros por año de publicación, de mayor a menor.
+5. Recupera los títulos escritos por Ana López.
+6. Construye un nuevo documento XML con título y autor.
+7. Recupera las categorías sin duplicados.
+8. Construye un resumen XML con el total de libros y los disponibles.
+
+::: {.callout-tip collapse="true" title="Ver respuestas"}
+
+**1. Recuperar títulos**
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+**2. Libros disponibles**
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/disponible = 'true'
+return $libro/titulo
+```
+
+**3. Libros posteriores a 2023**
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/anio > 2023
+return $libro/titulo
+```
+
+**4. Ordenar por año**
+
+```xquery
+for $libro in /biblioteca/libro
+order by xs:integer($libro/anio) descending
+return $libro/titulo
+```
+
+**5. Libros de Ana López**
+
+```xquery
+for $libro in /biblioteca/libro
+where $libro/autor = 'Ana López'
+return $libro/titulo
+```
+
+**6. Nuevo documento XML**
+
+```xquery
+<resultados>{
+    for $libro in /biblioteca/libro
+    return
+        <libro>
+            {$libro/titulo}
+            {$libro/autor}
+        </libro>
+}</resultados>
+```
+
+**7. Categorías diferentes**
+
+```xquery
+distinct-values(
+    /biblioteca/libro/categoria
+)
+```
+
+**8. Resumen XML**
+
+```xquery
+<resumen>
+    <total>{
+        count(/biblioteca/libro)
+    }</total>
+
+    <disponibles>{
+        count(
+            /biblioteca/libro[
+                disponible = 'true'
+            ]
+        )
+    }</disponibles>
+</resumen>
+```
+
+:::
+
+
+## Práctica 3. Consultar el catálogo XML de nuestros apuntes
+
+En el Apunte 14 aprendimos que podemos representar la organización de un repositorio mediante XML.
+
+Nuestro curso de **Bases de Datos No Relacionales** utiliza Quarto para organizar y publicar los diferentes materiales.
+
+Ahora aplicaremos XPath y XQuery para consultar la información de un catálogo XML de esos apuntes.
+
+### Preparar el documento XML
+
+Para realizar los ejercicios utilizaremos el siguiente catálogo de ejemplo.
+
+Sustituye temporalmente el documento de la biblioteca en el editor inferior de BXFiddle por este XML:
+
+```xml
+<repositorio nombre="Bases de Datos No Relacionales">
+    <carpeta nombre="apuntes">
+
+        <archivo numero="13"
+                 nombre="13_siete_puentes_konigsberg.qmd">
+            <titulo>Los siete puentes de Königsberg</titulo>
+            <formato>qmd</formato>
+            <ruta>apuntes/13_siete_puentes_konigsberg.qmd</ruta>
+        </archivo>
+
+        <archivo numero="14"
+                 nombre="14_introduccion_xml.qmd">
+            <titulo>Introducción a XML: estructura, elementos y atributos</titulo>
+            <formato>qmd</formato>
+            <ruta>apuntes/14_introduccion_xml.qmd</ruta>
+        </archivo>
+
+        <archivo numero="15"
+                 nombre="15_consultas_xml_xpath_xquery.qmd">
+            <titulo>Consultas XML mediante XPath y XQuery</titulo>
+            <formato>qmd</formato>
+            <ruta>apuntes/15_consultas_xml_xpath_xquery.qmd</ruta>
+        </archivo>
+
+    </carpeta>
+</repositorio>
+```
+
+Este catálogo contiene únicamente tres registros para facilitar la explicación.
+
+El catálogo completo del curso podrá incluir los demás apuntes, utilizando la misma estructura.
+
+::: {.callout-note}
+**Importante**
+
+Este ejercicio no requiere que los estudiantes descarguen el repositorio original de Quarto.
+
+Únicamente utilizaremos la representación XML de algunos de sus archivos.
+
+Las consultas se ejecutarán directamente en BXFiddle.
+:::
+
+### Consulta 1. Recuperar todos los apuntes
+
+Utilizando XPath:
+
+```xpath
+/repositorio/carpeta/archivo
+```
+
+**Resultado esperado:** tres elementos `archivo`.
+
+### Consulta 2. Recuperar los títulos
+
+```xpath
+/repositorio/carpeta/archivo/titulo
+```
+
+**Resultado esperado:** tres elementos `titulo`.
+
+### Consulta 3. Recuperar los números de apunte
+
+```xpath
+/repositorio/carpeta/archivo/@numero
+```
+
+**Valores esperados:**
+
+```text
+13
+14
+15
+```
+
+### Consulta 4. Recuperar un apunte específico
+
+```xpath
+/repositorio/carpeta/archivo[@numero = '14']
+```
+
+Selecciona el apunte cuyo atributo `numero` es igual a `14`.
+
+### Consulta 5. Contar los apuntes registrados
+
+```xpath
+count(/repositorio/carpeta/archivo)
+```
+
+**Resultado esperado:**
+
+```text
+3
+```
+
+### Consulta 6. Recuperar el título de un apunte
+
+```xpath
+/repositorio/carpeta/archivo[@numero = '15']/titulo
+```
+
+**Resultado esperado:**
+
+```xml
+<titulo>Consultas XML mediante XPath y XQuery</titulo>
+```
+
+### Consulta 7. Recuperar los títulos mediante XQuery
+
+```xquery
+for $apunte in /repositorio/carpeta/archivo
+return $apunte/titulo
+```
+
+Esta consulta recorre los archivos registrados y devuelve sus títulos.
+
+### Consulta 8. Ordenar los apuntes por número
+
+```xquery
+for $apunte in /repositorio/carpeta/archivo
+order by xs:integer($apunte/@numero) descending
+return $apunte/titulo
+```
+
+**Orden esperado:**
+
+1. Consultas XML mediante XPath y XQuery.
+2. Introducción a XML: estructura, elementos y atributos.
+3. Los siete puentes de Königsberg.
+
+### Consulta 9. Construir un catálogo resumido
+
+```xquery
+<catalogo>{
+    for $apunte in /repositorio/carpeta/archivo
+    order by xs:integer($apunte/@numero)
+    return
+        <apunte>
+            <numero>{
+                data($apunte/@numero)
+            }</numero>
+            <titulo>{
+                string($apunte/titulo)
+            }</titulo>
+        </apunte>
+}</catalogo>
+```
+
+Esta consulta genera un nuevo documento XML que contiene únicamente los números y títulos de los apuntes.
+
+La información original no se modifica.
+
+### Consulta 10. Crear un resumen del repositorio
+
+```xquery
+<resumen_repositorio>
+    <nombre>{
+        data(/repositorio/@nombre)
+    }</nombre>
+
+    <total_apuntes>{
+        count(/repositorio/carpeta/archivo)
+    }</total_apuntes>
+</resumen_repositorio>
+```
+
+**Resultado esperado:**
+
+```xml
+<resumen_repositorio>
+    <nombre>Bases de Datos No Relacionales</nombre>
+    <total_apuntes>3</total_apuntes>
+</resumen_repositorio>
+```
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué sucedería si utilizamos el catálogo completo del curso?**
+
+Podríamos ejecutar las mismas consultas, siempre que el documento conserve la estructura utilizada en este ejemplo.
+
+La cantidad de registros y los títulos recuperados cambiarían según el contenido real del catálogo.
+
+:::
+
+## Práctica 4. Consultar facturas XML
+
+En el Apunte 14 generamos veinte documentos XML de facturas ficticias.
+
+También utilizamos Python y pandas para consolidar su información.
+
+Ahora aplicaremos XPath y XQuery para recuperar datos directamente desde un documento XML.
+
+### Preparar la factura
+
+Sustituye temporalmente el XML del repositorio por el siguiente documento:
+
+```xml
+<factura id="F001" fecha="2026-10-10">
+    <emisor nombre="Papelería del Centro"
+            rfc="AAA010101AAA"/>
+    <subtotal>1000.00</subtotal>
+    <iva>160.00</iva>
+    <total>1160.00</total>
+</factura>
+```
+
+Esta factura es ficticia y utiliza una estructura simplificada para fines educativos.
+
+### Consulta 1. Recuperar el identificador
+
+```xpath
+/factura/@id
+```
+
+**Valor esperado:**
+
+```text
+F001
+```
+
+### Consulta 2. Recuperar la fecha
+
+```xpath
+/factura/@fecha
+```
+
+**Valor esperado:**
+
+```text
+2026-10-10
+```
+
+### Consulta 3. Recuperar el RFC del emisor
+
+```xpath
+/factura/emisor/@rfc
+```
+
+**Valor esperado:**
+
+```text
+AAA010101AAA
+```
+
+### Consulta 4. Recuperar el nombre del emisor
+
+```xpath
+/factura/emisor/@nombre
+```
+
+**Valor esperado:**
+
+```text
+Papelería del Centro
+```
+
+### Consulta 5. Recuperar el importe total
+
+```xpath
+/factura/total
+```
+
+**Resultado esperado:**
+
+```xml
+<total>1160.00</total>
+```
+
+Para recuperar solamente el valor numérico podemos utilizar:
+
+```xpath
+xs:decimal(/factura/total)
+```
+
+**Resultado esperado:**
+
+```text
+1160
+```
+
+### Consulta 6. Comprobar el cálculo del total
+
+Podemos utilizar una expresión para comprobar si el subtotal más el IVA corresponde al importe total.
+
+```xpath
+xs:decimal(/factura/subtotal)
++
+xs:decimal(/factura/iva)
+=
+xs:decimal(/factura/total)
+```
+
+**Resultado esperado:**
+
+```text
+true
+```
+
+Esto significa que la comparación es verdadera para los valores de esta factura.
+
+::: {.callout-note}
+**Importante**
+
+Esta consulta únicamente verifica una igualdad aritmética dentro de un documento de ejemplo.
+
+No representa una validación fiscal de un CFDI.
+:::
+
+### Consulta 7. Construir un resumen mediante XQuery
+
+```xquery
+<resumen_factura>
+    <identificador>{
+        data(/factura/@id)
+    }</identificador>
+
+    <fecha>{
+        data(/factura/@fecha)
+    }</fecha>
+
+    <emisor>{
+        data(/factura/emisor/@nombre)
+    }</emisor>
+
+    <importe>{
+        data(/factura/total)
+    }</importe>
+</resumen_factura>
+```
+
+**Resultado esperado:**
+
+```xml
+<resumen_factura>
+    <identificador>F001</identificador>
+    <fecha>2026-10-10</fecha>
+    <emisor>Papelería del Centro</emisor>
+    <importe>1160.00</importe>
+</resumen_factura>
+```
+
+Esta consulta permite generar un documento XML nuevo con los campos seleccionados.
+
+### Consulta 8. Clasificar la factura por importe
+
+Podemos utilizar una expresión condicional en XQuery.
+
+```xquery
+<clasificacion>{
+    if (xs:decimal(/factura/total) > 1000)
+    then "Importe mayor a 1000"
+    else "Importe menor o igual a 1000"
+}</clasificacion>
+```
+
+**Resultado esperado:**
+
+```xml
+<clasificacion>Importe mayor a 1000</clasificacion>
+```
+
+Esta expresión utiliza la estructura `if`, `then` y `else` para construir un resultado a partir de una condición.
+
+::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
+
+**¿Qué diferencia existe entre consultar una factura mediante XPath y consolidar veinte facturas mediante pandas?**
+
+Con XPath podemos seleccionar información directamente desde la estructura de un documento XML.
+
+Con Python y pandas podemos recorrer múltiples archivos, recuperar sus campos y consolidarlos en una tabla.
+
+Con XQuery podemos consultar información XML y construir nuevos resultados estructurados.
+
+Son diferentes formas de trabajar con información, que pueden complementarse según las necesidades de cada aplicación.
+
+:::
+
+## Actividad individual
+
+Utilizando BXFiddle, resuelve las siguientes actividades.
+
+### Parte A. Biblioteca XML
+
+Vuelve a utilizar el documento de la biblioteca con cuatro libros.
+
+1. Recupera los títulos de todos los libros.
+2. Selecciona los títulos de los libros disponibles publicados después de 2023.
+3. Cuenta los libros no disponibles.
+4. Construye un documento XML con los títulos y años, ordenados del más reciente al más antiguo.
+
+### Parte B. Catálogo de apuntes
+
+Utiliza el documento del repositorio de Quarto.
+
+5. Recupera todos los identificadores de los apuntes.
+6. Selecciona el apunte número 14.
+7. Construye un resumen XML con el nombre del repositorio y el total de apuntes.
+
+### Parte C. Factura XML
+
+Utiliza el documento de la factura ficticia.
+
+8. Recupera el RFC y el importe total.
+9. Comprueba si el importe total es igual al subtotal más el IVA.
+10. Construye un documento XML que incluya el identificador, el emisor y el importe total.
+
+::: {.callout-tip collapse="true" title="Ver respuestas"}
+
+**1. Recuperar títulos**
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+**2. Libros disponibles posteriores a 2023**
+
+```xpath
+/biblioteca/libro[
+    anio > 2023 and disponible = 'true'
+]/titulo
+```
+
+**3. Contar libros no disponibles**
+
+```xpath
+count(
+    /biblioteca/libro[disponible = 'false']
+)
+```
+
+**4. Construir documento ordenado**
+
+```xquery
+<resultados>{
+    for $libro in /biblioteca/libro
+    order by xs:integer($libro/anio) descending
+    return
+        <libro>
+            {$libro/titulo}
+            {$libro/anio}
+        </libro>
+}</resultados>
+```
+
+**5. Identificadores de los apuntes**
+
+```xpath
+/repositorio/carpeta/archivo/@numero
+```
+
+**6. Seleccionar el apunte 14**
+
+```xpath
+/repositorio/carpeta/archivo[@numero = '14']
+```
+
+**7. Construir un resumen del repositorio**
+
+```xquery
+<resumen>
+    <nombre>{
+        data(/repositorio/@nombre)
+    }</nombre>
+
+    <total>{
+        count(/repositorio/carpeta/archivo)
+    }</total>
+</resumen>
+```
+
+**8. Recuperar RFC e importe total**
+
+RFC:
+
+```xpath
+/factura/emisor/@rfc
+```
+
+Importe:
+
+```xpath
+/factura/total
+```
+
+**9. Comprobar el importe**
+
+```xpath
+xs:decimal(/factura/subtotal)
++
+xs:decimal(/factura/iva)
+=
+xs:decimal(/factura/total)
+```
+
+**10. Construir un resumen XML**
+
+```xquery
+<resumen_factura>
+    <id>{
+        data(/factura/@id)
+    }</id>
+
+    <emisor>{
+        data(/factura/emisor/@nombre)
+    }</emisor>
+
+    <total>{
+        data(/factura/total)
+    }</total>
+</resumen_factura>
+```
+
+:::
+
+## Errores frecuentes al trabajar con XPath y XQuery
+
+Durante las prácticas pueden presentarse algunos errores relacionados con la sintaxis o con la configuración de BXFiddle.
+
+| Problema | Posible causa | Solución |
+|---|---|---|
+| No aparecen resultados | La ruta no coincide con la estructura XML | Revisar nombres y niveles |
+| Error de contexto | El XML no está configurado como documento de entrada | Colocar el XML en el editor inferior |
+| No se encuentra un elemento | Se escribió una etiqueta diferente | Verificar mayúsculas y minúsculas |
+| La consulta XQuery marca error | Falta una cláusula o delimitador | Revisar `for`, `where`, `return` y llaves |
+| El orden es incorrecto | Se están ordenando valores como texto | Convertirlos a números cuando corresponda |
+| Aparecen etiquetas XML | Se recuperaron elementos completos | Utilizar `string()` o `data()` cuando necesitemos valores |
+
+### Ejemplo de una ruta incorrecta
+
+Si escribimos:
+
+```xpath
+/biblioteca/titulo
+```
+
+No recuperaremos los títulos de nuestros libros, porque `titulo` no es hijo directo de `biblioteca`.
+
+La ruta correcta es:
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Este ejemplo demuestra la importancia de conocer la estructura jerárquica del documento.
+
+### Ejemplo de error en XQuery
+
+**Incorrecto:**
+
+```xquery
+for $libro in /biblioteca/libro
+$libro/titulo
+```
+
+Falta la cláusula `return`.
+
+**Correcto:**
+
+```xquery
+for $libro in /biblioteca/libro
+return $libro/titulo
+```
+
+::: {.callout-note}
+**Recomendación**
+
+Cuando una consulta no funcione, comienza con una expresión sencilla.
+
+Por ejemplo:
+
+```xpath
+/biblioteca
+```
+
+Después agrega los siguientes niveles:
+
+```xpath
+/biblioteca/libro
+```
+
+Y finalmente selecciona la información específica:
+
+```xpath
+/biblioteca/libro/titulo
+```
+
+Esta estrategia permite identificar en qué parte de la ruta aparece el problema.
+
+:::
+
+## Reflexión final
+
+XPath y XQuery permiten recuperar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.
+
+En este apunte aprendimos a:
+
+- Utilizar BXFiddle para ejecutar consultas.
+- Navegar por estructuras XML.
+- Seleccionar elementos y atributos mediante XPath.
+- Recuperar los valores de los elementos.
+- Aplicar filtros y condiciones.
+- Utilizar funciones para contar y analizar información.
+- Construir consultas mediante XQuery.
+- Comprender las cláusulas FLWOR.
+- Ordenar y transformar resultados.
+- Construir nuevos documentos XML.
+- Consultar el catálogo XML de los apuntes del curso.
+- Recuperar información de facturas ficticias.
+
+Las prácticas permitieron comprender que XML no solamente facilita la representación de información, sino también su consulta y transformación.
+
+Además, XPath y XQuery complementan lo aprendido sobre procesamiento de archivos XML con Python.
+
+En el siguiente apunte retomaremos JSON y MongoDB para aprender a acceder a una base de datos documental desde Python.
+
+

@@ -1,0 +1,57 @@
+## Actividad práctica: consultas en bases de datos orientadas a grafos
+
+**Tipo de actividad:** individual.
+
+**Objetivo:** aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.
+
+### Instrucciones
+
+Utilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.
+
+En cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.
+
+No es necesario crear nuevos nodos ni relaciones.
+
+### Parte 1. Grafo de la NBA
+
+Utiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.
+
+1. **Nacionalidad de los jugadores.** Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.
+
+2. **Posiciones por equipo.** Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.
+
+3. **Salario promedio por equipo.** Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.
+
+4. **Draft y equipo actual.** Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.
+
+5. **Diferencia salarial.** Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.
+
+### Parte 2. Grafo de ciberseguridad
+
+Utiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.
+
+1. **Conexiones de los switches.** Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.
+
+2. **Accesos de los usuarios.** Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.
+
+3. **Sistemas compartidos.** Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.
+
+4. **Respaldo de servidores.** Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.
+
+5. **Recorrido de conexiones.** Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.
+
+### Producto esperado
+
+Entrega un documento PDF que incluya las diez consultas realizadas.
+
+Para cada ejercicio presenta:
+
+1. Número de la consulta.
+2. Código utilizado en Cypher.
+3. Captura de pantalla del resultado obtenido en Neo4j.
+4. Breve interpretación del resultado.
+
+### Consideraciones
+
+- Trabaja con los grafos construidos durante las clases.
+- No elimines ni modifiques nodos o relaciones existentes.

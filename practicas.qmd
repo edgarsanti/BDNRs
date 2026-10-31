@@ -31,7 +31,7 @@ Análisis de la estructura de la base `sample_mflix` mediante **MongoDB Compass*
 
 ---
 
-## Práctica 3. Manejo de datos clave–valor con Redis
+## OFF. Manejo de datos clave–valor con Redis
 
 Aplicación de los principales comandos y estructuras de Redis mediante el escenario de una tienda en línea. Se trabajará con productos, stock, sesiones, contadores, colas, usuarios únicos y rankings.
 
@@ -45,7 +45,7 @@ Aplicación de los principales comandos y estructuras de Redis mediante el escen
 
 ---
 
-## Práctica 4. Gestión de una plataforma de streaming con Redis
+## Práctica 3. Gestión de una plataforma de streaming con Redis
 
 Simulación de una plataforma de streaming utilizando Redis para administrar películas, sesiones, progreso de reproducción, contadores, favoritos y rankings.
 
@@ -55,7 +55,7 @@ Simulación de una plataforma de streaming utilizando Redis para administrar pel
 </a>
 
 
-## Práctica 5. Consultas en Apache Cassandra
+## Práctica 4. Consultas en Apache Cassandra
 
 Aplicación de consultas sobre la base de monitoreo ambiental con más de un millón de registros, utilizando claves de partición, columnas de agrupamiento, consultas por intervalos y `ALLOW FILTERING`.
 
@@ -64,3 +64,15 @@ Aplicación de consultas sobre la base de monitoreo ambiental con más de un mil
    Abrir práctica
 </a>
 
+
+
+---
+
+## Práctica 5. Consultas en bases de datos orientadas a grafos con Neo4j
+
+Actividad individual para aplicar el lenguaje Cypher mediante diez consultas sobre los grafos de la NBA y de ciberseguridad.
+
+<a class="btn btn-primary"
+   href="practicas/05_actividad_grafos_neo4j.html">
+   Abrir práctica
+</a>

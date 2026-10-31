@@ -160,3 +160,27 @@ Introducción a la teoría de grafos mediante el problema de los siete puentes d
    Abrir apunte
 </a>
 
+
+---
+
+## Apunte 14. Introducción a XML: estructura, elementos y atributos
+
+Introducción al lenguaje XML para representar información semiestructurada. Se estudian los elementos, atributos, estructuras jerárquicas y reglas de documentos bien formados, así como sus aplicaciones reales. Incluye una práctica de procesamiento y consolidación de archivos XML mediante Python y Google Colab.
+
+<a class="btn btn-primary"
+   href="apuntes/14_introduccion_xml.html">
+   Abrir apunte
+</a>
+
+---
+
+## Apunte 15. Consultas XML mediante XPath y XQuery
+
+Introducción a los lenguajes XPath y XQuery para consultar y recuperar información de documentos XML. Incluye selección de elementos y atributos, aplicación de filtros, funciones, ordenamiento y construcción de resultados mediante consultas prácticas en BXFiddle.
+
+<a class="btn btn-primary"
+   href="apuntes/15_consultas_xml_xpath_xquery.html">
+   Abrir apunte
+</a>
+
+

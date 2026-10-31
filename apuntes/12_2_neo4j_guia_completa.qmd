@@ -1,6 +1,6 @@
 ---
-title: "Neo4j: primeros comandos y consultas con Cypher"
-subtitle: "Práctica de creación, consultas y recorridos de grafos"
+title: "Práctica 5. Solucionario docente"
+subtitle: "Consultas sobre grafos de la NBA y ciberseguridad en Neo4j"
 toc: true
 number-sections: true
 lang: es
@@ -10,2387 +10,453 @@ format:
     code-overflow: wrap
 ---
 
-## ¿Qué es Cypher?
+## Introducción
 
-**Cypher** es el lenguaje utilizado para crear y consultar información en Neo4j. Permite escribir patrones que representan nodos, relaciones y propiedades.
+Este documento contiene las soluciones de la actividad práctica sobre bases de datos orientadas a grafos.
 
-En esta práctica aprenderemos a crear una pequeña red social, consultar sus conexiones y recorrer caminos entre personas.
+Se utilizan los dos modelos construidos durante las clases:
 
-Utilizaremos variables descriptivas como `origen`, `destino`, `intermedio` y `relacion`, para identificar claramente cada elemento.
+- Grafo de la NBA: jugadores, equipos, contratos y Draft.
+- Grafo de ciberseguridad: dispositivos, usuarios, sistemas y conexiones tecnológicas.
 
-### ¿Cómo se representan los nodos y las relaciones?
+El objetivo es contar con una guía de referencia para revisar las consultas realizadas por los estudiantes y comprender los resultados obtenidos.
 
-Observemos el siguiente patrón:
+> **Nota para el docente:** los resultados esperados corresponden a los datos simulados del apunte 12. Si se modificaron los nodos, las relaciones o sus propiedades, los resultados pueden variar.
 
-> `(origen:Persona)-[:CONOCE]->(destino:Persona)`
+## Parte 1. Soluciones del grafo de la NBA
 
-Este patrón representa dos nodos conectados mediante una relación dirigida.
+### Consulta 1. Nacionalidad de los jugadores
 
-- `(origen:Persona)`: nodo donde comienza la relación.
-- `[:CONOCE]`: tipo de relación entre los nodos.
-- `->`: dirección de la relación.
-- `(destino:Persona)`: nodo donde termina la relación.
-
-También podemos representar un nodo con propiedades:
-
-> `(persona:Persona {nombre: 'Ana'})`
-
-En este ejemplo:
-
-- `persona` es una variable temporal.
-- `Persona` es la etiqueta del nodo.
-- `nombre` es una propiedad.
-- `'Ana'` es el valor almacenado.
-
-### Elementos básicos de Cypher
-
-| Elemento | Función |
-|---|---|
-| `()` | Representar nodos |
-| `[]` | Representar relaciones |
-| `->` | Indicar dirección |
-| `:Persona` | Etiqueta del nodo |
-| `:CONOCE` | Tipo de relación |
-| `{nombre: 'Ana'}` | Propiedad y valor |
-| `MATCH` | Buscar patrones existentes |
-| `CREATE` | Crear nodos o relaciones |
-| `WHERE` | Filtrar resultados |
-| `RETURN` | Mostrar información |
-| `DELETE` | Eliminar elementos seleccionados |
-| `DETACH DELETE` | Eliminar nodos y sus relaciones |
-
-::: {.callout-important}
-## Variables, etiquetas y propiedades
-
-En el patrón `(origen:Persona)`, `origen` es una variable temporal y `Persona` es una etiqueta.
-
-Podemos utilizar variables como `origen`, `usuario` o `persona1` sin modificar la información almacenada.
-
-**Las variables no son los nombres permanentes de los nodos.**
-:::
-
-### Consultas en Neo4j
-
-En las siguientes secciones, las consultas Cypher aparecerán en recuadros de código con un botón para copiarlas y ejecutarlas en Neo4j Query.
-
-Aunque utilizamos el resaltado visual de SQL para mostrar correctamente ese botón en Quarto, **el lenguaje de las consultas es Cypher**.
-
-Los ejemplos de nodos, relaciones y caminos se presentarán como texto explicativo.
-
----
-
-## Preparar una base limpia antes de la práctica
-
-Antes de comenzar, comprobaremos si existen nodos y relaciones de ejercicios anteriores.
-
-Esto es importante porque ejecutar varias veces `CREATE` puede generar elementos duplicados.
-
-### Consultar el número de nodos
-
-Ejecutamos:
+**Enunciado:** identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.
 
 ```sql
-MATCH (n)
-RETURN COUNT(n) AS TotalNodos;
+MATCH (jugador:SimNBA:Jugador)
+
+RETURN jugador.nacionalidad AS Nacionalidad,
+       COUNT(jugador) AS TotalJugadores
+
+ORDER BY TotalJugadores DESC;
 ```
 
-**Explicación línea por línea**
+**Explicación:**
 
-- **Línea 1:** `MATCH (n)` busca todos los nodos existentes.
-- **Línea 2:** `COUNT(n)` cuenta los nodos y `AS TotalNodos` establece el nombre de la columna.
+`MATCH` recupera los nodos de tipo `Jugador` pertenecientes al escenario `SimNBA`.
 
-**Resultado esperado:** se mostrará la cantidad de nodos almacenados.
+`COUNT()` cuenta los jugadores por nacionalidad.
 
-### Consultar el número de relaciones
-
-Ejecutamos:
-
-```sql
-MATCH ()-[relacion]->()
-RETURN COUNT(relacion) AS TotalRelaciones;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca relaciones de cualquier tipo entre nodos.
-- **Línea 2:** cuenta las relaciones encontradas.
-
-**Resultado esperado:** se mostrará el número de relaciones almacenadas.
-
-### Eliminar los datos anteriores
-
-::: {.callout-warning}
-## Advertencia
-
-La siguiente consulta elimina permanentemente **todos los nodos y relaciones de la base de datos seleccionada**.
-
-Únicamente debe utilizarse en una base destinada a esta práctica, cuando estemos seguros de que no contiene información que necesitamos conservar.
-
-No elimina la instancia ni los índices y restricciones existentes.
-:::
-
-Ejecutamos:
-
-```sql
-MATCH (n)
-DETACH DELETE n;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** identifica todos los nodos.
-- **Línea 2:** elimina esos nodos y sus relaciones conectadas.
-
-**Resultado esperado:** se eliminan los nodos y las relaciones de la base seleccionada.
-
-### Comprobar que la base quedó vacía
-
-Consultamos los nodos:
-
-```sql
-MATCH (n)
-RETURN COUNT(n) AS TotalNodos;
-```
-
-**Resultado esperado:** 0 nodos.
-
-Consultamos las relaciones:
-
-```sql
-MATCH ()-[relacion]->()
-RETURN COUNT(relacion) AS TotalRelaciones;
-```
-
-**Resultado esperado:** 0 relaciones.
-
----
-
-## Crear nuestro primer nodo: Ana
-
-Comenzaremos creando una persona llamada Ana.
-
-Ejecutamos:
-
-```sql
-CREATE (persona:Persona {nombre: 'Ana'})
-RETURN persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** crea un nodo con etiqueta `Persona` y propiedad `nombre = 'Ana'`. La variable `persona` representa temporalmente el nodo.
-- **Línea 2:** devuelve el nodo creado.
-
-**Resultado esperado:** un nodo llamado Ana y ninguna relación.
-
----
-
-## Crear un segundo nodo: Carlos
-
-Ahora crearemos una segunda persona.
-
-Ejecutamos:
-
-```sql
-CREATE (persona:Persona {nombre: 'Carlos'})
-RETURN persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** crea un nodo llamado Carlos.
-- **Línea 2:** devuelve el nodo.
-
-**Resultado esperado:** dos nodos y ninguna relación.
-
-::: {.callout-note}
-## ¿Por qué reutilizamos la variable persona?
-
-La variable `persona` solamente existe durante la ejecución de su consulta.
-
-Por eso podemos utilizar ese mismo nombre en diferentes consultas sin modificar los nodos creados anteriormente.
-:::
-
----
-
-## Crear nuestra primera relación
-
-Indicaremos que Ana conoce a Carlos.
-
-La conexión que queremos representar es:
-
-> Ana → Carlos
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-MATCH (destino:Persona {nombre: 'Carlos'})
-CREATE (origen)-[:CONOCE]->(destino)
-RETURN origen, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca a Ana y la representa mediante `origen`.
-- **Línea 2:** busca a Carlos y lo representa mediante `destino`.
-- **Línea 3:** crea una relación dirigida `CONOCE` desde Ana hacia Carlos.
-- **Línea 4:** devuelve ambos nodos.
-
-**Resultado esperado:** dos nodos y una relación Ana → Carlos.
-
-### Consultar la relación creada
-
-Ahora recuperaremos la relación almacenada.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca relaciones de tipo `CONOCE` entre personas.
-- **Línea 2:** devuelve los nodos y la relación para mostrarlos en Graph.
-
-**Resultado esperado:** visualizar la relación Ana → Carlos.
-
----
-
-## Agregar tres personas
-
-Ahora agregaremos María, Luis y Sofía.
-
-Ejecutamos:
-
-```sql
-CREATE (maria:Persona {nombre: 'María'})
-CREATE (luis:Persona {nombre: 'Luis'})
-CREATE (sofia:Persona {nombre: 'Sofía'})
-RETURN maria, luis, sofia;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** crea el nodo de María.
-- **Línea 2:** crea el nodo de Luis.
-- **Línea 3:** crea el nodo de Sofía.
-- **Línea 4:** devuelve los tres nodos.
-
-**Resultado esperado:** cinco nodos y una relación.
-
----
-
-## Completar nuestra red social
-
-Crearemos las conexiones restantes para construir una red de cinco personas.
-
-Las relaciones que queremos representar son:
-
-| Origen | Relación | Destino |
-|---|---|---|
-| Ana | CONOCE | Carlos |
-| Ana | CONOCE | María |
-| Carlos | CONOCE | Luis |
-| María | CONOCE | Luis |
-| Sofía | CONOCE | María |
-
-La relación Ana → Carlos ya existe, por lo que solamente crearemos las otras cuatro.
-
-Ejecutamos una sola vez:
-
-```sql
-MATCH (ana:Persona {nombre: 'Ana'})
-MATCH (carlos:Persona {nombre: 'Carlos'})
-MATCH (maria:Persona {nombre: 'María'})
-MATCH (luis:Persona {nombre: 'Luis'})
-MATCH (sofia:Persona {nombre: 'Sofía'})
-CREATE (ana)-[:CONOCE]->(maria)
-CREATE (carlos)-[:CONOCE]->(luis)
-CREATE (maria)-[:CONOCE]->(luis)
-CREATE (sofia)-[:CONOCE]->(maria)
-RETURN ana, carlos, maria, luis, sofia;
-```
-
-**Explicación línea por línea**
-
-- **Líneas 1 a 5:** buscan los cinco nodos existentes.
-- **Línea 6:** conecta Ana → María.
-- **Línea 7:** conecta Carlos → Luis.
-- **Línea 8:** conecta María → Luis.
-- **Línea 9:** conecta Sofía → María.
-- **Línea 10:** devuelve los cinco nodos.
-
-**Resultado esperado:** cinco nodos y cinco relaciones.
-
-::: {.callout-warning}
-## Evitar duplicaciones
-
-No debemos ejecutar repetidamente los comandos `CREATE` si ya generamos los elementos correspondientes.
-
-De hacerlo, podemos crear nodos o relaciones duplicados y obtener resultados diferentes a los esperados.
-:::
-
-### Visualizar el grafo completo
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca todas las conexiones `CONOCE`.
-- **Línea 2:** devuelve los nodos y relaciones.
-
-**Resultado esperado:** la red completa de cinco personas y cinco relaciones.
-
-
-
-<!-- INICIO DE LA PARTE 2: ELIMINACIÓN DE NODOS Y RELACIONES -->
-
----
-
-## Eliminar nodos y relaciones específicas
-
-Hasta ahora hemos aprendido a crear nodos y relaciones en Neo4j.
-
-Sin embargo, también podemos eliminar elementos específicos sin borrar toda la base de datos.
-
-Existen dos operaciones importantes:
-
-- **Eliminar una relación:** desaparece la conexión, pero los nodos permanecen.
-- **Eliminar un nodo:** desaparece el nodo seleccionado. Si tiene relaciones, podemos utilizar `DETACH DELETE` para eliminarlas también.
-
-### Eliminar una relación específica
-
-Supongamos que queremos eliminar únicamente la relación entre Ana y Carlos.
-
-> Ana → Carlos
-
-Primero verificamos que la relación exista.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-      -[relacion:CONOCE]->
-      (destino:Persona {nombre: 'Carlos'})
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca el nodo llamado Ana.
-- **Línea 2:** busca una relación dirigida de tipo `CONOCE` y la representa mediante `relacion`.
-- **Línea 3:** establece que el destino debe ser Carlos.
-- **Línea 4:** devuelve los elementos encontrados.
-
-**Resultado esperado:** la relación Ana → Carlos.
-
-### Eliminar la relación
-
-Ahora eliminaremos esa conexión.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-      -[relacion:CONOCE]->
-      (destino:Persona {nombre: 'Carlos'})
-DELETE relacion;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** localiza a Ana como origen.
-- **Línea 2:** busca la relación dirigida `CONOCE`.
-- **Línea 3:** exige que Carlos sea el destino.
-- **Línea 4:** `DELETE relacion` elimina la relación encontrada.
-
-**Resultado esperado:** desaparece la conexión Ana → Carlos, pero ambos nodos permanecen almacenados.
-
-::: {.callout-note}
-## ¿Qué ocurre con los nodos?
-
-Al utilizar `DELETE relacion`, solamente eliminamos las conexiones seleccionadas.
-
-Los nodos de origen y destino siguen existiendo.
-
-Si hubiera varias relaciones que cumplieran el patrón, se eliminarían todas esas coincidencias.
-:::
-
-### Comprobar la eliminación de la relación
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-      -[relacion:CONOCE]->
-      (destino:Persona {nombre: 'Carlos'})
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Líneas 1 a 3:** buscan nuevamente la relación Ana → Carlos.
-- **Línea 4:** devuelve las coincidencias, si existen.
-
-**Resultado esperado:** ninguna relación encontrada.
-
-### Crear nuevamente la relación eliminada
-
-Para continuar con nuestra práctica, recuperaremos la conexión entre Ana y Carlos.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-MATCH (destino:Persona {nombre: 'Carlos'})
-CREATE (origen)-[:CONOCE]->(destino)
-RETURN origen, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca a Ana.
-- **Línea 2:** busca a Carlos.
-- **Línea 3:** crea nuevamente la relación Ana → Carlos.
-- **Línea 4:** devuelve los nodos involucrados.
-
-**Resultado esperado:** volvemos a tener cinco nodos y cinco relaciones.
-
----
-
-## Eliminar un nodo específico
-
-Ahora supongamos que queremos eliminar a Sofía.
-
-Actualmente existe la conexión:
-
-> Sofía → María
-
-Primero consultaremos el nodo de Sofía.
-
-Ejecutamos:
-
-```sql
-MATCH (persona:Persona {nombre: 'Sofía'})
-RETURN persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca un nodo con etiqueta `Persona` y nombre Sofía.
-- **Línea 2:** devuelve el nodo encontrado.
-
-**Resultado esperado:** un nodo llamado Sofía.
-
-### Eliminar el nodo y sus relaciones
-
-Ejecutamos:
-
-```sql
-MATCH (persona:Persona {nombre: 'Sofía'})
-DETACH DELETE persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca el nodo de Sofía.
-- **Línea 2:** elimina ese nodo y todas sus relaciones conectadas.
-
-**Resultado esperado:** Sofía desaparece del grafo junto con su relación hacia María.
-
-Nuestra red tendrá ahora:
-
-- Cuatro nodos.
-- Cuatro relaciones.
-
-::: {.callout-warning}
-## Diferencia entre DELETE y DETACH DELETE
-
-`DELETE persona` permite eliminar un nodo solamente si no tiene relaciones conectadas.
-
-Si el nodo tiene relaciones, debemos eliminarlas primero o utilizar `DETACH DELETE persona`.
-
-`DETACH DELETE` elimina el nodo junto con sus relaciones.
-
-Si hubiera varios nodos con el nombre Sofía, esta consulta eliminaría todos los que cumplieran la condición.
-:::
-
-### Comprobar que Sofía se eliminó
-
-Ejecutamos:
-
-```sql
-MATCH (persona:Persona {nombre: 'Sofía'})
-RETURN persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca nuevamente a Sofía.
-- **Línea 2:** devuelve el nodo si todavía existe.
-
-**Resultado esperado:** ninguna coincidencia.
-
-### Crear nuevamente el nodo de Sofía
-
-Para recuperar nuestra red original, primero crearemos nuevamente el nodo.
-
-Ejecutamos:
-
-```sql
-CREATE (persona:Persona {nombre: 'Sofía'})
-RETURN persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** crea nuevamente el nodo Sofía.
-- **Línea 2:** devuelve el nodo creado.
-
-**Resultado esperado:** cinco nodos y cuatro relaciones.
-
-### Recuperar la relación Sofía → María
-
-Ahora crearemos la conexión que tenía Sofía antes de eliminarla.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Sofía'})
-MATCH (destino:Persona {nombre: 'María'})
-CREATE (origen)-[:CONOCE]->(destino)
-RETURN origen, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca a Sofía.
-- **Línea 2:** busca a María.
-- **Línea 3:** crea la relación dirigida desde Sofía hacia María.
-- **Línea 4:** devuelve los nodos involucrados.
-
-**Resultado esperado:** nuevamente tendremos cinco nodos y cinco relaciones.
-
----
-
-## Verificar que recuperamos toda la red
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca todas las relaciones de tipo `CONOCE` entre personas.
-- **Línea 2:** devuelve los nodos y sus conexiones.
-
-**Resultado esperado:** las cinco relaciones originales.
-
-| Origen | Destino |
-|---|---|
-| Ana | Carlos |
-| Ana | María |
-| Carlos | Luis |
-| María | Luis |
-| Sofía | María |
-
-### Resumen de los comandos de eliminación
-
-| Comando | Función |
-|---|---|
-| `DELETE relacion` | Elimina una relación seleccionada. |
-| `DELETE persona` | Elimina un nodo sin relaciones conectadas. |
-| `DETACH DELETE persona` | Elimina el nodo y sus relaciones. |
-| `MATCH (n) DETACH DELETE n` | Elimina todos los nodos y relaciones de la base seleccionada. |
-
-::: {.callout-tip}
-## Para recordar
-
-Antes de eliminar elementos, podemos ejecutar una consulta con `MATCH` y `RETURN` para comprobar qué nodos o relaciones serán afectados.
-
-Después de utilizar `DELETE` o `DETACH DELETE`, podemos repetir la consulta para verificar que la eliminación se realizó correctamente.
-
-Los ejemplos de esta sección recuperan la red original para que podamos continuar con las consultas siguientes.
-:::
-
-
-<!-- INICIO DE LA PARTE 3: CONSULTAS Y RECORRIDOS DEL GRAFO -->
-
----
-
-## ¿A quién conoce Ana?
-
-Ahora que tenemos la red completa, comenzaremos a consultar las relaciones directas.
-
-Queremos responder:
-
-> ¿Qué personas conoce Ana?
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
-WHERE origen.nombre = 'Ana'
-RETURN destino.nombre AS Persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca relaciones dirigidas `CONOCE` entre dos personas.
-- **Línea 2:** establece que el nodo de origen debe tener el nombre Ana.
-- **Línea 3:** devuelve el nombre de cada destino.
+`ORDER BY` organiza los resultados de mayor a menor.
 
 **Resultado esperado:**
 
-| Persona |
-|---|
-| Carlos |
-| María |
-
-El orden de las filas no está garantizado si no utilizamos `ORDER BY`.
-
-### ¿Qué representan las variables?
-
-En esta consulta, `origen` y `destino` son variables temporales.
-
-Neo4j encuentra dos coincidencias:
-
-| Origen | Destino |
-|---|---|
-| Ana | Carlos |
-| Ana | María |
-
-La variable `destino` representa a Carlos en la primera coincidencia y a María en la segunda.
-
-Las variables nos ayudan a identificar los nodos durante la ejecución de cada consulta.
-
-### Visualizar las conexiones directas de Ana
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
-WHERE origen.nombre = 'Ana'
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca las relaciones `CONOCE` y las asigna temporalmente a `relacion`.
-- **Línea 2:** selecciona las relaciones que salen de Ana.
-- **Línea 3:** devuelve los nodos y sus conexiones.
-
-**Resultado esperado:** visualizar Ana → Carlos y Ana → María.
-
----
-
-## ¿Quiénes conocen a Luis?
-
-Ahora queremos encontrar las relaciones que llegan a Luis.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
-WHERE destino.nombre = 'Luis'
-RETURN origen.nombre AS Persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca relaciones dirigidas entre personas.
-- **Línea 2:** establece que el destino debe ser Luis.
-- **Línea 3:** devuelve el nombre de cada origen.
-
-**Resultado esperado:**
-
-| Persona |
-|---|
-| Carlos |
-| María |
-
-### Visualizar las relaciones entrantes a Luis
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[relacion:CONOCE]->(destino:Persona)
-WHERE destino.nombre = 'Luis'
-RETURN origen, relacion, destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca conexiones `CONOCE`.
-- **Línea 2:** selecciona las conexiones que llegan a Luis.
-- **Línea 3:** devuelve los elementos completos.
-
-**Resultado esperado:** visualizar Carlos → Luis y María → Luis.
-
----
-
-## Buscar relaciones sin exigir dirección
-
-Las relaciones almacenadas en Neo4j tienen dirección.
-
-Sin embargo, podemos buscar conexiones sin importar el sentido de la flecha.
-
-Ejecutamos:
-
-```sql
-MATCH (maria:Persona {nombre: 'María'})-[:CONOCE]-(persona:Persona)
-RETURN DISTINCT persona.nombre AS Persona;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca personas conectadas con María mediante `CONOCE`, sin exigir una dirección.
-- **Línea 2:** devuelve los nombres encontrados sin repeticiones.
-
-**Resultado esperado:**
-
-| Persona |
-|---|
-| Ana |
-| Luis |
-| Sofía |
-
-::: {.callout-note}
-## Dirección de las relaciones
-
-Una consulta sin flecha no modifica la dirección de las relaciones almacenadas.
-
-Solamente permite encontrar coincidencias en cualquiera de los dos sentidos.
-:::
-
----
-
-## Relaciones directas e indirectas
-
-Una relación **directa** conecta dos nodos mediante una sola relación.
-
-Por ejemplo:
-
-> Ana → Carlos
-
-Una conexión **indirecta** utiliza dos o más relaciones.
-
-Por ejemplo:
-
-> Ana → Carlos → Luis
->
-> Ana → María → Luis
-
-Por lo tanto, Ana está conectada indirectamente con Luis mediante dos personas diferentes.
-
-::: {.callout-note}
-## ¿Neo4j encuentra automáticamente las conexiones?
-
-Neo4j puede recorrer las relaciones almacenadas para encontrar caminos entre los nodos.
-
-Nosotros debemos indicar el patrón que queremos buscar mediante Cypher.
-
-Neo4j no crea automáticamente una relación nueva entre Ana y Luis.
-:::
-
----
-
-## Buscar todas las conexiones a dos pasos desde Ana
-
-Queremos responder:
-
-> ¿A qué personas puede llegar Ana después de recorrer dos relaciones CONOCE?
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
-WHERE origen.nombre = 'Ana'
-RETURN origen.nombre AS Origen,
-       intermedio.nombre AS Intermediario,
-       destino.nombre AS Destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca un patrón formado por tres personas y dos relaciones consecutivas.
-- **Línea 2:** establece que el origen debe ser Ana.
-- **Línea 3:** devuelve el nombre del origen.
-- **Línea 4:** devuelve el nombre del intermediario.
-- **Línea 5:** devuelve el nombre del destino.
-
-### ¿Qué representa cada variable?
-
-- `origen`: persona donde comienza el recorrido.
-- `intermedio`: persona que conecta el origen con el destino.
-- `destino`: persona donde termina el recorrido.
-
-**Resultado esperado:**
-
-| Origen | Intermediario | Destino |
-|---|---|---|
-| Ana | Carlos | Luis |
-| Ana | María | Luis |
-
-### ¿Por qué Luis aparece dos veces?
-
-Porque Neo4j encontró dos caminos diferentes:
-
-> Ana → Carlos → Luis
->
-> Ana → María → Luis
-
-Esto no significa que existan dos nodos llamados Luis.
-
-Significa que podemos llegar al mismo nodo mediante dos caminos diferentes.
-
----
-
-## Obtener solamente los destinos indirectos
-
-Si únicamente queremos obtener los nombres de los destinos, podemos utilizar `DISTINCT`.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[:CONOCE]->(:Persona)-[:CONOCE]->(destino:Persona)
-WHERE origen.nombre = 'Ana'
-RETURN DISTINCT destino.nombre AS ConexionIndirecta;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca caminos de exactamente dos relaciones. `(:Persona)` representa una persona intermedia sin asignarle una variable.
-- **Línea 2:** selecciona los caminos que comienzan en Ana.
-- **Línea 3:** devuelve los nombres de destino sin repeticiones.
-
-**Resultado esperado:**
-
-| ConexionIndirecta |
-|---|
-| Luis |
-
-### ¿Qué hace DISTINCT?
-
-`DISTINCT` elimina valores repetidos de los resultados.
-
-Aunque existen dos caminos hacia Luis, su nombre solamente aparecerá una vez.
-
-::: {.callout-tip}
-## Dos pasos no siempre significa una recomendación
-
-Una consulta de dos pasos identifica destinos alcanzables mediante dos relaciones.
-
-En una red más grande, algunos destinos podrían ser personas que Ana ya conoce.
-
-Para recomendar contactos nuevos necesitaremos agregar otras condiciones.
-:::
-
----
-
-## Visualizar las conexiones indirectas
-
-Podemos recuperar los caminos completos.
-
-Ejecutamos:
-
-```sql
-MATCH camino = (origen:Persona)-[:CONOCE]->(intermedio:Persona)-[:CONOCE]->(destino:Persona)
-WHERE origen.nombre = 'Ana'
-RETURN camino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca caminos de dos relaciones y asigna cada camino encontrado a la variable `camino`.
-- **Línea 2:** establece que los caminos comiencen en Ana.
-- **Línea 3:** devuelve los caminos completos.
-
-**Resultado esperado:** visualizar los caminos Ana → Carlos → Luis y Ana → María → Luis.
-
----
-
-## Buscar conexiones entre Ana y Luis
-
-Ahora queremos encontrar específicamente los caminos indirectos entre Ana y Luis.
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
-RETURN origen.nombre AS Origen,
-       intermedio.nombre AS Intermediario,
-       destino.nombre AS Destino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** establece que el origen debe ser Ana.
-- **Línea 2:** busca una relación hacia una persona intermedia.
-- **Línea 3:** busca una segunda relación que llegue a Luis.
-- **Línea 4:** devuelve el origen.
-- **Línea 5:** devuelve el intermediario.
-- **Línea 6:** devuelve el destino.
-
-**Resultado esperado:**
-
-| Origen | Intermediario | Destino |
-|---|---|---|
-| Ana | Carlos | Luis |
-| Ana | María | Luis |
-
----
-
-## Recuperar los caminos completos entre Ana y Luis
-
-Ejecutamos:
-
-```sql
-MATCH camino =
-      (origen:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
-RETURN camino;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** asigna a `camino` cada recorrido encontrado.
-- **Línea 2:** establece el origen.
-- **Línea 3:** busca el intermediario.
-- **Línea 4:** establece el destino.
-- **Línea 5:** devuelve el camino completo.
-
-**Resultado esperado:** dos caminos en la vista Graph.
-
----
-
-## Calcular la longitud de los caminos
-
-La longitud de un camino corresponde al número de relaciones que contiene.
-
-Ejecutamos:
-
-```sql
-MATCH camino =
-      (origen:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(destino:Persona {nombre: 'Luis'})
-RETURN camino,
-       length(camino) AS Longitud;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** identifica cada camino completo.
-- **Línea 2:** establece el origen.
-- **Línea 3:** busca el intermediario.
-- **Línea 4:** establece el destino.
-- **Línea 5:** devuelve cada camino.
-- **Línea 6:** calcula la longitud mediante `length()`.
-
-**Resultado esperado:** dos caminos con longitud 2.
-
-::: {.callout-tip}
-## Para recordar
-
-La longitud de un camino cuenta las relaciones, no los nodos.
-
-Por ejemplo, en el camino:
-
-**Ana → Carlos → Luis**
-
-tenemos tres nodos y dos relaciones.
-
-Por lo tanto, su longitud es 2.
-:::
-
----
-
-## Introducción a los sistemas de recomendaciones
-
-Imaginemos que queremos recomendar nuevas personas a un usuario de nuestra red social.
-
-Podemos establecer la siguiente regla:
-
-> Recomendar personas que conocen nuestros contactos, pero que nosotros todavía no conocemos directamente.
-
-En nuestro ejemplo:
-
-> Ana → Carlos → Luis
->
-> Ana → María → Luis
-
-Ana conoce directamente a Carlos y María.
-
-Ambos conocen a Luis.
-
-Por lo tanto, Luis podría ser una recomendación para Ana.
-
----
-
-## Obtener recomendaciones mediante contactos en común
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(destino:Persona)
-WHERE destino <> origen
-  AND NOT EXISTS {
-      MATCH (origen)-[:CONOCE]->(destino)
-  }
-RETURN destino.nombre AS Recomendacion,
-       COUNT(DISTINCT intermedio) AS ContactosEnComun;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** establece a Ana como origen.
-- **Línea 2:** busca los contactos directos de Ana.
-- **Línea 3:** busca personas conocidas por esos contactos.
-- **Línea 4:** evita recomendar a Ana consigo misma. El operador `<>` significa diferente de.
-- **Línea 5:** agrega una condición mediante `NOT EXISTS`.
-- **Línea 6:** comprueba que no exista una relación directa desde Ana hacia la persona recomendada.
-- **Línea 7:** cierra el bloque de la condición.
-- **Línea 8:** devuelve el nombre de la persona recomendada.
-- **Línea 9:** cuenta los contactos intermediarios diferentes mediante `COUNT(DISTINCT intermedio)`.
-
-**Resultado esperado:**
-
-| Recomendacion | ContactosEnComun |
+| Nacionalidad | TotalJugadores |
 |---|---:|
-| Luis | 2 |
+| Estados Unidos | 5 |
+| Francia | 1 |
 
-### ¿Por qué se recomienda a Luis?
+**Interpretación:** cinco de los seis jugadores registrados son estadounidenses y uno es francés.
 
-Porque existen dos contactos que permiten llegar hasta él: Carlos y María.
+### Consulta 2. Posiciones por equipo
 
-La consulta no crea una relación entre Ana y Luis. Solamente identifica una recomendación candidata.
-
----
-
-## Visualizar los caminos de recomendación
-
-Ejecutamos:
+**Enunciado:** muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.
 
 ```sql
-MATCH camino =
-      (origen:Persona {nombre: 'Ana'})
-      -[:CONOCE]->(intermedio:Persona)
-      -[:CONOCE]->(destino:Persona)
-WHERE destino <> origen
-  AND NOT EXISTS {
-      MATCH (origen)-[:CONOCE]->(destino)
-  }
-RETURN camino;
+MATCH (jugador:SimNBA:Jugador)
+      -[:TIENE_CONTRATO]->
+      (contrato:SimNBA:Contrato)
+
+MATCH (contrato)-[:CON_EQUIPO]->
+      (equipo:SimNBA:Equipo)
+
+RETURN equipo.nombre AS Equipo,
+       jugador.posicion AS Posicion,
+       COUNT(jugador) AS TotalJugadores
+
+ORDER BY Equipo, Posicion;
 ```
 
-**Explicación línea por línea**
+**Explicación:**
 
-- **Línea 1:** asigna una variable a cada camino.
-- **Línea 2:** establece a Ana como origen.
-- **Línea 3:** busca los contactos directos.
-- **Línea 4:** busca los contactos de esos intermediarios.
-- **Línea 5:** evita recomendar a Ana.
-- **Líneas 6 a 8:** descartan personas que Ana ya conoce directamente.
-- **Última línea:** devuelve los caminos completos.
+Se utilizan dos relaciones para identificar el equipo asociado al contrato de cada jugador.
 
-**Resultado esperado:** dos caminos de recomendación hacia Luis.
+Posteriormente, `COUNT()` agrupa los registros según el equipo y la posición.
 
----
+**Resultado esperado:**
 
-## Consultar todos los nodos
+| Equipo | Posición | TotalJugadores |
+|---|---|---:|
+| Charlotte Hornets | Alero | 1 |
+| Detroit Pistons | Alero | 1 |
+| Houston Rockets | Base | 1 |
+| Orlando Magic | Base | 1 |
+| Portland Trail Blazers | Base | 1 |
+| San Antonio Spurs | Pívot | 1 |
 
-Ejecutamos:
+**Interpretación:** en nuestro escenario simulado, cada equipo tiene un jugador registrado.
+
+### Consulta 3. Salario promedio por equipo
+
+**Enunciado:** calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.
 
 ```sql
-MATCH (n)
-RETURN n;
+MATCH (jugador:SimNBA:Jugador)
+      -[:TIENE_CONTRATO]->
+      (contrato:SimNBA:Contrato)
+
+MATCH (contrato)-[:CON_EQUIPO]->
+      (equipo:SimNBA:Equipo)
+
+RETURN equipo.nombre AS Equipo,
+       AVG(contrato.salario) AS SalarioPromedio
+
+ORDER BY SalarioPromedio DESC;
 ```
 
-**Explicación línea por línea**
+**Explicación:**
 
-- **Línea 1:** busca todos los nodos almacenados.
-- **Línea 2:** devuelve los nodos.
+La función `AVG()` calcula el promedio de los salarios agrupados por equipo.
 
-**Resultado esperado:** cinco personas.
+Como en este escenario existe solamente un jugador con contrato por equipo, el promedio coincide con su salario.
 
----
+**Resultado esperado:**
 
-## Consultar todas las relaciones
+| Equipo | SalarioPromedio |
+|---|---:|
+| San Antonio Spurs | 32000000 |
+| Charlotte Hornets | 18000000 |
+| Houston Rockets | 17000000 |
+| Detroit Pistons | 14000000 |
+| Portland Trail Blazers | 12000000 |
+| Orlando Magic | 10000000 |
 
-Ejecutamos:
+**Interpretación:** San Antonio Spurs presenta el salario promedio más alto dentro del escenario simulado.
+
+Este resultado no representa el promedio salarial real de toda la plantilla de cada equipo.
+
+### Consulta 4. Draft y equipo actual
+
+**Enunciado:** identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft.
 
 ```sql
-MATCH (origen)-[relacion]->(destino)
-RETURN origen, relacion, destino;
+MATCH (jugador:SimNBA:Jugador)
+      -[:SELECCIONADO_POR]->
+      (equipoDraft:SimNBA:Equipo)
+
+MATCH (jugador)-[:TIENE_CONTRATO]->
+      (contrato:SimNBA:Contrato)
+
+MATCH (contrato)-[:CON_EQUIPO]->
+      (equipoActual:SimNBA:Equipo)
+
+WHERE equipoDraft <> equipoActual
+
+RETURN jugador.nombre AS Jugador,
+       equipoDraft.nombre AS EquipoDraft,
+       equipoActual.nombre AS EquipoActual
+
+ORDER BY Jugador;
 ```
 
-**Explicación línea por línea**
+**Explicación:**
 
-- **Línea 1:** busca relaciones de cualquier tipo.
-- **Línea 2:** devuelve los nodos y las relaciones.
+Primero se identifica el equipo que seleccionó al jugador.
 
-**Resultado esperado:** cinco relaciones.
+Después se consulta el equipo relacionado con su contrato.
 
----
+Finalmente, `WHERE` compara ambos nodos y conserva los registros en los que los equipos son distintos.
 
-## Recuperar únicamente los nombres
+**Resultado esperado:** ningún registro.
 
-Ejecutamos:
+**Interpretación:** los seis jugadores del escenario mantienen una relación contractual con el mismo equipo que los seleccionó en el Draft.
 
-```sql
-MATCH (persona:Persona)
-RETURN persona.nombre AS Nombre;
-```
+Esto no significa que la consulta esté incorrecta.
 
-**Explicación línea por línea**
-
-- **Línea 1:** busca todos los nodos `Persona`.
-- **Línea 2:** devuelve sus nombres.
-
-**Resultado esperado:** cinco nombres, sin un orden garantizado.
-
----
-
-## Ordenar resultados con ORDER BY
-
-Ejecutamos:
-
-```sql
-MATCH (persona:Persona)
-RETURN persona.nombre AS Nombre
-ORDER BY Nombre ASC;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca todas las personas.
-- **Línea 2:** devuelve los nombres.
-- **Línea 3:** ordena los resultados de forma ascendente.
-
-**Resultado esperado:** los nombres ordenados según las reglas de comparación utilizadas por Neo4j.
+Una consulta puede ejecutarse adecuadamente y devolver cero resultados cuando no existen registros que cumplan las condiciones.
 
 ::: {.callout-note}
-## ASC y DESC
+## Observación para el docente
 
-- `ASC`: orden ascendente.
-- `DESC`: orden descendente.
+Esta consulta permite explicar a los estudiantes la diferencia entre un error de sintaxis y una consulta válida sin coincidencias.
+
+Si se desea obtener un resultado distinto de cero, sería necesario modificar el escenario simulado, pero no es indispensable para evaluar la consulta.
 :::
 
----
+### Consulta 5. Diferencia salarial
 
-## Limitar resultados con LIMIT
-
-Ejecutamos:
+**Enunciado:** calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual.
 
 ```sql
-MATCH (persona:Persona)
-RETURN persona.nombre AS Nombre
-ORDER BY Nombre ASC
-LIMIT 3;
+MATCH (jugador:SimNBA:Jugador)
+      -[:TIENE_CONTRATO]->
+      (contrato:SimNBA:Contrato)
+
+WITH jugador,
+     contrato,
+     contrato.salario_esperado - contrato.salario AS Diferencia
+
+WHERE Diferencia > 0
+
+RETURN jugador.nombre AS Jugador,
+       contrato.salario AS SalarioActual,
+       contrato.salario_esperado AS SalarioEsperado,
+       Diferencia
+
+ORDER BY Diferencia DESC, Jugador;
 ```
 
-**Explicación línea por línea**
+**Explicación:**
 
-- **Línea 1:** busca las personas.
-- **Línea 2:** devuelve sus nombres.
-- **Línea 3:** ordena los resultados.
-- **Línea 4:** muestra únicamente tres registros.
+`WITH` permite calcular la diferencia salarial y utilizarla posteriormente.
 
-**Resultado esperado:** Ana, Carlos y Luis.
+`WHERE` selecciona solamente los jugadores con una expectativa salarial superior a su salario actual.
 
----
-
-## Contar las personas almacenadas
-
-Ejecutamos:
-
-```sql
-MATCH (persona:Persona)
-RETURN COUNT(persona) AS TotalPersonas;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca los nodos con etiqueta `Persona`.
-- **Línea 2:** cuenta los nodos encontrados.
-
-**Resultado esperado:** 5 personas.
-
----
-
-## Contar las relaciones CONOCE
-
-Ejecutamos:
-
-```sql
-MATCH ()-[relacion:CONOCE]->()
-RETURN COUNT(relacion) AS TotalRelaciones;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca todas las relaciones de tipo `CONOCE`.
-- **Línea 2:** cuenta esas relaciones.
-
-**Resultado esperado:** 5 relaciones.
-
----
-
-## Contar los contactos de cada persona
-
-Ejecutamos:
-
-```sql
-MATCH (origen:Persona)-[:CONOCE]->(destino:Persona)
-RETURN origen.nombre AS Persona,
-       COUNT(destino) AS TotalContactos
-ORDER BY TotalContactos DESC;
-```
-
-**Explicación línea por línea**
-
-- **Línea 1:** busca relaciones salientes `CONOCE`.
-- **Línea 2:** devuelve el nombre de la persona de origen.
-- **Línea 3:** cuenta los destinos asociados a cada nombre de origen.
-- **Línea 4:** ordena los resultados de mayor a menor.
+`ORDER BY` muestra primero las diferencias más altas.
 
 **Resultado esperado:**
 
-| Persona | TotalContactos |
-|---|---:|
-| Ana | 2 |
-| Carlos | 1 |
-| María | 1 |
-| Sofía | 1 |
-
-Luis no aparece porque no tiene relaciones salientes `CONOCE`.
-
----
-
-## Ideas clave
-
-- **Cypher** permite trabajar con nodos y relaciones mediante patrones.
-- **Las variables** representan temporalmente los elementos encontrados.
-- **Las etiquetas** permiten clasificar los nodos.
-- **Las propiedades** almacenan información.
-- **CREATE** agrega nodos o relaciones.
-- **MATCH** busca patrones existentes.
-- **WHERE** permite establecer condiciones.
-- **RETURN** determina qué información mostramos.
-- **DELETE** elimina elementos seleccionados.
-- **DETACH DELETE** permite eliminar nodos y sus relaciones.
-- **Las relaciones tienen dirección**, aunque podemos consultarlas sin exigirla.
-- **Los caminos indirectos** utilizan varias relaciones existentes.
-- **DISTINCT** elimina resultados repetidos.
-- **length()** devuelve la cantidad de relaciones de un camino.
-- **COUNT()** permite contar coincidencias.
-- **ORDER BY** permite ordenar resultados.
-- **LIMIT** restringe la cantidad de filas mostradas.
-- **Las recomendaciones** requieren definir criterios de búsqueda mediante consultas.
-
-
-
-
-
-
-
-
----
-
-## Ejemplo de aplicación: red de transporte entre ciudades de México
-
-El siguiente ejemplo representa una red simulada de transporte entre 25 ciudades mexicanas. Cada ciudad corresponde a un nodo y las conexiones entre ellas representan rutas con información de distancia, tiempo y costo.
-
-### Creación de los nodos
-
-```sql
-UNWIND [
-  'Xalapa', 'Veracruz', 'Córdoba', 'Orizaba', 'Puebla',
-  'Ciudad de México', 'Toluca', 'Querétaro', 'Pachuca',
-  'Tlaxcala', 'Oaxaca', 'Tehuacán', 'Coatzacoalcos',
-  'Villahermosa', 'Tuxtla Gutiérrez', 'San Cristóbal de las Casas',
-  'Acapulco', 'Cuernavaca', 'Morelia', 'Guanajuato',
-  'León', 'San Luis Potosí', 'Guadalajara',
-  'Aguascalientes', 'Zacatecas'
-] AS nombre
-MERGE (ciudad:Ciudad {nombre: nombre})
-RETURN ciudad;
-```
-
-### Creación de las relaciones
-
-Cada relación `RUTA` contiene tres propiedades: `distancia_km`, `tiempo_min` y `costo`. Los valores son simulados con fines educativos.
-
-```sql
-UNWIND [
-  ['Xalapa', 'Veracruz', 105, 90, 170],
-  ['Xalapa', 'Puebla', 175, 150, 260],
-  ['Xalapa', 'Córdoba', 125, 125, 180],
-  ['Xalapa', 'Pachuca', 235, 210, 300],
-  ['Xalapa', 'Tlaxcala', 160, 155, 230],
-  ['Veracruz', 'Córdoba', 115, 105, 170],
-  ['Veracruz', 'Coatzacoalcos', 310, 250, 410],
-  ['Veracruz', 'Puebla', 285, 245, 380],
-  ['Córdoba', 'Orizaba', 25, 25, 50],
-  ['Córdoba', 'Tehuacán', 115, 115, 170],
-  ['Córdoba', 'Coatzacoalcos', 275, 240, 360],
-  ['Orizaba', 'Puebla', 150, 130, 210],
-  ['Orizaba', 'Tehuacán', 85, 80, 130],
-  ['Tehuacán', 'Puebla', 130, 115, 180],
-  ['Tehuacán', 'Oaxaca', 210, 190, 290],
-  ['Puebla', 'Ciudad de México', 135, 130, 220],
-  ['Puebla', 'Tlaxcala', 40, 40, 70],
-  ['Puebla', 'Cuernavaca', 155, 160, 220],
-  ['Puebla', 'Oaxaca', 345, 290, 450],
-  ['Puebla', 'Pachuca', 155, 150, 210],
-  ['Tlaxcala', 'Pachuca', 135, 125, 190],
-  ['Pachuca', 'Ciudad de México', 95, 95, 150],
-  ['Pachuca', 'Querétaro', 220, 205, 320],
-  ['Ciudad de México', 'Toluca', 65, 70, 110],
-  ['Ciudad de México', 'Cuernavaca', 90, 85, 130],
-  ['Ciudad de México', 'Querétaro', 220, 190, 330],
-  ['Ciudad de México', 'Acapulco', 380, 300, 520],
-  ['Ciudad de México', 'Morelia', 305, 260, 430],
-  ['Toluca', 'Morelia', 245, 215, 350],
-  ['Toluca', 'Querétaro', 190, 185, 270],
-  ['Cuernavaca', 'Acapulco', 285, 225, 390],
-  ['Cuernavaca', 'Oaxaca', 370, 330, 490],
-  ['Morelia', 'Guanajuato', 175, 160, 240],
-  ['Morelia', 'Guadalajara', 295, 260, 410],
-  ['Morelia', 'León', 195, 175, 270],
-  ['Querétaro', 'Guanajuato', 150, 135, 220],
-  ['Querétaro', 'León', 175, 150, 250],
-  ['Querétaro', 'San Luis Potosí', 205, 180, 290],
-  ['Guanajuato', 'León', 55, 55, 90],
-  ['Guanajuato', 'Guadalajara', 290, 260, 390],
-  ['León', 'Guadalajara', 225, 200, 320],
-  ['León', 'Aguascalientes', 125, 110, 190],
-  ['León', 'San Luis Potosí', 195, 175, 260],
-  ['San Luis Potosí', 'Aguascalientes', 165, 145, 240],
-  ['San Luis Potosí', 'Zacatecas', 195, 175, 260],
-  ['Aguascalientes', 'Zacatecas', 120, 105, 180],
-  ['Aguascalientes', 'Guadalajara', 225, 195, 310],
-  ['Zacatecas', 'Guadalajara', 335, 290, 450],
-  ['Oaxaca', 'Tuxtla Gutiérrez', 540, 450, 680],
-  ['Oaxaca', 'Coatzacoalcos', 330, 300, 440],
-  ['Coatzacoalcos', 'Villahermosa', 165, 145, 240],
-  ['Coatzacoalcos', 'Tuxtla Gutiérrez', 290, 250, 400],
-  ['Villahermosa', 'Tuxtla Gutiérrez', 250, 220, 350],
-  ['Tuxtla Gutiérrez', 'San Cristóbal de las Casas', 65, 75, 110],
-  ['Oaxaca', 'San Cristóbal de las Casas', 605, 520, 750],
-  ['Acapulco', 'Oaxaca', 530, 470, 700],
-  ['Acapulco', 'Morelia', 490, 430, 650],
-  ['Guadalajara', 'Zacatecas', 335, 290, 450],
-  ['Villahermosa', 'Coatzacoalcos', 165, 145, 240],
-  ['San Cristóbal de las Casas', 'Tuxtla Gutiérrez', 65, 75, 110]
-] AS datos
-
-MATCH (origen:Ciudad {nombre: datos[0]})
-MATCH (destino:Ciudad {nombre: datos[1]})
-
-MERGE (origen)-[ruta:RUTA]->(destino)
-SET ruta.distancia_km = datos[2],
-    ruta.tiempo_min = datos[3],
-    ruta.costo = datos[4]
-
-RETURN COUNT(ruta) AS RutasProcesadas;
-```
-
-### Verificación de nodos y relaciones
-
-```sql
-MATCH (c:Ciudad)
-RETURN COUNT(c) AS TotalCiudades;
-```
-
-**Resultado esperado:** 25 ciudades.
-
-```sql
-MATCH ()-[ruta:RUTA]->()
-RETURN COUNT(ruta) AS TotalRutas;
-```
-
-**Resultado esperado:** 60 relaciones.
-
-### Visualización del grafo en Neo4j
-
-```sql
-MATCH (origen:Ciudad)-[ruta:RUTA]->(destino:Ciudad)
-RETURN origen, ruta, destino;
-```
-
-### Visualización de la red de transporte
-
-```{mermaid}
-flowchart LR
-
-    XAL["Xalapa"]
-    VER["Veracruz"]
-    COR["Córdoba"]
-    ORI["Orizaba"]
-    PUE["Puebla"]
-    CDMX["Ciudad de México"]
-    TOL["Toluca"]
-    QRO["Querétaro"]
-    PAC["Pachuca"]
-    TLA["Tlaxcala"]
-    OAX["Oaxaca"]
-    TEH["Tehuacán"]
-    COA["Coatzacoalcos"]
-    VIL["Villahermosa"]
-    TUX["Tuxtla Gutiérrez"]
-    SAN["San Cristóbal de las Casas"]
-    ACA["Acapulco"]
-    CUE["Cuernavaca"]
-    MOR["Morelia"]
-    GTO["Guanajuato"]
-    LEO["León"]
-    SLP["San Luis Potosí"]
-    GDL["Guadalajara"]
-    AGS["Aguascalientes"]
-    ZAC["Zacatecas"]
-
-    XAL --> VER
-    XAL --> PUE
-    XAL --> COR
-    XAL --> PAC
-    XAL --> TLA
-
-    VER --> COR
-    VER --> COA
-    VER --> PUE
-
-    COR --> ORI
-    COR --> TEH
-    COR --> COA
-
-    ORI --> PUE
-    ORI --> TEH
-
-    TEH --> PUE
-    TEH --> OAX
-
-    PUE --> CDMX
-    PUE --> TLA
-    PUE --> CUE
-    PUE --> OAX
-    PUE --> PAC
-
-    TLA --> PAC
-
-    PAC --> CDMX
-    PAC --> QRO
-
-    CDMX --> TOL
-    CDMX --> CUE
-    CDMX --> QRO
-    CDMX --> ACA
-    CDMX --> MOR
-
-    TOL --> MOR
-    TOL --> QRO
-
-    CUE --> ACA
-    CUE --> OAX
-
-    MOR --> GTO
-    MOR --> GDL
-    MOR --> LEO
-
-    QRO --> GTO
-    QRO --> LEO
-    QRO --> SLP
-
-    GTO --> LEO
-    GTO --> GDL
-
-    LEO --> GDL
-    LEO --> AGS
-    LEO --> SLP
-
-    SLP --> AGS
-    SLP --> ZAC
-
-    AGS --> ZAC
-    AGS --> GDL
-
-    ZAC --> GDL
-    GDL --> ZAC
-
-    OAX --> TUX
-    OAX --> COA
-    OAX --> SAN
-
-    COA --> VIL
-    COA --> TUX
-
-    VIL --> TUX
-    VIL --> COA
-
-    TUX --> SAN
-    SAN --> TUX
-
-    ACA --> OAX
-    ACA --> MOR
-
-    classDef inicio fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
-    classDef centro fill:#dcfce7,stroke:#16a34a,color:#166534
-
-    class XAL inicio
-    class CDMX,PUE,QRO,GDL centro
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Consultas sobre la red de transporte
-
-A partir del grafo de 25 ciudades y 60 rutas, realizaremos consultas para explorar conexiones directas, recorridos alternativos, distancias, tiempos y costos.
-
-### Consultar las ciudades conectadas directamente con Xalapa
-
-```sql
-MATCH (origen:Ciudad {nombre: 'Xalapa'})-[:RUTA]->(destino:Ciudad)
-RETURN destino.nombre AS Ciudad;
-```
-
-**Resultado esperado:** Veracruz, Puebla, Córdoba, Pachuca y Tlaxcala.
-
-Esta consulta identifica las ciudades que tienen una ruta directa de salida desde Xalapa.
-
-### Consultar las distancias, tiempos y costos desde Xalapa
-
-```sql
-MATCH (origen:Ciudad {nombre: 'Xalapa'})-[ruta:RUTA]->(destino:Ciudad)
-RETURN destino.nombre AS Destino,
-       ruta.distancia_km AS DistanciaKM,
-       ruta.tiempo_min AS TiempoMin,
-       ruta.costo AS CostoMXN
-ORDER BY DistanciaKM;
-```
-
-**Resultado esperado:**
-
-| Destino | DistanciaKM | TiempoMin | CostoMXN |
+| Jugador | SalarioActual | SalarioEsperado | Diferencia |
 |---|---:|---:|---:|
-| Veracruz | 105 | 90 | 170 |
-| Córdoba | 125 | 125 | 180 |
-| Tlaxcala | 160 | 155 | 230 |
-| Puebla | 175 | 150 | 260 |
-| Pachuca | 235 | 210 | 300 |
+| Amen Thompson | 17000000 | 25000000 | 8000000 |
+| Victor Wembanyama | 32000000 | 40000000 | 8000000 |
+| Ausar Thompson | 14000000 | 19000000 | 5000000 |
+| Anthony Black | 10000000 | 14000000 | 4000000 |
+| Brandon Miller | 18000000 | 22000000 | 4000000 |
+| Scoot Henderson | 12000000 | 16000000 | 4000000 |
 
-`ORDER BY` organiza los resultados según la distancia, de menor a mayor.
+**Interpretación:** Amen Thompson y Victor Wembanyama presentan las mayores diferencias entre el salario esperado y el salario actual.
 
-### Identificar las ciudades con más rutas de salida
+Todos estos valores son simulados y se expresan en dólares.
 
-```sql
-MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
-RETURN origen.nombre AS Ciudad,
-       COUNT(destino) AS TotalRutas
-ORDER BY TotalRutas DESC;
-```
+## Parte 2. Soluciones del grafo de ciberseguridad
 
-**Resultado esperado:** las ciudades se ordenan de acuerdo con el número de rutas de salida.
+### Consulta 1. Conexiones de los switches
 
-Por ejemplo, Xalapa, Puebla y Ciudad de México tienen cinco conexiones de salida cada una.
-
-`COUNT()` cuenta las relaciones encontradas y `DESC` ordena de mayor a menor.
-
-### Consultar las ciudades a las que podemos llegar desde Xalapa con una escala
+**Enunciado:** identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.
 
 ```sql
-MATCH (origen:Ciudad {nombre: 'Xalapa'})
-      -[:RUTA]->(intermedio:Ciudad)
-      -[:RUTA]->(destino:Ciudad)
-RETURN intermedio.nombre AS Escala,
-       destino.nombre AS Destino
-ORDER BY Destino;
+MATCH (computadora:Computadora)
+      -[:CONECTADO_A]->
+      (switch:Switch)
+
+RETURN switch.id AS Switch,
+       COUNT(computadora) AS TotalComputadoras
+
+ORDER BY TotalComputadoras DESC, Switch;
 ```
 
-**Resultado esperado:** una tabla con la ciudad intermedia y el destino final.
+**Explicación:**
 
-Por ejemplo:
+La consulta identifica las computadoras conectadas directamente con un switch.
 
-- Xalapa → Puebla → Ciudad de México
-- Xalapa → Pachuca → Ciudad de México
-- Xalapa → Veracruz → Coatzacoalcos
-- Xalapa → Córdoba → Orizaba
-
-Esta consulta permite encontrar recorridos que utilizan exactamente dos relaciones, es decir, una escala.
-
-Un destino puede aparecer varias veces cuando existen distintos recorridos para llegar a él.
-
-### Encontrar rutas alternativas entre Xalapa y Ciudad de México
-
-```sql
-MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
-               -[:RUTA*1..4]->
-               (destino:Ciudad {nombre: 'Ciudad de México'})
-RETURN camino;
-```
-
-**Resultado esperado:** distintos caminos que conectan Xalapa con Ciudad de México, utilizando entre una y cuatro relaciones.
-
-Por ejemplo:
-
-- Xalapa → Puebla → Ciudad de México
-- Xalapa → Pachuca → Ciudad de México
-- Xalapa → Tlaxcala → Pachuca → Ciudad de México
-- Xalapa → Córdoba → Orizaba → Puebla → Ciudad de México
-
-La expresión `*1..4` permite buscar recorridos de entre una y cuatro relaciones.
-
-La variable `camino` almacena cada recorrido encontrado y permite visualizarlo en Neo4j mediante la vista **Graph**.
-
-### Calcular la distancia total de cada recorrido
-
-```sql
-MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
-               -[:RUTA*1..4]->
-               (destino:Ciudad {nombre: 'Ciudad de México'})
-RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
-       reduce(total = 0, r IN relationships(camino) |
-              total + r.distancia_km) AS DistanciaTotal
-ORDER BY DistanciaTotal;
-```
-
-**Resultado esperado:** una tabla con los recorridos y su distancia total acumulada.
-
-Por ejemplo:
-
-| Recorrido | DistanciaTotal |
-|---|---:|
-| Xalapa → Puebla → Ciudad de México | 310 |
-| Xalapa → Pachuca → Ciudad de México | 330 |
-| Xalapa → Tlaxcala → Pachuca → Ciudad de México | 390 |
-
-La función `nodes(camino)` obtiene los nodos que forman el recorrido.
-
-La función `relationships(camino)` obtiene sus relaciones.
-
-Finalmente, `reduce()` suma las distancias de cada relación para obtener la distancia total.
-
-### Comparar distancia, tiempo y costo de las rutas
-
-```sql
-MATCH camino = (origen:Ciudad {nombre: 'Xalapa'})
-               -[:RUTA*1..4]->
-               (destino:Ciudad {nombre: 'Ciudad de México'})
-RETURN [n IN nodes(camino) | n.nombre] AS Recorrido,
-       reduce(d = 0, r IN relationships(camino) |
-              d + r.distancia_km) AS DistanciaKM,
-       reduce(t = 0, r IN relationships(camino) |
-              t + r.tiempo_min) AS TiempoMin,
-       reduce(c = 0, r IN relationships(camino) |
-              c + r.costo) AS CostoMXN
-ORDER BY CostoMXN;
-```
-
-**Resultado esperado:** una tabla que compara la distancia, el tiempo y el costo acumulado de cada recorrido.
-
-Por ejemplo:
-
-| Recorrido | DistanciaKM | TiempoMin | CostoMXN |
-|---|---:|---:|---:|
-| Xalapa → Puebla → Ciudad de México | 310 | 280 | 480 |
-| Xalapa → Pachuca → Ciudad de México | 330 | 305 | 450 |
-
-Los resultados se ordenan por costo, de menor a mayor.
-
-Esta consulta permite observar que la ruta más corta en kilómetros no necesariamente es la más económica.
-
-### Encontrar el camino con menos conexiones
-
-```sql
-MATCH camino = shortestPath(
-    (origen:Ciudad {nombre: 'Xalapa'})
-    -[:RUTA*]->
-    (destino:Ciudad {nombre: 'Guadalajara'})
-)
-RETURN camino,
-       length(camino) AS NumeroConexiones;
-```
-
-**Resultado esperado:** un camino entre Xalapa y Guadalajara que utiliza el menor número de relaciones.
-
-`shortestPath()` busca el camino con menos conexiones y `length()` devuelve cuántas relaciones contiene.
-
-**Importante:** el camino con menos conexiones no necesariamente es el de menor distancia, tiempo o costo.
-
-### Identificar las ciudades que reciben más rutas
-
-```sql
-MATCH (origen:Ciudad)-[:RUTA]->(destino:Ciudad)
-RETURN destino.nombre AS Ciudad,
-       COUNT(origen) AS RutasEntrantes
-ORDER BY RutasEntrantes DESC;
-```
-
-**Resultado esperado:** una tabla con las ciudades que reciben más conexiones directas.
-
-A diferencia de la consulta 3, aquí contamos las rutas que llegan a cada ciudad, en lugar de las que salen.
-
-### Visualizar las conexiones de una ciudad en ambos sentidos
-
-```sql
-MATCH (ciudad:Ciudad {nombre: 'Puebla'})-[ruta:RUTA]-(otra:Ciudad)
-RETURN ciudad, ruta, otra;
-```
-
-**Resultado esperado:** el grafo de Puebla y las ciudades conectadas con ella, incluyendo relaciones de entrada y de salida.
-
-En esta consulta no especificamos una dirección para `RUTA`, por lo que Neo4j considera las relaciones en ambos sentidos.
-
-Selecciona la vista **Graph** para visualizar estas conexiones.
-
-
-
-
-
-
-
-
-
-## Ejemplo de aplicación: infraestructura de TI y ciberseguridad
-
-El siguiente ejemplo representa una infraestructura tecnológica universitaria simulada, integrada por 30 nodos y 50 relaciones.
-
-### Creación de los nodos
-
-Se crearán computadoras, switches, routers, servidores, bases de datos, sistemas, usuarios y otros dispositivos de infraestructura.
-
-```sql
-UNWIND [
-  'PC-LAB01', 'PC-LAB02', 'PC-LAB03',
-  'PC-ADMIN01', 'PC-DOC01', 'PC-BIB01'
-] AS id
-MERGE (n:ActivoTI:Computadora {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'SW-LAB', 'SW-ADMIN', 'SW-DOC', 'SW-BIB'
-] AS id
-MERGE (n:ActivoTI:Switch {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'RTR-PRINCIPAL', 'RTR-RESPALDO'
-] AS id
-MERGE (n:ActivoTI:Router {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'SRV-WEB', 'SRV-ACADEMICO',
-  'SRV-ARCHIVOS', 'SRV-AUTENTICACION'
-] AS id
-MERGE (n:ActivoTI:Servidor {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'BD-ESCOLAR', 'BD-BIBLIOTECA', 'BD-PERSONAL'
-] AS id
-MERGE (n:ActivoTI:BaseDatos {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'SIS-PORTAL', 'SIS-BIBLIOTECA',
-  'SIS-CORREO', 'SIS-GESTION'
-] AS id
-MERGE (n:ActivoTI:Sistema {id: id})
-RETURN n;
-```
-
-```sql
-UNWIND [
-  'USR-ADMIN', 'USR-DOCENTE',
-  'USR-ESTUDIANTE', 'USR-BIBLIOTECARIO'
-] AS id
-MERGE (n:ActivoTI:Usuario {id: id})
-RETURN n;
-```
-
-```sql
-MERGE (fw:ActivoTI:Firewall {id: 'FW-PRINCIPAL'})
-MERGE (nas:ActivoTI:Almacenamiento {id: 'NAS-RESPALDO'})
-MERGE (vpn:ActivoTI:Gateway {id: 'VPN-ACCESO'})
-RETURN fw, nas, vpn;
-```
-
-### Creación de las relaciones
-
-Se establecerán las conexiones entre los dispositivos, las dependencias de los sistemas y los accesos de los usuarios.
-
-```sql
-UNWIND [
-  ['PC-LAB01', 'CONECTADO_A', 'SW-LAB'],
-  ['PC-LAB02', 'CONECTADO_A', 'SW-LAB'],
-  ['PC-LAB03', 'CONECTADO_A', 'SW-LAB'],
-  ['PC-ADMIN01', 'CONECTADO_A', 'SW-ADMIN'],
-  ['PC-DOC01', 'CONECTADO_A', 'SW-DOC'],
-  ['PC-BIB01', 'CONECTADO_A', 'SW-BIB'],
-
-  ['SW-LAB', 'CONECTADO_A', 'RTR-PRINCIPAL'],
-  ['SW-ADMIN', 'CONECTADO_A', 'RTR-PRINCIPAL'],
-  ['SW-DOC', 'CONECTADO_A', 'RTR-RESPALDO'],
-  ['SW-BIB', 'CONECTADO_A', 'RTR-RESPALDO'],
-
-  ['RTR-PRINCIPAL', 'CONECTADO_A', 'FW-PRINCIPAL'],
-  ['RTR-RESPALDO', 'CONECTADO_A', 'FW-PRINCIPAL'],
-
-  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-WEB'],
-  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-ACADEMICO'],
-  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-ARCHIVOS'],
-  ['FW-PRINCIPAL', 'CONECTADO_A', 'SRV-AUTENTICACION'],
-
-  ['SRV-ACADEMICO', 'ALOJA', 'BD-ESCOLAR'],
-  ['SRV-ACADEMICO', 'ALOJA', 'BD-PERSONAL'],
-  ['SRV-WEB', 'ALOJA', 'BD-ESCOLAR'],
-  ['SRV-ARCHIVOS', 'ALOJA', 'BD-BIBLIOTECA'],
-  ['SRV-AUTENTICACION', 'ALOJA', 'BD-PERSONAL'],
-
-  ['SRV-WEB', 'ALOJA', 'SIS-PORTAL'],
-  ['SRV-ACADEMICO', 'ALOJA', 'SIS-GESTION'],
-  ['SRV-ACADEMICO', 'ALOJA', 'SIS-PORTAL'],
-  ['SRV-ARCHIVOS', 'ALOJA', 'SIS-BIBLIOTECA'],
-  ['SRV-WEB', 'ALOJA', 'SIS-CORREO'],
-  ['SRV-AUTENTICACION', 'ALOJA', 'SIS-CORREO'],
-
-  ['USR-ADMIN', 'UTILIZA', 'PC-ADMIN01'],
-  ['USR-DOCENTE', 'UTILIZA', 'PC-DOC01'],
-  ['USR-ESTUDIANTE', 'UTILIZA', 'PC-LAB01'],
-  ['USR-BIBLIOTECARIO', 'UTILIZA', 'PC-BIB01'],
-
-  ['USR-ADMIN', 'ACCEDE_A', 'SIS-GESTION'],
-  ['USR-ADMIN', 'ACCEDE_A', 'SIS-PORTAL'],
-  ['USR-DOCENTE', 'ACCEDE_A', 'SIS-PORTAL'],
-  ['USR-DOCENTE', 'ACCEDE_A', 'SIS-CORREO'],
-  ['USR-ESTUDIANTE', 'ACCEDE_A', 'SIS-PORTAL'],
-  ['USR-ESTUDIANTE', 'ACCEDE_A', 'SIS-BIBLIOTECA'],
-  ['USR-BIBLIOTECARIO', 'ACCEDE_A', 'SIS-BIBLIOTECA'],
-
-  ['SRV-WEB', 'RESPALDA_EN', 'NAS-RESPALDO'],
-  ['SRV-ACADEMICO', 'RESPALDA_EN', 'NAS-RESPALDO'],
-  ['SRV-ARCHIVOS', 'RESPALDA_EN', 'NAS-RESPALDO'],
-
-  ['VPN-ACCESO', 'CONECTADO_A', 'FW-PRINCIPAL'],
-  ['USR-ADMIN', 'ACCEDE_A', 'VPN-ACCESO'],
-  ['USR-DOCENTE', 'ACCEDE_A', 'VPN-ACCESO'],
-
-  ['SW-LAB', 'ENLAZADO_A', 'SW-ADMIN'],
-  ['SW-DOC', 'ENLAZADO_A', 'SW-BIB'],
-
-  ['SRV-WEB', 'DEPENDE_DE', 'SRV-AUTENTICACION'],
-  ['SRV-ACADEMICO', 'DEPENDE_DE', 'SRV-AUTENTICACION'],
-
-  ['FW-PRINCIPAL', 'RESPALDA_EN', 'NAS-RESPALDO'],
-  ['RTR-PRINCIPAL', 'ENLAZADO_A', 'RTR-RESPALDO']
-] AS datos
-
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[2]})
-
-CALL apoc.create.relationship(
-  origen,
-  datos[1],
-  {},
-  destino
-) YIELD rel
-
-RETURN COUNT(rel) AS RelacionesCreadas;
-```
-
-**Resultado esperado:** 50 relaciones creadas.
-
-**Nota:** la consulta anterior utiliza APOC, una extensión de Neo4j. Si la función `apoc.create.relationship` no está disponible en tu instalación, será necesario habilitar APOC o utilizar una alternativa compatible. Esta consulta crea relaciones nuevas cada vez que se ejecuta, por lo que no conviene repetirla sobre el mismo grafo.
-
-### Verificación de nodos y relaciones
-
-```sql
-MATCH (n:ActivoTI)
-RETURN COUNT(n) AS TotalNodos;
-```
-
-**Resultado esperado:** 30 nodos.
-
-```sql
-MATCH (:ActivoTI)-[r]->(:ActivoTI)
-RETURN COUNT(r) AS TotalRelaciones;
-```
-
-**Resultado esperado:** 50 relaciones.
-
-### Visualización del grafo en Neo4j
-
-```sql
-MATCH (origen:ActivoTI)-[relacion]->(destino:ActivoTI)
-RETURN origen, relacion, destino;
-```
-
-Selecciona la vista **Graph** para observar toda la infraestructura tecnológica.
-
-
-
-### Creación de las relaciones
-
-#### Conexiones entre equipos y dispositivos
-
-```sql
-UNWIND [
-  ['PC-LAB01', 'SW-LAB'],
-  ['PC-LAB02', 'SW-LAB'],
-  ['PC-LAB03', 'SW-LAB'],
-  ['PC-ADMIN01', 'SW-ADMIN'],
-  ['PC-DOC01', 'SW-DOC'],
-  ['PC-BIB01', 'SW-BIB'],
-  ['SW-LAB', 'RTR-PRINCIPAL'],
-  ['SW-ADMIN', 'RTR-PRINCIPAL'],
-  ['SW-DOC', 'RTR-RESPALDO'],
-  ['SW-BIB', 'RTR-RESPALDO'],
-  ['RTR-PRINCIPAL', 'FW-PRINCIPAL'],
-  ['RTR-RESPALDO', 'FW-PRINCIPAL'],
-  ['FW-PRINCIPAL', 'SRV-WEB'],
-  ['FW-PRINCIPAL', 'SRV-ACADEMICO'],
-  ['FW-PRINCIPAL', 'SRV-ARCHIVOS'],
-  ['FW-PRINCIPAL', 'SRV-AUTENTICACION'],
-  ['VPN-ACCESO', 'FW-PRINCIPAL']
-] AS datos
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[1]})
-MERGE (origen)-[r:CONECTADO_A]->(destino)
-RETURN COUNT(r) AS Conexiones;
-```
-
-#### Servidores, bases de datos y sistemas
-
-```sql
-UNWIND [
-  ['SRV-ACADEMICO', 'BD-ESCOLAR'],
-  ['SRV-ACADEMICO', 'BD-PERSONAL'],
-  ['SRV-WEB', 'BD-ESCOLAR'],
-  ['SRV-ARCHIVOS', 'BD-BIBLIOTECA'],
-  ['SRV-AUTENTICACION', 'BD-PERSONAL'],
-  ['SRV-WEB', 'SIS-PORTAL'],
-  ['SRV-ACADEMICO', 'SIS-GESTION'],
-  ['SRV-ACADEMICO', 'SIS-PORTAL'],
-  ['SRV-ARCHIVOS', 'SIS-BIBLIOTECA'],
-  ['SRV-WEB', 'SIS-CORREO'],
-  ['SRV-AUTENTICACION', 'SIS-CORREO']
-] AS datos
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[1]})
-MERGE (origen)-[r:ALOJA]->(destino)
-RETURN COUNT(r) AS Relaciones;
-```
-
-#### Equipos utilizados por los usuarios
-
-```sql
-UNWIND [
-  ['USR-ADMIN', 'PC-ADMIN01'],
-  ['USR-DOCENTE', 'PC-DOC01'],
-  ['USR-ESTUDIANTE', 'PC-LAB01'],
-  ['USR-BIBLIOTECARIO', 'PC-BIB01']
-] AS datos
-MATCH (usuario:ActivoTI {id: datos[0]})
-MATCH (equipo:ActivoTI {id: datos[1]})
-MERGE (usuario)-[r:UTILIZA]->(equipo)
-RETURN COUNT(r) AS Relaciones;
-```
-
-#### Acceso a sistemas y VPN
-
-```sql
-UNWIND [
-  ['USR-ADMIN', 'SIS-GESTION'],
-  ['USR-ADMIN', 'SIS-PORTAL'],
-  ['USR-DOCENTE', 'SIS-PORTAL'],
-  ['USR-DOCENTE', 'SIS-CORREO'],
-  ['USR-ESTUDIANTE', 'SIS-PORTAL'],
-  ['USR-ESTUDIANTE', 'SIS-BIBLIOTECA'],
-  ['USR-BIBLIOTECARIO', 'SIS-BIBLIOTECA'],
-  ['USR-ADMIN', 'VPN-ACCESO'],
-  ['USR-DOCENTE', 'VPN-ACCESO']
-] AS datos
-MATCH (usuario:ActivoTI {id: datos[0]})
-MATCH (recurso:ActivoTI {id: datos[1]})
-MERGE (usuario)-[r:ACCEDE_A]->(recurso)
-RETURN COUNT(r) AS Relaciones;
-```
-
-#### Relaciones de respaldo
-
-```sql
-UNWIND [
-  ['SRV-WEB', 'NAS-RESPALDO'],
-  ['SRV-ACADEMICO', 'NAS-RESPALDO'],
-  ['SRV-ARCHIVOS', 'NAS-RESPALDO'],
-  ['FW-PRINCIPAL', 'NAS-RESPALDO']
-] AS datos
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[1]})
-MERGE (origen)-[r:RESPALDA_EN]->(destino)
-RETURN COUNT(r) AS Relaciones;
-```
-
-#### Enlaces entre dispositivos
-
-```sql
-UNWIND [
-  ['SW-LAB', 'SW-ADMIN'],
-  ['SW-DOC', 'SW-BIB'],
-  ['RTR-PRINCIPAL', 'RTR-RESPALDO']
-] AS datos
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[1]})
-MERGE (origen)-[r:ENLAZADO_A]->(destino)
-RETURN COUNT(r) AS Relaciones;
-```
-
-#### Dependencias entre servidores
-
-```sql
-UNWIND [
-  ['SRV-WEB', 'SRV-AUTENTICACION'],
-  ['SRV-ACADEMICO', 'SRV-AUTENTICACION']
-] AS datos
-MATCH (origen:ActivoTI {id: datos[0]})
-MATCH (destino:ActivoTI {id: datos[1]})
-MERGE (origen)-[r:DEPENDE_DE]->(destino)
-RETURN COUNT(r) AS Relaciones;
-```
-
-
-### Visualización de la infraestructura tecnológica
-
-```{mermaid}
-flowchart LR
-
-    LAB01["PC LAB01"]
-    LAB02["PC LAB02"]
-    LAB03["PC LAB03"]
-    ADMINPC["PC ADMIN01"]
-    DOCPC["PC DOC01"]
-    BIBPC["PC BIB01"]
-
-    SWLAB["Switch Laboratorio"]
-    SWADMIN["Switch Administración"]
-    SWDOC["Switch Docentes"]
-    SWBIB["Switch Biblioteca"]
-
-    RTR1["Router Principal"]
-    RTR2["Router Respaldo"]
-    FW["Firewall Principal"]
-
-    WEB["Servidor Web"]
-    ACADEMICO["Servidor Académico"]
-    ARCHIVOS["Servidor Archivos"]
-    AUTH["Servidor Autenticación"]
-
-    BDE["BD Escolar"]
-    BDB["BD Biblioteca"]
-    BDP["BD Personal"]
-
-    PORTAL["Portal Escolar"]
-    BIBLIOTECA["Biblioteca Digital"]
-    CORREO["Correo"]
-    GESTION["Sistema Gestión"]
-
-    UADMIN["Administrador"]
-    UDOC["Docente"]
-    UEST["Estudiante"]
-    UBIB["Bibliotecario"]
-
-    NAS["NAS Respaldo"]
-    VPN["VPN Acceso"]
-
-    LAB01 --> SWLAB
-    LAB02 --> SWLAB
-    LAB03 --> SWLAB
-    ADMINPC --> SWADMIN
-    DOCPC --> SWDOC
-    BIBPC --> SWBIB
-
-    SWLAB --> RTR1
-    SWADMIN --> RTR1
-    SWDOC --> RTR2
-    SWBIB --> RTR2
-
-    RTR1 --> FW
-    RTR2 --> FW
-
-    FW --> WEB
-    FW --> ACADEMICO
-    FW --> ARCHIVOS
-    FW --> AUTH
-
-    ACADEMICO --> BDE
-    ACADEMICO --> BDP
-    WEB --> BDE
-    ARCHIVOS --> BDB
-    AUTH --> BDP
-
-    WEB --> PORTAL
-    ACADEMICO --> GESTION
-    ACADEMICO --> PORTAL
-    ARCHIVOS --> BIBLIOTECA
-    WEB --> CORREO
-    AUTH --> CORREO
-
-    UADMIN --> ADMINPC
-    UDOC --> DOCPC
-    UEST --> LAB01
-    UBIB --> BIBPC
-
-    UADMIN --> GESTION
-    UADMIN --> PORTAL
-    UDOC --> PORTAL
-    UDOC --> CORREO
-    UEST --> PORTAL
-    UEST --> BIBLIOTECA
-    UBIB --> BIBLIOTECA
-
-    WEB --> NAS
-    ACADEMICO --> NAS
-    ARCHIVOS --> NAS
-
-    VPN --> FW
-    UADMIN --> VPN
-    UDOC --> VPN
-
-    SWLAB --> SWADMIN
-    SWDOC --> SWBIB
-
-    WEB --> AUTH
-    ACADEMICO --> AUTH
-
-    FW --> NAS
-    RTR1 --> RTR2
-
-    classDef computadora fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
-    classDef red fill:#dcfce7,stroke:#16a34a,color:#166534
-    classDef servidor fill:#f3e8ff,stroke:#9333ea,color:#581c87
-    classDef bd fill:#fef3c7,stroke:#d97706,color:#92400e
-    classDef usuario fill:#ffe4e6,stroke:#e11d48,color:#881337
-
-    class LAB01,LAB02,LAB03,ADMINPC,DOCPC,BIBPC computadora
-    class SWLAB,SWADMIN,SWDOC,SWBIB,RTR1,RTR2,FW,VPN red
-    class WEB,ACADEMICO,ARCHIVOS,AUTH,NAS servidor
-    class BDE,BDB,BDP bd
-    class UADMIN,UDOC,UEST,UBIB usuario
-```
-
-
-## Consultas sobre infraestructura de TI y ciberseguridad
-
-A partir de la infraestructura tecnológica simulada, realizaremos consultas para identificar conexiones entre dispositivos, accesos de usuarios, dependencias entre sistemas y posibles puntos de exposición.
-
-### Consultar las computadoras registradas
-
-```sql
-MATCH (equipo:Computadora)
-RETURN equipo.id AS Computadora
-ORDER BY Computadora;
-```
-
-**Resultado esperado:** las seis computadoras registradas en la infraestructura.
-
-Esta consulta utiliza la etiqueta `Computadora` para seleccionar únicamente los nodos de ese tipo.
-
-### Identificar los equipos conectados a un switch
-
-```sql
-MATCH (equipo:Computadora)-[:CONECTADO_A]->
-      (switch:Switch {id: 'SW-LAB'})
-RETURN equipo.id AS Computadora,
-       switch.id AS Switch;
-```
+`COUNT()` permite contar las computadoras asociadas con cada dispositivo.
 
 **Resultado esperado:**
 
-| Computadora | Switch |
-|---|---|
-| PC-LAB01 | SW-LAB |
-| PC-LAB02 | SW-LAB |
-| PC-LAB03 | SW-LAB |
+| Switch | TotalComputadoras |
+|---|---:|
+| SW-LAB | 3 |
+| SW-ADMIN | 1 |
+| SW-BIB | 1 |
+| SW-DOC | 1 |
 
-Esta consulta permite identificar las computadoras conectadas directamente al switch del laboratorio.
+**Interpretación:** el switch del laboratorio concentra el mayor número de computadoras conectadas directamente.
 
-### Consultar los servidores conectados al firewall
+### Consulta 2. Accesos de los usuarios
 
-```sql
-MATCH (firewall:Firewall {id: 'FW-PRINCIPAL'})
-      -[:CONECTADO_A]->(servidor:Servidor)
-RETURN servidor.id AS Servidor
-ORDER BY Servidor;
-```
-
-**Resultado esperado:** SRV-WEB, SRV-ACADEMICO, SRV-ARCHIVOS y SRV-AUTENTICACION.
-
-La consulta identifica los servidores que tienen una conexión registrada desde el firewall principal.
-
-### Identificar las bases de datos alojadas en cada servidor
+**Enunciado:** identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.
 
 ```sql
-MATCH (servidor:Servidor)-[:ALOJA]->(bd:BaseDatos)
-RETURN servidor.id AS Servidor,
-       bd.id AS BaseDatos
-ORDER BY Servidor;
-```
+MATCH (usuario:Usuario)
+      -[:ACCEDE_A]->
+      (sistema:Sistema)
 
-**Resultado esperado:** una tabla con las bases de datos asociadas a cada servidor.
+WITH usuario,
+     COUNT(sistema) AS TotalSistemas
 
-Por ejemplo, `SRV-ACADEMICO` aloja `BD-ESCOLAR` y `BD-PERSONAL`.
+WHERE TotalSistemas >= 2
 
-Esta consulta permite conocer la distribución de las bases de datos dentro de la infraestructura.
-
-### Consultar los sistemas a los que accede cada usuario
-
-```sql
-MATCH (usuario:Usuario)-[:ACCEDE_A]->(sistema:Sistema)
 RETURN usuario.id AS Usuario,
-       sistema.id AS Sistema
-ORDER BY Usuario, Sistema;
+       TotalSistemas
+
+ORDER BY TotalSistemas DESC, Usuario;
 ```
 
-**Resultado esperado:** una tabla que muestra los sistemas asociados con cada usuario.
+**Explicación:**
 
-Por ejemplo:
+`COUNT()` obtiene la cantidad de sistemas relacionados con cada usuario.
 
-| Usuario | Sistema |
-|---|---|
-| USR-ADMIN | SIS-GESTION |
-| USR-ADMIN | SIS-PORTAL |
-| USR-DOCENTE | SIS-CORREO |
-| USR-DOCENTE | SIS-PORTAL |
-| USR-ESTUDIANTE | SIS-BIBLIOTECA |
-| USR-ESTUDIANTE | SIS-PORTAL |
-| USR-BIBLIOTECARIO | SIS-BIBLIOTECA |
+`WITH` permite conservar ese resultado para aplicar un filtro posterior.
 
-La relación `ACCEDE_A` representa los accesos registrados en el grafo simulado, no permisos verificados en un sistema real.
-
-### Identificar los servidores con mayor número de sistemas alojados
-
-```sql
-MATCH (servidor:Servidor)-[:ALOJA]->(sistema:Sistema)
-RETURN servidor.id AS Servidor,
-       COUNT(sistema) AS TotalSistemas
-ORDER BY TotalSistemas DESC, Servidor;
-```
+`WHERE` selecciona únicamente a quienes tienen acceso registrado a dos o más sistemas.
 
 **Resultado esperado:**
 
-| Servidor | TotalSistemas |
+| Usuario | TotalSistemas |
 |---|---:|
-| SRV-ACADEMICO | 2 |
-| SRV-WEB | 2 |
-| SRV-ARCHIVOS | 1 |
-| SRV-AUTENTICACION | 1 |
+| USR-ADMIN | 2 |
+| USR-DOCENTE | 2 |
+| USR-ESTUDIANTE | 2 |
 
-`COUNT()` permite identificar cuáles servidores alojan más sistemas de información.
+**Interpretación:** el administrador, el docente y el estudiante tienen relaciones de acceso con dos sistemas cada uno.
 
-### Identificar los sistemas que dependen de un servidor
+El usuario bibliotecario no aparece porque solamente tiene un sistema asociado.
+
+### Consulta 3. Sistemas compartidos
+
+**Enunciado:** identifica los sistemas que están alojados en más de un servidor.
 
 ```sql
-MATCH (servidor:Servidor {id: 'SRV-ACADEMICO'})
-      -[:ALOJA]->(sistema:Sistema)
+MATCH (servidor:Servidor)
+      -[:ALOJA]->
+      (sistema:Sistema)
+
+WITH sistema,
+     COUNT(DISTINCT servidor) AS TotalServidores
+
+WHERE TotalServidores > 1
+
+RETURN sistema.id AS Sistema,
+       TotalServidores
+
+ORDER BY TotalServidores DESC, Sistema;
+```
+
+**Explicación:**
+
+Se identifican los servidores relacionados con cada sistema mediante `ALOJA`.
+
+`COUNT(DISTINCT servidor)` cuenta los servidores diferentes asociados con cada sistema.
+
+`WHERE` permite mostrar solamente los sistemas alojados en más de un servidor.
+
+**Resultado esperado:**
+
+| Sistema | TotalServidores |
+|---|---:|
+| SIS-CORREO | 2 |
+| SIS-PORTAL | 2 |
+
+**Interpretación:** los sistemas de correo y portal tienen relaciones de alojamiento con dos servidores.
+
+Estas relaciones podrían utilizarse para estudiar disponibilidad o dependencia tecnológica, aunque por sí solas no garantizan redundancia operativa.
+
+### Consulta 4. Respaldo de servidores
+
+**Enunciado:** identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no.
+
+```sql
+MATCH (servidor:Servidor)
+
+OPTIONAL MATCH (servidor)
+               -[:RESPALDA_EN]->
+               (almacenamiento:Almacenamiento)
+
 RETURN servidor.id AS Servidor,
-       sistema.id AS Sistema;
+       almacenamiento.id AS Almacenamiento
+
+ORDER BY Servidor;
 ```
 
-**Resultado esperado:** `SIS-GESTION` y `SIS-PORTAL`.
+**Explicación:**
 
-Esta consulta permite reconocer los sistemas que podrían verse afectados si el servidor académico dejara de funcionar.
+`OPTIONAL MATCH` permite incluir todos los servidores, incluso aquellos que no tienen una relación de respaldo.
 
-### Consultar los servidores que dependen del servicio de autenticación
+Cuando un servidor no tiene una relación `RESPALDA_EN`, Neo4j devuelve `null` en la columna correspondiente.
+
+**Resultado esperado:**
+
+| Servidor | Almacenamiento |
+|---|---|
+| SRV-ACADEMICO | NAS-RESPALDO |
+| SRV-ARCHIVOS | NAS-RESPALDO |
+| SRV-AUTENTICACION | null |
+| SRV-WEB | NAS-RESPALDO |
+
+**Interpretación:** tres servidores tienen registrada una relación de respaldo hacia el NAS.
+
+El servidor de autenticación no cuenta con una relación de respaldo en este modelo.
+
+Esto permite identificar un punto que podría requerir revisión dentro de un análisis de continuidad operativa.
+
+### Consulta 5. Recorrido de conexiones
+
+**Enunciado:** identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch.
 
 ```sql
-MATCH (servidor:Servidor)-[:DEPENDE_DE]->
-      (autenticacion:Servidor {id: 'SRV-AUTENTICACION'})
-RETURN servidor.id AS Servidor,
-       autenticacion.id AS Dependencia;
+MATCH (usuario:Usuario)
+      -[:UTILIZA]->
+      (computadora:Computadora)
+      -[:CONECTADO_A]->
+      (switch:Switch)
+      -[:CONECTADO_A]->
+      (router:Router)
+
+RETURN usuario.id AS Usuario,
+       computadora.id AS Computadora,
+       switch.id AS Switch,
+       router.id AS Router
+
+ORDER BY Usuario;
 ```
 
-**Resultado esperado:** `SRV-WEB` y `SRV-ACADEMICO`.
+**Explicación:**
 
-La consulta identifica las dependencias explícitas registradas entre servidores.
+Esta consulta utiliza un patrón de varias relaciones consecutivas.
 
-Si el servicio de autenticación presenta una falla, ambos servidores podrían experimentar problemas en las funciones que dependen de él.
+Primero se identifica la computadora que utiliza un usuario.
 
-### Identificar los sistemas asociados con un servidor dependiente de autenticación
+Posteriormente, se busca el switch al que está conectada la computadora.
+
+Finalmente, se identifica el router relacionado con ese switch.
+
+**Resultado esperado:**
+
+| Usuario | Computadora | Switch | Router |
+|---|---|---|---|
+| USR-ADMIN | PC-ADMIN01 | SW-ADMIN | RTR-PRINCIPAL |
+| USR-BIBLIOTECARIO | PC-BIB01 | SW-BIB | RTR-RESPALDO |
+| USR-DOCENTE | PC-DOC01 | SW-DOC | RTR-RESPALDO |
+| USR-ESTUDIANTE | PC-LAB01 | SW-LAB | RTR-PRINCIPAL |
+
+**Interpretación:** se identifican cuatro recorridos que relacionan usuarios con routers mediante computadoras y switches.
+
+El resultado muestra conexiones registradas en el modelo, pero no demuestra por sí mismo que exista acceso efectivo a través de todos esos dispositivos.
+
+### Visualización opcional de los recorridos
+
+Podemos modificar la consulta anterior para mostrar las relaciones mediante la vista Graph de Neo4j.
 
 ```sql
-MATCH (servidor:Servidor)-[:DEPENDE_DE]->
-      (autenticacion:Servidor {id: 'SRV-AUTENTICACION'})
+MATCH camino =
+      (usuario:Usuario)
+      -[:UTILIZA]->
+      (computadora:Computadora)
+      -[:CONECTADO_A]->
+      (switch:Switch)
+      -[:CONECTADO_A]->
+      (router:Router)
 
-MATCH (servidor)-[:ALOJA]->(sistema:Sistema)
-
-RETURN autenticacion.id AS ServidorAutenticacion,
-       servidor.id AS ServidorDependiente,
-       sistema.id AS Sistema
-ORDER BY ServidorDependiente, Sistema;
-```
-
-**Resultado esperado:** una tabla que incluye los sistemas alojados en `SRV-WEB` y `SRV-ACADEMICO`.
-
-Esta consulta permite explorar dependencias indirectas y reconocer qué sistemas podrían estar relacionados con un incidente del servicio de autenticación.
-
-No demuestra que todos los sistemas dejarían de funcionar, sino que identifica posibles dependencias que deberían revisarse.
-
-### Visualizar las conexiones de un dispositivo crítico
-
-```sql
-MATCH camino = (firewall:Firewall {id: 'FW-PRINCIPAL'})
-               -[:CONECTADO_A*1..2]-
-               (dispositivo:ActivoTI)
 RETURN camino;
 ```
 
-**Resultado esperado:** una visualización de las conexiones del firewall principal, incluyendo dispositivos alcanzables mediante una o dos relaciones `CONECTADO_A`, sin importar su dirección.
+**Resultado esperado:** una visualización de los caminos que conectan usuarios, computadoras, switches y routers.
 
-Selecciona la vista **Graph** de Neo4j para observar los recorridos.
+## Consideraciones para revisar la actividad
 
-La expresión `*1..2` permite explorar conexiones de uno o dos saltos.
+Al revisar las entregas de los estudiantes es importante considerar lo siguiente:
 
-Esta consulta resulta útil para examinar la estructura de la infraestructura e identificar dispositivos cercanos a un componente importante.
+- Las consultas deben utilizar correctamente las etiquetas, propiedades y relaciones.
+- Se pueden aceptar diferentes soluciones si recuperan la información solicitada.
+- El orden de los resultados puede variar cuando existen empates.
+- Una consulta sin resultados no necesariamente es incorrecta.
+- Las interpretaciones deben corresponder con la información mostrada.
+- Los resultados pueden cambiar si se modificó previamente la base de datos.
 
-**Importante:** estas conexiones representan la topología registrada en la base de datos. No implican por sí mismas que exista comunicación permitida o que un atacante pueda acceder a los dispositivos.
+## Conclusión
+
+Las consultas realizadas permiten comprender cómo el lenguaje Cypher facilita el análisis de información relacionada.
+
+En el grafo de la NBA fue posible agrupar jugadores, calcular promedios salariales, comparar relaciones entre equipos y analizar diferencias contractuales.
+
+En el grafo de ciberseguridad se identificaron conexiones entre dispositivos, accesos de usuarios, sistemas alojados en varios servidores y relaciones de respaldo.
+
+Ambos ejemplos muestran cómo las bases de datos orientadas a grafos permiten estudiar relaciones entre entidades y recuperar información mediante distintos patrones de conexión.
