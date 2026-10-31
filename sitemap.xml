@@ -25,16 +25,20 @@
     <lastmod>2026-09-07T22:56:00.254Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/04_consultas_mongodb.html</loc>
-    <lastmod>2026-09-08T07:02:51.565Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/14_introduccion_xml.html</loc>
+    <lastmod>2026-10-31T01:43:36.025Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/06_bases_clave_valor.html</loc>
-    <lastmod>2026-09-14T04:38:29.476Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/12_2_neo4j_guia_completa.html</loc>
+    <lastmod>2026-10-28T05:32:44.950Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/08_bases_orientadas_columnas.html</loc>
-    <lastmod>2026-10-02T16:40:22.209Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/03_mongodb_consultas_basicas.html</loc>
+    <lastmod>2026-09-07T05:48:37.893Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/15_consultas_xml_xpath_xquery.html</loc>
+    <lastmod>2026-10-31T02:36:08.946Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/13_siete_puentes_konigsberg.html</loc>
@@ -93,12 +97,16 @@
     <lastmod>2026-10-12T05:38:26.511Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/03_mongodb_consultas_basicas.html</loc>
-    <lastmod>2026-09-07T05:48:37.893Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/08_bases_orientadas_columnas.html</loc>
+    <lastmod>2026-10-02T16:40:22.209Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/12_2_neo4j_guia_completa.html</loc>
-    <lastmod>2026-10-28T05:32:44.950Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/06_bases_clave_valor.html</loc>
+    <lastmod>2026-09-14T04:38:29.476Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/04_consultas_mongodb.html</loc>
+    <lastmod>2026-09-08T07:02:51.565Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/03_bases_orientadas_documentos.html</loc>
@@ -118,7 +126,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-10-28T05:43:28.407Z</lastmod>
+    <lastmod>2026-10-30T23:52:55.948Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/diapositivas.html</loc>
