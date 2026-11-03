@@ -4039,18 +4039,18 @@
     "text": "El problema de los siete puentes de Königsberg\nIntroducción a la teoría de grafos mediante el problema de los siete puentes de Königsberg. Se representa el problema en Neo4j y se utilizan los conceptos de grado y camino euleriano para demostrar cuándo existe un recorrido válido.\n Abrir apunte"
   },
   {
-    "objectID": "apuntes.html#apunte-14.-introducción-a-xml-estructura-elementos-y-atributos",
-    "href": "apuntes.html#apunte-14.-introducción-a-xml-estructura-elementos-y-atributos",
+    "objectID": "apuntes.html#introducción-a-xml-estructura-elementos-y-atributos",
+    "href": "apuntes.html#introducción-a-xml-estructura-elementos-y-atributos",
     "title": "Apuntes del curso",
-    "section": "Apunte 14. Introducción a XML: estructura, elementos y atributos",
-    "text": "Apunte 14. Introducción a XML: estructura, elementos y atributos\nIntroducción al lenguaje XML para representar información semiestructurada. Se estudian los elementos, atributos, estructuras jerárquicas y reglas de documentos bien formados, así como sus aplicaciones reales. Incluye una práctica de procesamiento y consolidación de archivos XML mediante Python y Google Colab.\n Abrir apunte"
+    "section": "Introducción a XML: estructura, elementos y atributos",
+    "text": "Introducción a XML: estructura, elementos y atributos\nIntroducción al lenguaje XML para representar información semiestructurada. Se estudian los elementos, atributos, estructuras jerárquicas y reglas de documentos bien formados, así como sus aplicaciones reales. Incluye una práctica de procesamiento y consolidación de archivos XML mediante Python y Google Colab.\n Abrir apunte"
   },
   {
-    "objectID": "apuntes.html#apunte-15.-consultas-xml-mediante-xpath-y-xquery",
-    "href": "apuntes.html#apunte-15.-consultas-xml-mediante-xpath-y-xquery",
+    "objectID": "apuntes.html#consultas-xml-mediante-xpath-y-xquery",
+    "href": "apuntes.html#consultas-xml-mediante-xpath-y-xquery",
     "title": "Apuntes del curso",
-    "section": "Apunte 15. Consultas XML mediante XPath y XQuery",
-    "text": "Apunte 15. Consultas XML mediante XPath y XQuery\nIntroducción a los lenguajes XPath y XQuery para consultar y recuperar información de documentos XML. Incluye selección de elementos y atributos, aplicación de filtros, funciones, ordenamiento y construcción de resultados mediante consultas prácticas en BXFiddle.\n Abrir apunte"
+    "section": "Consultas XML mediante XPath y XQuery",
+    "text": "Consultas XML mediante XPath y XQuery\nIntroducción a los lenguajes XPath y XQuery para consultar y recuperar información de documentos XML. Incluye selección de elementos y atributos, aplicación de filtros, funciones, ordenamiento y construcción de resultados mediante consultas prácticas en BXFiddle.\n Abrir apunte"
   },
   {
     "objectID": "diapositivas.html",
