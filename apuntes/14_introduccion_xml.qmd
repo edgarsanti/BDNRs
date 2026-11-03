@@ -112,16 +112,6 @@ El XML contiene los datos estructurados del comprobante, mientras que el PDF fac
 
 Por ejemplo, un sistema informático puede recuperar automáticamente el RFC del emisor, la fecha de emisión y el importe total de múltiples archivos XML.
 
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿Por qué es útil contar con una factura en XML y no solamente en PDF?**
-
-Porque XML permite que los sistemas informáticos recuperen, validen e intercambien información mediante una estructura definida.
-
-Por ejemplo, una aplicación puede procesar cientos de comprobantes y construir una tabla con sus fechas, emisores e importes sin capturarlos manualmente.
-
-:::
-
 ### Documentos de Microsoft Office
 
 Otro ejemplo interesante son los documentos de Word, Excel y PowerPoint.
@@ -253,18 +243,6 @@ Ambos ejemplos representan información equivalente, aunque existen diferencias 
 
 Una diferencia importante es que XML utiliza etiquetas de apertura y cierre, mientras que JSON organiza la información mediante objetos, arreglos y pares de clave y valor.
 
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿Podemos representar la misma información utilizando XML y JSON?**
-
-Sí.
-
-Ambos formatos permiten representar información equivalente.
-
-La diferencia se encuentra en su sintaxis, estructura y mecanismos de interpretación.
-
-:::
-
 ## Estructura básica de un documento XML
 
 Un documento XML puede incluir una declaración inicial y debe contener un único elemento raíz.
@@ -385,27 +363,6 @@ Como criterio general, podemos utilizar elementos para describir el contenido pr
 
 Esta distribución es una decisión de diseño, no una regla obligatoria de XML.
 
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿La matrícula podría representarse como un elemento en lugar de un atributo?**
-
-Sí.
-
-Por ejemplo:
-
-```xml
-<estudiante>
-    <matricula>S12345</matricula>
-    <nombre>Ana López</nombre>
-</estudiante>
-```
-
-Ambas representaciones son posibles.
-
-La elección depende de cómo se diseñe el documento y de cómo se utilizará posteriormente su información.
-
-:::
-
 ## Estructura jerárquica de XML
 
 Una de las características fundamentales de XML es que organiza sus elementos mediante una **estructura jerárquica de árbol**.
@@ -501,16 +458,6 @@ Podemos identificar las siguientes relaciones:
 - `nombre` es descendiente de `universidad`.
 
 El elemento `facultad` también tiene un atributo llamado `nombre`. Ese atributo no es un elemento hijo.
-
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿El elemento `estudiante` puede ser hijo y padre al mismo tiempo?**
-
-Sí.
-
-Es hijo de `facultad` y, al mismo tiempo, padre de `nombre` y `semestre`.
-
-:::
 
 ## Ejemplo aplicado: representación de los apuntes de nuestro repositorio mediante XML
 
@@ -609,39 +556,6 @@ Los apuntes originales son documentos `.qmd`, mientras que `repositorio_apuntes.
 El catálogo no contiene necesariamente el texto completo de los apuntes, sino información como sus títulos, nombres y rutas.
 
 Si se agregan nuevos apuntes, el catálogo deberá actualizarse para reflejar esos cambios.
-:::
-
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿Qué diferencia existe entre el archivo `14_introduccion_xml.qmd` y el documento `repositorio_apuntes.xml`?**
-
-El archivo `.qmd` contiene el contenido del apunte desarrollado mediante Quarto.
-
-El documento XML contiene información organizada sobre los apuntes del curso.
-
-Por lo tanto, tienen funciones diferentes.
-
-:::
-
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿Qué sucedería si agregamos un nuevo apunte al catálogo?**
-
-Podríamos incorporar otro elemento `archivo` dentro del elemento `carpeta`.
-
-Por ejemplo:
-
-```xml
-<archivo numero="16"
-         nombre="16_json_mongodb_python.qmd">
-    <titulo>JSON y MongoDB con Python</titulo>
-    <formato>qmd</formato>
-    <ruta>apuntes/16_json_mongodb_python.qmd</ruta>
-</archivo>
-```
-
-Este es un ejemplo hipotético. Para representar un nuevo apunte real, utilizaríamos su nombre y título definitivos.
-
 :::
 
 ### ¿Para qué nos servirá este catálogo?
@@ -1222,18 +1136,6 @@ El documento mostrado es ilustrativo. Los valores exactos se obtienen al ejecuta
 Observa que algunos valores se almacenan como atributos, mientras que otros aparecen como contenido de elementos.
 
 Esta diferencia será importante al recuperar la información mediante Python.
-
-::: {.callout-tip collapse="true" title="Pregunta para los alumnos"}
-
-**¿Cuántas facturas contiene el archivo `factura_001.xml`?**
-
-Contiene una factura.
-
-Cada uno de los veinte archivos representa un documento XML independiente.
-
-Por lo tanto, tenemos veinte documentos con una estructura similar.
-
-:::
 
 ### Paso 4. Leer los veinte archivos XML
 
