@@ -374,24 +374,6 @@ Note
 <p>Cuando solicitamos una factura, podemos recibir el archivo XML y una representación visual en PDF.</p>
 <p>El XML contiene los datos estructurados del comprobante, mientras que el PDF facilita su lectura.</p>
 <p>Por ejemplo, un sistema informático puede recuperar automáticamente el RFC del emisor, la fecha de emisión y el importe total de múltiples archivos XML.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿Por qué es útil contar con una factura en XML y no solamente en PDF?</strong></p>
-<p>Porque XML permite que los sistemas informáticos recuperen, validen e intercambien información mediante una estructura definida.</p>
-<p>Por ejemplo, una aplicación puede procesar cientos de comprobantes y construir una tabla con sus fechas, emisores e importes sin capturarlos manualmente.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="documentos-de-microsoft-office" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="documentos-de-microsoft-office"><span class="header-section-number">4.2</span> Documentos de Microsoft Office</h3>
@@ -556,25 +538,6 @@ Note
 </tbody>
 </table>
 <p>Una diferencia importante es que XML utiliza etiquetas de apertura y cierre, mientras que JSON organiza la información mediante objetos, arreglos y pares de clave y valor.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿Podemos representar la misma información utilizando XML y JSON?</strong></p>
-<p>Sí.</p>
-<p>Ambos formatos permiten representar información equivalente.</p>
-<p>La diferencia se encuentra en su sintaxis, estructura y mecanismos de interpretación.</p>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="estructura-básica-de-un-documento-xml" class="level2" data-number="6">
@@ -730,30 +693,6 @@ Warning
 </tbody>
 </table>
 <p>Esta distribución es una decisión de diseño, no una regla obligatoria de XML.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿La matrícula podría representarse como un elemento en lugar de un atributo?</strong></p>
-<p>Sí.</p>
-<p>Por ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">matricula</span>&gt;S12345&lt;/<span class="kw">matricula</span>&gt;</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ambas representaciones son posibles.</p>
-<p>La elección depende de cómo se diseñe el documento y de cómo se utilizará posteriormente su información.</p>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="estructura-jerárquica-de-xml" class="level2" data-number="8">
@@ -851,15 +790,15 @@ Note
 <section id="ejemplo-aplicado-una-universidad" class="level3" data-number="8.3">
 <h3 data-number="8.3" class="anchored" data-anchor-id="ejemplo-aplicado-una-universidad"><span class="header-section-number">8.3</span> Ejemplo aplicado: una universidad</h3>
 <p>Observemos el siguiente documento:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">facultad</span> <span class="ot">nombre=</span><span class="st">"Estadística e Informática"</span>&gt;</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">carrera</span>&gt;Ingeniería en Ciencia de Datos&lt;/<span class="kw">carrera</span>&gt;</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">semestre</span>&gt;5&lt;/<span class="kw">semestre</span>&gt;</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">estudiante</span>&gt;</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">facultad</span>&gt;</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">facultad</span> <span class="ot">nombre=</span><span class="st">"Estadística e Informática"</span>&gt;</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">carrera</span>&gt;Ingeniería en Ciencia de Datos&lt;/<span class="kw">carrera</span>&gt;</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">estudiante</span>&gt;</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">semestre</span>&gt;5&lt;/<span class="kw">semestre</span>&gt;</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">estudiante</span>&gt;</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">facultad</span>&gt;</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Su estructura jerárquica puede representarse así:</p>
 <pre class="text"><code>universidad
 │
@@ -880,24 +819,6 @@ Note
 <li><code>nombre</code> es descendiente de <code>universidad</code>.</li>
 </ul>
 <p>El elemento <code>facultad</code> también tiene un atributo llamado <code>nombre</code>. Ese atributo no es un elemento hijo.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿El elemento <code>estudiante</code> puede ser hijo y padre al mismo tiempo?</strong></p>
-<p>Sí.</p>
-<p>Es hijo de <code>facultad</code> y, al mismo tiempo, padre de <code>nombre</code> y <code>semestre</code>.</p>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="ejemplo-aplicado-representación-de-los-apuntes-de-nuestro-repositorio-mediante-xml" class="level2" data-number="9">
@@ -944,29 +865,29 @@ Note
 <section id="representación-del-repositorio-mediante-xml" class="level3" data-number="9.2">
 <h3 data-number="9.2" class="anchored" data-anchor-id="representación-del-repositorio-mediante-xml"><span class="header-section-number">9.2</span> Representación del repositorio mediante XML</h3>
 <p>Observemos el siguiente ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">repositorio</span> <span class="ot">nombre=</span><span class="st">"Bases de Datos No Relacionales"</span>&gt;</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">carpeta</span> <span class="ot">nombre=</span><span class="st">"apuntes"</span>&gt;</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">archivo</span> <span class="ot">numero=</span><span class="st">"14"</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                 <span class="ot">nombre=</span><span class="st">"14_introduccion_xml.qmd"</span>&gt;</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">titulo</span>&gt;Introducción a XML: estructura, elementos y atributos&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">formato</span>&gt;qmd&lt;/<span class="kw">formato</span>&gt;</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">ruta</span>&gt;apuntes/14_introduccion_xml.qmd&lt;/<span class="kw">ruta</span>&gt;</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">archivo</span>&gt;</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">archivo</span> <span class="ot">numero=</span><span class="st">"15"</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                 <span class="ot">nombre=</span><span class="st">"15_consultas_xml_xpath_xquery.qmd"</span>&gt;</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">titulo</span>&gt;Consultas XML mediante XPath y XQuery&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">formato</span>&gt;qmd&lt;/<span class="kw">formato</span>&gt;</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">ruta</span>&gt;apuntes/15_consultas_xml_xpath_xquery.qmd&lt;/<span class="kw">ruta</span>&gt;</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">archivo</span>&gt;</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">carpeta</span>&gt;</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">repositorio</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">repositorio</span> <span class="ot">nombre=</span><span class="st">"Bases de Datos No Relacionales"</span>&gt;</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">carpeta</span> <span class="ot">nombre=</span><span class="st">"apuntes"</span>&gt;</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">archivo</span> <span class="ot">numero=</span><span class="st">"14"</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                 <span class="ot">nombre=</span><span class="st">"14_introduccion_xml.qmd"</span>&gt;</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">titulo</span>&gt;Introducción a XML: estructura, elementos y atributos&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">formato</span>&gt;qmd&lt;/<span class="kw">formato</span>&gt;</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">ruta</span>&gt;apuntes/14_introduccion_xml.qmd&lt;/<span class="kw">ruta</span>&gt;</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">archivo</span>&gt;</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">archivo</span> <span class="ot">numero=</span><span class="st">"15"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                 <span class="ot">nombre=</span><span class="st">"15_consultas_xml_xpath_xquery.qmd"</span>&gt;</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">titulo</span>&gt;Consultas XML mediante XPath y XQuery&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">formato</span>&gt;qmd&lt;/<span class="kw">formato</span>&gt;</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">ruta</span>&gt;apuntes/15_consultas_xml_xpath_xquery.qmd&lt;/<span class="kw">ruta</span>&gt;</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">archivo</span>&gt;</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">carpeta</span>&gt;</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">repositorio</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El documento anterior muestra solamente dos apuntes para explicar la estructura.</p>
 <p>El catálogo completo puede incluir todos los archivos <code>.qmd</code> del curso, manteniendo un elemento <code>archivo</code> por cada apunte.</p>
 </section>
@@ -1034,50 +955,6 @@ Note
 <p>Si se agregan nuevos apuntes, el catálogo deberá actualizarse para reflejar esos cambios.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿Qué diferencia existe entre el archivo <code>14_introduccion_xml.qmd</code> y el documento <code>repositorio_apuntes.xml</code>?</strong></p>
-<p>El archivo <code>.qmd</code> contiene el contenido del apunte desarrollado mediante Quarto.</p>
-<p>El documento XML contiene información organizada sobre los apuntes del curso.</p>
-<p>Por lo tanto, tienen funciones diferentes.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿Qué sucedería si agregamos un nuevo apunte al catálogo?</strong></p>
-<p>Podríamos incorporar otro elemento <code>archivo</code> dentro del elemento <code>carpeta</code>.</p>
-<p>Por ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">archivo</span> <span class="ot">numero=</span><span class="st">"16"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>         <span class="ot">nombre=</span><span class="st">"16_json_mongodb_python.qmd"</span>&gt;</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">titulo</span>&gt;JSON y MongoDB con Python&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">formato</span>&gt;qmd&lt;/<span class="kw">formato</span>&gt;</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">ruta</span>&gt;apuntes/16_json_mongodb_python.qmd&lt;/<span class="kw">ruta</span>&gt;</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">archivo</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Este es un ejemplo hipotético. Para representar un nuevo apunte real, utilizaríamos su nombre y título definitivos.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="para-qué-nos-servirá-este-catálogo" class="level3" data-number="9.5">
 <h3 data-number="9.5" class="anchored" data-anchor-id="para-qué-nos-servirá-este-catálogo"><span class="header-section-number">9.5</span> ¿Para qué nos servirá este catálogo?</h3>
@@ -1094,54 +971,54 @@ Note
 <section id="regla-1.-debe-existir-un-único-elemento-raíz" class="level3" data-number="10.1">
 <h3 data-number="10.1" class="anchored" data-anchor-id="regla-1.-debe-existir-un-único-elemento-raíz"><span class="header-section-number">10.1</span> Regla 1. Debe existir un único elemento raíz</h3>
 <p><strong>Incorrecto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Existen dos elementos principales independientes.</p>
+<p><strong>Correcto:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="regla-2.-las-etiquetas-deben-cerrarse-correctamente" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="regla-2.-las-etiquetas-deben-cerrarse-correctamente"><span class="header-section-number">10.2</span> Regla 2. Las etiquetas deben cerrarse correctamente</h3>
+<p><strong>Incorrecto:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Falta cerrar el elemento <code>nombre</code>.</p>
 <p><strong>Correcto:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="regla-2.-las-etiquetas-deben-cerrarse-correctamente" class="level3" data-number="10.2">
-<h3 data-number="10.2" class="anchored" data-anchor-id="regla-2.-las-etiquetas-deben-cerrarse-correctamente"><span class="header-section-number">10.2</span> Regla 2. Las etiquetas deben cerrarse correctamente</h3>
-<p><strong>Incorrecto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Falta cerrar el elemento <code>nombre</code>.</p>
-<p><strong>Correcto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
 <section id="regla-3.-los-elementos-deben-anidarse-correctamente" class="level3" data-number="10.3">
 <h3 data-number="10.3" class="anchored" data-anchor-id="regla-3.-los-elementos-deben-anidarse-correctamente"><span class="header-section-number">10.3</span> Regla 3. Los elementos deben anidarse correctamente</h3>
 <p><strong>Incorrecto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">estudiante</span>&gt;</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">estudiante</span>&gt;</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Correcto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span>&gt;</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">estudiante</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="regla-4.-xml-distingue-mayúsculas-y-minúsculas" class="level3" data-number="10.4">
 <h3 data-number="10.4" class="anchored" data-anchor-id="regla-4.-xml-distingue-mayúsculas-y-minúsculas"><span class="header-section-number">10.4</span> Regla 4. XML distingue mayúsculas y minúsculas</h3>
 <p><strong>Incorrecto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Correcto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Las etiquetas <code>Nombre</code> y <code>nombre</code> son diferentes para XML.</p>
 </section>
 <section id="regla-5.-los-atributos-deben-utilizar-comillas" class="level3" data-number="10.5">
 <h3 data-number="10.5" class="anchored" data-anchor-id="regla-5.-los-atributos-deben-utilizar-comillas"><span class="header-section-number">10.5</span> Regla 5. Los atributos deben utilizar comillas</h3>
 <p><strong>Incorrecto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span> <span class="ot">matricula=</span><span class="er">S12345</span>/&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span> <span class="ot">matricula=</span><span class="er">S12345</span>/&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Correcto:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span> <span class="ot">matricula=</span><span class="st">"S12345"</span>/&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">estudiante</span> <span class="ot">matricula=</span><span class="st">"S12345"</span>/&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="regla-6.-deben-manejarse-los-caracteres-especiales" class="level3" data-number="10.6">
 <h3 data-number="10.6" class="anchored" data-anchor-id="regla-6.-deben-manejarse-los-caracteres-especiales"><span class="header-section-number">10.6</span> Regla 6. Deben manejarse los caracteres especiales</h3>
@@ -1177,7 +1054,7 @@ Note
 </tbody>
 </table>
 <p>Por ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">empresa</span>&gt;Investigación <span class="dv">&amp;amp;</span> Desarrollo&lt;/<span class="kw">empresa</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">empresa</span>&gt;Investigación <span class="dv">&amp;amp;</span> Desarrollo&lt;/<span class="kw">empresa</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1220,15 +1097,15 @@ Warning
 <section id="actividad-identificación-de-errores" class="level2" data-number="11">
 <h2 data-number="11" class="anchored" data-anchor-id="actividad-identificación-de-errores"><span class="header-section-number">11</span> Actividad: identificación de errores</h2>
 <p>Observa el siguiente documento:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Estudiante</span> <span class="ot">matricula=</span><span class="er">S001</span>&gt;</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">Nombre</span>&gt;</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">edad</span>&gt;21</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Estudiante</span>&gt;</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Estudiante</span> <span class="ot">matricula=</span><span class="er">S001</span>&gt;</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">Nombre</span>&gt;</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">edad</span>&gt;21</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Estudiante</span>&gt;</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Identifica los errores y escribe una versión corregida.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Ver respuesta">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1237,7 +1114,7 @@ Warning
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Los errores principales son:</p>
 <ol type="1">
@@ -1246,12 +1123,12 @@ Warning
 <li>El elemento <code>edad</code> no tiene etiqueta de cierre.</li>
 </ol>
 <p><strong>Documento corregido:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Estudiante</span> <span class="ot">matricula=</span><span class="st">"S001"</span>&gt;</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Estudiante</span>&gt;</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">universidad</span>&gt;</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Estudiante</span> <span class="ot">matricula=</span><span class="st">"S001"</span>&gt;</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">nombre</span>&gt;Ana López&lt;/<span class="kw">nombre</span>&gt;</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">edad</span>&gt;21&lt;/<span class="kw">edad</span>&gt;</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Estudiante</span>&gt;</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">universidad</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1283,41 +1160,41 @@ Warning
 <p>En un editor de texto, crea un archivo llamado:</p>
 <p><code>biblioteca.xml</code></p>
 <p>Agrega el siguiente contenido:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">biblioteca</span>&gt;</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L001"</span>&gt;</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Introducción a las bases de datos&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Ana López&lt;/<span class="kw">autor</span>&gt;</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2024&lt;/<span class="kw">anio</span>&gt;</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Informática&lt;/<span class="kw">categoria</span>&gt;</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L002"</span>&gt;</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Fundamentos de programación&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Carlos Pérez&lt;/<span class="kw">autor</span>&gt;</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2022&lt;/<span class="kw">anio</span>&gt;</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Programación&lt;/<span class="kw">categoria</span>&gt;</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;false&lt;/<span class="kw">disponible</span>&gt;</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L003"</span>&gt;</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Ciencia de datos con Python&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;María García&lt;/<span class="kw">autor</span>&gt;</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2025&lt;/<span class="kw">anio</span>&gt;</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Ciencia de Datos&lt;/<span class="kw">categoria</span>&gt;</span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L004"</span>&gt;</span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Modelado de bases de datos&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Ana López&lt;/<span class="kw">autor</span>&gt;</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2023&lt;/<span class="kw">anio</span>&gt;</span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Informática&lt;/<span class="kw">categoria</span>&gt;</span>
-<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
-<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">biblioteca</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span> <span class="ot">encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">biblioteca</span>&gt;</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L001"</span>&gt;</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Introducción a las bases de datos&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Ana López&lt;/<span class="kw">autor</span>&gt;</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2024&lt;/<span class="kw">anio</span>&gt;</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Informática&lt;/<span class="kw">categoria</span>&gt;</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L002"</span>&gt;</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Fundamentos de programación&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Carlos Pérez&lt;/<span class="kw">autor</span>&gt;</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2022&lt;/<span class="kw">anio</span>&gt;</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Programación&lt;/<span class="kw">categoria</span>&gt;</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;false&lt;/<span class="kw">disponible</span>&gt;</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L003"</span>&gt;</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Ciencia de datos con Python&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;María García&lt;/<span class="kw">autor</span>&gt;</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2025&lt;/<span class="kw">anio</span>&gt;</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Ciencia de Datos&lt;/<span class="kw">categoria</span>&gt;</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L004"</span>&gt;</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">titulo</span>&gt;Modelado de bases de datos&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">autor</span>&gt;Ana López&lt;/<span class="kw">autor</span>&gt;</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">anio</span>&gt;2023&lt;/<span class="kw">anio</span>&gt;</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">categoria</span>&gt;Informática&lt;/<span class="kw">categoria</span>&gt;</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">libro</span>&gt;</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">biblioteca</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="paso-2.-identificar-sus-componentes" class="level3" data-number="12.3">
 <h3 data-number="12.3" class="anchored" data-anchor-id="paso-2.-identificar-sus-componentes"><span class="header-section-number">12.3</span> Paso 2. Identificar sus componentes</h3>
@@ -1387,7 +1264,7 @@ Warning
 <li>Comprueba que pueda visualizarse correctamente.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Ver ejemplo de solución">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1396,16 +1273,16 @@ Warning
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Agrega este elemento antes de <code>&lt;/biblioteca&gt;</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L005"</span>&gt;</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">titulo</span>&gt;Introducción al análisis de datos&lt;/<span class="kw">titulo</span>&gt;</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">autor</span>&gt;Laura Martínez&lt;/<span class="kw">autor</span>&gt;</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">anio</span>&gt;2026&lt;/<span class="kw">anio</span>&gt;</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">categoria</span>&gt;Ciencia de Datos&lt;/<span class="kw">categoria</span>&gt;</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">libro</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">libro</span> <span class="ot">id=</span><span class="st">"L005"</span>&gt;</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">titulo</span>&gt;Introducción al análisis de datos&lt;/<span class="kw">titulo</span>&gt;</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">autor</span>&gt;Laura Martínez&lt;/<span class="kw">autor</span>&gt;</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">anio</span>&gt;2026&lt;/<span class="kw">anio</span>&gt;</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">categoria</span>&gt;Ciencia de Datos&lt;/<span class="kw">categoria</span>&gt;</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">disponible</span>&gt;true&lt;/<span class="kw">disponible</span>&gt;</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">libro</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ahora el documento contiene cinco libros.</p>
 </div>
 </div>
@@ -1517,102 +1394,102 @@ Warning
 <li>Total.</li>
 </ul>
 <p>Ejecuta el siguiente código:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.ElementTree <span class="im">as</span> ET</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Generador reproducible</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>generador <span class="op">=</span> random.Random(<span class="dv">42</span>)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear carpeta de trabajo</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>carpeta <span class="op">=</span> Path(<span class="st">"facturas_xml_apunte14"</span>)</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>carpeta.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar archivos XML de ejecuciones anteriores</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo_anterior <span class="kw">in</span> carpeta.glob(<span class="st">"factura_*.xml"</span>):</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    archivo_anterior.unlink()</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Proveedores ficticios</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>proveedores <span class="op">=</span> [</span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Papelería del Centro"</span>, <span class="st">"AAA010101AAA"</span>),</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tecnología del Golfo"</span>, <span class="st">"BBB010101BBB"</span>),</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Servicios Universitarios"</span>, <span class="st">"CCC010101CCC"</span>),</span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Suministros Digitales"</span>, <span class="st">"DDD010101DDD"</span>),</span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Equipos del Sureste"</span>, <span class="st">"EEE010101EEE"</span>)</span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar veinte documentos XML</span></span>
-<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>):</span>
-<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Seleccionar un proveedor</span></span>
-<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>    nombre, rfc <span class="op">=</span> generador.choice(proveedores)</span>
-<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar fecha</span></span>
-<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>    fecha <span class="op">=</span> datetime(<span class="dv">2026</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">+</span> timedelta(</span>
-<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>        days<span class="op">=</span>generador.randint(<span class="dv">0</span>, <span class="dv">273</span>)</span>
-<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar importes</span></span>
-<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>    subtotal <span class="op">=</span> <span class="bu">round</span>(</span>
-<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>        generador.uniform(<span class="dv">500</span>, <span class="dv">10000</span>), <span class="dv">2</span></span>
-<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a>    iva <span class="op">=</span> <span class="bu">round</span>(subtotal <span class="op">*</span> <span class="fl">0.16</span>, <span class="dv">2</span>)</span>
-<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="bu">round</span>(subtotal <span class="op">+</span> iva, <span class="dv">2</span>)</span>
-<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear elemento raíz</span></span>
-<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a>    factura <span class="op">=</span> ET.Element(</span>
-<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"factura"</span>,</span>
-<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a>        <span class="bu">id</span><span class="op">=</span><span class="ss">f"F</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">"</span>,</span>
-<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a>        fecha<span class="op">=</span>fecha.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
-<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear elemento emisor</span></span>
-<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
-<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a>        factura,</span>
-<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"emisor"</span>,</span>
-<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a>        nombre<span class="op">=</span>nombre,</span>
-<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a>        rfc<span class="op">=</span>rfc</span>
-<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Agregar importes</span></span>
-<span id="cb34-61"><a href="#cb34-61" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
-<span id="cb34-62"><a href="#cb34-62" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"subtotal"</span></span>
-<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>subtotal<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
-<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"iva"</span></span>
-<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>iva<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
-<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"total"</span></span>
-<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>total<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear árbol XML</span></span>
-<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a>    arbol <span class="op">=</span> ET.ElementTree(factura)</span>
-<span id="cb34-75"><a href="#cb34-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-76"><a href="#cb34-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aplicar sangría</span></span>
-<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a>    ET.indent(arbol, space<span class="op">=</span><span class="st">"    "</span>)</span>
-<span id="cb34-78"><a href="#cb34-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-79"><a href="#cb34-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Definir ruta</span></span>
-<span id="cb34-80"><a href="#cb34-80" aria-hidden="true" tabindex="-1"></a>    ruta <span class="op">=</span> carpeta <span class="op">/</span> <span class="ss">f"factura_</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">.xml"</span></span>
-<span id="cb34-81"><a href="#cb34-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-82"><a href="#cb34-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar documento XML</span></span>
-<span id="cb34-83"><a href="#cb34-83" aria-hidden="true" tabindex="-1"></a>    arbol.write(</span>
-<span id="cb34-84"><a href="#cb34-84" aria-hidden="true" tabindex="-1"></a>        ruta,</span>
-<span id="cb34-85"><a href="#cb34-85" aria-hidden="true" tabindex="-1"></a>        encoding<span class="op">=</span><span class="st">"utf-8"</span>,</span>
-<span id="cb34-86"><a href="#cb34-86" aria-hidden="true" tabindex="-1"></a>        xml_declaration<span class="op">=</span><span class="va">True</span></span>
-<span id="cb34-87"><a href="#cb34-87" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb34-88"><a href="#cb34-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-89"><a href="#cb34-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Recuperar los archivos generados</span></span>
-<span id="cb34-90"><a href="#cb34-90" aria-hidden="true" tabindex="-1"></a>archivos_xml <span class="op">=</span> <span class="bu">sorted</span>(</span>
-<span id="cb34-91"><a href="#cb34-91" aria-hidden="true" tabindex="-1"></a>    carpeta.glob(<span class="st">"factura_*.xml"</span>)</span>
-<span id="cb34-92"><a href="#cb34-92" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb34-93"><a href="#cb34-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-94"><a href="#cb34-94" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb34-95"><a href="#cb34-95" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Archivos XML generados: </span><span class="sc">{</span><span class="bu">len</span>(archivos_xml)<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb34-96"><a href="#cb34-96" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.ElementTree <span class="im">as</span> ET</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Generador reproducible</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>generador <span class="op">=</span> random.Random(<span class="dv">42</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear carpeta de trabajo</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>carpeta <span class="op">=</span> Path(<span class="st">"facturas_xml_apunte14"</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>carpeta.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar archivos XML de ejecuciones anteriores</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo_anterior <span class="kw">in</span> carpeta.glob(<span class="st">"factura_*.xml"</span>):</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    archivo_anterior.unlink()</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Proveedores ficticios</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>proveedores <span class="op">=</span> [</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Papelería del Centro"</span>, <span class="st">"AAA010101AAA"</span>),</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tecnología del Golfo"</span>, <span class="st">"BBB010101BBB"</span>),</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Servicios Universitarios"</span>, <span class="st">"CCC010101CCC"</span>),</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Suministros Digitales"</span>, <span class="st">"DDD010101DDD"</span>),</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Equipos del Sureste"</span>, <span class="st">"EEE010101EEE"</span>)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar veinte documentos XML</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>):</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Seleccionar un proveedor</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>    nombre, rfc <span class="op">=</span> generador.choice(proveedores)</span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar fecha</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>    fecha <span class="op">=</span> datetime(<span class="dv">2026</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">+</span> timedelta(</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>        days<span class="op">=</span>generador.randint(<span class="dv">0</span>, <span class="dv">273</span>)</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar importes</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>    subtotal <span class="op">=</span> <span class="bu">round</span>(</span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>        generador.uniform(<span class="dv">500</span>, <span class="dv">10000</span>), <span class="dv">2</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>    iva <span class="op">=</span> <span class="bu">round</span>(subtotal <span class="op">*</span> <span class="fl">0.16</span>, <span class="dv">2</span>)</span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="bu">round</span>(subtotal <span class="op">+</span> iva, <span class="dv">2</span>)</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear elemento raíz</span></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>    factura <span class="op">=</span> ET.Element(</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"factura"</span>,</span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>        <span class="bu">id</span><span class="op">=</span><span class="ss">f"F</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">"</span>,</span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a>        fecha<span class="op">=</span>fecha.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear elemento emisor</span></span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a>        factura,</span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"emisor"</span>,</span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a>        nombre<span class="op">=</span>nombre,</span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>        rfc<span class="op">=</span>rfc</span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Agregar importes</span></span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"subtotal"</span></span>
+<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>subtotal<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
+<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"iva"</span></span>
+<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>iva<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(</span>
+<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a>        factura, <span class="st">"total"</span></span>
+<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a>    ).text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>total<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear árbol XML</span></span>
+<span id="cb32-74"><a href="#cb32-74" aria-hidden="true" tabindex="-1"></a>    arbol <span class="op">=</span> ET.ElementTree(factura)</span>
+<span id="cb32-75"><a href="#cb32-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aplicar sangría</span></span>
+<span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a>    ET.indent(arbol, space<span class="op">=</span><span class="st">"    "</span>)</span>
+<span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Definir ruta</span></span>
+<span id="cb32-80"><a href="#cb32-80" aria-hidden="true" tabindex="-1"></a>    ruta <span class="op">=</span> carpeta <span class="op">/</span> <span class="ss">f"factura_</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">.xml"</span></span>
+<span id="cb32-81"><a href="#cb32-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-82"><a href="#cb32-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar documento XML</span></span>
+<span id="cb32-83"><a href="#cb32-83" aria-hidden="true" tabindex="-1"></a>    arbol.write(</span>
+<span id="cb32-84"><a href="#cb32-84" aria-hidden="true" tabindex="-1"></a>        ruta,</span>
+<span id="cb32-85"><a href="#cb32-85" aria-hidden="true" tabindex="-1"></a>        encoding<span class="op">=</span><span class="st">"utf-8"</span>,</span>
+<span id="cb32-86"><a href="#cb32-86" aria-hidden="true" tabindex="-1"></a>        xml_declaration<span class="op">=</span><span class="va">True</span></span>
+<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-88"><a href="#cb32-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-89"><a href="#cb32-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Recuperar los archivos generados</span></span>
+<span id="cb32-90"><a href="#cb32-90" aria-hidden="true" tabindex="-1"></a>archivos_xml <span class="op">=</span> <span class="bu">sorted</span>(</span>
+<span id="cb32-91"><a href="#cb32-91" aria-hidden="true" tabindex="-1"></a>    carpeta.glob(<span class="st">"factura_*.xml"</span>)</span>
+<span id="cb32-92"><a href="#cb32-92" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-93"><a href="#cb32-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-94"><a href="#cb32-94" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb32-95"><a href="#cb32-95" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Archivos XML generados: </span><span class="sc">{</span><span class="bu">len</span>(archivos_xml)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb32-96"><a href="#cb32-96" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Resultado esperado:</strong></p>
 <pre class="text"><code>Archivos XML generados: 20</code></pre>
 <p>Los documentos tendrán nombres como:</p>
@@ -1644,22 +1521,22 @@ Note
 <h3 data-number="14.5" class="anchored" data-anchor-id="paso-3.-inspeccionar-un-documento-xml"><span class="header-section-number">14.5</span> Paso 3. Inspeccionar un documento XML</h3>
 <p>Antes de consolidar la información, observaremos uno de los archivos generados.</p>
 <p>Ejecuta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>archivo <span class="op">=</span> carpeta <span class="op">/</span> <span class="st">"factura_001.xml"</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>contenido <span class="op">=</span> archivo.read_text(</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(contenido)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>archivo <span class="op">=</span> carpeta <span class="op">/</span> <span class="st">"factura_001.xml"</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>contenido <span class="op">=</span> archivo.read_text(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(contenido)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El resultado tendrá una estructura similar a esta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">'1.0'</span> <span class="ot">encoding=</span><span class="st">'utf-8'</span><span class="fu">?&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">factura</span> <span class="ot">id=</span><span class="st">"F001"</span> <span class="ot">fecha=</span><span class="st">"2026-03-10"</span>&gt;</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">emisor</span> <span class="ot">nombre=</span><span class="st">"Papelería del Centro"</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>            <span class="ot">rfc=</span><span class="st">"AAA010101AAA"</span> /&gt;</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">subtotal</span>&gt;1500.00&lt;/<span class="kw">subtotal</span>&gt;</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">iva</span>&gt;240.00&lt;/<span class="kw">iva</span>&gt;</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">total</span>&gt;1740.00&lt;/<span class="kw">total</span>&gt;</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">factura</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">'1.0'</span> <span class="ot">encoding=</span><span class="st">'utf-8'</span><span class="fu">?&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">factura</span> <span class="ot">id=</span><span class="st">"F001"</span> <span class="ot">fecha=</span><span class="st">"2026-03-10"</span>&gt;</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">emisor</span> <span class="ot">nombre=</span><span class="st">"Papelería del Centro"</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>            <span class="ot">rfc=</span><span class="st">"AAA010101AAA"</span> /&gt;</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">subtotal</span>&gt;1500.00&lt;/<span class="kw">subtotal</span>&gt;</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">iva</span>&gt;240.00&lt;/<span class="kw">iva</span>&gt;</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">total</span>&gt;1740.00&lt;/<span class="kw">total</span>&gt;</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">factura</span>&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El documento mostrado es ilustrativo. Los valores exactos se obtienen al ejecutar el código de generación.</p>
 </section>
 <section id="identificar-sus-componentes-1" class="level3" data-number="14.6">
@@ -1696,73 +1573,54 @@ Note
 </table>
 <p>Observa que algunos valores se almacenan como atributos, mientras que otros aparecen como contenido de elementos.</p>
 <p>Esta diferencia será importante al recuperar la información mediante Python.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Pregunta para los alumnos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Pregunta para los alumnos
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>¿Cuántas facturas contiene el archivo <code>factura_001.xml</code>?</strong></p>
-<p>Contiene una factura.</p>
-<p>Cada uno de los veinte archivos representa un documento XML independiente.</p>
-<p>Por lo tanto, tenemos veinte documentos con una estructura similar.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="paso-4.-leer-los-veinte-archivos-xml" class="level3" data-number="14.7">
 <h3 data-number="14.7" class="anchored" data-anchor-id="paso-4.-leer-los-veinte-archivos-xml"><span class="header-section-number">14.7</span> Paso 4. Leer los veinte archivos XML</h3>
 <p>Ahora utilizaremos la biblioteca <code>xml.etree.ElementTree</code> para interpretar los documentos XML.</p>
 <p>También utilizaremos pandas para organizar la información recuperada.</p>
 <p>Ejecuta el siguiente código:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista para almacenar los registros</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>registros <span class="op">=</span> []</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Recorrer los veinte archivos XML</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo <span class="kw">in</span> archivos_xml:</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Leer el documento XML</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    arbol <span class="op">=</span> ET.parse(archivo)</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recuperar el elemento raíz</span></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    raiz <span class="op">=</span> arbol.getroot()</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Localizar el elemento emisor</span></span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    emisor <span class="op">=</span> raiz.find(<span class="st">"emisor"</span>)</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extraer información</span></span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    registro <span class="op">=</span> {</span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Factura"</span>: raiz.get(<span class="st">"id"</span>),</span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha"</span>: raiz.get(<span class="st">"fecha"</span>),</span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Emisor"</span>: emisor.get(<span class="st">"nombre"</span>),</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RFC"</span>: emisor.get(<span class="st">"rfc"</span>),</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Subtotal"</span>: <span class="bu">float</span>(</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"subtotal"</span>)</span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IVA"</span>: <span class="bu">float</span>(</span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"iva"</span>)</span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Total"</span>: <span class="bu">float</span>(</span>
-<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"total"</span>)</span>
-<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Agregar registro a la lista</span></span>
-<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>    registros.append(registro)</span>
-<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Construir una tabla con pandas</span></span>
-<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(registros)</span>
-<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar información</span></span>
-<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>display(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista para almacenar los registros</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>registros <span class="op">=</span> []</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Recorrer los veinte archivos XML</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo <span class="kw">in</span> archivos_xml:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Leer el documento XML</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    arbol <span class="op">=</span> ET.parse(archivo)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recuperar el elemento raíz</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    raiz <span class="op">=</span> arbol.getroot()</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Localizar el elemento emisor</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    emisor <span class="op">=</span> raiz.find(<span class="st">"emisor"</span>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extraer información</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    registro <span class="op">=</span> {</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Factura"</span>: raiz.get(<span class="st">"id"</span>),</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fecha"</span>: raiz.get(<span class="st">"fecha"</span>),</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Emisor"</span>: emisor.get(<span class="st">"nombre"</span>),</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RFC"</span>: emisor.get(<span class="st">"rfc"</span>),</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Subtotal"</span>: <span class="bu">float</span>(</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"subtotal"</span>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IVA"</span>: <span class="bu">float</span>(</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"iva"</span>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Total"</span>: <span class="bu">float</span>(</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>            raiz.findtext(<span class="st">"total"</span>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Agregar registro a la lista</span></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    registros.append(registro)</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Construir una tabla con pandas</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(registros)</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar información</span></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>display(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="qué-realiza-este-código" class="level3" data-number="14.8">
 <h3 data-number="14.8" class="anchored" data-anchor-id="qué-realiza-este-código"><span class="header-section-number">14.8</span> ¿Qué realiza este código?</h3>
@@ -1822,10 +1680,10 @@ Note
 </tbody>
 </table>
 <p>Por ejemplo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>raiz.get(<span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>raiz.get(<span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recupera el identificador de la factura, almacenado como atributo.</p>
 <p>Mientras que:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>raiz.findtext(<span class="st">"total"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>raiz.findtext(<span class="st">"total"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recupera el contenido del elemento <code>total</code>.</p>
 <p>Esta diferencia está relacionada con lo que aprendimos anteriormente sobre elementos y atributos en XML.</p>
 </section>
@@ -1891,10 +1749,10 @@ Note
 <section id="paso-5.-verificar-la-estructura-de-la-tabla" class="level3" data-number="14.10">
 <h3 data-number="14.10" class="anchored" data-anchor-id="paso-5.-verificar-la-estructura-de-la-tabla"><span class="header-section-number">14.10</span> Paso 5. Verificar la estructura de la tabla</h3>
 <p>Podemos comprobar las dimensiones y los tipos de datos.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimensiones:"</span>, df.shape)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Tipos de datos:"</span>)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.dtypes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimensiones:"</span>, df.shape)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Tipos de datos:"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.dtypes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Resultado esperado:</strong></p>
 <pre class="text"><code>Dimensiones: (20, 7)</code></pre>
 <p>Esto significa que tenemos veinte registros y siete variables.</p>
@@ -1920,55 +1778,55 @@ Note
 <p>Estas consultas se ejecutan sobre la tabla resultante, no directamente sobre los archivos XML.</p>
 <section id="consulta-1.-facturas-superiores-a-5000" class="level4" data-number="14.11.1">
 <h4 data-number="14.11.1" class="anchored" data-anchor-id="consulta-1.-facturas-superiores-a-5000"><span class="header-section-number">14.11.1</span> Consulta 1. Facturas superiores a $5,000</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"Total"</span>] <span class="op">&gt;</span> <span class="dv">5000</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"Total"</span>] <span class="op">&gt;</span> <span class="dv">5000</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Esta instrucción recupera únicamente los registros cuyo importe total supera $5,000.</p>
 </section>
 <section id="consulta-2.-ordenar-de-mayor-a-menor-importe" class="level4" data-number="14.11.2">
 <h4 data-number="14.11.2" class="anchored" data-anchor-id="consulta-2.-ordenar-de-mayor-a-menor-importe"><span class="header-section-number">14.11.2</span> Consulta 2. Ordenar de mayor a menor importe</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df.sort_values(</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total"</span>,</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    ascending<span class="op">=</span><span class="va">False</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>df.sort_values(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total"</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    ascending<span class="op">=</span><span class="va">False</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Permite identificar las facturas con los importes más altos.</p>
 </section>
 <section id="consulta-3.-calcular-el-importe-acumulado" class="level4" data-number="14.11.3">
 <h4 data-number="14.11.3" class="anchored" data-anchor-id="consulta-3.-calcular-el-importe-acumulado"><span class="header-section-number">14.11.3</span> Consulta 3. Calcular el importe acumulado</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Total"</span>].<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Total"</span>].<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Calcula la suma de los importes de las veinte facturas.</p>
 </section>
 <section id="consulta-4.-contar-facturas-por-proveedor" class="level4" data-number="14.11.4">
 <h4 data-number="14.11.4" class="anchored" data-anchor-id="consulta-4.-contar-facturas-por-proveedor"><span class="header-section-number">14.11.4</span> Consulta 4. Contar facturas por proveedor</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Emisor"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Emisor"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Permite identificar cuántas facturas corresponden a cada proveedor.</p>
 </section>
 <section id="consulta-5.-calcular-el-importe-por-proveedor" class="level4" data-number="14.11.5">
 <h4 data-number="14.11.5" class="anchored" data-anchor-id="consulta-5.-calcular-el-importe-por-proveedor"><span class="header-section-number">14.11.5</span> Consulta 5. Calcular el importe por proveedor</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>resumen <span class="op">=</span> (</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>      .agg(</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>          Cantidad<span class="op">=</span><span class="st">"count"</span>,</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>          Importe_total<span class="op">=</span><span class="st">"sum"</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>      .reset_index()</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>display(resumen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>resumen <span class="op">=</span> (</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>      .agg(</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>          Cantidad<span class="op">=</span><span class="st">"count"</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>          Importe_total<span class="op">=</span><span class="st">"sum"</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>      .reset_index()</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>display(resumen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Esta consulta permite conocer la cantidad de facturas y el importe acumulado correspondiente a cada proveedor.</p>
 </section>
 </section>
 <section id="paso-7.-exportar-la-tabla-a-excel" class="level3" data-number="14.12">
 <h3 data-number="14.12" class="anchored" data-anchor-id="paso-7.-exportar-la-tabla-a-excel"><span class="header-section-number">14.12</span> Paso 7. Exportar la tabla a Excel</h3>
 <p>Finalmente, exportaremos la base de datos consolidada.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>nombre_archivo <span class="op">=</span> <span class="st">"BD_Facturas_XML.xlsx"</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>df.to_excel(</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    nombre_archivo,</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span></span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>files.download(nombre_archivo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>nombre_archivo <span class="op">=</span> <span class="st">"BD_Facturas_XML.xlsx"</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>df.to_excel(</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    nombre_archivo,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>files.download(nombre_archivo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Obtendremos un archivo llamado:</p>
 <p><code>BD_Facturas_XML.xlsx</code></p>
 <p>Este archivo contiene la información recuperada de las veinte facturas XML.</p>
@@ -1996,62 +1854,62 @@ Note
 <section id="actividad-1.-crear-un-gráfico-por-proveedor" class="level3" data-number="15.1">
 <h3 data-number="15.1" class="anchored" data-anchor-id="actividad-1.-crear-un-gráfico-por-proveedor"><span class="header-section-number">15.1</span> Actividad 1. Crear un gráfico por proveedor</h3>
 <p>Podemos representar el importe acumulado de las facturas mediante un gráfico de barras.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>totales <span class="op">=</span> (</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>      .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>totales.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Importe total por proveedor"</span>)</span>
-<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Proveedor"</span>)</span>
-<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Importe ($)"</span>)</span>
-<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
-<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>totales <span class="op">=</span> (</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>      .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>totales.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Importe total por proveedor"</span>)</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Proveedor"</span>)</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Importe ($)"</span>)</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El gráfico permite identificar visualmente los proveedores con mayores importes acumulados.</p>
 </section>
 <section id="actividad-2.-descargar-los-archivos-xml" class="level3" data-number="15.2">
 <h3 data-number="15.2" class="anchored" data-anchor-id="actividad-2.-descargar-los-archivos-xml"><span class="header-section-number">15.2</span> Actividad 2. Descargar los archivos XML</h3>
 <p>También podemos comprimir los veinte documentos XML y descargarlos.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>shutil.make_archive(</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Facturas_XML"</span>,</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"zip"</span>,</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    carpeta</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>files.download(<span class="st">"Facturas_XML.zip"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>shutil.make_archive(</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Facturas_XML"</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"zip"</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    carpeta</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>files.download(<span class="st">"Facturas_XML.zip"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El archivo ZIP contendrá los veinte documentos XML generados durante la práctica.</p>
 </section>
 <section id="actividad-3.-analizar-facturas-por-mes" class="level3" data-number="15.3">
 <h3 data-number="15.3" class="anchored" data-anchor-id="actividad-3.-analizar-facturas-por-mes"><span class="header-section-number">15.3</span> Actividad 3. Analizar facturas por mes</h3>
 <p>Podemos recuperar el mes de cada factura y calcular sus importes acumulados.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una copia de la tabla original</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>df_mensual <span class="op">=</span> df.copy()</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir la columna de fechas</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>df_mensual[<span class="st">"Fecha"</span>] <span class="op">=</span> pd.to_datetime(</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    df_mensual[<span class="st">"Fecha"</span>]</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer el mes</span></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>df_mensual[<span class="st">"Mes"</span>] <span class="op">=</span> (</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    df_mensual[<span class="st">"Fecha"</span>].dt.to_period(<span class="st">"M"</span>)</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular el importe acumulado por mes</span></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>resumen_mensual <span class="op">=</span> (</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    df_mensual.groupby(<span class="st">"Mes"</span>)[<span class="st">"Total"</span>]</span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>      .reset_index()</span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>display(resumen_mensual)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una copia de la tabla original</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>df_mensual <span class="op">=</span> df.copy()</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir la columna de fechas</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>df_mensual[<span class="st">"Fecha"</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    df_mensual[<span class="st">"Fecha"</span>]</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer el mes</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>df_mensual[<span class="st">"Mes"</span>] <span class="op">=</span> (</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    df_mensual[<span class="st">"Fecha"</span>].dt.to_period(<span class="st">"M"</span>)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular el importe acumulado por mes</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>resumen_mensual <span class="op">=</span> (</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    df_mensual.groupby(<span class="st">"Mes"</span>)[<span class="st">"Total"</span>]</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>      .reset_index()</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>display(resumen_mensual)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Este ejercicio demuestra cómo podemos utilizar información obtenida de XML para realizar un análisis temporal.</p>
 <p>Además, utilizamos una copia de la tabla para conservar la estructura original de siete columnas.</p>
 </section>
@@ -2070,7 +1928,7 @@ Note
 <li>Exporta la base consolidada a Excel.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Ver orientaciones y respuestas">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2079,7 +1937,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>1. ¿Qué es XML?</strong></p>
 <p>Es un lenguaje de marcado que permite representar información mediante etiquetas y estructuras jerárquicas.</p>
@@ -2104,15 +1962,15 @@ Note
 <p>Después de recuperar sus campos, la tabla consolidada debe contener veinte filas y siete columnas.</p>
 <p><strong>7. Consultar facturas e identificar el proveedor con mayor importe</strong></p>
 <p>Para recuperar facturas superiores a $5,000:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"Total"</span>] <span class="op">&gt;</span> <span class="dv">5000</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"Total"</span>] <span class="op">&gt;</span> <span class="dv">5000</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Para identificar el proveedor con mayor importe acumulado:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>totales <span class="op">=</span> (</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>      .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(totales.head(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>totales <span class="op">=</span> (</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Emisor"</span>)[<span class="st">"Total"</span>]</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>      .<span class="bu">sum</span>()</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>      .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(totales.head(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>8. Exportar a Excel</strong></p>
 <p>El archivo final debe llamarse:</p>
 <p><code>BD_Facturas_XML.xlsx</code></p>
