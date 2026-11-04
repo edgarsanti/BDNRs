@@ -1456,87 +1456,712 @@ Además, utilizamos una copia de la tabla para conservar la estructura original 
 
 ## Actividad individual
 
-A partir de los contenidos estudiados y las prácticas realizadas, desarrolla las siguientes actividades:
 
-1. Explica qué es XML y menciona dos aplicaciones reales.
-2. Identifica los elementos y atributos del documento `biblioteca.xml`.
-3. Agrega un quinto libro y verifica que el documento esté bien formado.
-4. Identifica los elementos y atributos del catálogo `repositorio_apuntes.xml` proporcionado por el docente.
-5. Determina cuántos apuntes se encuentran registrados en ese catálogo.
-6. Genera y consolida las veinte facturas XML mediante Python.
-7. Identifica el proveedor con mayor importe acumulado y las facturas superiores a $5,000.
-8. Exporta la base consolidada a Excel.
 
-::: {.callout-tip collapse="true" title="Ver orientaciones y respuestas"}
 
-**1. ¿Qué es XML?**
 
-Es un lenguaje de marcado que permite representar información mediante etiquetas y estructuras jerárquicas.
 
-Entre sus aplicaciones encontramos la facturación electrónica y los documentos digitales de Microsoft Office.
 
-**2. Elementos y atributos de la biblioteca**
 
-El elemento raíz es `biblioteca`.
 
-Cada libro se representa mediante un elemento `libro`, que contiene los elementos `titulo`, `autor`, `anio`, `categoria` y `disponible`.
 
-El identificador `id` se almacena como atributo.
+Responde las siguientes diez preguntas de opción múltiple. Selecciona una sola respuesta por pregunta.
 
-**3. Agregar un quinto libro**
+Al terminar, revisa tus respuestas. Para registrar la actividad, es necesario obtener **10 respuestas correctas** e ingresar tu nombre completo.
 
-Debe incorporarse un nuevo elemento `libro` dentro de `biblioteca`, incluyendo sus respectivos campos.
+```{=html}
+<style>
+#cuestionario-xml {
+  max-width: 850px;
+  margin: 25px auto;
+  font-family: inherit;
+}
 
-El documento debe conservar un único elemento raíz y todas sus etiquetas deben estar correctamente cerradas.
+#cuestionario-xml .pregunta-xml {
+  padding: 20px;
+  margin-bottom: 18px;
+  border: 1px solid #d9dee5;
+  border-radius: 10px;
+}
 
-**4. Identificar elementos y atributos del catálogo**
+#cuestionario-xml .pregunta-xml h4 {
+  font-size: 1rem;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
 
-El elemento raíz es `repositorio`.
+#cuestionario-xml .opcion-xml {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
 
-El elemento `carpeta` contiene los registros de los apuntes.
+#cuestionario-xml .opcion-xml input {
+  margin-top: 5px;
+  flex-shrink: 0;
+}
 
-Cada apunte se representa mediante un elemento `archivo`.
+#cuestionario-xml .correcta-xml {
+  border-left: 4px solid #198754;
+}
 
-Los nombres y números se almacenan como atributos; los títulos, formatos y rutas aparecen como elementos hijos.
+#cuestionario-xml .incorrecta-xml {
+  border-left: 4px solid #dc3545;
+}
 
-**5. Cantidad de apuntes registrados**
+#cuestionario-xml .retro-xml {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  background: rgba(128,128,128,0.09);
+  font-size: 0.92rem;
+}
 
-La respuesta depende del contenido del archivo `repositorio_apuntes.xml` proporcionado por el docente.
+#cuestionario-xml .botones-xml {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
 
-Para obtenerla, debemos contar los elementos `archivo` del catálogo.
+#cuestionario-xml button {
+  padding: 11px 22px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
 
-**6. Generación y consolidación de facturas**
+#cuestionario-xml #revisar-xml {
+  background: #245a81;
+  color: white;
+}
 
-Deben generarse veinte documentos XML.
+#cuestionario-xml #revisar-xml:disabled,
+#cuestionario-xml #enviar-actividad-xml:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+}
 
-Después de recuperar sus campos, la tabla consolidada debe contener veinte filas y siete columnas.
+#cuestionario-xml #reiniciar-xml {
+  background: #e9ecef;
+  color: #212529;
+}
 
-**7. Consultar facturas e identificar el proveedor con mayor importe**
+#cuestionario-xml #resultado-xml {
+  display: none;
+  margin-top: 22px;
+  padding: 20px;
+  border: 1px solid #d9dee5;
+  border-radius: 10px;
+  text-align: center;
+}
 
-Para recuperar facturas superiores a $5,000:
+#cuestionario-xml #resultado-xml .calificacion {
+  font-size: 2rem;
+  font-weight: 700;
+}
 
-```python
-df[df["Total"] > 5000]
+#cuestionario-xml #progreso-xml {
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+/* Formulario de registro */
+
+#cuestionario-xml .registro-xml {
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid #d9dee5;
+  border-radius: 10px;
+}
+
+#cuestionario-xml .registro-xml h4 {
+  margin-top: 0;
+}
+
+#cuestionario-xml #nombre-alumno-xml {
+  display: block;
+  width: 100%;
+  max-width: 450px;
+  padding: 11px;
+  margin: 10px 0 18px;
+  border: 1px solid #adb5bd;
+  border-radius: 6px;
+}
+
+#cuestionario-xml #enviar-actividad-xml {
+  background: #198754;
+  color: white;
+}
+
+#cuestionario-xml #mensaje-envio-xml {
+  margin-top: 15px;
+  font-size: 0.92rem;
+}
+</style>
+
+<div id="cuestionario-xml">
+
+  <div id="progreso-xml" aria-live="polite">
+    Preguntas respondidas: 0 de 10
+  </div>
+
+  <div id="preguntas-xml"></div>
+
+  <div class="botones-xml">
+
+    <button id="revisar-xml" type="button" disabled>
+      Revisar respuestas
+    </button>
+
+    <button id="reiniciar-xml" type="button">
+      Reiniciar cuestionario
+    </button>
+
+  </div>
+
+  <div id="resultado-xml" aria-live="polite"></div>
+
+  <div class="registro-xml">
+
+    <h4>Registro de actividad</h4>
+
+    <p>
+      Escribe tu nombre completo. Podrás enviar la actividad
+      cuando obtengas 10 respuestas correctas.
+    </p>
+
+    <form
+      id="formulario-envio-xml"
+      action="https://script.google.com/macros/s/AKfycby9XSAbWfzH0LFEtzhCas1VAeDk6cRA69DMD6oWfbmmTDJ1JKuThQhGReMiOU97Vl-w/exec"
+      method="POST"
+      target="_blank"
+    >
+
+      <label for="nombre-alumno-xml">
+        Nombre completo:
+      </label>
+
+      <input
+        type="text"
+        id="nombre-alumno-xml"
+        name="nombre"
+        placeholder="Nombre y apellidos"
+        minlength="3"
+        maxlength="120"
+        autocomplete="name"
+        required
+      >
+
+      <button
+        id="enviar-actividad-xml"
+        type="submit"
+        disabled
+      >
+        Enviar actividad
+      </button>
+
+    </form>
+
+    <p id="mensaje-envio-xml" aria-live="polite"></p>
+
+  </div>
+
+</div>
+
+<script>
+(function () {
+
+  // =========================================
+  // PREGUNTAS DEL CUESTIONARIO
+  // =========================================
+
+  const preguntas = [
+
+    {
+      pregunta: "¿Cuál es la finalidad principal de XML?",
+      opciones: [
+        "Administrar bases de datos relacionales.",
+        "Representar e intercambiar información estructurada mediante etiquetas.",
+        "Ejecutar consultas SQL.",
+        "Diseñar interfaces gráficas."
+      ],
+      correcta: 1,
+      explicacion: "XML es un lenguaje de marcado utilizado para representar e intercambiar información estructurada."
+    },
+
+    {
+      pregunta: "¿Qué significa que XML sea un lenguaje extensible?",
+      opciones: [
+        "Permite definir etiquetas propias según las necesidades de la información.",
+        "Aumenta automáticamente el almacenamiento disponible.",
+        "Convierte cualquier archivo a JSON.",
+        "No requiere una estructura definida."
+      ],
+      correcta: 0,
+      explicacion: "La extensibilidad permite definir etiquetas propias para describir los datos."
+    },
+
+    {
+      pregunta: "¿Cuál de las siguientes es una aplicación real de XML?",
+      opciones: [
+        "Compilar programas en Python.",
+        "Administrar exclusivamente bases de datos SQL.",
+        "Representar información en las facturas electrónicas de México.",
+        "Sustituir los sistemas operativos."
+      ],
+      correcta: 2,
+      explicacion: "Los CFDI utilizan XML para representar información fiscal estructurada."
+    },
+
+    {
+      pregunta: "¿Cuál es una diferencia entre XML y JSON?",
+      opciones: [
+        "JSON no permite representar jerarquías.",
+        "XML no permite almacenar texto.",
+        "Ambos utilizan obligatoriamente etiquetas de apertura y cierre.",
+        "XML utiliza elementos y atributos; JSON utiliza claves y valores."
+      ],
+      correcta: 3,
+      explicacion: "Ambos formatos permiten representar información, pero utilizan sintaxis diferentes."
+    },
+
+    {
+      pregunta: "¿Qué es el elemento raíz de un documento XML?",
+      opciones: [
+        "El primer atributo de cada registro.",
+        "El elemento principal que contiene la estructura del documento.",
+        "Una etiqueta utilizada exclusivamente para almacenar números.",
+        "El archivo que define los estilos."
+      ],
+      correcta: 1,
+      explicacion: "El elemento raíz es el elemento principal. Un documento XML bien formado debe contener uno solo."
+    },
+
+    {
+      pregunta: 'En la etiqueta <libro id="L001">, ¿qué representa id="L001"?',
+      opciones: [
+        "Un atributo del elemento libro.",
+        "Un elemento hijo de libro.",
+        "El elemento raíz de la biblioteca.",
+        "Una etiqueta de cierre."
+      ],
+      correcta: 0,
+      explicacion: "Los atributos se escriben dentro de la etiqueta de apertura de un elemento."
+    },
+
+    {
+      pregunta: "¿Qué caracteriza a la estructura jerárquica de XML?",
+      opciones: [
+        "Todos los elementos deben estar al mismo nivel.",
+        "Cada elemento debe representar una tabla.",
+        "Los elementos pueden contener otros elementos y establecer relaciones padre-hijo.",
+        "Los atributos pueden sustituir siempre al elemento raíz."
+      ],
+      correcta: 2,
+      explicacion: "Los elementos pueden estar anidados y formar una estructura de árbol."
+    },
+
+    {
+      pregunta: "¿Cuál de las siguientes estructuras XML está correctamente formada?",
+      opciones: [
+        "<libro><titulo>XML</libro></titulo>",
+        "<libro><titulo>XML</titulo></libro>",
+        "<libro><titulo>XML</libro>",
+        "<libro><titulo>XML</Titulo></libro>"
+      ],
+      correcta: 1,
+      explicacion: "Las etiquetas deben cerrarse y anidarse correctamente, respetando las mayúsculas y minúsculas."
+    },
+
+    {
+      pregunta: "¿Cuál es la diferencia entre un documento XML bien formado y uno válido?",
+      opciones: [
+        "Un documento válido también cumple las restricciones establecidas por un esquema o definición.",
+        "Un documento bien formado debe conectarse a internet.",
+        "Un documento válido no utiliza etiquetas.",
+        "Ambos términos significan exactamente lo mismo."
+      ],
+      correcta: 0,
+      explicacion: "Un documento bien formado cumple la sintaxis XML; uno válido también cumple las reglas de validación correspondientes."
+    },
+
+    {
+      pregunta: "¿Cuál fue el propósito de utilizar Python y pandas para procesar las veinte facturas XML?",
+      opciones: [
+        "Convertir las facturas en imágenes.",
+        "Modificar los comprobantes fiscales originales.",
+        "Extraer y consolidar la información en una tabla para realizar análisis.",
+        "Eliminar los atributos de los documentos."
+      ],
+      correcta: 2,
+      explicacion: "Se extrajeron los datos de veinte archivos XML y se consolidaron en una tabla para su análisis."
+    }
+
+  ];
+
+  // =========================================
+  // ELEMENTOS DEL FORMULARIO
+  // =========================================
+
+  const contenedor = document.getElementById("cuestionario-xml");
+  const areaPreguntas = document.getElementById("preguntas-xml");
+
+  const botonRevisar = document.getElementById("revisar-xml");
+  const botonReiniciar = document.getElementById("reiniciar-xml");
+
+  const progreso = document.getElementById("progreso-xml");
+  const resultado = document.getElementById("resultado-xml");
+
+  const formularioEnvio = document.getElementById(
+    "formulario-envio-xml"
+  );
+
+  const nombreAlumno = document.getElementById(
+    "nombre-alumno-xml"
+  );
+
+  const botonEnviar = document.getElementById(
+    "enviar-actividad-xml"
+  );
+
+  const mensajeEnvio = document.getElementById(
+    "mensaje-envio-xml"
+  );
+
+  let aprobado = false;
+  let envioIniciado = false;
+
+  // =========================================
+  // CREAR LAS PREGUNTAS
+  // =========================================
+
+  preguntas.forEach((item, indice) => {
+
+    const bloque = document.createElement("div");
+    bloque.className = "pregunta-xml";
+
+    const titulo = document.createElement("h4");
+
+    titulo.textContent =
+      (indice + 1) + ". " + item.pregunta;
+
+    bloque.appendChild(titulo);
+
+    item.opciones.forEach((opcion, numero) => {
+
+      const etiqueta = document.createElement("label");
+      etiqueta.className = "opcion-xml";
+
+      const radio = document.createElement("input");
+
+      radio.type = "radio";
+      radio.name = "xml-pregunta-" + indice;
+      radio.value = numero;
+
+      const texto = document.createElement("span");
+
+      texto.textContent =
+        String.fromCharCode(97 + numero) + ") " + opcion;
+
+      etiqueta.appendChild(radio);
+      etiqueta.appendChild(texto);
+
+      bloque.appendChild(etiqueta);
+
+      radio.addEventListener(
+        "change",
+        actualizarProgreso
+      );
+
+    });
+
+    const retro = document.createElement("div");
+
+    retro.className = "retro-xml";
+    retro.id = "retro-xml-" + indice;
+
+    bloque.appendChild(retro);
+
+    areaPreguntas.appendChild(bloque);
+
+  });
+
+  // =========================================
+  // HABILITAR O BLOQUEAR ENVÍO
+  // =========================================
+
+  function actualizarBotonEnvio() {
+
+    const nombreValido =
+      nombreAlumno.value.trim().length >= 3 &&
+      nombreAlumno.value.trim().length <= 120;
+
+    botonEnviar.disabled =
+      !aprobado || !nombreValido || envioIniciado;
+
+  }
+
+  nombreAlumno.addEventListener(
+    "input",
+    actualizarBotonEnvio
+  );
+
+  // =========================================
+  // ACTUALIZAR PROGRESO
+  // =========================================
+
+  function actualizarProgreso() {
+
+    let respondidas = 0;
+
+    aprobado = false;
+    envioIniciado = false;
+
+    mensajeEnvio.textContent = "";
+
+    preguntas.forEach((item, indice) => {
+
+      const seleccion = contenedor.querySelector(
+        'input[name="xml-pregunta-' +
+        indice + '"]:checked'
+      );
+
+      if (seleccion) {
+        respondidas++;
+      }
+
+    });
+
+    progreso.textContent =
+      "Preguntas respondidas: " +
+      respondidas + " de " + preguntas.length;
+
+    botonRevisar.disabled =
+      respondidas !== preguntas.length;
+
+    resultado.style.display = "none";
+
+    contenedor.querySelectorAll(".pregunta-xml")
+      .forEach(bloque => {
+
+        bloque.classList.remove(
+          "correcta-xml",
+          "incorrecta-xml"
+        );
+
+      });
+
+    contenedor.querySelectorAll(".retro-xml")
+      .forEach(bloque => {
+
+        bloque.style.display = "none";
+
+      });
+
+    actualizarBotonEnvio();
+
+  }
+
+  // =========================================
+  // CALIFICAR EL CUESTIONARIO
+  // =========================================
+
+  botonRevisar.addEventListener(
+    "click",
+    function () {
+
+      if (botonRevisar.disabled) return;
+
+      let aciertos = 0;
+
+      preguntas.forEach((item, indice) => {
+
+        const seleccion = contenedor.querySelector(
+          'input[name="xml-pregunta-' +
+          indice + '"]:checked'
+        );
+
+        const bloque = areaPreguntas.children[indice];
+
+        const retro = document.getElementById(
+          "retro-xml-" + indice
+        );
+
+        if (!seleccion) return;
+
+        bloque.classList.remove(
+          "correcta-xml",
+          "incorrecta-xml"
+        );
+
+        const respuesta = Number(seleccion.value);
+
+        const esCorrecta =
+          respuesta === item.correcta;
+
+        if (esCorrecta) {
+
+          aciertos++;
+
+          bloque.classList.add("correcta-xml");
+
+        } else {
+
+          bloque.classList.add("incorrecta-xml");
+
+        }
+
+        retro.replaceChildren();
+
+        const estado = document.createElement("strong");
+
+        estado.textContent = esCorrecta
+          ? "Respuesta correcta."
+          : "Respuesta incorrecta.";
+
+        const respuestaCorrecta =
+          document.createElement("p");
+
+        respuestaCorrecta.textContent =
+          "Respuesta correcta: " +
+          String.fromCharCode(97 + item.correcta) +
+          ") " + item.opciones[item.correcta];
+
+        const explicacion = document.createElement("p");
+
+        explicacion.textContent = item.explicacion;
+
+        retro.appendChild(estado);
+        retro.appendChild(respuestaCorrecta);
+        retro.appendChild(explicacion);
+
+        retro.style.display = "block";
+
+      });
+
+      // Mostrar calificación
+      resultado.replaceChildren();
+
+      const nota = document.createElement("div");
+
+      nota.className = "calificacion";
+      nota.textContent =
+        aciertos + " / " + preguntas.length;
+
+      const porcentaje = document.createElement("p");
+
+      porcentaje.textContent =
+        "Porcentaje de aciertos: " +
+        Math.round(
+          (aciertos / preguntas.length) * 100
+        ) + "%";
+
+      resultado.appendChild(nota);
+      resultado.appendChild(porcentaje);
+
+      resultado.style.display = "block";
+
+      // Autorizar envío únicamente con 10/10
+      aprobado = aciertos === preguntas.length;
+
+      actualizarBotonEnvio();
+
+      if (aprobado) {
+
+        mensajeEnvio.textContent =
+          "¡Cuestionario completado! " +
+          "Escribe tu nombre completo para enviar la actividad.";
+
+      } else {
+
+        mensajeEnvio.textContent =
+          "Corrige las respuestas incorrectas " +
+          "y vuelve a revisar hasta obtener 10/10.";
+
+      }
+
+      resultado.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+  );
+
+  // =========================================
+  // ENVIAR EL NOMBRE A GOOGLE SHEETS
+  // =========================================
+
+  formularioEnvio.addEventListener(
+    "submit",
+    function (event) {
+
+      if (
+        !aprobado ||
+        botonEnviar.disabled ||
+        !formularioEnvio.checkValidity()
+      ) {
+
+        event.preventDefault();
+        return;
+
+      }
+
+      nombreAlumno.value =
+        nombreAlumno.value.trim().replace(/\s+/g, " ");
+
+      envioIniciado = true;
+
+      actualizarBotonEnvio();
+
+      mensajeEnvio.textContent =
+        "Se abrió una nueva pestaña para registrar " +
+        "la actividad. Comprueba que aparezca REGISTRADO. " +
+        "Si aparece un error, informa al docente.";
+
+    }
+  );
+
+  // =========================================
+  // REINICIAR EL CUESTIONARIO
+  // =========================================
+
+  botonReiniciar.addEventListener(
+    "click",
+    function () {
+
+      contenedor.querySelectorAll(
+        'input[type="radio"]'
+      ).forEach(radio => {
+
+        radio.checked = false;
+
+      });
+
+      nombreAlumno.value = "";
+
+      aprobado = false;
+      envioIniciado = false;
+
+      actualizarProgreso();
+
+      areaPreguntas.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    }
+  );
+
+  // Inicializar el cuestionario
+  actualizarProgreso();
+
+})();
+</script>
 ```
-
-Para identificar el proveedor con mayor importe acumulado:
-
-```python
-totales = (
-    df.groupby("Emisor")["Total"]
-      .sum()
-      .sort_values(ascending=False)
-)
-
-print(totales.head(1))
-```
-
-**8. Exportar a Excel**
-
-El archivo final debe llamarse:
-
-`BD_Facturas_XML.xlsx`
-
-Y debe contener la tabla consolidada.
-
-:::
