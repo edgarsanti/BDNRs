@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Procesamiento de JSON y conexión a MongoDB con Python – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f06303d6082cb8a84bbcc3b60da1c1dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#json-y-python" id="toc-json-y-python" class="nav-link" data-scroll-target="#json-y-python"><span class="header-section-number">2</span> JSON y Python</a>
+  <ul class="collapse">
+  <li><a href="#recordemos-la-estructura-de-json" id="toc-recordemos-la-estructura-de-json" class="nav-link" data-scroll-target="#recordemos-la-estructura-de-json"><span class="header-section-number">2.1</span> Recordemos la estructura de JSON</a></li>
+  <li><a href="#relación-entre-json-y-python" id="toc-relación-entre-json-y-python" class="nav-link" data-scroll-target="#relación-entre-json-y-python"><span class="header-section-number">2.2</span> Relación entre JSON y Python</a></li>
+  </ul></li>
+  <li><a href="#procesamiento-de-json-con-python" id="toc-procesamiento-de-json-con-python" class="nav-link" data-scroll-target="#procesamiento-de-json-con-python"><span class="header-section-number">3</span> Procesamiento de JSON con Python</a>
+  <ul class="collapse">
+  <li><a href="#importar-la-biblioteca-json" id="toc-importar-la-biblioteca-json" class="nav-link" data-scroll-target="#importar-la-biblioteca-json"><span class="header-section-number">3.1</span> Importar la biblioteca JSON</a></li>
+  <li><a href="#convertir-un-diccionario-a-json" id="toc-convertir-un-diccionario-a-json" class="nav-link" data-scroll-target="#convertir-un-diccionario-a-json"><span class="header-section-number">3.2</span> Convertir un diccionario a JSON</a></li>
+  <li><a href="#convertir-json-a-un-diccionario" id="toc-convertir-json-a-un-diccionario" class="nav-link" data-scroll-target="#convertir-json-a-un-diccionario"><span class="header-section-number">3.3</span> Convertir JSON a un diccionario</a></li>
+  <li><a href="#diferencia-entre-dumps-y-loads" id="toc-diferencia-entre-dumps-y-loads" class="nav-link" data-scroll-target="#diferencia-entre-dumps-y-loads"><span class="header-section-number">3.4</span> Diferencia entre <code>dumps()</code> y <code>loads()</code></a></li>
+  </ul></li>
+  <li><a href="#guardar-y-leer-archivos-json" id="toc-guardar-y-leer-archivos-json" class="nav-link" data-scroll-target="#guardar-y-leer-archivos-json"><span class="header-section-number">4</span> Guardar y leer archivos JSON</a>
+  <ul class="collapse">
+  <li><a href="#crear-una-biblioteca-con-varios-libros" id="toc-crear-una-biblioteca-con-varios-libros" class="nav-link" data-scroll-target="#crear-una-biblioteca-con-varios-libros"><span class="header-section-number">4.1</span> Crear una biblioteca con varios libros</a></li>
+  <li><a href="#guardar-la-biblioteca-en-un-archivo" id="toc-guardar-la-biblioteca-en-un-archivo" class="nav-link" data-scroll-target="#guardar-la-biblioteca-en-un-archivo"><span class="header-section-number">4.2</span> Guardar la biblioteca en un archivo</a></li>
+  <li><a href="#leer-el-archivo-json" id="toc-leer-el-archivo-json" class="nav-link" data-scroll-target="#leer-el-archivo-json"><span class="header-section-number">4.3</span> Leer el archivo JSON</a></li>
+  <li><a href="#funciones-para-trabajar-con-json" id="toc-funciones-para-trabajar-con-json" class="nav-link" data-scroll-target="#funciones-para-trabajar-con-json"><span class="header-section-number">4.4</span> Funciones para trabajar con JSON</a></li>
+  </ul></li>
+  <li><a href="#consultar-información-json-con-python" id="toc-consultar-información-json-con-python" class="nav-link" data-scroll-target="#consultar-información-json-con-python"><span class="header-section-number">5</span> Consultar información JSON con Python</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-todos-los-títulos" id="toc-recuperar-todos-los-títulos" class="nav-link" data-scroll-target="#recuperar-todos-los-títulos"><span class="header-section-number">5.1</span> Recuperar todos los títulos</a></li>
+  <li><a href="#recuperar-libros-disponibles" id="toc-recuperar-libros-disponibles" class="nav-link" data-scroll-target="#recuperar-libros-disponibles"><span class="header-section-number">5.2</span> Recuperar libros disponibles</a></li>
+  <li><a href="#recuperar-libros-posteriores-a-2023" id="toc-recuperar-libros-posteriores-a-2023" class="nav-link" data-scroll-target="#recuperar-libros-posteriores-a-2023"><span class="header-section-number">5.3</span> Recuperar libros posteriores a 2023</a></li>
+  <li><a href="#recuperar-libros-de-una-categoría" id="toc-recuperar-libros-de-una-categoría" class="nav-link" data-scroll-target="#recuperar-libros-de-una-categoría"><span class="header-section-number">5.4</span> Recuperar libros de una categoría</a></li>
+  <li><a href="#contar-libros-disponibles" id="toc-contar-libros-disponibles" class="nav-link" data-scroll-target="#contar-libros-disponibles"><span class="header-section-number">5.5</span> Contar libros disponibles</a></li>
+  <li><a href="#calcular-el-precio-promedio" id="toc-calcular-el-precio-promedio" class="nav-link" data-scroll-target="#calcular-el-precio-promedio"><span class="header-section-number">5.6</span> Calcular el precio promedio</a></li>
+  </ul></li>
+  <li><a href="#cómo-se-relaciona-python-con-mongodb" id="toc-cómo-se-relaciona-python-con-mongodb" class="nav-link" data-scroll-target="#cómo-se-relaciona-python-con-mongodb"><span class="header-section-number">6</span> ¿Cómo se relaciona Python con MongoDB?</a>
+  <ul class="collapse">
+  <li><a href="#estructura-de-mongodb" id="toc-estructura-de-mongodb" class="nav-link" data-scroll-target="#estructura-de-mongodb"><span class="header-section-number">6.1</span> Estructura de MongoDB</a></li>
+  <li><a href="#qué-es-pymongo" id="toc-qué-es-pymongo" class="nav-link" data-scroll-target="#qué-es-pymongo"><span class="header-section-number">6.2</span> ¿Qué es PyMongo?</a></li>
+  </ul></li>
+  <li><a href="#preparación-del-entorno-de-trabajo" id="toc-preparación-del-entorno-de-trabajo" class="nav-link" data-scroll-target="#preparación-del-entorno-de-trabajo"><span class="header-section-number">7</span> Preparación del entorno de trabajo</a>
+  <ul class="collapse">
+  <li><a href="#comprobar-python" id="toc-comprobar-python" class="nav-link" data-scroll-target="#comprobar-python"><span class="header-section-number">7.1</span> Comprobar Python</a></li>
+  <li><a href="#instalar-pymongo" id="toc-instalar-pymongo" class="nav-link" data-scroll-target="#instalar-pymongo"><span class="header-section-number">7.2</span> Instalar PyMongo</a></li>
+  <li><a href="#comprobar-mongodb" id="toc-comprobar-mongodb" class="nav-link" data-scroll-target="#comprobar-mongodb"><span class="header-section-number">7.3</span> Comprobar MongoDB</a></li>
+  </ul></li>
+  <li><a href="#conectar-python-con-mongodb" id="toc-conectar-python-con-mongodb" class="nav-link" data-scroll-target="#conectar-python-con-mongodb"><span class="header-section-number">8</span> Conectar Python con MongoDB</a>
+  <ul class="collapse">
+  <li><a href="#primera-conexión" id="toc-primera-conexión" class="nav-link" data-scroll-target="#primera-conexión"><span class="header-section-number">8.1</span> Primera conexión</a></li>
+  <li><a href="#seleccionar-una-base-de-datos" id="toc-seleccionar-una-base-de-datos" class="nav-link" data-scroll-target="#seleccionar-una-base-de-datos"><span class="header-section-number">8.2</span> Seleccionar una base de datos</a></li>
+  <li><a href="#seleccionar-una-colección" id="toc-seleccionar-una-colección" class="nav-link" data-scroll-target="#seleccionar-una-colección"><span class="header-section-number">8.3</span> Seleccionar una colección</a></li>
+  </ul></li>
+  <li><a href="#insertar-documentos-en-mongodb" id="toc-insertar-documentos-en-mongodb" class="nav-link" data-scroll-target="#insertar-documentos-en-mongodb"><span class="header-section-number">9</span> Insertar documentos en MongoDB</a>
+  <ul class="collapse">
+  <li><a href="#preparar-los-documentos" id="toc-preparar-los-documentos" class="nav-link" data-scroll-target="#preparar-los-documentos"><span class="header-section-number">9.1</span> Preparar los documentos</a></li>
+  <li><a href="#insertar-o-actualizar-los-libros-de-la-práctica" id="toc-insertar-o-actualizar-los-libros-de-la-práctica" class="nav-link" data-scroll-target="#insertar-o-actualizar-los-libros-de-la-práctica"><span class="header-section-number">9.2</span> Insertar o actualizar los libros de la práctica</a></li>
+  <li><a href="#contar-documentos-registrados" id="toc-contar-documentos-registrados" class="nav-link" data-scroll-target="#contar-documentos-registrados"><span class="header-section-number">9.3</span> Contar documentos registrados</a></li>
+  </ul></li>
+  <li><a href="#primeras-consultas-con-pymongo" id="toc-primeras-consultas-con-pymongo" class="nav-link" data-scroll-target="#primeras-consultas-con-pymongo"><span class="header-section-number">10</span> Primeras consultas con PyMongo</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-todos-los-documentos" id="toc-recuperar-todos-los-documentos" class="nav-link" data-scroll-target="#recuperar-todos-los-documentos"><span class="header-section-number">10.1</span> Recuperar todos los documentos</a></li>
+  <li><a href="#recuperar-un-solo-documento" id="toc-recuperar-un-solo-documento" class="nav-link" data-scroll-target="#recuperar-un-solo-documento"><span class="header-section-number">10.2</span> Recuperar un solo documento</a></li>
+  <li><a href="#buscar-un-libro-por-código" id="toc-buscar-un-libro-por-código" class="nav-link" data-scroll-target="#buscar-un-libro-por-código"><span class="header-section-number">10.3</span> Buscar un libro por código</a></li>
+  <li><a href="#recuperar-libros-disponibles-1" id="toc-recuperar-libros-disponibles-1" class="nav-link" data-scroll-target="#recuperar-libros-disponibles-1"><span class="header-section-number">10.4</span> Recuperar libros disponibles</a></li>
+  <li><a href="#buscar-libros-posteriores-a-2023" id="toc-buscar-libros-posteriores-a-2023" class="nav-link" data-scroll-target="#buscar-libros-posteriores-a-2023"><span class="header-section-number">10.5</span> Buscar libros posteriores a 2023</a></li>
+  <li><a href="#buscar-por-categoría" id="toc-buscar-por-categoría" class="nav-link" data-scroll-target="#buscar-por-categoría"><span class="header-section-number">10.6</span> Buscar por categoría</a></li>
+  </ul></li>
+  <li><a href="#operadores-de-consulta-en-mongodb" id="toc-operadores-de-consulta-en-mongodb" class="nav-link" data-scroll-target="#operadores-de-consulta-en-mongodb"><span class="header-section-number">11</span> Operadores de consulta en MongoDB</a>
+  <ul class="collapse">
+  <li><a href="#consultar-libros-con-precio-mayor-a-600" id="toc-consultar-libros-con-precio-mayor-a-600" class="nav-link" data-scroll-target="#consultar-libros-con-precio-mayor-a-600"><span class="header-section-number">11.1</span> Consultar libros con precio mayor a 600</a></li>
+  <li><a href="#consultar-libros-en-un-intervalo-de-precios" id="toc-consultar-libros-en-un-intervalo-de-precios" class="nav-link" data-scroll-target="#consultar-libros-en-un-intervalo-de-precios"><span class="header-section-number">11.2</span> Consultar libros en un intervalo de precios</a></li>
+  <li><a href="#combinar-condiciones" id="toc-combinar-condiciones" class="nav-link" data-scroll-target="#combinar-condiciones"><span class="header-section-number">11.3</span> Combinar condiciones</a></li>
+  <li><a href="#aplicar-condiciones-alternativas" id="toc-aplicar-condiciones-alternativas" class="nav-link" data-scroll-target="#aplicar-condiciones-alternativas"><span class="header-section-number">11.4</span> Aplicar condiciones alternativas</a></li>
+  </ul></li>
+  <li><a href="#seleccionar-campos-y-ordenar-resultados" id="toc-seleccionar-campos-y-ordenar-resultados" class="nav-link" data-scroll-target="#seleccionar-campos-y-ordenar-resultados"><span class="header-section-number">12</span> Seleccionar campos y ordenar resultados</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-solamente-los-títulos" id="toc-recuperar-solamente-los-títulos" class="nav-link" data-scroll-target="#recuperar-solamente-los-títulos"><span class="header-section-number">12.1</span> Recuperar solamente los títulos</a></li>
+  <li><a href="#recuperar-títulos-y-precios" id="toc-recuperar-títulos-y-precios" class="nav-link" data-scroll-target="#recuperar-títulos-y-precios"><span class="header-section-number">12.2</span> Recuperar títulos y precios</a></li>
+  <li><a href="#ordenar-libros-por-precio" id="toc-ordenar-libros-por-precio" class="nav-link" data-scroll-target="#ordenar-libros-por-precio"><span class="header-section-number">12.3</span> Ordenar libros por precio</a></li>
+  <li><a href="#ordenar-de-mayor-a-menor" id="toc-ordenar-de-mayor-a-menor" class="nav-link" data-scroll-target="#ordenar-de-mayor-a-menor"><span class="header-section-number">12.4</span> Ordenar de mayor a menor</a></li>
+  <li><a href="#limitar-la-cantidad-de-resultados" id="toc-limitar-la-cantidad-de-resultados" class="nav-link" data-scroll-target="#limitar-la-cantidad-de-resultados"><span class="header-section-number">12.5</span> Limitar la cantidad de resultados</a></li>
+  </ul></li>
+  <li><a href="#actualizar-documentos-desde-python" id="toc-actualizar-documentos-desde-python" class="nav-link" data-scroll-target="#actualizar-documentos-desde-python"><span class="header-section-number">13</span> Actualizar documentos desde Python</a>
+  <ul class="collapse">
+  <li><a href="#actualizar-el-precio-de-un-libro" id="toc-actualizar-el-precio-de-un-libro" class="nav-link" data-scroll-target="#actualizar-el-precio-de-un-libro"><span class="header-section-number">13.1</span> Actualizar el precio de un libro</a></li>
+  <li><a href="#modificar-la-disponibilidad" id="toc-modificar-la-disponibilidad" class="nav-link" data-scroll-target="#modificar-la-disponibilidad"><span class="header-section-number">13.2</span> Modificar la disponibilidad</a></li>
+  <li><a href="#comprobar-los-cambios" id="toc-comprobar-los-cambios" class="nav-link" data-scroll-target="#comprobar-los-cambios"><span class="header-section-number">13.3</span> Comprobar los cambios</a></li>
+  </ul></li>
+  <li><a href="#insertar-y-eliminar-un-documento-de-prueba" id="toc-insertar-y-eliminar-un-documento-de-prueba" class="nav-link" data-scroll-target="#insertar-y-eliminar-un-documento-de-prueba"><span class="header-section-number">14</span> Insertar y eliminar un documento de prueba</a>
+  <ul class="collapse">
+  <li><a href="#insertar-un-documento" id="toc-insertar-un-documento" class="nav-link" data-scroll-target="#insertar-un-documento"><span class="header-section-number">14.1</span> Insertar un documento</a></li>
+  <li><a href="#comprobar-la-inserción" id="toc-comprobar-la-inserción" class="nav-link" data-scroll-target="#comprobar-la-inserción"><span class="header-section-number">14.2</span> Comprobar la inserción</a></li>
+  <li><a href="#eliminar-el-documento-de-prueba" id="toc-eliminar-el-documento-de-prueba" class="nav-link" data-scroll-target="#eliminar-el-documento-de-prueba"><span class="header-section-number">14.3</span> Eliminar el documento de prueba</a></li>
+  </ul></li>
+  <li><a href="#relación-entre-mongosh-y-pymongo" id="toc-relación-entre-mongosh-y-pymongo" class="nav-link" data-scroll-target="#relación-entre-mongosh-y-pymongo"><span class="header-section-number">15</span> Relación entre <code>mongosh</code> y PyMongo</a></li>
+  <li><a href="#convertir-resultados-de-mongodb-a-una-tabla" id="toc-convertir-resultados-de-mongodb-a-una-tabla" class="nav-link" data-scroll-target="#convertir-resultados-de-mongodb-a-una-tabla"><span class="header-section-number">16</span> Convertir resultados de MongoDB a una tabla</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-los-documentos" id="toc-recuperar-los-documentos" class="nav-link" data-scroll-target="#recuperar-los-documentos"><span class="header-section-number">16.1</span> Recuperar los documentos</a></li>
+  <li><a href="#seleccionar-algunas-columnas" id="toc-seleccionar-algunas-columnas" class="nav-link" data-scroll-target="#seleccionar-algunas-columnas"><span class="header-section-number">16.2</span> Seleccionar algunas columnas</a></li>
+  <li><a href="#calcular-información-general" id="toc-calcular-información-general" class="nav-link" data-scroll-target="#calcular-información-general"><span class="header-section-number">16.3</span> Calcular información general</a></li>
+  <li><a href="#exportar-a-excel" id="toc-exportar-a-excel" class="nav-link" data-scroll-target="#exportar-a-excel"><span class="header-section-number">16.4</span> Exportar a Excel</a></li>
+  </ul></li>
+  <li><a href="#errores-frecuentes" id="toc-errores-frecuentes" class="nav-link" data-scroll-target="#errores-frecuentes"><span class="header-section-number">17</span> Errores frecuentes</a>
+  <ul class="collapse">
+  <li><a href="#comprobar-la-conexión" id="toc-comprobar-la-conexión" class="nav-link" data-scroll-target="#comprobar-la-conexión"><span class="header-section-number">17.1</span> Comprobar la conexión</a></li>
+  <li><a href="#cerrar-la-conexión" id="toc-cerrar-la-conexión" class="nav-link" data-scroll-target="#cerrar-la-conexión"><span class="header-section-number">17.2</span> Cerrar la conexión</a></li>
+  </ul></li>
+  <li><a href="#actividad-individual-biblioteca-universitaria" id="toc-actividad-individual-biblioteca-universitaria" class="nav-link" data-scroll-target="#actividad-individual-biblioteca-universitaria"><span class="header-section-number">18</span> Actividad individual: biblioteca universitaria</a>
+  <ul class="collapse">
+  <li><a href="#instrucciones-generales" id="toc-instrucciones-generales" class="nav-link" data-scroll-target="#instrucciones-generales"><span class="header-section-number">18.1</span> Instrucciones generales</a></li>
+  <li><a href="#parte-a.-procesamiento-de-json-con-python" id="toc-parte-a.-procesamiento-de-json-con-python" class="nav-link" data-scroll-target="#parte-a.-procesamiento-de-json-con-python"><span class="header-section-number">18.2</span> Parte A. Procesamiento de JSON con Python</a></li>
+  <li><a href="#parte-b.-consultas-con-pymongo" id="toc-parte-b.-consultas-con-pymongo" class="nav-link" data-scroll-target="#parte-b.-consultas-con-pymongo"><span class="header-section-number">18.3</span> Parte B. Consultas con PyMongo</a></li>
+  <li><a href="#indicaciones-de-entrega" id="toc-indicaciones-de-entrega" class="nav-link" data-scroll-target="#indicaciones-de-entrega"><span class="header-section-number">18.4</span> Indicaciones de entrega</a></li>
+  </ul></li>
+  <li><a href="#reflexión-final" id="toc-reflexión-final" class="nav-link" data-scroll-target="#reflexión-final"><span class="header-section-number">19</span> Reflexión final</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Procesamiento de JSON y conexión a MongoDB con Python</h1>
+<p class="subtitle lead">Bases de Datos No Relacionales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>En los apuntes anteriores aprendimos a representar y consultar información mediante documentos XML, utilizando XPath y XQuery.</p>
+<p>También hemos trabajado con MongoDB, una base de datos documental que permite almacenar información en documentos similares a JSON.</p>
+<p>Ahora aprenderemos a utilizar <strong>Python para procesar información JSON y comunicarnos directamente con MongoDB</strong>.</p>
+<p>Hasta ahora, muchas de nuestras operaciones con MongoDB las realizamos desde <code>mongosh</code>. En este apunte aprenderemos a realizar operaciones similares mediante un programa escrito en Python.</p>
+<p>Esto es importante porque las aplicaciones necesitan comunicarse con las bases de datos para guardar, consultar y modificar información.</p>
+<p>Durante el apunte utilizaremos una biblioteca universitaria como ejemplo.</p>
+<p>Al finalizar podremos:</p>
+<ul>
+<li>Comprender cómo representa Python los datos JSON.</li>
+<li>Crear, leer y guardar archivos JSON.</li>
+<li>Procesar información JSON mediante Python.</li>
+<li>Comprender cómo se conecta una aplicación con MongoDB.</li>
+<li>Utilizar la biblioteca PyMongo.</li>
+<li>Insertar documentos en una colección.</li>
+<li>Consultar documentos desde Python.</li>
+<li>Aplicar filtros y ordenamientos.</li>
+<li>Actualizar y eliminar documentos.</li>
+<li>Convertir consultas de MongoDB en tablas utilizando pandas.</li>
+</ul>
+</section>
+<section id="json-y-python" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="json-y-python"><span class="header-section-number">2</span> JSON y Python</h2>
+<p>JSON significa <em>JavaScript Object Notation</em>.</p>
+<p>Es un formato de texto que permite representar información mediante pares de clave y valor.</p>
+<p>Aunque su nombre proviene de JavaScript, puede utilizarse con diferentes lenguajes de programación.</p>
+<p>Python incluye una biblioteca llamada <code>json</code>, que permite trabajar directamente con este formato.</p>
+<section id="recordemos-la-estructura-de-json" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="recordemos-la-estructura-de-json"><span class="header-section-number">2.1</span> Recordemos la estructura de JSON</h3>
+<p>Observemos el siguiente documento:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"codigo"</span><span class="fu">:</span> <span class="st">"L001"</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"titulo"</span><span class="fu">:</span> <span class="st">"Introducción a las bases de datos"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"autor"</span><span class="fu">:</span> <span class="st">"Ana López"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"anio"</span><span class="fu">:</span> <span class="dv">2024</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"precio"</span><span class="fu">:</span> <span class="dv">450</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"disponible"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este documento representa un libro.</p>
+<p>Cada propiedad tiene una clave y un valor.</p>
+<p>Por ejemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Clave</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>codigo</code></td>
+<td>L001</td>
+</tr>
+<tr class="even">
+<td><code>titulo</code></td>
+<td>Introducción a las bases de datos</td>
+</tr>
+<tr class="odd">
+<td><code>autor</code></td>
+<td>Ana López</td>
+</tr>
+<tr class="even">
+<td><code>anio</code></td>
+<td>2024</td>
+</tr>
+<tr class="odd">
+<td><code>precio</code></td>
+<td>450</td>
+</tr>
+<tr class="even">
+<td><code>disponible</code></td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>En JSON podemos utilizar diferentes tipos de valores, como cadenas de texto, números, valores booleanos, arreglos y objetos.</p>
+</section>
+<section id="relación-entre-json-y-python" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="relación-entre-json-y-python"><span class="header-section-number">2.2</span> Relación entre JSON y Python</h3>
+<p>Python utiliza los diccionarios para representar estructuras similares a los objetos JSON.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L001"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"titulo"</span>: <span class="st">"Introducción a las bases de datos"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"autor"</span>: <span class="st">"Ana López"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anio"</span>: <span class="dv">2024</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>: <span class="dv">450</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este ejemplo creamos un diccionario que contiene la información de un libro.</p>
+<p>Observa una diferencia importante:</p>
+<ul>
+<li>En JSON utilizamos <code>true</code> y <code>false</code>.</li>
+<li>En Python utilizamos <code>True</code> y <code>False</code>.</li>
+</ul>
+<p>La biblioteca <code>json</code> se encarga de realizar las conversiones correspondientes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>JSON es un formato para representar e intercambiar datos.</p>
+<p>Un diccionario es una estructura de datos de Python.</p>
+<p>Aunque sus estructuras son similares, no son exactamente lo mismo.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="procesamiento-de-json-con-python" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="procesamiento-de-json-con-python"><span class="header-section-number">3</span> Procesamiento de JSON con Python</h2>
+<p>Comenzaremos utilizando Python sin conectarnos todavía a MongoDB.</p>
+<p>Estos primeros ejercicios pueden realizarse en un archivo <code>.py</code>, en un entorno interactivo de Python o en Google Colab.</p>
+<section id="importar-la-biblioteca-json" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="importar-la-biblioteca-json"><span class="header-section-number">3.1</span> Importar la biblioteca JSON</h3>
+<p>Python incluye una biblioteca llamada <code>json</code>.</p>
+<p>Para utilizarla escribimos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta biblioteca permite convertir información entre objetos de Python y documentos JSON.</p>
+</section>
+<section id="convertir-un-diccionario-a-json" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="convertir-un-diccionario-a-json"><span class="header-section-number">3.2</span> Convertir un diccionario a JSON</h3>
+<p>Crearemos un libro utilizando un diccionario.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L001"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"titulo"</span>: <span class="st">"Introducción a las bases de datos"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"autor"</span>: <span class="st">"Ana López"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anio"</span>: <span class="dv">2024</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>: <span class="dv">450</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>texto_json <span class="op">=</span> json.dumps(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    libro,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    ensure_ascii<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    indent<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(texto_json)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La función <code>json.dumps()</code> convierte un objeto de Python en una cadena de texto con formato JSON.</p>
+<p>En este ejemplo:</p>
+<ul>
+<li><code>ensure_ascii=False</code> permite conservar caracteres como acentos y la letra ñ.</li>
+<li><code>indent=4</code> organiza el contenido utilizando sangrías.</li>
+</ul>
+<p>El resultado es un texto JSON que representa la información del libro.</p>
+</section>
+<section id="convertir-json-a-un-diccionario" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="convertir-json-a-un-diccionario"><span class="header-section-number">3.3</span> Convertir JSON a un diccionario</h3>
+<p>También podemos realizar la operación contraria.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>texto_json <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    "codigo": "L002",</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">    "titulo": "Fundamentos de programación",</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">    "autor": "Carlos Pérez",</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">    "anio": 2022,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">    "precio": 380,</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">    "disponible": false</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> json.loads(texto_json)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La función <code>json.loads()</code> interpreta el texto JSON y lo convierte en un objeto de Python.</p>
+<p>Después podemos acceder a sus valores mediante las claves del diccionario.</p>
+</section>
+<section id="diferencia-entre-dumps-y-loads" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="diferencia-entre-dumps-y-loads"><span class="header-section-number">3.4</span> Diferencia entre <code>dumps()</code> y <code>loads()</code></h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Función</th>
+<th>¿Qué hace?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>json.dumps()</code></td>
+<td>Convierte un objeto de Python a texto JSON</td>
+</tr>
+<tr class="even">
+<td><code>json.loads()</code></td>
+<td>Convierte texto JSON a un objeto de Python</td>
+</tr>
+</tbody>
+</table>
+<p>Estas funciones son útiles cuando necesitamos intercambiar información entre aplicaciones.</p>
+</section>
+</section>
+<section id="guardar-y-leer-archivos-json" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="guardar-y-leer-archivos-json"><span class="header-section-number">4</span> Guardar y leer archivos JSON</h2>
+<p>Hasta ahora hemos trabajado con información creada directamente en nuestro programa.</p>
+<p>Sin embargo, también podemos almacenar los datos en archivos.</p>
+<p>Esto permite conservar la información y recuperarla posteriormente.</p>
+<section id="crear-una-biblioteca-con-varios-libros" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="crear-una-biblioteca-con-varios-libros"><span class="header-section-number">4.1</span> Crear una biblioteca con varios libros</h3>
+<p>Ahora construiremos una biblioteca de ocho libros.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>libros <span class="op">=</span> [</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L001"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Introducción a las bases de datos"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Ana López"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2024</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Bases de Datos"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">450</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L002"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Fundamentos de programación"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Carlos Pérez"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2022</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Programación"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">380</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">False</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L003"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Ciencia de datos con Python"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"María García"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2025</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Ciencia de Datos"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">620</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L004"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Modelado de bases de datos"</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Ana López"</span>,</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2023</span>,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Bases de Datos"</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">520</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L005"</span>,</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Introducción al aprendizaje automático"</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"María García"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2024</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Inteligencia Artificial"</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">680</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L006"</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Fundamentos de ciberseguridad"</span>,</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Pedro Ramírez"</span>,</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2024</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Ciberseguridad"</span>,</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">580</span>,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">False</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L007"</span>,</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Bases de datos NoSQL"</span>,</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Ana López"</span>,</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2025</span>,</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Bases de Datos"</span>,</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">640</span>,</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codigo"</span>: <span class="st">"L008"</span>,</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="st">"Minería de datos aplicada"</span>,</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        <span class="st">"autor"</span>: <span class="st">"Laura Hernández"</span>,</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anio"</span>: <span class="dv">2025</span>,</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        <span class="st">"categoria"</span>: <span class="st">"Ciencia de Datos"</span>,</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">750</span>,</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>        <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La variable <code>libros</code> contiene una lista de diccionarios.</p>
+<p>Cada diccionario representa un libro y contiene las mismas propiedades principales.</p>
+</section>
+<section id="guardar-la-biblioteca-en-un-archivo" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="guardar-la-biblioteca-en-un-archivo"><span class="header-section-number">4.2</span> Guardar la biblioteca en un archivo</h3>
+<p>Utilizaremos la función <code>json.dump()</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"biblioteca.json"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"w"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> archivo:</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    json.dump(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        libros,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        archivo,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        ensure_ascii<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        indent<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo JSON guardado correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este programa crea un archivo llamado <code>biblioteca.json</code>.</p>
+<p>El archivo se guarda en el directorio de trabajo de Python.</p>
+</section>
+<section id="leer-el-archivo-json" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="leer-el-archivo-json"><span class="header-section-number">4.3</span> Leer el archivo JSON</h3>
+<p>Ahora recuperaremos la información desde el archivo que acabamos de crear.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"biblioteca.json"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> archivo:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    biblioteca <span class="op">=</span> json.load(archivo)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libros recuperados:"</span>, <span class="bu">len</span>(biblioteca))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La función <code>json.load()</code> lee la información de un archivo JSON y la convierte en objetos de Python.</p>
+<p>En este caso recuperamos una lista de ocho libros.</p>
+</section>
+<section id="funciones-para-trabajar-con-json" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="funciones-para-trabajar-con-json"><span class="header-section-number">4.4</span> Funciones para trabajar con JSON</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Función</th>
+<th>Aplicación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>json.dumps()</code></td>
+<td>Python a texto JSON</td>
+</tr>
+<tr class="even">
+<td><code>json.loads()</code></td>
+<td>Texto JSON a Python</td>
+</tr>
+<tr class="odd">
+<td><code>json.dump()</code></td>
+<td>Guardar datos en un archivo JSON</td>
+</tr>
+<tr class="even">
+<td><code>json.load()</code></td>
+<td>Leer datos desde un archivo JSON</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia principal es que las funciones sin <code>s</code> trabajan con archivos, mientras que las que terminan en <code>s</code> trabajan con cadenas de texto.</p>
+</section>
+</section>
+<section id="consultar-información-json-con-python" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="consultar-información-json-con-python"><span class="header-section-number">5</span> Consultar información JSON con Python</h2>
+<p>Una vez que tenemos los libros almacenados en una lista, podemos utilizar Python para recuperar información.</p>
+<p>Durante los siguientes ejemplos utilizaremos la variable <code>biblioteca</code> obtenida en la sección anterior.</p>
+<section id="recuperar-todos-los-títulos" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="recuperar-todos-los-títulos"><span class="header-section-number">5.1</span> Recuperar todos los títulos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El ciclo <code>for</code> recorre los libros y muestra sus títulos.</p>
+</section>
+<section id="recuperar-libros-disponibles" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="recuperar-libros-disponibles"><span class="header-section-number">5.2</span> Recuperar libros disponibles</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> libro[<span class="st">"disponible"</span>] <span class="op">==</span> <span class="va">True</span>:</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La condición <code>if</code> permite seleccionar únicamente los libros disponibles.</p>
+</section>
+<section id="recuperar-libros-posteriores-a-2023" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="recuperar-libros-posteriores-a-2023"><span class="header-section-number">5.3</span> Recuperar libros posteriores a 2023</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> libro[<span class="st">"anio"</span>] <span class="op">&gt;</span> <span class="dv">2023</span>:</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona los libros cuyo año de publicación es mayor a 2023.</p>
+</section>
+<section id="recuperar-libros-de-una-categoría" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="recuperar-libros-de-una-categoría"><span class="header-section-number">5.4</span> Recuperar libros de una categoría</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> libro[<span class="st">"categoria"</span>] <span class="op">==</span> <span class="st">"Bases de Datos"</span>:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recupera los títulos de los libros que pertenecen a la categoría Bases de Datos.</p>
+</section>
+<section id="contar-libros-disponibles" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="contar-libros-disponibles"><span class="header-section-number">5.5</span> Contar libros disponibles</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> libro[<span class="st">"disponible"</span>] <span class="op">==</span> <span class="va">True</span>:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libros disponibles:"</span>, total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este programa utiliza un contador para calcular cuántos libros están disponibles.</p>
+</section>
+<section id="calcular-el-precio-promedio" class="level3" data-number="5.6">
+<h3 data-number="5.6" class="anchored" data-anchor-id="calcular-el-precio-promedio"><span class="header-section-number">5.6</span> Calcular el precio promedio</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>precios <span class="op">=</span> []</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    precios.append(libro[<span class="st">"precio"</span>])</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>promedio <span class="op">=</span> <span class="bu">sum</span>(precios) <span class="op">/</span> <span class="bu">len</span>(precios)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Precio promedio:"</span>, <span class="bu">round</span>(promedio, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El programa recupera los precios y calcula su promedio.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Relación con XPath y XQuery</strong></p>
+<p>En el apunte anterior realizamos consultas sobre documentos XML.</p>
+<p>Ahora estamos recuperando información similar, pero utilizando Python y una estructura JSON.</p>
+<p>En ambos casos necesitamos identificar los campos, recorrer los registros y aplicar condiciones.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="cómo-se-relaciona-python-con-mongodb" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="cómo-se-relaciona-python-con-mongodb"><span class="header-section-number">6</span> ¿Cómo se relaciona Python con MongoDB?</h2>
+<p>Hasta ahora hemos utilizado archivos JSON y listas de diccionarios.</p>
+<p>Sin embargo, cuando desarrollamos una aplicación necesitamos almacenar información de manera persistente en una base de datos.</p>
+<p>Para ello podemos utilizar MongoDB.</p>
+<p>MongoDB es una base de datos documental que organiza información en colecciones de documentos.</p>
+<p>Los documentos de MongoDB utilizan BSON, un formato binario que permite representar información similar a JSON y otros tipos de datos.</p>
+<section id="estructura-de-mongodb" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="estructura-de-mongodb"><span class="header-section-number">6.1</span> Estructura de MongoDB</h3>
+<p>Recordemos su organización:</p>
+<pre class="text"><code>MongoDB
+   │
+   └── Base de datos
+          │
+          └── Colección
+                 │
+                 ├── Documento
+                 ├── Documento
+                 └── Documento</code></pre>
+<p>Para nuestra práctica utilizaremos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Componente</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base de datos</td>
+<td><code>curso_bdnr_python</code></td>
+</tr>
+<tr class="even">
+<td>Colección</td>
+<td><code>libros_apunte16</code></td>
+</tr>
+<tr class="odd">
+<td>Documentos</td>
+<td>Libros de la biblioteca</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qué-es-pymongo" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="qué-es-pymongo"><span class="header-section-number">6.2</span> ¿Qué es PyMongo?</h3>
+<p><strong>PyMongo</strong> es la biblioteca oficial que permite conectar aplicaciones de Python con MongoDB.</p>
+<p>Con ella podemos realizar operaciones como:</p>
+<ul>
+<li>Insertar documentos.</li>
+<li>Consultar información.</li>
+<li>Aplicar filtros.</li>
+<li>Actualizar registros.</li>
+<li>Eliminar documentos.</li>
+<li>Realizar conteos y ordenamientos.</li>
+</ul>
+<p>Estas operaciones son similares a las que ya conocemos de MongoDB, pero ahora las ejecutaremos desde Python.</p>
+</section>
+</section>
+<section id="preparación-del-entorno-de-trabajo" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="preparación-del-entorno-de-trabajo"><span class="header-section-number">7</span> Preparación del entorno de trabajo</h2>
+<p>Para esta parte necesitaremos Python y un servidor MongoDB en funcionamiento.</p>
+<p>Trabajaremos con MongoDB local.</p>
+<p>Podemos utilizar una instalación existente o iniciar un contenedor mediante Docker.</p>
+<section id="comprobar-python" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="comprobar-python"><span class="header-section-number">7.1</span> Comprobar Python</h3>
+<p>Abre la Terminal y ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando permite comprobar que Python está disponible.</p>
+</section>
+<section id="instalar-pymongo" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="instalar-pymongo"><span class="header-section-number">7.2</span> Instalar PyMongo</h3>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install pymongo pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Instalaremos dos bibliotecas:</p>
+<ul>
+<li><code>pymongo</code>: para conectar Python con MongoDB.</li>
+<li><code>pandas</code>: para organizar los resultados en tablas.</li>
+</ul>
+<p>Si utilizamos Google Colab, la instalación se realiza en una celda:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install pymongo pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante sobre Google Colab</strong></p>
+<p>Google Colab se ejecuta en un entorno remoto.</p>
+<p>Por esa razón, la dirección <code>localhost</code> dentro de Colab no corresponde a la computadora personal.</p>
+<p>Para conectarnos a un MongoDB instalado en nuestra Mac utilizaremos Python ejecutándose localmente.</p>
+<p>Si quisiéramos utilizar Colab para conectarnos a MongoDB, necesitaríamos un servidor accesible desde ese entorno, por ejemplo, una base de datos en MongoDB Atlas.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-mongodb" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="comprobar-mongodb"><span class="header-section-number">7.3</span> Comprobar MongoDB</h3>
+<p>Si ya tienes MongoDB funcionando localmente, puedes conservar la conexión y el puerto que utilizas normalmente.</p>
+<p>Si no tienes un servidor disponible, puedes utilizar Docker.</p>
+<p>Primero verifica los contenedores existentes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps <span class="at">-a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si no tienes un contenedor MongoDB para esta práctica, puedes crear uno:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--name</span> mongo-python-lab <span class="dt">\</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 127.0.0.1:27018:27017 <span class="dt">\</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  mongo:8</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando crea un contenedor para la práctica.</p>
+<p>El servidor MongoDB utiliza el puerto <code>27017</code> dentro del contenedor, mientras que desde nuestra computadora accederemos mediante el puerto <code>27018</code>.</p>
+<p>Para iniciar posteriormente el contenedor:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> start mongo-python-lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para comprobar que está funcionando:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>El contenedor propuesto es para prácticas locales.</p>
+<p>No debe exponerse directamente a internet sin configurar autenticación y las medidas de seguridad correspondientes.</p>
+<p>En los siguientes ejemplos utilizaremos el puerto <code>27018</code>.</p>
+<p>Si ya tienes MongoDB instalado en el puerto <code>27017</code>, puedes utilizar esa conexión cambiando la dirección correspondiente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="conectar-python-con-mongodb" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="conectar-python-con-mongodb"><span class="header-section-number">8</span> Conectar Python con MongoDB</h2>
+<p>Ahora utilizaremos PyMongo para establecer una conexión con nuestro servidor.</p>
+<section id="primera-conexión" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="primera-conexión"><span class="header-section-number">8.1</span> Primera conexión</h3>
+<p>Crea un archivo de Python o abre un entorno interactivo.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>cliente <span class="op">=</span> MongoClient(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mongodb://localhost:27018/"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    serverSelectionTimeoutMS<span class="op">=</span><span class="dv">5000</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>cliente.admin.command(<span class="st">"ping"</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Conexión correcta con MongoDB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este ejemplo:</p>
+<ul>
+<li><code>MongoClient</code> permite crear el cliente de conexión.</li>
+<li><code>localhost</code> indica que MongoDB se ejecuta en nuestra computadora.</li>
+<li><code>27018</code> es el puerto utilizado en nuestra práctica.</li>
+<li><code>ping</code> comprueba que el servidor responde.</li>
+</ul>
+<p>Si el servidor está disponible, aparecerá el mensaje de conexión correcta.</p>
+</section>
+<section id="seleccionar-una-base-de-datos" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="seleccionar-una-base-de-datos"><span class="header-section-number">8.2</span> Seleccionar una base de datos</h3>
+<p>Una vez establecida la conexión, seleccionaremos la base de datos.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> cliente[<span class="st">"curso_bdnr_python"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(db.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La variable <code>db</code> representa la base de datos con la que trabajaremos.</p>
+</section>
+<section id="seleccionar-una-colección" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="seleccionar-una-colección"><span class="header-section-number">8.3</span> Seleccionar una colección</h3>
+<p>Ahora seleccionaremos la colección de libros.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>coleccion <span class="op">=</span> db[<span class="st">"libros_apunte16"</span>]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coleccion.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La variable <code>coleccion</code> permite realizar operaciones sobre los documentos de la biblioteca.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Base de datos y colección</strong></p>
+<p>Seleccionar una base de datos o colección en Python no implica necesariamente que ya se haya almacenado información.</p>
+<p>En MongoDB pueden crearse al insertar los primeros documentos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="insertar-documentos-en-mongodb" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="insertar-documentos-en-mongodb"><span class="header-section-number">9</span> Insertar documentos en MongoDB</h2>
+<p>Ahora utilizaremos los libros que creamos anteriormente en Python.</p>
+<section id="preparar-los-documentos" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="preparar-los-documentos"><span class="header-section-number">9.1</span> Preparar los documentos</h3>
+<p>Si continuamos utilizando la misma sesión de Python, podemos recuperar directamente la variable <code>biblioteca</code>.</p>
+<p>Si abrimos una sesión nueva, primero debemos cargar el archivo JSON:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"biblioteca.json"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> archivo:</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    biblioteca <span class="op">=</span> json.load(archivo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>De esta manera tendremos nuevamente los ocho libros.</p>
+</section>
+<section id="insertar-o-actualizar-los-libros-de-la-práctica" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="insertar-o-actualizar-los-libros-de-la-práctica"><span class="header-section-number">9.2</span> Insertar o actualizar los libros de la práctica</h3>
+<p>Para evitar registros duplicados si ejecutamos varias veces el programa, utilizaremos el campo <code>codigo</code> para identificar cada libro.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> biblioteca:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    coleccion.update_one(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"codigo"</span>: libro[<span class="st">"codigo"</span>]},</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"$set"</span>: libro},</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        upsert<span class="op">=</span><span class="va">True</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Biblioteca registrada correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este código recorre los libros y realiza una operación por cada uno.</p>
+<p>Si el libro ya existe, actualiza sus campos.</p>
+<p>Si no existe, lo inserta.</p>
+<p>El parámetro <code>upsert=True</code> permite realizar ambas acciones.</p>
+</section>
+<section id="contar-documentos-registrados" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="contar-documentos-registrados"><span class="header-section-number">9.3</span> Contar documentos registrados</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> coleccion.count_documents({})</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Documentos registrados:"</span>, total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta cuenta todos los documentos de la colección.</p>
+<p>Si la colección estaba vacía antes de la práctica, tendremos ocho libros.</p>
+</section>
+</section>
+<section id="primeras-consultas-con-pymongo" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="primeras-consultas-con-pymongo"><span class="header-section-number">10</span> Primeras consultas con PyMongo</h2>
+<p>Ahora aprenderemos a recuperar información desde la base de datos.</p>
+<section id="recuperar-todos-los-documentos" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="recuperar-todos-los-documentos"><span class="header-section-number">10.1</span> Recuperar todos los documentos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find():</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>find()</code> permite consultar documentos de una colección.</p>
+<p>Cuando no especificamos filtros, recuperamos todos los registros.</p>
+</section>
+<section id="recuperar-un-solo-documento" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="recuperar-un-solo-documento"><span class="header-section-number">10.2</span> Recuperar un solo documento</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> coleccion.find_one()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>find_one()</code> recupera un documento que cumpla la consulta.</p>
+<p>En este caso no especificamos condiciones.</p>
+</section>
+<section id="buscar-un-libro-por-código" class="level3" data-number="10.3">
+<h3 data-number="10.3" class="anchored" data-anchor-id="buscar-un-libro-por-código"><span class="header-section-number">10.3</span> Buscar un libro por código</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> coleccion.find_one({</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L003"</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona el libro cuyo código es <code>L003</code>.</p>
+</section>
+<section id="recuperar-libros-disponibles-1" class="level3" data-number="10.4">
+<h3 data-number="10.4" class="anchored" data-anchor-id="recuperar-libros-disponibles-1"><span class="header-section-number">10.4</span> Recuperar libros disponibles</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La consulta selecciona únicamente los documentos cuyo campo <code>disponible</code> contiene el valor <code>True</code>.</p>
+</section>
+<section id="buscar-libros-posteriores-a-2023" class="level3" data-number="10.5">
+<h3 data-number="10.5" class="anchored" data-anchor-id="buscar-libros-posteriores-a-2023"><span class="header-section-number">10.5</span> Buscar libros posteriores a 2023</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anio"</span>: {<span class="st">"$gt"</span>: <span class="dv">2023</span>}</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El operador <code>$gt</code> significa <em>greater than</em> y selecciona valores mayores al indicado.</p>
+</section>
+<section id="buscar-por-categoría" class="level3" data-number="10.6">
+<h3 data-number="10.6" class="anchored" data-anchor-id="buscar-por-categoría"><span class="header-section-number">10.6</span> Buscar por categoría</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"categoria"</span>: <span class="st">"Bases de Datos"</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recupera los títulos de los libros de la categoría Bases de Datos.</p>
+</section>
+</section>
+<section id="operadores-de-consulta-en-mongodb" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="operadores-de-consulta-en-mongodb"><span class="header-section-number">11</span> Operadores de consulta en MongoDB</h2>
+<p>MongoDB utiliza operadores para expresar diferentes condiciones.</p>
+<p>Algunos de los más utilizados son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Operador</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>$eq</code></td>
+<td>Igual a</td>
+</tr>
+<tr class="even">
+<td><code>$ne</code></td>
+<td>Diferente de</td>
+</tr>
+<tr class="odd">
+<td><code>$gt</code></td>
+<td>Mayor que</td>
+</tr>
+<tr class="even">
+<td><code>$gte</code></td>
+<td>Mayor o igual que</td>
+</tr>
+<tr class="odd">
+<td><code>$lt</code></td>
+<td>Menor que</td>
+</tr>
+<tr class="even">
+<td><code>$lte</code></td>
+<td>Menor o igual que</td>
+</tr>
+<tr class="odd">
+<td><code>$in</code></td>
+<td>Coincide con algún valor de una lista</td>
+</tr>
+<tr class="even">
+<td><code>$and</code></td>
+<td>Cumple todas las condiciones</td>
+</tr>
+<tr class="odd">
+<td><code>$or</code></td>
+<td>Cumple alguna de las condiciones</td>
+</tr>
+</tbody>
+</table>
+<section id="consultar-libros-con-precio-mayor-a-600" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="consultar-libros-con-precio-mayor-a-600"><span class="header-section-number">11.1</span> Consultar libros con precio mayor a 600</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>: {<span class="st">"$gt"</span>: <span class="dv">600</span>}</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona los libros cuyo precio es mayor a 600.</p>
+</section>
+<section id="consultar-libros-en-un-intervalo-de-precios" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="consultar-libros-en-un-intervalo-de-precios"><span class="header-section-number">11.2</span> Consultar libros en un intervalo de precios</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>: {</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"$gte"</span>: <span class="dv">400</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"$lte"</span>: <span class="dv">600</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recupera los libros cuyo precio está entre 400 y 600, incluyendo ambos límites.</p>
+</section>
+<section id="combinar-condiciones" class="level3" data-number="11.3">
+<h3 data-number="11.3" class="anchored" data-anchor-id="combinar-condiciones"><span class="header-section-number">11.3</span> Combinar condiciones</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span>: <span class="va">True</span>,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anio"</span>: {<span class="st">"$gt"</span>: <span class="dv">2023</span>}</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta selecciona los libros disponibles que fueron publicados después de 2023.</p>
+<p>Cuando escribimos varias condiciones sobre campos diferentes, MongoDB las interpreta como condiciones que deben cumplirse conjuntamente.</p>
+</section>
+<section id="aplicar-condiciones-alternativas" class="level3" data-number="11.4">
+<h3 data-number="11.4" class="anchored" data-anchor-id="aplicar-condiciones-alternativas"><span class="header-section-number">11.4</span> Aplicar condiciones alternativas</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find({</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"$or"</span>: [</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"categoria"</span>: <span class="st">"Bases de Datos"</span>},</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"categoria"</span>: <span class="st">"Ciencia de Datos"</span>}</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>}):</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona los libros que pertenecen a cualquiera de las dos categorías.</p>
+</section>
+</section>
+<section id="seleccionar-campos-y-ordenar-resultados" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="seleccionar-campos-y-ordenar-resultados"><span class="header-section-number">12</span> Seleccionar campos y ordenar resultados</h2>
+<p>En ocasiones no necesitamos recuperar todos los campos de un documento.</p>
+<p>También podemos decidir el orden en el que queremos observar la información.</p>
+<section id="recuperar-solamente-los-títulos" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="recuperar-solamente-los-títulos"><span class="header-section-number">12.1</span> Recuperar solamente los títulos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    {},</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"titulo"</span>: <span class="dv">1</span>}</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El segundo diccionario indica qué campos se devolverán.</p>
+<p>En este ejemplo:</p>
+<ul>
+<li><code>"titulo": 1</code> incluye el título.</li>
+<li><code>"_id": 0</code> excluye el identificador interno de MongoDB.</li>
+</ul>
+</section>
+<section id="recuperar-títulos-y-precios" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="recuperar-títulos-y-precios"><span class="header-section-number">12.2</span> Recuperar títulos y precios</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    {},</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"_id"</span>: <span class="dv">0</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"titulo"</span>: <span class="dv">1</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precio"</span>: <span class="dv">1</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La consulta devuelve únicamente el título y el precio de cada libro.</p>
+</section>
+<section id="ordenar-libros-por-precio" class="level3" data-number="12.3">
+<h3 data-number="12.3" class="anchored" data-anchor-id="ordenar-libros-por-precio"><span class="header-section-number">12.3</span> Ordenar libros por precio</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> ASCENDING</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find().sort(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    ASCENDING</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>], libro[<span class="st">"precio"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ordena los libros desde el precio más bajo hasta el más alto.</p>
+</section>
+<section id="ordenar-de-mayor-a-menor" class="level3" data-number="12.4">
+<h3 data-number="12.4" class="anchored" data-anchor-id="ordenar-de-mayor-a-menor"><span class="header-section-number">12.4</span> Ordenar de mayor a menor</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> DESCENDING</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find().sort(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    DESCENDING</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>], libro[<span class="st">"precio"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ordena los libros desde el más caro hasta el más barato.</p>
+</section>
+<section id="limitar-la-cantidad-de-resultados" class="level3" data-number="12.5">
+<h3 data-number="12.5" class="anchored" data-anchor-id="limitar-la-cantidad-de-resultados"><span class="header-section-number">12.5</span> Limitar la cantidad de resultados</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> libro <span class="kw">in</span> coleccion.find().sort(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    DESCENDING</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">3</span>):</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(libro[<span class="st">"titulo"</span>], libro[<span class="st">"precio"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ordena los libros por precio y recupera solamente los tres más caros.</p>
+</section>
+</section>
+<section id="actualizar-documentos-desde-python" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="actualizar-documentos-desde-python"><span class="header-section-number">13</span> Actualizar documentos desde Python</h2>
+<p>Además de consultar información, PyMongo permite modificar documentos.</p>
+<section id="actualizar-el-precio-de-un-libro" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="actualizar-el-precio-de-un-libro"><span class="header-section-number">13.1</span> Actualizar el precio de un libro</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> coleccion.update_one(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"codigo"</span>: <span class="st">"L001"</span>},</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"$set"</span>: {<span class="st">"precio"</span>: <span class="dv">480</span>}}</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Documentos modificados:"</span>, resultado.modified_count)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta operación busca el libro <code>L001</code> y cambia su precio a 480.</p>
+<p>El operador <code>$set</code> permite establecer un nuevo valor.</p>
+</section>
+<section id="modificar-la-disponibilidad" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="modificar-la-disponibilidad"><span class="header-section-number">13.2</span> Modificar la disponibilidad</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>coleccion.update_one(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"codigo"</span>: <span class="st">"L002"</span>},</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"$set"</span>: {<span class="st">"disponible"</span>: <span class="va">True</span>}}</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Actualiza el libro <code>L002</code> para indicar que está disponible.</p>
+</section>
+<section id="comprobar-los-cambios" class="level3" data-number="13.3">
+<h3 data-number="13.3" class="anchored" data-anchor-id="comprobar-los-cambios"><span class="header-section-number">13.3</span> Comprobar los cambios</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> coleccion.find_one(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"codigo"</span>: <span class="st">"L002"</span>}</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recupera el documento actualizado.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Las operaciones de actualización modifican la información almacenada en MongoDB.</p>
+<p>Los cambios permanecerán en la base de datos mientras no se eliminen o sustituyan los documentos.</p>
+<p>Por eso debemos comprobar que los filtros identifican correctamente el registro que queremos modificar.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="insertar-y-eliminar-un-documento-de-prueba" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="insertar-y-eliminar-un-documento-de-prueba"><span class="header-section-number">14</span> Insertar y eliminar un documento de prueba</h2>
+<p>Para comprender las operaciones de inserción y eliminación utilizaremos un documento temporal.</p>
+<section id="insertar-un-documento" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="insertar-un-documento"><span class="header-section-number">14.1</span> Insertar un documento</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>nuevo_libro <span class="op">=</span> {</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L009"</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"titulo"</span>: <span class="st">"Libro de prueba"</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"autor"</span>: <span class="st">"Autor de ejemplo"</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anio"</span>: <span class="dv">2026</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"categoria"</span>: <span class="st">"Prueba"</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>: <span class="dv">300</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span>: <span class="va">True</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> coleccion.insert_one(nuevo_libro)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Documento insertado:"</span>, resultado.inserted_id)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>insert_one()</code> permite insertar un documento.</p>
+<p>MongoDB agrega automáticamente un identificador <code>_id</code> cuando el documento no contiene uno.</p>
+<p>Ejecuta esta inserción una sola vez para evitar repetir el registro de prueba.</p>
+</section>
+<section id="comprobar-la-inserción" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="comprobar-la-inserción"><span class="header-section-number">14.2</span> Comprobar la inserción</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>libro <span class="op">=</span> coleccion.find_one({</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L009"</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(libro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta permite comprobar que el documento está almacenado.</p>
+</section>
+<section id="eliminar-el-documento-de-prueba" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="eliminar-el-documento-de-prueba"><span class="header-section-number">14.3</span> Eliminar el documento de prueba</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> coleccion.delete_one({</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>: <span class="st">"L009"</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Documentos eliminados:"</span>, resultado.deleted_count)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>delete_one()</code> elimina un documento que cumpla la condición.</p>
+<p>En este caso eliminamos el libro temporal que creamos durante la práctica.</p>
+</section>
+</section>
+<section id="relación-entre-mongosh-y-pymongo" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="relación-entre-mongosh-y-pymongo"><span class="header-section-number">15</span> Relación entre <code>mongosh</code> y PyMongo</h2>
+<p>Las operaciones que realizamos con Python son similares a las que ya conocemos de <code>mongosh</code>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operación</th>
+<th><code>mongosh</code></th>
+<th>PyMongo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Consultar documentos</td>
+<td><code>db.libros.find()</code></td>
+<td><code>coleccion.find()</code></td>
+</tr>
+<tr class="even">
+<td>Consultar un documento</td>
+<td><code>db.libros.findOne()</code></td>
+<td><code>coleccion.find_one()</code></td>
+</tr>
+<tr class="odd">
+<td>Insertar un documento</td>
+<td><code>db.libros.insertOne()</code></td>
+<td><code>coleccion.insert_one()</code></td>
+</tr>
+<tr class="even">
+<td>Actualizar un documento</td>
+<td><code>db.libros.updateOne()</code></td>
+<td><code>coleccion.update_one()</code></td>
+</tr>
+<tr class="odd">
+<td>Eliminar un documento</td>
+<td><code>db.libros.deleteOne()</code></td>
+<td><code>coleccion.delete_one()</code></td>
+</tr>
+<tr class="even">
+<td>Contar documentos</td>
+<td><code>db.libros.countDocuments()</code></td>
+<td><code>coleccion.count_documents()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Aunque la sintaxis cambia ligeramente, las operaciones tienen objetivos similares.</p>
+<p>La principal diferencia es que ahora las consultas forman parte de un programa de Python.</p>
+<p>Esto permite desarrollar aplicaciones que se comuniquen automáticamente con MongoDB.</p>
+</section>
+<section id="convertir-resultados-de-mongodb-a-una-tabla" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="convertir-resultados-de-mongodb-a-una-tabla"><span class="header-section-number">16</span> Convertir resultados de MongoDB a una tabla</h2>
+<p>En algunas ocasiones necesitamos realizar análisis estadísticos o trabajar con la información en formato tabular.</p>
+<p>Para ello podemos utilizar pandas.</p>
+<section id="recuperar-los-documentos" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="recuperar-los-documentos"><span class="header-section-number">16.1</span> Recuperar los documentos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>documentos <span class="op">=</span> <span class="bu">list</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    coleccion.find({}, {<span class="st">"_id"</span>: <span class="dv">0</span>})</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(documentos)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En este ejemplo:</p>
+<ol type="1">
+<li>Recuperamos los documentos de MongoDB.</li>
+<li>Convertimos los resultados en una lista.</li>
+<li>Construimos un DataFrame de pandas.</li>
+</ol>
+</section>
+<section id="seleccionar-algunas-columnas" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="seleccionar-algunas-columnas"><span class="header-section-number">16.2</span> Seleccionar algunas columnas</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>columnas <span class="op">=</span> [</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"codigo"</span>,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"titulo"</span>,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"categoria"</span>,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"precio"</span>,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disponible"</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[columnas])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta operación permite visualizar únicamente los campos seleccionados.</p>
+</section>
+<section id="calcular-información-general" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="calcular-información-general"><span class="header-section-number">16.3</span> Calcular información general</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total de libros:"</span>, <span class="bu">len</span>(df))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Precio promedio:"</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">round</span>(df[<span class="st">"precio"</span>].mean(), <span class="dv">2</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Libros disponibles:"</span>,</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"disponible"</span>].<span class="bu">sum</span>()</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Con pandas podemos realizar operaciones estadísticas sobre los datos recuperados de MongoDB.</p>
+</section>
+<section id="exportar-a-excel" class="level3" data-number="16.4">
+<h3 data-number="16.4" class="anchored" data-anchor-id="exportar-a-excel"><span class="header-section-number">16.4</span> Exportar a Excel</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df.to_excel(</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"biblioteca_mongodb.xlsx"</span>,</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo Excel generado"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para exportar archivos de Excel puede ser necesario instalar <code>openpyxl</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install openpyxl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El archivo contiene la información recuperada desde MongoDB.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Relación con el análisis de datos</strong></p>
+<p>MongoDB permite almacenar y consultar documentos.</p>
+<p>Python permite automatizar las operaciones de consulta y procesamiento.</p>
+<p>pandas permite transformar los resultados en tablas para realizar análisis, generar reportes o exportar información.</p>
+<p>Estas herramientas pueden formar parte de un mismo flujo de trabajo.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="errores-frecuentes" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="errores-frecuentes"><span class="header-section-number">17</span> Errores frecuentes</h2>
+<p>Durante la práctica pueden presentarse algunos errores.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problema</th>
+<th>Posible causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ModuleNotFoundError</code></td>
+<td>PyMongo no está instalado en el entorno</td>
+<td>Instalar <code>pymongo</code></td>
+</tr>
+<tr class="even">
+<td><code>ServerSelectionTimeoutError</code></td>
+<td>MongoDB no está funcionando o el puerto es incorrecto</td>
+<td>Verificar el servidor y la conexión</td>
+</tr>
+<tr class="odd">
+<td><code>Connection refused</code></td>
+<td>No hay un servicio escuchando en el puerto</td>
+<td>Revisar Docker o MongoDB</td>
+</tr>
+<tr class="even">
+<td>No aparecen documentos</td>
+<td>Se seleccionó otra base de datos o colección</td>
+<td>Revisar los nombres utilizados</td>
+</tr>
+<tr class="odd">
+<td>Aparecen documentos repetidos</td>
+<td>Se ejecutaron inserciones varias veces</td>
+<td>Revisar la colección y los identificadores</td>
+</tr>
+<tr class="even">
+<td><code>KeyError</code></td>
+<td>Se intenta acceder a un campo inexistente</td>
+<td>Verificar las claves del diccionario</td>
+</tr>
+<tr class="odd">
+<td>Error al leer JSON</td>
+<td>El archivo tiene una sintaxis incorrecta</td>
+<td>Comprobar comillas, comas y estructura</td>
+</tr>
+<tr class="even">
+<td>Error al exportar Excel</td>
+<td>Falta una dependencia</td>
+<td>Instalar <code>openpyxl</code></td>
+</tr>
+</tbody>
+</table>
+<section id="comprobar-la-conexión" class="level3" data-number="17.1">
+<h3 data-number="17.1" class="anchored" data-anchor-id="comprobar-la-conexión"><span class="header-section-number">17.1</span> Comprobar la conexión</h3>
+<p>Si no podemos conectarnos a MongoDB, primero debemos verificar que el servidor esté activo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después podemos comprobar la conexión desde Python:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>cliente.admin.command(<span class="st">"ping"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si el comando responde correctamente, podemos continuar con las consultas.</p>
+</section>
+<section id="cerrar-la-conexión" class="level3" data-number="17.2">
+<h3 data-number="17.2" class="anchored" data-anchor-id="cerrar-la-conexión"><span class="header-section-number">17.2</span> Cerrar la conexión</h3>
+<p>Cuando terminemos las operaciones podemos cerrar el cliente.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>cliente.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto libera los recursos utilizados por la conexión.</p>
+</section>
+</section>
+<section id="actividad-individual-biblioteca-universitaria" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="actividad-individual-biblioteca-universitaria"><span class="header-section-number">18</span> Actividad individual: biblioteca universitaria</h2>
+<p>En esta actividad aplicarás los conocimientos adquiridos para trabajar con archivos JSON y una base de datos MongoDB mediante Python.</p>
+<p>Utilizarás la misma biblioteca de ocho libros que construimos durante la clase.</p>
+<p>La actividad se divide en dos partes:</p>
+<ul>
+<li><strong>Parte A. Procesamiento de JSON mediante Python.</strong></li>
+<li><strong>Parte B. Consultas y operaciones en MongoDB mediante PyMongo.</strong></li>
+</ul>
+<section id="instrucciones-generales" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="instrucciones-generales"><span class="header-section-number">18.1</span> Instrucciones generales</h3>
+<ol type="1">
+<li>Utiliza Python para desarrollar los ejercicios.</li>
+<li>Trabaja con el archivo <code>biblioteca.json</code> creado durante la clase.</li>
+<li>Utiliza la base de datos <code>curso_bdnr_python</code>.</li>
+<li>Utiliza la colección <code>libros_apunte16</code>.</li>
+<li>Ejecuta cada consulta y verifica los resultados.</li>
+<li>Conserva el código utilizado para cada ejercicio.</li>
+</ol>
+</section>
+<section id="parte-a.-procesamiento-de-json-con-python" class="level3" data-number="18.2">
+<h3 data-number="18.2" class="anchored" data-anchor-id="parte-a.-procesamiento-de-json-con-python"><span class="header-section-number">18.2</span> Parte A. Procesamiento de JSON con Python</h3>
+<p>Resuelve los siguientes ejercicios utilizando Python y el archivo <code>biblioteca.json</code>.</p>
+<section id="recuperar-información" class="level4" data-number="18.2.1">
+<h4 data-number="18.2.1" class="anchored" data-anchor-id="recuperar-información"><span class="header-section-number">18.2.1</span> Recuperar información</h4>
+<ol type="1">
+<li>Lee el archivo <code>biblioteca.json</code> y muestra la cantidad total de libros registrados.</li>
+<li>Recupera los títulos de todos los libros.</li>
+<li>Muestra los títulos y precios de los libros disponibles.</li>
+</ol>
+</section>
+<section id="aplicar-condiciones-y-funciones" class="level4" data-number="18.2.2">
+<h4 data-number="18.2.2" class="anchored" data-anchor-id="aplicar-condiciones-y-funciones"><span class="header-section-number">18.2.2</span> Aplicar condiciones y funciones</h4>
+<ol start="4" type="1">
+<li>Recupera los títulos de los libros publicados después de 2023.</li>
+<li>Calcula el precio promedio de los libros.</li>
+<li>Recupera el título del libro con el precio más alto.</li>
+</ol>
+</section>
+</section>
+<section id="parte-b.-consultas-con-pymongo" class="level3" data-number="18.3">
+<h3 data-number="18.3" class="anchored" data-anchor-id="parte-b.-consultas-con-pymongo"><span class="header-section-number">18.3</span> Parte B. Consultas con PyMongo</h3>
+<p>Utiliza la base de datos y la colección de la práctica.</p>
+<section id="recuperar-documentos" class="level4" data-number="18.3.1">
+<h4 data-number="18.3.1" class="anchored" data-anchor-id="recuperar-documentos"><span class="header-section-number">18.3.1</span> Recuperar documentos</h4>
+<ol type="1">
+<li>Recupera todos los documentos de la colección, mostrando únicamente el título y el autor.</li>
+<li>Recupera los títulos de los libros de la categoría Bases de Datos.</li>
+<li>Recupera los libros disponibles cuyo precio sea mayor a 600.</li>
+</ol>
+</section>
+<section id="ordenar-y-modificar-información" class="level4" data-number="18.3.2">
+<h4 data-number="18.3.2" class="anchored" data-anchor-id="ordenar-y-modificar-información"><span class="header-section-number">18.3.2</span> Ordenar y modificar información</h4>
+<ol start="4" type="1">
+<li>Recupera los tres libros más caros, ordenados de mayor a menor precio.</li>
+<li>Actualiza el precio del libro <code>L003</code> a 650 y consulta nuevamente el documento para comprobar el cambio.</li>
+<li>Construye un DataFrame de pandas con los documentos de MongoDB y expórtalo a un archivo de Excel.</li>
+</ol>
+</section>
+</section>
+<section id="indicaciones-de-entrega" class="level3" data-number="18.4">
+<h3 data-number="18.4" class="anchored" data-anchor-id="indicaciones-de-entrega"><span class="header-section-number">18.4</span> Indicaciones de entrega</h3>
+<p>La actividad deberá entregarse en un documento PDF que incluya:</p>
+<ul>
+<li>Nombre completo del estudiante.</li>
+<li>Parte A: seis ejercicios de procesamiento de JSON.</li>
+<li>Parte B: seis ejercicios con PyMongo.</li>
+<li>Código utilizado para cada ejercicio.</li>
+<li>Capturas de pantalla de la ejecución y de los resultados.</li>
+</ul>
+<p>Los ejercicios deberán presentarse en el mismo orden en que aparecen en el apunte.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Recomendación</strong></p>
+<p>Antes de realizar la entrega, verifica que todas las consultas funcionen correctamente.</p>
+<p>Recuerda que los cambios realizados sobre los documentos de MongoDB se almacenan en la base de datos, mientras que las operaciones sobre un diccionario de Python no modifican automáticamente el archivo JSON original.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="reflexión-final" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="reflexión-final"><span class="header-section-number">19</span> Reflexión final</h2>
+<p>Durante este apunte aprendimos a procesar información JSON mediante Python y a conectarnos con una base de datos MongoDB utilizando PyMongo.</p>
+<p>Primero trabajamos con diccionarios, listas y archivos JSON para comprender cómo Python representa y procesa documentos.</p>
+<p>Posteriormente establecimos una conexión con MongoDB y realizamos operaciones de inserción, consulta, actualización y eliminación de documentos.</p>
+<p>También utilizamos filtros, ordenamientos y funciones para recuperar información específica.</p>
+<p>Finalmente, aprendimos a convertir documentos de MongoDB en un DataFrame de pandas y exportar los resultados a Excel.</p>
+<p>Estas herramientas permiten desarrollar aplicaciones que almacenan información en bases de datos documentales y utilizan Python para su procesamiento y análisis.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

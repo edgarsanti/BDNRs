@@ -1,0 +1,1296 @@
+---
+title: "Procesamiento de JSON y conexión a MongoDB con Python"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Introducción
+
+En los apuntes anteriores aprendimos a representar y consultar información mediante documentos XML, utilizando XPath y XQuery.
+
+También hemos trabajado con MongoDB, una base de datos documental que permite almacenar información en documentos similares a JSON.
+
+Ahora aprenderemos a utilizar **Python para procesar información JSON y comunicarnos directamente con MongoDB**.
+
+Hasta ahora, muchas de nuestras operaciones con MongoDB las realizamos desde `mongosh`. En este apunte aprenderemos a realizar operaciones similares mediante un programa escrito en Python.
+
+Esto es importante porque las aplicaciones necesitan comunicarse con las bases de datos para guardar, consultar y modificar información.
+
+Durante el apunte utilizaremos una biblioteca universitaria como ejemplo.
+
+Al finalizar podremos:
+
+- Comprender cómo representa Python los datos JSON.
+- Crear, leer y guardar archivos JSON.
+- Procesar información JSON mediante Python.
+- Comprender cómo se conecta una aplicación con MongoDB.
+- Utilizar la biblioteca PyMongo.
+- Insertar documentos en una colección.
+- Consultar documentos desde Python.
+- Aplicar filtros y ordenamientos.
+- Actualizar y eliminar documentos.
+- Convertir consultas de MongoDB en tablas utilizando pandas.
+
+## JSON y Python
+
+JSON significa *JavaScript Object Notation*.
+
+Es un formato de texto que permite representar información mediante pares de clave y valor.
+
+Aunque su nombre proviene de JavaScript, puede utilizarse con diferentes lenguajes de programación.
+
+Python incluye una biblioteca llamada `json`, que permite trabajar directamente con este formato.
+
+### Recordemos la estructura de JSON
+
+Observemos el siguiente documento:
+
+```json
+{
+    "codigo": "L001",
+    "titulo": "Introducción a las bases de datos",
+    "autor": "Ana López",
+    "anio": 2024,
+    "precio": 450,
+    "disponible": true
+}
+```
+
+Este documento representa un libro.
+
+Cada propiedad tiene una clave y un valor.
+
+Por ejemplo:
+
+| Clave | Valor |
+|---|---|
+| `codigo` | L001 |
+| `titulo` | Introducción a las bases de datos |
+| `autor` | Ana López |
+| `anio` | 2024 |
+| `precio` | 450 |
+| `disponible` | true |
+
+En JSON podemos utilizar diferentes tipos de valores, como cadenas de texto, números, valores booleanos, arreglos y objetos.
+
+### Relación entre JSON y Python
+
+Python utiliza los diccionarios para representar estructuras similares a los objetos JSON.
+
+Por ejemplo:
+
+```python
+libro = {
+    "codigo": "L001",
+    "titulo": "Introducción a las bases de datos",
+    "autor": "Ana López",
+    "anio": 2024,
+    "precio": 450,
+    "disponible": True
+}
+
+print(libro)
+```
+
+En este ejemplo creamos un diccionario que contiene la información de un libro.
+
+Observa una diferencia importante:
+
+- En JSON utilizamos `true` y `false`.
+- En Python utilizamos `True` y `False`.
+
+La biblioteca `json` se encarga de realizar las conversiones correspondientes.
+
+::: {.callout-note}
+**Importante**
+
+JSON es un formato para representar e intercambiar datos.
+
+Un diccionario es una estructura de datos de Python.
+
+Aunque sus estructuras son similares, no son exactamente lo mismo.
+:::
+
+## Procesamiento de JSON con Python
+
+Comenzaremos utilizando Python sin conectarnos todavía a MongoDB.
+
+Estos primeros ejercicios pueden realizarse en un archivo `.py`, en un entorno interactivo de Python o en Google Colab.
+
+### Importar la biblioteca JSON
+
+Python incluye una biblioteca llamada `json`.
+
+Para utilizarla escribimos:
+
+```python
+import json
+```
+
+Esta biblioteca permite convertir información entre objetos de Python y documentos JSON.
+
+### Convertir un diccionario a JSON
+
+Crearemos un libro utilizando un diccionario.
+
+```python
+import json
+
+libro = {
+    "codigo": "L001",
+    "titulo": "Introducción a las bases de datos",
+    "autor": "Ana López",
+    "anio": 2024,
+    "precio": 450,
+    "disponible": True
+}
+
+texto_json = json.dumps(
+    libro,
+    ensure_ascii=False,
+    indent=4
+)
+
+print(texto_json)
+```
+
+La función `json.dumps()` convierte un objeto de Python en una cadena de texto con formato JSON.
+
+En este ejemplo:
+
+- `ensure_ascii=False` permite conservar caracteres como acentos y la letra ñ.
+- `indent=4` organiza el contenido utilizando sangrías.
+
+El resultado es un texto JSON que representa la información del libro.
+
+### Convertir JSON a un diccionario
+
+También podemos realizar la operación contraria.
+
+```python
+import json
+
+texto_json = """
+{
+    "codigo": "L002",
+    "titulo": "Fundamentos de programación",
+    "autor": "Carlos Pérez",
+    "anio": 2022,
+    "precio": 380,
+    "disponible": false
+}
+"""
+
+libro = json.loads(texto_json)
+
+print(libro)
+print(libro["titulo"])
+```
+
+La función `json.loads()` interpreta el texto JSON y lo convierte en un objeto de Python.
+
+Después podemos acceder a sus valores mediante las claves del diccionario.
+
+### Diferencia entre `dumps()` y `loads()`
+
+| Función | ¿Qué hace? |
+|---|---|
+| `json.dumps()` | Convierte un objeto de Python a texto JSON |
+| `json.loads()` | Convierte texto JSON a un objeto de Python |
+
+Estas funciones son útiles cuando necesitamos intercambiar información entre aplicaciones.
+
+## Guardar y leer archivos JSON
+
+Hasta ahora hemos trabajado con información creada directamente en nuestro programa.
+
+Sin embargo, también podemos almacenar los datos en archivos.
+
+Esto permite conservar la información y recuperarla posteriormente.
+
+### Crear una biblioteca con varios libros
+
+Ahora construiremos una biblioteca de ocho libros.
+
+```python
+libros = [
+    {
+        "codigo": "L001",
+        "titulo": "Introducción a las bases de datos",
+        "autor": "Ana López",
+        "anio": 2024,
+        "categoria": "Bases de Datos",
+        "precio": 450,
+        "disponible": True
+    },
+    {
+        "codigo": "L002",
+        "titulo": "Fundamentos de programación",
+        "autor": "Carlos Pérez",
+        "anio": 2022,
+        "categoria": "Programación",
+        "precio": 380,
+        "disponible": False
+    },
+    {
+        "codigo": "L003",
+        "titulo": "Ciencia de datos con Python",
+        "autor": "María García",
+        "anio": 2025,
+        "categoria": "Ciencia de Datos",
+        "precio": 620,
+        "disponible": True
+    },
+    {
+        "codigo": "L004",
+        "titulo": "Modelado de bases de datos",
+        "autor": "Ana López",
+        "anio": 2023,
+        "categoria": "Bases de Datos",
+        "precio": 520,
+        "disponible": True
+    },
+    {
+        "codigo": "L005",
+        "titulo": "Introducción al aprendizaje automático",
+        "autor": "María García",
+        "anio": 2024,
+        "categoria": "Inteligencia Artificial",
+        "precio": 680,
+        "disponible": True
+    },
+    {
+        "codigo": "L006",
+        "titulo": "Fundamentos de ciberseguridad",
+        "autor": "Pedro Ramírez",
+        "anio": 2024,
+        "categoria": "Ciberseguridad",
+        "precio": 580,
+        "disponible": False
+    },
+    {
+        "codigo": "L007",
+        "titulo": "Bases de datos NoSQL",
+        "autor": "Ana López",
+        "anio": 2025,
+        "categoria": "Bases de Datos",
+        "precio": 640,
+        "disponible": True
+    },
+    {
+        "codigo": "L008",
+        "titulo": "Minería de datos aplicada",
+        "autor": "Laura Hernández",
+        "anio": 2025,
+        "categoria": "Ciencia de Datos",
+        "precio": 750,
+        "disponible": True
+    }
+]
+```
+
+La variable `libros` contiene una lista de diccionarios.
+
+Cada diccionario representa un libro y contiene las mismas propiedades principales.
+
+### Guardar la biblioteca en un archivo
+
+Utilizaremos la función `json.dump()`.
+
+```python
+import json
+
+with open(
+    "biblioteca.json",
+    "w",
+    encoding="utf-8"
+) as archivo:
+
+    json.dump(
+        libros,
+        archivo,
+        ensure_ascii=False,
+        indent=4
+    )
+
+print("Archivo JSON guardado correctamente")
+```
+
+Este programa crea un archivo llamado `biblioteca.json`.
+
+El archivo se guarda en el directorio de trabajo de Python.
+
+### Leer el archivo JSON
+
+Ahora recuperaremos la información desde el archivo que acabamos de crear.
+
+```python
+import json
+
+with open(
+    "biblioteca.json",
+    "r",
+    encoding="utf-8"
+) as archivo:
+
+    biblioteca = json.load(archivo)
+
+print("Libros recuperados:", len(biblioteca))
+```
+
+La función `json.load()` lee la información de un archivo JSON y la convierte en objetos de Python.
+
+En este caso recuperamos una lista de ocho libros.
+
+### Funciones para trabajar con JSON
+
+| Función | Aplicación |
+|---|---|
+| `json.dumps()` | Python a texto JSON |
+| `json.loads()` | Texto JSON a Python |
+| `json.dump()` | Guardar datos en un archivo JSON |
+| `json.load()` | Leer datos desde un archivo JSON |
+
+La diferencia principal es que las funciones sin `s` trabajan con archivos, mientras que las que terminan en `s` trabajan con cadenas de texto.
+
+## Consultar información JSON con Python
+
+Una vez que tenemos los libros almacenados en una lista, podemos utilizar Python para recuperar información.
+
+Durante los siguientes ejemplos utilizaremos la variable `biblioteca` obtenida en la sección anterior.
+
+### Recuperar todos los títulos
+
+```python
+for libro in biblioteca:
+    print(libro["titulo"])
+```
+
+El ciclo `for` recorre los libros y muestra sus títulos.
+
+### Recuperar libros disponibles
+
+```python
+for libro in biblioteca:
+
+    if libro["disponible"] == True:
+        print(libro["titulo"])
+```
+
+La condición `if` permite seleccionar únicamente los libros disponibles.
+
+### Recuperar libros posteriores a 2023
+
+```python
+for libro in biblioteca:
+
+    if libro["anio"] > 2023:
+        print(libro["titulo"])
+```
+
+Selecciona los libros cuyo año de publicación es mayor a 2023.
+
+### Recuperar libros de una categoría
+
+```python
+for libro in biblioteca:
+
+    if libro["categoria"] == "Bases de Datos":
+        print(libro["titulo"])
+```
+
+Recupera los títulos de los libros que pertenecen a la categoría Bases de Datos.
+
+### Contar libros disponibles
+
+```python
+total = 0
+
+for libro in biblioteca:
+
+    if libro["disponible"] == True:
+        total += 1
+
+print("Libros disponibles:", total)
+```
+
+Este programa utiliza un contador para calcular cuántos libros están disponibles.
+
+### Calcular el precio promedio
+
+```python
+precios = []
+
+for libro in biblioteca:
+    precios.append(libro["precio"])
+
+promedio = sum(precios) / len(precios)
+
+print("Precio promedio:", round(promedio, 2))
+```
+
+El programa recupera los precios y calcula su promedio.
+
+::: {.callout-note}
+**Relación con XPath y XQuery**
+
+En el apunte anterior realizamos consultas sobre documentos XML.
+
+Ahora estamos recuperando información similar, pero utilizando Python y una estructura JSON.
+
+En ambos casos necesitamos identificar los campos, recorrer los registros y aplicar condiciones.
+:::
+
+## ¿Cómo se relaciona Python con MongoDB?
+
+Hasta ahora hemos utilizado archivos JSON y listas de diccionarios.
+
+Sin embargo, cuando desarrollamos una aplicación necesitamos almacenar información de manera persistente en una base de datos.
+
+Para ello podemos utilizar MongoDB.
+
+MongoDB es una base de datos documental que organiza información en colecciones de documentos.
+
+Los documentos de MongoDB utilizan BSON, un formato binario que permite representar información similar a JSON y otros tipos de datos.
+
+### Estructura de MongoDB
+
+Recordemos su organización:
+
+```text
+MongoDB
+   │
+   └── Base de datos
+          │
+          └── Colección
+                 │
+                 ├── Documento
+                 ├── Documento
+                 └── Documento
+```
+
+Para nuestra práctica utilizaremos:
+
+| Componente | Nombre |
+|---|---|
+| Base de datos | `curso_bdnr_python` |
+| Colección | `libros_apunte16` |
+| Documentos | Libros de la biblioteca |
+
+### ¿Qué es PyMongo?
+
+**PyMongo** es la biblioteca oficial que permite conectar aplicaciones de Python con MongoDB.
+
+Con ella podemos realizar operaciones como:
+
+- Insertar documentos.
+- Consultar información.
+- Aplicar filtros.
+- Actualizar registros.
+- Eliminar documentos.
+- Realizar conteos y ordenamientos.
+
+Estas operaciones son similares a las que ya conocemos de MongoDB, pero ahora las ejecutaremos desde Python.
+
+## Preparación del entorno de trabajo
+
+Para esta parte necesitaremos Python y un servidor MongoDB en funcionamiento.
+
+Trabajaremos con MongoDB local.
+
+Podemos utilizar una instalación existente o iniciar un contenedor mediante Docker.
+
+### Comprobar Python
+
+Abre la Terminal y ejecuta:
+
+```bash
+python3 --version
+```
+
+Este comando permite comprobar que Python está disponible.
+
+### Instalar PyMongo
+
+Ejecuta:
+
+```bash
+python3 -m pip install pymongo pandas
+```
+
+Instalaremos dos bibliotecas:
+
+- `pymongo`: para conectar Python con MongoDB.
+- `pandas`: para organizar los resultados en tablas.
+
+Si utilizamos Google Colab, la instalación se realiza en una celda:
+
+```python
+%pip install pymongo pandas
+```
+
+::: {.callout-warning}
+**Importante sobre Google Colab**
+
+Google Colab se ejecuta en un entorno remoto.
+
+Por esa razón, la dirección `localhost` dentro de Colab no corresponde a la computadora personal.
+
+Para conectarnos a un MongoDB instalado en nuestra Mac utilizaremos Python ejecutándose localmente.
+
+Si quisiéramos utilizar Colab para conectarnos a MongoDB, necesitaríamos un servidor accesible desde ese entorno, por ejemplo, una base de datos en MongoDB Atlas.
+:::
+
+### Comprobar MongoDB
+
+Si ya tienes MongoDB funcionando localmente, puedes conservar la conexión y el puerto que utilizas normalmente.
+
+Si no tienes un servidor disponible, puedes utilizar Docker.
+
+Primero verifica los contenedores existentes:
+
+```bash
+docker ps -a
+```
+
+Si no tienes un contenedor MongoDB para esta práctica, puedes crear uno:
+
+```bash
+docker run -d \
+  --name mongo-python-lab \
+  -p 127.0.0.1:27018:27017 \
+  mongo:8
+```
+
+Este comando crea un contenedor para la práctica.
+
+El servidor MongoDB utiliza el puerto `27017` dentro del contenedor, mientras que desde nuestra computadora accederemos mediante el puerto `27018`.
+
+Para iniciar posteriormente el contenedor:
+
+```bash
+docker start mongo-python-lab
+```
+
+Para comprobar que está funcionando:
+
+```bash
+docker ps
+```
+
+::: {.callout-note}
+**Importante**
+
+El contenedor propuesto es para prácticas locales.
+
+No debe exponerse directamente a internet sin configurar autenticación y las medidas de seguridad correspondientes.
+
+En los siguientes ejemplos utilizaremos el puerto `27018`.
+
+Si ya tienes MongoDB instalado en el puerto `27017`, puedes utilizar esa conexión cambiando la dirección correspondiente.
+:::
+
+## Conectar Python con MongoDB
+
+Ahora utilizaremos PyMongo para establecer una conexión con nuestro servidor.
+
+### Primera conexión
+
+Crea un archivo de Python o abre un entorno interactivo.
+
+Ejecuta:
+
+```python
+from pymongo import MongoClient
+
+cliente = MongoClient(
+    "mongodb://localhost:27018/",
+    serverSelectionTimeoutMS=5000
+)
+
+cliente.admin.command("ping")
+
+print("Conexión correcta con MongoDB")
+```
+
+En este ejemplo:
+
+- `MongoClient` permite crear el cliente de conexión.
+- `localhost` indica que MongoDB se ejecuta en nuestra computadora.
+- `27018` es el puerto utilizado en nuestra práctica.
+- `ping` comprueba que el servidor responde.
+
+Si el servidor está disponible, aparecerá el mensaje de conexión correcta.
+
+### Seleccionar una base de datos
+
+Una vez establecida la conexión, seleccionaremos la base de datos.
+
+```python
+db = cliente["curso_bdnr_python"]
+
+print(db.name)
+```
+
+La variable `db` representa la base de datos con la que trabajaremos.
+
+### Seleccionar una colección
+
+Ahora seleccionaremos la colección de libros.
+
+```python
+coleccion = db["libros_apunte16"]
+
+print(coleccion.name)
+```
+
+La variable `coleccion` permite realizar operaciones sobre los documentos de la biblioteca.
+
+::: {.callout-note}
+**Base de datos y colección**
+
+Seleccionar una base de datos o colección en Python no implica necesariamente que ya se haya almacenado información.
+
+En MongoDB pueden crearse al insertar los primeros documentos.
+:::
+
+## Insertar documentos en MongoDB
+
+Ahora utilizaremos los libros que creamos anteriormente en Python.
+
+### Preparar los documentos
+
+Si continuamos utilizando la misma sesión de Python, podemos recuperar directamente la variable `biblioteca`.
+
+Si abrimos una sesión nueva, primero debemos cargar el archivo JSON:
+
+```python
+import json
+
+with open(
+    "biblioteca.json",
+    "r",
+    encoding="utf-8"
+) as archivo:
+
+    biblioteca = json.load(archivo)
+```
+
+De esta manera tendremos nuevamente los ocho libros.
+
+### Insertar o actualizar los libros de la práctica
+
+Para evitar registros duplicados si ejecutamos varias veces el programa, utilizaremos el campo `codigo` para identificar cada libro.
+
+```python
+for libro in biblioteca:
+
+    coleccion.update_one(
+        {"codigo": libro["codigo"]},
+        {"$set": libro},
+        upsert=True
+    )
+
+print("Biblioteca registrada correctamente")
+```
+
+Este código recorre los libros y realiza una operación por cada uno.
+
+Si el libro ya existe, actualiza sus campos.
+
+Si no existe, lo inserta.
+
+El parámetro `upsert=True` permite realizar ambas acciones.
+
+### Contar documentos registrados
+
+```python
+total = coleccion.count_documents({})
+
+print("Documentos registrados:", total)
+```
+
+Esta consulta cuenta todos los documentos de la colección.
+
+Si la colección estaba vacía antes de la práctica, tendremos ocho libros.
+
+## Primeras consultas con PyMongo
+
+Ahora aprenderemos a recuperar información desde la base de datos.
+
+### Recuperar todos los documentos
+
+```python
+for libro in coleccion.find():
+    print(libro)
+```
+
+El método `find()` permite consultar documentos de una colección.
+
+Cuando no especificamos filtros, recuperamos todos los registros.
+
+### Recuperar un solo documento
+
+```python
+libro = coleccion.find_one()
+
+print(libro)
+```
+
+El método `find_one()` recupera un documento que cumpla la consulta.
+
+En este caso no especificamos condiciones.
+
+### Buscar un libro por código
+
+```python
+libro = coleccion.find_one({
+    "codigo": "L003"
+})
+
+print(libro)
+```
+
+Selecciona el libro cuyo código es `L003`.
+
+### Recuperar libros disponibles
+
+```python
+for libro in coleccion.find({
+    "disponible": True
+}):
+
+    print(libro["titulo"])
+```
+
+La consulta selecciona únicamente los documentos cuyo campo `disponible` contiene el valor `True`.
+
+### Buscar libros posteriores a 2023
+
+```python
+for libro in coleccion.find({
+    "anio": {"$gt": 2023}
+}):
+
+    print(libro["titulo"])
+```
+
+El operador `$gt` significa *greater than* y selecciona valores mayores al indicado.
+
+### Buscar por categoría
+
+```python
+for libro in coleccion.find({
+    "categoria": "Bases de Datos"
+}):
+
+    print(libro["titulo"])
+```
+
+Recupera los títulos de los libros de la categoría Bases de Datos.
+
+## Operadores de consulta en MongoDB
+
+MongoDB utiliza operadores para expresar diferentes condiciones.
+
+Algunos de los más utilizados son:
+
+| Operador | Significado |
+|---|---|
+| `$eq` | Igual a |
+| `$ne` | Diferente de |
+| `$gt` | Mayor que |
+| `$gte` | Mayor o igual que |
+| `$lt` | Menor que |
+| `$lte` | Menor o igual que |
+| `$in` | Coincide con algún valor de una lista |
+| `$and` | Cumple todas las condiciones |
+| `$or` | Cumple alguna de las condiciones |
+
+### Consultar libros con precio mayor a 600
+
+```python
+for libro in coleccion.find({
+    "precio": {"$gt": 600}
+}):
+
+    print(libro["titulo"])
+```
+
+Selecciona los libros cuyo precio es mayor a 600.
+
+### Consultar libros en un intervalo de precios
+
+```python
+for libro in coleccion.find({
+    "precio": {
+        "$gte": 400,
+        "$lte": 600
+    }
+}):
+
+    print(libro["titulo"])
+```
+
+Recupera los libros cuyo precio está entre 400 y 600, incluyendo ambos límites.
+
+### Combinar condiciones
+
+```python
+for libro in coleccion.find({
+    "disponible": True,
+    "anio": {"$gt": 2023}
+}):
+
+    print(libro["titulo"])
+```
+
+Esta consulta selecciona los libros disponibles que fueron publicados después de 2023.
+
+Cuando escribimos varias condiciones sobre campos diferentes, MongoDB las interpreta como condiciones que deben cumplirse conjuntamente.
+
+### Aplicar condiciones alternativas
+
+```python
+for libro in coleccion.find({
+    "$or": [
+        {"categoria": "Bases de Datos"},
+        {"categoria": "Ciencia de Datos"}
+    ]
+}):
+
+    print(libro["titulo"])
+```
+
+Selecciona los libros que pertenecen a cualquiera de las dos categorías.
+
+## Seleccionar campos y ordenar resultados
+
+En ocasiones no necesitamos recuperar todos los campos de un documento.
+
+También podemos decidir el orden en el que queremos observar la información.
+
+### Recuperar solamente los títulos
+
+```python
+for libro in coleccion.find(
+    {},
+    {"_id": 0, "titulo": 1}
+):
+
+    print(libro)
+```
+
+El segundo diccionario indica qué campos se devolverán.
+
+En este ejemplo:
+
+- `"titulo": 1` incluye el título.
+- `"_id": 0` excluye el identificador interno de MongoDB.
+
+### Recuperar títulos y precios
+
+```python
+for libro in coleccion.find(
+    {},
+    {
+        "_id": 0,
+        "titulo": 1,
+        "precio": 1
+    }
+):
+
+    print(libro)
+```
+
+La consulta devuelve únicamente el título y el precio de cada libro.
+
+### Ordenar libros por precio
+
+```python
+from pymongo import ASCENDING
+
+for libro in coleccion.find().sort(
+    "precio",
+    ASCENDING
+):
+
+    print(libro["titulo"], libro["precio"])
+```
+
+Ordena los libros desde el precio más bajo hasta el más alto.
+
+### Ordenar de mayor a menor
+
+```python
+from pymongo import DESCENDING
+
+for libro in coleccion.find().sort(
+    "precio",
+    DESCENDING
+):
+
+    print(libro["titulo"], libro["precio"])
+```
+
+Ordena los libros desde el más caro hasta el más barato.
+
+### Limitar la cantidad de resultados
+
+```python
+for libro in coleccion.find().sort(
+    "precio",
+    DESCENDING
+).limit(3):
+
+    print(libro["titulo"], libro["precio"])
+```
+
+Ordena los libros por precio y recupera solamente los tres más caros.
+
+## Actualizar documentos desde Python
+
+Además de consultar información, PyMongo permite modificar documentos.
+
+### Actualizar el precio de un libro
+
+```python
+resultado = coleccion.update_one(
+    {"codigo": "L001"},
+    {"$set": {"precio": 480}}
+)
+
+print("Documentos modificados:", resultado.modified_count)
+```
+
+Esta operación busca el libro `L001` y cambia su precio a 480.
+
+El operador `$set` permite establecer un nuevo valor.
+
+### Modificar la disponibilidad
+
+```python
+coleccion.update_one(
+    {"codigo": "L002"},
+    {"$set": {"disponible": True}}
+)
+```
+
+Actualiza el libro `L002` para indicar que está disponible.
+
+### Comprobar los cambios
+
+```python
+libro = coleccion.find_one(
+    {"codigo": "L002"}
+)
+
+print(libro)
+```
+
+Recupera el documento actualizado.
+
+::: {.callout-note}
+**Importante**
+
+Las operaciones de actualización modifican la información almacenada en MongoDB.
+
+Los cambios permanecerán en la base de datos mientras no se eliminen o sustituyan los documentos.
+
+Por eso debemos comprobar que los filtros identifican correctamente el registro que queremos modificar.
+:::
+
+## Insertar y eliminar un documento de prueba
+
+Para comprender las operaciones de inserción y eliminación utilizaremos un documento temporal.
+
+### Insertar un documento
+
+```python
+nuevo_libro = {
+    "codigo": "L009",
+    "titulo": "Libro de prueba",
+    "autor": "Autor de ejemplo",
+    "anio": 2026,
+    "categoria": "Prueba",
+    "precio": 300,
+    "disponible": True
+}
+
+resultado = coleccion.insert_one(nuevo_libro)
+
+print("Documento insertado:", resultado.inserted_id)
+```
+
+El método `insert_one()` permite insertar un documento.
+
+MongoDB agrega automáticamente un identificador `_id` cuando el documento no contiene uno.
+
+Ejecuta esta inserción una sola vez para evitar repetir el registro de prueba.
+
+### Comprobar la inserción
+
+```python
+libro = coleccion.find_one({
+    "codigo": "L009"
+})
+
+print(libro)
+```
+
+Esta consulta permite comprobar que el documento está almacenado.
+
+### Eliminar el documento de prueba
+
+```python
+resultado = coleccion.delete_one({
+    "codigo": "L009"
+})
+
+print("Documentos eliminados:", resultado.deleted_count)
+```
+
+El método `delete_one()` elimina un documento que cumpla la condición.
+
+En este caso eliminamos el libro temporal que creamos durante la práctica.
+
+## Relación entre `mongosh` y PyMongo
+
+Las operaciones que realizamos con Python son similares a las que ya conocemos de `mongosh`.
+
+| Operación | `mongosh` | PyMongo |
+|---|---|---|
+| Consultar documentos | `db.libros.find()` | `coleccion.find()` |
+| Consultar un documento | `db.libros.findOne()` | `coleccion.find_one()` |
+| Insertar un documento | `db.libros.insertOne()` | `coleccion.insert_one()` |
+| Actualizar un documento | `db.libros.updateOne()` | `coleccion.update_one()` |
+| Eliminar un documento | `db.libros.deleteOne()` | `coleccion.delete_one()` |
+| Contar documentos | `db.libros.countDocuments()` | `coleccion.count_documents()` |
+
+Aunque la sintaxis cambia ligeramente, las operaciones tienen objetivos similares.
+
+La principal diferencia es que ahora las consultas forman parte de un programa de Python.
+
+Esto permite desarrollar aplicaciones que se comuniquen automáticamente con MongoDB.
+
+## Convertir resultados de MongoDB a una tabla
+
+En algunas ocasiones necesitamos realizar análisis estadísticos o trabajar con la información en formato tabular.
+
+Para ello podemos utilizar pandas.
+
+### Recuperar los documentos
+
+```python
+import pandas as pd
+
+documentos = list(
+    coleccion.find({}, {"_id": 0})
+)
+
+df = pd.DataFrame(documentos)
+
+print(df)
+```
+
+En este ejemplo:
+
+1. Recuperamos los documentos de MongoDB.
+2. Convertimos los resultados en una lista.
+3. Construimos un DataFrame de pandas.
+
+### Seleccionar algunas columnas
+
+```python
+columnas = [
+    "codigo",
+    "titulo",
+    "categoria",
+    "precio",
+    "disponible"
+]
+
+print(df[columnas])
+```
+
+Esta operación permite visualizar únicamente los campos seleccionados.
+
+### Calcular información general
+
+```python
+print("Total de libros:", len(df))
+
+print(
+    "Precio promedio:",
+    round(df["precio"].mean(), 2)
+)
+
+print(
+    "Libros disponibles:",
+    df["disponible"].sum()
+)
+```
+
+Con pandas podemos realizar operaciones estadísticas sobre los datos recuperados de MongoDB.
+
+### Exportar a Excel
+
+```python
+df.to_excel(
+    "biblioteca_mongodb.xlsx",
+    index=False
+)
+
+print("Archivo Excel generado")
+```
+
+Para exportar archivos de Excel puede ser necesario instalar `openpyxl`:
+
+```bash
+python3 -m pip install openpyxl
+```
+
+El archivo contiene la información recuperada desde MongoDB.
+
+::: {.callout-note}
+**Relación con el análisis de datos**
+
+MongoDB permite almacenar y consultar documentos.
+
+Python permite automatizar las operaciones de consulta y procesamiento.
+
+pandas permite transformar los resultados en tablas para realizar análisis, generar reportes o exportar información.
+
+Estas herramientas pueden formar parte de un mismo flujo de trabajo.
+:::
+
+## Errores frecuentes
+
+Durante la práctica pueden presentarse algunos errores.
+
+| Problema | Posible causa | Solución |
+|---|---|---|
+| `ModuleNotFoundError` | PyMongo no está instalado en el entorno | Instalar `pymongo` |
+| `ServerSelectionTimeoutError` | MongoDB no está funcionando o el puerto es incorrecto | Verificar el servidor y la conexión |
+| `Connection refused` | No hay un servicio escuchando en el puerto | Revisar Docker o MongoDB |
+| No aparecen documentos | Se seleccionó otra base de datos o colección | Revisar los nombres utilizados |
+| Aparecen documentos repetidos | Se ejecutaron inserciones varias veces | Revisar la colección y los identificadores |
+| `KeyError` | Se intenta acceder a un campo inexistente | Verificar las claves del diccionario |
+| Error al leer JSON | El archivo tiene una sintaxis incorrecta | Comprobar comillas, comas y estructura |
+| Error al exportar Excel | Falta una dependencia | Instalar `openpyxl` |
+
+### Comprobar la conexión
+
+Si no podemos conectarnos a MongoDB, primero debemos verificar que el servidor esté activo.
+
+```bash
+docker ps
+```
+
+Después podemos comprobar la conexión desde Python:
+
+```python
+cliente.admin.command("ping")
+```
+
+Si el comando responde correctamente, podemos continuar con las consultas.
+
+### Cerrar la conexión
+
+Cuando terminemos las operaciones podemos cerrar el cliente.
+
+```python
+cliente.close()
+```
+
+Esto libera los recursos utilizados por la conexión.
+
+## Actividad individual: biblioteca universitaria
+
+En esta actividad aplicarás los conocimientos adquiridos para trabajar con archivos JSON y una base de datos MongoDB mediante Python.
+
+Utilizarás la misma biblioteca de ocho libros que construimos durante la clase.
+
+La actividad se divide en dos partes:
+
+- **Parte A. Procesamiento de JSON mediante Python.**
+- **Parte B. Consultas y operaciones en MongoDB mediante PyMongo.**
+
+### Instrucciones generales
+
+1. Utiliza Python para desarrollar los ejercicios.
+2. Trabaja con el archivo `biblioteca.json` creado durante la clase.
+3. Utiliza la base de datos `curso_bdnr_python`.
+4. Utiliza la colección `libros_apunte16`.
+5. Ejecuta cada consulta y verifica los resultados.
+6. Conserva el código utilizado para cada ejercicio.
+
+### Parte A. Procesamiento de JSON con Python
+
+Resuelve los siguientes ejercicios utilizando Python y el archivo `biblioteca.json`.
+
+#### Recuperar información
+
+1. Lee el archivo `biblioteca.json` y muestra la cantidad total de libros registrados.
+2. Recupera los títulos de todos los libros.
+3. Muestra los títulos y precios de los libros disponibles.
+
+#### Aplicar condiciones y funciones
+
+4. Recupera los títulos de los libros publicados después de 2023.
+5. Calcula el precio promedio de los libros.
+6. Recupera el título del libro con el precio más alto.
+
+### Parte B. Consultas con PyMongo
+
+Utiliza la base de datos y la colección de la práctica.
+
+#### Recuperar documentos
+
+1. Recupera todos los documentos de la colección, mostrando únicamente el título y el autor.
+2. Recupera los títulos de los libros de la categoría Bases de Datos.
+3. Recupera los libros disponibles cuyo precio sea mayor a 600.
+
+#### Ordenar y modificar información
+
+4. Recupera los tres libros más caros, ordenados de mayor a menor precio.
+5. Actualiza el precio del libro `L003` a 650 y consulta nuevamente el documento para comprobar el cambio.
+6. Construye un DataFrame de pandas con los documentos de MongoDB y expórtalo a un archivo de Excel.
+
+### Indicaciones de entrega
+
+La actividad deberá entregarse en un documento PDF que incluya:
+
+- Nombre completo del estudiante.
+- Parte A: seis ejercicios de procesamiento de JSON.
+- Parte B: seis ejercicios con PyMongo.
+- Código utilizado para cada ejercicio.
+- Capturas de pantalla de la ejecución y de los resultados.
+
+Los ejercicios deberán presentarse en el mismo orden en que aparecen en el apunte.
+
+::: {.callout-note}
+**Recomendación**
+
+Antes de realizar la entrega, verifica que todas las consultas funcionen correctamente.
+
+Recuerda que los cambios realizados sobre los documentos de MongoDB se almacenan en la base de datos, mientras que las operaciones sobre un diccionario de Python no modifican automáticamente el archivo JSON original.
+:::
+
+## Reflexión final
+
+Durante este apunte aprendimos a procesar información JSON mediante Python y a conectarnos con una base de datos MongoDB utilizando PyMongo.
+
+Primero trabajamos con diccionarios, listas y archivos JSON para comprender cómo Python representa y procesa documentos.
+
+Posteriormente establecimos una conexión con MongoDB y realizamos operaciones de inserción, consulta, actualización y eliminación de documentos.
+
+También utilizamos filtros, ordenamientos y funciones para recuperar información específica.
+
+Finalmente, aprendimos a convertir documentos de MongoDB en un DataFrame de pandas y exportar los resultados a Excel.
+
+Estas herramientas permiten desarrollar aplicaciones que almacenan información en bases de datos documentales y utilizan Python para su procesamiento y análisis.

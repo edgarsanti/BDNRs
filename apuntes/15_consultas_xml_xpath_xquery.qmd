@@ -1213,7 +1213,7 @@ Antes de realizar la entrega, verifica que las dieciséis consultas se ejecuten 
 Recuerda utilizar el mismo documento XML de quince libros para ambas partes de la actividad.
 :::
 
-## Reflexión final
+## Resumen
 
 XPath y XQuery permiten consultar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.
 
