@@ -1390,7 +1390,7 @@
     "href": "apuntes/15_consultas_xml_xpath_xquery.html#resumen",
     "title": "Consultas XML mediante XPath y XQuery",
     "section": "16 Resumen",
-    "text": "16 Resumen\nXPath y XQuery permiten consultar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.\nDurante este apunte aprendimos a localizar elementos y atributos, aplicar filtros, recuperar valores y utilizar funciones para analizar información.\nTambién utilizamos XQuery para recorrer registros, aplicar condiciones, ordenar resultados y construir nuevos documentos XML.\nComenzamos con una biblioteca pequeña para comprender las consultas y posteriormente trabajamos con una biblioteca ampliada de quince libros, lo que permitió aplicar los mismos conocimientos en un conjunto de datos más extenso.\nDe esta manera, complementamos lo aprendido sobre representación de información mediante XML y su procesamiento con Python.\nEn el siguiente apunte retomaremos JSON y MongoDB para aprender a acceder a una base de datos documental desde Python."
+    "text": "16 Resumen\nXPath y XQuery permiten consultar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.\nDurante este apunte aprendimos a localizar elementos y atributos, aplicar filtros, recuperar valores y utilizar funciones para analizar información.\nTambién utilizamos XQuery para recorrer registros, aplicar condiciones, ordenar resultados y construir nuevos documentos XML."
   },
   {
     "objectID": "apuntes/13_siete_puentes_konigsberg.html",
