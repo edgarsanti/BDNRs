@@ -1386,11 +1386,11 @@
     "text": "15 Actividad individual: consultas XPath y XQuery\nEn esta actividad aplicarás los conocimientos adquiridos durante el apunte mediante consultas sobre una biblioteca universitaria.\nA diferencia de los ejemplos realizados durante la clase, ahora trabajarás con una biblioteca de 15 libros, que incluye información sobre autores, categorías, editoriales, precios y disponibilidad.\nLa actividad se divide en dos partes:\n\nParte A. XPath: recuperar información, aplicar filtros y utilizar funciones.\nParte B. XQuery: recorrer registros, ordenar información y construir nuevos documentos XML.\n\n\n15.1 Instrucciones generales\n\nIngresa a BXFiddle.\nCopia el documento XML de la biblioteca ampliada en el editor inferior.\nVerifica que el tipo de contenido sea XML.\nConserva el mismo documento durante toda la actividad.\nResuelve primero las consultas XPath y después las consultas XQuery.\nEjecuta cada consulta y verifica que produzca el resultado solicitado.\n\n\n\n\n\n\n\nNote\n\n\n\nImportante\nLa actividad debe realizarse utilizando únicamente la biblioteca ampliada que aparece a continuación.\nNo es necesario modificar, agregar o eliminar registros del documento XML.\nLas consultas deben construirse a partir de los elementos y atributos existentes.\n\n\n\n\n15.2 Documento XML: biblioteca universitaria ampliada\nUtiliza el siguiente documento XML para resolver ambas partes de la actividad.\n&lt;biblioteca nombre=\"Biblioteca Universitaria\"&gt;\n\n    &lt;libro id=\"L001\"&gt;\n        &lt;titulo&gt;Introducción a las bases de datos&lt;/titulo&gt;\n        &lt;autor&gt;Ana López&lt;/autor&gt;\n        &lt;anio&gt;2024&lt;/anio&gt;\n        &lt;categoria&gt;Bases de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;Alfaomega&lt;/editorial&gt;\n        &lt;precio&gt;450&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L002\"&gt;\n        &lt;titulo&gt;Fundamentos de programación&lt;/titulo&gt;\n        &lt;autor&gt;Carlos Pérez&lt;/autor&gt;\n        &lt;anio&gt;2022&lt;/anio&gt;\n        &lt;categoria&gt;Programación&lt;/categoria&gt;\n        &lt;editorial&gt;Trillas&lt;/editorial&gt;\n        &lt;precio&gt;380&lt;/precio&gt;\n        &lt;disponible&gt;false&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L003\"&gt;\n        &lt;titulo&gt;Ciencia de datos con Python&lt;/titulo&gt;\n        &lt;autor&gt;María García&lt;/autor&gt;\n        &lt;anio&gt;2025&lt;/anio&gt;\n        &lt;categoria&gt;Ciencia de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;Alfaomega&lt;/editorial&gt;\n        &lt;precio&gt;620&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L004\"&gt;\n        &lt;titulo&gt;Modelado de bases de datos&lt;/titulo&gt;\n        &lt;autor&gt;Ana López&lt;/autor&gt;\n        &lt;anio&gt;2023&lt;/anio&gt;\n        &lt;categoria&gt;Bases de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;McGraw-Hill&lt;/editorial&gt;\n        &lt;precio&gt;520&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L005\"&gt;\n        &lt;titulo&gt;Programación orientada a objetos&lt;/titulo&gt;\n        &lt;autor&gt;Roberto Sánchez&lt;/autor&gt;\n        &lt;anio&gt;2021&lt;/anio&gt;\n        &lt;categoria&gt;Programación&lt;/categoria&gt;\n        &lt;editorial&gt;Trillas&lt;/editorial&gt;\n        &lt;precio&gt;410&lt;/precio&gt;\n        &lt;disponible&gt;false&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L006\"&gt;\n        &lt;titulo&gt;Introducción al aprendizaje automático&lt;/titulo&gt;\n        &lt;autor&gt;María García&lt;/autor&gt;\n        &lt;anio&gt;2024&lt;/anio&gt;\n        &lt;categoria&gt;Inteligencia Artificial&lt;/categoria&gt;\n        &lt;editorial&gt;Alfaomega&lt;/editorial&gt;\n        &lt;precio&gt;680&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L007\"&gt;\n        &lt;titulo&gt;Redes de computadoras&lt;/titulo&gt;\n        &lt;autor&gt;Jorge Martínez&lt;/autor&gt;\n        &lt;anio&gt;2020&lt;/anio&gt;\n        &lt;categoria&gt;Redes&lt;/categoria&gt;\n        &lt;editorial&gt;Pearson&lt;/editorial&gt;\n        &lt;precio&gt;490&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L008\"&gt;\n        &lt;titulo&gt;Administración de sistemas Linux&lt;/titulo&gt;\n        &lt;autor&gt;Jorge Martínez&lt;/autor&gt;\n        &lt;anio&gt;2023&lt;/anio&gt;\n        &lt;categoria&gt;Sistemas Operativos&lt;/categoria&gt;\n        &lt;editorial&gt;Trillas&lt;/editorial&gt;\n        &lt;precio&gt;430&lt;/precio&gt;\n        &lt;disponible&gt;false&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L009\"&gt;\n        &lt;titulo&gt;Minería de datos aplicada&lt;/titulo&gt;\n        &lt;autor&gt;Laura Hernández&lt;/autor&gt;\n        &lt;anio&gt;2025&lt;/anio&gt;\n        &lt;categoria&gt;Ciencia de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;McGraw-Hill&lt;/editorial&gt;\n        &lt;precio&gt;750&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L010\"&gt;\n        &lt;titulo&gt;Fundamentos de ciberseguridad&lt;/titulo&gt;\n        &lt;autor&gt;Pedro Ramírez&lt;/autor&gt;\n        &lt;anio&gt;2024&lt;/anio&gt;\n        &lt;categoria&gt;Ciberseguridad&lt;/categoria&gt;\n        &lt;editorial&gt;Pearson&lt;/editorial&gt;\n        &lt;precio&gt;580&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L011\"&gt;\n        &lt;titulo&gt;Bases de datos NoSQL&lt;/titulo&gt;\n        &lt;autor&gt;Ana López&lt;/autor&gt;\n        &lt;anio&gt;2025&lt;/anio&gt;\n        &lt;categoria&gt;Bases de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;Alfaomega&lt;/editorial&gt;\n        &lt;precio&gt;640&lt;/precio&gt;\n        &lt;disponible&gt;false&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L012\"&gt;\n        &lt;titulo&gt;Estadística aplicada con R&lt;/titulo&gt;\n        &lt;autor&gt;Laura Hernández&lt;/autor&gt;\n        &lt;anio&gt;2022&lt;/anio&gt;\n        &lt;categoria&gt;Ciencia de Datos&lt;/categoria&gt;\n        &lt;editorial&gt;Trillas&lt;/editorial&gt;\n        &lt;precio&gt;550&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L013\"&gt;\n        &lt;titulo&gt;Desarrollo web moderno&lt;/titulo&gt;\n        &lt;autor&gt;Carlos Pérez&lt;/autor&gt;\n        &lt;anio&gt;2025&lt;/anio&gt;\n        &lt;categoria&gt;Programación&lt;/categoria&gt;\n        &lt;editorial&gt;Pearson&lt;/editorial&gt;\n        &lt;precio&gt;470&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L014\"&gt;\n        &lt;titulo&gt;Ética de la inteligencia artificial&lt;/titulo&gt;\n        &lt;autor&gt;Roberto Sánchez&lt;/autor&gt;\n        &lt;anio&gt;2023&lt;/anio&gt;\n        &lt;categoria&gt;Inteligencia Artificial&lt;/categoria&gt;\n        &lt;editorial&gt;McGraw-Hill&lt;/editorial&gt;\n        &lt;precio&gt;390&lt;/precio&gt;\n        &lt;disponible&gt;false&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n    &lt;libro id=\"L015\"&gt;\n        &lt;titulo&gt;Seguridad en redes&lt;/titulo&gt;\n        &lt;autor&gt;Pedro Ramírez&lt;/autor&gt;\n        &lt;anio&gt;2025&lt;/anio&gt;\n        &lt;categoria&gt;Ciberseguridad&lt;/categoria&gt;\n        &lt;editorial&gt;Alfaomega&lt;/editorial&gt;\n        &lt;precio&gt;610&lt;/precio&gt;\n        &lt;disponible&gt;true&lt;/disponible&gt;\n    &lt;/libro&gt;\n\n&lt;/biblioteca&gt;\n\n\n15.3 Estructura de la biblioteca\nEl documento contiene 15 elementos libro.\nCada libro tiene los siguientes campos:\n\n\n\nElemento o atributo\nDescripción\n\n\n\n\nid\nIdentificador del libro\n\n\ntitulo\nNombre del libro\n\n\nautor\nAutor\n\n\nanio\nAño de publicación\n\n\ncategoria\nCategoría\n\n\neditorial\nEditorial\n\n\nprecio\nPrecio en pesos mexicanos\n\n\ndisponible\nDisponibilidad\n\n\n\nEl identificador es un atributo del elemento libro. Los demás campos son elementos hijos.\nEl precio y el año están representados como texto dentro del XML, pero pueden utilizarse en comparaciones y operaciones numéricas.\n\n\n15.4 Parte A. Consultas con XPath\nEn esta primera parte utilizarás XPath para recuperar información, aplicar condiciones y realizar operaciones sobre los registros.\nEscribe y ejecuta una consulta para cada ejercicio.\n\n15.4.1 Selección de elementos y atributos\n\nRecupera los títulos de todos los libros registrados en la biblioteca.\nRecupera los identificadores de todos los libros.\n\n\n\n15.4.2 Aplicación de filtros\n\nRecupera los títulos de los libros que no están disponibles.\nSelecciona los libros que pertenecen a la categoría Ciencia de Datos.\nRecupera los títulos de los libros publicados después de 2023 cuyo precio sea mayor a $600.\n\n\n\n15.4.3 Funciones y cálculos\n\nCuenta cuántos libros están disponibles.\nCalcula el precio promedio de todos los libros.\nRecupera el precio más alto registrado en la biblioteca.\n\n\n\n\n15.5 Parte B. Consultas con XQuery\nEn esta segunda parte utilizarás XQuery para recorrer registros, aplicar condiciones, ordenar información y construir nuevos documentos XML.\nEscribe y ejecuta una consulta para cada ejercicio.\n\n15.5.1 Recorrer y filtrar registros\n\nRecupera los títulos de todos los libros utilizando for y return.\nRecupera los títulos de los libros escritos por Ana López.\nSelecciona los libros publicados en 2025 y devuelve únicamente sus títulos.\n\n\n\n15.5.2 Ordenar resultados\n\nRecupera los títulos de todos los libros ordenados por año de publicación, del más reciente al más antiguo.\nRecupera los títulos de los libros disponibles, ordenados por precio del menor al mayor.\n\n\n\n15.5.3 Construir nuevos documentos XML\n\nConstruye un documento XML que contenga únicamente los títulos y autores de todos los libros.\nConstruye un resumen XML con el número total de libros, los disponibles y los no disponibles.\nConstruye un documento XML que contenga los títulos y precios de los libros disponibles cuyo precio sea mayor a $600, ordenados del más caro al más barato.\n\n\n\n\n15.6 Indicaciones de entrega\nLa actividad deberá entregarse en un documento PDF que incluya:\n\nNombre completo del estudiante.\nParte A. XPath: las ocho consultas realizadas y sus resultados.\nParte B. XQuery: las ocho consultas realizadas y sus resultados.\n\nPara cada ejercicio se debe incluir la expresión utilizada y una captura de pantalla donde se observe su ejecución en BXFiddle.\nLas consultas deben conservar la numeración correspondiente para facilitar su revisión.\n\n\n\n\n\n\nNote\n\n\n\nRecomendación\nAntes de realizar la entrega, verifica que las dieciséis consultas se ejecuten correctamente.\nRecuerda utilizar el mismo documento XML de quince libros para ambas partes de la actividad."
   },
   {
-    "objectID": "apuntes/15_consultas_xml_xpath_xquery.html#reflexión-final",
-    "href": "apuntes/15_consultas_xml_xpath_xquery.html#reflexión-final",
+    "objectID": "apuntes/15_consultas_xml_xpath_xquery.html#resumen",
+    "href": "apuntes/15_consultas_xml_xpath_xquery.html#resumen",
     "title": "Consultas XML mediante XPath y XQuery",
-    "section": "16 Reflexión final",
-    "text": "16 Reflexión final\nXPath y XQuery permiten consultar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.\nDurante este apunte aprendimos a localizar elementos y atributos, aplicar filtros, recuperar valores y utilizar funciones para analizar información.\nTambién utilizamos XQuery para recorrer registros, aplicar condiciones, ordenar resultados y construir nuevos documentos XML.\nComenzamos con una biblioteca pequeña para comprender las consultas y posteriormente trabajamos con una biblioteca ampliada de quince libros, lo que permitió aplicar los mismos conocimientos en un conjunto de datos más extenso.\nDe esta manera, complementamos lo aprendido sobre representación de información mediante XML y su procesamiento con Python.\nEn el siguiente apunte retomaremos JSON y MongoDB para aprender a acceder a una base de datos documental desde Python."
+    "section": "16 Resumen",
+    "text": "16 Resumen\nXPath y XQuery permiten consultar información directamente desde documentos XML mediante expresiones que aprovechan su estructura jerárquica.\nDurante este apunte aprendimos a localizar elementos y atributos, aplicar filtros, recuperar valores y utilizar funciones para analizar información.\nTambién utilizamos XQuery para recorrer registros, aplicar condiciones, ordenar resultados y construir nuevos documentos XML.\nComenzamos con una biblioteca pequeña para comprender las consultas y posteriormente trabajamos con una biblioteca ampliada de quince libros, lo que permitió aplicar los mismos conocimientos en un conjunto de datos más extenso.\nDe esta manera, complementamos lo aprendido sobre representación de información mediante XML y su procesamiento con Python.\nEn el siguiente apunte retomaremos JSON y MongoDB para aprender a acceder a una base de datos documental desde Python."
   },
   {
     "objectID": "apuntes/13_siete_puentes_konigsberg.html",
@@ -1694,452 +1694,88 @@
     "text": "29 Conclusión\nEl ejemplo de la biblioteca permite observar diferentes características del modelo documental de MongoDB.\nConstruimos relaciones:\n1 : 1\n1 : N\nN : N\nutilizando documentos incrustados y referencias mediante ObjectId.\nTambién utilizamos:\nData Modeling\npara visualizar las relaciones entre las colecciones.\nPosteriormente utilizamos:\nAggregation Pipeline\npara procesar documentos mediante diferentes etapas como:\n$match\n$project\n$sort\n$limit\n$group\n$lookup\nFinalmente incorporamos índices para mostrar una primera aproximación a la optimización de consultas.\nPor lo tanto, una base documental puede integrar:\nmodelado\n+\nrelaciones\n+\nconsultas\n+\nagregaciones\n+\níndices\ndentro de una misma aplicación."
   },
   {
-    "objectID": "practicas/03_redis_clave_valor.html",
-    "href": "practicas/03_redis_clave_valor.html",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+    "text": "About this site"
   },
   {
-    "objectID": "practicas/03_redis_clave_valor.html#objetivo",
-    "href": "practicas/03_redis_clave_valor.html#objetivo",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html",
+    "href": "practicas/02_modelado_relaciones_mongodb.html",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
     "section": "",
-    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
   },
   {
-    "objectID": "practicas/03_redis_clave_valor.html#escenario",
-    "href": "practicas/03_redis_clave_valor.html#escenario",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "2 Escenario",
-    "text": "2 Escenario\nSe trabajará con el ejemplo de una tienda en línea.\nLa tienda necesita manejar información que cambia con frecuencia, como:\n\nproductos;\nstock;\nsesiones de usuarios;\nvisitas;\npedidos;\nusuarios únicos;\nrankings de productos.\n\nPara representar esta información se utilizarán diferentes estructuras de Redis.\n\n\n\n\n\n\nNoteImportante\n\n\n\nNo es necesario utilizar exactamente los mismos nombres de productos de los ejemplos.\nCada estudiante deberá crear su propia tienda y utilizar al menos tres productos diferentes."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
-    "href": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "3 Actividad 1. Verificar la conexión",
-    "text": "3 Actividad 1. Verificar la conexión\nAntes de comenzar, comprueba que existe comunicación con Redis.\nPING\nResultado esperado:\n\nPONG\n\nGuarda una evidencia del resultado obtenido."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "4 Actividad 2. Crear productos",
-    "text": "4 Actividad 2. Crear productos\nUtiliza estructuras de tipo HASH para representar los productos de la tienda.\nCada producto deberá contener al menos los siguientes campos:\nnombre\nprecio\nstock\ncategoria\nCrea por lo menos tres productos diferentes.\nEjemplo:\nHSET producto:1 nombre \"Laptop Lenovo\" precio 18500 stock 5 categoria \"Computacion\"\nDespués consulta el producto:\nHGETALL producto:1\nRealiza el mismo procedimiento con los otros productos.\nTambién consulta de manera individual algunos campos.\nPor ejemplo:\nHGET producto:1 precio\ny:\nHGET producto:1 stock"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
-    "href": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "5 Actividad 3. Modificar el stock",
-    "text": "5 Actividad 3. Modificar el stock\nSimula operaciones de compra y reposición de productos.\nPara disminuir el stock:\nHINCRBY producto:1 stock -1\nPara agregar nuevas unidades:\nHINCRBY producto:1 stock 5\nConsulta nuevamente el stock:\nHGET producto:1 stock\nRealiza al menos:\n\ndos operaciones de compra;\nuna operación de reposición.\n\nRegistra el stock inicial y el stock final."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "6 Actividad 4. Crear un contador de visitas",
-    "text": "6 Actividad 4. Crear un contador de visitas\nLa tienda desea registrar cuántas veces se consulta un producto.\nCrea un contador:\nSET producto:1:visitas 0\nSimula varias visitas:\nINCR producto:1:visitas\nINCR producto:1:visitas\nINCR producto:1:visitas\nConsulta el resultado:\nGET producto:1:visitas\nDespués incrementa varias visitas al mismo tiempo:\nINCRBY producto:1:visitas 5\nConsulta nuevamente el contador."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
-    "href": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "7 Actividad 5. Crear una sesión temporal",
-    "text": "7 Actividad 5. Crear una sesión temporal\nSimula el inicio de sesión de un usuario.\nCrea una sesión con una duración de cinco minutos:\nSET sesion:001 \"usuario:25\" EX 300\nConsulta el valor:\nGET sesion:001\nDespués consulta cuánto tiempo queda antes de que la sesión expire:\nTTL sesion:001\nEjecuta nuevamente TTL después de algunos segundos y observa cómo cambia el valor.\nExplica brevemente qué ocurre cuando el tiempo llega a cero."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "8 Actividad 6. Crear una cola de pedidos",
-    "text": "8 Actividad 6. Crear una cola de pedidos\nUtiliza una LIST para representar los pedidos pendientes de la tienda.\nAgrega por lo menos cuatro pedidos:\nRPUSH cola:pedidos \"pedido_001\"\nRPUSH cola:pedidos \"pedido_002\"\nRPUSH cola:pedidos \"pedido_003\"\nRPUSH cola:pedidos \"pedido_004\"\nConsulta la cola completa:\nLRANGE cola:pedidos 0 -1\nAhora simula que se atiende el primer pedido:\nLPOP cola:pedidos\nConsulta nuevamente la cola:\nLRANGE cola:pedidos 0 -1\nExplica brevemente qué ocurrió."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "9 Actividad 7. Registrar usuarios únicos",
-    "text": "9 Actividad 7. Registrar usuarios únicos\nUtiliza un SET para registrar usuarios que visitaron la tienda.\nPor ejemplo:\nSADD usuarios:visitantes \"usuario1\"\nSADD usuarios:visitantes \"usuario2\"\nSADD usuarios:visitantes \"usuario3\"\nSADD usuarios:visitantes \"usuario4\"\nIntenta agregar nuevamente un usuario que ya exista:\nSADD usuarios:visitantes \"usuario2\"\nConsulta todos los usuarios:\nSMEMBERS usuarios:visitantes\nCuenta cuántos usuarios únicos existen:\nSCARD usuarios:visitantes\nExplica qué ocurrió cuando intentaste agregar un usuario repetido."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "10 Actividad 8. Crear un ranking de productos",
-    "text": "10 Actividad 8. Crear un ranking de productos\nUtiliza un Sorted Set para representar la popularidad de los productos.\nCrea por lo menos cuatro productos con diferentes puntuaciones.\nEjemplo:\nZADD productos:ranking 120 \"Laptop\"\nZADD productos:ranking 80 \"Mouse\"\nZADD productos:ranking 150 \"Monitor\"\nZADD productos:ranking 60 \"Teclado\"\nMuestra el ranking de mayor a menor:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nConsulta únicamente los tres primeros lugares:\nZREVRANGE productos:ranking 0 2 WITHSCORES\nAhora incrementa la puntuación de uno de los productos:\nZINCRBY productos:ranking 50 \"Mouse\"\nConsulta nuevamente el ranking:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nObserva si cambió la posición del producto."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "11 Actividad 9. Explorar las claves creadas",
-    "text": "11 Actividad 9. Explorar las claves creadas\nConsulta todas las claves almacenadas durante la práctica:\nKEYS *\nDespués identifica el tipo de algunas claves.\nPor ejemplo:\nTYPE producto:1\nTYPE cola:pedidos\nTYPE usuarios:visitantes\nTYPE productos:ranking\nConsulta también la cantidad total de claves:\nDBSIZE\nGuarda una evidencia donde puedan observarse las claves creadas durante la práctica."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "12 Actividad 10. Identificar las estructuras utilizadas",
-    "text": "12 Actividad 10. Identificar las estructuras utilizadas\nCompleta la siguiente tabla de acuerdo con lo realizado durante la práctica.\n\n\n\nInformación\nEstructura utilizada\nEjemplo de clave\n\n\n\n\nProducto\n__________\n__________\n\n\nStock\n__________\n__________\n\n\nContador de visitas\n__________\n__________\n\n\nSesión\n__________\n__________\n\n\nCola de pedidos\n__________\n__________\n\n\nUsuarios únicos\n__________\n__________\n\n\nRanking\n__________\n__________"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
-    "href": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "13 Preguntas de reflexión",
-    "text": "13 Preguntas de reflexión\nResponde brevemente las siguientes preguntas.\n\n¿Qué diferencia observaste entre un STRING y un HASH?\n¿Por qué una LIST resulta adecuada para representar una cola de pedidos?\n¿Qué ventaja ofrece un SET cuando se desea almacenar usuarios únicos?\n¿Por qué un SORTED SET resulta útil para representar un ranking?\n¿Qué ocurre con una clave cuando termina su tiempo de expiración?\n¿Qué tipo de información de una tienda almacenarías en Redis?\n¿Qué información considerarías más adecuada para una base principal como MongoDB o PostgreSQL?\n¿Por qué Redis puede utilizarse como complemento de otra base de datos dentro de una misma aplicación?"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
-    "href": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "14 Evidencias a entregar",
-    "text": "14 Evidencias a entregar\nEl documento deberá incluir:\n\nportada;\ncapturas de pantalla de las actividades realizadas;\ncomandos utilizados;\nresultados obtenidos;\ntabla de estructuras utilizadas;\nrespuestas a las preguntas de reflexión.\n\nLas capturas deberán permitir observar claramente los comandos ejecutados y sus resultados.\n\n\n\n\n\n\nTipRecomendación\n\n\n\nAntes de finalizar la práctica, ejecuta:\nKEYS *\npara comprobar las claves que fueron creadas durante el ejercicio."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html",
-    "href": "practicas/04_streaming_redis.html",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
     "section": "",
-    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#objetivo",
-    "href": "practicas/04_streaming_redis.html#objetivo",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "",
-    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "2 Base de datos",
+    "text": "2 Base de datos\nUtiliza la base:\nsample_mflix\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\nsessions\ntheaters\nembedded_movies\nNo es necesario utilizar todas las colecciones.\nSelecciona aquellas que consideres más adecuadas para construir e interpretar el modelo."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#descripción",
-    "href": "practicas/04_streaming_redis.html#descripción",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "2 Descripción",
-    "text": "2 Descripción\nUna plataforma de streaming necesita almacenar y consultar información relacionada con su catálogo de películas y la actividad de sus usuarios.\nEn esta práctica utilizarás Redis para simular algunas de estas funciones, seleccionando los comandos adecuados para cada actividad.\n\n\n\n\n\n\nFigure 1: Funcionamiento general de una plataforma de streaming que utiliza Redis."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "3 Generar el modelo",
+    "text": "3 Generar el modelo\nEn MongoDB Compass selecciona:\nData Modeling\nDespués crea un nuevo diagrama utilizando la base:\nsample_mflix\nSelecciona las colecciones que quieras analizar.\nPuedes activar:\nAutomatically infer relationships\npara que Compass intente identificar relaciones entre los documentos.\nGenera el diagrama y observa:\ncolecciones\ncampos\ntipos de datos\nreferencias\nrelaciones inferidas"
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#indicaciones-generales",
-    "href": "practicas/04_streaming_redis.html#indicaciones-generales",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "3 Indicaciones generales",
-    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad, incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nComandos utilizados: escribe los comandos que ejecutaste en Redis.\nEvidencia: inserta una captura de pantalla donde se observen los comandos y sus resultados.\n\nCompleta cada apartado conforme avances en la práctica. No es necesario tomar una captura por cada comando, siempre que las evidencias permitan verificar las operaciones solicitadas.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "4 Actividad",
+    "text": "4 Actividad\nA partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.\nPara cada relación identificada indica:\n\nlas colecciones involucradas;\nlos campos que permiten relacionarlas;\nel tipo de relación;\nsi la información está incrustada o referenciada;\nuna breve interpretación de la relación.\n\nPor ejemplo:\nmovies\n   ↓\ncomments\npodría analizarse como una relación:\n1 : N\nsi una película puede tener varios comentarios."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
-    "href": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "4 Registro del catálogo de películas",
-    "text": "4 Registro del catálogo de películas\nImagina que administras una plataforma de streaming.\nRegistra al menos cinco películas utilizando la estructura HASH.\nCada película deberá contener los siguientes atributos:\n\nIdentificador.\nTítulo.\nGénero.\nAño de estreno.\nDuración en minutos.\n\nUtiliza nombres de claves que permitan identificar fácilmente cada película.\nUna vez registradas, consulta la información para comprobar que los datos se almacenaron correctamente.\n\n4.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo del registro de las tres películas de la trilogía de Batman de Christopher Nolan.\nObserva cómo se utilizan los comandos HSET para almacenar la información y HGETALL para consultar los datos de cada película.\n\n\n\n\n\n\nFigure 2: Ejemplo de registro de la trilogía de Batman en Redis y presentación de la evidencia en un documento.\n\n\n\nEste ejemplo sirve como referencia para elaborar tu documento. Deberás seleccionar tus propias películas y registrar sus respectivos atributos.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "5 Interpretación del modelo",
+    "text": "5 Interpretación del modelo\nAdemás de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.\nPor ejemplo:\nmovies\npuede almacenar información de películas.\ncomments\npuede almacenar comentarios realizados sobre una película.\nusers\npuede representar a los usuarios de la aplicación.\nsessions\npuede almacenar información relacionada con sesiones de usuario.\ntheaters\npuede contener información de cines o ubicaciones.\nLa interpretación debe basarse en la estructura observada en los documentos."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#administración-de-sesiones",
-    "href": "practicas/04_streaming_redis.html#administración-de-sesiones",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "5 Administración de sesiones",
-    "text": "5 Administración de sesiones\nLa plataforma necesita identificar temporalmente a los usuarios que han iniciado sesión.\nRegistra tres sesiones utilizando la estructura STRING.\nCada sesión deberá:\n\nTener una clave que permita identificarla.\nAlmacenar el identificador del usuario.\nExpirar automáticamente después de 10 minutos.\n\nComprueba que las sesiones se almacenaron correctamente y consulta el tiempo restante de al menos una de ellas.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "6 Colecciones sin relación directa",
+    "text": "6 Colecciones sin relación directa\nEs posible que algunas colecciones aparezcan sin una relación visible con las demás.\nEsto no significa necesariamente que exista un error.\nUna colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.\nIdentifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#función-continuar-viendo",
-    "href": "practicas/04_streaming_redis.html#función-continuar-viendo",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "6 Función “Continuar viendo”",
-    "text": "6 Función “Continuar viendo”\nLa plataforma debe recordar la última película que estaba reproduciendo cada usuario.\nRegistra la siguiente información para tres usuarios:\n\nIdentificador del usuario.\nIdentificador de la última película reproducida.\nSegundo exacto en el que se detuvo la reproducción.\n\nSelecciona una estructura de Redis que permita almacenar esta información.\nPosteriormente, consulta los datos registrados para comprobar que es posible recuperar la última película y el segundo en el que cada usuario detuvo su reproducción.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "7 Data Modeling y relaciones inferidas",
+    "text": "7 Data Modeling y relaciones inferidas\nRecuerda que Data Modeling puede inferir relaciones automáticamente.\nSin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.\nEs necesario revisar:\nqué campo genera la relación\n\nqué tipo de dato contiene\n\nqué colección está relacionada\n\nsi la relación tiene sentido dentro del modelo\nPor lo tanto, analiza críticamente las relaciones detectadas por Compass."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#contador-de-reproducciones",
-    "href": "practicas/04_streaming_redis.html#contador-de-reproducciones",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "7 Contador de reproducciones",
-    "text": "7 Contador de reproducciones\nLa plataforma necesita conocer cuántas veces se reproduce cada película.\nImplementa un contador para las cinco películas registradas anteriormente.\nRealiza las siguientes operaciones:\n\nInicializa los contadores.\nSimula varias reproducciones incrementando los contadores.\nConsulta el número total de reproducciones de cada película.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "8 Pregunta central",
+    "text": "8 Pregunta central\nA partir del modelo generado responde:\n¿Cómo se relacionan las colecciones de sample_mflix\ny qué función podría tener cada una dentro de una aplicación?"
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#películas-favoritas",
-    "href": "practicas/04_streaming_redis.html#películas-favoritas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "8 Películas favoritas",
-    "text": "8 Películas favoritas\nCada usuario podrá guardar sus películas favoritas.\nUtiliza la estructura SET para registrar las películas favoritas de tres usuarios.\nRealiza las siguientes operaciones:\n\nAgrega tres películas favoritas por usuario.\nConsulta las películas favoritas registradas para cada uno.\nComprueba que la información se almacenó correctamente.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "9 Entrega",
+    "text": "9 Entrega\nEl documento deberá incluir:\n\ncaptura del modelo generado en Data Modeling;\ncolecciones seleccionadas;\ninterpretación de las relaciones;\nidentificación del tipo de relación;\ncampos que conectan las colecciones;\nidentificación de información incrustada o referenciada;\nal menos una relación 1:N;\nidentificación de alguna colección sin relación directa, si existe;\nbreve conclusión sobre el modelo documental observado."
   },
   {
-    "objectID": "practicas/04_streaming_redis.html#ranking-de-películas",
-    "href": "practicas/04_streaming_redis.html#ranking-de-películas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "9 Ranking de películas",
-    "text": "9 Ranking de películas\nLa plataforma necesita identificar las películas con mayor número de reproducciones.\nUtiliza la estructura SORTED SET para crear un ranking de las cinco películas registradas.\nAsigna una puntuación a cada película que represente su número de reproducciones.\nConsulta el ranking de mayor a menor, mostrando las películas y sus respectivas puntuaciones.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura del ranking obtenido."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#evidencia-de-entrega",
-    "href": "practicas/04_streaming_redis.html#evidencia-de-entrega",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "10 Evidencia de entrega",
-    "text": "10 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas seis actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLos comandos utilizados.\nCapturas de pantalla de los resultados obtenidos.\n\nImportante: Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html",
-    "href": "practicas/01_mongodb_local.html",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#objetivo",
-    "href": "practicas/01_mongodb_local.html#objetivo",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "2 1. Preparar MongoDB",
-    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "3 2. Cómo realizar las consultas",
-    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#actividad",
-    "href": "practicas/01_mongodb_local.html#actividad",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "4 3. Actividad",
-    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "5 4. Registrar los resultados",
-    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "6 5. Exportar la Consulta 9",
-    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#entrega",
-    "href": "practicas/01_mongodb_local.html#entrega",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "7 6. Entrega",
-    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "8 7. Criterios de revisión",
-    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html",
-    "href": "manuales/01_instalacion_cassandra_windows.html",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "",
-    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#objetivo",
-    "href": "manuales/01_instalacion_cassandra_windows.html#objetivo",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "",
-    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#requisitos",
-    "href": "manuales/01_instalacion_cassandra_windows.html#requisitos",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "2 Requisitos",
-    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
-    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "3 Descargar e iniciar Docker Desktop",
-    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
-    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "4 Descargar Apache Cassandra",
-    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
-    "href": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "5 Crear e iniciar el contenedor",
-    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
-    "href": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "6 Entrar a la consola de Cassandra",
-    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
-    "href": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "7 Primera prueba: crear un keyspace",
-    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
-    "href": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "8 Comprobar que podemos guardar y consultar datos",
-    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
-    "href": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "9 Administrar Cassandra desde Docker Desktop",
-    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
-    "href": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "10 Detener Cassandra y volver a utilizarlo",
-    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
-    "href": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "11 Problemas frecuentes",
-    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
-    "href": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "12 Resultado esperado",
-    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "index.html#bienvenida",
-    "href": "index.html#bienvenida",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html",
-    "href": "manuales/instalacion_neo4j_windows.html",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "",
-    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#introducción",
-    "href": "manuales/instalacion_neo4j_windows.html#introducción",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "",
-    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
-    "href": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "2 Requisitos previos",
-    "text": "2 Requisitos previos\nAntes de comenzar, es necesario contar con:\n\nUna computadora con Windows 10 u 11.\nConexión a Internet para descargar el instalador.\nEspacio disponible en disco.\nPermisos para instalar aplicaciones.\n\nEn el procedimiento documentado se utilizó Neo4j Desktop 2.2.1 en Windows 11.\n\n\n\n\n\n\nNoteImportante\n\n\n\nLas pantallas pueden presentar pequeñas diferencias dependiendo de la versión de Neo4j Desktop y del sistema operativo.\nEl procedimiento general de instalación es similar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "3 Descargar Neo4j Desktop",
-    "text": "3 Descargar Neo4j Desktop\nPrimero debemos acceder al sitio oficial de Neo4j:\nhttps://neo4j.com/download/\nEn la página de descargas buscamos la opción correspondiente a Neo4j Desktop para Windows.\nAl seleccionar la descarga, aparecerá un formulario solicitando algunos datos.\n\n\n\n\n\n\nFigure 1: Formulario de descarga de Neo4j Desktop.\n\n\n\nComo se muestra en la Figure 1, el formulario solicita:\n\nNombre.\nApellidos.\nCorreo electrónico.\nInstitución u organización.\nRol o actividad.\nPaís.\n\nCompleta los campos solicitados y selecciona Download Desktop.\n\n3.1 Confirmar la descarga\nDespués de enviar el formulario, aparecerá una página de confirmación.\n\n\n\n\n\n\nFigure 2: Confirmación de descarga de Neo4j Desktop.\n\n\n\nEn la Figure 2 podemos observar el mensaje de agradecimiento por descargar Neo4j Desktop.\nGeneralmente, la descarga comienza automáticamente.\nSi esto no sucede, podemos utilizar el enlace Windows (exe) que aparece en la página.\nTambién se muestran algunos recursos adicionales para conocer Neo4j.\n\n\n\n\n\n\nFigure 3: Recursos adicionales disponibles en la página de descarga.\n\n\n\nEstos materiales incluyen documentación, cursos y recursos para desarrolladores.\nNo es necesario utilizarlos para completar la instalación."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
-    "href": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "4 Ejecutar el instalador",
-    "text": "4 Ejecutar el instalador\nCuando termine la descarga, abrimos la carpeta Descargas de Windows.\nLocalizamos el instalador de Neo4j Desktop y hacemos doble clic para ejecutarlo.\nSi Windows solicita autorización para realizar cambios en el equipo, verificamos que se trate del instalador descargado desde el sitio oficial y confirmamos la operación.\nDespués aparecerá el asistente de instalación."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "5 Seleccionar el tipo de instalación",
-    "text": "5 Seleccionar el tipo de instalación\nEl instalador permite elegir para quién estará disponible la aplicación.\n\n\n\n\n\n\nFigure 4: Selección del tipo de instalación de Neo4j Desktop.\n\n\n\nComo se observa en la Figure 4, existen dos posibilidades:\n\nTodos los usuarios: la aplicación estará disponible para las cuentas del equipo.\nSolo para mí: la aplicación se instalará para el usuario actual.\n\nPara esta práctica seleccionamos Solo para mí.\nEsta opción es suficiente cuando trabajamos en una computadora personal.\nPosteriormente hacemos clic en Siguiente."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "6 Seleccionar la carpeta de instalación",
-    "text": "6 Seleccionar la carpeta de instalación\nEl asistente solicitará indicar la ubicación donde se instalará Neo4j Desktop.\n\n\n\n\n\n\nFigure 5: Carpeta de destino para instalar Neo4j Desktop.\n\n\n\nEn la Figure 5 se muestra la carpeta predeterminada propuesta por Windows.\nNo es necesario modificar esta ubicación.\nEn el procedimiento documentado, el instalador indicó un espacio requerido de aproximadamente 1.1 GB.\nPara continuar, hacemos clic en Instalar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "7 Proceso de instalación",
-    "text": "7 Proceso de instalación\nDespués de seleccionar la carpeta de destino, comenzará la instalación.\n\n\n\n\n\n\nFigure 6: Proceso de instalación de Neo4j Desktop.\n\n\n\nDurante este procedimiento, el asistente muestra una barra de progreso, como se observa en la Figure 6.\nDebemos esperar hasta que termine.\nEl tiempo necesario dependerá de las características del equipo.\nNo es necesario ejecutar comandos ni realizar configuraciones adicionales durante esta etapa."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "8 Finalizar la instalación",
-    "text": "8 Finalizar la instalación\nCuando el instalador termine, aparecerá una pantalla indicando que Neo4j Desktop se instaló correctamente.\n\n\n\n\n\n\nFigure 7: Finalización de la instalación de Neo4j Desktop.\n\n\n\nEn la Figure 7 aparece la opción:\nEjecutar Neo4j Desktop 2\nDejamos marcada esta casilla para abrir la aplicación automáticamente.\nFinalmente, hacemos clic en Terminar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "9 Primera ejecución de Neo4j Desktop",
-    "text": "9 Primera ejecución de Neo4j Desktop\nLa primera vez que abrimos Neo4j Desktop, aparece una pantalla de bienvenida con el acuerdo de licencia.\n\n\n\n\n\n\nFigure 8: Pantalla de bienvenida y acuerdo de licencia de Neo4j Desktop.\n\n\n\nEn esta pantalla podemos revisar las condiciones de uso de la aplicación.\nSi estamos de acuerdo con los términos y el aviso de privacidad, hacemos clic en Continue.\nDespués de continuar, Neo4j Desktop abrirá su pantalla principal."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "10 Pantalla principal de Neo4j Desktop",
-    "text": "10 Pantalla principal de Neo4j Desktop\nUna vez completada la configuración inicial, podremos acceder a la interfaz de Neo4j Desktop.\n\n\n\n\n\n\nFigure 9: Pantalla principal de Neo4j Desktop 2.\n\n\n\nComo se observa en la Figure 9, la aplicación presenta diferentes opciones en el menú lateral.\nEntre las principales encontramos:\n\n\n\n\n\n\n\nOpción\nDescripción\n\n\n\n\nLocal instances\nPermite crear y administrar instancias locales de Neo4j.\n\n\nRemote connections\nPermite configurar conexiones a instancias remotas.\n\n\nImport\nHerramienta para importar datos.\n\n\nQuery\nEntorno para escribir y ejecutar consultas.\n\n\nBloom\nHerramienta para explorar visualmente grafos.\n\n\nDashboards\nPermite trabajar con paneles de visualización.\n\n\nSettings\nConfiguración de la aplicación.\n\n\n\n\n10.1 ¿Qué es una instancia local?\nUna instancia local es una instalación del sistema gestor Neo4j que se ejecuta en nuestra propia computadora.\nUna instancia puede administrar bases de datos, permitiendo almacenar nodos, relaciones y propiedades.\nEn la pantalla principal aparece el botón:\nCreate instance\nEste botón permite comenzar el proceso de creación de una instancia local.\n\n\n\n\n\n\nNoteDiferencia entre instancia y base de datos\n\n\n\nLa instancia corresponde al sistema gestor Neo4j que se ejecuta en la computadora.\nLa base de datos es el espacio lógico donde almacenamos y consultamos nuestros grafos.\nUna instancia puede administrar una o varias bases de datos, dependiendo de la edición y configuración utilizada."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "11 Comprobación de la instalación",
-    "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
-  },
-  {
-    "objectID": "practicas/05_actividad_grafos_neo4j.html",
-    "href": "practicas/05_actividad_grafos_neo4j.html",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
-  },
-  {
-    "objectID": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
-    "href": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "10 Conclusión",
+    "text": "10 Conclusión\nEscribe una breve reflexión sobre las diferencias que observas entre el modelo documental de sample_mflix y un modelo relacional tradicional.\nPuedes considerar aspectos como:\ndocumentos\nreferencias\ninformación incrustada\nflexibilidad del modelo\nrelaciones entre colecciones"
   },
   {
     "objectID": "practicas/05_consultas_cassandra.html",
@@ -2261,88 +1897,592 @@
     "text": "16 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLas consultas utilizadas.\nCapturas de pantalla de los resultados obtenidos.\nLas respuestas a las preguntas planteadas.\nLa reflexión final.\n\nImportante: utiliza la base de datos de monitoreo ambiental creada en la práctica anterior. No es necesario volver a generar ni importar los 1,219,200 registros.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Cassandra. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
   },
   {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html",
-    "href": "practicas/02_modelado_relaciones_mongodb.html",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "objectID": "practicas/05_actividad_grafos_neo4j.html",
+    "href": "practicas/05_actividad_grafos_neo4j.html",
+    "title": "Bases de Datos No Relacionales",
     "section": "",
-    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
   },
   {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "objectID": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
+    "href": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
+    "title": "Bases de Datos No Relacionales",
     "section": "",
-    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
   },
   {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "2 Base de datos",
-    "text": "2 Base de datos\nUtiliza la base:\nsample_mflix\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\nsessions\ntheaters\nembedded_movies\nNo es necesario utilizar todas las colecciones.\nSelecciona aquellas que consideres más adecuadas para construir e interpretar el modelo."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "3 Generar el modelo",
-    "text": "3 Generar el modelo\nEn MongoDB Compass selecciona:\nData Modeling\nDespués crea un nuevo diagrama utilizando la base:\nsample_mflix\nSelecciona las colecciones que quieras analizar.\nPuedes activar:\nAutomatically infer relationships\npara que Compass intente identificar relaciones entre los documentos.\nGenera el diagrama y observa:\ncolecciones\ncampos\ntipos de datos\nreferencias\nrelaciones inferidas"
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#actividad",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#actividad",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "4 Actividad",
-    "text": "4 Actividad\nA partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.\nPara cada relación identificada indica:\n\nlas colecciones involucradas;\nlos campos que permiten relacionarlas;\nel tipo de relación;\nsi la información está incrustada o referenciada;\nuna breve interpretación de la relación.\n\nPor ejemplo:\nmovies\n   ↓\ncomments\npodría analizarse como una relación:\n1 : N\nsi una película puede tener varios comentarios."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "5 Interpretación del modelo",
-    "text": "5 Interpretación del modelo\nAdemás de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.\nPor ejemplo:\nmovies\npuede almacenar información de películas.\ncomments\npuede almacenar comentarios realizados sobre una película.\nusers\npuede representar a los usuarios de la aplicación.\nsessions\npuede almacenar información relacionada con sesiones de usuario.\ntheaters\npuede contener información de cines o ubicaciones.\nLa interpretación debe basarse en la estructura observada en los documentos."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "6 Colecciones sin relación directa",
-    "text": "6 Colecciones sin relación directa\nEs posible que algunas colecciones aparezcan sin una relación visible con las demás.\nEsto no significa necesariamente que exista un error.\nUna colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.\nIdentifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "7 Data Modeling y relaciones inferidas",
-    "text": "7 Data Modeling y relaciones inferidas\nRecuerda que Data Modeling puede inferir relaciones automáticamente.\nSin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.\nEs necesario revisar:\nqué campo genera la relación\n\nqué tipo de dato contiene\n\nqué colección está relacionada\n\nsi la relación tiene sentido dentro del modelo\nPor lo tanto, analiza críticamente las relaciones detectadas por Compass."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "8 Pregunta central",
-    "text": "8 Pregunta central\nA partir del modelo generado responde:\n¿Cómo se relacionan las colecciones de sample_mflix\ny qué función podría tener cada una dentro de una aplicación?"
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#entrega",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#entrega",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "9 Entrega",
-    "text": "9 Entrega\nEl documento deberá incluir:\n\ncaptura del modelo generado en Data Modeling;\ncolecciones seleccionadas;\ninterpretación de las relaciones;\nidentificación del tipo de relación;\ncampos que conectan las colecciones;\nidentificación de información incrustada o referenciada;\nal menos una relación 1:N;\nidentificación de alguna colección sin relación directa, si existe;\nbreve conclusión sobre el modelo documental observado."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "10 Conclusión",
-    "text": "10 Conclusión\nEscribe una breve reflexión sobre las diferencias que observas entre el modelo documental de sample_mflix y un modelo relacional tradicional.\nPuedes considerar aspectos como:\ndocumentos\nreferencias\ninformación incrustada\nflexibilidad del modelo\nrelaciones entre colecciones"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "manuales/instalacion_neo4j_windows.html",
+    "href": "manuales/instalacion_neo4j_windows.html",
+    "title": "Instalación de Neo4j Desktop en Windows",
     "section": "",
-    "text": "About this site"
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#introducción",
+    "href": "manuales/instalacion_neo4j_windows.html#introducción",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "",
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "href": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "2 Requisitos previos",
+    "text": "2 Requisitos previos\nAntes de comenzar, es necesario contar con:\n\nUna computadora con Windows 10 u 11.\nConexión a Internet para descargar el instalador.\nEspacio disponible en disco.\nPermisos para instalar aplicaciones.\n\nEn el procedimiento documentado se utilizó Neo4j Desktop 2.2.1 en Windows 11.\n\n\n\n\n\n\nNoteImportante\n\n\n\nLas pantallas pueden presentar pequeñas diferencias dependiendo de la versión de Neo4j Desktop y del sistema operativo.\nEl procedimiento general de instalación es similar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "3 Descargar Neo4j Desktop",
+    "text": "3 Descargar Neo4j Desktop\nPrimero debemos acceder al sitio oficial de Neo4j:\nhttps://neo4j.com/download/\nEn la página de descargas buscamos la opción correspondiente a Neo4j Desktop para Windows.\nAl seleccionar la descarga, aparecerá un formulario solicitando algunos datos.\n\n\n\n\n\n\nFigure 1: Formulario de descarga de Neo4j Desktop.\n\n\n\nComo se muestra en la Figure 1, el formulario solicita:\n\nNombre.\nApellidos.\nCorreo electrónico.\nInstitución u organización.\nRol o actividad.\nPaís.\n\nCompleta los campos solicitados y selecciona Download Desktop.\n\n3.1 Confirmar la descarga\nDespués de enviar el formulario, aparecerá una página de confirmación.\n\n\n\n\n\n\nFigure 2: Confirmación de descarga de Neo4j Desktop.\n\n\n\nEn la Figure 2 podemos observar el mensaje de agradecimiento por descargar Neo4j Desktop.\nGeneralmente, la descarga comienza automáticamente.\nSi esto no sucede, podemos utilizar el enlace Windows (exe) que aparece en la página.\nTambién se muestran algunos recursos adicionales para conocer Neo4j.\n\n\n\n\n\n\nFigure 3: Recursos adicionales disponibles en la página de descarga.\n\n\n\nEstos materiales incluyen documentación, cursos y recursos para desarrolladores.\nNo es necesario utilizarlos para completar la instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "href": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "4 Ejecutar el instalador",
+    "text": "4 Ejecutar el instalador\nCuando termine la descarga, abrimos la carpeta Descargas de Windows.\nLocalizamos el instalador de Neo4j Desktop y hacemos doble clic para ejecutarlo.\nSi Windows solicita autorización para realizar cambios en el equipo, verificamos que se trate del instalador descargado desde el sitio oficial y confirmamos la operación.\nDespués aparecerá el asistente de instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "5 Seleccionar el tipo de instalación",
+    "text": "5 Seleccionar el tipo de instalación\nEl instalador permite elegir para quién estará disponible la aplicación.\n\n\n\n\n\n\nFigure 4: Selección del tipo de instalación de Neo4j Desktop.\n\n\n\nComo se observa en la Figure 4, existen dos posibilidades:\n\nTodos los usuarios: la aplicación estará disponible para las cuentas del equipo.\nSolo para mí: la aplicación se instalará para el usuario actual.\n\nPara esta práctica seleccionamos Solo para mí.\nEsta opción es suficiente cuando trabajamos en una computadora personal.\nPosteriormente hacemos clic en Siguiente."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "6 Seleccionar la carpeta de instalación",
+    "text": "6 Seleccionar la carpeta de instalación\nEl asistente solicitará indicar la ubicación donde se instalará Neo4j Desktop.\n\n\n\n\n\n\nFigure 5: Carpeta de destino para instalar Neo4j Desktop.\n\n\n\nEn la Figure 5 se muestra la carpeta predeterminada propuesta por Windows.\nNo es necesario modificar esta ubicación.\nEn el procedimiento documentado, el instalador indicó un espacio requerido de aproximadamente 1.1 GB.\nPara continuar, hacemos clic en Instalar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "7 Proceso de instalación",
+    "text": "7 Proceso de instalación\nDespués de seleccionar la carpeta de destino, comenzará la instalación.\n\n\n\n\n\n\nFigure 6: Proceso de instalación de Neo4j Desktop.\n\n\n\nDurante este procedimiento, el asistente muestra una barra de progreso, como se observa en la Figure 6.\nDebemos esperar hasta que termine.\nEl tiempo necesario dependerá de las características del equipo.\nNo es necesario ejecutar comandos ni realizar configuraciones adicionales durante esta etapa."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "8 Finalizar la instalación",
+    "text": "8 Finalizar la instalación\nCuando el instalador termine, aparecerá una pantalla indicando que Neo4j Desktop se instaló correctamente.\n\n\n\n\n\n\nFigure 7: Finalización de la instalación de Neo4j Desktop.\n\n\n\nEn la Figure 7 aparece la opción:\nEjecutar Neo4j Desktop 2\nDejamos marcada esta casilla para abrir la aplicación automáticamente.\nFinalmente, hacemos clic en Terminar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "9 Primera ejecución de Neo4j Desktop",
+    "text": "9 Primera ejecución de Neo4j Desktop\nLa primera vez que abrimos Neo4j Desktop, aparece una pantalla de bienvenida con el acuerdo de licencia.\n\n\n\n\n\n\nFigure 8: Pantalla de bienvenida y acuerdo de licencia de Neo4j Desktop.\n\n\n\nEn esta pantalla podemos revisar las condiciones de uso de la aplicación.\nSi estamos de acuerdo con los términos y el aviso de privacidad, hacemos clic en Continue.\nDespués de continuar, Neo4j Desktop abrirá su pantalla principal."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "10 Pantalla principal de Neo4j Desktop",
+    "text": "10 Pantalla principal de Neo4j Desktop\nUna vez completada la configuración inicial, podremos acceder a la interfaz de Neo4j Desktop.\n\n\n\n\n\n\nFigure 9: Pantalla principal de Neo4j Desktop 2.\n\n\n\nComo se observa en la Figure 9, la aplicación presenta diferentes opciones en el menú lateral.\nEntre las principales encontramos:\n\n\n\n\n\n\n\nOpción\nDescripción\n\n\n\n\nLocal instances\nPermite crear y administrar instancias locales de Neo4j.\n\n\nRemote connections\nPermite configurar conexiones a instancias remotas.\n\n\nImport\nHerramienta para importar datos.\n\n\nQuery\nEntorno para escribir y ejecutar consultas.\n\n\nBloom\nHerramienta para explorar visualmente grafos.\n\n\nDashboards\nPermite trabajar con paneles de visualización.\n\n\nSettings\nConfiguración de la aplicación.\n\n\n\n\n10.1 ¿Qué es una instancia local?\nUna instancia local es una instalación del sistema gestor Neo4j que se ejecuta en nuestra propia computadora.\nUna instancia puede administrar bases de datos, permitiendo almacenar nodos, relaciones y propiedades.\nEn la pantalla principal aparece el botón:\nCreate instance\nEste botón permite comenzar el proceso de creación de una instancia local.\n\n\n\n\n\n\nNoteDiferencia entre instancia y base de datos\n\n\n\nLa instancia corresponde al sistema gestor Neo4j que se ejecuta en la computadora.\nLa base de datos es el espacio lógico donde almacenamos y consultamos nuestros grafos.\nUna instancia puede administrar una o varias bases de datos, dependiendo de la edición y configuración utilizada."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "11 Comprobación de la instalación",
+    "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "index.html#bienvenida",
+    "href": "index.html#bienvenida",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html",
+    "href": "manuales/01_instalacion_cassandra_windows.html",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "2 Requisitos",
+    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "3 Descargar e iniciar Docker Desktop",
+    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "4 Descargar Apache Cassandra",
+    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "href": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "5 Crear e iniciar el contenedor",
+    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "6 Entrar a la consola de Cassandra",
+    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "href": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "7 Primera prueba: crear un keyspace",
+    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "8 Comprobar que podemos guardar y consultar datos",
+    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "9 Administrar Cassandra desde Docker Desktop",
+    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "10 Detener Cassandra y volver a utilizarlo",
+    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "href": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "11 Problemas frecuentes",
+    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "href": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "12 Resultado esperado",
+    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html",
+    "href": "practicas/01_mongodb_local.html",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#objetivo",
+    "href": "practicas/01_mongodb_local.html#objetivo",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "2 1. Preparar MongoDB",
+    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "3 2. Cómo realizar las consultas",
+    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#actividad",
+    "href": "practicas/01_mongodb_local.html#actividad",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "4 3. Actividad",
+    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "5 4. Registrar los resultados",
+    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "6 5. Exportar la Consulta 9",
+    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#entrega",
+    "href": "practicas/01_mongodb_local.html#entrega",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "7 6. Entrega",
+    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "8 7. Criterios de revisión",
+    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html",
+    "href": "practicas/04_streaming_redis.html",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "",
+    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#objetivo",
+    "href": "practicas/04_streaming_redis.html#objetivo",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "",
+    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#descripción",
+    "href": "practicas/04_streaming_redis.html#descripción",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "2 Descripción",
+    "text": "2 Descripción\nUna plataforma de streaming necesita almacenar y consultar información relacionada con su catálogo de películas y la actividad de sus usuarios.\nEn esta práctica utilizarás Redis para simular algunas de estas funciones, seleccionando los comandos adecuados para cada actividad.\n\n\n\n\n\n\nFigure 1: Funcionamiento general de una plataforma de streaming que utiliza Redis."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#indicaciones-generales",
+    "href": "practicas/04_streaming_redis.html#indicaciones-generales",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "3 Indicaciones generales",
+    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad, incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nComandos utilizados: escribe los comandos que ejecutaste en Redis.\nEvidencia: inserta una captura de pantalla donde se observen los comandos y sus resultados.\n\nCompleta cada apartado conforme avances en la práctica. No es necesario tomar una captura por cada comando, siempre que las evidencias permitan verificar las operaciones solicitadas.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
+    "href": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "4 Registro del catálogo de películas",
+    "text": "4 Registro del catálogo de películas\nImagina que administras una plataforma de streaming.\nRegistra al menos cinco películas utilizando la estructura HASH.\nCada película deberá contener los siguientes atributos:\n\nIdentificador.\nTítulo.\nGénero.\nAño de estreno.\nDuración en minutos.\n\nUtiliza nombres de claves que permitan identificar fácilmente cada película.\nUna vez registradas, consulta la información para comprobar que los datos se almacenaron correctamente.\n\n4.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo del registro de las tres películas de la trilogía de Batman de Christopher Nolan.\nObserva cómo se utilizan los comandos HSET para almacenar la información y HGETALL para consultar los datos de cada película.\n\n\n\n\n\n\nFigure 2: Ejemplo de registro de la trilogía de Batman en Redis y presentación de la evidencia en un documento.\n\n\n\nEste ejemplo sirve como referencia para elaborar tu documento. Deberás seleccionar tus propias películas y registrar sus respectivos atributos.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#administración-de-sesiones",
+    "href": "practicas/04_streaming_redis.html#administración-de-sesiones",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "5 Administración de sesiones",
+    "text": "5 Administración de sesiones\nLa plataforma necesita identificar temporalmente a los usuarios que han iniciado sesión.\nRegistra tres sesiones utilizando la estructura STRING.\nCada sesión deberá:\n\nTener una clave que permita identificarla.\nAlmacenar el identificador del usuario.\nExpirar automáticamente después de 10 minutos.\n\nComprueba que las sesiones se almacenaron correctamente y consulta el tiempo restante de al menos una de ellas.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#función-continuar-viendo",
+    "href": "practicas/04_streaming_redis.html#función-continuar-viendo",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "6 Función “Continuar viendo”",
+    "text": "6 Función “Continuar viendo”\nLa plataforma debe recordar la última película que estaba reproduciendo cada usuario.\nRegistra la siguiente información para tres usuarios:\n\nIdentificador del usuario.\nIdentificador de la última película reproducida.\nSegundo exacto en el que se detuvo la reproducción.\n\nSelecciona una estructura de Redis que permita almacenar esta información.\nPosteriormente, consulta los datos registrados para comprobar que es posible recuperar la última película y el segundo en el que cada usuario detuvo su reproducción.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#contador-de-reproducciones",
+    "href": "practicas/04_streaming_redis.html#contador-de-reproducciones",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "7 Contador de reproducciones",
+    "text": "7 Contador de reproducciones\nLa plataforma necesita conocer cuántas veces se reproduce cada película.\nImplementa un contador para las cinco películas registradas anteriormente.\nRealiza las siguientes operaciones:\n\nInicializa los contadores.\nSimula varias reproducciones incrementando los contadores.\nConsulta el número total de reproducciones de cada película.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#películas-favoritas",
+    "href": "practicas/04_streaming_redis.html#películas-favoritas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "8 Películas favoritas",
+    "text": "8 Películas favoritas\nCada usuario podrá guardar sus películas favoritas.\nUtiliza la estructura SET para registrar las películas favoritas de tres usuarios.\nRealiza las siguientes operaciones:\n\nAgrega tres películas favoritas por usuario.\nConsulta las películas favoritas registradas para cada uno.\nComprueba que la información se almacenó correctamente.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#ranking-de-películas",
+    "href": "practicas/04_streaming_redis.html#ranking-de-películas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "9 Ranking de películas",
+    "text": "9 Ranking de películas\nLa plataforma necesita identificar las películas con mayor número de reproducciones.\nUtiliza la estructura SORTED SET para crear un ranking de las cinco películas registradas.\nAsigna una puntuación a cada película que represente su número de reproducciones.\nConsulta el ranking de mayor a menor, mostrando las películas y sus respectivas puntuaciones.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura del ranking obtenido."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#evidencia-de-entrega",
+    "href": "practicas/04_streaming_redis.html#evidencia-de-entrega",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "10 Evidencia de entrega",
+    "text": "10 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas seis actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLos comandos utilizados.\nCapturas de pantalla de los resultados obtenidos.\n\nImportante: Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html",
+    "href": "practicas/03_redis_clave_valor.html",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "",
+    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#objetivo",
+    "href": "practicas/03_redis_clave_valor.html#objetivo",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "",
+    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#escenario",
+    "href": "practicas/03_redis_clave_valor.html#escenario",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "2 Escenario",
+    "text": "2 Escenario\nSe trabajará con el ejemplo de una tienda en línea.\nLa tienda necesita manejar información que cambia con frecuencia, como:\n\nproductos;\nstock;\nsesiones de usuarios;\nvisitas;\npedidos;\nusuarios únicos;\nrankings de productos.\n\nPara representar esta información se utilizarán diferentes estructuras de Redis.\n\n\n\n\n\n\nNoteImportante\n\n\n\nNo es necesario utilizar exactamente los mismos nombres de productos de los ejemplos.\nCada estudiante deberá crear su propia tienda y utilizar al menos tres productos diferentes."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
+    "href": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "3 Actividad 1. Verificar la conexión",
+    "text": "3 Actividad 1. Verificar la conexión\nAntes de comenzar, comprueba que existe comunicación con Redis.\nPING\nResultado esperado:\n\nPONG\n\nGuarda una evidencia del resultado obtenido."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "4 Actividad 2. Crear productos",
+    "text": "4 Actividad 2. Crear productos\nUtiliza estructuras de tipo HASH para representar los productos de la tienda.\nCada producto deberá contener al menos los siguientes campos:\nnombre\nprecio\nstock\ncategoria\nCrea por lo menos tres productos diferentes.\nEjemplo:\nHSET producto:1 nombre \"Laptop Lenovo\" precio 18500 stock 5 categoria \"Computacion\"\nDespués consulta el producto:\nHGETALL producto:1\nRealiza el mismo procedimiento con los otros productos.\nTambién consulta de manera individual algunos campos.\nPor ejemplo:\nHGET producto:1 precio\ny:\nHGET producto:1 stock"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
+    "href": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "5 Actividad 3. Modificar el stock",
+    "text": "5 Actividad 3. Modificar el stock\nSimula operaciones de compra y reposición de productos.\nPara disminuir el stock:\nHINCRBY producto:1 stock -1\nPara agregar nuevas unidades:\nHINCRBY producto:1 stock 5\nConsulta nuevamente el stock:\nHGET producto:1 stock\nRealiza al menos:\n\ndos operaciones de compra;\nuna operación de reposición.\n\nRegistra el stock inicial y el stock final."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "6 Actividad 4. Crear un contador de visitas",
+    "text": "6 Actividad 4. Crear un contador de visitas\nLa tienda desea registrar cuántas veces se consulta un producto.\nCrea un contador:\nSET producto:1:visitas 0\nSimula varias visitas:\nINCR producto:1:visitas\nINCR producto:1:visitas\nINCR producto:1:visitas\nConsulta el resultado:\nGET producto:1:visitas\nDespués incrementa varias visitas al mismo tiempo:\nINCRBY producto:1:visitas 5\nConsulta nuevamente el contador."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
+    "href": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "7 Actividad 5. Crear una sesión temporal",
+    "text": "7 Actividad 5. Crear una sesión temporal\nSimula el inicio de sesión de un usuario.\nCrea una sesión con una duración de cinco minutos:\nSET sesion:001 \"usuario:25\" EX 300\nConsulta el valor:\nGET sesion:001\nDespués consulta cuánto tiempo queda antes de que la sesión expire:\nTTL sesion:001\nEjecuta nuevamente TTL después de algunos segundos y observa cómo cambia el valor.\nExplica brevemente qué ocurre cuando el tiempo llega a cero."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "8 Actividad 6. Crear una cola de pedidos",
+    "text": "8 Actividad 6. Crear una cola de pedidos\nUtiliza una LIST para representar los pedidos pendientes de la tienda.\nAgrega por lo menos cuatro pedidos:\nRPUSH cola:pedidos \"pedido_001\"\nRPUSH cola:pedidos \"pedido_002\"\nRPUSH cola:pedidos \"pedido_003\"\nRPUSH cola:pedidos \"pedido_004\"\nConsulta la cola completa:\nLRANGE cola:pedidos 0 -1\nAhora simula que se atiende el primer pedido:\nLPOP cola:pedidos\nConsulta nuevamente la cola:\nLRANGE cola:pedidos 0 -1\nExplica brevemente qué ocurrió."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "9 Actividad 7. Registrar usuarios únicos",
+    "text": "9 Actividad 7. Registrar usuarios únicos\nUtiliza un SET para registrar usuarios que visitaron la tienda.\nPor ejemplo:\nSADD usuarios:visitantes \"usuario1\"\nSADD usuarios:visitantes \"usuario2\"\nSADD usuarios:visitantes \"usuario3\"\nSADD usuarios:visitantes \"usuario4\"\nIntenta agregar nuevamente un usuario que ya exista:\nSADD usuarios:visitantes \"usuario2\"\nConsulta todos los usuarios:\nSMEMBERS usuarios:visitantes\nCuenta cuántos usuarios únicos existen:\nSCARD usuarios:visitantes\nExplica qué ocurrió cuando intentaste agregar un usuario repetido."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "10 Actividad 8. Crear un ranking de productos",
+    "text": "10 Actividad 8. Crear un ranking de productos\nUtiliza un Sorted Set para representar la popularidad de los productos.\nCrea por lo menos cuatro productos con diferentes puntuaciones.\nEjemplo:\nZADD productos:ranking 120 \"Laptop\"\nZADD productos:ranking 80 \"Mouse\"\nZADD productos:ranking 150 \"Monitor\"\nZADD productos:ranking 60 \"Teclado\"\nMuestra el ranking de mayor a menor:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nConsulta únicamente los tres primeros lugares:\nZREVRANGE productos:ranking 0 2 WITHSCORES\nAhora incrementa la puntuación de uno de los productos:\nZINCRBY productos:ranking 50 \"Mouse\"\nConsulta nuevamente el ranking:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nObserva si cambió la posición del producto."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "11 Actividad 9. Explorar las claves creadas",
+    "text": "11 Actividad 9. Explorar las claves creadas\nConsulta todas las claves almacenadas durante la práctica:\nKEYS *\nDespués identifica el tipo de algunas claves.\nPor ejemplo:\nTYPE producto:1\nTYPE cola:pedidos\nTYPE usuarios:visitantes\nTYPE productos:ranking\nConsulta también la cantidad total de claves:\nDBSIZE\nGuarda una evidencia donde puedan observarse las claves creadas durante la práctica."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "12 Actividad 10. Identificar las estructuras utilizadas",
+    "text": "12 Actividad 10. Identificar las estructuras utilizadas\nCompleta la siguiente tabla de acuerdo con lo realizado durante la práctica.\n\n\n\nInformación\nEstructura utilizada\nEjemplo de clave\n\n\n\n\nProducto\n__________\n__________\n\n\nStock\n__________\n__________\n\n\nContador de visitas\n__________\n__________\n\n\nSesión\n__________\n__________\n\n\nCola de pedidos\n__________\n__________\n\n\nUsuarios únicos\n__________\n__________\n\n\nRanking\n__________\n__________"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
+    "href": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "13 Preguntas de reflexión",
+    "text": "13 Preguntas de reflexión\nResponde brevemente las siguientes preguntas.\n\n¿Qué diferencia observaste entre un STRING y un HASH?\n¿Por qué una LIST resulta adecuada para representar una cola de pedidos?\n¿Qué ventaja ofrece un SET cuando se desea almacenar usuarios únicos?\n¿Por qué un SORTED SET resulta útil para representar un ranking?\n¿Qué ocurre con una clave cuando termina su tiempo de expiración?\n¿Qué tipo de información de una tienda almacenarías en Redis?\n¿Qué información considerarías más adecuada para una base principal como MongoDB o PostgreSQL?\n¿Por qué Redis puede utilizarse como complemento de otra base de datos dentro de una misma aplicación?"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
+    "href": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "14 Evidencias a entregar",
+    "text": "14 Evidencias a entregar\nEl documento deberá incluir:\n\nportada;\ncapturas de pantalla de las actividades realizadas;\ncomandos utilizados;\nresultados obtenidos;\ntabla de estructuras utilizadas;\nrespuestas a las preguntas de reflexión.\n\nLas capturas deberán permitir observar claramente los comandos ejecutados y sus resultados.\n\n\n\n\n\n\nTipRecomendación\n\n\n\nAntes de finalizar la práctica, ejecuta:\nKEYS *\npara comprobar las claves que fueron creadas durante el ejercicio."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html",
+    "href": "apuntes/16_json_mongodb_python.html",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "",
+    "text": "En los apuntes anteriores aprendimos a representar y consultar información mediante documentos XML, utilizando XPath y XQuery.\nTambién hemos trabajado con MongoDB, una base de datos documental que permite almacenar información en documentos similares a JSON.\nAhora aprenderemos a utilizar Python para procesar información JSON y comunicarnos directamente con MongoDB.\nHasta ahora, muchas de nuestras operaciones con MongoDB las realizamos desde mongosh. En este apunte aprenderemos a realizar operaciones similares mediante un programa escrito en Python.\nEsto es importante porque las aplicaciones necesitan comunicarse con las bases de datos para guardar, consultar y modificar información.\nDurante el apunte utilizaremos una biblioteca universitaria como ejemplo.\nAl finalizar podremos:\n\nComprender cómo representa Python los datos JSON.\nCrear, leer y guardar archivos JSON.\nProcesar información JSON mediante Python.\nComprender cómo se conecta una aplicación con MongoDB.\nUtilizar la biblioteca PyMongo.\nInsertar documentos en una colección.\nConsultar documentos desde Python.\nAplicar filtros y ordenamientos.\nActualizar y eliminar documentos.\nConvertir consultas de MongoDB en tablas utilizando pandas."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#introducción",
+    "href": "apuntes/16_json_mongodb_python.html#introducción",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "",
+    "text": "En los apuntes anteriores aprendimos a representar y consultar información mediante documentos XML, utilizando XPath y XQuery.\nTambién hemos trabajado con MongoDB, una base de datos documental que permite almacenar información en documentos similares a JSON.\nAhora aprenderemos a utilizar Python para procesar información JSON y comunicarnos directamente con MongoDB.\nHasta ahora, muchas de nuestras operaciones con MongoDB las realizamos desde mongosh. En este apunte aprenderemos a realizar operaciones similares mediante un programa escrito en Python.\nEsto es importante porque las aplicaciones necesitan comunicarse con las bases de datos para guardar, consultar y modificar información.\nDurante el apunte utilizaremos una biblioteca universitaria como ejemplo.\nAl finalizar podremos:\n\nComprender cómo representa Python los datos JSON.\nCrear, leer y guardar archivos JSON.\nProcesar información JSON mediante Python.\nComprender cómo se conecta una aplicación con MongoDB.\nUtilizar la biblioteca PyMongo.\nInsertar documentos en una colección.\nConsultar documentos desde Python.\nAplicar filtros y ordenamientos.\nActualizar y eliminar documentos.\nConvertir consultas de MongoDB en tablas utilizando pandas."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#json-y-python",
+    "href": "apuntes/16_json_mongodb_python.html#json-y-python",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "2 JSON y Python",
+    "text": "2 JSON y Python\nJSON significa JavaScript Object Notation.\nEs un formato de texto que permite representar información mediante pares de clave y valor.\nAunque su nombre proviene de JavaScript, puede utilizarse con diferentes lenguajes de programación.\nPython incluye una biblioteca llamada json, que permite trabajar directamente con este formato.\n\n2.1 Recordemos la estructura de JSON\nObservemos el siguiente documento:\n{\n    \"codigo\": \"L001\",\n    \"titulo\": \"Introducción a las bases de datos\",\n    \"autor\": \"Ana López\",\n    \"anio\": 2024,\n    \"precio\": 450,\n    \"disponible\": true\n}\nEste documento representa un libro.\nCada propiedad tiene una clave y un valor.\nPor ejemplo:\n\n\n\nClave\nValor\n\n\n\n\ncodigo\nL001\n\n\ntitulo\nIntroducción a las bases de datos\n\n\nautor\nAna López\n\n\nanio\n2024\n\n\nprecio\n450\n\n\ndisponible\ntrue\n\n\n\nEn JSON podemos utilizar diferentes tipos de valores, como cadenas de texto, números, valores booleanos, arreglos y objetos.\n\n\n2.2 Relación entre JSON y Python\nPython utiliza los diccionarios para representar estructuras similares a los objetos JSON.\nPor ejemplo:\nlibro = {\n    \"codigo\": \"L001\",\n    \"titulo\": \"Introducción a las bases de datos\",\n    \"autor\": \"Ana López\",\n    \"anio\": 2024,\n    \"precio\": 450,\n    \"disponible\": True\n}\n\nprint(libro)\nEn este ejemplo creamos un diccionario que contiene la información de un libro.\nObserva una diferencia importante:\n\nEn JSON utilizamos true y false.\nEn Python utilizamos True y False.\n\nLa biblioteca json se encarga de realizar las conversiones correspondientes.\n\n\n\n\n\n\nNote\n\n\n\nImportante\nJSON es un formato para representar e intercambiar datos.\nUn diccionario es una estructura de datos de Python.\nAunque sus estructuras son similares, no son exactamente lo mismo."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#procesamiento-de-json-con-python",
+    "href": "apuntes/16_json_mongodb_python.html#procesamiento-de-json-con-python",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "3 Procesamiento de JSON con Python",
+    "text": "3 Procesamiento de JSON con Python\nComenzaremos utilizando Python sin conectarnos todavía a MongoDB.\nEstos primeros ejercicios pueden realizarse en un archivo .py, en un entorno interactivo de Python o en Google Colab.\n\n3.1 Importar la biblioteca JSON\nPython incluye una biblioteca llamada json.\nPara utilizarla escribimos:\nimport json\nEsta biblioteca permite convertir información entre objetos de Python y documentos JSON.\n\n\n3.2 Convertir un diccionario a JSON\nCrearemos un libro utilizando un diccionario.\nimport json\n\nlibro = {\n    \"codigo\": \"L001\",\n    \"titulo\": \"Introducción a las bases de datos\",\n    \"autor\": \"Ana López\",\n    \"anio\": 2024,\n    \"precio\": 450,\n    \"disponible\": True\n}\n\ntexto_json = json.dumps(\n    libro,\n    ensure_ascii=False,\n    indent=4\n)\n\nprint(texto_json)\nLa función json.dumps() convierte un objeto de Python en una cadena de texto con formato JSON.\nEn este ejemplo:\n\nensure_ascii=False permite conservar caracteres como acentos y la letra ñ.\nindent=4 organiza el contenido utilizando sangrías.\n\nEl resultado es un texto JSON que representa la información del libro.\n\n\n3.3 Convertir JSON a un diccionario\nTambién podemos realizar la operación contraria.\nimport json\n\ntexto_json = \"\"\"\n{\n    \"codigo\": \"L002\",\n    \"titulo\": \"Fundamentos de programación\",\n    \"autor\": \"Carlos Pérez\",\n    \"anio\": 2022,\n    \"precio\": 380,\n    \"disponible\": false\n}\n\"\"\"\n\nlibro = json.loads(texto_json)\n\nprint(libro)\nprint(libro[\"titulo\"])\nLa función json.loads() interpreta el texto JSON y lo convierte en un objeto de Python.\nDespués podemos acceder a sus valores mediante las claves del diccionario.\n\n\n3.4 Diferencia entre dumps() y loads()\n\n\n\nFunción\n¿Qué hace?\n\n\n\n\njson.dumps()\nConvierte un objeto de Python a texto JSON\n\n\njson.loads()\nConvierte texto JSON a un objeto de Python\n\n\n\nEstas funciones son útiles cuando necesitamos intercambiar información entre aplicaciones."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#guardar-y-leer-archivos-json",
+    "href": "apuntes/16_json_mongodb_python.html#guardar-y-leer-archivos-json",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "4 Guardar y leer archivos JSON",
+    "text": "4 Guardar y leer archivos JSON\nHasta ahora hemos trabajado con información creada directamente en nuestro programa.\nSin embargo, también podemos almacenar los datos en archivos.\nEsto permite conservar la información y recuperarla posteriormente.\n\n4.1 Crear una biblioteca con varios libros\nAhora construiremos una biblioteca de ocho libros.\nlibros = [\n    {\n        \"codigo\": \"L001\",\n        \"titulo\": \"Introducción a las bases de datos\",\n        \"autor\": \"Ana López\",\n        \"anio\": 2024,\n        \"categoria\": \"Bases de Datos\",\n        \"precio\": 450,\n        \"disponible\": True\n    },\n    {\n        \"codigo\": \"L002\",\n        \"titulo\": \"Fundamentos de programación\",\n        \"autor\": \"Carlos Pérez\",\n        \"anio\": 2022,\n        \"categoria\": \"Programación\",\n        \"precio\": 380,\n        \"disponible\": False\n    },\n    {\n        \"codigo\": \"L003\",\n        \"titulo\": \"Ciencia de datos con Python\",\n        \"autor\": \"María García\",\n        \"anio\": 2025,\n        \"categoria\": \"Ciencia de Datos\",\n        \"precio\": 620,\n        \"disponible\": True\n    },\n    {\n        \"codigo\": \"L004\",\n        \"titulo\": \"Modelado de bases de datos\",\n        \"autor\": \"Ana López\",\n        \"anio\": 2023,\n        \"categoria\": \"Bases de Datos\",\n        \"precio\": 520,\n        \"disponible\": True\n    },\n    {\n        \"codigo\": \"L005\",\n        \"titulo\": \"Introducción al aprendizaje automático\",\n        \"autor\": \"María García\",\n        \"anio\": 2024,\n        \"categoria\": \"Inteligencia Artificial\",\n        \"precio\": 680,\n        \"disponible\": True\n    },\n    {\n        \"codigo\": \"L006\",\n        \"titulo\": \"Fundamentos de ciberseguridad\",\n        \"autor\": \"Pedro Ramírez\",\n        \"anio\": 2024,\n        \"categoria\": \"Ciberseguridad\",\n        \"precio\": 580,\n        \"disponible\": False\n    },\n    {\n        \"codigo\": \"L007\",\n        \"titulo\": \"Bases de datos NoSQL\",\n        \"autor\": \"Ana López\",\n        \"anio\": 2025,\n        \"categoria\": \"Bases de Datos\",\n        \"precio\": 640,\n        \"disponible\": True\n    },\n    {\n        \"codigo\": \"L008\",\n        \"titulo\": \"Minería de datos aplicada\",\n        \"autor\": \"Laura Hernández\",\n        \"anio\": 2025,\n        \"categoria\": \"Ciencia de Datos\",\n        \"precio\": 750,\n        \"disponible\": True\n    }\n]\nLa variable libros contiene una lista de diccionarios.\nCada diccionario representa un libro y contiene las mismas propiedades principales.\n\n\n4.2 Guardar la biblioteca en un archivo\nUtilizaremos la función json.dump().\nimport json\n\nwith open(\n    \"biblioteca.json\",\n    \"w\",\n    encoding=\"utf-8\"\n) as archivo:\n\n    json.dump(\n        libros,\n        archivo,\n        ensure_ascii=False,\n        indent=4\n    )\n\nprint(\"Archivo JSON guardado correctamente\")\nEste programa crea un archivo llamado biblioteca.json.\nEl archivo se guarda en el directorio de trabajo de Python.\n\n\n4.3 Leer el archivo JSON\nAhora recuperaremos la información desde el archivo que acabamos de crear.\nimport json\n\nwith open(\n    \"biblioteca.json\",\n    \"r\",\n    encoding=\"utf-8\"\n) as archivo:\n\n    biblioteca = json.load(archivo)\n\nprint(\"Libros recuperados:\", len(biblioteca))\nLa función json.load() lee la información de un archivo JSON y la convierte en objetos de Python.\nEn este caso recuperamos una lista de ocho libros.\n\n\n4.4 Funciones para trabajar con JSON\n\n\n\nFunción\nAplicación\n\n\n\n\njson.dumps()\nPython a texto JSON\n\n\njson.loads()\nTexto JSON a Python\n\n\njson.dump()\nGuardar datos en un archivo JSON\n\n\njson.load()\nLeer datos desde un archivo JSON\n\n\n\nLa diferencia principal es que las funciones sin s trabajan con archivos, mientras que las que terminan en s trabajan con cadenas de texto."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#consultar-información-json-con-python",
+    "href": "apuntes/16_json_mongodb_python.html#consultar-información-json-con-python",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "5 Consultar información JSON con Python",
+    "text": "5 Consultar información JSON con Python\nUna vez que tenemos los libros almacenados en una lista, podemos utilizar Python para recuperar información.\nDurante los siguientes ejemplos utilizaremos la variable biblioteca obtenida en la sección anterior.\n\n5.1 Recuperar todos los títulos\nfor libro in biblioteca:\n    print(libro[\"titulo\"])\nEl ciclo for recorre los libros y muestra sus títulos.\n\n\n5.2 Recuperar libros disponibles\nfor libro in biblioteca:\n\n    if libro[\"disponible\"] == True:\n        print(libro[\"titulo\"])\nLa condición if permite seleccionar únicamente los libros disponibles.\n\n\n5.3 Recuperar libros posteriores a 2023\nfor libro in biblioteca:\n\n    if libro[\"anio\"] &gt; 2023:\n        print(libro[\"titulo\"])\nSelecciona los libros cuyo año de publicación es mayor a 2023.\n\n\n5.4 Recuperar libros de una categoría\nfor libro in biblioteca:\n\n    if libro[\"categoria\"] == \"Bases de Datos\":\n        print(libro[\"titulo\"])\nRecupera los títulos de los libros que pertenecen a la categoría Bases de Datos.\n\n\n5.5 Contar libros disponibles\ntotal = 0\n\nfor libro in biblioteca:\n\n    if libro[\"disponible\"] == True:\n        total += 1\n\nprint(\"Libros disponibles:\", total)\nEste programa utiliza un contador para calcular cuántos libros están disponibles.\n\n\n5.6 Calcular el precio promedio\nprecios = []\n\nfor libro in biblioteca:\n    precios.append(libro[\"precio\"])\n\npromedio = sum(precios) / len(precios)\n\nprint(\"Precio promedio:\", round(promedio, 2))\nEl programa recupera los precios y calcula su promedio.\n\n\n\n\n\n\nNote\n\n\n\nRelación con XPath y XQuery\nEn el apunte anterior realizamos consultas sobre documentos XML.\nAhora estamos recuperando información similar, pero utilizando Python y una estructura JSON.\nEn ambos casos necesitamos identificar los campos, recorrer los registros y aplicar condiciones."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#cómo-se-relaciona-python-con-mongodb",
+    "href": "apuntes/16_json_mongodb_python.html#cómo-se-relaciona-python-con-mongodb",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "6 ¿Cómo se relaciona Python con MongoDB?",
+    "text": "6 ¿Cómo se relaciona Python con MongoDB?\nHasta ahora hemos utilizado archivos JSON y listas de diccionarios.\nSin embargo, cuando desarrollamos una aplicación necesitamos almacenar información de manera persistente en una base de datos.\nPara ello podemos utilizar MongoDB.\nMongoDB es una base de datos documental que organiza información en colecciones de documentos.\nLos documentos de MongoDB utilizan BSON, un formato binario que permite representar información similar a JSON y otros tipos de datos.\n\n6.1 Estructura de MongoDB\nRecordemos su organización:\nMongoDB\n   │\n   └── Base de datos\n          │\n          └── Colección\n                 │\n                 ├── Documento\n                 ├── Documento\n                 └── Documento\nPara nuestra práctica utilizaremos:\n\n\n\nComponente\nNombre\n\n\n\n\nBase de datos\ncurso_bdnr_python\n\n\nColección\nlibros_apunte16\n\n\nDocumentos\nLibros de la biblioteca\n\n\n\n\n\n6.2 ¿Qué es PyMongo?\nPyMongo es la biblioteca oficial que permite conectar aplicaciones de Python con MongoDB.\nCon ella podemos realizar operaciones como:\n\nInsertar documentos.\nConsultar información.\nAplicar filtros.\nActualizar registros.\nEliminar documentos.\nRealizar conteos y ordenamientos.\n\nEstas operaciones son similares a las que ya conocemos de MongoDB, pero ahora las ejecutaremos desde Python."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#preparación-del-entorno-de-trabajo",
+    "href": "apuntes/16_json_mongodb_python.html#preparación-del-entorno-de-trabajo",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "7 Preparación del entorno de trabajo",
+    "text": "7 Preparación del entorno de trabajo\nPara esta parte necesitaremos Python y un servidor MongoDB en funcionamiento.\nTrabajaremos con MongoDB local.\nPodemos utilizar una instalación existente o iniciar un contenedor mediante Docker.\n\n7.1 Comprobar Python\nAbre la Terminal y ejecuta:\npython3 --version\nEste comando permite comprobar que Python está disponible.\n\n\n7.2 Instalar PyMongo\nEjecuta:\npython3 -m pip install pymongo pandas\nInstalaremos dos bibliotecas:\n\npymongo: para conectar Python con MongoDB.\npandas: para organizar los resultados en tablas.\n\nSi utilizamos Google Colab, la instalación se realiza en una celda:\n%pip install pymongo pandas\n\n\n\n\n\n\nWarning\n\n\n\nImportante sobre Google Colab\nGoogle Colab se ejecuta en un entorno remoto.\nPor esa razón, la dirección localhost dentro de Colab no corresponde a la computadora personal.\nPara conectarnos a un MongoDB instalado en nuestra Mac utilizaremos Python ejecutándose localmente.\nSi quisiéramos utilizar Colab para conectarnos a MongoDB, necesitaríamos un servidor accesible desde ese entorno, por ejemplo, una base de datos en MongoDB Atlas.\n\n\n\n\n7.3 Comprobar MongoDB\nSi ya tienes MongoDB funcionando localmente, puedes conservar la conexión y el puerto que utilizas normalmente.\nSi no tienes un servidor disponible, puedes utilizar Docker.\nPrimero verifica los contenedores existentes:\ndocker ps -a\nSi no tienes un contenedor MongoDB para esta práctica, puedes crear uno:\ndocker run -d \\\n  --name mongo-python-lab \\\n  -p 127.0.0.1:27018:27017 \\\n  mongo:8\nEste comando crea un contenedor para la práctica.\nEl servidor MongoDB utiliza el puerto 27017 dentro del contenedor, mientras que desde nuestra computadora accederemos mediante el puerto 27018.\nPara iniciar posteriormente el contenedor:\ndocker start mongo-python-lab\nPara comprobar que está funcionando:\ndocker ps\n\n\n\n\n\n\nNote\n\n\n\nImportante\nEl contenedor propuesto es para prácticas locales.\nNo debe exponerse directamente a internet sin configurar autenticación y las medidas de seguridad correspondientes.\nEn los siguientes ejemplos utilizaremos el puerto 27018.\nSi ya tienes MongoDB instalado en el puerto 27017, puedes utilizar esa conexión cambiando la dirección correspondiente."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#conectar-python-con-mongodb",
+    "href": "apuntes/16_json_mongodb_python.html#conectar-python-con-mongodb",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "8 Conectar Python con MongoDB",
+    "text": "8 Conectar Python con MongoDB\nAhora utilizaremos PyMongo para establecer una conexión con nuestro servidor.\n\n8.1 Primera conexión\nCrea un archivo de Python o abre un entorno interactivo.\nEjecuta:\nfrom pymongo import MongoClient\n\ncliente = MongoClient(\n    \"mongodb://localhost:27018/\",\n    serverSelectionTimeoutMS=5000\n)\n\ncliente.admin.command(\"ping\")\n\nprint(\"Conexión correcta con MongoDB\")\nEn este ejemplo:\n\nMongoClient permite crear el cliente de conexión.\nlocalhost indica que MongoDB se ejecuta en nuestra computadora.\n27018 es el puerto utilizado en nuestra práctica.\nping comprueba que el servidor responde.\n\nSi el servidor está disponible, aparecerá el mensaje de conexión correcta.\n\n\n8.2 Seleccionar una base de datos\nUna vez establecida la conexión, seleccionaremos la base de datos.\ndb = cliente[\"curso_bdnr_python\"]\n\nprint(db.name)\nLa variable db representa la base de datos con la que trabajaremos.\n\n\n8.3 Seleccionar una colección\nAhora seleccionaremos la colección de libros.\ncoleccion = db[\"libros_apunte16\"]\n\nprint(coleccion.name)\nLa variable coleccion permite realizar operaciones sobre los documentos de la biblioteca.\n\n\n\n\n\n\nNote\n\n\n\nBase de datos y colección\nSeleccionar una base de datos o colección en Python no implica necesariamente que ya se haya almacenado información.\nEn MongoDB pueden crearse al insertar los primeros documentos."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#insertar-documentos-en-mongodb",
+    "href": "apuntes/16_json_mongodb_python.html#insertar-documentos-en-mongodb",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "9 Insertar documentos en MongoDB",
+    "text": "9 Insertar documentos en MongoDB\nAhora utilizaremos los libros que creamos anteriormente en Python.\n\n9.1 Preparar los documentos\nSi continuamos utilizando la misma sesión de Python, podemos recuperar directamente la variable biblioteca.\nSi abrimos una sesión nueva, primero debemos cargar el archivo JSON:\nimport json\n\nwith open(\n    \"biblioteca.json\",\n    \"r\",\n    encoding=\"utf-8\"\n) as archivo:\n\n    biblioteca = json.load(archivo)\nDe esta manera tendremos nuevamente los ocho libros.\n\n\n9.2 Insertar o actualizar los libros de la práctica\nPara evitar registros duplicados si ejecutamos varias veces el programa, utilizaremos el campo codigo para identificar cada libro.\nfor libro in biblioteca:\n\n    coleccion.update_one(\n        {\"codigo\": libro[\"codigo\"]},\n        {\"$set\": libro},\n        upsert=True\n    )\n\nprint(\"Biblioteca registrada correctamente\")\nEste código recorre los libros y realiza una operación por cada uno.\nSi el libro ya existe, actualiza sus campos.\nSi no existe, lo inserta.\nEl parámetro upsert=True permite realizar ambas acciones.\n\n\n9.3 Contar documentos registrados\ntotal = coleccion.count_documents({})\n\nprint(\"Documentos registrados:\", total)\nEsta consulta cuenta todos los documentos de la colección.\nSi la colección estaba vacía antes de la práctica, tendremos ocho libros."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#primeras-consultas-con-pymongo",
+    "href": "apuntes/16_json_mongodb_python.html#primeras-consultas-con-pymongo",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "10 Primeras consultas con PyMongo",
+    "text": "10 Primeras consultas con PyMongo\nAhora aprenderemos a recuperar información desde la base de datos.\n\n10.1 Recuperar todos los documentos\nfor libro in coleccion.find():\n    print(libro)\nEl método find() permite consultar documentos de una colección.\nCuando no especificamos filtros, recuperamos todos los registros.\n\n\n10.2 Recuperar un solo documento\nlibro = coleccion.find_one()\n\nprint(libro)\nEl método find_one() recupera un documento que cumpla la consulta.\nEn este caso no especificamos condiciones.\n\n\n10.3 Buscar un libro por código\nlibro = coleccion.find_one({\n    \"codigo\": \"L003\"\n})\n\nprint(libro)\nSelecciona el libro cuyo código es L003.\n\n\n10.4 Recuperar libros disponibles\nfor libro in coleccion.find({\n    \"disponible\": True\n}):\n\n    print(libro[\"titulo\"])\nLa consulta selecciona únicamente los documentos cuyo campo disponible contiene el valor True.\n\n\n10.5 Buscar libros posteriores a 2023\nfor libro in coleccion.find({\n    \"anio\": {\"$gt\": 2023}\n}):\n\n    print(libro[\"titulo\"])\nEl operador $gt significa greater than y selecciona valores mayores al indicado.\n\n\n10.6 Buscar por categoría\nfor libro in coleccion.find({\n    \"categoria\": \"Bases de Datos\"\n}):\n\n    print(libro[\"titulo\"])\nRecupera los títulos de los libros de la categoría Bases de Datos."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#operadores-de-consulta-en-mongodb",
+    "href": "apuntes/16_json_mongodb_python.html#operadores-de-consulta-en-mongodb",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "11 Operadores de consulta en MongoDB",
+    "text": "11 Operadores de consulta en MongoDB\nMongoDB utiliza operadores para expresar diferentes condiciones.\nAlgunos de los más utilizados son:\n\n\n\nOperador\nSignificado\n\n\n\n\n$eq\nIgual a\n\n\n$ne\nDiferente de\n\n\n$gt\nMayor que\n\n\n$gte\nMayor o igual que\n\n\n$lt\nMenor que\n\n\n$lte\nMenor o igual que\n\n\n$in\nCoincide con algún valor de una lista\n\n\n$and\nCumple todas las condiciones\n\n\n$or\nCumple alguna de las condiciones\n\n\n\n\n11.1 Consultar libros con precio mayor a 600\nfor libro in coleccion.find({\n    \"precio\": {\"$gt\": 600}\n}):\n\n    print(libro[\"titulo\"])\nSelecciona los libros cuyo precio es mayor a 600.\n\n\n11.2 Consultar libros en un intervalo de precios\nfor libro in coleccion.find({\n    \"precio\": {\n        \"$gte\": 400,\n        \"$lte\": 600\n    }\n}):\n\n    print(libro[\"titulo\"])\nRecupera los libros cuyo precio está entre 400 y 600, incluyendo ambos límites.\n\n\n11.3 Combinar condiciones\nfor libro in coleccion.find({\n    \"disponible\": True,\n    \"anio\": {\"$gt\": 2023}\n}):\n\n    print(libro[\"titulo\"])\nEsta consulta selecciona los libros disponibles que fueron publicados después de 2023.\nCuando escribimos varias condiciones sobre campos diferentes, MongoDB las interpreta como condiciones que deben cumplirse conjuntamente.\n\n\n11.4 Aplicar condiciones alternativas\nfor libro in coleccion.find({\n    \"$or\": [\n        {\"categoria\": \"Bases de Datos\"},\n        {\"categoria\": \"Ciencia de Datos\"}\n    ]\n}):\n\n    print(libro[\"titulo\"])\nSelecciona los libros que pertenecen a cualquiera de las dos categorías."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#seleccionar-campos-y-ordenar-resultados",
+    "href": "apuntes/16_json_mongodb_python.html#seleccionar-campos-y-ordenar-resultados",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "12 Seleccionar campos y ordenar resultados",
+    "text": "12 Seleccionar campos y ordenar resultados\nEn ocasiones no necesitamos recuperar todos los campos de un documento.\nTambién podemos decidir el orden en el que queremos observar la información.\n\n12.1 Recuperar solamente los títulos\nfor libro in coleccion.find(\n    {},\n    {\"_id\": 0, \"titulo\": 1}\n):\n\n    print(libro)\nEl segundo diccionario indica qué campos se devolverán.\nEn este ejemplo:\n\n\"titulo\": 1 incluye el título.\n\"_id\": 0 excluye el identificador interno de MongoDB.\n\n\n\n12.2 Recuperar títulos y precios\nfor libro in coleccion.find(\n    {},\n    {\n        \"_id\": 0,\n        \"titulo\": 1,\n        \"precio\": 1\n    }\n):\n\n    print(libro)\nLa consulta devuelve únicamente el título y el precio de cada libro.\n\n\n12.3 Ordenar libros por precio\nfrom pymongo import ASCENDING\n\nfor libro in coleccion.find().sort(\n    \"precio\",\n    ASCENDING\n):\n\n    print(libro[\"titulo\"], libro[\"precio\"])\nOrdena los libros desde el precio más bajo hasta el más alto.\n\n\n12.4 Ordenar de mayor a menor\nfrom pymongo import DESCENDING\n\nfor libro in coleccion.find().sort(\n    \"precio\",\n    DESCENDING\n):\n\n    print(libro[\"titulo\"], libro[\"precio\"])\nOrdena los libros desde el más caro hasta el más barato.\n\n\n12.5 Limitar la cantidad de resultados\nfor libro in coleccion.find().sort(\n    \"precio\",\n    DESCENDING\n).limit(3):\n\n    print(libro[\"titulo\"], libro[\"precio\"])\nOrdena los libros por precio y recupera solamente los tres más caros."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#actualizar-documentos-desde-python",
+    "href": "apuntes/16_json_mongodb_python.html#actualizar-documentos-desde-python",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "13 Actualizar documentos desde Python",
+    "text": "13 Actualizar documentos desde Python\nAdemás de consultar información, PyMongo permite modificar documentos.\n\n13.1 Actualizar el precio de un libro\nresultado = coleccion.update_one(\n    {\"codigo\": \"L001\"},\n    {\"$set\": {\"precio\": 480}}\n)\n\nprint(\"Documentos modificados:\", resultado.modified_count)\nEsta operación busca el libro L001 y cambia su precio a 480.\nEl operador $set permite establecer un nuevo valor.\n\n\n13.2 Modificar la disponibilidad\ncoleccion.update_one(\n    {\"codigo\": \"L002\"},\n    {\"$set\": {\"disponible\": True}}\n)\nActualiza el libro L002 para indicar que está disponible.\n\n\n13.3 Comprobar los cambios\nlibro = coleccion.find_one(\n    {\"codigo\": \"L002\"}\n)\n\nprint(libro)\nRecupera el documento actualizado.\n\n\n\n\n\n\nNote\n\n\n\nImportante\nLas operaciones de actualización modifican la información almacenada en MongoDB.\nLos cambios permanecerán en la base de datos mientras no se eliminen o sustituyan los documentos.\nPor eso debemos comprobar que los filtros identifican correctamente el registro que queremos modificar."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#insertar-y-eliminar-un-documento-de-prueba",
+    "href": "apuntes/16_json_mongodb_python.html#insertar-y-eliminar-un-documento-de-prueba",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "14 Insertar y eliminar un documento de prueba",
+    "text": "14 Insertar y eliminar un documento de prueba\nPara comprender las operaciones de inserción y eliminación utilizaremos un documento temporal.\n\n14.1 Insertar un documento\nnuevo_libro = {\n    \"codigo\": \"L009\",\n    \"titulo\": \"Libro de prueba\",\n    \"autor\": \"Autor de ejemplo\",\n    \"anio\": 2026,\n    \"categoria\": \"Prueba\",\n    \"precio\": 300,\n    \"disponible\": True\n}\n\nresultado = coleccion.insert_one(nuevo_libro)\n\nprint(\"Documento insertado:\", resultado.inserted_id)\nEl método insert_one() permite insertar un documento.\nMongoDB agrega automáticamente un identificador _id cuando el documento no contiene uno.\nEjecuta esta inserción una sola vez para evitar repetir el registro de prueba.\n\n\n14.2 Comprobar la inserción\nlibro = coleccion.find_one({\n    \"codigo\": \"L009\"\n})\n\nprint(libro)\nEsta consulta permite comprobar que el documento está almacenado.\n\n\n14.3 Eliminar el documento de prueba\nresultado = coleccion.delete_one({\n    \"codigo\": \"L009\"\n})\n\nprint(\"Documentos eliminados:\", resultado.deleted_count)\nEl método delete_one() elimina un documento que cumpla la condición.\nEn este caso eliminamos el libro temporal que creamos durante la práctica."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#relación-entre-mongosh-y-pymongo",
+    "href": "apuntes/16_json_mongodb_python.html#relación-entre-mongosh-y-pymongo",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "15 Relación entre mongosh y PyMongo",
+    "text": "15 Relación entre mongosh y PyMongo\nLas operaciones que realizamos con Python son similares a las que ya conocemos de mongosh.\n\n\n\n\n\n\n\n\nOperación\nmongosh\nPyMongo\n\n\n\n\nConsultar documentos\ndb.libros.find()\ncoleccion.find()\n\n\nConsultar un documento\ndb.libros.findOne()\ncoleccion.find_one()\n\n\nInsertar un documento\ndb.libros.insertOne()\ncoleccion.insert_one()\n\n\nActualizar un documento\ndb.libros.updateOne()\ncoleccion.update_one()\n\n\nEliminar un documento\ndb.libros.deleteOne()\ncoleccion.delete_one()\n\n\nContar documentos\ndb.libros.countDocuments()\ncoleccion.count_documents()\n\n\n\nAunque la sintaxis cambia ligeramente, las operaciones tienen objetivos similares.\nLa principal diferencia es que ahora las consultas forman parte de un programa de Python.\nEsto permite desarrollar aplicaciones que se comuniquen automáticamente con MongoDB."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#convertir-resultados-de-mongodb-a-una-tabla",
+    "href": "apuntes/16_json_mongodb_python.html#convertir-resultados-de-mongodb-a-una-tabla",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "16 Convertir resultados de MongoDB a una tabla",
+    "text": "16 Convertir resultados de MongoDB a una tabla\nEn algunas ocasiones necesitamos realizar análisis estadísticos o trabajar con la información en formato tabular.\nPara ello podemos utilizar pandas.\n\n16.1 Recuperar los documentos\nimport pandas as pd\n\ndocumentos = list(\n    coleccion.find({}, {\"_id\": 0})\n)\n\ndf = pd.DataFrame(documentos)\n\nprint(df)\nEn este ejemplo:\n\nRecuperamos los documentos de MongoDB.\nConvertimos los resultados en una lista.\nConstruimos un DataFrame de pandas.\n\n\n\n16.2 Seleccionar algunas columnas\ncolumnas = [\n    \"codigo\",\n    \"titulo\",\n    \"categoria\",\n    \"precio\",\n    \"disponible\"\n]\n\nprint(df[columnas])\nEsta operación permite visualizar únicamente los campos seleccionados.\n\n\n16.3 Calcular información general\nprint(\"Total de libros:\", len(df))\n\nprint(\n    \"Precio promedio:\",\n    round(df[\"precio\"].mean(), 2)\n)\n\nprint(\n    \"Libros disponibles:\",\n    df[\"disponible\"].sum()\n)\nCon pandas podemos realizar operaciones estadísticas sobre los datos recuperados de MongoDB.\n\n\n16.4 Exportar a Excel\ndf.to_excel(\n    \"biblioteca_mongodb.xlsx\",\n    index=False\n)\n\nprint(\"Archivo Excel generado\")\nPara exportar archivos de Excel puede ser necesario instalar openpyxl:\npython3 -m pip install openpyxl\nEl archivo contiene la información recuperada desde MongoDB.\n\n\n\n\n\n\nNote\n\n\n\nRelación con el análisis de datos\nMongoDB permite almacenar y consultar documentos.\nPython permite automatizar las operaciones de consulta y procesamiento.\npandas permite transformar los resultados en tablas para realizar análisis, generar reportes o exportar información.\nEstas herramientas pueden formar parte de un mismo flujo de trabajo."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#errores-frecuentes",
+    "href": "apuntes/16_json_mongodb_python.html#errores-frecuentes",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "17 Errores frecuentes",
+    "text": "17 Errores frecuentes\nDurante la práctica pueden presentarse algunos errores.\n\n\n\n\n\n\n\n\nProblema\nPosible causa\nSolución\n\n\n\n\nModuleNotFoundError\nPyMongo no está instalado en el entorno\nInstalar pymongo\n\n\nServerSelectionTimeoutError\nMongoDB no está funcionando o el puerto es incorrecto\nVerificar el servidor y la conexión\n\n\nConnection refused\nNo hay un servicio escuchando en el puerto\nRevisar Docker o MongoDB\n\n\nNo aparecen documentos\nSe seleccionó otra base de datos o colección\nRevisar los nombres utilizados\n\n\nAparecen documentos repetidos\nSe ejecutaron inserciones varias veces\nRevisar la colección y los identificadores\n\n\nKeyError\nSe intenta acceder a un campo inexistente\nVerificar las claves del diccionario\n\n\nError al leer JSON\nEl archivo tiene una sintaxis incorrecta\nComprobar comillas, comas y estructura\n\n\nError al exportar Excel\nFalta una dependencia\nInstalar openpyxl\n\n\n\n\n17.1 Comprobar la conexión\nSi no podemos conectarnos a MongoDB, primero debemos verificar que el servidor esté activo.\ndocker ps\nDespués podemos comprobar la conexión desde Python:\ncliente.admin.command(\"ping\")\nSi el comando responde correctamente, podemos continuar con las consultas.\n\n\n17.2 Cerrar la conexión\nCuando terminemos las operaciones podemos cerrar el cliente.\ncliente.close()\nEsto libera los recursos utilizados por la conexión."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#actividad-individual-biblioteca-universitaria",
+    "href": "apuntes/16_json_mongodb_python.html#actividad-individual-biblioteca-universitaria",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "18 Actividad individual: biblioteca universitaria",
+    "text": "18 Actividad individual: biblioteca universitaria\nEn esta actividad aplicarás los conocimientos adquiridos para trabajar con archivos JSON y una base de datos MongoDB mediante Python.\nUtilizarás la misma biblioteca de ocho libros que construimos durante la clase.\nLa actividad se divide en dos partes:\n\nParte A. Procesamiento de JSON mediante Python.\nParte B. Consultas y operaciones en MongoDB mediante PyMongo.\n\n\n18.1 Instrucciones generales\n\nUtiliza Python para desarrollar los ejercicios.\nTrabaja con el archivo biblioteca.json creado durante la clase.\nUtiliza la base de datos curso_bdnr_python.\nUtiliza la colección libros_apunte16.\nEjecuta cada consulta y verifica los resultados.\nConserva el código utilizado para cada ejercicio.\n\n\n\n18.2 Parte A. Procesamiento de JSON con Python\nResuelve los siguientes ejercicios utilizando Python y el archivo biblioteca.json.\n\n18.2.1 Recuperar información\n\nLee el archivo biblioteca.json y muestra la cantidad total de libros registrados.\nRecupera los títulos de todos los libros.\nMuestra los títulos y precios de los libros disponibles.\n\n\n\n18.2.2 Aplicar condiciones y funciones\n\nRecupera los títulos de los libros publicados después de 2023.\nCalcula el precio promedio de los libros.\nRecupera el título del libro con el precio más alto.\n\n\n\n\n18.3 Parte B. Consultas con PyMongo\nUtiliza la base de datos y la colección de la práctica.\n\n18.3.1 Recuperar documentos\n\nRecupera todos los documentos de la colección, mostrando únicamente el título y el autor.\nRecupera los títulos de los libros de la categoría Bases de Datos.\nRecupera los libros disponibles cuyo precio sea mayor a 600.\n\n\n\n18.3.2 Ordenar y modificar información\n\nRecupera los tres libros más caros, ordenados de mayor a menor precio.\nActualiza el precio del libro L003 a 650 y consulta nuevamente el documento para comprobar el cambio.\nConstruye un DataFrame de pandas con los documentos de MongoDB y expórtalo a un archivo de Excel.\n\n\n\n\n18.4 Indicaciones de entrega\nLa actividad deberá entregarse en un documento PDF que incluya:\n\nNombre completo del estudiante.\nParte A: seis ejercicios de procesamiento de JSON.\nParte B: seis ejercicios con PyMongo.\nCódigo utilizado para cada ejercicio.\nCapturas de pantalla de la ejecución y de los resultados.\n\nLos ejercicios deberán presentarse en el mismo orden en que aparecen en el apunte.\n\n\n\n\n\n\nNote\n\n\n\nRecomendación\nAntes de realizar la entrega, verifica que todas las consultas funcionen correctamente.\nRecuerda que los cambios realizados sobre los documentos de MongoDB se almacenan en la base de datos, mientras que las operaciones sobre un diccionario de Python no modifican automáticamente el archivo JSON original."
+  },
+  {
+    "objectID": "apuntes/16_json_mongodb_python.html#reflexión-final",
+    "href": "apuntes/16_json_mongodb_python.html#reflexión-final",
+    "title": "Procesamiento de JSON y conexión a MongoDB con Python",
+    "section": "19 Reflexión final",
+    "text": "19 Reflexión final\nDurante este apunte aprendimos a procesar información JSON mediante Python y a conectarnos con una base de datos MongoDB utilizando PyMongo.\nPrimero trabajamos con diccionarios, listas y archivos JSON para comprender cómo Python representa y procesa documentos.\nPosteriormente establecimos una conexión con MongoDB y realizamos operaciones de inserción, consulta, actualización y eliminación de documentos.\nTambién utilizamos filtros, ordenamientos y funciones para recuperar información específica.\nFinalmente, aprendimos a convertir documentos de MongoDB en un DataFrame de pandas y exportar los resultados a Excel.\nEstas herramientas permiten desarrollar aplicaciones que almacenan información en bases de datos documentales y utilizan Python para su procesamiento y análisis."
   },
   {
     "objectID": "apuntes/07_redis_comandos_practica.html",
