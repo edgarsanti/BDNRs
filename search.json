@@ -4158,6 +4158,13 @@
     "text": "Consultas XML mediante XPath y XQuery\nIntroducción a los lenguajes XPath y XQuery para consultar y recuperar información de documentos XML. Incluye selección de elementos y atributos, aplicación de filtros, funciones, ordenamiento y construcción de resultados mediante consultas prácticas en BXFiddle.\n Abrir apunte"
   },
   {
+    "objectID": "apuntes.html#conexión-y-operaciones-con-mongodb-desde-python",
+    "href": "apuntes.html#conexión-y-operaciones-con-mongodb-desde-python",
+    "title": "Apuntes del curso",
+    "section": "Conexión y operaciones con MongoDB desde Python",
+    "text": "Conexión y operaciones con MongoDB desde Python\nIntroducción a la conexión de Python con MongoDB mediante PyMongo. Se revisan las operaciones para insertar, consultar, actualizar y eliminar documentos, así como la aplicación de filtros, ordenamientos y la integración con pandas para procesar y exportar información.\n Abrir apunte"
+  },
+  {
     "objectID": "diapositivas.html",
     "href": "diapositivas.html",
     "title": "Diapositivas",
