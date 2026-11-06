@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Carga masiva y consultas de datos en Apache Cassandra – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abrir-docker-desktop" id="toc-abrir-docker-desktop" class="nav-link active" data-scroll-target="#abrir-docker-desktop"><span class="header-section-number">1</span> Abrir Docker Desktop</a></li>
+  <li><a href="#iniciar-el-contenedor-de-cassandra" id="toc-iniciar-el-contenedor-de-cassandra" class="nav-link" data-scroll-target="#iniciar-el-contenedor-de-cassandra"><span class="header-section-number">2</span> Iniciar el contenedor de Cassandra</a></li>
+  <li><a href="#entrar-a-cqlsh" id="toc-entrar-a-cqlsh" class="nav-link" data-scroll-target="#entrar-a-cqlsh"><span class="header-section-number">3</span> Entrar a <code>cqlsh</code></a></li>
+  <li><a href="#seleccionar-el-keyspace" id="toc-seleccionar-el-keyspace" class="nav-link" data-scroll-target="#seleccionar-el-keyspace"><span class="header-section-number">4</span> Seleccionar el <code>keyspace</code></a></li>
+  <li><a href="#revisar-la-tabla-mediciones" id="toc-revisar-la-tabla-mediciones" class="nav-link" data-scroll-target="#revisar-la-tabla-mediciones"><span class="header-section-number">5</span> Revisar la tabla <code>mediciones</code></a></li>
+  <li><a href="#cuántos-registros-vamos-a-generar" id="toc-cuántos-registros-vamos-a-generar" class="nav-link" data-scroll-target="#cuántos-registros-vamos-a-generar"><span class="header-section-number">6</span> ¿Cuántos registros vamos a generar?</a></li>
+  <li><a href="#generar-el-archivo-csv-en-google-colab" id="toc-generar-el-archivo-csv-en-google-colab" class="nav-link" data-scroll-target="#generar-el-archivo-csv-en-google-colab"><span class="header-section-number">7</span> Generar el archivo CSV en Google Colab</a>
+  <ul class="collapse">
+  <li><a href="#importar-las-bibliotecas" id="toc-importar-las-bibliotecas" class="nav-link" data-scroll-target="#importar-las-bibliotecas"><span class="header-section-number">7.1</span> Importar las bibliotecas</a></li>
+  <li><a href="#definir-los-parámetros" id="toc-definir-los-parámetros" class="nav-link" data-scroll-target="#definir-los-parámetros"><span class="header-section-number">7.2</span> Definir los parámetros</a></li>
+  <li><a href="#calcular-el-número-esperado-de-registros" id="toc-calcular-el-número-esperado-de-registros" class="nav-link" data-scroll-target="#calcular-el-número-esperado-de-registros"><span class="header-section-number">7.3</span> Calcular el número esperado de registros</a></li>
+  </ul></li>
+  <li><a href="#generar-las-mediciones" id="toc-generar-las-mediciones" class="nav-link" data-scroll-target="#generar-las-mediciones"><span class="header-section-number">8</span> Generar las mediciones</a>
+  <ul class="collapse">
+  <li><a href="#qué-está-haciendo-el-código" id="toc-qué-está-haciendo-el-código" class="nav-link" data-scroll-target="#qué-está-haciendo-el-código"><span class="header-section-number">8.1</span> ¿Qué está haciendo el código?</a></li>
+  <li><a href="#formato-de-momento" id="toc-formato-de-momento" class="nav-link" data-scroll-target="#formato-de-momento"><span class="header-section-number">8.2</span> Formato de <code>momento</code></a></li>
+  </ul></li>
+  <li><a href="#verificar-el-csv-antes-de-importarlo" id="toc-verificar-el-csv-antes-de-importarlo" class="nav-link" data-scroll-target="#verificar-el-csv-antes-de-importarlo"><span class="header-section-number">9</span> Verificar el CSV antes de importarlo</a>
+  <ul class="collapse">
+  <li><a href="#mostrar-una-muestra" id="toc-mostrar-una-muestra" class="nav-link" data-scroll-target="#mostrar-una-muestra"><span class="header-section-number">9.1</span> Mostrar una muestra</a></li>
+  <li><a href="#verificar-un-sensor-y-un-día" id="toc-verificar-un-sensor-y-un-día" class="nav-link" data-scroll-target="#verificar-un-sensor-y-un-día"><span class="header-section-number">9.2</span> Verificar un sensor y un día</a></li>
+  <li><a href="#comprobar-el-tamaño-del-archivo" id="toc-comprobar-el-tamaño-del-archivo" class="nav-link" data-scroll-target="#comprobar-el-tamaño-del-archivo"><span class="header-section-number">9.3</span> Comprobar el tamaño del archivo</a></li>
+  </ul></li>
+  <li><a href="#descargar-el-archivo-csv" id="toc-descargar-el-archivo-csv" class="nav-link" data-scroll-target="#descargar-el-archivo-csv"><span class="header-section-number">10</span> Descargar el archivo CSV</a></li>
+  <li><a href="#guardar-el-archivo-en-la-computadora" id="toc-guardar-el-archivo-en-la-computadora" class="nav-link" data-scroll-target="#guardar-el-archivo-en-la-computadora"><span class="header-section-number">11</span> Guardar el archivo en la computadora</a>
+  <ul class="collapse">
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows"><span class="header-section-number">11.1</span> Windows</a></li>
+  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos"><span class="header-section-number">11.2</span> macOS</a></li>
+  </ul></li>
+  <li><a href="#limpiar-la-tabla-antes-de-importar" id="toc-limpiar-la-tabla-antes-de-importar" class="nav-link" data-scroll-target="#limpiar-la-tabla-antes-de-importar"><span class="header-section-number">12</span> Limpiar la tabla antes de importar</a></li>
+  <li><a href="#salir-temporalmente-de-cqlsh" id="toc-salir-temporalmente-de-cqlsh" class="nav-link" data-scroll-target="#salir-temporalmente-de-cqlsh"><span class="header-section-number">13</span> Salir temporalmente de <code>cqlsh</code></a></li>
+  <li><a href="#copiar-el-archivo-al-contenedor" id="toc-copiar-el-archivo-al-contenedor" class="nav-link" data-scroll-target="#copiar-el-archivo-al-contenedor"><span class="header-section-number">14</span> Copiar el archivo al contenedor</a>
+  <ul class="collapse">
+  <li><a href="#windows-1" id="toc-windows-1" class="nav-link" data-scroll-target="#windows-1"><span class="header-section-number">14.1</span> Windows</a></li>
+  <li><a href="#macos-1" id="toc-macos-1" class="nav-link" data-scroll-target="#macos-1"><span class="header-section-number">14.2</span> macOS</a></li>
+  <li><a href="#copiar-no-significa-importar" id="toc-copiar-no-significa-importar" class="nav-link" data-scroll-target="#copiar-no-significa-importar"><span class="header-section-number">14.3</span> Copiar no significa importar</a></li>
+  </ul></li>
+  <li><a href="#verificar-que-el-archivo-esté-dentro-del-contenedor" id="toc-verificar-que-el-archivo-esté-dentro-del-contenedor" class="nav-link" data-scroll-target="#verificar-que-el-archivo-esté-dentro-del-contenedor"><span class="header-section-number">15</span> Verificar que el archivo esté dentro del contenedor</a></li>
+  <li><a href="#entrar-nuevamente-a-cqlsh" id="toc-entrar-nuevamente-a-cqlsh" class="nav-link" data-scroll-target="#entrar-nuevamente-a-cqlsh"><span class="header-section-number">16</span> Entrar nuevamente a <code>cqlsh</code></a></li>
+  <li><a href="#realizar-la-carga-masiva" id="toc-realizar-la-carga-masiva" class="nav-link" data-scroll-target="#realizar-la-carga-masiva"><span class="header-section-number">17</span> Realizar la carga masiva</a></li>
+  <li><a href="#verificar-la-carga" id="toc-verificar-la-carga" class="nav-link" data-scroll-target="#verificar-la-carga"><span class="header-section-number">18</span> Verificar la carga</a></li>
+  <li><a href="#consultar-otra-partición" id="toc-consultar-otra-partición" class="nav-link" data-scroll-target="#consultar-otra-partición"><span class="header-section-number">19</span> Consultar otra partición</a></li>
+  <li><a href="#consultar-los-registros-más-recientes" id="toc-consultar-los-registros-más-recientes" class="nav-link" data-scroll-target="#consultar-los-registros-más-recientes"><span class="header-section-number">20</span> Consultar los registros más recientes</a></li>
+  <li><a href="#consultar-un-intervalo-de-tiempo" id="toc-consultar-un-intervalo-de-tiempo" class="nav-link" data-scroll-target="#consultar-un-intervalo-de-tiempo"><span class="header-section-number">21</span> Consultar un intervalo de tiempo</a></li>
+  <li><a href="#comparar-dos-tipos-de-consulta" id="toc-comparar-dos-tipos-de-consulta" class="nav-link" data-scroll-target="#comparar-dos-tipos-de-consulta"><span class="header-section-number">22</span> Comparar dos tipos de consulta</a>
+  <ul class="collapse">
+  <li><a href="#consulta-adecuada" id="toc-consulta-adecuada" class="nav-link" data-scroll-target="#consulta-adecuada"><span class="header-section-number">22.1</span> Consulta adecuada</a></li>
+  <li><a href="#consulta-que-no-corresponde-al-diseño" id="toc-consulta-que-no-corresponde-al-diseño" class="nav-link" data-scroll-target="#consulta-que-no-corresponde-al-diseño"><span class="header-section-number">22.2</span> Consulta que no corresponde al diseño</a></li>
+  </ul></li>
+  <li><a href="#qué-es-allow-filtering" id="toc-qué-es-allow-filtering" class="nav-link" data-scroll-target="#qué-es-allow-filtering"><span class="header-section-number">23</span> ¿Qué es <code>ALLOW FILTERING</code>?</a></li>
+  <li><a href="#cómo-quedaron-organizados-los-datos" id="toc-cómo-quedaron-organizados-los-datos" class="nav-link" data-scroll-target="#cómo-quedaron-organizados-los-datos"><span class="header-section-number">24</span> ¿Cómo quedaron organizados los datos?</a></li>
+  <li><a href="#relación-con-un-sistema-real" id="toc-relación-con-un-sistema-real" class="nav-link" data-scroll-target="#relación-con-un-sistema-real"><span class="header-section-number">25</span> Relación con un sistema real</a></li>
+  <li><a href="#flujo-completo-de-la-práctica" id="toc-flujo-completo-de-la-práctica" class="nav-link" data-scroll-target="#flujo-completo-de-la-práctica"><span class="header-section-number">26</span> Flujo completo de la práctica</a></li>
+  <li><a href="#cerrar-cqlsh" id="toc-cerrar-cqlsh" class="nav-link" data-scroll-target="#cerrar-cqlsh"><span class="header-section-number">27</span> Cerrar <code>cqlsh</code></a></li>
+  <li><a href="#detener-cassandra" id="toc-detener-cassandra" class="nav-link" data-scroll-target="#detener-cassandra"><span class="header-section-number">28</span> Detener Cassandra</a></li>
+  <li><a href="#para-recordar" id="toc-para-recordar" class="nav-link" data-scroll-target="#para-recordar"><span class="header-section-number">29</span> Para recordar</a></li>
+  <li><a href="#resultado-de-la-práctica" id="toc-resultado-de-la-práctica" class="nav-link" data-scroll-target="#resultado-de-la-práctica"><span class="header-section-number">30</span> Resultado de la práctica</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Carga masiva y consultas de datos en Apache Cassandra</h1>
+<p class="subtitle lead">Simulación de más de un millón de mediciones ambientales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abrir-docker-desktop" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="abrir-docker-desktop"><span class="header-section-number">1</span> Abrir Docker Desktop</h2>
+<p>Antes de comenzar, abre <strong>Docker Desktop</strong>.</p>
+<p>Espera a que el motor de Docker se encuentre funcionando.</p>
+<p>Después abre:</p>
+<ul>
+<li><strong>PowerShell</strong> en Windows, o</li>
+<li><strong>Terminal</strong> en macOS.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los comandos de Docker que utilizaremos son prácticamente los mismos en Windows y macOS.</p>
+<p>Lo que cambia principalmente es la ruta donde cada usuario guarda el archivo CSV.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="iniciar-el-contenedor-de-cassandra" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="iniciar-el-contenedor-de-cassandra"><span class="header-section-number">2</span> Iniciar el contenedor de Cassandra</h2>
+<p>Inicia el contenedor que utilizamos en los ejercicios anteriores:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> start cassandra-lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El comando:</p>
+<pre class="text"><code>docker start</code></pre>
+<p>permite iniciar un contenedor que ya fue creado previamente.</p>
+<p>En nuestro caso, el contenedor se llama:</p>
+<pre class="text"><code>cassandra-lab</code></pre>
+<p>Comprueba que se encuentre en ejecución:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Deberá aparecer:</p>
+<pre class="text"><code>cassandra-lab</code></pre>
+<p>con un estado similar a:</p>
+<pre class="text"><code>Up</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Que el contenedor aparezca como <code>Up</code> significa que Docker ya lo inició.</p>
+<p>Cassandra puede tardar algunos segundos adicionales en estar preparado para recibir conexiones.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="entrar-a-cqlsh" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="entrar-a-cqlsh"><span class="header-section-number">3</span> Entrar a <code>cqlsh</code></h2>
+<p>Para ingresar a la consola de Cassandra ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> cassandra-lab cqlsh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Podemos interpretar el comando así:</p>
+<pre class="text"><code>docker exec
+    ↓
+ejecutar un comando dentro del contenedor
+
+-it
+    ↓
+permitir interacción desde la terminal
+
+cassandra-lab
+    ↓
+nombre del contenedor
+
+cqlsh
+    ↓
+consola interactiva de Cassandra</code></pre>
+<p><code>cqlsh</code> significa:</p>
+<pre class="text"><code>Cassandra Query Language Shell</code></pre>
+<p>Cuando Cassandra esté disponible aparecerá:</p>
+<pre class="text"><code>cqlsh&gt;</code></pre>
+<p>A partir de este momento, los comandos que escribamos se ejecutarán dentro de Cassandra.</p>
+<hr>
+</section>
+<section id="seleccionar-el-keyspace" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="seleccionar-el-keyspace"><span class="header-section-number">4</span> Seleccionar el <code>keyspace</code></h2>
+<p>Utilizaremos nuevamente el espacio de claves creado anteriormente:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> monitoreo_ambiental;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El indicador deberá cambiar a:</p>
+<pre class="text"><code>cqlsh:monitoreo_ambiental&gt;</code></pre>
+<p>Podemos revisar las tablas existentes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE <span class="kw">TABLES</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Deberán aparecer:</p>
+<pre class="text"><code>sensores
+mediciones</code></pre>
+<hr>
+</section>
+<section id="revisar-la-tabla-mediciones" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="revisar-la-tabla-mediciones"><span class="header-section-number">5</span> Revisar la tabla <code>mediciones</code></h2>
+<p>Antes de realizar la carga masiva revisaremos la tabla que almacenará las mediciones.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE <span class="kw">TABLE</span> mediciones;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La estructura utilizada es:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> mediciones (</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    sensor_id TEXT,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    fecha <span class="dt">DATE</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    momento <span class="dt">TIMESTAMP</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    temperatura <span class="dt">DECIMAL</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    humedad <span class="dt">DECIMAL</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> ((sensor_id, fecha), momento)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>) <span class="kw">WITH</span> CLUSTERING <span class="kw">ORDER</span> <span class="kw">BY</span> (momento <span class="kw">DESC</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La parte más importante es:</p>
+<pre class="text"><code>PRIMARY KEY ((sensor_id, fecha), momento)</code></pre>
+<p>Podemos leerla en dos partes.</p>
+<p>Primero:</p>
+<pre class="text"><code>(sensor_id, fecha)</code></pre>
+<p>indica <strong>en qué partición se guardará la información</strong>.</p>
+<p>Después:</p>
+<pre class="text"><code>momento</code></pre>
+<p>indica <strong>cómo se organizarán las mediciones dentro de esa partición</strong>.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>(sensor_001, 2026-06-01)</code></pre>
+<p>corresponde a una partición.</p>
+<p>Dentro de ella tendremos:</p>
+<pre class="text"><code>00:00
+00:15
+00:30
+00:45
+01:00
+...
+23:45</code></pre>
+<p>Es decir:</p>
+<pre class="text"><code>96 mediciones</code></pre>
+<p>del mismo sensor durante el mismo día.</p>
+<p>En cambio:</p>
+<pre class="text"><code>(sensor_001, 2026-06-02)</code></pre>
+<p>corresponde a otra partición.</p>
+<p>Y:</p>
+<pre class="text"><code>(sensor_002, 2026-06-01)</code></pre>
+<p>también corresponde a una partición distinta.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La clave de partición no solamente identifica los datos.</p>
+<p>También determina cómo Cassandra los organiza y distribuye.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="cuántos-registros-vamos-a-generar" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="cuántos-registros-vamos-a-generar"><span class="header-section-number">6</span> ¿Cuántos registros vamos a generar?</h2>
+<p>Cada sensor realizará una medición cada:</p>
+<pre class="text"><code>15 minutos</code></pre>
+<p>Por lo tanto:</p>
+<pre class="text"><code>4 mediciones por hora
+×
+24 horas
+=
+96 mediciones por día</code></pre>
+<p>Trabajaremos con:</p>
+<pre class="text"><code>100 sensores
+×
+127 días
+×
+96 mediciones
+=
+1,219,200 registros</code></pre>
+<p>Como la clave de partición es:</p>
+<pre class="text"><code>(sensor_id, fecha)</code></pre>
+<p>tendremos:</p>
+<pre class="text"><code>100 sensores
+×
+127 días
+=
+12,700 particiones</code></pre>
+<p>Cada partición tendrá:</p>
+<pre class="text"><code>96 registros</code></pre>
+<p>Conceptualmente:</p>
+<pre class="text"><code>(sensor_001, 2026-06-01)
+        ↓
+      96 filas
+
+(sensor_001, 2026-06-02)
+        ↓
+      96 filas
+
+(sensor_002, 2026-06-01)
+        ↓
+      96 filas</code></pre>
+<hr>
+</section>
+<section id="generar-el-archivo-csv-en-google-colab" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="generar-el-archivo-csv-en-google-colab"><span class="header-section-number">7</span> Generar el archivo CSV en Google Colab</h2>
+<p>Los datos no serán capturados manualmente.</p>
+<p>Utilizaremos <strong>Python</strong> para generar automáticamente las mediciones.</p>
+<p>El proceso será:</p>
+<pre class="text"><code>Python
+    ↓
+Generación de datos
+    ↓
+Archivo CSV</code></pre>
+<section id="importar-las-bibliotecas" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="importar-las-bibliotecas"><span class="header-section-number">7.1</span> Importar las bibliotecas</h3>
+<p>En Google Colab ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> files</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Utilizaremos:</p>
+<pre class="text"><code>csv</code></pre>
+<p>para crear el archivo.</p>
+<pre class="text"><code>random</code></pre>
+<p>para generar valores simulados.</p>
+<pre class="text"><code>datetime
+timedelta</code></pre>
+<p>para trabajar con fechas e intervalos.</p>
+<pre class="text"><code>pandas</code></pre>
+<p>para verificar posteriormente el contenido del archivo.</p>
+<hr>
+</section>
+<section id="definir-los-parámetros" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="definir-los-parámetros"><span class="header-section-number">7.2</span> Definir los parámetros</h3>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>numero_sensores <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>fecha_inicio <span class="op">=</span> datetime(<span class="dv">2026</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>fecha_fin <span class="op">=</span> datetime(<span class="dv">2026</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">23</span>, <span class="dv">45</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>intervalo <span class="op">=</span> timedelta(minutes<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>archivo <span class="op">=</span> <span class="st">"mediciones_ambientales.csv"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Estamos indicando:</p>
+<pre class="text"><code>100 sensores</code></pre>
+<p>desde:</p>
+<pre class="text"><code>1 de junio de 2026</code></pre>
+<p>hasta:</p>
+<pre class="text"><code>5 de octubre de 2026</code></pre>
+<p>con una medición cada:</p>
+<pre class="text"><code>15 minutos</code></pre>
+<hr>
+</section>
+<section id="calcular-el-número-esperado-de-registros" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="calcular-el-número-esperado-de-registros"><span class="header-section-number">7.3</span> Calcular el número esperado de registros</h3>
+<p>Antes de generar el archivo podemos calcular cuántas filas esperamos obtener.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dias <span class="op">=</span> (fecha_fin.date() <span class="op">-</span> fecha_inicio.date()).days <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>mediciones_por_dia <span class="op">=</span> <span class="bu">int</span>(</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    timedelta(days<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> intervalo</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>total_registros <span class="op">=</span> (</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    numero_sensores</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> dias</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> mediciones_por_dia</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Días:"</span>, dias)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mediciones por día y sensor:"</span>, mediciones_por_dia)</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total esperado:"</span>, <span class="ss">f"</span><span class="sc">{</span>total_registros<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>Días: 127
+Mediciones por día y sensor: 96
+Total esperado: 1,219,200</code></pre>
+<hr>
+</section>
+</section>
+<section id="generar-las-mediciones" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="generar-las-mediciones"><span class="header-section-number">8</span> Generar las mediciones</h2>
+<p>Ahora construiremos el archivo CSV.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(archivo, <span class="st">"w"</span>, newline<span class="op">=</span><span class="st">""</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    writer <span class="op">=</span> csv.writer(f)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    writer.writerow([</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sensor_id"</span>,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"fecha"</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"momento"</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"temperatura"</span>,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"humedad"</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    momento_actual <span class="op">=</span> fecha_inicio</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    registros <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> momento_actual <span class="op">&lt;=</span> fecha_fin:</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> sensor <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, numero_sensores <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>            sensor_id <span class="op">=</span> <span class="ss">f"sensor_</span><span class="sc">{</span>sensor<span class="sc">:03d}</span><span class="ss">"</span></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>            temperatura <span class="op">=</span> <span class="bu">round</span>(</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>                random.uniform(<span class="dv">18</span>, <span class="dv">32</span>),</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>                <span class="dv">1</span></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>            humedad <span class="op">=</span> <span class="bu">round</span>(</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>                random.uniform(<span class="dv">35</span>, <span class="dv">80</span>),</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>                <span class="dv">1</span></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>            writer.writerow([</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>                sensor_id,</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>                momento_actual.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>),</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>                momento_actual.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S+0000"</span>),</span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>                temperatura,</span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>                humedad</span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>            ])</span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>            registros <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a>        momento_actual <span class="op">+=</span> intervalo</span>
+<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo generado correctamente"</span>)</span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Registros generados:"</span>, <span class="ss">f"</span><span class="sc">{</span>registros<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>Archivo generado correctamente
+Registros generados: 1,219,200</code></pre>
+<section id="qué-está-haciendo-el-código" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="qué-está-haciendo-el-código"><span class="header-section-number">8.1</span> ¿Qué está haciendo el código?</h3>
+<p>El programa realiza tres pasos principales.</p>
+<p>Primero genera información para los:</p>
+<pre class="text"><code>100 sensores</code></pre>
+<p>en un mismo momento.</p>
+<p>Después ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>momento_actual <span class="op">+=</span> intervalo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto hace avanzar el reloj:</p>
+<pre class="text"><code>00:00
+00:15
+00:30
+00:45
+01:00
+...</code></pre>
+<p>Después vuelve a generar información para los 100 sensores.</p>
+<p>Este proceso continúa hasta llegar al:</p>
+<pre class="text"><code>5 de octubre de 2026 a las 23:45</code></pre>
+<p>La expresión:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ss">f"sensor_</span><span class="sc">{</span>sensor<span class="sc">:03d}</span><span class="ss">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>permite crear identificadores como:</p>
+<pre class="text"><code>sensor_001
+sensor_002
+sensor_003
+...
+sensor_100</code></pre>
+<p>La temperatura se genera entre:</p>
+<pre class="text"><code>18 °C y 32 °C</code></pre>
+<p>y la humedad entre:</p>
+<pre class="text"><code>35 % y 80 %</code></pre>
+</section>
+<section id="formato-de-momento" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="formato-de-momento"><span class="header-section-number">8.2</span> Formato de <code>momento</code></h3>
+<p>Observa especialmente esta línea:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>momento_actual.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S+0000"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto genera valores como:</p>
+<pre class="text"><code>2026-06-01 00:00:00+0000
+2026-06-01 00:15:00+0000
+2026-06-01 00:30:00+0000
+2026-06-01 00:45:00+0000</code></pre>
+<p>Este formato permitirá que <code>COPY FROM</code> interprete correctamente los valores de tipo:</p>
+<pre class="text"><code>TIMESTAMP</code></pre>
+<hr>
+</section>
+</section>
+<section id="verificar-el-csv-antes-de-importarlo" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="verificar-el-csv-antes-de-importarlo"><span class="header-section-number">9</span> Verificar el CSV antes de importarlo</h2>
+<p>Antes de llevar más de un millón de registros a Cassandra, comprobaremos que el archivo esté bien generado.</p>
+<section id="mostrar-una-muestra" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="mostrar-una-muestra"><span class="header-section-number">9.1</span> Mostrar una muestra</h3>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> pd.read_csv(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    archivo,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    nrows<span class="op">=</span><span class="dv">120</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>display(muestra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En los primeros 100 registros deberás observar:</p>
+<pre class="text"><code>00:00</code></pre>
+<p>para los sensores:</p>
+<pre class="text"><code>sensor_001
+...
+sensor_100</code></pre>
+<p>Después comenzarán los registros correspondientes a:</p>
+<pre class="text"><code>00:15</code></pre>
+</section>
+<section id="verificar-un-sensor-y-un-día" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="verificar-un-sensor-y-un-día"><span class="header-section-number">9.2</span> Verificar un sensor y un día</h3>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>datos <span class="op">=</span> pd.read_csv(archivo)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>sensor_001_dia <span class="op">=</span> datos[</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    (datos[<span class="st">"sensor_id"</span>] <span class="op">==</span> <span class="st">"sensor_001"</span>) <span class="op">&amp;</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    (datos[<span class="st">"fecha"</span>] <span class="op">==</span> <span class="st">"2026-06-01"</span>)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>display(sensor_001_dia.head(<span class="dv">10</span>))</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cantidad de registros:"</span>,</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>    sensor_001_dia.shape[<span class="dv">0</span>]</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Momentos distintos:"</span>,</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>    sensor_001_dia[<span class="st">"momento"</span>].nunique()</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>Cantidad de registros: 96
+Momentos distintos: 96</code></pre>
+<p>Las primeras mediciones deberán ser aproximadamente:</p>
+<pre class="text"><code>00:00
+00:15
+00:30
+00:45
+01:00
+...</code></pre>
+<p>También podemos revisar el final del día:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>display(sensor_001_dia.tail(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La última medición deberá corresponder a:</p>
+<pre class="text"><code>23:45</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta comprobación permite verificar que cada combinación:</p>
+<pre class="text"><code>sensor_id + fecha + momento</code></pre>
+<p>sea diferente.</p>
+<p>Esto es importante porque esa combinación identifica cada fila dentro de la tabla.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-el-tamaño-del-archivo" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="comprobar-el-tamaño-del-archivo"><span class="header-section-number">9.3</span> Comprobar el tamaño del archivo</h3>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>tamano <span class="op">=</span> os.path.getsize(archivo)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tamaño aproximado:"</span>,</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">round</span>(tamano <span class="op">/</span> (<span class="dv">1024</span> <span class="op">**</span> <span class="dv">2</span>), <span class="dv">2</span>),</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MB"</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El tamaño puede variar ligeramente porque la temperatura y la humedad se generan aleatoriamente.</p>
+<hr>
+</section>
+</section>
+<section id="descargar-el-archivo-csv" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="descargar-el-archivo-csv"><span class="header-section-number">10</span> Descargar el archivo CSV</h2>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>files.download(</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediciones_ambientales.csv"</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El navegador descargará:</p>
+<pre class="text"><code>mediciones_ambientales.csv</code></pre>
+<hr>
+</section>
+<section id="guardar-el-archivo-en-la-computadora" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="guardar-el-archivo-en-la-computadora"><span class="header-section-number">11</span> Guardar el archivo en la computadora</h2>
+<section id="windows" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="windows"><span class="header-section-number">11.1</span> Windows</h3>
+<p>Puedes crear una carpeta llamada:</p>
+<pre class="text"><code>cassandra</code></pre>
+<p>en el escritorio.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>C:\Users\usuario\OneDrive\Escritorio\cassandra</code></pre>
+<p>Guarda dentro:</p>
+<pre class="text"><code>mediciones_ambientales.csv</code></pre>
+<p>Cada estudiante deberá adaptar la ruta a su propio usuario.</p>
+</section>
+<section id="macos" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="macos"><span class="header-section-number">11.2</span> macOS</h3>
+<p>Puede utilizarse:</p>
+<pre class="text"><code>~/Downloads/mediciones_ambientales.csv</code></pre>
+<p>El símbolo:</p>
+<pre class="text"><code>~</code></pre>
+<p>representa la carpeta personal del usuario.</p>
+<hr>
+</section>
+</section>
+<section id="limpiar-la-tabla-antes-de-importar" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="limpiar-la-tabla-antes-de-importar"><span class="header-section-number">12</span> Limpiar la tabla antes de importar</h2>
+<p>Antes de realizar una nueva carga masiva, limpiaremos la tabla.</p>
+<p>Esto es importante porque anteriormente pudimos haber insertado registros manualmente.</p>
+<p>Dentro de <code>cqlsh</code> ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">TRUNCATE</span> mediciones;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>TRUNCATE</code>:</p>
+<pre class="text"><code>elimina todos los registros</code></pre>
+<p>pero:</p>
+<pre class="text"><code>conserva la tabla</code></pre>
+<p>Podemos verificarlo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> mediciones;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>0</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>TRUNCATE</code> elimina todos los datos almacenados en la tabla.</p>
+<p>Debe utilizarse únicamente cuando estamos seguros de que queremos vaciarla.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="salir-temporalmente-de-cqlsh" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="salir-temporalmente-de-cqlsh"><span class="header-section-number">13</span> Salir temporalmente de <code>cqlsh</code></h2>
+<p>Para copiar el archivo al contenedor debemos regresar a PowerShell o Terminal.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>exit;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto cierra únicamente:</p>
+<pre class="text"><code>cqlsh</code></pre>
+<p>El contenedor:</p>
+<pre class="text"><code>cassandra-lab</code></pre>
+<p>continúa funcionando.</p>
+<hr>
+</section>
+<section id="copiar-el-archivo-al-contenedor" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="copiar-el-archivo-al-contenedor"><span class="header-section-number">14</span> Copiar el archivo al contenedor</h2>
+<p>Ahora utilizaremos:</p>
+<pre class="text"><code>docker cp</code></pre>
+<p>Este comando copia un archivo desde nuestra computadora hacia el contenedor.</p>
+<section id="windows-1" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="windows-1"><span class="header-section-number">14.1</span> Windows</h3>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>docker <span class="fu">cp</span> <span class="st">"C:\Users\usuario\OneDrive\Escritorio\cassandra\mediciones_ambientales.csv"</span> cassandra-lab<span class="op">:/</span>tmp<span class="op">/</span>mediciones_ambientales<span class="op">.</span><span class="fu">csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="macos-1" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="macos-1"><span class="header-section-number">14.2</span> macOS</h3>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb86"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> cp ~/Downloads/mediciones_ambientales.csv cassandra-lab:/tmp/mediciones_ambientales.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El archivo quedará en:</p>
+<pre class="text"><code>/tmp/mediciones_ambientales.csv</code></pre>
+<p>dentro del contenedor.</p>
+</section>
+<section id="copiar-no-significa-importar" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="copiar-no-significa-importar"><span class="header-section-number">14.3</span> Copiar no significa importar</h3>
+<p>En este momento solamente hicimos:</p>
+<pre class="text"><code>Computadora
+    ↓
+docker cp
+    ↓
+Contenedor</code></pre>
+<p>Todavía no hemos almacenado los registros en Cassandra.</p>
+<p>Posteriormente utilizaremos:</p>
+<pre class="text"><code>COPY FROM</code></pre>
+<p>para realizar la importación.</p>
+<hr>
+</section>
+</section>
+<section id="verificar-que-el-archivo-esté-dentro-del-contenedor" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="verificar-que-el-archivo-esté-dentro-del-contenedor"><span class="header-section-number">15</span> Verificar que el archivo esté dentro del contenedor</h2>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb90"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec cassandra-lab ls <span class="at">-lh</span> /tmp/mediciones_ambientales.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Aquí:</p>
+<pre class="text"><code>ls</code></pre>
+<p>permite listar archivos.</p>
+<p>Y:</p>
+<pre class="text"><code>-lh</code></pre>
+<p>muestra información adicional y el tamaño del archivo.</p>
+<p>Deberás observar una línea correspondiente a:</p>
+<pre class="text"><code>mediciones_ambientales.csv</code></pre>
+<hr>
+</section>
+<section id="entrar-nuevamente-a-cqlsh" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="entrar-nuevamente-a-cqlsh"><span class="header-section-number">16</span> Entrar nuevamente a <code>cqlsh</code></h2>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb94"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> cassandra-lab cqlsh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> monitoreo_ambiental;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="realizar-la-carga-masiva" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="realizar-la-carga-masiva"><span class="header-section-number">17</span> Realizar la carga masiva</h2>
+<p>Ahora sí importaremos los registros.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb96"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> mediciones</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>(sensor_id, fecha, momento, temperatura, humedad)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="st">'/tmp/mediciones_ambientales.csv'</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> <span class="kw">HEADER</span> <span class="op">=</span> <span class="kw">TRUE</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Podemos interpretarlo así:</p>
+<pre class="text"><code>Archivo CSV
+      ↓
+COPY FROM
+      ↓
+Tabla mediciones</code></pre>
+<p>La instrucción:</p>
+<pre class="text"><code>HEADER = TRUE</code></pre>
+<p>indica que la primera fila del CSV contiene los nombres de las columnas.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>COPY FROM</code> es un comando proporcionado por <code>cqlsh</code>.</p>
+<p>No debe confundirse con instrucciones CQL como:</p>
+<pre class="text"><code>SELECT
+INSERT
+UPDATE
+DELETE</code></pre>
+</div>
+</div>
+<p>Durante la importación aparecerá información sobre los registros procesados.</p>
+<p>Al finalizar esperamos observar algo similar a:</p>
+<pre class="text"><code>1219200 rows imported</code></pre>
+<p>y:</p>
+<pre class="text"><code>0 skipped</code></pre>
+<hr>
+</section>
+<section id="verificar-la-carga" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="verificar-la-carga"><span class="header-section-number">18</span> Verificar la carga</h2>
+<p>Ahora comprobaremos que Cassandra realmente almacenó las 96 mediciones de un sensor durante un día.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb102"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-06-01'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El resultado esperado es:</p>
+<pre class="text"><code>96</code></pre>
+<p>porque:</p>
+<pre class="text"><code>24 horas
+×
+4 mediciones por hora
+=
+96 mediciones</code></pre>
+<p>Después ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> momento, temperatura, humedad</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-06-01'</span></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Como la tabla fue definida con:</p>
+<pre class="text"><code>CLUSTERING ORDER BY (momento DESC)</code></pre>
+<p>deberemos observar primero:</p>
+<pre class="text"><code>23:45
+23:30
+23:15
+23:00
+22:45
+...</code></pre>
+<p>Esto confirma que:</p>
+<pre class="text"><code>la importación fue correcta
++
+las 96 mediciones fueron almacenadas
++
+el orden descendente funciona</code></pre>
+<hr>
+</section>
+<section id="consultar-otra-partición" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="consultar-otra-partición"><span class="header-section-number">19</span> Consultar otra partición</h2>
+<p>Podemos consultar otro sensor y otra fecha:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> momento, temperatura, humedad</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_050'</span></span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-08-10'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Cassandra utilizará:</p>
+<pre class="text"><code>(sensor_050, 2026-08-10)</code></pre>
+<p>como clave de partición.</p>
+<p>Conceptualmente:</p>
+<pre class="text"><code>sensor_050
+     +
+2026-08-10
+     ↓
+Clave de partición
+     ↓
+Partición
+     ↓
+96 mediciones</code></pre>
+<p>Cassandra no necesita recorrer los:</p>
+<pre class="text"><code>1,219,200 registros</code></pre>
+<p>para localizar esa información.</p>
+<hr>
+</section>
+<section id="consultar-los-registros-más-recientes" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="consultar-los-registros-más-recientes"><span class="header-section-number">20</span> Consultar los registros más recientes</h2>
+<p>Nuestra tabla utiliza:</p>
+<pre class="text"><code>CLUSTERING ORDER BY (momento DESC)</code></pre>
+<p><code>DESC</code> significa:</p>
+<pre class="text"><code>descendente</code></pre>
+<p>Por ello las mediciones más recientes aparecen primero.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb115"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> momento, temperatura, humedad</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-10-05'</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La primera medición deberá corresponder a:</p>
+<pre class="text"><code>23:45</code></pre>
+<p>seguida por:</p>
+<pre class="text"><code>23:30
+23:15
+23:00
+22:45
+...</code></pre>
+<hr>
+</section>
+<section id="consultar-un-intervalo-de-tiempo" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="consultar-un-intervalo-de-tiempo"><span class="header-section-number">21</span> Consultar un intervalo de tiempo</h2>
+<p>También podemos utilizar:</p>
+<pre class="text"><code>momento</code></pre>
+<p>para consultar una parte del día.</p>
+<p>Ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> momento, temperatura, humedad</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_001'</span></span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-10-05'</span></span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> momento <span class="op">&gt;=</span> <span class="st">'2026-10-05T08:00:00Z'</span></span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> momento <span class="op">&lt;=</span> <span class="st">'2026-10-05T10:00:00Z'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta recuperará únicamente las mediciones realizadas entre:</p>
+<pre class="text"><code>08:00</code></pre>
+<p>y:</p>
+<pre class="text"><code>10:00</code></pre>
+<p>El proceso puede entenderse así:</p>
+<pre class="text"><code>1. Cassandra recibe sensor_id y fecha
+              ↓
+2. Localiza la partición
+              ↓
+3. Utiliza momento
+              ↓
+4. Recupera solamente el intervalo solicitado</code></pre>
+<hr>
+</section>
+<section id="comparar-dos-tipos-de-consulta" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="comparar-dos-tipos-de-consulta"><span class="header-section-number">22</span> Comparar dos tipos de consulta</h2>
+<section id="consulta-adecuada" class="level3" data-number="22.1">
+<h3 data-number="22.1" class="anchored" data-anchor-id="consulta-adecuada"><span class="header-section-number">22.1</span> Consulta adecuada</h3>
+<p>Esta consulta utiliza completamente la clave de partición:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb123"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> sensor_id <span class="op">=</span> <span class="st">'sensor_025'</span></span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fecha <span class="op">=</span> <span class="st">'2026-08-15'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Cassandra puede localizar directamente:</p>
+<pre class="text"><code>(sensor_025, 2026-08-15)</code></pre>
+<p>Conceptualmente:</p>
+<pre class="text"><code>1,219,200 registros
+        ↓
+Clave de partición
+        ↓
+Una partición
+        ↓
+96 registros</code></pre>
+</section>
+<section id="consulta-que-no-corresponde-al-diseño" class="level3" data-number="22.2">
+<h3 data-number="22.2" class="anchored" data-anchor-id="consulta-que-no-corresponde-al-diseño"><span class="header-section-number">22.2</span> Consulta que no corresponde al diseño</h3>
+<p>Ahora imaginemos que queremos conocer todas las temperaturas superiores a:</p>
+<pre class="text"><code>30 °C</code></pre>
+<p>Podríamos intentar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb127"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> temperatura <span class="op">&gt;</span> <span class="dv">30</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sin embargo:</p>
+<pre class="text"><code>temperatura</code></pre>
+<p>no forma parte de:</p>
+<pre class="text"><code>la clave de partición</code></pre>
+<p>ni de:</p>
+<pre class="text"><code>las columnas de agrupamiento</code></pre>
+<p>Por lo tanto, Cassandra no puede identificar directamente qué partición debe consultar.</p>
+<hr>
+</section>
+</section>
+<section id="qué-es-allow-filtering" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="qué-es-allow-filtering"><span class="header-section-number">23</span> ¿Qué es <code>ALLOW FILTERING</code>?</h2>
+<p>Podríamos escribir:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb131"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mediciones</span>
+<span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> temperatura <span class="op">&gt;</span> <span class="dv">30</span></span>
+<span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a>ALLOW FILTERING;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>ALLOW FILTERING</code> permite que Cassandra ejecute una consulta que puede requerir revisar y filtrar una gran cantidad de información.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span><code>ALLOW FILTERING</code> no corrige un mal diseño
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Que Cassandra permita ejecutar la consulta no significa que sea una buena estrategia.</p>
+<p>Si nuestra aplicación necesitara consultar constantemente temperaturas superiores a cierto valor, lo adecuado sería diseñar otra tabla orientada específicamente a esa consulta.</p>
+</div>
+</div>
+<p>La idea principal es:</p>
+<pre class="text"><code>primero identificamos las consultas
+        ↓
+después diseñamos las tablas</code></pre>
+<hr>
+</section>
+<section id="cómo-quedaron-organizados-los-datos" class="level2" data-number="24">
+<h2 data-number="24" class="anchored" data-anchor-id="cómo-quedaron-organizados-los-datos"><span class="header-section-number">24</span> ¿Cómo quedaron organizados los datos?</h2>
+<p>Cargamos:</p>
+<pre class="text"><code>1,219,200 registros</code></pre>
+<p>pero no quedaron dentro de una única partición.</p>
+<p>Tenemos:</p>
+<pre class="text"><code>100 sensores
+×
+127 días
+=
+12,700 particiones</code></pre>
+<p>Cada partición contiene:</p>
+<pre class="text"><code>96 registros</code></pre>
+<p>Por lo tanto:</p>
+<pre class="text"><code>12,700
+×
+96
+=
+1,219,200 registros</code></pre>
+<p>Conceptualmente:</p>
+<pre class="text"><code>(sensor_001, 2026-06-01)
+        ↓
+      96 filas
+
+(sensor_001, 2026-06-02)
+        ↓
+      96 filas
+
+...
+
+(sensor_050, 2026-08-10)
+        ↓
+      96 filas
+
+...
+
+(sensor_100, 2026-10-05)
+        ↓
+      96 filas</code></pre>
+<p>La idea importante no es solamente que Cassandra pueda almacenar muchos registros.</p>
+<p>También debemos comprender:</p>
+<pre class="text"><code>cómo se organizan</code></pre>
+<p>y:</p>
+<pre class="text"><code>cómo esa organización facilita determinadas consultas</code></pre>
+<hr>
+</section>
+<section id="relación-con-un-sistema-real" class="level2" data-number="25">
+<h2 data-number="25" class="anchored" data-anchor-id="relación-con-un-sistema-real"><span class="header-section-number">25</span> Relación con un sistema real</h2>
+<p>En esta práctica Python simuló el comportamiento de sensores.</p>
+<p>En un sistema real la información podría provenir de:</p>
+<ul>
+<li>sensores ambientales;</li>
+<li>dispositivos IoT;</li>
+<li>medidores eléctricos;</li>
+<li>servidores;</li>
+<li>aplicaciones móviles;</li>
+<li>sistemas de transporte;</li>
+<li>plataformas digitales.</li>
+</ul>
+<p>Por ejemplo, un sensor podría enviar:</p>
+<pre class="text"><code>sensor_025
+2026-10-05
+14:15
+23.8 °C
+57 %</code></pre>
+<p>Y quince minutos después:</p>
+<pre class="text"><code>sensor_025
+2026-10-05
+14:30
+24.1 °C
+56 %</code></pre>
+<p>El flujo podría ser:</p>
+<pre class="text"><code>Sensores
+    ↓
+Generación continua de datos
+    ↓
+Aplicación
+    ↓
+Apache Cassandra
+    ↓
+Particiones
+    ↓
+Consultas</code></pre>
+<p>En nuestra práctica:</p>
+<pre class="text"><code>Python</code></pre>
+<p>simula esos sensores.</p>
+<hr>
+</section>
+<section id="flujo-completo-de-la-práctica" class="level2" data-number="26">
+<h2 data-number="26" class="anchored" data-anchor-id="flujo-completo-de-la-práctica"><span class="header-section-number">26</span> Flujo completo de la práctica</h2>
+<p>Todo el proceso puede resumirse así:</p>
+<pre class="text"><code>Google Colab
+      ↓
+Python
+      ↓
+Generación de mediciones
+      ↓
+1,219,200 registros
+      ↓
+Verificación del CSV
+      ↓
+96 momentos por sensor y día
+      ↓
+Descarga del CSV
+      ↓
+TRUNCATE
+      ↓
+Tabla limpia
+      ↓
+docker cp
+      ↓
+Contenedor cassandra-lab
+      ↓
+/tmp/mediciones_ambientales.csv
+      ↓
+cqlsh
+      ↓
+COPY FROM
+      ↓
+Tabla mediciones
+      ↓
+12,700 particiones
+      ↓
+Consultas con CQL</code></pre>
+<p>Debemos recordar especialmente la diferencia entre:</p>
+<pre class="text"><code>docker cp</code></pre>
+<p>y:</p>
+<pre class="text"><code>COPY FROM</code></pre>
+<p><code>docker cp</code>:</p>
+<pre class="text"><code>copia el archivo</code></pre>
+<p>mientras que <code>COPY FROM</code>:</p>
+<pre class="text"><code>importa los datos a Cassandra</code></pre>
+<hr>
+</section>
+<section id="cerrar-cqlsh" class="level2" data-number="27">
+<h2 data-number="27" class="anchored" data-anchor-id="cerrar-cqlsh"><span class="header-section-number">27</span> Cerrar <code>cqlsh</code></h2>
+<p>Cuando terminemos podemos salir mediante:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb149"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>exit;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto nos devuelve a:</p>
+<pre class="text"><code>PowerShell</code></pre>
+<p>o:</p>
+<pre class="text"><code>Terminal</code></pre>
+<p>El contenedor continuará funcionando.</p>
+<hr>
+</section>
+<section id="detener-cassandra" class="level2" data-number="28">
+<h2 data-number="28" class="anchored" data-anchor-id="detener-cassandra"><span class="header-section-number">28</span> Detener Cassandra</h2>
+<p>Cuando ya no necesitemos Cassandra ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb152"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> stop cassandra-lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto detiene el contenedor, pero:</p>
+<pre class="text"><code>NO lo elimina</code></pre>
+<p>Para utilizarlo nuevamente:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb154"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> start cassandra-lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>y después:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb155"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> cassandra-lab cqlsh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Detener un contenedor no significa eliminarlo.</p>
+<p>Los datos almacenados seguirán disponibles cuando volvamos a iniciarlo.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="para-recordar" class="level2" data-number="29">
+<h2 data-number="29" class="anchored" data-anchor-id="para-recordar"><span class="header-section-number">29</span> Para recordar</h2>
+<p>Durante esta práctica trabajamos con:</p>
+<pre class="text"><code>1,219,200 registros</code></pre>
+<p>Los puntos más importantes son:</p>
+<ul>
+<li>Utilizamos Python para generar los datos simulados.</li>
+<li>Trabajamos con 100 sensores.</li>
+<li>Cada sensor genera una medición cada 15 minutos.</li>
+<li>Cada sensor genera 96 mediciones por día.</li>
+<li>El periodo utilizado contiene 127 días.</li>
+<li>Se generaron 1,219,200 registros.</li>
+<li>Antes de importar verificamos que cada sensor tuviera 96 momentos distintos por día.</li>
+<li>El campo <code>momento</code> se generó con el formato <code>YYYY-MM-DD HH:MM:SS+0000</code>.</li>
+<li><code>TRUNCATE</code> permite vaciar una tabla sin eliminar su estructura.</li>
+<li><code>docker cp</code> copia un archivo desde la computadora hacia el contenedor.</li>
+<li><code>COPY FROM</code> importa los datos del CSV hacia Cassandra.</li>
+<li>La clave de partición es <code>(sensor_id, fecha)</code>.</li>
+<li>Cada combinación de sensor y fecha representa una partición.</li>
+<li>Tenemos 12,700 particiones.</li>
+<li>Cada partición contiene 96 mediciones.</li>
+<li><code>momento</code> organiza los registros dentro de cada partición.</li>
+<li><code>CLUSTERING ORDER BY (momento DESC)</code> permite mostrar primero las mediciones más recientes.</li>
+<li>Las consultas eficientes corresponden al diseño de la tabla.</li>
+<li><code>ALLOW FILTERING</code> no sustituye un buen diseño.</li>
+<li>En Cassandra primero pensamos en las consultas y después diseñamos las tablas.</li>
+</ul>
+<hr>
+</section>
+<section id="resultado-de-la-práctica" class="level2" data-number="30">
+<h2 data-number="30" class="anchored" data-anchor-id="resultado-de-la-práctica"><span class="header-section-number">30</span> Resultado de la práctica</h2>
+<p>Durante esta actividad generamos:</p>
+<pre class="text"><code>1,219,200 registros</code></pre>
+<p>mediante Python.</p>
+<p>Después verificamos que para cada sensor y día existieran:</p>
+<pre class="text"><code>96 mediciones</code></pre>
+<p>Copiamos el archivo hacia el contenedor mediante:</p>
+<pre class="text"><code>docker cp</code></pre>
+<p>y posteriormente importamos los datos utilizando:</p>
+<pre class="text"><code>COPY FROM</code></pre>
+<p>Los registros quedaron distribuidos en:</p>
+<pre class="text"><code>12,700 particiones</code></pre>
+<p>con:</p>
+<pre class="text"><code>96 registros por partición</code></pre>
+<p>La práctica permitió relacionar tres ideas fundamentales:</p>
+<pre class="text"><code>Gran volumen de datos
+        +
+Particionamiento
+        +
+Diseño orientado a consultas</code></pre>
+<p>La idea principal es:</p>
+<pre class="text"><code>la forma en que organizamos los datos
+        ↓
+determina las consultas que podemos realizar eficientemente</code></pre>
+<p>En Cassandra:</p>
+<pre class="text"><code>primero identificamos las consultas
+        ↓
+después diseñamos las tablas</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

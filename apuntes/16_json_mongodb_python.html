@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Conexión y consultas de MongoDB desde Python – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f06303d6082cb8a84bbcc3b60da1c1dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#cómo-se-relaciona-python-con-mongodb" id="toc-cómo-se-relaciona-python-con-mongodb" class="nav-link" data-scroll-target="#cómo-se-relaciona-python-con-mongodb"><span class="header-section-number">2</span> ¿Cómo se relaciona Python con MongoDB?</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-pymongo" id="toc-qué-es-pymongo" class="nav-link" data-scroll-target="#qué-es-pymongo"><span class="header-section-number">2.1</span> ¿Qué es PyMongo?</a></li>
+  <li><a href="#funcionamiento-general" id="toc-funcionamiento-general" class="nav-link" data-scroll-target="#funcionamiento-general"><span class="header-section-number">2.2</span> Funcionamiento general</a></li>
+  </ul></li>
+  <li><a href="#preparación-del-entorno-de-trabajo" id="toc-preparación-del-entorno-de-trabajo" class="nav-link" data-scroll-target="#preparación-del-entorno-de-trabajo"><span class="header-section-number">3</span> Preparación del entorno de trabajo</a>
+  <ul class="collapse">
+  <li><a href="#base-de-datos-de-trabajo" id="toc-base-de-datos-de-trabajo" class="nav-link" data-scroll-target="#base-de-datos-de-trabajo"><span class="header-section-number">3.1</span> Base de datos de trabajo</a></li>
+  <li><a href="#comprobar-que-mongodb-esté-funcionando" id="toc-comprobar-que-mongodb-esté-funcionando" class="nav-link" data-scroll-target="#comprobar-que-mongodb-esté-funcionando"><span class="header-section-number">3.2</span> Comprobar que MongoDB esté funcionando</a></li>
+  </ul></li>
+  <li><a href="#opción-a.-python-desde-powershell-en-windows" id="toc-opción-a.-python-desde-powershell-en-windows" class="nav-link" data-scroll-target="#opción-a.-python-desde-powershell-en-windows"><span class="header-section-number">4</span> Opción A. Python desde PowerShell en Windows</a>
+  <ul class="collapse">
+  <li><a href="#iniciar-mongodb" id="toc-iniciar-mongodb" class="nav-link" data-scroll-target="#iniciar-mongodb"><span class="header-section-number">4.1</span> Iniciar MongoDB</a></li>
+  <li><a href="#comprobar-python" id="toc-comprobar-python" class="nav-link" data-scroll-target="#comprobar-python"><span class="header-section-number">4.2</span> Comprobar Python</a></li>
+  <li><a href="#comprobar-pip" id="toc-comprobar-pip" class="nav-link" data-scroll-target="#comprobar-pip"><span class="header-section-number">4.3</span> Comprobar pip</a></li>
+  <li><a href="#instalar-pymongo" id="toc-instalar-pymongo" class="nav-link" data-scroll-target="#instalar-pymongo"><span class="header-section-number">4.4</span> Instalar PyMongo</a></li>
+  <li><a href="#abrir-python" id="toc-abrir-python" class="nav-link" data-scroll-target="#abrir-python"><span class="header-section-number">4.5</span> Abrir Python</a></li>
+  </ul></li>
+  <li><a href="#opción-b.-jupyter-notebook-en-windows" id="toc-opción-b.-jupyter-notebook-en-windows" class="nav-link" data-scroll-target="#opción-b.-jupyter-notebook-en-windows"><span class="header-section-number">5</span> Opción B. Jupyter Notebook en Windows</a>
+  <ul class="collapse">
+  <li><a href="#iniciar-mongodb-1" id="toc-iniciar-mongodb-1" class="nav-link" data-scroll-target="#iniciar-mongodb-1"><span class="header-section-number">5.1</span> Iniciar MongoDB</a></li>
+  <li><a href="#abrir-jupyter-notebook" id="toc-abrir-jupyter-notebook" class="nav-link" data-scroll-target="#abrir-jupyter-notebook"><span class="header-section-number">5.2</span> Abrir Jupyter Notebook</a></li>
+  <li><a href="#instalar-pymongo-1" id="toc-instalar-pymongo-1" class="nav-link" data-scroll-target="#instalar-pymongo-1"><span class="header-section-number">5.3</span> Instalar PyMongo</a></li>
+  <li><a href="#comprobar-que-python-funciona" id="toc-comprobar-que-python-funciona" class="nav-link" data-scroll-target="#comprobar-que-python-funciona"><span class="header-section-number">5.4</span> Comprobar que Python funciona</a></li>
+  </ul></li>
+  <li><a href="#opción-c.-python-desde-terminal-en-macos" id="toc-opción-c.-python-desde-terminal-en-macos" class="nav-link" data-scroll-target="#opción-c.-python-desde-terminal-en-macos"><span class="header-section-number">6</span> Opción C. Python desde Terminal en macOS</a>
+  <ul class="collapse">
+  <li><a href="#iniciar-mongodb-2" id="toc-iniciar-mongodb-2" class="nav-link" data-scroll-target="#iniciar-mongodb-2"><span class="header-section-number">6.1</span> Iniciar MongoDB</a></li>
+  <li><a href="#comprobar-python-1" id="toc-comprobar-python-1" class="nav-link" data-scroll-target="#comprobar-python-1"><span class="header-section-number">6.2</span> Comprobar Python</a></li>
+  <li><a href="#comprobar-pip-1" id="toc-comprobar-pip-1" class="nav-link" data-scroll-target="#comprobar-pip-1"><span class="header-section-number">6.3</span> Comprobar pip</a></li>
+  <li><a href="#comprobar-pymongo" id="toc-comprobar-pymongo" class="nav-link" data-scroll-target="#comprobar-pymongo"><span class="header-section-number">6.4</span> Comprobar PyMongo</a></li>
+  <li><a href="#instalar-pymongo-2" id="toc-instalar-pymongo-2" class="nav-link" data-scroll-target="#instalar-pymongo-2"><span class="header-section-number">6.5</span> Instalar PyMongo</a></li>
+  <li><a href="#abrir-python-1" id="toc-abrir-python-1" class="nav-link" data-scroll-target="#abrir-python-1"><span class="header-section-number">6.6</span> Abrir Python</a></li>
+  </ul></li>
+  <li><a href="#opción-d.-jupyter-notebook-en-macos" id="toc-opción-d.-jupyter-notebook-en-macos" class="nav-link" data-scroll-target="#opción-d.-jupyter-notebook-en-macos"><span class="header-section-number">7</span> Opción D. Jupyter Notebook en macOS</a>
+  <ul class="collapse">
+  <li><a href="#iniciar-mongodb-3" id="toc-iniciar-mongodb-3" class="nav-link" data-scroll-target="#iniciar-mongodb-3"><span class="header-section-number">7.1</span> Iniciar MongoDB</a></li>
+  <li><a href="#abrir-jupyter-notebook-1" id="toc-abrir-jupyter-notebook-1" class="nav-link" data-scroll-target="#abrir-jupyter-notebook-1"><span class="header-section-number">7.2</span> Abrir Jupyter Notebook</a></li>
+  <li><a href="#instalar-pymongo-3" id="toc-instalar-pymongo-3" class="nav-link" data-scroll-target="#instalar-pymongo-3"><span class="header-section-number">7.3</span> Instalar PyMongo</a></li>
+  <li><a href="#comprobar-python-2" id="toc-comprobar-python-2" class="nav-link" data-scroll-target="#comprobar-python-2"><span class="header-section-number">7.4</span> Comprobar Python</a></li>
+  </ul></li>
+  <li><a href="#conectar-python-con-mongodb" id="toc-conectar-python-con-mongodb" class="nav-link" data-scroll-target="#conectar-python-con-mongodb"><span class="header-section-number">8</span> Conectar Python con MongoDB</a>
+  <ul class="collapse">
+  <li><a href="#importar-pymongo" id="toc-importar-pymongo" class="nav-link" data-scroll-target="#importar-pymongo"><span class="header-section-number">8.1</span> Importar PyMongo</a></li>
+  <li><a href="#crear-la-conexión" id="toc-crear-la-conexión" class="nav-link" data-scroll-target="#crear-la-conexión"><span class="header-section-number">8.2</span> Crear la conexión</a></li>
+  <li><a href="#comprobar-la-conexión" id="toc-comprobar-la-conexión" class="nav-link" data-scroll-target="#comprobar-la-conexión"><span class="header-section-number">8.3</span> Comprobar la conexión</a></li>
+  </ul></li>
+  <li><a href="#acceder-a-una-base-de-datos-y-colección" id="toc-acceder-a-una-base-de-datos-y-colección" class="nav-link" data-scroll-target="#acceder-a-una-base-de-datos-y-colección"><span class="header-section-number">9</span> Acceder a una base de datos y colección</a>
+  <ul class="collapse">
+  <li><a href="#seleccionar-la-base-de-datos" id="toc-seleccionar-la-base-de-datos" class="nav-link" data-scroll-target="#seleccionar-la-base-de-datos"><span class="header-section-number">9.1</span> Seleccionar la base de datos</a></li>
+  <li><a href="#seleccionar-la-colección" id="toc-seleccionar-la-colección" class="nav-link" data-scroll-target="#seleccionar-la-colección"><span class="header-section-number">9.2</span> Seleccionar la colección</a></li>
+  <li><a href="#contar-documentos" id="toc-contar-documentos" class="nav-link" data-scroll-target="#contar-documentos"><span class="header-section-number">9.3</span> Contar documentos</a></li>
+  <li><a href="#recuperar-un-documento" id="toc-recuperar-un-documento" class="nav-link" data-scroll-target="#recuperar-un-documento"><span class="header-section-number">9.4</span> Recuperar un documento</a></li>
+  <li><a href="#recuperar-algunos-valores" id="toc-recuperar-algunos-valores" class="nav-link" data-scroll-target="#recuperar-algunos-valores"><span class="header-section-number">9.5</span> Recuperar algunos valores</a></li>
+  </ul></li>
+  <li><a href="#primeras-consultas-con-pymongo" id="toc-primeras-consultas-con-pymongo" class="nav-link" data-scroll-target="#primeras-consultas-con-pymongo"><span class="header-section-number">10</span> Primeras consultas con PyMongo</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-cinco-películas" id="toc-recuperar-cinco-películas" class="nav-link" data-scroll-target="#recuperar-cinco-películas"><span class="header-section-number">10.1</span> Recuperar cinco películas</a></li>
+  <li><a href="#buscar-una-película-por-título" id="toc-buscar-una-película-por-título" class="nav-link" data-scroll-target="#buscar-una-película-por-título"><span class="header-section-number">10.2</span> Buscar una película por título</a></li>
+  <li><a href="#buscar-películas-posteriores-al-año-2000" id="toc-buscar-películas-posteriores-al-año-2000" class="nav-link" data-scroll-target="#buscar-películas-posteriores-al-año-2000"><span class="header-section-number">10.3</span> Buscar películas posteriores al año 2000</a></li>
+  <li><a href="#buscar-películas-por-género" id="toc-buscar-películas-por-género" class="nav-link" data-scroll-target="#buscar-películas-por-género"><span class="header-section-number">10.4</span> Buscar películas por género</a></li>
+  </ul></li>
+  <li><a href="#operadores-de-consulta-en-mongodb" id="toc-operadores-de-consulta-en-mongodb" class="nav-link" data-scroll-target="#operadores-de-consulta-en-mongodb"><span class="header-section-number">11</span> Operadores de consulta en MongoDB</a>
+  <ul class="collapse">
+  <li><a href="#recuperar-películas-posteriores-a-2010" id="toc-recuperar-películas-posteriores-a-2010" class="nav-link" data-scroll-target="#recuperar-películas-posteriores-a-2010"><span class="header-section-number">11.1</span> Recuperar películas posteriores a 2010</a></li>
+  <li><a href="#recuperar-películas-en-un-intervalo" id="toc-recuperar-películas-en-un-intervalo" class="nav-link" data-scroll-target="#recuperar-películas-en-un-intervalo"><span class="header-section-number">11.2</span> Recuperar películas en un intervalo</a></li>
+  <li><a href="#combinar-condiciones" id="toc-combinar-condiciones" class="nav-link" data-scroll-target="#combinar-condiciones"><span class="header-section-number">11.3</span> Combinar condiciones</a></li>
+  </ul></li>
+  <li><a href="#ordenamiento-y-campos-anidados" id="toc-ordenamiento-y-campos-anidados" class="nav-link" data-scroll-target="#ordenamiento-y-campos-anidados"><span class="header-section-number">12</span> Ordenamiento y campos anidados</a>
+  <ul class="collapse">
+  <li><a href="#ordenar-películas-por-año" id="toc-ordenar-películas-por-año" class="nav-link" data-scroll-target="#ordenar-películas-por-año"><span class="header-section-number">12.1</span> Ordenar películas por año</a></li>
+  <li><a href="#buscar-películas-con-calificación-imdb-alta" id="toc-buscar-películas-con-calificación-imdb-alta" class="nav-link" data-scroll-target="#buscar-películas-con-calificación-imdb-alta"><span class="header-section-number">12.2</span> Buscar películas con calificación IMDb alta</a></li>
+  <li><a href="#contar-películas-de-comedia" id="toc-contar-películas-de-comedia" class="nav-link" data-scroll-target="#contar-películas-de-comedia"><span class="header-section-number">12.3</span> Contar películas de comedia</a></li>
+  </ul></li>
+  <li><a href="#procesamiento-de-datos-con-pandas" id="toc-procesamiento-de-datos-con-pandas" class="nav-link" data-scroll-target="#procesamiento-de-datos-con-pandas"><span class="header-section-number">13</span> Procesamiento de datos con pandas</a>
+  <ul class="collapse">
+  <li><a href="#instalar-pandas" id="toc-instalar-pandas" class="nav-link" data-scroll-target="#instalar-pandas"><span class="header-section-number">13.1</span> Instalar pandas</a></li>
+  <li><a href="#importar-pandas" id="toc-importar-pandas" class="nav-link" data-scroll-target="#importar-pandas"><span class="header-section-number">13.2</span> Importar pandas</a></li>
+  <li><a href="#recuperar-películas-desde-mongodb" id="toc-recuperar-películas-desde-mongodb" class="nav-link" data-scroll-target="#recuperar-películas-desde-mongodb"><span class="header-section-number">13.3</span> Recuperar películas desde MongoDB</a></li>
+  <li><a href="#construir-un-dataframe" id="toc-construir-un-dataframe" class="nav-link" data-scroll-target="#construir-un-dataframe"><span class="header-section-number">13.4</span> Construir un DataFrame</a></li>
+  <li><a href="#consultar-las-dimensiones" id="toc-consultar-las-dimensiones" class="nav-link" data-scroll-target="#consultar-las-dimensiones"><span class="header-section-number">13.5</span> Consultar las dimensiones</a></li>
+  <li><a href="#consultar-la-estructura-de-los-datos" id="toc-consultar-la-estructura-de-los-datos" class="nav-link" data-scroll-target="#consultar-la-estructura-de-los-datos"><span class="header-section-number">13.6</span> Consultar la estructura de los datos</a></li>
+  </ul></li>
+  <li><a href="#análisis-descriptivo-con-pandas" id="toc-análisis-descriptivo-con-pandas" class="nav-link" data-scroll-target="#análisis-descriptivo-con-pandas"><span class="header-section-number">14</span> Análisis descriptivo con pandas</a>
+  <ul class="collapse">
+  <li><a href="#contar-películas-por-año" id="toc-contar-películas-por-año" class="nav-link" data-scroll-target="#contar-películas-por-año"><span class="header-section-number">14.1</span> Contar películas por año</a></li>
+  <li><a href="#calcular-el-año-promedio" id="toc-calcular-el-año-promedio" class="nav-link" data-scroll-target="#calcular-el-año-promedio"><span class="header-section-number">14.2</span> Calcular el año promedio</a></li>
+  <li><a href="#contar-películas-por-género" id="toc-contar-películas-por-género" class="nav-link" data-scroll-target="#contar-películas-por-género"><span class="header-section-number">14.3</span> Contar películas por género</a></li>
+  </ul></li>
+  <li><a href="#exportación-de-información" id="toc-exportación-de-información" class="nav-link" data-scroll-target="#exportación-de-información"><span class="header-section-number">15</span> Exportación de información</a>
+  <ul class="collapse">
+  <li><a href="#exportar-a-csv" id="toc-exportar-a-csv" class="nav-link" data-scroll-target="#exportar-a-csv"><span class="header-section-number">15.1</span> Exportar a CSV</a></li>
+  <li><a href="#consultar-la-ubicación-del-archivo" id="toc-consultar-la-ubicación-del-archivo" class="nav-link" data-scroll-target="#consultar-la-ubicación-del-archivo"><span class="header-section-number">15.2</span> Consultar la ubicación del archivo</a></li>
+  <li><a href="#exportar-a-excel" id="toc-exportar-a-excel" class="nav-link" data-scroll-target="#exportar-a-excel"><span class="header-section-number">15.3</span> Exportar a Excel</a></li>
+  <li><a href="#instalar-openpyxl" id="toc-instalar-openpyxl" class="nav-link" data-scroll-target="#instalar-openpyxl"><span class="header-section-number">15.4</span> Instalar openpyxl</a></li>
+  <li><a href="#generar-el-archivo-excel" id="toc-generar-el-archivo-excel" class="nav-link" data-scroll-target="#generar-el-archivo-excel"><span class="header-section-number">15.5</span> Generar el archivo Excel</a></li>
+  </ul></li>
+  <li><a href="#relación-entre-mongosh-y-pymongo" id="toc-relación-entre-mongosh-y-pymongo" class="nav-link" data-scroll-target="#relación-entre-mongosh-y-pymongo"><span class="header-section-number">16</span> Relación entre <code>mongosh</code> y PyMongo</a></li>
+  <li><a href="#errores-frecuentes" id="toc-errores-frecuentes" class="nav-link" data-scroll-target="#errores-frecuentes"><span class="header-section-number">17</span> Errores frecuentes</a>
+  <ul class="collapse">
+  <li><a href="#comprobar-la-conexión-1" id="toc-comprobar-la-conexión-1" class="nav-link" data-scroll-target="#comprobar-la-conexión-1"><span class="header-section-number">17.1</span> Comprobar la conexión</a></li>
+  <li><a href="#comprobar-las-colecciones" id="toc-comprobar-las-colecciones" class="nav-link" data-scroll-target="#comprobar-las-colecciones"><span class="header-section-number">17.2</span> Comprobar las colecciones</a></li>
+  <li><a href="#diferenciar-powershell-terminal-mongosh-y-python" id="toc-diferenciar-powershell-terminal-mongosh-y-python" class="nav-link" data-scroll-target="#diferenciar-powershell-terminal-mongosh-y-python"><span class="header-section-number">17.3</span> Diferenciar PowerShell, Terminal, mongosh y Python</a></li>
+  <li><a href="#cerrar-la-conexión" id="toc-cerrar-la-conexión" class="nav-link" data-scroll-target="#cerrar-la-conexión"><span class="header-section-number">17.4</span> Cerrar la conexión</a></li>
+  </ul></li>
+  <li><a href="#actividad-individual-consultas-y-análisis-de-películas" id="toc-actividad-individual-consultas-y-análisis-de-películas" class="nav-link" data-scroll-target="#actividad-individual-consultas-y-análisis-de-películas"><span class="header-section-number">18</span> Actividad individual: consultas y análisis de películas</a>
+  <ul class="collapse">
+  <li><a href="#instrucciones-generales" id="toc-instrucciones-generales" class="nav-link" data-scroll-target="#instrucciones-generales"><span class="header-section-number">18.1</span> Instrucciones generales</a></li>
+  <li><a href="#parte-a.-conexión-y-consultas-con-pymongo" id="toc-parte-a.-conexión-y-consultas-con-pymongo" class="nav-link" data-scroll-target="#parte-a.-conexión-y-consultas-con-pymongo"><span class="header-section-number">18.2</span> Parte A. Conexión y consultas con PyMongo</a></li>
+  <li><a href="#parte-b.-consultas-con-filtros-y-ordenamientos" id="toc-parte-b.-consultas-con-filtros-y-ordenamientos" class="nav-link" data-scroll-target="#parte-b.-consultas-con-filtros-y-ordenamientos"><span class="header-section-number">18.3</span> Parte B. Consultas con filtros y ordenamientos</a></li>
+  <li><a href="#parte-c.-procesamiento-y-análisis-con-pandas" id="toc-parte-c.-procesamiento-y-análisis-con-pandas" class="nav-link" data-scroll-target="#parte-c.-procesamiento-y-análisis-con-pandas"><span class="header-section-number">18.4</span> Parte C. Procesamiento y análisis con pandas</a></li>
+  <li><a href="#indicaciones-de-entrega" id="toc-indicaciones-de-entrega" class="nav-link" data-scroll-target="#indicaciones-de-entrega"><span class="header-section-number">18.5</span> Indicaciones de entrega</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Conexión y consultas de MongoDB desde Python</h1>
+<p class="subtitle lead">Bases de Datos No Relacionales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>En los apuntes anteriores aprendimos a trabajar con MongoDB mediante <code>mongosh</code>, realizando operaciones para insertar, consultar, actualizar y eliminar documentos.</p>
+<p>También utilizamos una base de datos de películas para comprender cómo MongoDB organiza información mediante documentos y colecciones.</p>
+<p>Ahora aprenderemos a realizar consultas utilizando <strong>Python y PyMongo</strong>, sin necesidad de escribir las instrucciones directamente en <code>mongosh</code>.</p>
+<p>Esto nos permitirá comprender cómo las aplicaciones desarrolladas en Python pueden comunicarse con una base de datos MongoDB para recuperar y procesar información.</p>
+<p>Durante este apunte trabajaremos con la base de datos <code>sample_mflix</code>, que contiene información sobre películas, géneros, años de publicación, calificaciones y otros atributos.</p>
+<p>Los procedimientos podrán realizarse desde la Terminal o mediante Jupyter Notebook, tanto en Windows como en macOS.</p>
+<p>Al finalizar podremos:</p>
+<ul>
+<li>Comprender cómo se relaciona Python con MongoDB.</li>
+<li>Instalar y utilizar la biblioteca PyMongo.</li>
+<li>Establecer una conexión desde Python.</li>
+<li>Acceder a bases de datos y colecciones.</li>
+<li>Recuperar documentos mediante consultas.</li>
+<li>Aplicar filtros y condiciones.</li>
+<li>Seleccionar campos y limitar resultados.</li>
+<li>Ordenar documentos y consultar campos anidados.</li>
+<li>Convertir documentos de MongoDB en tablas mediante pandas.</li>
+<li>Realizar análisis descriptivos básicos.</li>
+<li>Exportar información a archivos CSV y Excel.</li>
+</ul>
+</section>
+<section id="cómo-se-relaciona-python-con-mongodb" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="cómo-se-relaciona-python-con-mongodb"><span class="header-section-number">2</span> ¿Cómo se relaciona Python con MongoDB?</h2>
+<p>Hasta ahora hemos utilizado MongoDB mediante su consola interactiva <code>mongosh</code>.</p>
+<p>Sin embargo, cuando desarrollamos una aplicación, necesitamos que un lenguaje de programación pueda comunicarse directamente con la base de datos.</p>
+<p>Por ejemplo, una aplicación desarrollada en Python podría necesitar:</p>
+<ul>
+<li>Consultar información de películas.</li>
+<li>Buscar películas por género.</li>
+<li>Recuperar películas mejor calificadas.</li>
+<li>Contar registros.</li>
+<li>Generar reportes.</li>
+<li>Exportar información para su análisis.</li>
+</ul>
+<p>Para realizar estas operaciones utilizaremos <strong>PyMongo</strong>.</p>
+<section id="qué-es-pymongo" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="qué-es-pymongo"><span class="header-section-number">2.1</span> ¿Qué es PyMongo?</h3>
+<p>PyMongo es el controlador oficial de MongoDB para Python.</p>
+<p>Permite establecer conexiones con servidores MongoDB y realizar operaciones sobre sus bases de datos y colecciones.</p>
+<p>Con PyMongo podemos utilizar instrucciones de Python para ejecutar consultas similares a las que anteriormente realizamos mediante <code>mongosh</code>.</p>
+</section>
+<section id="funcionamiento-general" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="funcionamiento-general"><span class="header-section-number">2.2</span> Funcionamiento general</h3>
+<p>La comunicación entre Python y MongoDB puede representarse de la siguiente manera:</p>
+<pre class="text"><code>┌─────────────────────────┐
+│                         │
+│     Programa Python     │
+│                         │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│                         │
+│         PyMongo         │
+│                         │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│                         │
+│     Servidor MongoDB    │
+│                         │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│                         │
+│   Base: sample_mflix    │
+│                         │
+│   Colección: movies     │
+│                         │
+└─────────────────────────┘</code></pre>
+<p>Python utiliza PyMongo para enviar solicitudes al servidor MongoDB.</p>
+<p>MongoDB procesa las consultas y devuelve los documentos correspondientes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Idea principal</strong></p>
+<p>MongoDB se encarga de almacenar y administrar los documentos.</p>
+<p>Python permite desarrollar programas para consultar y procesar esos documentos.</p>
+<p>PyMongo funciona como el medio de comunicación entre ambos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="preparación-del-entorno-de-trabajo" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="preparación-del-entorno-de-trabajo"><span class="header-section-number">3</span> Preparación del entorno de trabajo</h2>
+<p>Para desarrollar las prácticas necesitamos:</p>
+<ul>
+<li>MongoDB instalado y funcionando.</li>
+<li>Python instalado.</li>
+<li>PyMongo.</li>
+<li>La base de datos <code>sample_mflix</code>.</li>
+</ul>
+<p>Los estudiantes podrán elegir entre cuatro alternativas:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Opción</th>
+<th>Sistema operativo</th>
+<th>Entorno</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Windows</td>
+<td>Python desde PowerShell</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Windows</td>
+<td>Jupyter Notebook</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>macOS</td>
+<td>Python desde Terminal</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>macOS</td>
+<td>Jupyter Notebook</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Seleccionar una alternativa</strong></p>
+<p>Cada estudiante debe seguir únicamente la opción correspondiente a su sistema operativo y entorno de trabajo.</p>
+<p>Una vez preparado el entorno, todos continuarán desde la sección <strong>«Conectar Python con MongoDB»</strong>.</p>
+<p>Las consultas y los análisis serán iguales para las cuatro alternativas.</p>
+</div>
+</div>
+<section id="base-de-datos-de-trabajo" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="base-de-datos-de-trabajo"><span class="header-section-number">3.1</span> Base de datos de trabajo</h3>
+<p>Utilizaremos la base de datos <code>sample_mflix</code>, con la que trabajamos anteriormente en MongoDB.</p>
+<p>En nuestra práctica, la base contenía las siguientes colecciones:</p>
+<pre class="text"><code>comments
+embedded_movies
+movies
+sessions
+theaters
+users</code></pre>
+<p>Trabajaremos específicamente con:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Componente</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base de datos</td>
+<td><code>sample_mflix</code></td>
+</tr>
+<tr class="even">
+<td>Colección</td>
+<td><code>movies</code></td>
+</tr>
+<tr class="odd">
+<td>Información</td>
+<td>Películas</td>
+</tr>
+<tr class="even">
+<td>Documentos registrados en nuestra práctica de Windows</td>
+<td>21,349</td>
+</tr>
+</tbody>
+</table>
+<p>Los resultados pueden variar dependiendo de la versión de la base de datos instalada.</p>
+</section>
+<section id="comprobar-que-mongodb-esté-funcionando" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="comprobar-que-mongodb-esté-funcionando"><span class="header-section-number">3.2</span> Comprobar que MongoDB esté funcionando</h3>
+<p>Antes de conectar Python, debemos iniciar el servidor MongoDB.</p>
+<p>El procedimiento depende del sistema operativo y de cómo se instaló MongoDB.</p>
+<p>En las siguientes secciones revisaremos cada alternativa.</p>
+</section>
+</section>
+<section id="opción-a.-python-desde-powershell-en-windows" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="opción-a.-python-desde-powershell-en-windows"><span class="header-section-number">4</span> Opción A. Python desde PowerShell en Windows</h2>
+<p>Esta alternativa permite ejecutar Python directamente desde la Terminal de Windows.</p>
+<section id="iniciar-mongodb" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="iniciar-mongodb"><span class="header-section-number">4.1</span> Iniciar MongoDB</h3>
+<p>Abrimos PowerShell y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mongod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando inicia el servidor MongoDB.</p>
+<p>De manera predeterminada, MongoDB utiliza el puerto <code>27017</code>.</p>
+<p>Debemos mantener abierta esta ventana mientras realizamos las prácticas.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Si MongoDB ya está funcionando como servicio, no necesitamos ejecutar nuevamente <code>mongod</code>.</p>
+<p>Si aparece un error indicando que el puerto está ocupado, primero debemos comprobar si el servidor ya está iniciado.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-python" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="comprobar-python"><span class="header-section-number">4.2</span> Comprobar Python</h3>
+<p>Abrimos una segunda ventana de PowerShell.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">--</span>version</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando muestra la versión de Python instalada.</p>
+<p>Durante nuestra práctica utilizamos:</p>
+<pre class="text"><code>Python 3.14.10</code></pre>
+</section>
+<section id="comprobar-pip" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="comprobar-pip"><span class="header-section-number">4.3</span> Comprobar pip</h3>
+<p><code>pip</code> es el administrador de paquetes de Python.</p>
+<p>Permite instalar bibliotecas adicionales.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip <span class="op">--</span>version</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si está instalado correctamente, aparecerá información sobre su versión y ubicación.</p>
+</section>
+<section id="instalar-pymongo" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="instalar-pymongo"><span class="header-section-number">4.4</span> Instalar PyMongo</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install pymongo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando instala la biblioteca necesaria para conectarnos a MongoDB.</p>
+<p>En nuestra práctica se instaló PyMongo 4.19.0.</p>
+<p>Si ya tenemos PyMongo instalado, no necesitamos volver a instalarlo.</p>
+</section>
+<section id="abrir-python" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="abrir-python"><span class="header-section-number">4.5</span> Abrir Python</h3>
+<p>En la misma ventana de PowerShell escribimos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto inicia el intérprete interactivo de Python.</p>
+<p>Observaremos el símbolo:</p>
+<pre class="text"><code>&gt;&gt;&gt;</code></pre>
+<p>A partir de este momento podremos ejecutar instrucciones de Python.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Python funcionando correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para salir del intérprete utilizamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Continuación</strong></p>
+<p>Una vez iniciado Python, podemos continuar desde la sección <strong>«Conectar Python con MongoDB»</strong>.</p>
+<p>No necesitamos realizar las demás opciones.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="opción-b.-jupyter-notebook-en-windows" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="opción-b.-jupyter-notebook-en-windows"><span class="header-section-number">5</span> Opción B. Jupyter Notebook en Windows</h2>
+<p>Esta alternativa está dirigida a los estudiantes que ya tienen instalado Jupyter Notebook en Windows.</p>
+<p>Jupyter permite ejecutar instrucciones de Python mediante celdas y visualizar los resultados de manera organizada.</p>
+<section id="iniciar-mongodb-1" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="iniciar-mongodb-1"><span class="header-section-number">5.1</span> Iniciar MongoDB</h3>
+<p>Abrimos PowerShell y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mongod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Debemos mantener abierta esta ventana mientras trabajamos.</p>
+<p>Si MongoDB ya está funcionando como servicio, no necesitamos iniciarlo nuevamente.</p>
+</section>
+<section id="abrir-jupyter-notebook" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="abrir-jupyter-notebook"><span class="header-section-number">5.2</span> Abrir Jupyter Notebook</h3>
+<p>Abrimos otra ventana de PowerShell y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>jupyter notebook</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>También podemos abrir Jupyter Notebook desde Anaconda Navigator si lo tenemos instalado.</p>
+<p>Una vez abierto, creamos un nuevo cuaderno utilizando un kernel de Python.</p>
+</section>
+<section id="instalar-pymongo-1" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="instalar-pymongo-1"><span class="header-section-number">5.3</span> Instalar PyMongo</h3>
+<p>En una celda de Jupyter escribimos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install pymongo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ejecutamos la celda utilizando <strong>Shift + Enter</strong>.</p>
+<p>Si PyMongo ya está instalado, aparecerá un mensaje similar a:</p>
+<pre class="text"><code>Requirement already satisfied: pymongo</code></pre>
+<p>Esto indica que la biblioteca ya está disponible.</p>
+</section>
+<section id="comprobar-que-python-funciona" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="comprobar-que-python-funciona"><span class="header-section-number">5.4</span> Comprobar que Python funciona</h3>
+<p>En una nueva celda ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jupyter Notebook funcionando correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si aparece el mensaje, podemos continuar.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Continuación</strong></p>
+<p>Después de instalar PyMongo, podemos continuar desde la sección <strong>«Conectar Python con MongoDB»</strong>.</p>
+<p>Los códigos serán los mismos que utilizamos desde PowerShell.</p>
+<p>La diferencia es que ahora ejecutamos las instrucciones en celdas de Jupyter Notebook.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="opción-c.-python-desde-terminal-en-macos" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="opción-c.-python-desde-terminal-en-macos"><span class="header-section-number">6</span> Opción C. Python desde Terminal en macOS</h2>
+<p>Esta alternativa permite trabajar directamente desde la Terminal de una Mac.</p>
+<section id="iniciar-mongodb-2" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="iniciar-mongodb-2"><span class="header-section-number">6.1</span> Iniciar MongoDB</h3>
+<p>En nuestra Mac utilizamos una instalación local de MongoDB cuya carpeta de datos se encuentra en <code>~/data/db</code>.</p>
+<p>Abrimos la Terminal y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mongod</span> <span class="at">--dbpath</span> ~/data/db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando inicia MongoDB utilizando esa carpeta para almacenar las bases de datos.</p>
+<p>Debemos mantener abierta esta ventana mientras realizamos las prácticas.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>La ruta <code>~/data/db</code> corresponde a la configuración que utilizamos durante nuestra práctica en macOS.</p>
+<p>Si MongoDB fue instalado con otra configuración, debemos utilizar la ruta o el servicio correspondiente.</p>
+<p>La carpeta de datos debe existir antes de iniciar el servidor.</p>
+</div>
+</div>
+</section>
+<section id="comprobar-python-1" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="comprobar-python-1"><span class="header-section-number">6.2</span> Comprobar Python</h3>
+<p>Abrimos una segunda ventana de Terminal.</p>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Durante nuestra práctica utilizamos:</p>
+<pre class="text"><code>Python 3.13.3</code></pre>
+</section>
+<section id="comprobar-pip-1" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="comprobar-pip-1"><span class="header-section-number">6.3</span> Comprobar pip</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando comprueba que el administrador de paquetes está disponible.</p>
+</section>
+<section id="comprobar-pymongo" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="comprobar-pymongo"><span class="header-section-number">6.4</span> Comprobar PyMongo</h3>
+<p>Antes de instalarlo podemos comprobar si ya está disponible:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip show pymongo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si PyMongo está instalado, aparecerá información sobre el paquete.</p>
+<p>Si no está instalado, podemos continuar con el siguiente paso.</p>
+</section>
+<section id="instalar-pymongo-2" class="level3" data-number="6.5">
+<h3 data-number="6.5" class="anchored" data-anchor-id="instalar-pymongo-2"><span class="header-section-number">6.5</span> Instalar PyMongo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install pymongo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este comando instala PyMongo en el entorno de Python utilizado desde la Terminal.</p>
+</section>
+<section id="abrir-python-1" class="level3" data-number="6.6">
+<h3 data-number="6.6" class="anchored" data-anchor-id="abrir-python-1"><span class="header-section-number">6.6</span> Abrir Python</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto inicia el intérprete de Python.</p>
+<p>Observaremos:</p>
+<pre class="text"><code>&gt;&gt;&gt;</code></pre>
+<p>Podemos comprobar que funciona mediante:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Python funcionando correctamente en macOS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Continuación</strong></p>
+<p>Una vez iniciado Python, podemos continuar desde la sección <strong>«Conectar Python con MongoDB»</strong>.</p>
+<p>Los comandos de consulta serán los mismos que utilizamos en Windows.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="opción-d.-jupyter-notebook-en-macos" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="opción-d.-jupyter-notebook-en-macos"><span class="header-section-number">7</span> Opción D. Jupyter Notebook en macOS</h2>
+<p>Esta alternativa permite trabajar con MongoDB desde Jupyter Notebook en una Mac.</p>
+<section id="iniciar-mongodb-3" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="iniciar-mongodb-3"><span class="header-section-number">7.1</span> Iniciar MongoDB</h3>
+<p>Primero abrimos una Terminal y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mongod</span> <span class="at">--dbpath</span> ~/data/db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Debemos mantener MongoDB funcionando mientras realizamos las consultas.</p>
+</section>
+<section id="abrir-jupyter-notebook-1" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="abrir-jupyter-notebook-1"><span class="header-section-number">7.2</span> Abrir Jupyter Notebook</h3>
+<p>Abrimos una segunda Terminal y ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> notebook</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>También podemos abrirlo desde Anaconda Navigator si lo tenemos instalado.</p>
+<p>Creamos un nuevo cuaderno con un kernel de Python.</p>
+</section>
+<section id="instalar-pymongo-3" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="instalar-pymongo-3"><span class="header-section-number">7.3</span> Instalar PyMongo</h3>
+<p>En la primera celda ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install pymongo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Aunque PyMongo ya esté instalado desde la Terminal, Jupyter podría utilizar otro entorno de Python.</p>
+<p>Por eso es conveniente comprobar que la biblioteca esté disponible dentro del cuaderno.</p>
+</section>
+<section id="comprobar-python-2" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="comprobar-python-2"><span class="header-section-number">7.4</span> Comprobar Python</h3>
+<p>En una nueva celda ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jupyter Notebook funcionando correctamente en macOS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Continuación</strong></p>
+<p>Una vez preparado Jupyter Notebook, podemos continuar desde la sección <strong>«Conectar Python con MongoDB»</strong>.</p>
+<p>Los códigos de PyMongo y pandas serán los mismos que utilizamos en las otras alternativas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="conectar-python-con-mongodb" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="conectar-python-con-mongodb"><span class="header-section-number">8</span> Conectar Python con MongoDB</h2>
+<p>A partir de esta sección, <strong>todos los estudiantes utilizarán el mismo código</strong>, independientemente de si trabajan desde Windows, macOS o Jupyter Notebook.</p>
+<section id="importar-pymongo" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="importar-pymongo"><span class="header-section-number">8.1</span> Importar PyMongo</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La clase <code>MongoClient</code> permite establecer una conexión con MongoDB.</p>
+</section>
+<section id="crear-la-conexión" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="crear-la-conexión"><span class="header-section-number">8.2</span> Crear la conexión</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cliente <span class="op">=</span> MongoClient(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mongodb://localhost:27017/"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    serverSelectionTimeoutMS<span class="op">=</span><span class="dv">5000</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La dirección indica dónde se encuentra nuestro servidor MongoDB.</p>
+<p>En este caso:</p>
+<ul>
+<li><code>mongodb://</code> indica el protocolo de conexión.</li>
+<li><code>localhost</code> representa nuestra computadora.</li>
+<li><code>27017</code> es el puerto utilizado por MongoDB.</li>
+<li><code>serverSelectionTimeoutMS=5000</code> establece un tiempo máximo de cinco segundos para seleccionar un servidor disponible.</li>
+</ul>
+</section>
+<section id="comprobar-la-conexión" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="comprobar-la-conexión"><span class="header-section-number">8.3</span> Comprobar la conexión</h3>
+<p>Ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cliente.admin.command(<span class="st">"ping"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En nuestra práctica obtuvimos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>{<span class="st">'ok'</span>: <span class="fl">1.0</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto confirma que Python puede comunicarse correctamente con el servidor MongoDB.</p>
+<p>También podemos mostrar un mensaje:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Conexión exitosa con MongoDB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Antes de ejecutar la conexión, MongoDB debe estar funcionando.</p>
+<p>Si aparece <code>ServerSelectionTimeoutError</code>, debemos comprobar que el servidor esté iniciado y que utilice el puerto correcto.</p>
+<p>Crear un objeto <code>MongoClient</code> no garantiza por sí solo que la conexión funcione. Por eso utilizamos <code>ping</code>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="acceder-a-una-base-de-datos-y-colección" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="acceder-a-una-base-de-datos-y-colección"><span class="header-section-number">9</span> Acceder a una base de datos y colección</h2>
+<p>Una vez establecida la conexión, podemos seleccionar los datos con los que trabajaremos.</p>
+<section id="seleccionar-la-base-de-datos" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="seleccionar-la-base-de-datos"><span class="header-section-number">9.1</span> Seleccionar la base de datos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> cliente[<span class="st">"sample_mflix"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La variable <code>db</code> representa nuestra base de datos.</p>
+</section>
+<section id="seleccionar-la-colección" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="seleccionar-la-colección"><span class="header-section-number">9.2</span> Seleccionar la colección</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>coleccion <span class="op">=</span> db[<span class="st">"movies"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La variable <code>coleccion</code> representa la colección de películas.</p>
+<p>A partir de este momento utilizaremos esta variable para realizar las consultas.</p>
+</section>
+<section id="contar-documentos" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="contar-documentos"><span class="header-section-number">9.3</span> Contar documentos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> coleccion.count_documents({})</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total de películas:"</span>, total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En nuestra práctica de Windows obtuvimos:</p>
+<pre class="text"><code>Total de películas: 21349</code></pre>
+<p>El método <code>count_documents()</code> permite contar los documentos que cumplen una condición.</p>
+<p>Cuando utilizamos <code>{}</code>, contamos todos los documentos de la colección.</p>
+</section>
+<section id="recuperar-un-documento" class="level3" data-number="9.4">
+<h3 data-number="9.4" class="anchored" data-anchor-id="recuperar-un-documento"><span class="header-section-number">9.4</span> Recuperar un documento</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pelicula <span class="op">=</span> coleccion.find_one()</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>find_one()</code> recupera un documento de la colección.</p>
+<p>En nuestra práctica recuperamos una película titulada <em>The Great Train Robbery</em>, publicada en 1903.</p>
+<p>El documento contiene diferentes campos, entre ellos:</p>
+<pre class="text"><code>_id
+title
+year
+genres
+runtime
+cast
+directors
+countries
+languages
+imdb
+tomatoes</code></pre>
+<p>Estos campos representan información sobre la película.</p>
+<p>En Python, el documento recuperado puede utilizarse de manera similar a un diccionario.</p>
+</section>
+<section id="recuperar-algunos-valores" class="level3" data-number="9.5">
+<h3 data-number="9.5" class="anchored" data-anchor-id="recuperar-algunos-valores"><span class="header-section-number">9.5</span> Recuperar algunos valores</h3>
+<p>Podemos acceder a los campos mediante sus nombres.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pelicula.get(<span class="st">"title"</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pelicula.get(<span class="st">"year"</span>))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pelicula.get(<span class="st">"genres"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>get()</code> permite recuperar el valor de una clave.</p>
+<p>Si el campo no existe, devuelve <code>None</code> de manera predeterminada, en lugar de producir un error <code>KeyError</code>.</p>
+</section>
+</section>
+<section id="primeras-consultas-con-pymongo" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="primeras-consultas-con-pymongo"><span class="header-section-number">10</span> Primeras consultas con PyMongo</h2>
+<p>Ahora aprenderemos a recuperar información específica de nuestra colección.</p>
+<section id="recuperar-cinco-películas" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="recuperar-cinco-películas"><span class="header-section-number">10.1</span> Recuperar cinco películas</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find().limit(<span class="dv">5</span>):</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula.get(<span class="st">"title"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>find()</code> recupera documentos de MongoDB.</p>
+<p>El método <code>limit(5)</code> restringe los resultados a cinco documentos.</p>
+<p>El ciclo <code>for</code> permite recorrerlos y mostrar sus títulos.</p>
+</section>
+<section id="buscar-una-película-por-título" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="buscar-una-película-por-título"><span class="header-section-number">10.2</span> Buscar una película por título</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pelicula <span class="op">=</span> coleccion.find_one({</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"title"</span>: <span class="st">"The Great Train Robbery"</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    pelicula.get(<span class="st">"title"</span>),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    pelicula.get(<span class="st">"year"</span>)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta busca un documento cuyo título coincide con <em>The Great Train Robbery</em>.</p>
+<p>Después muestra su título y año de publicación.</p>
+</section>
+<section id="buscar-películas-posteriores-al-año-2000" class="level3" data-number="10.3">
+<h3 data-number="10.3" class="anchored" data-anchor-id="buscar-películas-posteriores-al-año-2000"><span class="header-section-number">10.3</span> Buscar películas posteriores al año 2000</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"year"</span>: {<span class="st">"$gt"</span>: <span class="dv">2000</span>}},</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"year"</span>: <span class="dv">1</span>}</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta recupera diez películas publicadas después del año 2000.</p>
+<p>Utilizamos:</p>
+<ul>
+<li><code>$gt</code>: selecciona valores mayores a 2000.</li>
+<li><code>"title": 1</code>: incluye el título.</li>
+<li><code>"year": 1</code>: incluye el año.</li>
+<li><code>"_id": 0</code>: excluye el identificador.</li>
+<li><code>limit(10)</code>: limita la cantidad de documentos recuperados.</li>
+</ul>
+</section>
+<section id="buscar-películas-por-género" class="level3" data-number="10.4">
+<h3 data-number="10.4" class="anchored" data-anchor-id="buscar-películas-por-género"><span class="header-section-number">10.4</span> Buscar películas por género</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"genres"</span>: <span class="st">"Comedy"</span>},</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"genres"</span>: <span class="dv">1</span>}</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta selecciona películas que contienen <code>Comedy</code> entre sus géneros.</p>
+<p>El campo <code>genres</code> almacena un arreglo.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>[<span class="st">"Comedy"</span>, <span class="st">"Drama"</span>, <span class="st">"Family"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>MongoDB permite buscar un valor dentro de un arreglo sin necesidad de recorrer manualmente cada uno de sus elementos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Una película puede pertenecer a varios géneros.</p>
+<p>Por lo tanto, buscar <code>Comedy</code> no significa que la película pertenezca exclusivamente a ese género.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operadores-de-consulta-en-mongodb" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="operadores-de-consulta-en-mongodb"><span class="header-section-number">11</span> Operadores de consulta en MongoDB</h2>
+<p>MongoDB utiliza operadores para aplicar condiciones sobre los documentos.</p>
+<p>Los operadores pueden utilizarse desde Python mediante diccionarios.</p>
+<p>Algunos de los principales son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Operador</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>$eq</code></td>
+<td>Igual a</td>
+</tr>
+<tr class="even">
+<td><code>$ne</code></td>
+<td>Diferente de</td>
+</tr>
+<tr class="odd">
+<td><code>$gt</code></td>
+<td>Mayor que</td>
+</tr>
+<tr class="even">
+<td><code>$gte</code></td>
+<td>Mayor o igual que</td>
+</tr>
+<tr class="odd">
+<td><code>$lt</code></td>
+<td>Menor que</td>
+</tr>
+<tr class="even">
+<td><code>$lte</code></td>
+<td>Menor o igual que</td>
+</tr>
+<tr class="odd">
+<td><code>$in</code></td>
+<td>Coincide con un valor de una lista</td>
+</tr>
+<tr class="even">
+<td><code>$and</code></td>
+<td>Cumple todas las condiciones</td>
+</tr>
+<tr class="odd">
+<td><code>$or</code></td>
+<td>Cumple alguna de las condiciones</td>
+</tr>
+</tbody>
+</table>
+<section id="recuperar-películas-posteriores-a-2010" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="recuperar-películas-posteriores-a-2010"><span class="header-section-number">11.1</span> Recuperar películas posteriores a 2010</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"year"</span>: {<span class="st">"$gt"</span>: <span class="dv">2010</span>}},</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"year"</span>: <span class="dv">1</span>}</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona películas cuyo año es mayor a 2010.</p>
+</section>
+<section id="recuperar-películas-en-un-intervalo" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="recuperar-películas-en-un-intervalo"><span class="header-section-number">11.2</span> Recuperar películas en un intervalo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"year"</span>: {</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"$gte"</span>: <span class="dv">2000</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"$lte"</span>: <span class="dv">2010</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"year"</span>: <span class="dv">1</span>}</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recupera películas publicadas entre los años 2000 y 2010, incluyendo ambos límites.</p>
+</section>
+<section id="combinar-condiciones" class="level3" data-number="11.3">
+<h3 data-number="11.3" class="anchored" data-anchor-id="combinar-condiciones"><span class="header-section-number">11.3</span> Combinar condiciones</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"genres"</span>: <span class="st">"Comedy"</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"year"</span>: {<span class="st">"$gte"</span>: <span class="dv">2000</span>}</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"year"</span>: <span class="dv">1</span>}</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona películas del género Comedy publicadas a partir del año 2000.</p>
+<p>Cuando especificamos condiciones sobre diferentes campos, MongoDB requiere que todas se cumplan.</p>
+</section>
+</section>
+<section id="ordenamiento-y-campos-anidados" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="ordenamiento-y-campos-anidados"><span class="header-section-number">12</span> Ordenamiento y campos anidados</h2>
+<p>Además de filtrar documentos, podemos ordenar los resultados y consultar campos anidados.</p>
+<section id="ordenar-películas-por-año" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="ordenar-películas-por-año"><span class="header-section-number">12.1</span> Ordenar películas por año</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"year"</span>: {<span class="st">"$type"</span>: <span class="st">"number"</span>}},</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"year"</span>: <span class="dv">1</span>}</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>).sort(<span class="st">"year"</span>, <span class="op">-</span><span class="dv">1</span>).limit(<span class="dv">10</span>):</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta recupera diez películas ordenadas desde el año más reciente hasta el más antiguo.</p>
+<p>El valor <code>-1</code> indica un orden descendente.</p>
+<p>Si utilizamos <code>1</code>, el orden será ascendente.</p>
+</section>
+<section id="buscar-películas-con-calificación-imdb-alta" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="buscar-películas-con-calificación-imdb-alta"><span class="header-section-number">12.2</span> Buscar películas con calificación IMDb alta</h3>
+<p>En nuestra base de datos existe un campo llamado <code>imdb</code>.</p>
+<p>Este campo contiene información anidada:</p>
+<pre class="text"><code>imdb
+ ├── rating
+ ├── votes
+ └── id</code></pre>
+<p>Podemos consultar directamente el campo <code>imdb.rating</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pelicula <span class="kw">in</span> coleccion.find(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"imdb.rating"</span>: {<span class="st">"$gte"</span>: <span class="dv">9</span>}},</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"_id"</span>: <span class="dv">0</span>, <span class="st">"title"</span>: <span class="dv">1</span>, <span class="st">"imdb.rating"</span>: <span class="dv">1</span>}</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>).limit(<span class="dv">10</span>):</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pelicula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecciona películas cuya calificación IMDb sea mayor o igual a 9.</p>
+<p>El punto en <code>imdb.rating</code> permite acceder a un campo dentro de un documento anidado.</p>
+</section>
+<section id="contar-películas-de-comedia" class="level3" data-number="12.3">
+<h3 data-number="12.3" class="anchored" data-anchor-id="contar-películas-de-comedia"><span class="header-section-number">12.3</span> Contar películas de comedia</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>total_comedias <span class="op">=</span> coleccion.count_documents({</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"genres"</span>: <span class="st">"Comedy"</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total de películas de comedia:"</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    total_comedias</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta consulta cuenta los documentos que contienen <code>Comedy</code> dentro del arreglo <code>genres</code>.</p>
+<p>A diferencia de <code>find()</code>, no necesitamos recuperar cada documento para realizar el conteo.</p>
+</section>
+</section>
+<section id="procesamiento-de-datos-con-pandas" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="procesamiento-de-datos-con-pandas"><span class="header-section-number">13</span> Procesamiento de datos con pandas</h2>
+<p>Hasta ahora hemos recuperado información desde MongoDB utilizando PyMongo.</p>
+<p>Sin embargo, en algunas situaciones necesitamos organizar los resultados en una tabla para analizarlos.</p>
+<p>Para ello utilizaremos <strong>pandas</strong>.</p>
+<p>pandas es una biblioteca de Python que permite trabajar con datos estructurados mediante objetos llamados <em>DataFrames</em>.</p>
+<section id="instalar-pandas" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="instalar-pandas"><span class="header-section-number">13.1</span> Instalar pandas</h3>
+<p>Si pandas ya está instalado, solamente necesitamos importarlo.</p>
+<p>Si no está instalado, debemos utilizar el comando correspondiente a nuestro entorno.</p>
+<p><strong>Desde PowerShell en Windows:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Desde Terminal en macOS:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Desde Jupyter Notebook en Windows o macOS:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Los comandos de instalación desde PowerShell o Terminal se ejecutan fuera del intérprete de Python.</p>
+<p>En Jupyter Notebook podemos utilizar <code>%pip</code> directamente en una celda.</p>
+<p>La instalación solamente es necesaria si pandas no está disponible en nuestro entorno.</p>
+</div>
+</div>
+</section>
+<section id="importar-pandas" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="importar-pandas"><span class="header-section-number">13.2</span> Importar pandas</h3>
+<p>Una vez instalada la biblioteca, ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si cerramos Python para realizar la instalación, también debemos restablecer la conexión con MongoDB:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pymongo <span class="im">import</span> MongoClient</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>cliente <span class="op">=</span> MongoClient(</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mongodb://localhost:27017/"</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>cliente.admin.command(<span class="st">"ping"</span>)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> cliente[<span class="st">"sample_mflix"</span>]</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>coleccion <span class="op">=</span> db[<span class="st">"movies"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si seguimos en la misma sesión donde ya establecimos la conexión, no necesitamos repetir estas instrucciones.</p>
+</section>
+<section id="recuperar-películas-desde-mongodb" class="level3" data-number="13.3">
+<h3 data-number="13.3" class="anchored" data-anchor-id="recuperar-películas-desde-mongodb"><span class="header-section-number">13.3</span> Recuperar películas desde MongoDB</h3>
+<p>Consultaremos 100 documentos y seleccionaremos tres campos:</p>
+<ul>
+<li>Título.</li>
+<li>Año de publicación.</li>
+<li>Géneros.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>peliculas <span class="op">=</span> <span class="bu">list</span>(</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    coleccion.find(</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>        {},</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"_id"</span>: <span class="dv">0</span>,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"title"</span>: <span class="dv">1</span>,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"year"</span>: <span class="dv">1</span>,</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"genres"</span>: <span class="dv">1</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>    ).limit(<span class="dv">100</span>)</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La función <code>list()</code> convierte los documentos recuperados en una lista de Python.</p>
+</section>
+<section id="construir-un-dataframe" class="level3" data-number="13.4">
+<h3 data-number="13.4" class="anchored" data-anchor-id="construir-un-dataframe"><span class="header-section-number">13.4</span> Construir un DataFrame</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(peliculas)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>pd.DataFrame()</code> permite construir una tabla a partir de los documentos.</p>
+<p>El método <code>head(10)</code> muestra las primeras diez filas.</p>
+<p>En Jupyter Notebook también podemos escribir:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto permite visualizar los resultados mediante una tabla.</p>
+</section>
+<section id="consultar-las-dimensiones" class="level3" data-number="13.5">
+<h3 data-number="13.5" class="anchored" data-anchor-id="consultar-las-dimensiones"><span class="header-section-number">13.5</span> Consultar las dimensiones</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En nuestra práctica obtuvimos:</p>
+<pre class="text"><code>(100, 3)</code></pre>
+<p>Esto indica que tenemos:</p>
+<ul>
+<li>100 filas.</li>
+<li>3 columnas.</li>
+</ul>
+</section>
+<section id="consultar-la-estructura-de-los-datos" class="level3" data-number="13.6">
+<h3 data-number="13.6" class="anchored" data-anchor-id="consultar-la-estructura-de-los-datos"><span class="header-section-number">13.6</span> Consultar la estructura de los datos</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En nuestra práctica encontramos las siguientes columnas:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Columna</th>
+<th>Tipo de información</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>genres</code></td>
+<td>Arreglos de géneros</td>
+</tr>
+<tr class="even">
+<td><code>title</code></td>
+<td>Texto</td>
+</tr>
+<tr class="odd">
+<td><code>year</code></td>
+<td>Número entero</td>
+</tr>
+</tbody>
+</table>
+<p>Los 100 documentos recuperados tenían valores en los tres campos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>La colección de MongoDB contiene 21,349 documentos en nuestra instalación de Windows, pero nuestro DataFrame contiene solamente 100.</p>
+<p>Esta selección se realizó para facilitar los primeros ejercicios.</p>
+<p>Como no especificamos un ordenamiento, MongoDB no garantiza qué documentos formarán parte de los primeros 100 resultados.</p>
+<p>Por lo tanto, esta selección no debe considerarse una muestra representativa de toda la colección.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="análisis-descriptivo-con-pandas" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="análisis-descriptivo-con-pandas"><span class="header-section-number">14</span> Análisis descriptivo con pandas</h2>
+<p>Una vez que tenemos los datos organizados en un DataFrame, podemos realizar operaciones descriptivas.</p>
+<section id="contar-películas-por-año" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="contar-películas-por-año"><span class="header-section-number">14.1</span> Contar películas por año</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"year"</span>].value_counts().head(<span class="dv">10</span>)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>value_counts()</code> cuenta cuántas veces aparece cada valor.</p>
+<p>En este ejemplo recuperamos los diez años más frecuentes dentro de nuestro DataFrame.</p>
+<p>Durante nuestra práctica encontramos que 1931 fue el año más frecuente, con 20 películas.</p>
+</section>
+<section id="calcular-el-año-promedio" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="calcular-el-año-promedio"><span class="header-section-number">14.2</span> Calcular el año promedio</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Año promedio:"</span>,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">round</span>(df[<span class="st">"year"</span>].mean(), <span class="dv">2</span>)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>mean()</code> calcula el promedio de una columna numérica.</p>
+<p>En nuestra práctica obtuvimos:</p>
+<pre class="text"><code>Año promedio: 1925.81</code></pre>
+<p>Este promedio corresponde exclusivamente a los 100 documentos recuperados.</p>
+</section>
+<section id="contar-películas-por-género" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="contar-películas-por-género"><span class="header-section-number">14.3</span> Contar películas por género</h3>
+<p>El campo <code>genres</code> contiene listas.</p>
+<p>Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>[<span class="st">"Comedy"</span>, <span class="st">"Drama"</span>, <span class="st">"Family"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para analizar los géneros necesitamos separar los elementos de cada lista.</p>
+<p>Utilizaremos el método <code>explode()</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>generos <span class="op">=</span> df.explode(<span class="st">"genres"</span>)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    generos[<span class="st">"genres"</span>].value_counts().head(<span class="dv">10</span>)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>explode()</code> genera una fila por cada género.</p>
+<p>Por ejemplo, si una película pertenece a Comedy y Drama, ambos géneros se contabilizan.</p>
+<p>Durante nuestra práctica obtuvimos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Género</th>
+<th style="text-align: right;">Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Drama</td>
+<td style="text-align: right;">61</td>
+</tr>
+<tr class="even">
+<td>Comedy</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="odd">
+<td>Romance</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="even">
+<td>Short</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td>Adventure</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>Crime</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>Family</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>Western</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td>Action</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td>Musical</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Interpretación</strong></p>
+<p>Dentro de los 100 documentos recuperados, Drama fue el género más frecuente.</p>
+<p>Sin embargo, las frecuencias de los géneros no necesariamente suman 100, porque una película puede pertenecer a varias categorías.</p>
+<p>Estos resultados no representan la distribución de géneros de toda la colección.</p>
+<p>Los valores pueden cambiar si recuperamos un conjunto diferente de películas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exportación-de-información" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="exportación-de-información"><span class="header-section-number">15</span> Exportación de información</h2>
+<p>Una ventaja de utilizar pandas es que podemos exportar los datos recuperados desde MongoDB.</p>
+<p>Esto permite generar archivos que posteriormente pueden abrirse en Excel u otras herramientas.</p>
+<section id="exportar-a-csv" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="exportar-a-csv"><span class="header-section-number">15.1</span> Exportar a CSV</h3>
+<p>Utilizaremos el método <code>to_csv()</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"peliculas_mongodb.csv"</span>,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8-sig"</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo CSV creado correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este código guarda el DataFrame en un archivo llamado <code>peliculas_mongodb.csv</code>.</p>
+<p>En este ejemplo:</p>
+<ul>
+<li><code>index=False</code> evita agregar una columna con los índices de pandas.</li>
+<li><code>encoding="utf-8-sig"</code> facilita la visualización de caracteres especiales al abrir el CSV en Excel.</li>
+</ul>
+</section>
+<section id="consultar-la-ubicación-del-archivo" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="consultar-la-ubicación-del-archivo"><span class="header-section-number">15.2</span> Consultar la ubicación del archivo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La función <code>os.getcwd()</code> muestra el directorio de trabajo actual.</p>
+<p>Durante nuestra práctica de Windows obtuvimos:</p>
+<pre class="text"><code>C:\Users\santi</code></pre>
+<p>En macOS aparecerá una ruta correspondiente al directorio de trabajo utilizado.</p>
+<p>En Jupyter Notebook, normalmente el archivo se guarda en el directorio de trabajo del cuaderno.</p>
+</section>
+<section id="exportar-a-excel" class="level3" data-number="15.3">
+<h3 data-number="15.3" class="anchored" data-anchor-id="exportar-a-excel"><span class="header-section-number">15.3</span> Exportar a Excel</h3>
+<p>Para generar un archivo de Excel utilizaremos el método <code>to_excel()</code>.</p>
+<p>Este procedimiento requiere una biblioteca compatible con la escritura de archivos <code>.xlsx</code>, como <code>openpyxl</code>.</p>
+</section>
+<section id="instalar-openpyxl" class="level3" data-number="15.4">
+<h3 data-number="15.4" class="anchored" data-anchor-id="instalar-openpyxl"><span class="header-section-number">15.4</span> Instalar openpyxl</h3>
+<p>Si no está instalada, utilizamos el comando correspondiente a nuestro entorno.</p>
+<p><strong>Desde PowerShell en Windows:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install openpyxl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Desde Terminal en macOS:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install openpyxl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Desde Jupyter Notebook en Windows o macOS:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install openpyxl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La instalación solamente es necesaria si la biblioteca no está disponible.</p>
+</section>
+<section id="generar-el-archivo-excel" class="level3" data-number="15.5">
+<h3 data-number="15.5" class="anchored" data-anchor-id="generar-el-archivo-excel"><span class="header-section-number">15.5</span> Generar el archivo Excel</h3>
+<p>Con el DataFrame <code>df</code> disponible, ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>df.to_excel(</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"peliculas_mongodb.xlsx"</span>,</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo Excel creado correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este procedimiento genera un archivo de Excel en el directorio de trabajo.</p>
+<p>Si cerramos Python para instalar <code>openpyxl</code> y anteriormente exportamos el archivo CSV, podemos recuperar el DataFrame mediante:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"peliculas_mongodb.csv"</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después podemos ejecutar nuevamente <code>to_excel()</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Consideración sobre los arreglos</strong></p>
+<p>Cuando exportamos la columna <code>genres</code> a CSV o Excel, las listas de géneros se representan como texto dentro de las celdas.</p>
+<p>Si posteriormente necesitamos analizar los géneros individualmente, es preferible trabajar con el DataFrame original o transformar previamente las listas en una estructura adecuada.</p>
+<p>En nuestra práctica identificamos que faltaba instalar <code>openpyxl</code>. La generación del archivo Excel debe comprobarse después de realizar esa instalación.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="relación-entre-mongosh-y-pymongo" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="relación-entre-mongosh-y-pymongo"><span class="header-section-number">16</span> Relación entre <code>mongosh</code> y PyMongo</h2>
+<p>Las consultas que hemos realizado desde Python son similares a las que aprendimos anteriormente en <code>mongosh</code>.</p>
+<p>La principal diferencia es la forma de escribirlas.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operación</th>
+<th><code>mongosh</code></th>
+<th>PyMongo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Recuperar documentos</td>
+<td><code>db.movies.find()</code></td>
+<td><code>coleccion.find()</code></td>
+</tr>
+<tr class="even">
+<td>Recuperar un documento</td>
+<td><code>db.movies.findOne()</code></td>
+<td><code>coleccion.find_one()</code></td>
+</tr>
+<tr class="odd">
+<td>Contar documentos</td>
+<td><code>db.movies.countDocuments({})</code></td>
+<td><code>coleccion.count_documents({})</code></td>
+</tr>
+<tr class="even">
+<td>Insertar un documento</td>
+<td><code>db.movies.insertOne()</code></td>
+<td><code>coleccion.insert_one()</code></td>
+</tr>
+<tr class="odd">
+<td>Actualizar un documento</td>
+<td><code>db.movies.updateOne()</code></td>
+<td><code>coleccion.update_one()</code></td>
+</tr>
+<tr class="even">
+<td>Eliminar un documento</td>
+<td><code>db.movies.deleteOne()</code></td>
+<td><code>coleccion.delete_one()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Aunque Python y JavaScript utilizan una sintaxis diferente, los operadores de MongoDB mantienen el mismo significado.</p>
+<p>Por ejemplo, en <code>mongosh</code> podemos escribir:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>db<span class="op">.</span><span class="at">movies</span><span class="op">.</span><span class="fu">find</span>({</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">year</span><span class="op">:</span> {<span class="dt">$gt</span><span class="op">:</span> <span class="dv">2000</span>}</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Mientras que en Python escribimos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>coleccion.find({</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"year"</span>: {<span class="st">"$gt"</span>: <span class="dv">2000</span>}</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ambas consultas seleccionan películas publicadas después del año 2000.</p>
+<p>En Python, los nombres de los campos y operadores se escriben como claves de diccionarios.</p>
+</section>
+<section id="errores-frecuentes" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="errores-frecuentes"><span class="header-section-number">17</span> Errores frecuentes</h2>
+<p>Durante las prácticas pueden presentarse errores relacionados con las instalaciones, la conexión o el manejo de los datos.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problema</th>
+<th>Posible causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>python</code> no se reconoce</td>
+<td>Python no está instalado o no está en PATH</td>
+<td>Revisar la instalación</td>
+</tr>
+<tr class="even">
+<td><code>jupyter</code> no se reconoce</td>
+<td>Jupyter no está instalado o no está disponible en el entorno</td>
+<td>Revisar su instalación</td>
+</tr>
+<tr class="odd">
+<td><code>ModuleNotFoundError: pymongo</code></td>
+<td>PyMongo no está instalado en ese entorno</td>
+<td>Instalar PyMongo</td>
+</tr>
+<tr class="even">
+<td><code>ServerSelectionTimeoutError</code></td>
+<td>MongoDB no responde</td>
+<td>Verificar <code>mongod</code> y el puerto</td>
+</tr>
+<tr class="odd">
+<td>No aparecen documentos</td>
+<td>Base de datos o colección incorrecta</td>
+<td>Verificar los nombres</td>
+</tr>
+<tr class="even">
+<td><code>ModuleNotFoundError: pandas</code></td>
+<td>pandas no está instalado</td>
+<td>Instalar pandas</td>
+</tr>
+<tr class="odd">
+<td><code>ModuleNotFoundError: openpyxl</code></td>
+<td>Falta la biblioteca para exportar Excel</td>
+<td>Instalar openpyxl</td>
+</tr>
+<tr class="even">
+<td><code>KeyError</code></td>
+<td>El campo no existe en el documento</td>
+<td>Revisar los nombres de los campos</td>
+</tr>
+<tr class="odd">
+<td>Resultados diferentes</td>
+<td>Se recuperaron documentos distintos</td>
+<td>Aplicar filtros y ordenamientos</td>
+</tr>
+</tbody>
+</table>
+<section id="comprobar-la-conexión-1" class="level3" data-number="17.1">
+<h3 data-number="17.1" class="anchored" data-anchor-id="comprobar-la-conexión-1"><span class="header-section-number">17.1</span> Comprobar la conexión</h3>
+<p>Si no podemos recuperar información, primero verificamos que MongoDB esté funcionando.</p>
+<p>Después, desde Python, ejecutamos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>cliente.admin.command(<span class="st">"ping"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Una respuesta con <code>ok: 1.0</code> confirma que el servidor responde.</p>
+</section>
+<section id="comprobar-las-colecciones" class="level3" data-number="17.2">
+<h3 data-number="17.2" class="anchored" data-anchor-id="comprobar-las-colecciones"><span class="header-section-number">17.2</span> Comprobar las colecciones</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(db.list_collection_names())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta instrucción muestra las colecciones disponibles en la base de datos seleccionada.</p>
+</section>
+<section id="diferenciar-powershell-terminal-mongosh-y-python" class="level3" data-number="17.3">
+<h3 data-number="17.3" class="anchored" data-anchor-id="diferenciar-powershell-terminal-mongosh-y-python"><span class="header-section-number">17.3</span> Diferenciar PowerShell, Terminal, mongosh y Python</h3>
+<p>Es importante identificar dónde debemos escribir cada instrucción.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Entorno</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PowerShell</td>
+<td><code>python --version</code></td>
+</tr>
+<tr class="even">
+<td>Terminal de macOS</td>
+<td><code>python3 --version</code></td>
+</tr>
+<tr class="odd">
+<td><code>mongosh</code></td>
+<td><code>show collections</code></td>
+</tr>
+<tr class="even">
+<td>Python</td>
+<td><code>coleccion.find_one()</code></td>
+</tr>
+<tr class="odd">
+<td>Jupyter Notebook</td>
+<td>Código Python dentro de celdas</td>
+</tr>
+</tbody>
+</table>
+<p>Los comandos de instalación y administración del sistema no deben confundirse con las instrucciones de Python.</p>
+</section>
+<section id="cerrar-la-conexión" class="level3" data-number="17.4">
+<h3 data-number="17.4" class="anchored" data-anchor-id="cerrar-la-conexión"><span class="header-section-number">17.4</span> Cerrar la conexión</h3>
+<p>Cuando terminemos de trabajar podemos cerrar el cliente:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>cliente.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esto libera los recursos asociados a la conexión.</p>
+<p>Si posteriormente necesitamos consultar MongoDB nuevamente, debemos crear una nueva conexión.</p>
+</section>
+</section>
+<section id="actividad-individual-consultas-y-análisis-de-películas" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="actividad-individual-consultas-y-análisis-de-películas"><span class="header-section-number">18</span> Actividad individual: consultas y análisis de películas</h2>
+<p>En esta actividad aplicarás los conocimientos adquiridos para consultar y procesar información de MongoDB mediante Python.</p>
+<p>Utilizarás la base de datos <code>sample_mflix</code> y la colección <code>movies</code>.</p>
+<p>Podrás desarrollar la actividad desde cualquiera de los cuatro entornos presentados durante el apunte.</p>
+<p>La actividad se divide en tres partes:</p>
+<ul>
+<li><strong>Parte A. Conexión y consultas con PyMongo.</strong></li>
+<li><strong>Parte B. Consultas con filtros y ordenamientos.</strong></li>
+<li><strong>Parte C. Procesamiento y análisis con pandas.</strong></li>
+</ul>
+<section id="instrucciones-generales" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="instrucciones-generales"><span class="header-section-number">18.1</span> Instrucciones generales</h3>
+<ol type="1">
+<li>Inicia MongoDB en tu computadora.</li>
+<li>Selecciona uno de los cuatro entornos de trabajo.</li>
+<li>Establece la conexión mediante PyMongo.</li>
+<li>Selecciona la base de datos <code>sample_mflix</code>.</li>
+<li>Utiliza la colección <code>movies</code>.</li>
+<li>Resuelve cada ejercicio utilizando Python.</li>
+<li>Ejecuta las consultas y verifica sus resultados.</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Durante esta actividad realizaremos únicamente operaciones de consulta y análisis.</p>
+<p>No es necesario modificar ni eliminar documentos de la base de datos.</p>
+</div>
+</div>
+</section>
+<section id="parte-a.-conexión-y-consultas-con-pymongo" class="level3" data-number="18.2">
+<h3 data-number="18.2" class="anchored" data-anchor-id="parte-a.-conexión-y-consultas-con-pymongo"><span class="header-section-number">18.2</span> Parte A. Conexión y consultas con PyMongo</h3>
+<p>Resuelve los siguientes ejercicios:</p>
+<ol type="1">
+<li><p>Establece una conexión entre Python y MongoDB y comprueba que el servidor responde correctamente.</p></li>
+<li><p>Recupera la cantidad total de documentos almacenados en la colección <code>movies</code>.</p></li>
+<li><p>Recupera los títulos y años de publicación de las primeras diez películas devueltas por una consulta.</p></li>
+<li><p>Busca una película por su título y muestra también su año de publicación.</p></li>
+</ol>
+</section>
+<section id="parte-b.-consultas-con-filtros-y-ordenamientos" class="level3" data-number="18.3">
+<h3 data-number="18.3" class="anchored" data-anchor-id="parte-b.-consultas-con-filtros-y-ordenamientos"><span class="header-section-number">18.3</span> Parte B. Consultas con filtros y ordenamientos</h3>
+<p>Resuelve los siguientes ejercicios:</p>
+<ol type="1">
+<li><p>Recupera diez películas publicadas después del año 2010, mostrando únicamente el título y el año.</p></li>
+<li><p>Recupera diez películas que pertenezcan al género <code>Drama</code>.</p></li>
+<li><p>Recupera diez películas que tengan una calificación IMDb mayor o igual a 8.</p></li>
+<li><p>Recupera diez películas publicadas entre 2000 y 2010, ordenadas por año de publicación de mayor a menor.</p></li>
+<li><p>Cuenta cuántas películas pertenecen al género <code>Action</code>.</p></li>
+</ol>
+</section>
+<section id="parte-c.-procesamiento-y-análisis-con-pandas" class="level3" data-number="18.4">
+<h3 data-number="18.4" class="anchored" data-anchor-id="parte-c.-procesamiento-y-análisis-con-pandas"><span class="header-section-number">18.4</span> Parte C. Procesamiento y análisis con pandas</h3>
+<p>Utiliza los documentos de MongoDB para realizar los siguientes ejercicios:</p>
+<ol type="1">
+<li><p>Recupera 200 películas, seleccionando los campos <code>title</code>, <code>year</code> y <code>genres</code>, y construye un DataFrame.</p></li>
+<li><p>Muestra las primeras diez filas del DataFrame y consulta sus dimensiones.</p></li>
+<li><p>Identifica los cinco años más frecuentes dentro de los documentos recuperados.</p></li>
+<li><p>Calcula el promedio de los años de publicación.</p></li>
+<li><p>Utiliza <code>explode()</code> para identificar los cinco géneros más frecuentes.</p></li>
+<li><p>Exporta el DataFrame a un archivo CSV.</p></li>
+</ol>
+</section>
+<section id="indicaciones-de-entrega" class="level3" data-number="18.5">
+<h3 data-number="18.5" class="anchored" data-anchor-id="indicaciones-de-entrega"><span class="header-section-number">18.5</span> Indicaciones de entrega</h3>
+<p>La actividad deberá entregarse en un documento PDF que incluya:</p>
+<ul>
+<li>Nombre completo del estudiante.</li>
+<li>Parte A: cuatro ejercicios de conexión y consultas.</li>
+<li>Parte B: cinco ejercicios de filtros y ordenamientos.</li>
+<li>Parte C: seis ejercicios de procesamiento y análisis.</li>
+<li>Código utilizado en cada ejercicio.</li>
+<li>Capturas de pantalla de las ejecuciones y resultados.</li>
+</ul>
+<p>Los ejercicios deberán presentarse en el orden correspondiente.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Recomendación</strong></p>
+<p>Antes de entregar la actividad, comprueba que todas las consultas se ejecuten correctamente.</p>
+<p>Recuerda que los resultados del análisis con pandas dependen del conjunto de películas recuperado desde MongoDB.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
