@@ -1,3 +1,4 @@
+
 ---
 title: "Datasets"
 ---
@@ -35,3 +36,65 @@ Contiene más de 1.2 millones de registros de temperatura y humedad provenientes
    download>
    Descargar dataset CSV
 </a>
+
+---
+
+## Red internacional de aeropuertos y rutas aéreas
+
+Conjuntos de datos utilizados en el **Apunte 17: Consultas avanzadas y recorridos de grafos en Neo4j**.
+
+La información original procede del proyecto [OpenFlights](https://openflights.org/data.php), que proporciona registros históricos de aeropuertos y conexiones aéreas internacionales.
+
+Para ampliar las posibilidades de análisis, se generó un conjunto complementario con distancias geográficas calculadas y valores simulados de tiempos, costos y precios.
+
+Estos archivos permiten importar información a Neo4j, construir grafos de mayor tamaño, identificar conexiones directas e indirectas y comparar recorridos mediante diferentes criterios.
+
+### 1. Aeropuertos
+
+Archivo original de OpenFlights que contiene información sobre aeropuertos internacionales, incluyendo nombres, ciudades, países, códigos de identificación y coordenadas geográficas.
+
+**Formato:** DAT (texto delimitado por comas).
+
+<a class="btn btn-primary"
+   href="datasets/airports.dat"
+   download="airports.dat">
+   Descargar aeropuertos
+</a>
+
+### 2. Rutas aéreas
+
+Archivo original de OpenFlights que contiene registros históricos de conexiones entre aeropuertos, incluyendo información de origen, destino y aerolínea.
+
+**Formato:** DAT (texto delimitado por comas).
+
+<a class="btn btn-primary"
+   href="datasets/routes.dat"
+   download="routes.dat">
+   Descargar rutas aéreas
+</a>
+
+### 3. Rutas con costos y precios simulados
+
+Conjunto de datos complementario elaborado para las prácticas del curso a partir de las conexiones históricas de OpenFlights.
+
+Contiene 36,906 conexiones dirigidas únicas, con información de distancias geográficas y variables simuladas de tiempo, costo operativo y precio de boleto.
+
+Este archivo permite desarrollar consultas avanzadas para comparar rutas según número de conexiones, distancia, tiempo, costo y precio.
+
+**Formato:** CSV.
+
+<a class="btn btn-primary"
+   href="datasets/rutas_costos_precios_simulados.csv"
+   download>
+   Descargar rutas con costos y precios
+</a>
+
+::: {.callout-warning}
+**Importante sobre los datos**
+
+Los archivos originales de OpenFlights contienen información histórica que no debe interpretarse como rutas aéreas vigentes.
+
+Los tiempos, costos y precios del archivo complementario son **simulaciones creadas exclusivamente con fines educativos**. No representan tarifas comerciales ni costos operativos reales.
+
+Fuente original: [OpenFlights](https://openflights.org/data.php). Los datos originales se distribuyen bajo la licencia Open Database License (ODbL).
+:::
