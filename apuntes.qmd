@@ -184,4 +184,56 @@ Introducción a los lenguajes XPath y XQuery para consultar y recuperar informac
 </a>
 
 
+---
+
+## Conexión y operaciones con MongoDB desde Python
+
+Introducción a la conexión de Python con MongoDB mediante PyMongo. Se revisan las operaciones para insertar, consultar, actualizar y eliminar documentos, así como la aplicación de filtros, ordenamientos y la integración con pandas para procesar y exportar información.
+
+<a class="btn btn-primary"
+   href="apuntes/16_json_mongodb_python.html">
+   Abrir apunte
+</a>
+
+
+
+
+
+
+## Consultas avanzadas y recorridos de grafos en Neo4j
+
+Consultas avanzadas con Cypher, relaciones de longitud variable, rutas y recorridos de grafos.
+
+<a class="btn btn-primary"
+   href="apuntes/17_consultas_avanzadas_neo4j.html">
+   Abrir apunte
+</a>
+
+---
+
+
+
+## Integración, limpieza y validación de datos
+
+Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.
+
+<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
+
+---
+
+## Acceso a Neo4j desde Python
+
+Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.
+
+<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
+
+---
+
+## Proyecto integrador y aspectos éticos del tratamiento de datos
+
+Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.
+
+<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
+
+
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Apuntes del curso – Bases de Datos No Relacionales</title>
+<title>Integración, limpieza y validación de datos – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f06303d6082cb8a84bbcc3b60da1c1dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bases de Datos No Relacionales</span>
     </a>
   </div>
@@ -96,23 +96,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./apuntes.html" aria-current="page"> 
+    <a class="nav-link" href="../apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./practicas.html"> 
+    <a class="nav-link" href="../practicas.html"> 
 <span class="menu-text">Prácticas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./manuales.html"> 
+    <a class="nav-link" href="../manuales.html"> 
 <span class="menu-text">Manuales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datasets.html"> 
+    <a class="nav-link" href="../datasets.html"> 
 <span class="menu-text">Datasets</span></a>
   </li>  
 </ul>
@@ -138,21 +138,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#de-las-bases-de-datos-relacionales-a-nosql" id="toc-de-las-bases-de-datos-relacionales-a-nosql" class="nav-link active" data-scroll-target="#de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</a></li>
-  <li><a href="#escalabilidad-y-bases-de-datos-distribuidas" id="toc-escalabilidad-y-bases-de-datos-distribuidas" class="nav-link" data-scroll-target="#escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</a></li>
-  <li><a href="#bases-de-datos-orientadas-a-documentos" id="toc-bases-de-datos-orientadas-a-documentos" class="nav-link" data-scroll-target="#bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</a></li>
-  <li><a href="#consultas-y-manejo-de-documentos-en-mongodb" id="toc-consultas-y-manejo-de-documentos-en-mongodb" class="nav-link" data-scroll-target="#consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</a></li>
-  <li><a href="#modelado-de-relaciones-en-mongodb" id="toc-modelado-de-relaciones-en-mongodb" class="nav-link" data-scroll-target="#modelado-de-relaciones-en-mongodb">Modelado de relaciones en MongoDB</a></li>
-  <li><a href="#bases-de-datos-clavevalor" id="toc-bases-de-datos-clavevalor" class="nav-link" data-scroll-target="#bases-de-datos-clavevalor">Bases de datos clave–valor</a></li>
-  <li><a href="#redis-comandos-y-práctica-con-bases-clavevalor" id="toc-redis-comandos-y-práctica-con-bases-clavevalor" class="nav-link" data-scroll-target="#redis-comandos-y-práctica-con-bases-clavevalor">Redis: comandos y práctica con bases clave–valor</a></li>
-  <li><a href="#fundamentos-de-las-bases-de-datos-orientadas-a-columnas" id="toc-fundamentos-de-las-bases-de-datos-orientadas-a-columnas" class="nav-link" data-scroll-target="#fundamentos-de-las-bases-de-datos-orientadas-a-columnas">Fundamentos de las bases de datos orientadas a columnas</a></li>
-  <li><a href="#apache-cassandra-comandos-y-consultas-con-cql" id="toc-apache-cassandra-comandos-y-consultas-con-cql" class="nav-link" data-scroll-target="#apache-cassandra-comandos-y-consultas-con-cql">Apache Cassandra: comandos y consultas con CQL</a></li>
-  <li><a href="#carga-masiva-y-consultas-de-datos-en-apache-cassandra" id="toc-carga-masiva-y-consultas-de-datos-en-apache-cassandra" class="nav-link" data-scroll-target="#carga-masiva-y-consultas-de-datos-en-apache-cassandra">Carga masiva y consultas de datos en Apache Cassandra</a></li>
-  <li><a href="#fundamentos-de-las-bases-de-datos-orientadas-a-grafos" id="toc-fundamentos-de-las-bases-de-datos-orientadas-a-grafos" class="nav-link" data-scroll-target="#fundamentos-de-las-bases-de-datos-orientadas-a-grafos">Fundamentos de las bases de datos orientadas a grafos</a></li>
-  <li><a href="#neo4j-primeros-comandos-y-consultas-con-cypher" id="toc-neo4j-primeros-comandos-y-consultas-con-cypher" class="nav-link" data-scroll-target="#neo4j-primeros-comandos-y-consultas-con-cypher">Neo4j: primeros comandos y consultas con Cypher</a></li>
-  <li><a href="#el-problema-de-los-siete-puentes-de-königsberg" id="toc-el-problema-de-los-siete-puentes-de-königsberg" class="nav-link" data-scroll-target="#el-problema-de-los-siete-puentes-de-königsberg">El problema de los siete puentes de Königsberg</a></li>
-  <li><a href="#introducción-a-xml-estructura-elementos-y-atributos" id="toc-introducción-a-xml-estructura-elementos-y-atributos" class="nav-link" data-scroll-target="#introducción-a-xml-estructura-elementos-y-atributos">Introducción a XML: estructura, elementos y atributos</a></li>
-  <li><a href="#consultas-xml-mediante-xpath-y-xquery" id="toc-consultas-xml-mediante-xpath-y-xquery" class="nav-link" data-scroll-target="#consultas-xml-mediante-xpath-y-xquery">Consultas XML mediante XPath y XQuery</a></li>
+  <li><a href="#próximamente" id="toc-próximamente" class="nav-link active" data-scroll-target="#próximamente"><span class="header-section-number">1</span> Próximamente</a></li>
   </ul>
 </nav>
     </div>
@@ -161,7 +147,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Apuntes del curso</h1>
+<h1 class="title">Integración, limpieza y validación de datos</h1>
+<p class="subtitle lead">Bases de Datos No Relacionales</p>
 </div>
 
 
@@ -178,97 +165,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>En esta sección se presentan materiales complementarios para ampliar los contenidos revisados durante el curso.</p>
-<p>Los apuntes se encuentran organizados de acuerdo con los principales conceptos y modelos de bases de datos no relacionales.</p>
-<section id="de-las-bases-de-datos-relacionales-a-nosql" class="level2">
-<h2 class="anchored" data-anchor-id="de-las-bases-de-datos-relacionales-a-nosql">De las bases de datos relacionales a NoSQL</h2>
-<p>Introducción a la evolución de las bases de datos, los diferentes tipos de información y las razones que dieron origen a los modelos NoSQL.</p>
-<p><a class="btn btn-primary" href="apuntes/01_relacional_a_nosql.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="escalabilidad-y-bases-de-datos-distribuidas" class="level2">
-<h2 class="anchored" data-anchor-id="escalabilidad-y-bases-de-datos-distribuidas">Escalabilidad y bases de datos distribuidas</h2>
-<p>Conceptos fundamentales para comprender cómo se almacenan y procesan grandes volúmenes de información en sistemas distribuidos.</p>
-<p><a class="btn btn-primary" href="apuntes/02_escalabilidad_bases_distribuidas.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="bases-de-datos-orientadas-a-documentos" class="level2">
-<h2 class="anchored" data-anchor-id="bases-de-datos-orientadas-a-documentos">Bases de datos orientadas a documentos</h2>
-<p>Introducción al modelo documental, su estructura, características y principales aplicaciones.</p>
-<p><a class="btn btn-primary" href="apuntes/03_bases_orientadas_documentos.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="consultas-y-manejo-de-documentos-en-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="consultas-y-manejo-de-documentos-en-mongodb">Consultas y manejo de documentos en MongoDB</h2>
-<p>Operaciones básicas para insertar, consultar, filtrar y exportar documentos utilizando MongoDB.</p>
-<p><a class="btn btn-primary" href="apuntes/04_consultas_mongodb.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="modelado-de-relaciones-en-mongodb" class="level2">
-<h2 class="anchored" data-anchor-id="modelado-de-relaciones-en-mongodb">Modelado de relaciones en MongoDB</h2>
-<p>Introducción al modelado de relaciones en bases documentales mediante documentos incrustados y referencias. Se revisan relaciones uno a uno, uno a muchos y muchos a muchos mediante un ejemplo práctico de biblioteca y su visualización con Data Modeling en MongoDB Compass.</p>
-<p><a class="btn btn-primary" href="apuntes/05_modelado_relaciones_mongodb.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="bases-de-datos-clavevalor" class="level2">
-<h2 class="anchored" data-anchor-id="bases-de-datos-clavevalor">Bases de datos clave–valor</h2>
-<p>Introducción al modelo clave–valor, su funcionamiento, casos de uso y una demostración práctica mediante Redis.</p>
-<p><a class="btn btn-primary" href="apuntes/06_bases_clave_valor.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="redis-comandos-y-práctica-con-bases-clavevalor" class="level2">
-<h2 class="anchored" data-anchor-id="redis-comandos-y-práctica-con-bases-clavevalor">Redis: comandos y práctica con bases clave–valor</h2>
-<p>Comandos principales de Redis para trabajar con strings, hashes, listas, sets, sorted sets, expiración de claves, transacciones y otros elementos básicos.</p>
-<p><a class="btn btn-primary" href="apuntes/07_redis_comandos_practica.html"> Abrir apunte </a></p>
-<hr>
-<hr>
-</section>
-<section id="fundamentos-de-las-bases-de-datos-orientadas-a-columnas" class="level2">
-<h2 class="anchored" data-anchor-id="fundamentos-de-las-bases-de-datos-orientadas-a-columnas">Fundamentos de las bases de datos orientadas a columnas</h2>
-<p>Introducción al modelo de familias de columnas, su organización, escalabilidad horizontal, particionamiento y aplicaciones mediante un ejemplo de monitoreo ambiental.</p>
-<p><a class="btn btn-primary" href="apuntes/08_bases_orientadas_columnas.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="apache-cassandra-comandos-y-consultas-con-cql" class="level2">
-<h2 class="anchored" data-anchor-id="apache-cassandra-comandos-y-consultas-con-cql">Apache Cassandra: comandos y consultas con CQL</h2>
-<p>Introducción al uso de Apache Cassandra mediante comandos CQL para crear espacios de claves, definir tablas, insertar, actualizar y consultar registros. Se utilizará un sistema de monitoreo de temperatura y humedad como ejemplo práctico.</p>
-<p><a class="btn btn-primary" href="apuntes/09_comandos_cassandra.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="carga-masiva-y-consultas-de-datos-en-apache-cassandra" class="level2">
-<h2 class="anchored" data-anchor-id="carga-masiva-y-consultas-de-datos-en-apache-cassandra">Carga masiva y consultas de datos en Apache Cassandra</h2>
-<p>Simulación de más de 1.2 millones de mediciones ambientales para trabajar con carga masiva, particionamiento y consultas sobre grandes volúmenes de datos en Apache Cassandra.</p>
-<p><a class="btn btn-primary" href="apuntes/10_carga_masiva_cassandra.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="fundamentos-de-las-bases-de-datos-orientadas-a-grafos" class="level2">
-<h2 class="anchored" data-anchor-id="fundamentos-de-las-bases-de-datos-orientadas-a-grafos">Fundamentos de las bases de datos orientadas a grafos</h2>
-<p>Introducción al modelo de grafos, sus principales elementos (nodos, relaciones y propiedades), grafos dirigidos y no dirigidos, recorridos y conexiones entre entidades. Se presentan ejemplos de redes sociales, sistemas de recomendaciones y redes complejas, así como sus aplicaciones en Ciencia de Datos.</p>
-<p><a class="btn btn-primary" href="apuntes/11_bases_orientadas_grafos.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="neo4j-primeros-comandos-y-consultas-con-cypher" class="level2">
-<h2 class="anchored" data-anchor-id="neo4j-primeros-comandos-y-consultas-con-cypher">Neo4j: primeros comandos y consultas con Cypher</h2>
-<p>Introducción práctica a Neo4j y al lenguaje Cypher para crear nodos, establecer relaciones y consultar grafos. Se revisan los comandos básicos para construir y explorar una red social.</p>
-<p><a class="btn btn-primary" href="apuntes/12_neo4j_comandos_practica.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="el-problema-de-los-siete-puentes-de-königsberg" class="level2">
-<h2 class="anchored" data-anchor-id="el-problema-de-los-siete-puentes-de-königsberg">El problema de los siete puentes de Königsberg</h2>
-<p>Introducción a la teoría de grafos mediante el problema de los siete puentes de Königsberg. Se representa el problema en Neo4j y se utilizan los conceptos de grado y camino euleriano para demostrar cuándo existe un recorrido válido.</p>
-<p><a class="btn btn-primary" href="apuntes/13_siete_puentes_konigsberg.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="introducción-a-xml-estructura-elementos-y-atributos" class="level2">
-<h2 class="anchored" data-anchor-id="introducción-a-xml-estructura-elementos-y-atributos">Introducción a XML: estructura, elementos y atributos</h2>
-<p>Introducción al lenguaje XML para representar información semiestructurada. Se estudian los elementos, atributos, estructuras jerárquicas y reglas de documentos bien formados, así como sus aplicaciones reales. Incluye una práctica de procesamiento y consolidación de archivos XML mediante Python y Google Colab.</p>
-<p><a class="btn btn-primary" href="apuntes/14_introduccion_xml.html"> Abrir apunte </a></p>
-<hr>
-</section>
-<section id="consultas-xml-mediante-xpath-y-xquery" class="level2">
-<h2 class="anchored" data-anchor-id="consultas-xml-mediante-xpath-y-xquery">Consultas XML mediante XPath y XQuery</h2>
-<p>Introducción a los lenguajes XPath y XQuery para consultar y recuperar información de documentos XML. Incluye selección de elementos y atributos, aplicación de filtros, funciones, ordenamiento y construcción de resultados mediante consultas prácticas en BXFiddle.</p>
-<p><a class="btn btn-primary" href="apuntes/15_consultas_xml_xpath_xquery.html"> Abrir apunte </a></p>
+<section id="próximamente" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="próximamente"><span class="header-section-number">1</span> Próximamente</h2>
+<p>Este apunte se encuentra en preparación.</p>
+<p><strong>Contenido previsto:</strong> Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.</p>
+<p>El material se habilitará cuando esté terminado y revisado.</p>
 
 
 </section>
@@ -347,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

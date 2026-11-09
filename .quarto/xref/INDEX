@@ -109,5 +109,17 @@
   },
   "apuntes/16_json_mongodb_python.qmd": {
     "16_json_mongodb_python.html": "12a84cc5"
+  },
+  "apuntes/20_proyecto_integrador_etica_datos.qmd": {
+    "20_proyecto_integrador_etica_datos.html": "a341a942"
+  },
+  "apuntes/17_consultas_avanzadas_neo4j.qmd": {
+    "17_consultas_avanzadas_neo4j.html": "ef46ee6f"
+  },
+  "apuntes/19_acceso_neo4j_python.qmd": {
+    "19_acceso_neo4j_python.html": "4a2533b1"
+  },
+  "apuntes/18_integracion_limpieza_validacion_datos.qmd": {
+    "18_integracion_limpieza_validacion_datos.html": "a1396dcc"
   }
 }

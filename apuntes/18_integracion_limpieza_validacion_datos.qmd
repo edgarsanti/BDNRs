@@ -1,0 +1,17 @@
+---
+title: "Integración, limpieza y validación de datos"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Próximamente
+
+Este apunte se encuentra en preparación.
+
+**Contenido previsto:** Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.
+
+El material se habilitará cuando esté terminado y revisado.

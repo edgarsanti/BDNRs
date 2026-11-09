@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Diapositivas – Bases de Datos No Relacionales</title>
+<title>Acceso a Neo4j desde Python – Bases de Datos No Relacionales</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1df38e4ac652cbf2dfa50065055d0af7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f06303d6082cb8a84bbcc3b60da1c1dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bases de Datos No Relacionales</span>
     </a>
   </div>
@@ -96,23 +96,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./apuntes.html"> 
+    <a class="nav-link" href="../apuntes.html"> 
 <span class="menu-text">Apuntes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./practicas.html"> 
+    <a class="nav-link" href="../practicas.html"> 
 <span class="menu-text">Prácticas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./manuales.html"> 
+    <a class="nav-link" href="../manuales.html"> 
 <span class="menu-text">Manuales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datasets.html"> 
+    <a class="nav-link" href="../datasets.html"> 
 <span class="menu-text">Datasets</span></a>
   </li>  
 </ul>
@@ -138,9 +138,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#presentación-del-curso" id="toc-presentación-del-curso" class="nav-link active" data-scroll-target="#presentación-del-curso">Presentación del curso</a></li>
-  <li><a href="#tema-1.-de-las-bases-de-datos-relacionales-a-nosql" id="toc-tema-1.-de-las-bases-de-datos-relacionales-a-nosql" class="nav-link" data-scroll-target="#tema-1.-de-las-bases-de-datos-relacionales-a-nosql">Tema 1. De las bases de datos relacionales a NoSQL</a></li>
-  <li><a href="#tema-2.-escalabilidad-y-bases-de-datos-distribuidas" id="toc-tema-2.-escalabilidad-y-bases-de-datos-distribuidas" class="nav-link" data-scroll-target="#tema-2.-escalabilidad-y-bases-de-datos-distribuidas">Tema 2. Escalabilidad y bases de datos distribuidas</a></li>
+  <li><a href="#próximamente" id="toc-próximamente" class="nav-link active" data-scroll-target="#próximamente"><span class="header-section-number">1</span> Próximamente</a></li>
   </ul>
 </nav>
     </div>
@@ -149,7 +147,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Diapositivas</h1>
+<h1 class="title">Acceso a Neo4j desde Python</h1>
+<p class="subtitle lead">Bases de Datos No Relacionales</p>
 </div>
 
 
@@ -166,33 +165,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>En esta sección se encuentran las presentaciones utilizadas durante las sesiones del curso.</p>
-<section id="presentación-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="presentación-del-curso">Presentación del curso</h2>
-<p><strong>Presentación del curso y plan de trabajo</strong></p>
-<p>Organización de la experiencia educativa, unidades, forma de trabajo y criterios de evaluación.</p>
-<p><a class="btn btn-primary" href="diapositivas/00_presentacion_curso.pdf" target="_blank"> Abrir en nueva pestaña </a></p>
-<div class="visor-pdf">
-<p><iframe src="diapositivas/00_presentacion_curso.pdf" width="100%" height="780" style="border:none;"> </iframe></p>
-</div>
-<hr>
-</section>
-<section id="tema-1.-de-las-bases-de-datos-relacionales-a-nosql" class="level2">
-<h2 class="anchored" data-anchor-id="tema-1.-de-las-bases-de-datos-relacionales-a-nosql">Tema 1. De las bases de datos relacionales a NoSQL</h2>
-<p>Repaso de bases de datos relacionales, datos estructurados y semiestructurados, JSON y modelos NoSQL.</p>
-<p><a class="btn btn-primary" href="diapositivas/01_relacional_a_nosql.pdf" target="_blank"> Abrir en nueva pestaña </a></p>
-<div class="visor-pdf">
-<p><iframe src="diapositivas/01_relacional_a_nosql.pdf" width="100%" height="780" style="border:none;"> </iframe></p>
-</div>
-<hr>
-</section>
-<section id="tema-2.-escalabilidad-y-bases-de-datos-distribuidas" class="level2">
-<h2 class="anchored" data-anchor-id="tema-2.-escalabilidad-y-bases-de-datos-distribuidas">Tema 2. Escalabilidad y bases de datos distribuidas</h2>
-<p>Escalabilidad vertical y horizontal, replicación, particionamiento, consistencia, concurrencia, teorema CAP y procesamiento paralelo.</p>
-<p><a class="btn btn-primary" href="diapositivas/02_escalabilidad_bases_distribuidas.pdf" target="_blank"> Abrir en nueva pestaña </a></p>
-<div class="visor-pdf">
-<p><iframe src="diapositivas/02_escalabilidad_bases_distribuidas.pdf" width="100%" height="780" style="border:none;"> </iframe></p>
-</div>
+<section id="próximamente" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="próximamente"><span class="header-section-number">1</span> Próximamente</h2>
+<p>Este apunte se encuentra en preparación.</p>
+<p><strong>Contenido previsto:</strong> Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.</p>
+<p>El material se habilitará cuando esté terminado y revisado.</p>
 
 
 </section>
@@ -271,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

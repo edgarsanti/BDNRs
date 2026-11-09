@@ -1,0 +1,17 @@
+---
+title: "Proyecto integrador y aspectos éticos del tratamiento de datos"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Próximamente
+
+Este apunte se encuentra en preparación.
+
+**Contenido previsto:** Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.
+
+El material se habilitará cuando esté terminado y revisado.

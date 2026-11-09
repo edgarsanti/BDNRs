@@ -1,0 +1,1464 @@
+
+---
+title: "Consultas avanzadas y recorridos de grafos en Neo4j"
+subtitle: "Bases de Datos No Relacionales"
+lang: es
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+---
+
+## Introducción
+
+En los apuntes anteriores estudiamos los fundamentos de las bases de datos orientadas a grafos y aprendimos a utilizar Neo4j mediante el lenguaje de consultas Cypher.
+
+En el **Apunte 11** conocimos los conceptos de nodos, relaciones, propiedades, caminos y recorridos.
+
+Posteriormente, en el **Apunte 12**, construimos diferentes grafos para representar redes sociales, conexiones entre ciudades mexicanas, información de jugadores de la NBA e infraestructura de tecnologías de la información.
+
+Estas prácticas nos permitieron comprender cómo se organizan y consultan los datos en una base orientada a grafos.
+
+Sin embargo, hasta ahora hemos trabajado principalmente con conjuntos de datos relativamente pequeños, creados mediante instrucciones de Cypher.
+
+En aplicaciones reales, los grafos pueden contener miles o millones de nodos y relaciones. Por ello, resulta importante aprender a incorporar información procedente de archivos externos y a realizar consultas sobre redes de mayor tamaño.
+
+En este apunte utilizaremos un conjunto de datos reales de aeropuertos y rutas aéreas internacionales, publicado por **OpenFlights**.
+
+El propósito será importar los registros a Neo4j y utilizar las herramientas de Cypher para investigar la conectividad de la red.
+
+Al finalizar, podremos:
+
+- Importar datos externos mediante `LOAD CSV`.
+- Transformar registros tabulares en nodos y relaciones.
+- Validar la información importada.
+- Identificar conexiones directas e indirectas.
+- Consultar recorridos de longitud variable.
+- Encontrar caminos con el menor número de conexiones.
+- Establecer condiciones sobre los recorridos.
+- Identificar aeropuertos con mayor conectividad.
+- Calcular distancias geográficas aproximadas.
+- Examinar el rendimiento de las consultas.
+
+::: {.callout-note}
+**Continuidad con los apuntes anteriores**
+
+No volveremos a estudiar desde cero los comandos básicos de Neo4j.
+
+Utilizaremos conocimientos adquiridos anteriormente, como `MATCH`, `WHERE`, `MERGE`, `RETURN`, `DISTINCT`, `ORDER BY`, `LIMIT`, `length()`, `shortestPath()` y `reduce()`.
+
+La principal diferencia es que ahora trabajaremos con una red real de mayor tamaño, importada desde archivos externos.
+:::
+
+## Caso práctico: red internacional de aeropuertos
+
+### ¿Qué es OpenFlights?
+
+**OpenFlights** es un proyecto que proporciona conjuntos de datos abiertos relacionados con aeropuertos, aerolíneas y rutas aéreas.
+
+Entre la información disponible se encuentran los nombres y ubicaciones de los aeropuertos, códigos de identificación, países, coordenadas geográficas y conexiones entre aeropuertos.
+
+Para nuestra práctica utilizaremos dos archivos:
+
+| Archivo | Información |
+|---|---|
+| `airports.dat` | Información de aeropuertos |
+| `routes.dat` | Conexiones aéreas entre aeropuertos |
+
+Los datos proceden del proyecto:
+
+[OpenFlights: Airport and Airline Data](https://openflights.org/data.php)
+
+### Tamaño y alcance de la información
+
+La base histórica de rutas de OpenFlights contiene aproximadamente:
+
+| Elemento | Cantidad histórica |
+|---|---:|
+| Aeropuertos con rutas | 3,321 |
+| Registros de rutas aéreas | 67,663 |
+| Aerolíneas | 548 |
+
+Estas cifras corresponden a la versión histórica reportada por OpenFlights para junio de 2014.
+
+::: {.callout-warning}
+**Limitación de los datos**
+
+Las rutas de OpenFlights dejaron de actualizarse de forma regular en junio de 2014.
+
+Por lo tanto, las conexiones que analizaremos tienen **valor histórico y educativo**.
+
+No debemos interpretar una relación encontrada como evidencia de que actualmente existe un vuelo comercial entre esos aeropuertos.
+
+Además, los archivos descargados pueden contener cantidades diferentes de registros dependiendo de la versión disponible.
+:::
+
+### ¿Por qué utilizar un grafo?
+
+Imaginemos que queremos responder las siguientes preguntas:
+
+- ¿Qué aeropuertos tienen conexiones directas con Ciudad de México?
+- ¿A cuántos destinos podemos llegar utilizando una escala?
+- ¿Qué aeropuertos funcionan como puntos de conexión entre diferentes regiones?
+- ¿Cuál es el menor número de conexiones necesario para llegar a otro país?
+- ¿Qué alternativas existen cuando un recorrido debe evitar determinado aeropuerto?
+
+Estas preguntas están relacionadas principalmente con las **conexiones entre entidades**.
+
+Por lo tanto, una base de datos orientada a grafos resulta adecuada para representar y consultar este tipo de información.
+
+## Modelo de datos que utilizaremos
+
+Antes de importar los archivos debemos definir cómo representaremos la información.
+
+### Nodos
+
+Cada aeropuerto estará representado mediante un nodo con la etiqueta:
+
+```cypher
+:Aeropuerto
+```
+
+Los nodos tendrán propiedades como las siguientes:
+
+| Propiedad | Descripción |
+|---|---|
+| `id` | Identificador de OpenFlights |
+| `nombre` | Nombre del aeropuerto |
+| `ciudad` | Ciudad donde se encuentra |
+| `pais` | País |
+| `iata` | Código de tres caracteres |
+| `icao` | Código de cuatro caracteres |
+| `latitud` | Coordenada geográfica |
+| `longitud` | Coordenada geográfica |
+| `ubicacion` | Punto geográfico de Neo4j |
+
+Por ejemplo, el Aeropuerto Internacional de la Ciudad de México utiliza el código IATA `MEX`.
+
+### Relaciones
+
+Las conexiones entre aeropuertos se representarán mediante relaciones dirigidas:
+
+```cypher
+:RUTA_AEREA
+```
+
+La dirección indicará el sentido del recorrido registrado:
+
+```text
+(Aeropuerto de origen)
+          |
+          | RUTA_AEREA
+          v
+(Aeropuerto de destino)
+```
+
+En términos de Cypher:
+
+```cypher
+(origen:Aeropuerto)-[:RUTA_AEREA]->(destino:Aeropuerto)
+```
+
+Para esta práctica crearemos una sola relación por cada **par dirigido de aeropuertos**.
+
+Esto significa que, si varias aerolíneas registraron rutas del mismo origen al mismo destino, las representaremos mediante una única conexión.
+
+Esta simplificación es suficiente para estudiar la conectividad entre aeropuertos, aunque no permite distinguir qué aerolíneas operaban cada conexión.
+
+### Diferencia respecto al Apunte 12
+
+En el ejemplo de ciudades mexicanas del Apunte 12, las rutas incluían propiedades simuladas de distancia, tiempo y costo.
+
+En OpenFlights, los archivos que utilizaremos **no proporcionan tiempos de vuelo ni precios**.
+
+Sí disponemos de las coordenadas de los aeropuertos, por lo que podremos estimar distancias geográficas entre ellos.
+
+Estas distancias no deben confundirse con la distancia real recorrida por un avión ni con la duración del vuelo.
+
+## Preparación del entorno de trabajo
+
+Para esta práctica necesitamos:
+
+- Neo4j instalado y funcionando.
+- Acceso a Neo4j Browser o Neo4j Query.
+- Los archivos de OpenFlights.
+- Una base de datos de Neo4j en la que tengamos permisos para importar información.
+
+No necesitamos instalar bibliotecas externas.
+
+### Descargar los archivos
+
+Accedemos a los siguientes enlaces:
+
+**Archivo de aeropuertos:**
+
+[Descargar airports.dat](https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat)
+
+**Archivo de rutas:**
+
+[Descargar routes.dat](https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat)
+
+Debemos guardar ambos archivos conservando exactamente sus nombres.
+
+Es importante comprobar que no se hayan guardado como:
+
+```text
+airports.dat.txt
+routes.dat.txt
+```
+
+### Ubicar los archivos en Neo4j
+
+Cuando trabajamos con Neo4j instalado localmente, el comando `LOAD CSV` puede leer archivos colocados en el directorio de importación de la instancia.
+
+En Neo4j Desktop debemos localizar la carpeta de importación de la instancia que estemos utilizando.
+
+Dependiendo de la versión, esta opción puede encontrarse en el menú de administración de la instancia, dentro de las opciones para abrir sus carpetas.
+
+El directorio se identifica normalmente como:
+
+```text
+import
+```
+
+Copiamos ahí los dos archivos.
+
+La estructura debe ser equivalente a:
+
+```text
+Neo4j
+└── import
+    ├── airports.dat
+    └── routes.dat
+```
+
+::: {.callout-important}
+**Importante**
+
+Los archivos deben colocarse en la carpeta `import` de la instancia de Neo4j, no simplemente en la carpeta del proyecto Quarto.
+
+También es posible importar archivos desde direcciones HTTPS, pero para nuestra práctica utilizaremos archivos locales, de modo que las consultas no dependan de descargar repetidamente información desde Internet.
+:::
+
+## Conocer la estructura de los archivos
+
+Antes de importar los datos, debemos comprender su organización.
+
+Ambos archivos utilizan un formato delimitado por comas, similar a CSV, pero **no incluyen una primera fila con nombres de columnas**.
+
+Por esta razón utilizaremos `LOAD CSV` sin `WITH HEADERS`.
+
+### Estructura de airports.dat
+
+Las principales posiciones del archivo son:
+
+| Posición | Contenido |
+|---|---|
+| `fila[0]` | Identificador del aeropuerto |
+| `fila[1]` | Nombre |
+| `fila[2]` | Ciudad |
+| `fila[3]` | País |
+| `fila[4]` | Código IATA |
+| `fila[5]` | Código ICAO |
+| `fila[6]` | Latitud |
+| `fila[7]` | Longitud |
+
+El archivo contiene otros campos, pero inicialmente trabajaremos con estas ocho posiciones.
+
+### Consultar las primeras filas
+
+En Neo4j ejecutamos:
+
+```cypher
+LOAD CSV FROM 'file:///airports.dat' AS fila
+RETURN fila
+LIMIT 5;
+```
+
+**Explicación**
+
+- `LOAD CSV` lee el archivo.
+- `file:///` indica que se encuentra en el directorio de importación.
+- `AS fila` asigna una variable a cada registro.
+- `LIMIT 5` muestra únicamente cinco registros.
+
+Esta instrucción permite examinar el archivo **sin incorporar todavía los datos a la base**.
+
+### Consultar campos específicos
+
+```cypher
+LOAD CSV FROM 'file:///airports.dat' AS fila
+RETURN fila[1] AS Aeropuerto,
+       fila[2] AS Ciudad,
+       fila[3] AS Pais,
+       fila[4] AS CodigoIATA
+LIMIT 10;
+```
+
+Ahora podemos identificar directamente las columnas que utilizaremos.
+
+### Estructura de routes.dat
+
+Las posiciones principales son:
+
+| Posición | Contenido |
+|---|---|
+| `fila[0]` | Código de aerolínea |
+| `fila[1]` | Identificador de aerolínea |
+| `fila[2]` | Código de aeropuerto de origen |
+| `fila[3]` | Identificador del aeropuerto de origen |
+| `fila[4]` | Código de aeropuerto de destino |
+| `fila[5]` | Identificador del aeropuerto de destino |
+| `fila[6]` | Información de vuelo compartido |
+| `fila[7]` | Número de paradas |
+| `fila[8]` | Equipo o aeronave |
+
+Para nuestra red utilizaremos principalmente los identificadores de origen y destino.
+
+### Examinar las rutas
+
+```cypher
+LOAD CSV FROM 'file:///routes.dat' AS fila
+RETURN fila[2] AS Origen,
+       fila[4] AS Destino,
+       fila[0] AS Aerolinea
+LIMIT 10;
+```
+
+::: {.callout-note}
+**¿Por qué utilizamos identificadores?**
+
+Los nombres de aeropuertos pueden ser similares o cambiar con el tiempo.
+
+En cambio, el identificador registrado por OpenFlights permite relacionar los archivos de aeropuertos y rutas.
+
+Además, algunos registros utilizan `\N` para representar información no disponible. Debemos considerar estos valores durante la importación.
+:::
+
+## Importar los aeropuertos a Neo4j
+
+Ahora comenzaremos a transformar los registros del archivo en nodos.
+
+### Crear una restricción de unicidad
+
+Antes de importar, estableceremos que cada aeropuerto tenga un identificador único.
+
+```cypher
+CREATE CONSTRAINT aeropuerto_id_unico IF NOT EXISTS
+FOR (a:Aeropuerto)
+REQUIRE a.id IS UNIQUE;
+```
+
+La restricción ayuda a evitar que existan varios nodos `Aeropuerto` con el mismo identificador.
+
+También crea un índice asociado que facilita la búsqueda por `id`.
+
+### Importar los nodos
+
+Ejecutamos:
+
+```cypher
+LOAD CSV FROM 'file:///airports.dat' AS fila
+
+WITH fila,
+     toInteger(fila[0]) AS id,
+     toFloat(fila[6]) AS lat,
+     toFloat(fila[7]) AS lon
+
+WHERE id IS NOT NULL
+  AND lat IS NOT NULL
+  AND lon IS NOT NULL
+
+MERGE (a:Aeropuerto {id: id})
+
+SET a.nombre = fila[1],
+    a.ciudad = fila[2],
+    a.pais = fila[3],
+    a.iata = CASE
+               WHEN fila[4] =~ '[A-Z0-9]{3}'
+               THEN fila[4]
+               ELSE null
+             END,
+    a.icao = CASE
+               WHEN fila[5] =~ '[A-Z0-9]{4}'
+               THEN fila[5]
+               ELSE null
+             END,
+    a.latitud = lat,
+    a.longitud = lon,
+    a.ubicacion = point({
+      latitude: lat,
+      longitude: lon
+    });
+```
+
+Esta consulta puede procesar miles de registros. Su duración dependerá del equipo y de la instancia de Neo4j.
+
+### Explicación del procedimiento
+
+**1. Leer el archivo**
+
+```cypher
+LOAD CSV FROM 'file:///airports.dat' AS fila
+```
+
+Permite recorrer los registros.
+
+**2. Convertir los tipos de datos**
+
+```cypher
+toInteger(fila[0])
+toFloat(fila[6])
+toFloat(fila[7])
+```
+
+Los archivos delimitados contienen valores que inicialmente se interpretan como texto.
+
+Estas funciones convierten los identificadores y las coordenadas a tipos numéricos.
+
+**3. Filtrar registros inválidos**
+
+```cypher
+WHERE id IS NOT NULL
+  AND lat IS NOT NULL
+  AND lon IS NOT NULL
+```
+
+Evita crear nodos cuando faltan los valores necesarios.
+
+**4. Crear o recuperar nodos**
+
+```cypher
+MERGE (a:Aeropuerto {id: id})
+```
+
+`MERGE` busca un aeropuerto con ese identificador y lo crea únicamente si no existe.
+
+**5. Incorporar propiedades**
+
+```cypher
+SET a.nombre = fila[1]
+```
+
+Agrega la información recuperada del archivo.
+
+**6. Guardar una ubicación geográfica**
+
+```cypher
+point({
+  latitude: lat,
+  longitude: lon
+})
+```
+
+Crea un valor geográfico que posteriormente utilizaremos para calcular distancias.
+
+### Comprobar la importación
+
+```cypher
+MATCH (a:Aeropuerto)
+RETURN count(a) AS TotalAeropuertos;
+```
+
+El resultado debe indicar que se incorporaron miles de aeropuertos.
+
+La cantidad exacta puede variar según la versión del archivo y los registros que cumplieron las condiciones de importación.
+
+### Consultar algunos aeropuertos
+
+```cypher
+MATCH (a:Aeropuerto)
+RETURN a.nombre AS Aeropuerto,
+       a.ciudad AS Ciudad,
+       a.pais AS Pais,
+       a.iata AS IATA
+ORDER BY Pais, Ciudad
+LIMIT 20;
+```
+
+### Buscar el aeropuerto de Ciudad de México
+
+```cypher
+MATCH (a:Aeropuerto {iata: 'MEX'})
+RETURN a.nombre AS Aeropuerto,
+       a.ciudad AS Ciudad,
+       a.pais AS Pais,
+       a.latitud AS Latitud,
+       a.longitud AS Longitud;
+```
+
+::: {.callout-note}
+**¿Qué hemos logrado?**
+
+Transformamos un archivo tabular en miles de nodos con propiedades.
+
+Sin embargo, todavía no tenemos una red de conexiones porque faltan las relaciones entre aeropuertos.
+:::
+
+## Importar las rutas aéreas
+
+Ahora utilizaremos `routes.dat` para relacionar los aeropuertos que ya incorporamos.
+
+### Comprender la relación
+
+El archivo contiene identificadores de aeropuerto de origen y destino.
+
+Nuestro objetivo es crear una relación equivalente a:
+
+```cypher
+(origen:Aeropuerto)-[:RUTA_AEREA]->(destino:Aeropuerto)
+```
+
+Solamente podremos crearla cuando ambos aeropuertos existan en nuestra base.
+
+### Ejecutar la importación
+
+```cypher
+LOAD CSV FROM 'file:///routes.dat' AS fila
+
+WITH toInteger(fila[3]) AS idOrigen,
+     toInteger(fila[5]) AS idDestino
+
+WHERE idOrigen IS NOT NULL
+  AND idDestino IS NOT NULL
+
+MATCH (origen:Aeropuerto {id: idOrigen})
+MATCH (destino:Aeropuerto {id: idDestino})
+
+MERGE (origen)-[:RUTA_AEREA]->(destino);
+```
+
+### Explicación
+
+Primero recuperamos los identificadores de origen y destino.
+
+Después comprobamos que sean numéricos.
+
+Las instrucciones `MATCH` recuperan los aeropuertos previamente importados.
+
+Finalmente:
+
+```cypher
+MERGE (origen)-[:RUTA_AEREA]->(destino)
+```
+
+crea la relación cuando todavía no existe entre ese par dirigido de nodos.
+
+::: {.callout-important}
+**Una relación por cada par de aeropuertos**
+
+El archivo original puede contener varios registros entre los mismos aeropuertos porque distintas aerolíneas operaban esas rutas.
+
+En nuestro modelo utilizamos `MERGE` para conservar una sola conexión dirigida entre cada par.
+
+Por lo tanto, el número de relaciones creadas en Neo4j normalmente será menor que el número total de filas del archivo original.
+
+Además, los registros con identificadores inválidos o aeropuertos ausentes no generarán relaciones.
+:::
+
+## Validación de la base importada
+
+Antes de realizar consultas avanzadas debemos comprobar que los datos se incorporaron correctamente.
+
+### Contar nodos
+
+```cypher
+MATCH (a:Aeropuerto)
+RETURN count(a) AS TotalAeropuertos;
+```
+
+### Contar relaciones
+
+```cypher
+MATCH (:Aeropuerto)-[r:RUTA_AEREA]->(:Aeropuerto)
+RETURN count(r) AS TotalRutas;
+```
+
+### Contar aeropuertos con código IATA
+
+```cypher
+MATCH (a:Aeropuerto)
+RETURN count(a) AS Total,
+       count(a.iata) AS ConCodigoIATA;
+```
+
+Esto permite observar cuántos aeropuertos tienen un código IATA disponible.
+
+### Comprobar las rutas desde Ciudad de México
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (destino:Aeropuerto)
+
+RETURN origen.iata AS Origen,
+       destino.iata AS Destino,
+       destino.nombre AS Aeropuerto,
+       destino.pais AS Pais
+
+ORDER BY Pais, Destino
+LIMIT 20;
+```
+
+### Visualizar una parte del grafo
+
+```cypher
+MATCH p =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA]->
+  (:Aeropuerto)
+
+RETURN p
+LIMIT 25;
+```
+
+En Neo4j podemos seleccionar la visualización de grafo.
+
+::: {.callout-warning}
+**Visualización de redes grandes**
+
+No debemos intentar visualizar los miles de nodos y todas sus relaciones simultáneamente.
+
+Aunque Neo4j puede almacenar y consultar una red considerable, la representación gráfica de todos sus elementos puede dificultar la interpretación y consumir muchos recursos.
+
+Por ello, limitaremos las visualizaciones a subconjuntos de la red.
+:::
+
+## Consultas avanzadas: conectividad directa
+
+Comenzaremos identificando las conexiones de determinados aeropuertos.
+
+### Encontrar los destinos directos desde Ciudad de México
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (destino:Aeropuerto)
+
+RETURN destino.iata AS Codigo,
+       destino.nombre AS Aeropuerto,
+       destino.ciudad AS Ciudad,
+       destino.pais AS Pais
+
+ORDER BY Pais, Ciudad;
+```
+
+Esta consulta devuelve los aeropuertos conectados directamente con `MEX`.
+
+### Contar destinos directos
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (destino:Aeropuerto)
+
+RETURN count(DISTINCT destino) AS DestinosDirectos;
+```
+
+Utilizamos `DISTINCT` para contar aeropuertos diferentes.
+
+### Agrupar las conexiones por país
+
+```cypher
+MATCH (:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (destino:Aeropuerto)
+
+RETURN destino.pais AS Pais,
+       count(DISTINCT destino) AS AeropuertosConectados
+
+ORDER BY AeropuertosConectados DESC;
+```
+
+Esta consulta permite identificar los países con mayor número de aeropuertos conectados directamente con Ciudad de México en la red histórica.
+
+## Identificar aeropuertos con mayor conectividad
+
+En una red de transporte, algunos aeropuertos funcionan como puntos importantes de conexión.
+
+Podemos estudiar esta característica mediante la cantidad de relaciones que tienen.
+
+### Contar destinos por aeropuerto
+
+```cypher
+MATCH (a:Aeropuerto)
+OPTIONAL MATCH (a)-[:RUTA_AEREA]->(destino:Aeropuerto)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       a.pais AS Pais,
+       count(DISTINCT destino) AS DestinosDirectos
+
+ORDER BY DestinosDirectos DESC
+LIMIT 20;
+```
+
+El resultado muestra los veinte aeropuertos con mayor número de destinos directos.
+
+### ¿Qué significa tener muchas conexiones?
+
+Un aeropuerto con una gran cantidad de relaciones salientes tiene acceso directo a numerosos destinos.
+
+Esta medida se relaciona con el **grado de salida** de un nodo en un grafo dirigido.
+
+No significa necesariamente que sea el aeropuerto con más pasajeros, más vuelos diarios o mayores ingresos.
+
+Únicamente estamos midiendo su conectividad dentro de los registros importados.
+
+### Contar las conexiones entrantes
+
+```cypher
+MATCH (a:Aeropuerto)
+OPTIONAL MATCH (origen:Aeropuerto)-[:RUTA_AEREA]->(a)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       count(DISTINCT origen) AS OrigenesDirectos
+
+ORDER BY OrigenesDirectos DESC
+LIMIT 20;
+```
+
+Ahora analizamos el **grado de entrada**.
+
+En un grafo dirigido, las conexiones entrantes y salientes pueden ser diferentes.
+
+## Recorridos de longitud variable
+
+Hasta ahora hemos consultado relaciones directas.
+
+Sin embargo, los viajes aéreos también pueden requerir conexiones intermedias.
+
+Cypher permite explorar estos recorridos utilizando relaciones de longitud variable.
+
+### Buscar destinos alcanzables en uno o dos tramos
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'})
+
+MATCH camino =
+  (origen)-[:RUTA_AEREA*1..2]->(destino:Aeropuerto)
+
+WHERE destino <> origen
+  AND destino.iata IS NOT NULL
+
+WITH destino,
+     min(length(camino)) AS TramosMinimos
+
+RETURN destino.iata AS Codigo,
+       destino.ciudad AS Ciudad,
+       destino.pais AS Pais,
+       TramosMinimos
+
+ORDER BY TramosMinimos, Pais, Ciudad
+LIMIT 30;
+```
+
+### Interpretación
+
+La expresión:
+
+```cypher
+[:RUTA_AEREA*1..2]
+```
+
+permite recorrer una o dos relaciones.
+
+Por ejemplo:
+
+```text
+MEX → Destino
+```
+
+representa un tramo directo.
+
+Mientras que:
+
+```text
+MEX → Escala → Destino
+```
+
+representa dos tramos, con una escala.
+
+La función:
+
+```cypher
+length(camino)
+```
+
+cuenta el número de relaciones recorridas.
+
+La función `min()` permite identificar la menor cantidad de tramos encontrada hacia cada destino dentro del límite establecido.
+
+::: {.callout-note}
+**Tramos y escalas**
+
+En este apunte distinguiremos:
+
+- Un tramo: cero escalas.
+- Dos tramos: una escala.
+- Tres tramos: dos escalas.
+
+El número de escalas de un camino corresponde al número de tramos menos uno.
+:::
+
+## Recuperar recorridos completos
+
+Conocer el destino no siempre es suficiente.
+
+En ocasiones necesitamos identificar todos los aeropuertos involucrados en un recorrido.
+
+### Buscar recorridos entre Ciudad de México y Londres
+
+Utilizaremos los códigos:
+
+- `MEX`: Ciudad de México.
+- `LHR`: Londres-Heathrow.
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]->
+  (:Aeropuerto {iata: 'LHR'})
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos, Recorrido
+LIMIT 20;
+```
+
+Esta consulta busca rutas de uno o dos tramos.
+
+La función `nodes(camino)` recupera los nodos que forman parte del camino.
+
+La expresión:
+
+```cypher
+[a IN nodes(camino) | a.iata]
+```
+
+construye una lista con los códigos de los aeropuertos.
+
+### Diferencia entre destinos y caminos
+
+Es importante comprender que un mismo destino puede alcanzarse mediante diferentes recorridos.
+
+Por ejemplo, una red podría contener:
+
+```text
+A → B → D
+A → C → D
+```
+
+En este caso existe un solo destino `D`, pero dos caminos diferentes.
+
+Esta distinción es especialmente importante cuando trabajamos con redes grandes.
+
+## Recorridos con condiciones
+
+Una ventaja de Cypher es que podemos agregar condiciones sobre los nodos que forman parte de un camino.
+
+Utilizaremos las funciones:
+
+| Función | Significado |
+|---|---|
+| `any()` | Al menos un elemento cumple la condición |
+| `none()` | Ningún elemento cumple la condición |
+| `all()` | Todos los elementos cumplen la condición |
+| `single()` | Exactamente un elemento cumple la condición |
+
+### Buscar recorridos que pasen por Nueva York
+
+Consultaremos recorridos de dos o tres tramos desde Ciudad de México hasta Londres que incluyan al aeropuerto `JFK`.
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*2..3]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE any(a IN nodes(camino)
+          WHERE a.iata = 'JFK')
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 10;
+```
+
+La función `any()` comprueba si al menos un aeropuerto del recorrido tiene el código indicado.
+
+### Buscar recorridos que eviten Nueva York
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE none(a IN nodes(camino)
+           WHERE a.iata = 'JFK')
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 10;
+```
+
+Ahora excluimos los recorridos que incluyan `JFK`.
+
+::: {.callout-note}
+**Interpretación**
+
+Estas consultas permiten estudiar escenarios hipotéticos de conectividad.
+
+Encontrar una ruta en el grafo no garantiza que exista actualmente un itinerario comercial disponible ni que las conexiones sean viables por horarios, boletos o requisitos migratorios.
+:::
+
+## Evitar caminos con nodos repetidos
+
+Al explorar grafos, algunos recorridos pueden regresar a un aeropuerto visitado anteriormente.
+
+Por ejemplo:
+
+```text
+A → B → C → B → D
+```
+
+En este recorrido el aeropuerto `B` aparece dos veces.
+
+Si queremos estudiar caminos sin repetición de aeropuertos, podemos agregar una condición.
+
+### Consultar caminos simples
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE all(a IN nodes(camino)
+          WHERE single(b IN nodes(camino)
+                       WHERE a = b))
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 20;
+```
+
+La función `single()` permite comprobar que cada nodo aparezca exactamente una vez dentro del recorrido.
+
+Un camino que no repite nodos se conoce como **camino simple**.
+
+## Encontrar caminos con el menor número de conexiones
+
+En grafos grandes puede existir una gran cantidad de caminos entre dos nodos.
+
+En ocasiones nos interesa conocer únicamente un recorrido con el menor número de relaciones.
+
+### Utilizar shortestPath()
+
+Buscaremos un camino desde Ciudad de México hasta Johannesburgo.
+
+Los códigos son:
+
+- `MEX`: Ciudad de México.
+- `JNB`: Johannesburgo.
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+
+MATCH camino = shortestPath(
+  (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos;
+```
+
+### ¿Qué hace shortestPath()?
+
+Busca un camino con el menor número de relaciones dentro del patrón especificado.
+
+En este caso limitamos la búsqueda a cuatro tramos.
+
+Esto es importante porque no queremos explorar caminos de longitud indefinida sobre una red considerable.
+
+### Buscar todas las rutas mínimas
+
+También podemos utilizar:
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+
+MATCH camino = allShortestPaths(
+  (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Recorrido
+LIMIT 20;
+```
+
+La diferencia es:
+
+- `shortestPath()` recupera un camino mínimo.
+- `allShortestPaths()` recupera todos los caminos con la longitud mínima encontrada.
+
+::: {.callout-important}
+**¿Cuál es la ruta más corta?**
+
+En estas consultas, *más corta* significa **menos relaciones o tramos**, no menos kilómetros.
+
+Tampoco significa que sea el viaje más rápido o más económico.
+
+Para comparar otros criterios necesitamos información adicional.
+:::
+
+## Calcular distancias geográficas
+
+Hasta ahora hemos analizado la conectividad mediante el número de relaciones.
+
+También podemos aprovechar las coordenadas de los aeropuertos para calcular una distancia geográfica aproximada.
+
+### Utilizar point.distance()
+
+Neo4j incorpora la función:
+
+```cypher
+point.distance()
+```
+
+Esta función permite calcular la distancia entre dos puntos geográficos.
+
+Para coordenadas WGS 84, el resultado se expresa en metros.
+
+### Calcular la distancia entre dos aeropuertos
+
+```cypher
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JFK'})
+
+RETURN origen.iata AS Origen,
+       destino.iata AS Destino,
+       round(
+         point.distance(
+           origen.ubicacion,
+           destino.ubicacion
+         ) / 1000.0
+       ) AS DistanciaGeograficaKM;
+```
+
+Dividimos entre 1,000 para expresar el resultado en kilómetros.
+
+::: {.callout-warning}
+**Distancia geográfica y distancia de vuelo**
+
+La distancia calculada corresponde aproximadamente al recorrido más corto sobre la superficie terrestre entre las coordenadas de los aeropuertos.
+
+No representa necesariamente la distancia de una trayectoria aérea real, que puede depender de condiciones meteorológicas, corredores aéreos, restricciones y otros factores.
+:::
+
+### Calcular la distancia acumulada de un recorrido
+
+En el Apunte 12 utilizamos `reduce()` para sumar propiedades de las relaciones.
+
+Ahora emplearemos esa función para acumular las distancias geográficas entre los aeropuertos consecutivos de un camino.
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WITH camino,
+     reduce(
+       km = 0.0,
+       r IN relationships(camino) |
+       km + point.distance(
+         startNode(r).ubicacion,
+         endNode(r).ubicacion
+       ) / 1000.0
+     ) AS DistanciaKM
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos,
+       round(DistanciaKM) AS DistanciaGeograficaKM
+
+ORDER BY DistanciaGeograficaKM
+LIMIT 10;
+```
+
+### Explicación
+
+La función:
+
+```cypher
+relationships(camino)
+```
+
+recupera las relaciones del recorrido.
+
+Posteriormente:
+
+```cypher
+startNode(r)
+endNode(r)
+```
+
+permiten obtener los aeropuertos de origen y destino de cada relación.
+
+Finalmente, `reduce()` acumula las distancias entre los puntos geográficos.
+
+### Comparar dos criterios
+
+Ahora podemos distinguir dos preguntas:
+
+**Pregunta 1:** ¿Qué recorrido tiene menos tramos?
+
+**Pregunta 2:** ¿Qué recorrido tiene menor distancia geográfica acumulada?
+
+Ambas preguntas pueden producir resultados diferentes cuando no existe una conexión directa entre los aeropuertos.
+
+Además, ordenar caminos por distancia dentro de un límite de dos o tres tramos no equivale a ejecutar un algoritmo general de optimización de rutas ponderadas.
+
+Para redes mucho mayores y búsquedas más complejas pueden utilizarse algoritmos especializados de grafos.
+
+## Aplicar restricciones sobre las distancias
+
+Supongamos que queremos encontrar recorridos en los que ningún tramo supere una distancia geográfica determinada.
+
+### Filtrar cada tramo
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE all(r IN relationships(camino)
+          WHERE point.distance(
+            startNode(r).ubicacion,
+            endNode(r).ubicacion
+          ) <= 8000000)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 20;
+```
+
+En este ejemplo utilizamos ocho millones de metros, equivalentes a 8,000 kilómetros.
+
+**Importante:** esta condición se aplica a cada tramo individual.
+
+No significa que la distancia total del recorrido sea inferior a 8,000 kilómetros.
+
+### Filtrar por distancia total
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]->
+  (:Aeropuerto {iata: 'LHR'})
+
+WITH camino,
+     reduce(
+       km = 0.0,
+       r IN relationships(camino) |
+       km + point.distance(
+         startNode(r).ubicacion,
+         endNode(r).ubicacion
+       ) / 1000.0
+     ) AS DistanciaKM
+
+WHERE DistanciaKM <= 12000
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       round(DistanciaKM) AS DistanciaKM
+
+ORDER BY DistanciaKM
+LIMIT 20;
+```
+
+Ahora la condición se aplica a la suma de todos los tramos.
+
+## Agrupar y resumir la información
+
+Cuando trabajamos con redes extensas, no siempre resulta conveniente mostrar caminos individuales.
+
+También podemos generar tablas que resuman la conectividad.
+
+### Países con mayor número de aeropuertos importados
+
+```cypher
+MATCH (a:Aeropuerto)
+
+RETURN a.pais AS Pais,
+       count(a) AS TotalAeropuertos
+
+ORDER BY TotalAeropuertos DESC
+LIMIT 20;
+```
+
+### Aeropuertos de México con más destinos directos
+
+```cypher
+MATCH (a:Aeropuerto {pais: 'Mexico'})
+OPTIONAL MATCH (a)-[:RUTA_AEREA]->(destino:Aeropuerto)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       count(DISTINCT destino) AS DestinosDirectos
+
+ORDER BY DestinosDirectos DESC
+LIMIT 15;
+```
+
+### Agrupar destinos de Ciudad de México por país
+
+```cypher
+MATCH (:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (destino:Aeropuerto)
+
+WITH destino.pais AS Pais,
+     count(DISTINCT destino) AS Total
+
+RETURN Pais, Total
+
+ORDER BY Total DESC;
+```
+
+Estas consultas muestran cómo podemos pasar del análisis de relaciones individuales a la elaboración de indicadores descriptivos de una red.
+
+## Rendimiento de las consultas
+
+Trabajar con miles de nodos y relaciones implica considerar el costo de las consultas.
+
+Un recorrido de longitud variable puede generar numerosos caminos posibles.
+
+Por ello, debemos utilizar estrategias que permitan controlar las búsquedas.
+
+### Limitar la profundidad
+
+Una consulta como:
+
+```cypher
+MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]->
+  (destino:Aeropuerto)
+
+RETURN camino
+LIMIT 10;
+```
+
+restringe la búsqueda a uno o dos tramos.
+
+No debemos confundir esta restricción con `LIMIT 10`.
+
+El límite final determina la cantidad de resultados devueltos, mientras que `*1..2` establece la profundidad máxima del patrón.
+
+### Crear un índice por código IATA
+
+Para facilitar las búsquedas podemos crear un índice:
+
+```cypher
+CREATE INDEX aeropuerto_iata IF NOT EXISTS
+FOR (a:Aeropuerto)
+ON (a.iata);
+```
+
+Este índice resulta útil para consultas que recuperan aeropuertos mediante su código IATA.
+
+A diferencia del identificador numérico de OpenFlights, no asumiremos que los códigos IATA disponibles sean necesariamente únicos en todos los registros históricos.
+
+### Examinar el plan mediante EXPLAIN
+
+```cypher
+EXPLAIN
+MATCH (a:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (b:Aeropuerto)
+
+RETURN b.nombre
+LIMIT 20;
+```
+
+`EXPLAIN` permite conocer el plan estimado de ejecución sin realizar la consulta completa.
+
+### Examinar el procesamiento mediante PROFILE
+
+```cypher
+PROFILE
+MATCH (a:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]->
+      (b:Aeropuerto)
+
+RETURN b.nombre
+LIMIT 20;
+```
+
+`PROFILE` ejecuta la consulta y presenta información sobre los operadores utilizados.
+
+Entre otros elementos, puede mostrar la cantidad de filas procesadas y los accesos a la base de datos.
+
+::: {.callout-tip}
+**Buenas prácticas**
+
+Antes de ejecutar recorridos sobre redes extensas:
+
+- Identifica claramente el nodo de origen y, cuando sea posible, el destino.
+- Especifica el tipo y la dirección de las relaciones.
+- Establece límites razonables de profundidad.
+- Utiliza índices para búsquedas frecuentes.
+- Evita visualizar el grafo completo.
+- Compara el plan y la ejecución de las consultas cuando sea necesario.
+
+Recuerda que `LIMIT` no sustituye una restricción adecuada de profundidad.
+:::
+
+## Calidad y limitaciones de los datos
+
+Aunque estamos utilizando una fuente real, esto no significa que la información esté completamente actualizada o que todos los registros sean válidos.
+
+Durante la importación tuvimos que considerar diferentes situaciones:
+
+- Identificadores de aeropuerto ausentes.
+- Códigos IATA no disponibles.
+- Registros de rutas que no pudieron asociarse con aeropuertos importados.
+- Conexiones repetidas en diferentes registros de aerolíneas.
+- Diferencias entre rutas históricas y rutas actuales.
+- Ausencia de información sobre tiempos y precios.
+
+Por ello, el número de relaciones importadas no necesariamente coincide con el número de registros del archivo original.
+
+### ¿Por qué es importante documentar estas decisiones?
+
+Una base de datos no solamente debe permitir realizar consultas.
+
+También debemos comprender:
+
+1. De dónde proceden los registros.
+2. Qué información representan.
+3. Qué transformaciones realizamos.
+4. Qué registros fueron excluidos.
+5. Qué limitaciones tienen nuestros resultados.
+
+Estas consideraciones serán especialmente importantes en el siguiente tema del curso: **Integración, limpieza y validación de datos**.
+
+## Actividad individual: análisis de rutas aéreas
+
+### Objetivo
+
+Aplicar consultas avanzadas de Cypher sobre una red real de aeropuertos y rutas aéreas importada a Neo4j.
+
+La actividad utilizará la base de OpenFlights construida durante la clase.
+
+Se divide en tres partes:
+
+- **Parte A:** exploración y conectividad.
+- **Parte B:** recorridos y rutas alternativas.
+- **Parte C:** análisis y rendimiento.
+
+### Parte A. Exploración y conectividad
+
+1. Consulta la cantidad total de aeropuertos y relaciones `RUTA_AEREA` almacenadas en Neo4j.
+
+2. Identifica los diez aeropuertos con mayor cantidad de destinos directos.
+
+3. Consulta todos los aeropuertos conectados directamente con `JFK`, mostrando su código, ciudad y país.
+
+4. Identifica los diez países con mayor cantidad de aeropuertos registrados.
+
+5. Encuentra los diez aeropuertos de México con mayor cantidad de conexiones directas de salida.
+
+### Parte B. Recorridos y rutas alternativas
+
+6. Recupera los destinos que pueden alcanzarse desde `MEX` mediante un máximo de dos tramos, mostrando el menor número de tramos encontrado para cada destino.
+
+7. Consulta recorridos de máximo tres tramos entre `MEX` y `LHR`, mostrando la lista de aeropuertos visitados.
+
+8. Encuentra recorridos entre `MEX` y `LHR` que incluyan al aeropuerto `JFK`.
+
+9. Encuentra recorridos entre `MEX` y `LHR` que no incluyan al aeropuerto `JFK`.
+
+10. Utiliza `shortestPath()` para encontrar un recorrido con el menor número de conexiones entre `MEX` y `JNB`, considerando un máximo de cuatro tramos.
+
+### Parte C. Análisis y rendimiento
+
+11. Calcula la distancia geográfica aproximada entre los aeropuertos `MEX` y `LHR`.
+
+12. Identifica hasta diez recorridos de uno o dos tramos entre `MEX` y `LHR`, mostrando su distancia geográfica acumulada.
+
+13. Encuentra recorridos de máximo tres tramos entre `MEX` y `LHR` que no repitan aeropuertos.
+
+14. Selecciona un aeropuerto de México e identifica cuántos países diferentes pueden alcanzarse mediante conexiones directas de salida.
+
+15. Selecciona una consulta de esta actividad y utiliza `EXPLAIN` y `PROFILE` para examinar su ejecución. Explica brevemente la diferencia entre ambas herramientas.
+
+### Indicaciones de entrega
+
+La actividad deberá entregarse en un documento PDF que incluya:
+
+- Nombre completo del estudiante.
+- Las quince consultas Cypher.
+- Capturas de pantalla de los resultados.
+- Una explicación breve de cada consulta.
+- Una conclusión sobre las ventajas de utilizar grafos para analizar redes de transporte.
+
+Si alguna consulta no devuelve resultados, deberá documentarse y explicarse a partir de las características de los datos importados.
+
+::: {.callout-note}
+**Importante**
+
+Los ejercicios deberán resolverse individualmente.
+
+No es necesario modificar ni eliminar nodos o relaciones de la base durante la actividad.
+
+Los resultados pueden variar según la versión de los archivos OpenFlights utilizados.
+:::
+
+## Síntesis de lo aprendido
+
+Durante este apunte avanzamos desde la construcción manual de grafos hacia la importación y consulta de una red de mayor tamaño.
+
+Utilizamos los conjuntos de datos históricos de OpenFlights para representar aeropuertos mediante nodos y conexiones aéreas mediante relaciones dirigidas.
+
+Aprendimos a importar información mediante `LOAD CSV`, crear restricciones e índices, transformar tipos de datos y validar los registros incorporados.
+
+Posteriormente, realizamos consultas avanzadas para identificar aeropuertos conectados, destinos alcanzables, rutas alternativas y recorridos con el menor número de relaciones.
+
+También aplicamos condiciones sobre los caminos, calculamos distancias geográficas aproximadas y examinamos herramientas para evaluar el rendimiento de las consultas.
+
+Finalmente, identificamos algunas limitaciones de los datos y comprendimos la importancia de distinguir entre la información registrada en una base y la realidad que pretende representar.
+
+De esta manera, comprendimos que Neo4j permite no solamente almacenar relaciones, sino también **analizar estructuras complejas de conectividad utilizando datos procedentes de fuentes externas**.
+
+Este aprendizaje servirá como base para los próximos temas del curso, relacionados con la integración, limpieza y validación de datos, así como el acceso a Neo4j desde Python.
+
+## Referencias de consulta
+
+- OpenFlights. [Airport, airline and route data](https://openflights.org/data.php). Fuente original de los conjuntos de datos utilizados.
+- OpenFlights. [Repositorio de datos en GitHub](https://github.com/jpatokal/openflights). Archivos originales de aeropuertos y rutas aéreas.
+- Neo4j. [LOAD CSV — Cypher Manual](https://neo4j.com/docs/cypher-manual/current/clauses/load-csv/). Importación de archivos delimitados.
+- Neo4j. [Import CSV data using LOAD CSV](https://neo4j.com/docs/getting-started/data-import/csv-import/). Procedimientos de importación.
+- Neo4j. [Variable-length paths](https://neo4j.com/docs/cypher-manual/current/patterns/variable-length-paths/). Consultas de longitud variable.
+- Neo4j. [Shortest paths](https://neo4j.com/docs/cypher-manual/current/patterns/shortest-paths/). Búsqueda de caminos mínimos.
+- Neo4j. [Predicate functions](https://neo4j.com/docs/cypher-manual/current/functions/predicate/). Funciones `all()`, `any()`, `none()` y `single()`.
+- Neo4j. [Spatial functions](https://neo4j.com/docs/cypher-manual/current/functions/spatial/). Cálculo de distancias geográficas.
+- Neo4j. [Understanding query plans](https://neo4j.com/docs/cypher-manual/current/planning-and-tuning/execution-plans/). Interpretación de `EXPLAIN` y `PROFILE`.

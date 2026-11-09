@@ -1,0 +1,17 @@
+---
+title: "Acceso a Neo4j desde Python"
+subtitle: "Bases de Datos No Relacionales"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-copy: true
+---
+
+## Próximamente
+
+Este apunte se encuentra en preparación.
+
+**Contenido previsto:** Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.
+
+El material se habilitará cuando esté terminado y revisado.
