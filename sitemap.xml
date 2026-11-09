@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas.html</loc>
-    <lastmod>2026-10-28T05:40:46.627Z</lastmod>
+    <lastmod>2026-11-09T18:26:51.799Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/09_comandos_cassandra.html</loc>
@@ -37,7 +37,7 @@
     <lastmod>2026-09-14T04:38:29.476Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/19_acceso_neo4j_python.html</loc>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/20_etica_tratamiento_datos.html</loc>
     <lastmod>2026-11-09T05:29:34.000Z</lastmod>
   </url>
   <url>
@@ -53,8 +53,8 @@
     <lastmod>2026-09-22T06:25:31.084Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/16_json_mongodb_python.html</loc>
-    <lastmod>2026-11-06T17:17:10.923Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/18_acceso_neo4j_python.html</loc>
+    <lastmod>2026-11-09T05:29:34.000Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/about.html</loc>
@@ -65,40 +65,44 @@
     <lastmod>2026-09-14T05:35:51.957Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_consultas_cassandra.html</loc>
-    <lastmod>2026-10-09T02:28:28.634Z</lastmod>
-  </url>
-  <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_actividad_grafos_neo4j.html</loc>
-    <lastmod>2026-10-28T05:30:05.267Z</lastmod>
-  </url>
-  <url>
-    <loc>https://edgarsanti.github.io/BDNRs/manuales/instalacion_neo4j_windows.html</loc>
-    <lastmod>2026-10-13T18:03:03.291Z</lastmod>
-  </url>
-  <url>
-    <loc>https://edgarsanti.github.io/BDNRs/index.html</loc>
-    <lastmod>2026-09-07T05:48:37.943Z</lastmod>
-  </url>
-  <url>
-    <loc>https://edgarsanti.github.io/BDNRs/manuales/01_instalacion_cassandra_windows.html</loc>
-    <lastmod>2026-09-29T11:44:34.000Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/04_streaming_redis.html</loc>
+    <lastmod>2026-09-28T05:12:22.344Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas/01_mongodb_local.html</loc>
     <lastmod>2026-09-08T00:43:43.494Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/practicas/04_streaming_redis.html</loc>
-    <lastmod>2026-09-28T05:12:22.344Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/manuales/01_instalacion_cassandra_windows.html</loc>
+    <lastmod>2026-09-29T11:44:34.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/index.html</loc>
+    <lastmod>2026-09-07T05:48:37.943Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/manuales/instalacion_neo4j_windows.html</loc>
+    <lastmod>2026-10-13T18:03:03.291Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_actividad_grafos_neo4j.html</loc>
+    <lastmod>2026-10-28T05:30:05.267Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/05_consultas_cassandra.html</loc>
+    <lastmod>2026-10-09T02:28:28.634Z</lastmod>
+  </url>
+  <url>
+    <loc>https://edgarsanti.github.io/BDNRs/practicas/proyecto_integrador_bdnr.html</loc>
+    <lastmod>2026-11-09T19:15:27.572Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/practicas/03_redis_clave_valor.html</loc>
     <lastmod>2026-09-22T06:38:01.784Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/20_proyecto_integrador_etica_datos.html</loc>
-    <lastmod>2026-11-09T05:29:34.000Z</lastmod>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/16_json_mongodb_python.html</loc>
+    <lastmod>2026-11-06T17:17:10.923Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes/05_modelado_relaciones_mongodb.html</loc>
@@ -125,7 +129,7 @@
     <lastmod>2026-10-28T05:32:44.950Z</lastmod>
   </url>
   <url>
-    <loc>https://edgarsanti.github.io/BDNRs/apuntes/18_integracion_limpieza_validacion_datos.html</loc>
+    <loc>https://edgarsanti.github.io/BDNRs/apuntes/19_integracion_limpieza_validacion_datos.html</loc>
     <lastmod>2026-11-09T05:29:34.000Z</lastmod>
   </url>
   <url>
@@ -146,7 +150,7 @@
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/apuntes.html</loc>
-    <lastmod>2026-11-08T23:40:38.632Z</lastmod>
+    <lastmod>2026-11-09T21:54:00.227Z</lastmod>
   </url>
   <url>
     <loc>https://edgarsanti.github.io/BDNRs/diapositivas.html</loc>
