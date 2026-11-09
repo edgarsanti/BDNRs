@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Consultas avanzadas y recorridos de grafos en Neo4j – Bases de Datos No Relacionales</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0ea5afa10b77752bedd114ac038d6662.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Bases de Datos No Relacionales</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../apuntes.html"> 
+<span class="menu-text">Apuntes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../practicas.html"> 
+<span class="menu-text">Prácticas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manuales.html"> 
+<span class="menu-text">Manuales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datasets.html"> 
+<span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgarsanti/BDNRs"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#caso-práctico-red-internacional-de-aeropuertos" id="toc-caso-práctico-red-internacional-de-aeropuertos" class="nav-link" data-scroll-target="#caso-práctico-red-internacional-de-aeropuertos"><span class="header-section-number">2</span> Caso práctico: red internacional de aeropuertos</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-openflights" id="toc-qué-es-openflights" class="nav-link" data-scroll-target="#qué-es-openflights"><span class="header-section-number">2.1</span> ¿Qué es OpenFlights?</a></li>
+  <li><a href="#tamaño-y-alcance-de-la-información" id="toc-tamaño-y-alcance-de-la-información" class="nav-link" data-scroll-target="#tamaño-y-alcance-de-la-información"><span class="header-section-number">2.2</span> Tamaño y alcance de la información</a></li>
+  <li><a href="#por-qué-utilizar-un-grafo" id="toc-por-qué-utilizar-un-grafo" class="nav-link" data-scroll-target="#por-qué-utilizar-un-grafo"><span class="header-section-number">2.3</span> ¿Por qué utilizar un grafo?</a></li>
+  </ul></li>
+  <li><a href="#modelo-de-datos-que-utilizaremos" id="toc-modelo-de-datos-que-utilizaremos" class="nav-link" data-scroll-target="#modelo-de-datos-que-utilizaremos"><span class="header-section-number">3</span> Modelo de datos que utilizaremos</a>
+  <ul class="collapse">
+  <li><a href="#nodos" id="toc-nodos" class="nav-link" data-scroll-target="#nodos"><span class="header-section-number">3.1</span> Nodos</a></li>
+  <li><a href="#relaciones" id="toc-relaciones" class="nav-link" data-scroll-target="#relaciones"><span class="header-section-number">3.2</span> Relaciones</a></li>
+  <li><a href="#diferencia-respecto-al-apunte-12" id="toc-diferencia-respecto-al-apunte-12" class="nav-link" data-scroll-target="#diferencia-respecto-al-apunte-12"><span class="header-section-number">3.3</span> Diferencia respecto al Apunte 12</a></li>
+  </ul></li>
+  <li><a href="#preparación-del-entorno-de-trabajo" id="toc-preparación-del-entorno-de-trabajo" class="nav-link" data-scroll-target="#preparación-del-entorno-de-trabajo"><span class="header-section-number">4</span> Preparación del entorno de trabajo</a>
+  <ul class="collapse">
+  <li><a href="#descargar-los-archivos" id="toc-descargar-los-archivos" class="nav-link" data-scroll-target="#descargar-los-archivos"><span class="header-section-number">4.1</span> Descargar los archivos</a></li>
+  <li><a href="#ubicar-los-archivos-en-neo4j" id="toc-ubicar-los-archivos-en-neo4j" class="nav-link" data-scroll-target="#ubicar-los-archivos-en-neo4j"><span class="header-section-number">4.2</span> Ubicar los archivos en Neo4j</a></li>
+  </ul></li>
+  <li><a href="#conocer-la-estructura-de-los-archivos" id="toc-conocer-la-estructura-de-los-archivos" class="nav-link" data-scroll-target="#conocer-la-estructura-de-los-archivos"><span class="header-section-number">5</span> Conocer la estructura de los archivos</a>
+  <ul class="collapse">
+  <li><a href="#estructura-de-airports.dat" id="toc-estructura-de-airports.dat" class="nav-link" data-scroll-target="#estructura-de-airports.dat"><span class="header-section-number">5.1</span> Estructura de airports.dat</a></li>
+  <li><a href="#consultar-las-primeras-filas" id="toc-consultar-las-primeras-filas" class="nav-link" data-scroll-target="#consultar-las-primeras-filas"><span class="header-section-number">5.2</span> Consultar las primeras filas</a></li>
+  <li><a href="#consultar-campos-específicos" id="toc-consultar-campos-específicos" class="nav-link" data-scroll-target="#consultar-campos-específicos"><span class="header-section-number">5.3</span> Consultar campos específicos</a></li>
+  <li><a href="#estructura-de-routes.dat" id="toc-estructura-de-routes.dat" class="nav-link" data-scroll-target="#estructura-de-routes.dat"><span class="header-section-number">5.4</span> Estructura de routes.dat</a></li>
+  <li><a href="#examinar-las-rutas" id="toc-examinar-las-rutas" class="nav-link" data-scroll-target="#examinar-las-rutas"><span class="header-section-number">5.5</span> Examinar las rutas</a></li>
+  </ul></li>
+  <li><a href="#importar-los-aeropuertos-a-neo4j" id="toc-importar-los-aeropuertos-a-neo4j" class="nav-link" data-scroll-target="#importar-los-aeropuertos-a-neo4j"><span class="header-section-number">6</span> Importar los aeropuertos a Neo4j</a>
+  <ul class="collapse">
+  <li><a href="#crear-una-restricción-de-unicidad" id="toc-crear-una-restricción-de-unicidad" class="nav-link" data-scroll-target="#crear-una-restricción-de-unicidad"><span class="header-section-number">6.1</span> Crear una restricción de unicidad</a></li>
+  <li><a href="#importar-los-nodos" id="toc-importar-los-nodos" class="nav-link" data-scroll-target="#importar-los-nodos"><span class="header-section-number">6.2</span> Importar los nodos</a></li>
+  <li><a href="#explicación-del-procedimiento" id="toc-explicación-del-procedimiento" class="nav-link" data-scroll-target="#explicación-del-procedimiento"><span class="header-section-number">6.3</span> Explicación del procedimiento</a></li>
+  <li><a href="#comprobar-la-importación" id="toc-comprobar-la-importación" class="nav-link" data-scroll-target="#comprobar-la-importación"><span class="header-section-number">6.4</span> Comprobar la importación</a></li>
+  <li><a href="#consultar-algunos-aeropuertos" id="toc-consultar-algunos-aeropuertos" class="nav-link" data-scroll-target="#consultar-algunos-aeropuertos"><span class="header-section-number">6.5</span> Consultar algunos aeropuertos</a></li>
+  <li><a href="#buscar-el-aeropuerto-de-ciudad-de-méxico" id="toc-buscar-el-aeropuerto-de-ciudad-de-méxico" class="nav-link" data-scroll-target="#buscar-el-aeropuerto-de-ciudad-de-méxico"><span class="header-section-number">6.6</span> Buscar el aeropuerto de Ciudad de México</a></li>
+  </ul></li>
+  <li><a href="#importar-las-rutas-aéreas" id="toc-importar-las-rutas-aéreas" class="nav-link" data-scroll-target="#importar-las-rutas-aéreas"><span class="header-section-number">7</span> Importar las rutas aéreas</a>
+  <ul class="collapse">
+  <li><a href="#comprender-la-relación" id="toc-comprender-la-relación" class="nav-link" data-scroll-target="#comprender-la-relación"><span class="header-section-number">7.1</span> Comprender la relación</a></li>
+  <li><a href="#ejecutar-la-importación" id="toc-ejecutar-la-importación" class="nav-link" data-scroll-target="#ejecutar-la-importación"><span class="header-section-number">7.2</span> Ejecutar la importación</a></li>
+  <li><a href="#explicación" id="toc-explicación" class="nav-link" data-scroll-target="#explicación"><span class="header-section-number">7.3</span> Explicación</a></li>
+  </ul></li>
+  <li><a href="#validación-de-la-base-importada" id="toc-validación-de-la-base-importada" class="nav-link" data-scroll-target="#validación-de-la-base-importada"><span class="header-section-number">8</span> Validación de la base importada</a>
+  <ul class="collapse">
+  <li><a href="#contar-nodos" id="toc-contar-nodos" class="nav-link" data-scroll-target="#contar-nodos"><span class="header-section-number">8.1</span> Contar nodos</a></li>
+  <li><a href="#contar-relaciones" id="toc-contar-relaciones" class="nav-link" data-scroll-target="#contar-relaciones"><span class="header-section-number">8.2</span> Contar relaciones</a></li>
+  <li><a href="#contar-aeropuertos-con-código-iata" id="toc-contar-aeropuertos-con-código-iata" class="nav-link" data-scroll-target="#contar-aeropuertos-con-código-iata"><span class="header-section-number">8.3</span> Contar aeropuertos con código IATA</a></li>
+  <li><a href="#comprobar-las-rutas-desde-ciudad-de-méxico" id="toc-comprobar-las-rutas-desde-ciudad-de-méxico" class="nav-link" data-scroll-target="#comprobar-las-rutas-desde-ciudad-de-méxico"><span class="header-section-number">8.4</span> Comprobar las rutas desde Ciudad de México</a></li>
+  <li><a href="#visualizar-una-parte-del-grafo" id="toc-visualizar-una-parte-del-grafo" class="nav-link" data-scroll-target="#visualizar-una-parte-del-grafo"><span class="header-section-number">8.5</span> Visualizar una parte del grafo</a></li>
+  </ul></li>
+  <li><a href="#consultas-avanzadas-conectividad-directa" id="toc-consultas-avanzadas-conectividad-directa" class="nav-link" data-scroll-target="#consultas-avanzadas-conectividad-directa"><span class="header-section-number">9</span> Consultas avanzadas: conectividad directa</a>
+  <ul class="collapse">
+  <li><a href="#encontrar-los-destinos-directos-desde-ciudad-de-méxico" id="toc-encontrar-los-destinos-directos-desde-ciudad-de-méxico" class="nav-link" data-scroll-target="#encontrar-los-destinos-directos-desde-ciudad-de-méxico"><span class="header-section-number">9.1</span> Encontrar los destinos directos desde Ciudad de México</a></li>
+  <li><a href="#contar-destinos-directos" id="toc-contar-destinos-directos" class="nav-link" data-scroll-target="#contar-destinos-directos"><span class="header-section-number">9.2</span> Contar destinos directos</a></li>
+  <li><a href="#agrupar-las-conexiones-por-país" id="toc-agrupar-las-conexiones-por-país" class="nav-link" data-scroll-target="#agrupar-las-conexiones-por-país"><span class="header-section-number">9.3</span> Agrupar las conexiones por país</a></li>
+  </ul></li>
+  <li><a href="#identificar-aeropuertos-con-mayor-conectividad" id="toc-identificar-aeropuertos-con-mayor-conectividad" class="nav-link" data-scroll-target="#identificar-aeropuertos-con-mayor-conectividad"><span class="header-section-number">10</span> Identificar aeropuertos con mayor conectividad</a>
+  <ul class="collapse">
+  <li><a href="#contar-destinos-por-aeropuerto" id="toc-contar-destinos-por-aeropuerto" class="nav-link" data-scroll-target="#contar-destinos-por-aeropuerto"><span class="header-section-number">10.1</span> Contar destinos por aeropuerto</a></li>
+  <li><a href="#qué-significa-tener-muchas-conexiones" id="toc-qué-significa-tener-muchas-conexiones" class="nav-link" data-scroll-target="#qué-significa-tener-muchas-conexiones"><span class="header-section-number">10.2</span> ¿Qué significa tener muchas conexiones?</a></li>
+  <li><a href="#contar-las-conexiones-entrantes" id="toc-contar-las-conexiones-entrantes" class="nav-link" data-scroll-target="#contar-las-conexiones-entrantes"><span class="header-section-number">10.3</span> Contar las conexiones entrantes</a></li>
+  </ul></li>
+  <li><a href="#recorridos-de-longitud-variable" id="toc-recorridos-de-longitud-variable" class="nav-link" data-scroll-target="#recorridos-de-longitud-variable"><span class="header-section-number">11</span> Recorridos de longitud variable</a>
+  <ul class="collapse">
+  <li><a href="#buscar-destinos-alcanzables-en-uno-o-dos-tramos" id="toc-buscar-destinos-alcanzables-en-uno-o-dos-tramos" class="nav-link" data-scroll-target="#buscar-destinos-alcanzables-en-uno-o-dos-tramos"><span class="header-section-number">11.1</span> Buscar destinos alcanzables en uno o dos tramos</a></li>
+  <li><a href="#interpretación" id="toc-interpretación" class="nav-link" data-scroll-target="#interpretación"><span class="header-section-number">11.2</span> Interpretación</a></li>
+  </ul></li>
+  <li><a href="#recuperar-recorridos-completos" id="toc-recuperar-recorridos-completos" class="nav-link" data-scroll-target="#recuperar-recorridos-completos"><span class="header-section-number">12</span> Recuperar recorridos completos</a>
+  <ul class="collapse">
+  <li><a href="#buscar-recorridos-entre-ciudad-de-méxico-y-londres" id="toc-buscar-recorridos-entre-ciudad-de-méxico-y-londres" class="nav-link" data-scroll-target="#buscar-recorridos-entre-ciudad-de-méxico-y-londres"><span class="header-section-number">12.1</span> Buscar recorridos entre Ciudad de México y Londres</a></li>
+  <li><a href="#diferencia-entre-destinos-y-caminos" id="toc-diferencia-entre-destinos-y-caminos" class="nav-link" data-scroll-target="#diferencia-entre-destinos-y-caminos"><span class="header-section-number">12.2</span> Diferencia entre destinos y caminos</a></li>
+  </ul></li>
+  <li><a href="#recorridos-con-condiciones" id="toc-recorridos-con-condiciones" class="nav-link" data-scroll-target="#recorridos-con-condiciones"><span class="header-section-number">13</span> Recorridos con condiciones</a>
+  <ul class="collapse">
+  <li><a href="#buscar-recorridos-que-pasen-por-nueva-york" id="toc-buscar-recorridos-que-pasen-por-nueva-york" class="nav-link" data-scroll-target="#buscar-recorridos-que-pasen-por-nueva-york"><span class="header-section-number">13.1</span> Buscar recorridos que pasen por Nueva York</a></li>
+  <li><a href="#buscar-recorridos-que-eviten-nueva-york" id="toc-buscar-recorridos-que-eviten-nueva-york" class="nav-link" data-scroll-target="#buscar-recorridos-que-eviten-nueva-york"><span class="header-section-number">13.2</span> Buscar recorridos que eviten Nueva York</a></li>
+  </ul></li>
+  <li><a href="#evitar-caminos-con-nodos-repetidos" id="toc-evitar-caminos-con-nodos-repetidos" class="nav-link" data-scroll-target="#evitar-caminos-con-nodos-repetidos"><span class="header-section-number">14</span> Evitar caminos con nodos repetidos</a>
+  <ul class="collapse">
+  <li><a href="#consultar-caminos-simples" id="toc-consultar-caminos-simples" class="nav-link" data-scroll-target="#consultar-caminos-simples"><span class="header-section-number">14.1</span> Consultar caminos simples</a></li>
+  </ul></li>
+  <li><a href="#encontrar-caminos-con-el-menor-número-de-conexiones" id="toc-encontrar-caminos-con-el-menor-número-de-conexiones" class="nav-link" data-scroll-target="#encontrar-caminos-con-el-menor-número-de-conexiones"><span class="header-section-number">15</span> Encontrar caminos con el menor número de conexiones</a>
+  <ul class="collapse">
+  <li><a href="#utilizar-shortestpath" id="toc-utilizar-shortestpath" class="nav-link" data-scroll-target="#utilizar-shortestpath"><span class="header-section-number">15.1</span> Utilizar shortestPath()</a></li>
+  <li><a href="#qué-hace-shortestpath" id="toc-qué-hace-shortestpath" class="nav-link" data-scroll-target="#qué-hace-shortestpath"><span class="header-section-number">15.2</span> ¿Qué hace shortestPath()?</a></li>
+  <li><a href="#buscar-todas-las-rutas-mínimas" id="toc-buscar-todas-las-rutas-mínimas" class="nav-link" data-scroll-target="#buscar-todas-las-rutas-mínimas"><span class="header-section-number">15.3</span> Buscar todas las rutas mínimas</a></li>
+  </ul></li>
+  <li><a href="#calcular-distancias-geográficas" id="toc-calcular-distancias-geográficas" class="nav-link" data-scroll-target="#calcular-distancias-geográficas"><span class="header-section-number">16</span> Calcular distancias geográficas</a>
+  <ul class="collapse">
+  <li><a href="#utilizar-point.distance" id="toc-utilizar-point.distance" class="nav-link" data-scroll-target="#utilizar-point.distance"><span class="header-section-number">16.1</span> Utilizar point.distance()</a></li>
+  <li><a href="#calcular-la-distancia-entre-dos-aeropuertos" id="toc-calcular-la-distancia-entre-dos-aeropuertos" class="nav-link" data-scroll-target="#calcular-la-distancia-entre-dos-aeropuertos"><span class="header-section-number">16.2</span> Calcular la distancia entre dos aeropuertos</a></li>
+  <li><a href="#calcular-la-distancia-acumulada-de-un-recorrido" id="toc-calcular-la-distancia-acumulada-de-un-recorrido" class="nav-link" data-scroll-target="#calcular-la-distancia-acumulada-de-un-recorrido"><span class="header-section-number">16.3</span> Calcular la distancia acumulada de un recorrido</a></li>
+  <li><a href="#explicación-1" id="toc-explicación-1" class="nav-link" data-scroll-target="#explicación-1"><span class="header-section-number">16.4</span> Explicación</a></li>
+  <li><a href="#comparar-dos-criterios" id="toc-comparar-dos-criterios" class="nav-link" data-scroll-target="#comparar-dos-criterios"><span class="header-section-number">16.5</span> Comparar dos criterios</a></li>
+  </ul></li>
+  <li><a href="#aplicar-restricciones-sobre-las-distancias" id="toc-aplicar-restricciones-sobre-las-distancias" class="nav-link" data-scroll-target="#aplicar-restricciones-sobre-las-distancias"><span class="header-section-number">17</span> Aplicar restricciones sobre las distancias</a>
+  <ul class="collapse">
+  <li><a href="#filtrar-cada-tramo" id="toc-filtrar-cada-tramo" class="nav-link" data-scroll-target="#filtrar-cada-tramo"><span class="header-section-number">17.1</span> Filtrar cada tramo</a></li>
+  <li><a href="#filtrar-por-distancia-total" id="toc-filtrar-por-distancia-total" class="nav-link" data-scroll-target="#filtrar-por-distancia-total"><span class="header-section-number">17.2</span> Filtrar por distancia total</a></li>
+  </ul></li>
+  <li><a href="#agrupar-y-resumir-la-información" id="toc-agrupar-y-resumir-la-información" class="nav-link" data-scroll-target="#agrupar-y-resumir-la-información"><span class="header-section-number">18</span> Agrupar y resumir la información</a>
+  <ul class="collapse">
+  <li><a href="#países-con-mayor-número-de-aeropuertos-importados" id="toc-países-con-mayor-número-de-aeropuertos-importados" class="nav-link" data-scroll-target="#países-con-mayor-número-de-aeropuertos-importados"><span class="header-section-number">18.1</span> Países con mayor número de aeropuertos importados</a></li>
+  <li><a href="#aeropuertos-de-méxico-con-más-destinos-directos" id="toc-aeropuertos-de-méxico-con-más-destinos-directos" class="nav-link" data-scroll-target="#aeropuertos-de-méxico-con-más-destinos-directos"><span class="header-section-number">18.2</span> Aeropuertos de México con más destinos directos</a></li>
+  <li><a href="#agrupar-destinos-de-ciudad-de-méxico-por-país" id="toc-agrupar-destinos-de-ciudad-de-méxico-por-país" class="nav-link" data-scroll-target="#agrupar-destinos-de-ciudad-de-méxico-por-país"><span class="header-section-number">18.3</span> Agrupar destinos de Ciudad de México por país</a></li>
+  </ul></li>
+  <li><a href="#rendimiento-de-las-consultas" id="toc-rendimiento-de-las-consultas" class="nav-link" data-scroll-target="#rendimiento-de-las-consultas"><span class="header-section-number">19</span> Rendimiento de las consultas</a>
+  <ul class="collapse">
+  <li><a href="#limitar-la-profundidad" id="toc-limitar-la-profundidad" class="nav-link" data-scroll-target="#limitar-la-profundidad"><span class="header-section-number">19.1</span> Limitar la profundidad</a></li>
+  <li><a href="#crear-un-índice-por-código-iata" id="toc-crear-un-índice-por-código-iata" class="nav-link" data-scroll-target="#crear-un-índice-por-código-iata"><span class="header-section-number">19.2</span> Crear un índice por código IATA</a></li>
+  <li><a href="#examinar-el-plan-mediante-explain" id="toc-examinar-el-plan-mediante-explain" class="nav-link" data-scroll-target="#examinar-el-plan-mediante-explain"><span class="header-section-number">19.3</span> Examinar el plan mediante EXPLAIN</a></li>
+  <li><a href="#examinar-el-procesamiento-mediante-profile" id="toc-examinar-el-procesamiento-mediante-profile" class="nav-link" data-scroll-target="#examinar-el-procesamiento-mediante-profile"><span class="header-section-number">19.4</span> Examinar el procesamiento mediante PROFILE</a></li>
+  </ul></li>
+  <li><a href="#calidad-y-limitaciones-de-los-datos" id="toc-calidad-y-limitaciones-de-los-datos" class="nav-link" data-scroll-target="#calidad-y-limitaciones-de-los-datos"><span class="header-section-number">20</span> Calidad y limitaciones de los datos</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-es-importante-documentar-estas-decisiones" id="toc-por-qué-es-importante-documentar-estas-decisiones" class="nav-link" data-scroll-target="#por-qué-es-importante-documentar-estas-decisiones"><span class="header-section-number">20.1</span> ¿Por qué es importante documentar estas decisiones?</a></li>
+  </ul></li>
+  <li><a href="#actividad-individual-análisis-de-rutas-aéreas" id="toc-actividad-individual-análisis-de-rutas-aéreas" class="nav-link" data-scroll-target="#actividad-individual-análisis-de-rutas-aéreas"><span class="header-section-number">21</span> Actividad individual: análisis de rutas aéreas</a>
+  <ul class="collapse">
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo"><span class="header-section-number">21.1</span> Objetivo</a></li>
+  <li><a href="#parte-a.-exploración-y-conectividad" id="toc-parte-a.-exploración-y-conectividad" class="nav-link" data-scroll-target="#parte-a.-exploración-y-conectividad"><span class="header-section-number">21.2</span> Parte A. Exploración y conectividad</a></li>
+  <li><a href="#parte-b.-recorridos-y-rutas-alternativas" id="toc-parte-b.-recorridos-y-rutas-alternativas" class="nav-link" data-scroll-target="#parte-b.-recorridos-y-rutas-alternativas"><span class="header-section-number">21.3</span> Parte B. Recorridos y rutas alternativas</a></li>
+  <li><a href="#parte-c.-análisis-y-rendimiento" id="toc-parte-c.-análisis-y-rendimiento" class="nav-link" data-scroll-target="#parte-c.-análisis-y-rendimiento"><span class="header-section-number">21.4</span> Parte C. Análisis y rendimiento</a></li>
+  <li><a href="#indicaciones-de-entrega" id="toc-indicaciones-de-entrega" class="nav-link" data-scroll-target="#indicaciones-de-entrega"><span class="header-section-number">21.5</span> Indicaciones de entrega</a></li>
+  </ul></li>
+  <li><a href="#síntesis-de-lo-aprendido" id="toc-síntesis-de-lo-aprendido" class="nav-link" data-scroll-target="#síntesis-de-lo-aprendido"><span class="header-section-number">22</span> Síntesis de lo aprendido</a></li>
+  <li><a href="#referencias-de-consulta" id="toc-referencias-de-consulta" class="nav-link" data-scroll-target="#referencias-de-consulta"><span class="header-section-number">23</span> Referencias de consulta</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Consultas avanzadas y recorridos de grafos en Neo4j</h1>
+<p class="subtitle lead">Bases de Datos No Relacionales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">1</span> Introducción</h2>
+<p>En los apuntes anteriores estudiamos los fundamentos de las bases de datos orientadas a grafos y aprendimos a utilizar Neo4j mediante el lenguaje de consultas Cypher.</p>
+<p>En el <strong>Apunte 11</strong> conocimos los conceptos de nodos, relaciones, propiedades, caminos y recorridos.</p>
+<p>Posteriormente, en el <strong>Apunte 12</strong>, construimos diferentes grafos para representar redes sociales, conexiones entre ciudades mexicanas, información de jugadores de la NBA e infraestructura de tecnologías de la información.</p>
+<p>Estas prácticas nos permitieron comprender cómo se organizan y consultan los datos en una base orientada a grafos.</p>
+<p>Sin embargo, hasta ahora hemos trabajado principalmente con conjuntos de datos relativamente pequeños, creados mediante instrucciones de Cypher.</p>
+<p>En aplicaciones reales, los grafos pueden contener miles o millones de nodos y relaciones. Por ello, resulta importante aprender a incorporar información procedente de archivos externos y a realizar consultas sobre redes de mayor tamaño.</p>
+<p>En este apunte utilizaremos un conjunto de datos reales de aeropuertos y rutas aéreas internacionales, publicado por <strong>OpenFlights</strong>.</p>
+<p>El propósito será importar los registros a Neo4j y utilizar las herramientas de Cypher para investigar la conectividad de la red.</p>
+<p>Al finalizar, podremos:</p>
+<ul>
+<li>Importar datos externos mediante <code>LOAD CSV</code>.</li>
+<li>Transformar registros tabulares en nodos y relaciones.</li>
+<li>Validar la información importada.</li>
+<li>Identificar conexiones directas e indirectas.</li>
+<li>Consultar recorridos de longitud variable.</li>
+<li>Encontrar caminos con el menor número de conexiones.</li>
+<li>Establecer condiciones sobre los recorridos.</li>
+<li>Identificar aeropuertos con mayor conectividad.</li>
+<li>Calcular distancias geográficas aproximadas.</li>
+<li>Examinar el rendimiento de las consultas.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Continuidad con los apuntes anteriores</strong></p>
+<p>No volveremos a estudiar desde cero los comandos básicos de Neo4j.</p>
+<p>Utilizaremos conocimientos adquiridos anteriormente, como <code>MATCH</code>, <code>WHERE</code>, <code>MERGE</code>, <code>RETURN</code>, <code>DISTINCT</code>, <code>ORDER BY</code>, <code>LIMIT</code>, <code>length()</code>, <code>shortestPath()</code> y <code>reduce()</code>.</p>
+<p>La principal diferencia es que ahora trabajaremos con una red real de mayor tamaño, importada desde archivos externos.</p>
+</div>
+</div>
+</section>
+<section id="caso-práctico-red-internacional-de-aeropuertos" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="caso-práctico-red-internacional-de-aeropuertos"><span class="header-section-number">2</span> Caso práctico: red internacional de aeropuertos</h2>
+<section id="qué-es-openflights" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="qué-es-openflights"><span class="header-section-number">2.1</span> ¿Qué es OpenFlights?</h3>
+<p><strong>OpenFlights</strong> es un proyecto que proporciona conjuntos de datos abiertos relacionados con aeropuertos, aerolíneas y rutas aéreas.</p>
+<p>Entre la información disponible se encuentran los nombres y ubicaciones de los aeropuertos, códigos de identificación, países, coordenadas geográficas y conexiones entre aeropuertos.</p>
+<p>Para nuestra práctica utilizaremos dos archivos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Archivo</th>
+<th>Información</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>airports.dat</code></td>
+<td>Información de aeropuertos</td>
+</tr>
+<tr class="even">
+<td><code>routes.dat</code></td>
+<td>Conexiones aéreas entre aeropuertos</td>
+</tr>
+</tbody>
+</table>
+<p>Los datos proceden del proyecto:</p>
+<p><a href="https://openflights.org/data.php">OpenFlights: Airport and Airline Data</a></p>
+</section>
+<section id="tamaño-y-alcance-de-la-información" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="tamaño-y-alcance-de-la-información"><span class="header-section-number">2.2</span> Tamaño y alcance de la información</h3>
+<p>La base histórica de rutas de OpenFlights contiene aproximadamente:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th style="text-align: right;">Cantidad histórica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aeropuertos con rutas</td>
+<td style="text-align: right;">3,321</td>
+</tr>
+<tr class="even">
+<td>Registros de rutas aéreas</td>
+<td style="text-align: right;">67,663</td>
+</tr>
+<tr class="odd">
+<td>Aerolíneas</td>
+<td style="text-align: right;">548</td>
+</tr>
+</tbody>
+</table>
+<p>Estas cifras corresponden a la versión histórica reportada por OpenFlights para junio de 2014.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Limitación de los datos</strong></p>
+<p>Las rutas de OpenFlights dejaron de actualizarse de forma regular en junio de 2014.</p>
+<p>Por lo tanto, las conexiones que analizaremos tienen <strong>valor histórico y educativo</strong>.</p>
+<p>No debemos interpretar una relación encontrada como evidencia de que actualmente existe un vuelo comercial entre esos aeropuertos.</p>
+<p>Además, los archivos descargados pueden contener cantidades diferentes de registros dependiendo de la versión disponible.</p>
+</div>
+</div>
+</section>
+<section id="por-qué-utilizar-un-grafo" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="por-qué-utilizar-un-grafo"><span class="header-section-number">2.3</span> ¿Por qué utilizar un grafo?</h3>
+<p>Imaginemos que queremos responder las siguientes preguntas:</p>
+<ul>
+<li>¿Qué aeropuertos tienen conexiones directas con Ciudad de México?</li>
+<li>¿A cuántos destinos podemos llegar utilizando una escala?</li>
+<li>¿Qué aeropuertos funcionan como puntos de conexión entre diferentes regiones?</li>
+<li>¿Cuál es el menor número de conexiones necesario para llegar a otro país?</li>
+<li>¿Qué alternativas existen cuando un recorrido debe evitar determinado aeropuerto?</li>
+</ul>
+<p>Estas preguntas están relacionadas principalmente con las <strong>conexiones entre entidades</strong>.</p>
+<p>Por lo tanto, una base de datos orientada a grafos resulta adecuada para representar y consultar este tipo de información.</p>
+</section>
+</section>
+<section id="modelo-de-datos-que-utilizaremos" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="modelo-de-datos-que-utilizaremos"><span class="header-section-number">3</span> Modelo de datos que utilizaremos</h2>
+<p>Antes de importar los archivos debemos definir cómo representaremos la información.</p>
+<section id="nodos" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="nodos"><span class="header-section-number">3.1</span> Nodos</h3>
+<p>Cada aeropuerto estará representado mediante un nodo con la etiqueta:</p>
+<pre class="cypher"><code>:Aeropuerto</code></pre>
+<p>Los nodos tendrán propiedades como las siguientes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>Identificador de OpenFlights</td>
+</tr>
+<tr class="even">
+<td><code>nombre</code></td>
+<td>Nombre del aeropuerto</td>
+</tr>
+<tr class="odd">
+<td><code>ciudad</code></td>
+<td>Ciudad donde se encuentra</td>
+</tr>
+<tr class="even">
+<td><code>pais</code></td>
+<td>País</td>
+</tr>
+<tr class="odd">
+<td><code>iata</code></td>
+<td>Código de tres caracteres</td>
+</tr>
+<tr class="even">
+<td><code>icao</code></td>
+<td>Código de cuatro caracteres</td>
+</tr>
+<tr class="odd">
+<td><code>latitud</code></td>
+<td>Coordenada geográfica</td>
+</tr>
+<tr class="even">
+<td><code>longitud</code></td>
+<td>Coordenada geográfica</td>
+</tr>
+<tr class="odd">
+<td><code>ubicacion</code></td>
+<td>Punto geográfico de Neo4j</td>
+</tr>
+</tbody>
+</table>
+<p>Por ejemplo, el Aeropuerto Internacional de la Ciudad de México utiliza el código IATA <code>MEX</code>.</p>
+</section>
+<section id="relaciones" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="relaciones"><span class="header-section-number">3.2</span> Relaciones</h3>
+<p>Las conexiones entre aeropuertos se representarán mediante relaciones dirigidas:</p>
+<pre class="cypher"><code>:RUTA_AEREA</code></pre>
+<p>La dirección indicará el sentido del recorrido registrado:</p>
+<pre class="text"><code>(Aeropuerto de origen)
+          |
+          | RUTA_AEREA
+          v
+(Aeropuerto de destino)</code></pre>
+<p>En términos de Cypher:</p>
+<pre class="cypher"><code>(origen:Aeropuerto)-[:RUTA_AEREA]-&gt;(destino:Aeropuerto)</code></pre>
+<p>Para esta práctica crearemos una sola relación por cada <strong>par dirigido de aeropuertos</strong>.</p>
+<p>Esto significa que, si varias aerolíneas registraron rutas del mismo origen al mismo destino, las representaremos mediante una única conexión.</p>
+<p>Esta simplificación es suficiente para estudiar la conectividad entre aeropuertos, aunque no permite distinguir qué aerolíneas operaban cada conexión.</p>
+</section>
+<section id="diferencia-respecto-al-apunte-12" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="diferencia-respecto-al-apunte-12"><span class="header-section-number">3.3</span> Diferencia respecto al Apunte 12</h3>
+<p>En el ejemplo de ciudades mexicanas del Apunte 12, las rutas incluían propiedades simuladas de distancia, tiempo y costo.</p>
+<p>En OpenFlights, los archivos que utilizaremos <strong>no proporcionan tiempos de vuelo ni precios</strong>.</p>
+<p>Sí disponemos de las coordenadas de los aeropuertos, por lo que podremos estimar distancias geográficas entre ellos.</p>
+<p>Estas distancias no deben confundirse con la distancia real recorrida por un avión ni con la duración del vuelo.</p>
+</section>
+</section>
+<section id="preparación-del-entorno-de-trabajo" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="preparación-del-entorno-de-trabajo"><span class="header-section-number">4</span> Preparación del entorno de trabajo</h2>
+<p>Para esta práctica necesitamos:</p>
+<ul>
+<li>Neo4j instalado y funcionando.</li>
+<li>Acceso a Neo4j Browser o Neo4j Query.</li>
+<li>Los archivos de OpenFlights.</li>
+<li>Una base de datos de Neo4j en la que tengamos permisos para importar información.</li>
+</ul>
+<p>No necesitamos instalar bibliotecas externas.</p>
+<section id="descargar-los-archivos" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="descargar-los-archivos"><span class="header-section-number">4.1</span> Descargar los archivos</h3>
+<p>Accedemos a los siguientes enlaces:</p>
+<p><strong>Archivo de aeropuertos:</strong></p>
+<p><a href="https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat">Descargar airports.dat</a></p>
+<p><strong>Archivo de rutas:</strong></p>
+<p><a href="https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat">Descargar routes.dat</a></p>
+<p>Debemos guardar ambos archivos conservando exactamente sus nombres.</p>
+<p>Es importante comprobar que no se hayan guardado como:</p>
+<pre class="text"><code>airports.dat.txt
+routes.dat.txt</code></pre>
+</section>
+<section id="ubicar-los-archivos-en-neo4j" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="ubicar-los-archivos-en-neo4j"><span class="header-section-number">4.2</span> Ubicar los archivos en Neo4j</h3>
+<p>Cuando trabajamos con Neo4j instalado localmente, el comando <code>LOAD CSV</code> puede leer archivos colocados en el directorio de importación de la instancia.</p>
+<p>En Neo4j Desktop debemos localizar la carpeta de importación de la instancia que estemos utilizando.</p>
+<p>Dependiendo de la versión, esta opción puede encontrarse en el menú de administración de la instancia, dentro de las opciones para abrir sus carpetas.</p>
+<p>El directorio se identifica normalmente como:</p>
+<pre class="text"><code>import</code></pre>
+<p>Copiamos ahí los dos archivos.</p>
+<p>La estructura debe ser equivalente a:</p>
+<pre class="text"><code>Neo4j
+└── import
+    ├── airports.dat
+    └── routes.dat</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Los archivos deben colocarse en la carpeta <code>import</code> de la instancia de Neo4j, no simplemente en la carpeta del proyecto Quarto.</p>
+<p>También es posible importar archivos desde direcciones HTTPS, pero para nuestra práctica utilizaremos archivos locales, de modo que las consultas no dependan de descargar repetidamente información desde Internet.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="conocer-la-estructura-de-los-archivos" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="conocer-la-estructura-de-los-archivos"><span class="header-section-number">5</span> Conocer la estructura de los archivos</h2>
+<p>Antes de importar los datos, debemos comprender su organización.</p>
+<p>Ambos archivos utilizan un formato delimitado por comas, similar a CSV, pero <strong>no incluyen una primera fila con nombres de columnas</strong>.</p>
+<p>Por esta razón utilizaremos <code>LOAD CSV</code> sin <code>WITH HEADERS</code>.</p>
+<section id="estructura-de-airports.dat" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="estructura-de-airports.dat"><span class="header-section-number">5.1</span> Estructura de airports.dat</h3>
+<p>Las principales posiciones del archivo son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Posición</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fila[0]</code></td>
+<td>Identificador del aeropuerto</td>
+</tr>
+<tr class="even">
+<td><code>fila[1]</code></td>
+<td>Nombre</td>
+</tr>
+<tr class="odd">
+<td><code>fila[2]</code></td>
+<td>Ciudad</td>
+</tr>
+<tr class="even">
+<td><code>fila[3]</code></td>
+<td>País</td>
+</tr>
+<tr class="odd">
+<td><code>fila[4]</code></td>
+<td>Código IATA</td>
+</tr>
+<tr class="even">
+<td><code>fila[5]</code></td>
+<td>Código ICAO</td>
+</tr>
+<tr class="odd">
+<td><code>fila[6]</code></td>
+<td>Latitud</td>
+</tr>
+<tr class="even">
+<td><code>fila[7]</code></td>
+<td>Longitud</td>
+</tr>
+</tbody>
+</table>
+<p>El archivo contiene otros campos, pero inicialmente trabajaremos con estas ocho posiciones.</p>
+</section>
+<section id="consultar-las-primeras-filas" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="consultar-las-primeras-filas"><span class="header-section-number">5.2</span> Consultar las primeras filas</h3>
+<p>En Neo4j ejecutamos:</p>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///airports.dat' AS fila
+RETURN fila
+LIMIT 5;</code></pre>
+<p><strong>Explicación</strong></p>
+<ul>
+<li><code>LOAD CSV</code> lee el archivo.</li>
+<li><code>file:///</code> indica que se encuentra en el directorio de importación.</li>
+<li><code>AS fila</code> asigna una variable a cada registro.</li>
+<li><code>LIMIT 5</code> muestra únicamente cinco registros.</li>
+</ul>
+<p>Esta instrucción permite examinar el archivo <strong>sin incorporar todavía los datos a la base</strong>.</p>
+</section>
+<section id="consultar-campos-específicos" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="consultar-campos-específicos"><span class="header-section-number">5.3</span> Consultar campos específicos</h3>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///airports.dat' AS fila
+RETURN fila[1] AS Aeropuerto,
+       fila[2] AS Ciudad,
+       fila[3] AS Pais,
+       fila[4] AS CodigoIATA
+LIMIT 10;</code></pre>
+<p>Ahora podemos identificar directamente las columnas que utilizaremos.</p>
+</section>
+<section id="estructura-de-routes.dat" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="estructura-de-routes.dat"><span class="header-section-number">5.4</span> Estructura de routes.dat</h3>
+<p>Las posiciones principales son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Posición</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fila[0]</code></td>
+<td>Código de aerolínea</td>
+</tr>
+<tr class="even">
+<td><code>fila[1]</code></td>
+<td>Identificador de aerolínea</td>
+</tr>
+<tr class="odd">
+<td><code>fila[2]</code></td>
+<td>Código de aeropuerto de origen</td>
+</tr>
+<tr class="even">
+<td><code>fila[3]</code></td>
+<td>Identificador del aeropuerto de origen</td>
+</tr>
+<tr class="odd">
+<td><code>fila[4]</code></td>
+<td>Código de aeropuerto de destino</td>
+</tr>
+<tr class="even">
+<td><code>fila[5]</code></td>
+<td>Identificador del aeropuerto de destino</td>
+</tr>
+<tr class="odd">
+<td><code>fila[6]</code></td>
+<td>Información de vuelo compartido</td>
+</tr>
+<tr class="even">
+<td><code>fila[7]</code></td>
+<td>Número de paradas</td>
+</tr>
+<tr class="odd">
+<td><code>fila[8]</code></td>
+<td>Equipo o aeronave</td>
+</tr>
+</tbody>
+</table>
+<p>Para nuestra red utilizaremos principalmente los identificadores de origen y destino.</p>
+</section>
+<section id="examinar-las-rutas" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="examinar-las-rutas"><span class="header-section-number">5.5</span> Examinar las rutas</h3>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///routes.dat' AS fila
+RETURN fila[2] AS Origen,
+       fila[4] AS Destino,
+       fila[0] AS Aerolinea
+LIMIT 10;</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>¿Por qué utilizamos identificadores?</strong></p>
+<p>Los nombres de aeropuertos pueden ser similares o cambiar con el tiempo.</p>
+<p>En cambio, el identificador registrado por OpenFlights permite relacionar los archivos de aeropuertos y rutas.</p>
+<p>Además, algunos registros utilizan <code>\N</code> para representar información no disponible. Debemos considerar estos valores durante la importación.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="importar-los-aeropuertos-a-neo4j" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="importar-los-aeropuertos-a-neo4j"><span class="header-section-number">6</span> Importar los aeropuertos a Neo4j</h2>
+<p>Ahora comenzaremos a transformar los registros del archivo en nodos.</p>
+<section id="crear-una-restricción-de-unicidad" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="crear-una-restricción-de-unicidad"><span class="header-section-number">6.1</span> Crear una restricción de unicidad</h3>
+<p>Antes de importar, estableceremos que cada aeropuerto tenga un identificador único.</p>
+<pre class="cypher"><code>CREATE CONSTRAINT aeropuerto_id_unico IF NOT EXISTS
+FOR (a:Aeropuerto)
+REQUIRE a.id IS UNIQUE;</code></pre>
+<p>La restricción ayuda a evitar que existan varios nodos <code>Aeropuerto</code> con el mismo identificador.</p>
+<p>También crea un índice asociado que facilita la búsqueda por <code>id</code>.</p>
+</section>
+<section id="importar-los-nodos" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="importar-los-nodos"><span class="header-section-number">6.2</span> Importar los nodos</h3>
+<p>Ejecutamos:</p>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///airports.dat' AS fila
+
+WITH fila,
+     toInteger(fila[0]) AS id,
+     toFloat(fila[6]) AS lat,
+     toFloat(fila[7]) AS lon
+
+WHERE id IS NOT NULL
+  AND lat IS NOT NULL
+  AND lon IS NOT NULL
+
+MERGE (a:Aeropuerto {id: id})
+
+SET a.nombre = fila[1],
+    a.ciudad = fila[2],
+    a.pais = fila[3],
+    a.iata = CASE
+               WHEN fila[4] =~ '[A-Z0-9]{3}'
+               THEN fila[4]
+               ELSE null
+             END,
+    a.icao = CASE
+               WHEN fila[5] =~ '[A-Z0-9]{4}'
+               THEN fila[5]
+               ELSE null
+             END,
+    a.latitud = lat,
+    a.longitud = lon,
+    a.ubicacion = point({
+      latitude: lat,
+      longitude: lon
+    });</code></pre>
+<p>Esta consulta puede procesar miles de registros. Su duración dependerá del equipo y de la instancia de Neo4j.</p>
+</section>
+<section id="explicación-del-procedimiento" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="explicación-del-procedimiento"><span class="header-section-number">6.3</span> Explicación del procedimiento</h3>
+<p><strong>1. Leer el archivo</strong></p>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///airports.dat' AS fila</code></pre>
+<p>Permite recorrer los registros.</p>
+<p><strong>2. Convertir los tipos de datos</strong></p>
+<pre class="cypher"><code>toInteger(fila[0])
+toFloat(fila[6])
+toFloat(fila[7])</code></pre>
+<p>Los archivos delimitados contienen valores que inicialmente se interpretan como texto.</p>
+<p>Estas funciones convierten los identificadores y las coordenadas a tipos numéricos.</p>
+<p><strong>3. Filtrar registros inválidos</strong></p>
+<pre class="cypher"><code>WHERE id IS NOT NULL
+  AND lat IS NOT NULL
+  AND lon IS NOT NULL</code></pre>
+<p>Evita crear nodos cuando faltan los valores necesarios.</p>
+<p><strong>4. Crear o recuperar nodos</strong></p>
+<pre class="cypher"><code>MERGE (a:Aeropuerto {id: id})</code></pre>
+<p><code>MERGE</code> busca un aeropuerto con ese identificador y lo crea únicamente si no existe.</p>
+<p><strong>5. Incorporar propiedades</strong></p>
+<pre class="cypher"><code>SET a.nombre = fila[1]</code></pre>
+<p>Agrega la información recuperada del archivo.</p>
+<p><strong>6. Guardar una ubicación geográfica</strong></p>
+<pre class="cypher"><code>point({
+  latitude: lat,
+  longitude: lon
+})</code></pre>
+<p>Crea un valor geográfico que posteriormente utilizaremos para calcular distancias.</p>
+</section>
+<section id="comprobar-la-importación" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="comprobar-la-importación"><span class="header-section-number">6.4</span> Comprobar la importación</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+RETURN count(a) AS TotalAeropuertos;</code></pre>
+<p>El resultado debe indicar que se incorporaron miles de aeropuertos.</p>
+<p>La cantidad exacta puede variar según la versión del archivo y los registros que cumplieron las condiciones de importación.</p>
+</section>
+<section id="consultar-algunos-aeropuertos" class="level3" data-number="6.5">
+<h3 data-number="6.5" class="anchored" data-anchor-id="consultar-algunos-aeropuertos"><span class="header-section-number">6.5</span> Consultar algunos aeropuertos</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+RETURN a.nombre AS Aeropuerto,
+       a.ciudad AS Ciudad,
+       a.pais AS Pais,
+       a.iata AS IATA
+ORDER BY Pais, Ciudad
+LIMIT 20;</code></pre>
+</section>
+<section id="buscar-el-aeropuerto-de-ciudad-de-méxico" class="level3" data-number="6.6">
+<h3 data-number="6.6" class="anchored" data-anchor-id="buscar-el-aeropuerto-de-ciudad-de-méxico"><span class="header-section-number">6.6</span> Buscar el aeropuerto de Ciudad de México</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto {iata: 'MEX'})
+RETURN a.nombre AS Aeropuerto,
+       a.ciudad AS Ciudad,
+       a.pais AS Pais,
+       a.latitud AS Latitud,
+       a.longitud AS Longitud;</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>¿Qué hemos logrado?</strong></p>
+<p>Transformamos un archivo tabular en miles de nodos con propiedades.</p>
+<p>Sin embargo, todavía no tenemos una red de conexiones porque faltan las relaciones entre aeropuertos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="importar-las-rutas-aéreas" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="importar-las-rutas-aéreas"><span class="header-section-number">7</span> Importar las rutas aéreas</h2>
+<p>Ahora utilizaremos <code>routes.dat</code> para relacionar los aeropuertos que ya incorporamos.</p>
+<section id="comprender-la-relación" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="comprender-la-relación"><span class="header-section-number">7.1</span> Comprender la relación</h3>
+<p>El archivo contiene identificadores de aeropuerto de origen y destino.</p>
+<p>Nuestro objetivo es crear una relación equivalente a:</p>
+<pre class="cypher"><code>(origen:Aeropuerto)-[:RUTA_AEREA]-&gt;(destino:Aeropuerto)</code></pre>
+<p>Solamente podremos crearla cuando ambos aeropuertos existan en nuestra base.</p>
+</section>
+<section id="ejecutar-la-importación" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="ejecutar-la-importación"><span class="header-section-number">7.2</span> Ejecutar la importación</h3>
+<pre class="cypher"><code>LOAD CSV FROM 'file:///routes.dat' AS fila
+
+WITH toInteger(fila[3]) AS idOrigen,
+     toInteger(fila[5]) AS idDestino
+
+WHERE idOrigen IS NOT NULL
+  AND idDestino IS NOT NULL
+
+MATCH (origen:Aeropuerto {id: idOrigen})
+MATCH (destino:Aeropuerto {id: idDestino})
+
+MERGE (origen)-[:RUTA_AEREA]-&gt;(destino);</code></pre>
+</section>
+<section id="explicación" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="explicación"><span class="header-section-number">7.3</span> Explicación</h3>
+<p>Primero recuperamos los identificadores de origen y destino.</p>
+<p>Después comprobamos que sean numéricos.</p>
+<p>Las instrucciones <code>MATCH</code> recuperan los aeropuertos previamente importados.</p>
+<p>Finalmente:</p>
+<pre class="cypher"><code>MERGE (origen)-[:RUTA_AEREA]-&gt;(destino)</code></pre>
+<p>crea la relación cuando todavía no existe entre ese par dirigido de nodos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Una relación por cada par de aeropuertos</strong></p>
+<p>El archivo original puede contener varios registros entre los mismos aeropuertos porque distintas aerolíneas operaban esas rutas.</p>
+<p>En nuestro modelo utilizamos <code>MERGE</code> para conservar una sola conexión dirigida entre cada par.</p>
+<p>Por lo tanto, el número de relaciones creadas en Neo4j normalmente será menor que el número total de filas del archivo original.</p>
+<p>Además, los registros con identificadores inválidos o aeropuertos ausentes no generarán relaciones.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="validación-de-la-base-importada" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="validación-de-la-base-importada"><span class="header-section-number">8</span> Validación de la base importada</h2>
+<p>Antes de realizar consultas avanzadas debemos comprobar que los datos se incorporaron correctamente.</p>
+<section id="contar-nodos" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="contar-nodos"><span class="header-section-number">8.1</span> Contar nodos</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+RETURN count(a) AS TotalAeropuertos;</code></pre>
+</section>
+<section id="contar-relaciones" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="contar-relaciones"><span class="header-section-number">8.2</span> Contar relaciones</h3>
+<pre class="cypher"><code>MATCH (:Aeropuerto)-[r:RUTA_AEREA]-&gt;(:Aeropuerto)
+RETURN count(r) AS TotalRutas;</code></pre>
+</section>
+<section id="contar-aeropuertos-con-código-iata" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="contar-aeropuertos-con-código-iata"><span class="header-section-number">8.3</span> Contar aeropuertos con código IATA</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+RETURN count(a) AS Total,
+       count(a.iata) AS ConCodigoIATA;</code></pre>
+<p>Esto permite observar cuántos aeropuertos tienen un código IATA disponible.</p>
+</section>
+<section id="comprobar-las-rutas-desde-ciudad-de-méxico" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="comprobar-las-rutas-desde-ciudad-de-méxico"><span class="header-section-number">8.4</span> Comprobar las rutas desde Ciudad de México</h3>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (destino:Aeropuerto)
+
+RETURN origen.iata AS Origen,
+       destino.iata AS Destino,
+       destino.nombre AS Aeropuerto,
+       destino.pais AS Pais
+
+ORDER BY Pais, Destino
+LIMIT 20;</code></pre>
+</section>
+<section id="visualizar-una-parte-del-grafo" class="level3" data-number="8.5">
+<h3 data-number="8.5" class="anchored" data-anchor-id="visualizar-una-parte-del-grafo"><span class="header-section-number">8.5</span> Visualizar una parte del grafo</h3>
+<pre class="cypher"><code>MATCH p =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA]-&gt;
+  (:Aeropuerto)
+
+RETURN p
+LIMIT 25;</code></pre>
+<p>En Neo4j podemos seleccionar la visualización de grafo.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Visualización de redes grandes</strong></p>
+<p>No debemos intentar visualizar los miles de nodos y todas sus relaciones simultáneamente.</p>
+<p>Aunque Neo4j puede almacenar y consultar una red considerable, la representación gráfica de todos sus elementos puede dificultar la interpretación y consumir muchos recursos.</p>
+<p>Por ello, limitaremos las visualizaciones a subconjuntos de la red.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="consultas-avanzadas-conectividad-directa" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="consultas-avanzadas-conectividad-directa"><span class="header-section-number">9</span> Consultas avanzadas: conectividad directa</h2>
+<p>Comenzaremos identificando las conexiones de determinados aeropuertos.</p>
+<section id="encontrar-los-destinos-directos-desde-ciudad-de-méxico" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="encontrar-los-destinos-directos-desde-ciudad-de-méxico"><span class="header-section-number">9.1</span> Encontrar los destinos directos desde Ciudad de México</h3>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (destino:Aeropuerto)
+
+RETURN destino.iata AS Codigo,
+       destino.nombre AS Aeropuerto,
+       destino.ciudad AS Ciudad,
+       destino.pais AS Pais
+
+ORDER BY Pais, Ciudad;</code></pre>
+<p>Esta consulta devuelve los aeropuertos conectados directamente con <code>MEX</code>.</p>
+</section>
+<section id="contar-destinos-directos" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="contar-destinos-directos"><span class="header-section-number">9.2</span> Contar destinos directos</h3>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (destino:Aeropuerto)
+
+RETURN count(DISTINCT destino) AS DestinosDirectos;</code></pre>
+<p>Utilizamos <code>DISTINCT</code> para contar aeropuertos diferentes.</p>
+</section>
+<section id="agrupar-las-conexiones-por-país" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="agrupar-las-conexiones-por-país"><span class="header-section-number">9.3</span> Agrupar las conexiones por país</h3>
+<pre class="cypher"><code>MATCH (:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (destino:Aeropuerto)
+
+RETURN destino.pais AS Pais,
+       count(DISTINCT destino) AS AeropuertosConectados
+
+ORDER BY AeropuertosConectados DESC;</code></pre>
+<p>Esta consulta permite identificar los países con mayor número de aeropuertos conectados directamente con Ciudad de México en la red histórica.</p>
+</section>
+</section>
+<section id="identificar-aeropuertos-con-mayor-conectividad" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="identificar-aeropuertos-con-mayor-conectividad"><span class="header-section-number">10</span> Identificar aeropuertos con mayor conectividad</h2>
+<p>En una red de transporte, algunos aeropuertos funcionan como puntos importantes de conexión.</p>
+<p>Podemos estudiar esta característica mediante la cantidad de relaciones que tienen.</p>
+<section id="contar-destinos-por-aeropuerto" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="contar-destinos-por-aeropuerto"><span class="header-section-number">10.1</span> Contar destinos por aeropuerto</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+OPTIONAL MATCH (a)-[:RUTA_AEREA]-&gt;(destino:Aeropuerto)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       a.pais AS Pais,
+       count(DISTINCT destino) AS DestinosDirectos
+
+ORDER BY DestinosDirectos DESC
+LIMIT 20;</code></pre>
+<p>El resultado muestra los veinte aeropuertos con mayor número de destinos directos.</p>
+</section>
+<section id="qué-significa-tener-muchas-conexiones" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="qué-significa-tener-muchas-conexiones"><span class="header-section-number">10.2</span> ¿Qué significa tener muchas conexiones?</h3>
+<p>Un aeropuerto con una gran cantidad de relaciones salientes tiene acceso directo a numerosos destinos.</p>
+<p>Esta medida se relaciona con el <strong>grado de salida</strong> de un nodo en un grafo dirigido.</p>
+<p>No significa necesariamente que sea el aeropuerto con más pasajeros, más vuelos diarios o mayores ingresos.</p>
+<p>Únicamente estamos midiendo su conectividad dentro de los registros importados.</p>
+</section>
+<section id="contar-las-conexiones-entrantes" class="level3" data-number="10.3">
+<h3 data-number="10.3" class="anchored" data-anchor-id="contar-las-conexiones-entrantes"><span class="header-section-number">10.3</span> Contar las conexiones entrantes</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+OPTIONAL MATCH (origen:Aeropuerto)-[:RUTA_AEREA]-&gt;(a)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       count(DISTINCT origen) AS OrigenesDirectos
+
+ORDER BY OrigenesDirectos DESC
+LIMIT 20;</code></pre>
+<p>Ahora analizamos el <strong>grado de entrada</strong>.</p>
+<p>En un grafo dirigido, las conexiones entrantes y salientes pueden ser diferentes.</p>
+</section>
+</section>
+<section id="recorridos-de-longitud-variable" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="recorridos-de-longitud-variable"><span class="header-section-number">11</span> Recorridos de longitud variable</h2>
+<p>Hasta ahora hemos consultado relaciones directas.</p>
+<p>Sin embargo, los viajes aéreos también pueden requerir conexiones intermedias.</p>
+<p>Cypher permite explorar estos recorridos utilizando relaciones de longitud variable.</p>
+<section id="buscar-destinos-alcanzables-en-uno-o-dos-tramos" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="buscar-destinos-alcanzables-en-uno-o-dos-tramos"><span class="header-section-number">11.1</span> Buscar destinos alcanzables en uno o dos tramos</h3>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'})
+
+MATCH camino =
+  (origen)-[:RUTA_AEREA*1..2]-&gt;(destino:Aeropuerto)
+
+WHERE destino &lt;&gt; origen
+  AND destino.iata IS NOT NULL
+
+WITH destino,
+     min(length(camino)) AS TramosMinimos
+
+RETURN destino.iata AS Codigo,
+       destino.ciudad AS Ciudad,
+       destino.pais AS Pais,
+       TramosMinimos
+
+ORDER BY TramosMinimos, Pais, Ciudad
+LIMIT 30;</code></pre>
+</section>
+<section id="interpretación" class="level3" data-number="11.2">
+<h3 data-number="11.2" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">11.2</span> Interpretación</h3>
+<p>La expresión:</p>
+<pre class="cypher"><code>[:RUTA_AEREA*1..2]</code></pre>
+<p>permite recorrer una o dos relaciones.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>MEX → Destino</code></pre>
+<p>representa un tramo directo.</p>
+<p>Mientras que:</p>
+<pre class="text"><code>MEX → Escala → Destino</code></pre>
+<p>representa dos tramos, con una escala.</p>
+<p>La función:</p>
+<pre class="cypher"><code>length(camino)</code></pre>
+<p>cuenta el número de relaciones recorridas.</p>
+<p>La función <code>min()</code> permite identificar la menor cantidad de tramos encontrada hacia cada destino dentro del límite establecido.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Tramos y escalas</strong></p>
+<p>En este apunte distinguiremos:</p>
+<ul>
+<li>Un tramo: cero escalas.</li>
+<li>Dos tramos: una escala.</li>
+<li>Tres tramos: dos escalas.</li>
+</ul>
+<p>El número de escalas de un camino corresponde al número de tramos menos uno.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="recuperar-recorridos-completos" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="recuperar-recorridos-completos"><span class="header-section-number">12</span> Recuperar recorridos completos</h2>
+<p>Conocer el destino no siempre es suficiente.</p>
+<p>En ocasiones necesitamos identificar todos los aeropuertos involucrados en un recorrido.</p>
+<section id="buscar-recorridos-entre-ciudad-de-méxico-y-londres" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="buscar-recorridos-entre-ciudad-de-méxico-y-londres"><span class="header-section-number">12.1</span> Buscar recorridos entre Ciudad de México y Londres</h3>
+<p>Utilizaremos los códigos:</p>
+<ul>
+<li><code>MEX</code>: Ciudad de México.</li>
+<li><code>LHR</code>: Londres-Heathrow.</li>
+</ul>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos, Recorrido
+LIMIT 20;</code></pre>
+<p>Esta consulta busca rutas de uno o dos tramos.</p>
+<p>La función <code>nodes(camino)</code> recupera los nodos que forman parte del camino.</p>
+<p>La expresión:</p>
+<pre class="cypher"><code>[a IN nodes(camino) | a.iata]</code></pre>
+<p>construye una lista con los códigos de los aeropuertos.</p>
+</section>
+<section id="diferencia-entre-destinos-y-caminos" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="diferencia-entre-destinos-y-caminos"><span class="header-section-number">12.2</span> Diferencia entre destinos y caminos</h3>
+<p>Es importante comprender que un mismo destino puede alcanzarse mediante diferentes recorridos.</p>
+<p>Por ejemplo, una red podría contener:</p>
+<pre class="text"><code>A → B → D
+A → C → D</code></pre>
+<p>En este caso existe un solo destino <code>D</code>, pero dos caminos diferentes.</p>
+<p>Esta distinción es especialmente importante cuando trabajamos con redes grandes.</p>
+</section>
+</section>
+<section id="recorridos-con-condiciones" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="recorridos-con-condiciones"><span class="header-section-number">13</span> Recorridos con condiciones</h2>
+<p>Una ventaja de Cypher es que podemos agregar condiciones sobre los nodos que forman parte de un camino.</p>
+<p>Utilizaremos las funciones:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Función</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>any()</code></td>
+<td>Al menos un elemento cumple la condición</td>
+</tr>
+<tr class="even">
+<td><code>none()</code></td>
+<td>Ningún elemento cumple la condición</td>
+</tr>
+<tr class="odd">
+<td><code>all()</code></td>
+<td>Todos los elementos cumplen la condición</td>
+</tr>
+<tr class="even">
+<td><code>single()</code></td>
+<td>Exactamente un elemento cumple la condición</td>
+</tr>
+</tbody>
+</table>
+<section id="buscar-recorridos-que-pasen-por-nueva-york" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="buscar-recorridos-que-pasen-por-nueva-york"><span class="header-section-number">13.1</span> Buscar recorridos que pasen por Nueva York</h3>
+<p>Consultaremos recorridos de dos o tres tramos desde Ciudad de México hasta Londres que incluyan al aeropuerto <code>JFK</code>.</p>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*2..3]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE any(a IN nodes(camino)
+          WHERE a.iata = 'JFK')
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 10;</code></pre>
+<p>La función <code>any()</code> comprueba si al menos un aeropuerto del recorrido tiene el código indicado.</p>
+</section>
+<section id="buscar-recorridos-que-eviten-nueva-york" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="buscar-recorridos-que-eviten-nueva-york"><span class="header-section-number">13.2</span> Buscar recorridos que eviten Nueva York</h3>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE none(a IN nodes(camino)
+           WHERE a.iata = 'JFK')
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 10;</code></pre>
+<p>Ahora excluimos los recorridos que incluyan <code>JFK</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Interpretación</strong></p>
+<p>Estas consultas permiten estudiar escenarios hipotéticos de conectividad.</p>
+<p>Encontrar una ruta en el grafo no garantiza que exista actualmente un itinerario comercial disponible ni que las conexiones sean viables por horarios, boletos o requisitos migratorios.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="evitar-caminos-con-nodos-repetidos" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="evitar-caminos-con-nodos-repetidos"><span class="header-section-number">14</span> Evitar caminos con nodos repetidos</h2>
+<p>Al explorar grafos, algunos recorridos pueden regresar a un aeropuerto visitado anteriormente.</p>
+<p>Por ejemplo:</p>
+<pre class="text"><code>A → B → C → B → D</code></pre>
+<p>En este recorrido el aeropuerto <code>B</code> aparece dos veces.</p>
+<p>Si queremos estudiar caminos sin repetición de aeropuertos, podemos agregar una condición.</p>
+<section id="consultar-caminos-simples" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="consultar-caminos-simples"><span class="header-section-number">14.1</span> Consultar caminos simples</h3>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE all(a IN nodes(camino)
+          WHERE single(b IN nodes(camino)
+                       WHERE a = b))
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 20;</code></pre>
+<p>La función <code>single()</code> permite comprobar que cada nodo aparezca exactamente una vez dentro del recorrido.</p>
+<p>Un camino que no repite nodos se conoce como <strong>camino simple</strong>.</p>
+</section>
+</section>
+<section id="encontrar-caminos-con-el-menor-número-de-conexiones" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="encontrar-caminos-con-el-menor-número-de-conexiones"><span class="header-section-number">15</span> Encontrar caminos con el menor número de conexiones</h2>
+<p>En grafos grandes puede existir una gran cantidad de caminos entre dos nodos.</p>
+<p>En ocasiones nos interesa conocer únicamente un recorrido con el menor número de relaciones.</p>
+<section id="utilizar-shortestpath" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="utilizar-shortestpath"><span class="header-section-number">15.1</span> Utilizar shortestPath()</h3>
+<p>Buscaremos un camino desde Ciudad de México hasta Johannesburgo.</p>
+<p>Los códigos son:</p>
+<ul>
+<li><code>MEX</code>: Ciudad de México.</li>
+<li><code>JNB</code>: Johannesburgo.</li>
+</ul>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+
+MATCH camino = shortestPath(
+  (origen)-[:RUTA_AEREA*1..4]-&gt;(destino)
+)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos;</code></pre>
+</section>
+<section id="qué-hace-shortestpath" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="qué-hace-shortestpath"><span class="header-section-number">15.2</span> ¿Qué hace shortestPath()?</h3>
+<p>Busca un camino con el menor número de relaciones dentro del patrón especificado.</p>
+<p>En este caso limitamos la búsqueda a cuatro tramos.</p>
+<p>Esto es importante porque no queremos explorar caminos de longitud indefinida sobre una red considerable.</p>
+</section>
+<section id="buscar-todas-las-rutas-mínimas" class="level3" data-number="15.3">
+<h3 data-number="15.3" class="anchored" data-anchor-id="buscar-todas-las-rutas-mínimas"><span class="header-section-number">15.3</span> Buscar todas las rutas mínimas</h3>
+<p>También podemos utilizar:</p>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+
+MATCH camino = allShortestPaths(
+  (origen)-[:RUTA_AEREA*1..4]-&gt;(destino)
+)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Recorrido
+LIMIT 20;</code></pre>
+<p>La diferencia es:</p>
+<ul>
+<li><code>shortestPath()</code> recupera un camino mínimo.</li>
+<li><code>allShortestPaths()</code> recupera todos los caminos con la longitud mínima encontrada.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>¿Cuál es la ruta más corta?</strong></p>
+<p>En estas consultas, <em>más corta</em> significa <strong>menos relaciones o tramos</strong>, no menos kilómetros.</p>
+<p>Tampoco significa que sea el viaje más rápido o más económico.</p>
+<p>Para comparar otros criterios necesitamos información adicional.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="calcular-distancias-geográficas" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="calcular-distancias-geográficas"><span class="header-section-number">16</span> Calcular distancias geográficas</h2>
+<p>Hasta ahora hemos analizado la conectividad mediante el número de relaciones.</p>
+<p>También podemos aprovechar las coordenadas de los aeropuertos para calcular una distancia geográfica aproximada.</p>
+<section id="utilizar-point.distance" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="utilizar-point.distance"><span class="header-section-number">16.1</span> Utilizar point.distance()</h3>
+<p>Neo4j incorpora la función:</p>
+<pre class="cypher"><code>point.distance()</code></pre>
+<p>Esta función permite calcular la distancia entre dos puntos geográficos.</p>
+<p>Para coordenadas WGS 84, el resultado se expresa en metros.</p>
+</section>
+<section id="calcular-la-distancia-entre-dos-aeropuertos" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="calcular-la-distancia-entre-dos-aeropuertos"><span class="header-section-number">16.2</span> Calcular la distancia entre dos aeropuertos</h3>
+<pre class="cypher"><code>MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JFK'})
+
+RETURN origen.iata AS Origen,
+       destino.iata AS Destino,
+       round(
+         point.distance(
+           origen.ubicacion,
+           destino.ubicacion
+         ) / 1000.0
+       ) AS DistanciaGeograficaKM;</code></pre>
+<p>Dividimos entre 1,000 para expresar el resultado en kilómetros.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Distancia geográfica y distancia de vuelo</strong></p>
+<p>La distancia calculada corresponde aproximadamente al recorrido más corto sobre la superficie terrestre entre las coordenadas de los aeropuertos.</p>
+<p>No representa necesariamente la distancia de una trayectoria aérea real, que puede depender de condiciones meteorológicas, corredores aéreos, restricciones y otros factores.</p>
+</div>
+</div>
+</section>
+<section id="calcular-la-distancia-acumulada-de-un-recorrido" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="calcular-la-distancia-acumulada-de-un-recorrido"><span class="header-section-number">16.3</span> Calcular la distancia acumulada de un recorrido</h3>
+<p>En el Apunte 12 utilizamos <code>reduce()</code> para sumar propiedades de las relaciones.</p>
+<p>Ahora emplearemos esa función para acumular las distancias geográficas entre los aeropuertos consecutivos de un camino.</p>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WITH camino,
+     reduce(
+       km = 0.0,
+       r IN relationships(camino) |
+       km + point.distance(
+         startNode(r).ubicacion,
+         endNode(r).ubicacion
+       ) / 1000.0
+     ) AS DistanciaKM
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos,
+       round(DistanciaKM) AS DistanciaGeograficaKM
+
+ORDER BY DistanciaGeograficaKM
+LIMIT 10;</code></pre>
+</section>
+<section id="explicación-1" class="level3" data-number="16.4">
+<h3 data-number="16.4" class="anchored" data-anchor-id="explicación-1"><span class="header-section-number">16.4</span> Explicación</h3>
+<p>La función:</p>
+<pre class="cypher"><code>relationships(camino)</code></pre>
+<p>recupera las relaciones del recorrido.</p>
+<p>Posteriormente:</p>
+<pre class="cypher"><code>startNode(r)
+endNode(r)</code></pre>
+<p>permiten obtener los aeropuertos de origen y destino de cada relación.</p>
+<p>Finalmente, <code>reduce()</code> acumula las distancias entre los puntos geográficos.</p>
+</section>
+<section id="comparar-dos-criterios" class="level3" data-number="16.5">
+<h3 data-number="16.5" class="anchored" data-anchor-id="comparar-dos-criterios"><span class="header-section-number">16.5</span> Comparar dos criterios</h3>
+<p>Ahora podemos distinguir dos preguntas:</p>
+<p><strong>Pregunta 1:</strong> ¿Qué recorrido tiene menos tramos?</p>
+<p><strong>Pregunta 2:</strong> ¿Qué recorrido tiene menor distancia geográfica acumulada?</p>
+<p>Ambas preguntas pueden producir resultados diferentes cuando no existe una conexión directa entre los aeropuertos.</p>
+<p>Además, ordenar caminos por distancia dentro de un límite de dos o tres tramos no equivale a ejecutar un algoritmo general de optimización de rutas ponderadas.</p>
+<p>Para redes mucho mayores y búsquedas más complejas pueden utilizarse algoritmos especializados de grafos.</p>
+</section>
+</section>
+<section id="aplicar-restricciones-sobre-las-distancias" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="aplicar-restricciones-sobre-las-distancias"><span class="header-section-number">17</span> Aplicar restricciones sobre las distancias</h2>
+<p>Supongamos que queremos encontrar recorridos en los que ningún tramo supere una distancia geográfica determinada.</p>
+<section id="filtrar-cada-tramo" class="level3" data-number="17.1">
+<h3 data-number="17.1" class="anchored" data-anchor-id="filtrar-cada-tramo"><span class="header-section-number">17.1</span> Filtrar cada tramo</h3>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..3]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WHERE all(r IN relationships(camino)
+          WHERE point.distance(
+            startNode(r).ubicacion,
+            endNode(r).ubicacion
+          ) &lt;= 8000000)
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       length(camino) AS Tramos
+
+ORDER BY Tramos
+LIMIT 20;</code></pre>
+<p>En este ejemplo utilizamos ocho millones de metros, equivalentes a 8,000 kilómetros.</p>
+<p><strong>Importante:</strong> esta condición se aplica a cada tramo individual.</p>
+<p>No significa que la distancia total del recorrido sea inferior a 8,000 kilómetros.</p>
+</section>
+<section id="filtrar-por-distancia-total" class="level3" data-number="17.2">
+<h3 data-number="17.2" class="anchored" data-anchor-id="filtrar-por-distancia-total"><span class="header-section-number">17.2</span> Filtrar por distancia total</h3>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]-&gt;
+  (:Aeropuerto {iata: 'LHR'})
+
+WITH camino,
+     reduce(
+       km = 0.0,
+       r IN relationships(camino) |
+       km + point.distance(
+         startNode(r).ubicacion,
+         endNode(r).ubicacion
+       ) / 1000.0
+     ) AS DistanciaKM
+
+WHERE DistanciaKM &lt;= 12000
+
+RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
+       round(DistanciaKM) AS DistanciaKM
+
+ORDER BY DistanciaKM
+LIMIT 20;</code></pre>
+<p>Ahora la condición se aplica a la suma de todos los tramos.</p>
+</section>
+</section>
+<section id="agrupar-y-resumir-la-información" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="agrupar-y-resumir-la-información"><span class="header-section-number">18</span> Agrupar y resumir la información</h2>
+<p>Cuando trabajamos con redes extensas, no siempre resulta conveniente mostrar caminos individuales.</p>
+<p>También podemos generar tablas que resuman la conectividad.</p>
+<section id="países-con-mayor-número-de-aeropuertos-importados" class="level3" data-number="18.1">
+<h3 data-number="18.1" class="anchored" data-anchor-id="países-con-mayor-número-de-aeropuertos-importados"><span class="header-section-number">18.1</span> Países con mayor número de aeropuertos importados</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto)
+
+RETURN a.pais AS Pais,
+       count(a) AS TotalAeropuertos
+
+ORDER BY TotalAeropuertos DESC
+LIMIT 20;</code></pre>
+</section>
+<section id="aeropuertos-de-méxico-con-más-destinos-directos" class="level3" data-number="18.2">
+<h3 data-number="18.2" class="anchored" data-anchor-id="aeropuertos-de-méxico-con-más-destinos-directos"><span class="header-section-number">18.2</span> Aeropuertos de México con más destinos directos</h3>
+<pre class="cypher"><code>MATCH (a:Aeropuerto {pais: 'Mexico'})
+OPTIONAL MATCH (a)-[:RUTA_AEREA]-&gt;(destino:Aeropuerto)
+
+RETURN a.iata AS Codigo,
+       a.nombre AS Aeropuerto,
+       count(DISTINCT destino) AS DestinosDirectos
+
+ORDER BY DestinosDirectos DESC
+LIMIT 15;</code></pre>
+</section>
+<section id="agrupar-destinos-de-ciudad-de-méxico-por-país" class="level3" data-number="18.3">
+<h3 data-number="18.3" class="anchored" data-anchor-id="agrupar-destinos-de-ciudad-de-méxico-por-país"><span class="header-section-number">18.3</span> Agrupar destinos de Ciudad de México por país</h3>
+<pre class="cypher"><code>MATCH (:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (destino:Aeropuerto)
+
+WITH destino.pais AS Pais,
+     count(DISTINCT destino) AS Total
+
+RETURN Pais, Total
+
+ORDER BY Total DESC;</code></pre>
+<p>Estas consultas muestran cómo podemos pasar del análisis de relaciones individuales a la elaboración de indicadores descriptivos de una red.</p>
+</section>
+</section>
+<section id="rendimiento-de-las-consultas" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="rendimiento-de-las-consultas"><span class="header-section-number">19</span> Rendimiento de las consultas</h2>
+<p>Trabajar con miles de nodos y relaciones implica considerar el costo de las consultas.</p>
+<p>Un recorrido de longitud variable puede generar numerosos caminos posibles.</p>
+<p>Por ello, debemos utilizar estrategias que permitan controlar las búsquedas.</p>
+<section id="limitar-la-profundidad" class="level3" data-number="19.1">
+<h3 data-number="19.1" class="anchored" data-anchor-id="limitar-la-profundidad"><span class="header-section-number">19.1</span> Limitar la profundidad</h3>
+<p>Una consulta como:</p>
+<pre class="cypher"><code>MATCH camino =
+  (:Aeropuerto {iata: 'MEX'})
+  -[:RUTA_AEREA*1..2]-&gt;
+  (destino:Aeropuerto)
+
+RETURN camino
+LIMIT 10;</code></pre>
+<p>restringe la búsqueda a uno o dos tramos.</p>
+<p>No debemos confundir esta restricción con <code>LIMIT 10</code>.</p>
+<p>El límite final determina la cantidad de resultados devueltos, mientras que <code>*1..2</code> establece la profundidad máxima del patrón.</p>
+</section>
+<section id="crear-un-índice-por-código-iata" class="level3" data-number="19.2">
+<h3 data-number="19.2" class="anchored" data-anchor-id="crear-un-índice-por-código-iata"><span class="header-section-number">19.2</span> Crear un índice por código IATA</h3>
+<p>Para facilitar las búsquedas podemos crear un índice:</p>
+<pre class="cypher"><code>CREATE INDEX aeropuerto_iata IF NOT EXISTS
+FOR (a:Aeropuerto)
+ON (a.iata);</code></pre>
+<p>Este índice resulta útil para consultas que recuperan aeropuertos mediante su código IATA.</p>
+<p>A diferencia del identificador numérico de OpenFlights, no asumiremos que los códigos IATA disponibles sean necesariamente únicos en todos los registros históricos.</p>
+</section>
+<section id="examinar-el-plan-mediante-explain" class="level3" data-number="19.3">
+<h3 data-number="19.3" class="anchored" data-anchor-id="examinar-el-plan-mediante-explain"><span class="header-section-number">19.3</span> Examinar el plan mediante EXPLAIN</h3>
+<pre class="cypher"><code>EXPLAIN
+MATCH (a:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (b:Aeropuerto)
+
+RETURN b.nombre
+LIMIT 20;</code></pre>
+<p><code>EXPLAIN</code> permite conocer el plan estimado de ejecución sin realizar la consulta completa.</p>
+</section>
+<section id="examinar-el-procesamiento-mediante-profile" class="level3" data-number="19.4">
+<h3 data-number="19.4" class="anchored" data-anchor-id="examinar-el-procesamiento-mediante-profile"><span class="header-section-number">19.4</span> Examinar el procesamiento mediante PROFILE</h3>
+<pre class="cypher"><code>PROFILE
+MATCH (a:Aeropuerto {iata: 'MEX'})
+      -[:RUTA_AEREA]-&gt;
+      (b:Aeropuerto)
+
+RETURN b.nombre
+LIMIT 20;</code></pre>
+<p><code>PROFILE</code> ejecuta la consulta y presenta información sobre los operadores utilizados.</p>
+<p>Entre otros elementos, puede mostrar la cantidad de filas procesadas y los accesos a la base de datos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Buenas prácticas</strong></p>
+<p>Antes de ejecutar recorridos sobre redes extensas:</p>
+<ul>
+<li>Identifica claramente el nodo de origen y, cuando sea posible, el destino.</li>
+<li>Especifica el tipo y la dirección de las relaciones.</li>
+<li>Establece límites razonables de profundidad.</li>
+<li>Utiliza índices para búsquedas frecuentes.</li>
+<li>Evita visualizar el grafo completo.</li>
+<li>Compara el plan y la ejecución de las consultas cuando sea necesario.</li>
+</ul>
+<p>Recuerda que <code>LIMIT</code> no sustituye una restricción adecuada de profundidad.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="calidad-y-limitaciones-de-los-datos" class="level2" data-number="20">
+<h2 data-number="20" class="anchored" data-anchor-id="calidad-y-limitaciones-de-los-datos"><span class="header-section-number">20</span> Calidad y limitaciones de los datos</h2>
+<p>Aunque estamos utilizando una fuente real, esto no significa que la información esté completamente actualizada o que todos los registros sean válidos.</p>
+<p>Durante la importación tuvimos que considerar diferentes situaciones:</p>
+<ul>
+<li>Identificadores de aeropuerto ausentes.</li>
+<li>Códigos IATA no disponibles.</li>
+<li>Registros de rutas que no pudieron asociarse con aeropuertos importados.</li>
+<li>Conexiones repetidas en diferentes registros de aerolíneas.</li>
+<li>Diferencias entre rutas históricas y rutas actuales.</li>
+<li>Ausencia de información sobre tiempos y precios.</li>
+</ul>
+<p>Por ello, el número de relaciones importadas no necesariamente coincide con el número de registros del archivo original.</p>
+<section id="por-qué-es-importante-documentar-estas-decisiones" class="level3" data-number="20.1">
+<h3 data-number="20.1" class="anchored" data-anchor-id="por-qué-es-importante-documentar-estas-decisiones"><span class="header-section-number">20.1</span> ¿Por qué es importante documentar estas decisiones?</h3>
+<p>Una base de datos no solamente debe permitir realizar consultas.</p>
+<p>También debemos comprender:</p>
+<ol type="1">
+<li>De dónde proceden los registros.</li>
+<li>Qué información representan.</li>
+<li>Qué transformaciones realizamos.</li>
+<li>Qué registros fueron excluidos.</li>
+<li>Qué limitaciones tienen nuestros resultados.</li>
+</ol>
+<p>Estas consideraciones serán especialmente importantes en el siguiente tema del curso: <strong>Integración, limpieza y validación de datos</strong>.</p>
+</section>
+</section>
+<section id="actividad-individual-análisis-de-rutas-aéreas" class="level2" data-number="21">
+<h2 data-number="21" class="anchored" data-anchor-id="actividad-individual-análisis-de-rutas-aéreas"><span class="header-section-number">21</span> Actividad individual: análisis de rutas aéreas</h2>
+<section id="objetivo" class="level3" data-number="21.1">
+<h3 data-number="21.1" class="anchored" data-anchor-id="objetivo"><span class="header-section-number">21.1</span> Objetivo</h3>
+<p>Aplicar consultas avanzadas de Cypher sobre una red real de aeropuertos y rutas aéreas importada a Neo4j.</p>
+<p>La actividad utilizará la base de OpenFlights construida durante la clase.</p>
+<p>Se divide en tres partes:</p>
+<ul>
+<li><strong>Parte A:</strong> exploración y conectividad.</li>
+<li><strong>Parte B:</strong> recorridos y rutas alternativas.</li>
+<li><strong>Parte C:</strong> análisis y rendimiento.</li>
+</ul>
+</section>
+<section id="parte-a.-exploración-y-conectividad" class="level3" data-number="21.2">
+<h3 data-number="21.2" class="anchored" data-anchor-id="parte-a.-exploración-y-conectividad"><span class="header-section-number">21.2</span> Parte A. Exploración y conectividad</h3>
+<ol type="1">
+<li><p>Consulta la cantidad total de aeropuertos y relaciones <code>RUTA_AEREA</code> almacenadas en Neo4j.</p></li>
+<li><p>Identifica los diez aeropuertos con mayor cantidad de destinos directos.</p></li>
+<li><p>Consulta todos los aeropuertos conectados directamente con <code>JFK</code>, mostrando su código, ciudad y país.</p></li>
+<li><p>Identifica los diez países con mayor cantidad de aeropuertos registrados.</p></li>
+<li><p>Encuentra los diez aeropuertos de México con mayor cantidad de conexiones directas de salida.</p></li>
+</ol>
+</section>
+<section id="parte-b.-recorridos-y-rutas-alternativas" class="level3" data-number="21.3">
+<h3 data-number="21.3" class="anchored" data-anchor-id="parte-b.-recorridos-y-rutas-alternativas"><span class="header-section-number">21.3</span> Parte B. Recorridos y rutas alternativas</h3>
+<ol start="6" type="1">
+<li><p>Recupera los destinos que pueden alcanzarse desde <code>MEX</code> mediante un máximo de dos tramos, mostrando el menor número de tramos encontrado para cada destino.</p></li>
+<li><p>Consulta recorridos de máximo tres tramos entre <code>MEX</code> y <code>LHR</code>, mostrando la lista de aeropuertos visitados.</p></li>
+<li><p>Encuentra recorridos entre <code>MEX</code> y <code>LHR</code> que incluyan al aeropuerto <code>JFK</code>.</p></li>
+<li><p>Encuentra recorridos entre <code>MEX</code> y <code>LHR</code> que no incluyan al aeropuerto <code>JFK</code>.</p></li>
+<li><p>Utiliza <code>shortestPath()</code> para encontrar un recorrido con el menor número de conexiones entre <code>MEX</code> y <code>JNB</code>, considerando un máximo de cuatro tramos.</p></li>
+</ol>
+</section>
+<section id="parte-c.-análisis-y-rendimiento" class="level3" data-number="21.4">
+<h3 data-number="21.4" class="anchored" data-anchor-id="parte-c.-análisis-y-rendimiento"><span class="header-section-number">21.4</span> Parte C. Análisis y rendimiento</h3>
+<ol start="11" type="1">
+<li><p>Calcula la distancia geográfica aproximada entre los aeropuertos <code>MEX</code> y <code>LHR</code>.</p></li>
+<li><p>Identifica hasta diez recorridos de uno o dos tramos entre <code>MEX</code> y <code>LHR</code>, mostrando su distancia geográfica acumulada.</p></li>
+<li><p>Encuentra recorridos de máximo tres tramos entre <code>MEX</code> y <code>LHR</code> que no repitan aeropuertos.</p></li>
+<li><p>Selecciona un aeropuerto de México e identifica cuántos países diferentes pueden alcanzarse mediante conexiones directas de salida.</p></li>
+<li><p>Selecciona una consulta de esta actividad y utiliza <code>EXPLAIN</code> y <code>PROFILE</code> para examinar su ejecución. Explica brevemente la diferencia entre ambas herramientas.</p></li>
+</ol>
+</section>
+<section id="indicaciones-de-entrega" class="level3" data-number="21.5">
+<h3 data-number="21.5" class="anchored" data-anchor-id="indicaciones-de-entrega"><span class="header-section-number">21.5</span> Indicaciones de entrega</h3>
+<p>La actividad deberá entregarse en un documento PDF que incluya:</p>
+<ul>
+<li>Nombre completo del estudiante.</li>
+<li>Las quince consultas Cypher.</li>
+<li>Capturas de pantalla de los resultados.</li>
+<li>Una explicación breve de cada consulta.</li>
+<li>Una conclusión sobre las ventajas de utilizar grafos para analizar redes de transporte.</li>
+</ul>
+<p>Si alguna consulta no devuelve resultados, deberá documentarse y explicarse a partir de las características de los datos importados.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Importante</strong></p>
+<p>Los ejercicios deberán resolverse individualmente.</p>
+<p>No es necesario modificar ni eliminar nodos o relaciones de la base durante la actividad.</p>
+<p>Los resultados pueden variar según la versión de los archivos OpenFlights utilizados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="síntesis-de-lo-aprendido" class="level2" data-number="22">
+<h2 data-number="22" class="anchored" data-anchor-id="síntesis-de-lo-aprendido"><span class="header-section-number">22</span> Síntesis de lo aprendido</h2>
+<p>Durante este apunte avanzamos desde la construcción manual de grafos hacia la importación y consulta de una red de mayor tamaño.</p>
+<p>Utilizamos los conjuntos de datos históricos de OpenFlights para representar aeropuertos mediante nodos y conexiones aéreas mediante relaciones dirigidas.</p>
+<p>Aprendimos a importar información mediante <code>LOAD CSV</code>, crear restricciones e índices, transformar tipos de datos y validar los registros incorporados.</p>
+<p>Posteriormente, realizamos consultas avanzadas para identificar aeropuertos conectados, destinos alcanzables, rutas alternativas y recorridos con el menor número de relaciones.</p>
+<p>También aplicamos condiciones sobre los caminos, calculamos distancias geográficas aproximadas y examinamos herramientas para evaluar el rendimiento de las consultas.</p>
+<p>Finalmente, identificamos algunas limitaciones de los datos y comprendimos la importancia de distinguir entre la información registrada en una base y la realidad que pretende representar.</p>
+<p>De esta manera, comprendimos que Neo4j permite no solamente almacenar relaciones, sino también <strong>analizar estructuras complejas de conectividad utilizando datos procedentes de fuentes externas</strong>.</p>
+<p>Este aprendizaje servirá como base para los próximos temas del curso, relacionados con la integración, limpieza y validación de datos, así como el acceso a Neo4j desde Python.</p>
+</section>
+<section id="referencias-de-consulta" class="level2" data-number="23">
+<h2 data-number="23" class="anchored" data-anchor-id="referencias-de-consulta"><span class="header-section-number">23</span> Referencias de consulta</h2>
+<ul>
+<li>OpenFlights. <a href="https://openflights.org/data.php">Airport, airline and route data</a>. Fuente original de los conjuntos de datos utilizados.</li>
+<li>OpenFlights. <a href="https://github.com/jpatokal/openflights">Repositorio de datos en GitHub</a>. Archivos originales de aeropuertos y rutas aéreas.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/clauses/load-csv/">LOAD CSV — Cypher Manual</a>. Importación de archivos delimitados.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/getting-started/data-import/csv-import/">Import CSV data using LOAD CSV</a>. Procedimientos de importación.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/patterns/variable-length-paths/">Variable-length paths</a>. Consultas de longitud variable.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/patterns/shortest-paths/">Shortest paths</a>. Búsqueda de caminos mínimos.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/functions/predicate/">Predicate functions</a>. Funciones <code>all()</code>, <code>any()</code>, <code>none()</code> y <code>single()</code>.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/functions/spatial/">Spatial functions</a>. Cálculo de distancias geográficas.</li>
+<li>Neo4j. <a href="https://neo4j.com/docs/cypher-manual/current/planning-and-tuning/execution-plans/">Understanding query plans</a>. Interpretación de <code>EXPLAIN</code> y <code>PROFILE</code>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/edgarsanti\.github\.io\/BDNRs\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
