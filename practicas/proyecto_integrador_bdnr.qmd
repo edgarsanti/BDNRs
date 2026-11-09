@@ -1,0 +1,177 @@
+
+---
+title: "Proyecto integrador: Bases de Datos No Relacionales"
+subtitle: "Diseño e implementación de una solución con tecnologías NoSQL"
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-copy: true
+    code-overflow: wrap
+---
+
+## Presentación del proyecto
+
+El proyecto integrador consiste en diseñar e implementar una solución que permita almacenar, organizar y consultar información mediante una o más tecnologías NoSQL estudiadas durante el curso.
+
+Cada estudiante o equipo deberá seleccionar un problema de interés, elegir la tecnología que considere más adecuada y justificar su decisión de acuerdo con las características de los datos y las necesidades de consulta.
+
+El proyecto podrá desarrollarse **de manera individual o en equipos de máximo dos integrantes**, con una única entrega final y una exposición breve para presentar los resultados obtenidos.
+
+::: {.callout-note}
+## Información general
+
+- **Modalidad:** individual o en equipos de máximo dos integrantes.
+- **Valor:** 30 % de la calificación final.
+- **Tecnologías:** MongoDB, Redis, Apache Cassandra o Neo4j.
+- **Entrega:** un único archivo PDF por proyecto.
+- **Fecha límite:** 30 de noviembre de 2026.
+- **Exposición:** máximo 8 minutos por proyecto.
+:::
+
+## Objetivo del proyecto
+
+Diseñar, implementar y documentar una solución basada en tecnologías NoSQL que permita atender un problema mediante el almacenamiento, la organización y la consulta de información, justificando las decisiones de modelado y las herramientas utilizadas.
+
+## Selección del caso de estudio
+
+Cada estudiante o equipo podrá seleccionar uno de los siguientes casos de estudio o proponer un problema diferente relacionado con sus intereses.
+
+1. **Tienda en línea:** administración de productos, clientes, inventarios, compras y pedidos.
+
+2. **Biblioteca digital:** registro de libros, autores, usuarios, préstamos y consultas.
+
+3. **Plataforma de películas:** organización de películas, actores, géneros, calificaciones y recomendaciones.
+
+4. **Red social:** administración de usuarios, publicaciones, seguidores e interacciones.
+
+5. **Monitoreo ambiental:** almacenamiento y consulta de mediciones de temperatura, humedad y otras variables registradas por sensores.
+
+6. **Sistema de transporte:** administración de estaciones, rutas, conexiones y recorridos entre diferentes puntos.
+
+7. **Plataforma educativa:** registro de estudiantes, cursos, actividades, calificaciones y seguimiento académico.
+
+8. **Sistema hospitalario:** administración de información ficticia de pacientes, consultas y servicios médicos.
+
+9. **Sistema de reservaciones:** registro de servicios, disponibilidad, usuarios y reservaciones.
+
+10. **Gestión de eventos:** administración de eventos, participantes, inscripciones y sedes.
+
+11. **Red de investigación académica:** organización de investigadores, publicaciones, instituciones y relaciones de colaboración.
+
+12. **Sistema de turismo:** registro de destinos, atractivos, alojamientos y relaciones entre lugares.
+
+Los casos presentados son orientativos. También podrán desarrollarse propuestas diferentes, siempre que permitan aplicar los conocimientos adquiridos durante el curso.
+
+La elección del caso de estudio no determina automáticamente la tecnología que deberá utilizarse. Cada estudiante o equipo será responsable de seleccionar y justificar el gestor NoSQL más adecuado para su propuesta.
+
+## Selección de la tecnología NoSQL
+
+Cada estudiante o equipo deberá utilizar **al menos una de las siguientes tecnologías**:
+
+- MongoDB.
+- Redis.
+- Apache Cassandra.
+- Neo4j.
+
+La elección deberá justificarse considerando las características de la información, su organización y las consultas que se pretende realizar.
+
+Para fundamentar la selección, se deberán considerar las siguientes preguntas:
+
+1. ¿Qué tipo de información se necesita almacenar?
+2. ¿Qué operaciones y consultas requiere la solución?
+3. ¿Qué características del gestor seleccionado resultan adecuadas para el problema?
+4. ¿Qué ventajas ofrece el modelo elegido frente a otras alternativas estudiadas?
+
+Se permitirá combinar dos o más tecnologías cuando las necesidades del proyecto lo justifiquen. Sin embargo, **no será obligatorio utilizar varios gestores ni se otorgará una ventaja automática por hacerlo**.
+
+## Desarrollo del proyecto
+
+Cada estudiante o equipo deberá implementar una solución funcional de acuerdo con el problema seleccionado.
+
+El proyecto deberá contemplar los siguientes elementos:
+
+1. **Descripción del problema:** explicar la situación que se pretende atender, las necesidades de información y la utilidad de la solución propuesta.
+
+2. **Diseño del modelo de datos:** definir cómo se organizará la información de acuerdo con la tecnología seleccionada. Se deberá incluir un esquema o diagrama que permita comprender la estructura de la base de datos.
+
+3. **Implementación de la base de datos:** crear las estructuras necesarias e incorporar un conjunto de datos suficiente para demostrar el funcionamiento de la solución.
+
+4. **Origen de los datos:** se podrán utilizar conjuntos de datos públicos, crear registros propios o generar información simulada. En todos los casos se deberá explicar cómo se obtuvo o construyó la información utilizada.
+
+5. **Consultas y operaciones:** desarrollar al menos **ocho consultas u operaciones diferentes y relevantes**, que permitan demostrar las capacidades del gestor seleccionado. Estas deberán responder a necesidades concretas del proyecto.
+
+6. **Resultados e interpretación:** presentar los resultados de las consultas y explicar brevemente qué información proporcionan y cómo contribuyen a atender el problema planteado.
+
+7. **Conclusiones:** describir los principales resultados, las dificultades encontradas y las ventajas o limitaciones de la tecnología utilizada.
+
+Las consultas u operaciones podrán incluir filtros, búsquedas, inserciones, actualizaciones, agrupaciones, recorridos u otras funciones, dependiendo de la tecnología seleccionada.
+
+No será suficiente presentar ocho comandos repetitivos que únicamente cambien los valores de búsqueda. Se deberá demostrar el uso de diferentes capacidades del gestor, según las necesidades del proyecto.
+
+::: {.callout-note}
+## Alcance del proyecto
+
+No será obligatorio desarrollar una aplicación web o móvil.
+
+La implementación podrá realizarse utilizando las herramientas estudiadas durante el curso, como MongoDB Compass, `mongosh`, Redis CLI, Cassandra CQL, Neo4j Desktop o Python.
+
+Se evaluará principalmente el funcionamiento de la base de datos, la calidad del modelo y la pertinencia de las operaciones realizadas.
+:::
+
+## Entrega final
+
+Se entregará **un único archivo en formato PDF**, que deberá contener los siguientes apartados:
+
+1. **Portada:** nombre del proyecto, nombre completo del estudiante o integrantes, experiencia educativa y fecha de entrega.
+
+2. **Introducción:** presentación general del proyecto y de la solución desarrollada.
+
+3. **Planteamiento del problema:** descripción de la situación que se pretende atender y las necesidades de almacenamiento y consulta de información.
+
+4. **Objetivo:** propósito de la solución implementada.
+
+5. **Tecnología NoSQL seleccionada:** identificación del gestor utilizado y justificación de su elección.
+
+6. **Modelo de datos:** descripción de la estructura y organización de la información, incluyendo un esquema o diagrama.
+
+7. **Implementación:** explicación del procedimiento de creación de la base de datos y carga de información, con los comandos y las evidencias más relevantes.
+
+8. **Consultas y resultados:** presentación de al menos ocho consultas u operaciones. Cada una deberá incluir su propósito, código o comando utilizado, evidencia del resultado e interpretación breve.
+
+9. **Conclusiones:** principales resultados, dificultades encontradas y ventajas o limitaciones de la solución.
+
+10. **Referencias:** fuentes de información consultadas y procedencia de los conjuntos de datos utilizados, cuando corresponda.
+
+El documento deberá organizarse de manera clara y contener las evidencias necesarias para comprender y evaluar el funcionamiento del proyecto.
+
+::: {.callout-important}
+## Indicaciones de entrega
+
+- **Modalidad:** individual o en equipos de máximo dos integrantes.
+- **Formato:** PDF.
+- **Medio de entrega:** Eminus.
+- **Fecha límite:** 30 de noviembre de 2026.
+- **Archivo:** un único PDF por proyecto.
+
+El PDF deberá contener los códigos, resultados, capturas y explicaciones necesarios para evaluar la solución.
+
+No se requieren entregas parciales. En caso de trabajar en pareja, se realizará una sola entrega con los nombres de ambos integrantes.
+:::
+
+## Consideraciones generales
+
+El proyecto representa el **30 % de la calificación final** de la experiencia educativa.
+
+Cada estudiante o equipo deberá entregar su proyecto en formato PDF a través de Eminus, a más tardar el **30 de noviembre de 2026**.
+
+Asimismo, deberá realizar una **exposición de máximo 8 minutos por proyecto**, en la que se presenten brevemente el problema abordado, la tecnología NoSQL seleccionada, el modelo de datos, la implementación y los principales resultados obtenidos. La fecha y el orden de las exposiciones se comunicarán durante las sesiones del curso.
+
+No será necesario explicar las ocho consultas durante la exposición; se deberán seleccionar las más representativas para demostrar el funcionamiento de la solución.
+
+En los proyectos desarrollados en pareja, ambos integrantes deberán participar en la exposición y conocer el funcionamiento de la solución.
+
+Los datos deberán utilizarse de manera responsable, respetando su procedencia y las condiciones de uso correspondientes. Cuando se utilicen datos simulados o creados para fines de prueba, deberá indicarse expresamente. No deberán incluirse contraseñas ni datos personales sensibles.
+
+Se valorará especialmente la capacidad de **seleccionar un modelo de datos adecuado, implementar consultas y operaciones funcionales, interpretar los resultados y justificar las decisiones técnicas**.

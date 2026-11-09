@@ -213,27 +213,48 @@ Consultas avanzadas con Cypher, relaciones de longitud variable, rutas y recorri
 
 
 
+
+
+
+---
+
+## Conexión y consultas de Neo4j desde Python
+
+Conexión de Python con Neo4j, ejecución de consultas Cypher y recuperación de resultados mediante programas.
+
+<a class="btn btn-secondary disabled"
+   href="#"
+   aria-disabled="true"
+   tabindex="-1"
+   style="pointer-events: none; opacity: 0.65;">
+   Próximamente
+</a>
+
+---
+
 ## Integración, limpieza y validación de datos
 
-Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.
+Preparación, limpieza, integración y validación de información para su almacenamiento y consulta en bases de datos NoSQL.
 
-<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
-
----
-
-## Acceso a Neo4j desde Python
-
-Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.
-
-<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
+<a class="btn btn-secondary disabled"
+   href="#"
+   aria-disabled="true"
+   tabindex="-1"
+   style="pointer-events: none; opacity: 0.65;">
+   Próximamente
+</a>
 
 ---
 
-## Proyecto integrador y aspectos éticos del tratamiento de datos
+## Ética y tratamiento responsable de datos
 
-Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.
+Privacidad, protección de información, procedencia de los datos, derechos de autor y consideraciones éticas en su utilización.
 
-<button class="btn btn-secondary" disabled aria-disabled="true" type="button">Próximamente</button>
-
-
+<a class="btn btn-secondary disabled"
+   href="#"
+   aria-disabled="true"
+   tabindex="-1"
+   style="pointer-events: none; opacity: 0.65;">
+   Próximamente
+</a>
 

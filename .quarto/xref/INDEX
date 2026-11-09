@@ -121,5 +121,17 @@
   },
   "apuntes/18_integracion_limpieza_validacion_datos.qmd": {
     "18_integracion_limpieza_validacion_datos.html": "a1396dcc"
+  },
+  "practicas/proyecto_integrador_bdnr.qmd": {
+    "proyecto_integrador_bdnr.html": "92053e2c"
+  },
+  "apuntes/18_acceso_neo4j_python.qmd": {
+    "18_acceso_neo4j_python.html": "1f1695cb"
+  },
+  "apuntes/20_etica_tratamiento_datos.qmd": {
+    "20_etica_tratamiento_datos.html": "87d8785f"
+  },
+  "apuntes/19_integracion_limpieza_validacion_datos.qmd": {
+    "19_integracion_limpieza_validacion_datos.html": "c96839b2"
   }
 }

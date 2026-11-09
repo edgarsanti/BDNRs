@@ -193,7 +193,7 @@
     "href": "practicas.html#práctica-5.-consultas-en-bases-de-datos-orientadas-a-grafos-con-neo4j",
     "title": "Bases de Datos No Relacionales",
     "section": "Práctica 5. Consultas en bases de datos orientadas a grafos con Neo4j",
-    "text": "Práctica 5. Consultas en bases de datos orientadas a grafos con Neo4j\nActividad individual para aplicar el lenguaje Cypher mediante diez consultas sobre los grafos de la NBA y de ciberseguridad.\n Abrir práctica"
+    "text": "Práctica 5. Consultas en bases de datos orientadas a grafos con Neo4j\nActividad individual para aplicar el lenguaje Cypher mediante diez consultas sobre los grafos de la NBA y de ciberseguridad.\n Abrir práctica \n\n\n\nProyecto integrador\n\n\nDiseño e implementación de una solución utilizando una o más tecnologías de bases de datos NoSQL.\n\n\nValor: 30 % de la calificación final.\n\n Abrir proyecto integrador"
   },
   {
     "objectID": "apuntes/09_comandos_cassandra.html",
@@ -1505,18 +1505,18 @@
     "text": "13 Redis\nUna de las tecnologías más conocidas para trabajar con este tipo de información es:\nRedis\nRedis permite almacenar datos asociados con claves y realizar operaciones rápidas sobre ellos.\nEn este curso lo utilizaremos como una herramienta para observar de manera práctica el funcionamiento del modelo clave–valor.\nPrimero comprenderemos el modelo.\nDespués realizaremos una demostración de Redis para observar cómo estos conceptos se representan mediante comandos reales."
   },
   {
-    "objectID": "apuntes/19_acceso_neo4j_python.html",
-    "href": "apuntes/19_acceso_neo4j_python.html",
-    "title": "Acceso a Neo4j desde Python",
+    "objectID": "apuntes/20_etica_tratamiento_datos.html",
+    "href": "apuntes/20_etica_tratamiento_datos.html",
+    "title": "Proyecto integrador y aspectos éticos del tratamiento de datos",
     "section": "",
-    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.\nEl material se habilitará cuando esté terminado y revisado."
+    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.\nEl material se habilitará cuando esté terminado y revisado."
   },
   {
-    "objectID": "apuntes/19_acceso_neo4j_python.html#próximamente",
-    "href": "apuntes/19_acceso_neo4j_python.html#próximamente",
-    "title": "Acceso a Neo4j desde Python",
+    "objectID": "apuntes/20_etica_tratamiento_datos.html#próximamente",
+    "href": "apuntes/20_etica_tratamiento_datos.html#próximamente",
+    "title": "Proyecto integrador y aspectos éticos del tratamiento de datos",
     "section": "",
-    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.\nEl material se habilitará cuando esté terminado y revisado."
+    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.\nEl material se habilitará cuando esté terminado y revisado."
   },
   {
     "objectID": "apuntes/17_consultas_avanzadas_neo4j.html",
@@ -1995,6 +1995,727 @@
     "text": "23 Resumen de comandos principales\nLa siguiente tabla resume los comandos revisados y su función principal.\n\n\n\n\n\n\n\nComando\nFunción\n\n\n\n\nPING\nComprueba si existe comunicación con el servidor Redis.\n\n\nSET\nGuarda un valor asociado a una clave.\n\n\nGET\nRecupera el valor almacenado en una clave.\n\n\nDEL\nElimina una clave.\n\n\nEXISTS\nComprueba si una clave existe.\n\n\nINCR\nIncrementa en una unidad un valor numérico.\n\n\nDECR\nDisminuye en una unidad un valor numérico.\n\n\nINCRBY\nIncrementa un valor numérico en una cantidad específica.\n\n\nDECRBY\nDisminuye un valor numérico en una cantidad específica.\n\n\nEXPIRE\nAsigna un tiempo de vida a una clave.\n\n\nTTL\nMuestra cuánto tiempo le queda a una clave antes de expirar.\n\n\nPERSIST\nElimina la expiración de una clave.\n\n\nHSET\nCrea o modifica campos dentro de un hash.\n\n\nHGET\nRecupera un campo específico de un hash.\n\n\nHGETALL\nMuestra todos los campos y valores de un hash.\n\n\nHEXISTS\nComprueba si un campo existe dentro de un hash.\n\n\nHDEL\nElimina un campo dentro de un hash.\n\n\nHINCRBY\nIncrementa o disminuye un campo numérico dentro de un hash.\n\n\nLPUSH\nAgrega un elemento al inicio de una lista.\n\n\nRPUSH\nAgrega un elemento al final de una lista.\n\n\nLRANGE\nMuestra un rango de elementos de una lista.\n\n\nLPOP\nElimina y devuelve el primer elemento de una lista.\n\n\nRPOP\nElimina y devuelve el último elemento de una lista.\n\n\nLLEN\nMuestra la cantidad de elementos de una lista.\n\n\nSADD\nAgrega elementos a un conjunto.\n\n\nSMEMBERS\nMuestra todos los elementos de un conjunto.\n\n\nSISMEMBER\nComprueba si un elemento pertenece a un conjunto.\n\n\nSREM\nElimina un elemento de un conjunto.\n\n\nSCARD\nMuestra la cantidad de elementos de un conjunto.\n\n\nZADD\nAgrega elementos y puntuaciones a un Sorted Set.\n\n\nZRANGE\nMuestra elementos ordenados de menor a mayor puntuación.\n\n\nZREVRANGE\nMuestra elementos ordenados de mayor a menor puntuación.\n\n\nZINCRBY\nIncrementa la puntuación de un elemento.\n\n\nZSCORE\nConsulta la puntuación de un elemento.\n\n\nTYPE\nMuestra el tipo de dato asociado a una clave.\n\n\nKEYS\nBusca claves que coincidan con un patrón.\n\n\nSCAN\nRecorre las claves de forma progresiva.\n\n\nDBSIZE\nMuestra cuántas claves existen en la base actual.\n\n\nRENAME\nCambia el nombre de una clave.\n\n\nMSET\nGuarda varias claves y valores en una sola operación.\n\n\nMGET\nRecupera varias claves en una sola operación.\n\n\nSELECT\nCambia de base lógica.\n\n\nMULTI\nInicia una transacción.\n\n\nEXEC\nEjecuta los comandos pendientes de una transacción.\n\n\nDISCARD\nCancela una transacción.\n\n\nSUBSCRIBE\nSuscribe un cliente a un canal.\n\n\nPUBLISH\nPublica un mensaje en un canal.\n\n\nINFO\nMuestra información sobre el servidor Redis.\n\n\nFLUSHDB\nElimina todas las claves de la base lógica actual.\n\n\nFLUSHALL\nElimina todas las claves de todas las bases lógicas."
   },
   {
+    "objectID": "apuntes/18_acceso_neo4j_python.html",
+    "href": "apuntes/18_acceso_neo4j_python.html",
+    "title": "Acceso a Neo4j desde Python",
+    "section": "",
+    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.\nEl material se habilitará cuando esté terminado y revisado."
+  },
+  {
+    "objectID": "apuntes/18_acceso_neo4j_python.html#próximamente",
+    "href": "apuntes/18_acceso_neo4j_python.html#próximamente",
+    "title": "Acceso a Neo4j desde Python",
+    "section": "",
+    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.\nEl material se habilitará cuando esté terminado y revisado."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html",
+    "href": "practicas/02_modelado_relaciones_mongodb.html",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "",
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "",
+    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "2 Base de datos",
+    "text": "2 Base de datos\nUtiliza la base:\nsample_mflix\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\nsessions\ntheaters\nembedded_movies\nNo es necesario utilizar todas las colecciones.\nSelecciona aquellas que consideres más adecuadas para construir e interpretar el modelo."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "3 Generar el modelo",
+    "text": "3 Generar el modelo\nEn MongoDB Compass selecciona:\nData Modeling\nDespués crea un nuevo diagrama utilizando la base:\nsample_mflix\nSelecciona las colecciones que quieras analizar.\nPuedes activar:\nAutomatically infer relationships\npara que Compass intente identificar relaciones entre los documentos.\nGenera el diagrama y observa:\ncolecciones\ncampos\ntipos de datos\nreferencias\nrelaciones inferidas"
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#actividad",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "4 Actividad",
+    "text": "4 Actividad\nA partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.\nPara cada relación identificada indica:\n\nlas colecciones involucradas;\nlos campos que permiten relacionarlas;\nel tipo de relación;\nsi la información está incrustada o referenciada;\nuna breve interpretación de la relación.\n\nPor ejemplo:\nmovies\n   ↓\ncomments\npodría analizarse como una relación:\n1 : N\nsi una película puede tener varios comentarios."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "5 Interpretación del modelo",
+    "text": "5 Interpretación del modelo\nAdemás de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.\nPor ejemplo:\nmovies\npuede almacenar información de películas.\ncomments\npuede almacenar comentarios realizados sobre una película.\nusers\npuede representar a los usuarios de la aplicación.\nsessions\npuede almacenar información relacionada con sesiones de usuario.\ntheaters\npuede contener información de cines o ubicaciones.\nLa interpretación debe basarse en la estructura observada en los documentos."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "6 Colecciones sin relación directa",
+    "text": "6 Colecciones sin relación directa\nEs posible que algunas colecciones aparezcan sin una relación visible con las demás.\nEsto no significa necesariamente que exista un error.\nUna colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.\nIdentifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "7 Data Modeling y relaciones inferidas",
+    "text": "7 Data Modeling y relaciones inferidas\nRecuerda que Data Modeling puede inferir relaciones automáticamente.\nSin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.\nEs necesario revisar:\nqué campo genera la relación\n\nqué tipo de dato contiene\n\nqué colección está relacionada\n\nsi la relación tiene sentido dentro del modelo\nPor lo tanto, analiza críticamente las relaciones detectadas por Compass."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "8 Pregunta central",
+    "text": "8 Pregunta central\nA partir del modelo generado responde:\n¿Cómo se relacionan las colecciones de sample_mflix\ny qué función podría tener cada una dentro de una aplicación?"
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#entrega",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "9 Entrega",
+    "text": "9 Entrega\nEl documento deberá incluir:\n\ncaptura del modelo generado en Data Modeling;\ncolecciones seleccionadas;\ninterpretación de las relaciones;\nidentificación del tipo de relación;\ncampos que conectan las colecciones;\nidentificación de información incrustada o referenciada;\nal menos una relación 1:N;\nidentificación de alguna colección sin relación directa, si existe;\nbreve conclusión sobre el modelo documental observado."
+  },
+  {
+    "objectID": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "href": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
+    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
+    "section": "10 Conclusión",
+    "text": "10 Conclusión\nEscribe una breve reflexión sobre las diferencias que observas entre el modelo documental de sample_mflix y un modelo relacional tradicional.\nPuedes considerar aspectos como:\ndocumentos\nreferencias\ninformación incrustada\nflexibilidad del modelo\nrelaciones entre colecciones"
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html",
+    "href": "practicas/04_streaming_redis.html",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "",
+    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#objetivo",
+    "href": "practicas/04_streaming_redis.html#objetivo",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "",
+    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#descripción",
+    "href": "practicas/04_streaming_redis.html#descripción",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "2 Descripción",
+    "text": "2 Descripción\nUna plataforma de streaming necesita almacenar y consultar información relacionada con su catálogo de películas y la actividad de sus usuarios.\nEn esta práctica utilizarás Redis para simular algunas de estas funciones, seleccionando los comandos adecuados para cada actividad.\n\n\n\n\n\n\nFigure 1: Funcionamiento general de una plataforma de streaming que utiliza Redis."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#indicaciones-generales",
+    "href": "practicas/04_streaming_redis.html#indicaciones-generales",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "3 Indicaciones generales",
+    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad, incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nComandos utilizados: escribe los comandos que ejecutaste en Redis.\nEvidencia: inserta una captura de pantalla donde se observen los comandos y sus resultados.\n\nCompleta cada apartado conforme avances en la práctica. No es necesario tomar una captura por cada comando, siempre que las evidencias permitan verificar las operaciones solicitadas.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
+    "href": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "4 Registro del catálogo de películas",
+    "text": "4 Registro del catálogo de películas\nImagina que administras una plataforma de streaming.\nRegistra al menos cinco películas utilizando la estructura HASH.\nCada película deberá contener los siguientes atributos:\n\nIdentificador.\nTítulo.\nGénero.\nAño de estreno.\nDuración en minutos.\n\nUtiliza nombres de claves que permitan identificar fácilmente cada película.\nUna vez registradas, consulta la información para comprobar que los datos se almacenaron correctamente.\n\n4.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo del registro de las tres películas de la trilogía de Batman de Christopher Nolan.\nObserva cómo se utilizan los comandos HSET para almacenar la información y HGETALL para consultar los datos de cada película.\n\n\n\n\n\n\nFigure 2: Ejemplo de registro de la trilogía de Batman en Redis y presentación de la evidencia en un documento.\n\n\n\nEste ejemplo sirve como referencia para elaborar tu documento. Deberás seleccionar tus propias películas y registrar sus respectivos atributos.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#administración-de-sesiones",
+    "href": "practicas/04_streaming_redis.html#administración-de-sesiones",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "5 Administración de sesiones",
+    "text": "5 Administración de sesiones\nLa plataforma necesita identificar temporalmente a los usuarios que han iniciado sesión.\nRegistra tres sesiones utilizando la estructura STRING.\nCada sesión deberá:\n\nTener una clave que permita identificarla.\nAlmacenar el identificador del usuario.\nExpirar automáticamente después de 10 minutos.\n\nComprueba que las sesiones se almacenaron correctamente y consulta el tiempo restante de al menos una de ellas.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#función-continuar-viendo",
+    "href": "practicas/04_streaming_redis.html#función-continuar-viendo",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "6 Función “Continuar viendo”",
+    "text": "6 Función “Continuar viendo”\nLa plataforma debe recordar la última película que estaba reproduciendo cada usuario.\nRegistra la siguiente información para tres usuarios:\n\nIdentificador del usuario.\nIdentificador de la última película reproducida.\nSegundo exacto en el que se detuvo la reproducción.\n\nSelecciona una estructura de Redis que permita almacenar esta información.\nPosteriormente, consulta los datos registrados para comprobar que es posible recuperar la última película y el segundo en el que cada usuario detuvo su reproducción.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#contador-de-reproducciones",
+    "href": "practicas/04_streaming_redis.html#contador-de-reproducciones",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "7 Contador de reproducciones",
+    "text": "7 Contador de reproducciones\nLa plataforma necesita conocer cuántas veces se reproduce cada película.\nImplementa un contador para las cinco películas registradas anteriormente.\nRealiza las siguientes operaciones:\n\nInicializa los contadores.\nSimula varias reproducciones incrementando los contadores.\nConsulta el número total de reproducciones de cada película.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#películas-favoritas",
+    "href": "practicas/04_streaming_redis.html#películas-favoritas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "8 Películas favoritas",
+    "text": "8 Películas favoritas\nCada usuario podrá guardar sus películas favoritas.\nUtiliza la estructura SET para registrar las películas favoritas de tres usuarios.\nRealiza las siguientes operaciones:\n\nAgrega tres películas favoritas por usuario.\nConsulta las películas favoritas registradas para cada uno.\nComprueba que la información se almacenó correctamente.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#ranking-de-películas",
+    "href": "practicas/04_streaming_redis.html#ranking-de-películas",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "9 Ranking de películas",
+    "text": "9 Ranking de películas\nLa plataforma necesita identificar las películas con mayor número de reproducciones.\nUtiliza la estructura SORTED SET para crear un ranking de las cinco películas registradas.\nAsigna una puntuación a cada película que represente su número de reproducciones.\nConsulta el ranking de mayor a menor, mostrando las películas y sus respectivas puntuaciones.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura del ranking obtenido."
+  },
+  {
+    "objectID": "practicas/04_streaming_redis.html#evidencia-de-entrega",
+    "href": "practicas/04_streaming_redis.html#evidencia-de-entrega",
+    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
+    "section": "10 Evidencia de entrega",
+    "text": "10 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas seis actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLos comandos utilizados.\nCapturas de pantalla de los resultados obtenidos.\n\nImportante: Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html",
+    "href": "practicas/01_mongodb_local.html",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#objetivo",
+    "href": "practicas/01_mongodb_local.html#objetivo",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "",
+    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "2 1. Preparar MongoDB",
+    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "3 2. Cómo realizar las consultas",
+    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#actividad",
+    "href": "practicas/01_mongodb_local.html#actividad",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "4 3. Actividad",
+    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "5 4. Registrar los resultados",
+    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "6 5. Exportar la Consulta 9",
+    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#entrega",
+    "href": "practicas/01_mongodb_local.html#entrega",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "7 6. Entrega",
+    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
+  },
+  {
+    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
+    "title": "Práctica 1. Consultas con MongoDB",
+    "section": "8 7. Criterios de revisión",
+    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html",
+    "href": "manuales/01_instalacion_cassandra_windows.html",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#objetivo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "",
+    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#requisitos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "2 Requisitos",
+    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "3 Descargar e iniciar Docker Desktop",
+    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "4 Descargar Apache Cassandra",
+    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "href": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "5 Crear e iniciar el contenedor",
+    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "href": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "6 Entrar a la consola de Cassandra",
+    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "href": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "7 Primera prueba: crear un keyspace",
+    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "href": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "8 Comprobar que podemos guardar y consultar datos",
+    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "href": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "9 Administrar Cassandra desde Docker Desktop",
+    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "href": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "10 Detener Cassandra y volver a utilizarlo",
+    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "href": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "11 Problemas frecuentes",
+    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
+  },
+  {
+    "objectID": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "href": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
+    "title": "Instalación de Apache Cassandra en Windows con Docker",
+    "section": "12 Resultado esperado",
+    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "index.html#bienvenida",
+    "href": "index.html#bienvenida",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html",
+    "href": "manuales/instalacion_neo4j_windows.html",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "",
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#introducción",
+    "href": "manuales/instalacion_neo4j_windows.html#introducción",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "",
+    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "href": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "2 Requisitos previos",
+    "text": "2 Requisitos previos\nAntes de comenzar, es necesario contar con:\n\nUna computadora con Windows 10 u 11.\nConexión a Internet para descargar el instalador.\nEspacio disponible en disco.\nPermisos para instalar aplicaciones.\n\nEn el procedimiento documentado se utilizó Neo4j Desktop 2.2.1 en Windows 11.\n\n\n\n\n\n\nNoteImportante\n\n\n\nLas pantallas pueden presentar pequeñas diferencias dependiendo de la versión de Neo4j Desktop y del sistema operativo.\nEl procedimiento general de instalación es similar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "3 Descargar Neo4j Desktop",
+    "text": "3 Descargar Neo4j Desktop\nPrimero debemos acceder al sitio oficial de Neo4j:\nhttps://neo4j.com/download/\nEn la página de descargas buscamos la opción correspondiente a Neo4j Desktop para Windows.\nAl seleccionar la descarga, aparecerá un formulario solicitando algunos datos.\n\n\n\n\n\n\nFigure 1: Formulario de descarga de Neo4j Desktop.\n\n\n\nComo se muestra en la Figure 1, el formulario solicita:\n\nNombre.\nApellidos.\nCorreo electrónico.\nInstitución u organización.\nRol o actividad.\nPaís.\n\nCompleta los campos solicitados y selecciona Download Desktop.\n\n3.1 Confirmar la descarga\nDespués de enviar el formulario, aparecerá una página de confirmación.\n\n\n\n\n\n\nFigure 2: Confirmación de descarga de Neo4j Desktop.\n\n\n\nEn la Figure 2 podemos observar el mensaje de agradecimiento por descargar Neo4j Desktop.\nGeneralmente, la descarga comienza automáticamente.\nSi esto no sucede, podemos utilizar el enlace Windows (exe) que aparece en la página.\nTambién se muestran algunos recursos adicionales para conocer Neo4j.\n\n\n\n\n\n\nFigure 3: Recursos adicionales disponibles en la página de descarga.\n\n\n\nEstos materiales incluyen documentación, cursos y recursos para desarrolladores.\nNo es necesario utilizarlos para completar la instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "href": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "4 Ejecutar el instalador",
+    "text": "4 Ejecutar el instalador\nCuando termine la descarga, abrimos la carpeta Descargas de Windows.\nLocalizamos el instalador de Neo4j Desktop y hacemos doble clic para ejecutarlo.\nSi Windows solicita autorización para realizar cambios en el equipo, verificamos que se trate del instalador descargado desde el sitio oficial y confirmamos la operación.\nDespués aparecerá el asistente de instalación."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "5 Seleccionar el tipo de instalación",
+    "text": "5 Seleccionar el tipo de instalación\nEl instalador permite elegir para quién estará disponible la aplicación.\n\n\n\n\n\n\nFigure 4: Selección del tipo de instalación de Neo4j Desktop.\n\n\n\nComo se observa en la Figure 4, existen dos posibilidades:\n\nTodos los usuarios: la aplicación estará disponible para las cuentas del equipo.\nSolo para mí: la aplicación se instalará para el usuario actual.\n\nPara esta práctica seleccionamos Solo para mí.\nEsta opción es suficiente cuando trabajamos en una computadora personal.\nPosteriormente hacemos clic en Siguiente."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "6 Seleccionar la carpeta de instalación",
+    "text": "6 Seleccionar la carpeta de instalación\nEl asistente solicitará indicar la ubicación donde se instalará Neo4j Desktop.\n\n\n\n\n\n\nFigure 5: Carpeta de destino para instalar Neo4j Desktop.\n\n\n\nEn la Figure 5 se muestra la carpeta predeterminada propuesta por Windows.\nNo es necesario modificar esta ubicación.\nEn el procedimiento documentado, el instalador indicó un espacio requerido de aproximadamente 1.1 GB.\nPara continuar, hacemos clic en Instalar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "7 Proceso de instalación",
+    "text": "7 Proceso de instalación\nDespués de seleccionar la carpeta de destino, comenzará la instalación.\n\n\n\n\n\n\nFigure 6: Proceso de instalación de Neo4j Desktop.\n\n\n\nDurante este procedimiento, el asistente muestra una barra de progreso, como se observa en la Figure 6.\nDebemos esperar hasta que termine.\nEl tiempo necesario dependerá de las características del equipo.\nNo es necesario ejecutar comandos ni realizar configuraciones adicionales durante esta etapa."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "8 Finalizar la instalación",
+    "text": "8 Finalizar la instalación\nCuando el instalador termine, aparecerá una pantalla indicando que Neo4j Desktop se instaló correctamente.\n\n\n\n\n\n\nFigure 7: Finalización de la instalación de Neo4j Desktop.\n\n\n\nEn la Figure 7 aparece la opción:\nEjecutar Neo4j Desktop 2\nDejamos marcada esta casilla para abrir la aplicación automáticamente.\nFinalmente, hacemos clic en Terminar."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "9 Primera ejecución de Neo4j Desktop",
+    "text": "9 Primera ejecución de Neo4j Desktop\nLa primera vez que abrimos Neo4j Desktop, aparece una pantalla de bienvenida con el acuerdo de licencia.\n\n\n\n\n\n\nFigure 8: Pantalla de bienvenida y acuerdo de licencia de Neo4j Desktop.\n\n\n\nEn esta pantalla podemos revisar las condiciones de uso de la aplicación.\nSi estamos de acuerdo con los términos y el aviso de privacidad, hacemos clic en Continue.\nDespués de continuar, Neo4j Desktop abrirá su pantalla principal."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "href": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "10 Pantalla principal de Neo4j Desktop",
+    "text": "10 Pantalla principal de Neo4j Desktop\nUna vez completada la configuración inicial, podremos acceder a la interfaz de Neo4j Desktop.\n\n\n\n\n\n\nFigure 9: Pantalla principal de Neo4j Desktop 2.\n\n\n\nComo se observa en la Figure 9, la aplicación presenta diferentes opciones en el menú lateral.\nEntre las principales encontramos:\n\n\n\n\n\n\n\nOpción\nDescripción\n\n\n\n\nLocal instances\nPermite crear y administrar instancias locales de Neo4j.\n\n\nRemote connections\nPermite configurar conexiones a instancias remotas.\n\n\nImport\nHerramienta para importar datos.\n\n\nQuery\nEntorno para escribir y ejecutar consultas.\n\n\nBloom\nHerramienta para explorar visualmente grafos.\n\n\nDashboards\nPermite trabajar con paneles de visualización.\n\n\nSettings\nConfiguración de la aplicación.\n\n\n\n\n10.1 ¿Qué es una instancia local?\nUna instancia local es una instalación del sistema gestor Neo4j que se ejecuta en nuestra propia computadora.\nUna instancia puede administrar bases de datos, permitiendo almacenar nodos, relaciones y propiedades.\nEn la pantalla principal aparece el botón:\nCreate instance\nEste botón permite comenzar el proceso de creación de una instancia local.\n\n\n\n\n\n\nNoteDiferencia entre instancia y base de datos\n\n\n\nLa instancia corresponde al sistema gestor Neo4j que se ejecuta en la computadora.\nLa base de datos es el espacio lógico donde almacenamos y consultamos nuestros grafos.\nUna instancia puede administrar una o varias bases de datos, dependiendo de la edición y configuración utilizada."
+  },
+  {
+    "objectID": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "href": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
+    "title": "Instalación de Neo4j Desktop en Windows",
+    "section": "11 Comprobación de la instalación",
+    "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
+  },
+  {
+    "objectID": "practicas/05_actividad_grafos_neo4j.html",
+    "href": "practicas/05_actividad_grafos_neo4j.html",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
+  },
+  {
+    "objectID": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
+    "href": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
+    "title": "Bases de Datos No Relacionales",
+    "section": "",
+    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html",
+    "href": "practicas/05_consultas_cassandra.html",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "",
+    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#objetivo",
+    "href": "practicas/05_consultas_cassandra.html#objetivo",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "",
+    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#descripción",
+    "href": "practicas/05_consultas_cassandra.html#descripción",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "2 Descripción",
+    "text": "2 Descripción\nEn la práctica anterior se generó e importó una base de datos con mediciones simuladas de temperatura y humedad.\nLa tabla mediciones contiene información de:\n100 sensores\ndurante:\n127 días\ncon una medición cada:\n15 minutos\nEn total se almacenaron:\n1,219,200 registros\nEn esta práctica utilizarás esa misma información para realizar diferentes consultas en Apache Cassandra y analizar cómo influye el diseño de la tabla en la recuperación de los datos.\nLa estructura de la tabla es:\nCREATE TABLE mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\nLa clave de partición está formada por:\n(sensor_id, fecha)\nmientras que:\nmomento\norganiza los registros dentro de cada partición."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#indicaciones-generales",
+    "href": "practicas/05_consultas_cassandra.html#indicaciones-generales",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "3 Indicaciones generales",
+    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nConsulta utilizada: escribe la instrucción CQL que ejecutaste.\nEvidencia: inserta una captura de pantalla donde se observe la consulta y el resultado obtenido.\nRespuesta: contesta las preguntas planteadas en cada actividad.\n\nCompleta cada apartado conforme avances en la práctica.\nNo es necesario incluir nuevamente el proceso de generación ni de importación del archivo CSV.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus.\n\n3.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo de cómo puedes organizar en Word los resultados obtenidos durante la práctica.\nPara cada actividad incluye:\n\nUna breve descripción de lo realizado.\nLa consulta CQL utilizada.\nEl resultado obtenido.\nUna captura de pantalla como evidencia.\nLas respuestas a las preguntas correspondientes.\n\n\n\n\n\n\n\nFigure 1: Ejemplo de presentación de los resultados de la práctica de Apache Cassandra en un documento de Word.\n\n\n\nEste ejemplo sirve únicamente como referencia para la presentación del documento. Los resultados pueden variar de acuerdo con las consultas realizadas y los valores almacenados en la base de datos.\nElabora tu documento conforme avances en cada una de las actividades de la práctica."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#preparar-cassandra",
+    "href": "practicas/05_consultas_cassandra.html#preparar-cassandra",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "4 Preparar Cassandra",
+    "text": "4 Preparar Cassandra\nAbre Docker Desktop y espera a que se encuentre funcionando.\nDespués abre PowerShell en Windows o Terminal en macOS.\nInicia el contenedor:\ndocker start cassandra-lab\nComprueba que se encuentre activo:\ndocker ps\nDespués entra a Cassandra:\ndocker exec -it cassandra-lab cqlsh\nSelecciona el espacio de claves:\nUSE monitoreo_ambiental;\nAntes de comenzar, comprueba que los datos de la práctica anterior continúan almacenados.\nEjecuta:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-06-01';\nEl resultado esperado es:\n96\nSi obtienes este resultado, puedes continuar con la práctica."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
+    "href": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "5 Consulta de las mediciones de un sensor",
+    "text": "5 Consulta de las mediciones de un sensor\nConsulta todas las mediciones realizadas por:\nsensor_020\ndurante:\n15 de julio de 2026\nLa consulta deberá mostrar únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros fueron recuperados?\n¿Por qué Cassandra puede localizar directamente esta información?\n¿Qué valores forman la clave de partición utilizada?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
+    "href": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "6 Conteo de mediciones",
+    "text": "6 Conteo de mediciones\nDetermina cuántas mediciones fueron registradas por:\nsensor_035\nel día:\n20 de agosto de 2026\nUtiliza una consulta que permita contar los registros almacenados en esa partición.\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros se obtuvieron?\n¿Por qué se espera encontrar 96 mediciones?\n¿Qué representa cada uno de esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
+    "href": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "7 Mediciones más recientes",
+    "text": "7 Mediciones más recientes\nConsulta las:\n5 mediciones más recientes\ndel:\nsensor_075\ndurante el:\n20 de septiembre de 2026\nMuestra solamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuál es la primera hora mostrada?\n¿Por qué las mediciones aparecen de la más reciente a la más antigua?\n¿Qué relación tiene este resultado con:\n\nCLUSTERING ORDER BY (momento DESC)\n?\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
+    "href": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "8 Consulta por intervalo de tiempo",
+    "text": "8 Consulta por intervalo de tiempo\nConsulta las mediciones del:\nsensor_010\ncorrespondientes al:\n10 de agosto de 2026\nentre las:\n08:00\ny las:\n10:00\nMuestra:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántas mediciones fueron recuperadas?\n¿Por qué es posible utilizar momento para establecer el intervalo?\n¿Qué función cumple momento dentro de la clave primaria?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
+    "href": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "9 Consulta de una medición específica",
+    "text": "9 Consulta de una medición específica\nConsulta la temperatura y humedad registradas por:\nsensor_050\nel día:\n1 de septiembre de 2026\na las:\n14:30\nMuestra únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Qué columnas fueron necesarias para localizar exactamente ese registro?\n¿Qué parte corresponde a la clave de partición?\n¿Qué columna permite identificar la medición dentro de la partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
+    "href": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "10 Comparación entre sensores",
+    "text": "10 Comparación entre sensores\nConsulta las primeras:\n10 mediciones\ndel:\nsensor_025\ny del:\nsensor_026\npara el día:\n5 de octubre de 2026\nRealiza una consulta para cada sensor.\nDespués responde:\n\n¿Los registros de ambos sensores pertenecen a la misma partición?\n¿Por qué?\n¿Qué combinación de valores identifica cada partición?\n\nDocumenta esta actividad en Word con una breve descripción, las consultas utilizadas, una captura de los resultados y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
+    "href": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "11 Consulta utilizando solamente el sensor",
+    "text": "11 Consulta utilizando solamente el sensor\nIntenta recuperar las mediciones utilizando únicamente:\nsensor_id\nPor ejemplo:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_001';\nObserva el mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó correctamente?\n¿Por qué no es suficiente utilizar solamente sensor_id?\n¿Qué otro campo forma parte de la clave de partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del mensaje obtenido y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
+    "href": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "12 Consulta por temperatura",
+    "text": "12 Consulta por temperatura\nSupongamos que necesitamos conocer todas las mediciones cuya temperatura sea superior a:\n30 °C\nIntenta ejecutar:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30;\nObserva el resultado o mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó?\n¿temperatura forma parte de la clave de partición?\n¿temperatura es una columna de agrupamiento?\n¿Por qué Cassandra no puede localizar directamente esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
+    "href": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "13 Uso de ALLOW FILTERING",
+    "text": "13 Uso de ALLOW FILTERING\nAhora ejecuta:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30\nALLOW FILTERING;\nObserva el resultado.\nDespués responde:\n\n¿Qué diferencia existe con la consulta anterior?\n¿Qué permite hacer ALLOW FILTERING?\n¿Consideras adecuado utilizar este tipo de consulta constantemente sobre más de un millón de registros?\nExplica brevemente por qué.\n\n\n\n\n\n\n\nWarning\n\n\n\nALLOW FILTERING permite ejecutar determinadas consultas que no corresponden directamente con el diseño de la tabla.\nSin embargo, no significa que la consulta sea eficiente.\n\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
+    "href": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "14 Diseño orientado a consultas",
+    "text": "14 Diseño orientado a consultas\nImagina que una aplicación necesita responder frecuentemente la siguiente pregunta:\n\n¿Qué sensores registraron temperaturas superiores a 30 °C en una fecha determinada?\n\nLa tabla actual fue diseñada principalmente para responder consultas como:\n\n¿Qué mediciones realizó un sensor durante un día?\n\nResponde:\n\n¿La tabla mediciones está diseñada adecuadamente para buscar directamente todas las temperaturas superiores a 30 °C?\n¿Sería recomendable utilizar ALLOW FILTERING cada vez que se necesite esta información?\n¿Qué alternativa propondrías?\n¿Por qué en Cassandra es importante conocer primero las consultas que realizará una aplicación?\n\nDocumenta esta actividad en Word con tus respuestas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#reflexión-final",
+    "href": "practicas/05_consultas_cassandra.html#reflexión-final",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "15 Reflexión final",
+    "text": "15 Reflexión final\nPara finalizar, responde con tus propias palabras:\n\n¿Cuál es la clave de partición de la tabla mediciones?\n¿Qué función cumple la columna momento?\n¿Por qué una consulta utilizando sensor_id y fecha es eficiente?\n¿Por qué una consulta utilizando solamente temperatura no corresponde con el diseño actual?\nExplica la siguiente idea:\n\nEn Cassandra primero pensamos en las consultas\ny después diseñamos las tablas."
+  },
+  {
+    "objectID": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
+    "href": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
+    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
+    "section": "16 Evidencia de entrega",
+    "text": "16 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLas consultas utilizadas.\nCapturas de pantalla de los resultados obtenidos.\nLas respuestas a las preguntas planteadas.\nLa reflexión final.\n\nImportante: utiliza la base de datos de monitoreo ambiental creada en la práctica anterior. No es necesario volver a generar ni importar los 1,219,200 registros.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Cassandra. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html",
+    "href": "practicas/proyecto_integrador_bdnr.html",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "",
+    "text": "El proyecto integrador consiste en diseñar e implementar una solución que permita almacenar, organizar y consultar información mediante una o más tecnologías NoSQL estudiadas durante el curso.\nCada estudiante o equipo deberá seleccionar un problema de interés, elegir la tecnología que considere más adecuada y justificar su decisión de acuerdo con las características de los datos y las necesidades de consulta.\nEl proyecto podrá desarrollarse de manera individual o en equipos de máximo dos integrantes, con una única entrega final y una exposición breve para presentar los resultados obtenidos.\n\n\n\n\n\n\nNotaInformación general\n\n\n\n\nModalidad: individual o en equipos de máximo dos integrantes.\nValor: 30 % de la calificación final.\nTecnologías: MongoDB, Redis, Apache Cassandra o Neo4j.\nEntrega: un único archivo PDF por proyecto.\nFecha límite: 30 de noviembre de 2026.\nExposición: máximo 8 minutos por proyecto."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#presentación-del-proyecto",
+    "href": "practicas/proyecto_integrador_bdnr.html#presentación-del-proyecto",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "",
+    "text": "El proyecto integrador consiste en diseñar e implementar una solución que permita almacenar, organizar y consultar información mediante una o más tecnologías NoSQL estudiadas durante el curso.\nCada estudiante o equipo deberá seleccionar un problema de interés, elegir la tecnología que considere más adecuada y justificar su decisión de acuerdo con las características de los datos y las necesidades de consulta.\nEl proyecto podrá desarrollarse de manera individual o en equipos de máximo dos integrantes, con una única entrega final y una exposición breve para presentar los resultados obtenidos.\n\n\n\n\n\n\nNotaInformación general\n\n\n\n\nModalidad: individual o en equipos de máximo dos integrantes.\nValor: 30 % de la calificación final.\nTecnologías: MongoDB, Redis, Apache Cassandra o Neo4j.\nEntrega: un único archivo PDF por proyecto.\nFecha límite: 30 de noviembre de 2026.\nExposición: máximo 8 minutos por proyecto."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#objetivo-del-proyecto",
+    "href": "practicas/proyecto_integrador_bdnr.html#objetivo-del-proyecto",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Objetivo del proyecto",
+    "text": "Objetivo del proyecto\nDiseñar, implementar y documentar una solución basada en tecnologías NoSQL que permita atender un problema mediante el almacenamiento, la organización y la consulta de información, justificando las decisiones de modelado y las herramientas utilizadas."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#selección-del-caso-de-estudio",
+    "href": "practicas/proyecto_integrador_bdnr.html#selección-del-caso-de-estudio",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Selección del caso de estudio",
+    "text": "Selección del caso de estudio\nCada estudiante o equipo podrá seleccionar uno de los siguientes casos de estudio o proponer un problema diferente relacionado con sus intereses.\n\nTienda en línea: administración de productos, clientes, inventarios, compras y pedidos.\nBiblioteca digital: registro de libros, autores, usuarios, préstamos y consultas.\nPlataforma de películas: organización de películas, actores, géneros, calificaciones y recomendaciones.\nRed social: administración de usuarios, publicaciones, seguidores e interacciones.\nMonitoreo ambiental: almacenamiento y consulta de mediciones de temperatura, humedad y otras variables registradas por sensores.\nSistema de transporte: administración de estaciones, rutas, conexiones y recorridos entre diferentes puntos.\nPlataforma educativa: registro de estudiantes, cursos, actividades, calificaciones y seguimiento académico.\nSistema hospitalario: administración de información ficticia de pacientes, consultas y servicios médicos.\nSistema de reservaciones: registro de servicios, disponibilidad, usuarios y reservaciones.\nGestión de eventos: administración de eventos, participantes, inscripciones y sedes.\nRed de investigación académica: organización de investigadores, publicaciones, instituciones y relaciones de colaboración.\nSistema de turismo: registro de destinos, atractivos, alojamientos y relaciones entre lugares.\n\nLos casos presentados son orientativos. También podrán desarrollarse propuestas diferentes, siempre que permitan aplicar los conocimientos adquiridos durante el curso.\nLa elección del caso de estudio no determina automáticamente la tecnología que deberá utilizarse. Cada estudiante o equipo será responsable de seleccionar y justificar el gestor NoSQL más adecuado para su propuesta."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#selección-de-la-tecnología-nosql",
+    "href": "practicas/proyecto_integrador_bdnr.html#selección-de-la-tecnología-nosql",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Selección de la tecnología NoSQL",
+    "text": "Selección de la tecnología NoSQL\nCada estudiante o equipo deberá utilizar al menos una de las siguientes tecnologías:\n\nMongoDB.\nRedis.\nApache Cassandra.\nNeo4j.\n\nLa elección deberá justificarse considerando las características de la información, su organización y las consultas que se pretende realizar.\nPara fundamentar la selección, se deberán considerar las siguientes preguntas:\n\n¿Qué tipo de información se necesita almacenar?\n¿Qué operaciones y consultas requiere la solución?\n¿Qué características del gestor seleccionado resultan adecuadas para el problema?\n¿Qué ventajas ofrece el modelo elegido frente a otras alternativas estudiadas?\n\nSe permitirá combinar dos o más tecnologías cuando las necesidades del proyecto lo justifiquen. Sin embargo, no será obligatorio utilizar varios gestores ni se otorgará una ventaja automática por hacerlo."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#desarrollo-del-proyecto",
+    "href": "practicas/proyecto_integrador_bdnr.html#desarrollo-del-proyecto",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Desarrollo del proyecto",
+    "text": "Desarrollo del proyecto\nCada estudiante o equipo deberá implementar una solución funcional de acuerdo con el problema seleccionado.\nEl proyecto deberá contemplar los siguientes elementos:\n\nDescripción del problema: explicar la situación que se pretende atender, las necesidades de información y la utilidad de la solución propuesta.\nDiseño del modelo de datos: definir cómo se organizará la información de acuerdo con la tecnología seleccionada. Se deberá incluir un esquema o diagrama que permita comprender la estructura de la base de datos.\nImplementación de la base de datos: crear las estructuras necesarias e incorporar un conjunto de datos suficiente para demostrar el funcionamiento de la solución.\nOrigen de los datos: se podrán utilizar conjuntos de datos públicos, crear registros propios o generar información simulada. En todos los casos se deberá explicar cómo se obtuvo o construyó la información utilizada.\nConsultas y operaciones: desarrollar al menos ocho consultas u operaciones diferentes y relevantes, que permitan demostrar las capacidades del gestor seleccionado. Estas deberán responder a necesidades concretas del proyecto.\nResultados e interpretación: presentar los resultados de las consultas y explicar brevemente qué información proporcionan y cómo contribuyen a atender el problema planteado.\nConclusiones: describir los principales resultados, las dificultades encontradas y las ventajas o limitaciones de la tecnología utilizada.\n\nLas consultas u operaciones podrán incluir filtros, búsquedas, inserciones, actualizaciones, agrupaciones, recorridos u otras funciones, dependiendo de la tecnología seleccionada.\nNo será suficiente presentar ocho comandos repetitivos que únicamente cambien los valores de búsqueda. Se deberá demostrar el uso de diferentes capacidades del gestor, según las necesidades del proyecto.\n\n\n\n\n\n\nNotaAlcance del proyecto\n\n\n\nNo será obligatorio desarrollar una aplicación web o móvil.\nLa implementación podrá realizarse utilizando las herramientas estudiadas durante el curso, como MongoDB Compass, mongosh, Redis CLI, Cassandra CQL, Neo4j Desktop o Python.\nSe evaluará principalmente el funcionamiento de la base de datos, la calidad del modelo y la pertinencia de las operaciones realizadas."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#entrega-final",
+    "href": "practicas/proyecto_integrador_bdnr.html#entrega-final",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Entrega final",
+    "text": "Entrega final\nSe entregará un único archivo en formato PDF, que deberá contener los siguientes apartados:\n\nPortada: nombre del proyecto, nombre completo del estudiante o integrantes, experiencia educativa y fecha de entrega.\nIntroducción: presentación general del proyecto y de la solución desarrollada.\nPlanteamiento del problema: descripción de la situación que se pretende atender y las necesidades de almacenamiento y consulta de información.\nObjetivo: propósito de la solución implementada.\nTecnología NoSQL seleccionada: identificación del gestor utilizado y justificación de su elección.\nModelo de datos: descripción de la estructura y organización de la información, incluyendo un esquema o diagrama.\nImplementación: explicación del procedimiento de creación de la base de datos y carga de información, con los comandos y las evidencias más relevantes.\nConsultas y resultados: presentación de al menos ocho consultas u operaciones. Cada una deberá incluir su propósito, código o comando utilizado, evidencia del resultado e interpretación breve.\nConclusiones: principales resultados, dificultades encontradas y ventajas o limitaciones de la solución.\nReferencias: fuentes de información consultadas y procedencia de los conjuntos de datos utilizados, cuando corresponda.\n\nEl documento deberá organizarse de manera clara y contener las evidencias necesarias para comprender y evaluar el funcionamiento del proyecto.\n\n\n\n\n\n\nImportanteIndicaciones de entrega\n\n\n\n\nModalidad: individual o en equipos de máximo dos integrantes.\nFormato: PDF.\nMedio de entrega: Eminus.\nFecha límite: 30 de noviembre de 2026.\nArchivo: un único PDF por proyecto.\n\nEl PDF deberá contener los códigos, resultados, capturas y explicaciones necesarios para evaluar la solución.\nNo se requieren entregas parciales. En caso de trabajar en pareja, se realizará una sola entrega con los nombres de ambos integrantes."
+  },
+  {
+    "objectID": "practicas/proyecto_integrador_bdnr.html#consideraciones-generales",
+    "href": "practicas/proyecto_integrador_bdnr.html#consideraciones-generales",
+    "title": "Proyecto integrador: Bases de Datos No Relacionales",
+    "section": "Consideraciones generales",
+    "text": "Consideraciones generales\nEl proyecto representa el 30 % de la calificación final de la experiencia educativa.\nCada estudiante o equipo deberá entregar su proyecto en formato PDF a través de Eminus, a más tardar el 30 de noviembre de 2026.\nAsimismo, deberá realizar una exposición de máximo 8 minutos por proyecto, en la que se presenten brevemente el problema abordado, la tecnología NoSQL seleccionada, el modelo de datos, la implementación y los principales resultados obtenidos. La fecha y el orden de las exposiciones se comunicarán durante las sesiones del curso.\nNo será necesario explicar las ocho consultas durante la exposición; se deberán seleccionar las más representativas para demostrar el funcionamiento de la solución.\nEn los proyectos desarrollados en pareja, ambos integrantes deberán participar en la exposición y conocer el funcionamiento de la solución.\nLos datos deberán utilizarse de manera responsable, respetando su procedencia y las condiciones de uso correspondientes. Cuando se utilicen datos simulados o creados para fines de prueba, deberá indicarse expresamente. No deberán incluirse contraseñas ni datos personales sensibles.\nSe valorará especialmente la capacidad de seleccionar un modelo de datos adecuado, implementar consultas y operaciones funcionales, interpretar los resultados y justificar las decisiones técnicas."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html",
+    "href": "practicas/03_redis_clave_valor.html",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "",
+    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#objetivo",
+    "href": "practicas/03_redis_clave_valor.html#objetivo",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "",
+    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#escenario",
+    "href": "practicas/03_redis_clave_valor.html#escenario",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "2 Escenario",
+    "text": "2 Escenario\nSe trabajará con el ejemplo de una tienda en línea.\nLa tienda necesita manejar información que cambia con frecuencia, como:\n\nproductos;\nstock;\nsesiones de usuarios;\nvisitas;\npedidos;\nusuarios únicos;\nrankings de productos.\n\nPara representar esta información se utilizarán diferentes estructuras de Redis.\n\n\n\n\n\n\nNoteImportante\n\n\n\nNo es necesario utilizar exactamente los mismos nombres de productos de los ejemplos.\nCada estudiante deberá crear su propia tienda y utilizar al menos tres productos diferentes."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
+    "href": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "3 Actividad 1. Verificar la conexión",
+    "text": "3 Actividad 1. Verificar la conexión\nAntes de comenzar, comprueba que existe comunicación con Redis.\nPING\nResultado esperado:\n\nPONG\n\nGuarda una evidencia del resultado obtenido."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "4 Actividad 2. Crear productos",
+    "text": "4 Actividad 2. Crear productos\nUtiliza estructuras de tipo HASH para representar los productos de la tienda.\nCada producto deberá contener al menos los siguientes campos:\nnombre\nprecio\nstock\ncategoria\nCrea por lo menos tres productos diferentes.\nEjemplo:\nHSET producto:1 nombre \"Laptop Lenovo\" precio 18500 stock 5 categoria \"Computacion\"\nDespués consulta el producto:\nHGETALL producto:1\nRealiza el mismo procedimiento con los otros productos.\nTambién consulta de manera individual algunos campos.\nPor ejemplo:\nHGET producto:1 precio\ny:\nHGET producto:1 stock"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
+    "href": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "5 Actividad 3. Modificar el stock",
+    "text": "5 Actividad 3. Modificar el stock\nSimula operaciones de compra y reposición de productos.\nPara disminuir el stock:\nHINCRBY producto:1 stock -1\nPara agregar nuevas unidades:\nHINCRBY producto:1 stock 5\nConsulta nuevamente el stock:\nHGET producto:1 stock\nRealiza al menos:\n\ndos operaciones de compra;\nuna operación de reposición.\n\nRegistra el stock inicial y el stock final."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "6 Actividad 4. Crear un contador de visitas",
+    "text": "6 Actividad 4. Crear un contador de visitas\nLa tienda desea registrar cuántas veces se consulta un producto.\nCrea un contador:\nSET producto:1:visitas 0\nSimula varias visitas:\nINCR producto:1:visitas\nINCR producto:1:visitas\nINCR producto:1:visitas\nConsulta el resultado:\nGET producto:1:visitas\nDespués incrementa varias visitas al mismo tiempo:\nINCRBY producto:1:visitas 5\nConsulta nuevamente el contador."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
+    "href": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "7 Actividad 5. Crear una sesión temporal",
+    "text": "7 Actividad 5. Crear una sesión temporal\nSimula el inicio de sesión de un usuario.\nCrea una sesión con una duración de cinco minutos:\nSET sesion:001 \"usuario:25\" EX 300\nConsulta el valor:\nGET sesion:001\nDespués consulta cuánto tiempo queda antes de que la sesión expire:\nTTL sesion:001\nEjecuta nuevamente TTL después de algunos segundos y observa cómo cambia el valor.\nExplica brevemente qué ocurre cuando el tiempo llega a cero."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "8 Actividad 6. Crear una cola de pedidos",
+    "text": "8 Actividad 6. Crear una cola de pedidos\nUtiliza una LIST para representar los pedidos pendientes de la tienda.\nAgrega por lo menos cuatro pedidos:\nRPUSH cola:pedidos \"pedido_001\"\nRPUSH cola:pedidos \"pedido_002\"\nRPUSH cola:pedidos \"pedido_003\"\nRPUSH cola:pedidos \"pedido_004\"\nConsulta la cola completa:\nLRANGE cola:pedidos 0 -1\nAhora simula que se atiende el primer pedido:\nLPOP cola:pedidos\nConsulta nuevamente la cola:\nLRANGE cola:pedidos 0 -1\nExplica brevemente qué ocurrió."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "9 Actividad 7. Registrar usuarios únicos",
+    "text": "9 Actividad 7. Registrar usuarios únicos\nUtiliza un SET para registrar usuarios que visitaron la tienda.\nPor ejemplo:\nSADD usuarios:visitantes \"usuario1\"\nSADD usuarios:visitantes \"usuario2\"\nSADD usuarios:visitantes \"usuario3\"\nSADD usuarios:visitantes \"usuario4\"\nIntenta agregar nuevamente un usuario que ya exista:\nSADD usuarios:visitantes \"usuario2\"\nConsulta todos los usuarios:\nSMEMBERS usuarios:visitantes\nCuenta cuántos usuarios únicos existen:\nSCARD usuarios:visitantes\nExplica qué ocurrió cuando intentaste agregar un usuario repetido."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
+    "href": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "10 Actividad 8. Crear un ranking de productos",
+    "text": "10 Actividad 8. Crear un ranking de productos\nUtiliza un Sorted Set para representar la popularidad de los productos.\nCrea por lo menos cuatro productos con diferentes puntuaciones.\nEjemplo:\nZADD productos:ranking 120 \"Laptop\"\nZADD productos:ranking 80 \"Mouse\"\nZADD productos:ranking 150 \"Monitor\"\nZADD productos:ranking 60 \"Teclado\"\nMuestra el ranking de mayor a menor:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nConsulta únicamente los tres primeros lugares:\nZREVRANGE productos:ranking 0 2 WITHSCORES\nAhora incrementa la puntuación de uno de los productos:\nZINCRBY productos:ranking 50 \"Mouse\"\nConsulta nuevamente el ranking:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nObserva si cambió la posición del producto."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "11 Actividad 9. Explorar las claves creadas",
+    "text": "11 Actividad 9. Explorar las claves creadas\nConsulta todas las claves almacenadas durante la práctica:\nKEYS *\nDespués identifica el tipo de algunas claves.\nPor ejemplo:\nTYPE producto:1\nTYPE cola:pedidos\nTYPE usuarios:visitantes\nTYPE productos:ranking\nConsulta también la cantidad total de claves:\nDBSIZE\nGuarda una evidencia donde puedan observarse las claves creadas durante la práctica."
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
+    "href": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "12 Actividad 10. Identificar las estructuras utilizadas",
+    "text": "12 Actividad 10. Identificar las estructuras utilizadas\nCompleta la siguiente tabla de acuerdo con lo realizado durante la práctica.\n\n\n\nInformación\nEstructura utilizada\nEjemplo de clave\n\n\n\n\nProducto\n__________\n__________\n\n\nStock\n__________\n__________\n\n\nContador de visitas\n__________\n__________\n\n\nSesión\n__________\n__________\n\n\nCola de pedidos\n__________\n__________\n\n\nUsuarios únicos\n__________\n__________\n\n\nRanking\n__________\n__________"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
+    "href": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "13 Preguntas de reflexión",
+    "text": "13 Preguntas de reflexión\nResponde brevemente las siguientes preguntas.\n\n¿Qué diferencia observaste entre un STRING y un HASH?\n¿Por qué una LIST resulta adecuada para representar una cola de pedidos?\n¿Qué ventaja ofrece un SET cuando se desea almacenar usuarios únicos?\n¿Por qué un SORTED SET resulta útil para representar un ranking?\n¿Qué ocurre con una clave cuando termina su tiempo de expiración?\n¿Qué tipo de información de una tienda almacenarías en Redis?\n¿Qué información considerarías más adecuada para una base principal como MongoDB o PostgreSQL?\n¿Por qué Redis puede utilizarse como complemento de otra base de datos dentro de una misma aplicación?"
+  },
+  {
+    "objectID": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
+    "href": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
+    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
+    "section": "14 Evidencias a entregar",
+    "text": "14 Evidencias a entregar\nEl documento deberá incluir:\n\nportada;\ncapturas de pantalla de las actividades realizadas;\ncomandos utilizados;\nresultados obtenidos;\ntabla de estructuras utilizadas;\nrespuestas a las preguntas de reflexión.\n\nLas capturas deberán permitir observar claramente los comandos ejecutados y sus resultados.\n\n\n\n\n\n\nTipRecomendación\n\n\n\nAntes de finalizar la práctica, ejecuta:\nKEYS *\npara comprobar las claves que fueron creadas durante el ejercicio."
+  },
+  {
     "objectID": "apuntes/16_json_mongodb_python.html",
     "href": "apuntes/16_json_mongodb_python.html",
     "title": "Conexión y consultas de MongoDB desde Python",
@@ -2126,671 +2847,6 @@
     "title": "Conexión y consultas de MongoDB desde Python",
     "section": "18 Actividad individual: consultas y análisis de películas",
     "text": "18 Actividad individual: consultas y análisis de películas\nEn esta actividad aplicarás los conocimientos adquiridos para consultar y procesar información de MongoDB mediante Python.\nUtilizarás la base de datos sample_mflix y la colección movies.\nPodrás desarrollar la actividad desde cualquiera de los cuatro entornos presentados durante el apunte.\nLa actividad se divide en tres partes:\n\nParte A. Conexión y consultas con PyMongo.\nParte B. Consultas con filtros y ordenamientos.\nParte C. Procesamiento y análisis con pandas.\n\n\n18.1 Instrucciones generales\n\nInicia MongoDB en tu computadora.\nSelecciona uno de los cuatro entornos de trabajo.\nEstablece la conexión mediante PyMongo.\nSelecciona la base de datos sample_mflix.\nUtiliza la colección movies.\nResuelve cada ejercicio utilizando Python.\nEjecuta las consultas y verifica sus resultados.\n\n\n\n\n\n\n\nWarning\n\n\n\nImportante\nDurante esta actividad realizaremos únicamente operaciones de consulta y análisis.\nNo es necesario modificar ni eliminar documentos de la base de datos.\n\n\n\n\n18.2 Parte A. Conexión y consultas con PyMongo\nResuelve los siguientes ejercicios:\n\nEstablece una conexión entre Python y MongoDB y comprueba que el servidor responde correctamente.\nRecupera la cantidad total de documentos almacenados en la colección movies.\nRecupera los títulos y años de publicación de las primeras diez películas devueltas por una consulta.\nBusca una película por su título y muestra también su año de publicación.\n\n\n\n18.3 Parte B. Consultas con filtros y ordenamientos\nResuelve los siguientes ejercicios:\n\nRecupera diez películas publicadas después del año 2010, mostrando únicamente el título y el año.\nRecupera diez películas que pertenezcan al género Drama.\nRecupera diez películas que tengan una calificación IMDb mayor o igual a 8.\nRecupera diez películas publicadas entre 2000 y 2010, ordenadas por año de publicación de mayor a menor.\nCuenta cuántas películas pertenecen al género Action.\n\n\n\n18.4 Parte C. Procesamiento y análisis con pandas\nUtiliza los documentos de MongoDB para realizar los siguientes ejercicios:\n\nRecupera 200 películas, seleccionando los campos title, year y genres, y construye un DataFrame.\nMuestra las primeras diez filas del DataFrame y consulta sus dimensiones.\nIdentifica los cinco años más frecuentes dentro de los documentos recuperados.\nCalcula el promedio de los años de publicación.\nUtiliza explode() para identificar los cinco géneros más frecuentes.\nExporta el DataFrame a un archivo CSV.\n\n\n\n18.5 Indicaciones de entrega\nLa actividad deberá entregarse en un documento PDF que incluya:\n\nNombre completo del estudiante.\nParte A: cuatro ejercicios de conexión y consultas.\nParte B: cinco ejercicios de filtros y ordenamientos.\nParte C: seis ejercicios de procesamiento y análisis.\nCódigo utilizado en cada ejercicio.\nCapturas de pantalla de las ejecuciones y resultados.\n\nLos ejercicios deberán presentarse en el orden correspondiente.\n\n\n\n\n\n\nNote\n\n\n\nRecomendación\nAntes de entregar la actividad, comprueba que todas las consultas se ejecuten correctamente.\nRecuerda que los resultados del análisis con pandas dependen del conjunto de películas recuperado desde MongoDB."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html",
-    "href": "practicas/02_modelado_relaciones_mongodb.html",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "",
-    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#objetivo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "",
-    "text": "Analizar la estructura de la base de datos sample_mflix e identificar las relaciones entre sus colecciones utilizando MongoDB Compass y Data Modeling.\nEl propósito es identificar cómo se relacionan las colecciones, qué campos permiten establecer esas relaciones y cómo podrían formar parte de una aplicación real."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#base-de-datos",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "2 Base de datos",
-    "text": "2 Base de datos\nUtiliza la base:\nsample_mflix\nPuedes considerar colecciones como:\nmovies\ncomments\nusers\nsessions\ntheaters\nembedded_movies\nNo es necesario utilizar todas las colecciones.\nSelecciona aquellas que consideres más adecuadas para construir e interpretar el modelo."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#generar-el-modelo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "3 Generar el modelo",
-    "text": "3 Generar el modelo\nEn MongoDB Compass selecciona:\nData Modeling\nDespués crea un nuevo diagrama utilizando la base:\nsample_mflix\nSelecciona las colecciones que quieras analizar.\nPuedes activar:\nAutomatically infer relationships\npara que Compass intente identificar relaciones entre los documentos.\nGenera el diagrama y observa:\ncolecciones\ncampos\ntipos de datos\nreferencias\nrelaciones inferidas"
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#actividad",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#actividad",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "4 Actividad",
-    "text": "4 Actividad\nA partir del modelo generado, analiza las relaciones que existen entre las colecciones seleccionadas.\nPara cada relación identificada indica:\n\nlas colecciones involucradas;\nlos campos que permiten relacionarlas;\nel tipo de relación;\nsi la información está incrustada o referenciada;\nuna breve interpretación de la relación.\n\nPor ejemplo:\nmovies\n   ↓\ncomments\npodría analizarse como una relación:\n1 : N\nsi una película puede tener varios comentarios."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#interpretación-del-modelo",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "5 Interpretación del modelo",
-    "text": "5 Interpretación del modelo\nAdemás de identificar las relaciones, explica brevemente qué función podría tener cada colección dentro de una aplicación.\nPor ejemplo:\nmovies\npuede almacenar información de películas.\ncomments\npuede almacenar comentarios realizados sobre una película.\nusers\npuede representar a los usuarios de la aplicación.\nsessions\npuede almacenar información relacionada con sesiones de usuario.\ntheaters\npuede contener información de cines o ubicaciones.\nLa interpretación debe basarse en la estructura observada en los documentos."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#colecciones-sin-relación-directa",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "6 Colecciones sin relación directa",
-    "text": "6 Colecciones sin relación directa\nEs posible que algunas colecciones aparezcan sin una relación visible con las demás.\nEsto no significa necesariamente que exista un error.\nUna colección puede formar parte de la misma aplicación sin estar conectada directamente mediante una referencia.\nIdentifica si esto ocurre en tu modelo y explica brevemente por qué podría suceder."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#data-modeling-y-relaciones-inferidas",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "7 Data Modeling y relaciones inferidas",
-    "text": "7 Data Modeling y relaciones inferidas\nRecuerda que Data Modeling puede inferir relaciones automáticamente.\nSin embargo, una línea en el diagrama no debe interpretarse automáticamente como una relación válida.\nEs necesario revisar:\nqué campo genera la relación\n\nqué tipo de dato contiene\n\nqué colección está relacionada\n\nsi la relación tiene sentido dentro del modelo\nPor lo tanto, analiza críticamente las relaciones detectadas por Compass."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#pregunta-central",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "8 Pregunta central",
-    "text": "8 Pregunta central\nA partir del modelo generado responde:\n¿Cómo se relacionan las colecciones de sample_mflix\ny qué función podría tener cada una dentro de una aplicación?"
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#entrega",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#entrega",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "9 Entrega",
-    "text": "9 Entrega\nEl documento deberá incluir:\n\ncaptura del modelo generado en Data Modeling;\ncolecciones seleccionadas;\ninterpretación de las relaciones;\nidentificación del tipo de relación;\ncampos que conectan las colecciones;\nidentificación de información incrustada o referenciada;\nal menos una relación 1:N;\nidentificación de alguna colección sin relación directa, si existe;\nbreve conclusión sobre el modelo documental observado."
-  },
-  {
-    "objectID": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
-    "href": "practicas/02_modelado_relaciones_mongodb.html#conclusión",
-    "title": "Práctica 2. Modelado de relaciones con sample_mflix",
-    "section": "10 Conclusión",
-    "text": "10 Conclusión\nEscribe una breve reflexión sobre las diferencias que observas entre el modelo documental de sample_mflix y un modelo relacional tradicional.\nPuedes considerar aspectos como:\ndocumentos\nreferencias\ninformación incrustada\nflexibilidad del modelo\nrelaciones entre colecciones"
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html",
-    "href": "practicas/05_consultas_cassandra.html",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "",
-    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#objetivo",
-    "href": "practicas/05_consultas_cassandra.html#objetivo",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "",
-    "text": "Aplicar consultas en Apache Cassandra utilizando una base de datos de monitoreo ambiental con más de un millón de registros.\nDurante la práctica se reforzarán los conceptos de clave de partición, columnas de agrupamiento, consultas por intervalos y diseño orientado a consultas."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#descripción",
-    "href": "practicas/05_consultas_cassandra.html#descripción",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "2 Descripción",
-    "text": "2 Descripción\nEn la práctica anterior se generó e importó una base de datos con mediciones simuladas de temperatura y humedad.\nLa tabla mediciones contiene información de:\n100 sensores\ndurante:\n127 días\ncon una medición cada:\n15 minutos\nEn total se almacenaron:\n1,219,200 registros\nEn esta práctica utilizarás esa misma información para realizar diferentes consultas en Apache Cassandra y analizar cómo influye el diseño de la tabla en la recuperación de los datos.\nLa estructura de la tabla es:\nCREATE TABLE mediciones (\n    sensor_id TEXT,\n    fecha DATE,\n    momento TIMESTAMP,\n    temperatura DECIMAL,\n    humedad DECIMAL,\n    PRIMARY KEY ((sensor_id, fecha), momento)\n) WITH CLUSTERING ORDER BY (momento DESC);\nLa clave de partición está formada por:\n(sensor_id, fecha)\nmientras que:\nmomento\norganiza los registros dentro de cada partición."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#indicaciones-generales",
-    "href": "practicas/05_consultas_cassandra.html#indicaciones-generales",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "3 Indicaciones generales",
-    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nConsulta utilizada: escribe la instrucción CQL que ejecutaste.\nEvidencia: inserta una captura de pantalla donde se observe la consulta y el resultado obtenido.\nRespuesta: contesta las preguntas planteadas en cada actividad.\n\nCompleta cada apartado conforme avances en la práctica.\nNo es necesario incluir nuevamente el proceso de generación ni de importación del archivo CSV.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus.\n\n3.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo de cómo puedes organizar en Word los resultados obtenidos durante la práctica.\nPara cada actividad incluye:\n\nUna breve descripción de lo realizado.\nLa consulta CQL utilizada.\nEl resultado obtenido.\nUna captura de pantalla como evidencia.\nLas respuestas a las preguntas correspondientes.\n\n\n\n\n\n\n\nFigure 1: Ejemplo de presentación de los resultados de la práctica de Apache Cassandra en un documento de Word.\n\n\n\nEste ejemplo sirve únicamente como referencia para la presentación del documento. Los resultados pueden variar de acuerdo con las consultas realizadas y los valores almacenados en la base de datos.\nElabora tu documento conforme avances en cada una de las actividades de la práctica."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#preparar-cassandra",
-    "href": "practicas/05_consultas_cassandra.html#preparar-cassandra",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "4 Preparar Cassandra",
-    "text": "4 Preparar Cassandra\nAbre Docker Desktop y espera a que se encuentre funcionando.\nDespués abre PowerShell en Windows o Terminal en macOS.\nInicia el contenedor:\ndocker start cassandra-lab\nComprueba que se encuentre activo:\ndocker ps\nDespués entra a Cassandra:\ndocker exec -it cassandra-lab cqlsh\nSelecciona el espacio de claves:\nUSE monitoreo_ambiental;\nAntes de comenzar, comprueba que los datos de la práctica anterior continúan almacenados.\nEjecuta:\nSELECT COUNT(*)\nFROM mediciones\nWHERE sensor_id = 'sensor_001'\n  AND fecha = '2026-06-01';\nEl resultado esperado es:\n96\nSi obtienes este resultado, puedes continuar con la práctica."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
-    "href": "practicas/05_consultas_cassandra.html#consulta-de-las-mediciones-de-un-sensor",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "5 Consulta de las mediciones de un sensor",
-    "text": "5 Consulta de las mediciones de un sensor\nConsulta todas las mediciones realizadas por:\nsensor_020\ndurante:\n15 de julio de 2026\nLa consulta deberá mostrar únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros fueron recuperados?\n¿Por qué Cassandra puede localizar directamente esta información?\n¿Qué valores forman la clave de partición utilizada?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
-    "href": "practicas/05_consultas_cassandra.html#conteo-de-mediciones",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "6 Conteo de mediciones",
-    "text": "6 Conteo de mediciones\nDetermina cuántas mediciones fueron registradas por:\nsensor_035\nel día:\n20 de agosto de 2026\nUtiliza una consulta que permita contar los registros almacenados en esa partición.\nUna vez realizada la consulta, responde:\n\n¿Cuántos registros se obtuvieron?\n¿Por qué se espera encontrar 96 mediciones?\n¿Qué representa cada uno de esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
-    "href": "practicas/05_consultas_cassandra.html#mediciones-más-recientes",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "7 Mediciones más recientes",
-    "text": "7 Mediciones más recientes\nConsulta las:\n5 mediciones más recientes\ndel:\nsensor_075\ndurante el:\n20 de septiembre de 2026\nMuestra solamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuál es la primera hora mostrada?\n¿Por qué las mediciones aparecen de la más reciente a la más antigua?\n¿Qué relación tiene este resultado con:\n\nCLUSTERING ORDER BY (momento DESC)\n?\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
-    "href": "practicas/05_consultas_cassandra.html#consulta-por-intervalo-de-tiempo",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "8 Consulta por intervalo de tiempo",
-    "text": "8 Consulta por intervalo de tiempo\nConsulta las mediciones del:\nsensor_010\ncorrespondientes al:\n10 de agosto de 2026\nentre las:\n08:00\ny las:\n10:00\nMuestra:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Cuántas mediciones fueron recuperadas?\n¿Por qué es posible utilizar momento para establecer el intervalo?\n¿Qué función cumple momento dentro de la clave primaria?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
-    "href": "practicas/05_consultas_cassandra.html#consulta-de-una-medición-específica",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "9 Consulta de una medición específica",
-    "text": "9 Consulta de una medición específica\nConsulta la temperatura y humedad registradas por:\nsensor_050\nel día:\n1 de septiembre de 2026\na las:\n14:30\nMuestra únicamente:\n\nMomento.\nTemperatura.\nHumedad.\n\nUna vez realizada la consulta, responde:\n\n¿Qué columnas fueron necesarias para localizar exactamente ese registro?\n¿Qué parte corresponde a la clave de partición?\n¿Qué columna permite identificar la medición dentro de la partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
-    "href": "practicas/05_consultas_cassandra.html#comparación-entre-sensores",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "10 Comparación entre sensores",
-    "text": "10 Comparación entre sensores\nConsulta las primeras:\n10 mediciones\ndel:\nsensor_025\ny del:\nsensor_026\npara el día:\n5 de octubre de 2026\nRealiza una consulta para cada sensor.\nDespués responde:\n\n¿Los registros de ambos sensores pertenecen a la misma partición?\n¿Por qué?\n¿Qué combinación de valores identifica cada partición?\n\nDocumenta esta actividad en Word con una breve descripción, las consultas utilizadas, una captura de los resultados y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
-    "href": "practicas/05_consultas_cassandra.html#consulta-utilizando-solamente-el-sensor",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "11 Consulta utilizando solamente el sensor",
-    "text": "11 Consulta utilizando solamente el sensor\nIntenta recuperar las mediciones utilizando únicamente:\nsensor_id\nPor ejemplo:\nSELECT *\nFROM mediciones\nWHERE sensor_id = 'sensor_001';\nObserva el mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó correctamente?\n¿Por qué no es suficiente utilizar solamente sensor_id?\n¿Qué otro campo forma parte de la clave de partición?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del mensaje obtenido y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
-    "href": "practicas/05_consultas_cassandra.html#consulta-por-temperatura",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "12 Consulta por temperatura",
-    "text": "12 Consulta por temperatura\nSupongamos que necesitamos conocer todas las mediciones cuya temperatura sea superior a:\n30 °C\nIntenta ejecutar:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30;\nObserva el resultado o mensaje generado por Cassandra.\nDespués responde:\n\n¿La consulta se ejecutó?\n¿temperatura forma parte de la clave de partición?\n¿temperatura es una columna de agrupamiento?\n¿Por qué Cassandra no puede localizar directamente esos registros?\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
-    "href": "practicas/05_consultas_cassandra.html#uso-de-allow-filtering",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "13 Uso de ALLOW FILTERING",
-    "text": "13 Uso de ALLOW FILTERING\nAhora ejecuta:\nSELECT *\nFROM mediciones\nWHERE temperatura &gt; 30\nALLOW FILTERING;\nObserva el resultado.\nDespués responde:\n\n¿Qué diferencia existe con la consulta anterior?\n¿Qué permite hacer ALLOW FILTERING?\n¿Consideras adecuado utilizar este tipo de consulta constantemente sobre más de un millón de registros?\nExplica brevemente por qué.\n\n\n\n\n\n\n\nWarning\n\n\n\nALLOW FILTERING permite ejecutar determinadas consultas que no corresponden directamente con el diseño de la tabla.\nSin embargo, no significa que la consulta sea eficiente.\n\n\nDocumenta esta actividad en Word con una breve descripción, la consulta utilizada, una captura del resultado y las respuestas correspondientes."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
-    "href": "practicas/05_consultas_cassandra.html#diseño-orientado-a-consultas",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "14 Diseño orientado a consultas",
-    "text": "14 Diseño orientado a consultas\nImagina que una aplicación necesita responder frecuentemente la siguiente pregunta:\n\n¿Qué sensores registraron temperaturas superiores a 30 °C en una fecha determinada?\n\nLa tabla actual fue diseñada principalmente para responder consultas como:\n\n¿Qué mediciones realizó un sensor durante un día?\n\nResponde:\n\n¿La tabla mediciones está diseñada adecuadamente para buscar directamente todas las temperaturas superiores a 30 °C?\n¿Sería recomendable utilizar ALLOW FILTERING cada vez que se necesite esta información?\n¿Qué alternativa propondrías?\n¿Por qué en Cassandra es importante conocer primero las consultas que realizará una aplicación?\n\nDocumenta esta actividad en Word con tus respuestas."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#reflexión-final",
-    "href": "practicas/05_consultas_cassandra.html#reflexión-final",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "15 Reflexión final",
-    "text": "15 Reflexión final\nPara finalizar, responde con tus propias palabras:\n\n¿Cuál es la clave de partición de la tabla mediciones?\n¿Qué función cumple la columna momento?\n¿Por qué una consulta utilizando sensor_id y fecha es eficiente?\n¿Por qué una consulta utilizando solamente temperatura no corresponde con el diseño actual?\nExplica la siguiente idea:\n\nEn Cassandra primero pensamos en las consultas\ny después diseñamos las tablas."
-  },
-  {
-    "objectID": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
-    "href": "practicas/05_consultas_cassandra.html#evidencia-de-entrega",
-    "title": "Práctica 5. Consultas sobre datos de monitoreo ambiental en Apache Cassandra",
-    "section": "16 Evidencia de entrega",
-    "text": "16 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLas consultas utilizadas.\nCapturas de pantalla de los resultados obtenidos.\nLas respuestas a las preguntas planteadas.\nLa reflexión final.\n\nImportante: utiliza la base de datos de monitoreo ambiental creada en la práctica anterior. No es necesario volver a generar ni importar los 1,219,200 registros.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Cassandra. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
-  },
-  {
-    "objectID": "practicas/05_actividad_grafos_neo4j.html",
-    "href": "practicas/05_actividad_grafos_neo4j.html",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
-  },
-  {
-    "objectID": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
-    "href": "practicas/05_actividad_grafos_neo4j.html#actividad-práctica-consultas-en-bases-de-datos-orientadas-a-grafos",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Tipo de actividad: individual.\nObjetivo: aplicar el lenguaje Cypher para consultar y analizar relaciones entre nodos, utilizando los grafos de la NBA y de infraestructura de TI construidos durante las clases.\n\n\nUtilizando los grafos desarrollados en Neo4j, realiza las diez consultas que se presentan a continuación.\nEn cada ejercicio deberás escribir la instrucción correspondiente en Cypher, ejecutarla e interpretar brevemente el resultado obtenido.\nNo es necesario crear nuevos nodos ni relaciones.\n\n\n\nUtiliza el grafo de jugadores, equipos, contratos y Draft para realizar las siguientes consultas.\n\nNacionalidad de los jugadores. Identifica cuántos jugadores existen por nacionalidad y ordena los resultados de mayor a menor.\nPosiciones por equipo. Muestra cuántos jugadores hay de cada posición dentro de los equipos registrados en el grafo.\nSalario promedio por equipo. Calcula el salario promedio de los jugadores asociados con cada equipo y ordena los resultados de mayor a menor.\nDraft y equipo actual. Identifica los jugadores cuyo equipo asociado al contrato es diferente del equipo que los seleccionó en el Draft. Muestra el nombre del jugador y ambos equipos.\nDiferencia salarial. Calcula la diferencia entre el salario esperado y el salario actual de cada jugador. Muestra únicamente los jugadores cuya expectativa salarial sea mayor que su salario actual y ordena los resultados por la diferencia más alta.\n\n\n\n\nUtiliza el grafo de infraestructura tecnológica para realizar las siguientes consultas.\n\nConexiones de los switches. Identifica cuántas computadoras están conectadas directamente a cada switch y ordena los resultados de mayor a menor.\nAccesos de los usuarios. Identifica los usuarios que tienen acceso a dos o más sistemas, mostrando la cantidad de sistemas asociados con cada uno.\nSistemas compartidos. Identifica los sistemas que están alojados en más de un servidor. Muestra el identificador del sistema y la cantidad de servidores donde se encuentra alojado.\nRespaldo de servidores. Identifica cuáles servidores tienen registrada una relación de respaldo y cuáles no. Muestra el identificador del servidor y el dispositivo de almacenamiento correspondiente, cuando exista.\nRecorrido de conexiones. Identifica los caminos que conectan a un usuario con un router pasando por una computadora y un switch. Muestra el usuario, la computadora, el switch y el router involucrados.\n\n\n\n\nEntrega un documento PDF que incluya las diez consultas realizadas.\nPara cada ejercicio presenta:\n\nNúmero de la consulta.\nCódigo utilizado en Cypher.\nCaptura de pantalla del resultado obtenido en Neo4j.\nBreve interpretación del resultado.\n\n\n\n\n\nTrabaja con los grafos construidos durante las clases.\nNo elimines ni modifiques nodos o relaciones existentes."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html",
-    "href": "manuales/instalacion_neo4j_windows.html",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "",
-    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#introducción",
-    "href": "manuales/instalacion_neo4j_windows.html#introducción",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "",
-    "text": "Neo4j es un sistema gestor de bases de datos orientado a grafos que permite representar información mediante nodos, relaciones y propiedades.\nA diferencia de otros modelos de bases de datos, Neo4j facilita la representación y consulta de conexiones entre diferentes entidades, como personas, productos, organizaciones o redes de transporte.\nPara trabajar con este sistema utilizaremos Neo4j Desktop, una aplicación que permite administrar instancias locales de Neo4j y realizar consultas mediante el lenguaje Cypher.\nEn este manual se explica el proceso de descarga e instalación de Neo4j Desktop en Windows.\nAl finalizar, tendremos la aplicación instalada y preparada para crear nuestra primera instancia local."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
-    "href": "manuales/instalacion_neo4j_windows.html#requisitos-previos",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "2 Requisitos previos",
-    "text": "2 Requisitos previos\nAntes de comenzar, es necesario contar con:\n\nUna computadora con Windows 10 u 11.\nConexión a Internet para descargar el instalador.\nEspacio disponible en disco.\nPermisos para instalar aplicaciones.\n\nEn el procedimiento documentado se utilizó Neo4j Desktop 2.2.1 en Windows 11.\n\n\n\n\n\n\nNoteImportante\n\n\n\nLas pantallas pueden presentar pequeñas diferencias dependiendo de la versión de Neo4j Desktop y del sistema operativo.\nEl procedimiento general de instalación es similar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#descargar-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "3 Descargar Neo4j Desktop",
-    "text": "3 Descargar Neo4j Desktop\nPrimero debemos acceder al sitio oficial de Neo4j:\nhttps://neo4j.com/download/\nEn la página de descargas buscamos la opción correspondiente a Neo4j Desktop para Windows.\nAl seleccionar la descarga, aparecerá un formulario solicitando algunos datos.\n\n\n\n\n\n\nFigure 1: Formulario de descarga de Neo4j Desktop.\n\n\n\nComo se muestra en la Figure 1, el formulario solicita:\n\nNombre.\nApellidos.\nCorreo electrónico.\nInstitución u organización.\nRol o actividad.\nPaís.\n\nCompleta los campos solicitados y selecciona Download Desktop.\n\n3.1 Confirmar la descarga\nDespués de enviar el formulario, aparecerá una página de confirmación.\n\n\n\n\n\n\nFigure 2: Confirmación de descarga de Neo4j Desktop.\n\n\n\nEn la Figure 2 podemos observar el mensaje de agradecimiento por descargar Neo4j Desktop.\nGeneralmente, la descarga comienza automáticamente.\nSi esto no sucede, podemos utilizar el enlace Windows (exe) que aparece en la página.\nTambién se muestran algunos recursos adicionales para conocer Neo4j.\n\n\n\n\n\n\nFigure 3: Recursos adicionales disponibles en la página de descarga.\n\n\n\nEstos materiales incluyen documentación, cursos y recursos para desarrolladores.\nNo es necesario utilizarlos para completar la instalación."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
-    "href": "manuales/instalacion_neo4j_windows.html#ejecutar-el-instalador",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "4 Ejecutar el instalador",
-    "text": "4 Ejecutar el instalador\nCuando termine la descarga, abrimos la carpeta Descargas de Windows.\nLocalizamos el instalador de Neo4j Desktop y hacemos doble clic para ejecutarlo.\nSi Windows solicita autorización para realizar cambios en el equipo, verificamos que se trate del instalador descargado desde el sitio oficial y confirmamos la operación.\nDespués aparecerá el asistente de instalación."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-el-tipo-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "5 Seleccionar el tipo de instalación",
-    "text": "5 Seleccionar el tipo de instalación\nEl instalador permite elegir para quién estará disponible la aplicación.\n\n\n\n\n\n\nFigure 4: Selección del tipo de instalación de Neo4j Desktop.\n\n\n\nComo se observa en la Figure 4, existen dos posibilidades:\n\nTodos los usuarios: la aplicación estará disponible para las cuentas del equipo.\nSolo para mí: la aplicación se instalará para el usuario actual.\n\nPara esta práctica seleccionamos Solo para mí.\nEsta opción es suficiente cuando trabajamos en una computadora personal.\nPosteriormente hacemos clic en Siguiente."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#seleccionar-la-carpeta-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "6 Seleccionar la carpeta de instalación",
-    "text": "6 Seleccionar la carpeta de instalación\nEl asistente solicitará indicar la ubicación donde se instalará Neo4j Desktop.\n\n\n\n\n\n\nFigure 5: Carpeta de destino para instalar Neo4j Desktop.\n\n\n\nEn la Figure 5 se muestra la carpeta predeterminada propuesta por Windows.\nNo es necesario modificar esta ubicación.\nEn el procedimiento documentado, el instalador indicó un espacio requerido de aproximadamente 1.1 GB.\nPara continuar, hacemos clic en Instalar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#proceso-de-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "7 Proceso de instalación",
-    "text": "7 Proceso de instalación\nDespués de seleccionar la carpeta de destino, comenzará la instalación.\n\n\n\n\n\n\nFigure 6: Proceso de instalación de Neo4j Desktop.\n\n\n\nDurante este procedimiento, el asistente muestra una barra de progreso, como se observa en la Figure 6.\nDebemos esperar hasta que termine.\nEl tiempo necesario dependerá de las características del equipo.\nNo es necesario ejecutar comandos ni realizar configuraciones adicionales durante esta etapa."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#finalizar-la-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "8 Finalizar la instalación",
-    "text": "8 Finalizar la instalación\nCuando el instalador termine, aparecerá una pantalla indicando que Neo4j Desktop se instaló correctamente.\n\n\n\n\n\n\nFigure 7: Finalización de la instalación de Neo4j Desktop.\n\n\n\nEn la Figure 7 aparece la opción:\nEjecutar Neo4j Desktop 2\nDejamos marcada esta casilla para abrir la aplicación automáticamente.\nFinalmente, hacemos clic en Terminar."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#primera-ejecución-de-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "9 Primera ejecución de Neo4j Desktop",
-    "text": "9 Primera ejecución de Neo4j Desktop\nLa primera vez que abrimos Neo4j Desktop, aparece una pantalla de bienvenida con el acuerdo de licencia.\n\n\n\n\n\n\nFigure 8: Pantalla de bienvenida y acuerdo de licencia de Neo4j Desktop.\n\n\n\nEn esta pantalla podemos revisar las condiciones de uso de la aplicación.\nSi estamos de acuerdo con los términos y el aviso de privacidad, hacemos clic en Continue.\nDespués de continuar, Neo4j Desktop abrirá su pantalla principal."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
-    "href": "manuales/instalacion_neo4j_windows.html#pantalla-principal-de-neo4j-desktop",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "10 Pantalla principal de Neo4j Desktop",
-    "text": "10 Pantalla principal de Neo4j Desktop\nUna vez completada la configuración inicial, podremos acceder a la interfaz de Neo4j Desktop.\n\n\n\n\n\n\nFigure 9: Pantalla principal de Neo4j Desktop 2.\n\n\n\nComo se observa en la Figure 9, la aplicación presenta diferentes opciones en el menú lateral.\nEntre las principales encontramos:\n\n\n\n\n\n\n\nOpción\nDescripción\n\n\n\n\nLocal instances\nPermite crear y administrar instancias locales de Neo4j.\n\n\nRemote connections\nPermite configurar conexiones a instancias remotas.\n\n\nImport\nHerramienta para importar datos.\n\n\nQuery\nEntorno para escribir y ejecutar consultas.\n\n\nBloom\nHerramienta para explorar visualmente grafos.\n\n\nDashboards\nPermite trabajar con paneles de visualización.\n\n\nSettings\nConfiguración de la aplicación.\n\n\n\n\n10.1 ¿Qué es una instancia local?\nUna instancia local es una instalación del sistema gestor Neo4j que se ejecuta en nuestra propia computadora.\nUna instancia puede administrar bases de datos, permitiendo almacenar nodos, relaciones y propiedades.\nEn la pantalla principal aparece el botón:\nCreate instance\nEste botón permite comenzar el proceso de creación de una instancia local.\n\n\n\n\n\n\nNoteDiferencia entre instancia y base de datos\n\n\n\nLa instancia corresponde al sistema gestor Neo4j que se ejecuta en la computadora.\nLa base de datos es el espacio lógico donde almacenamos y consultamos nuestros grafos.\nUna instancia puede administrar una o varias bases de datos, dependiendo de la edición y configuración utilizada."
-  },
-  {
-    "objectID": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
-    "href": "manuales/instalacion_neo4j_windows.html#comprobación-de-la-instalación",
-    "title": "Instalación de Neo4j Desktop en Windows",
-    "section": "11 Comprobación de la instalación",
-    "text": "11 Comprobación de la instalación\nPara confirmar que Neo4j Desktop se instaló correctamente, verificamos que:\n\nLa aplicación pueda abrirse desde Windows.\nSe muestre la pantalla principal.\nAparezca la sección Local instances.\nEsté disponible la opción Create instance.\n\nSi podemos acceder a estas opciones, la instalación de Neo4j Desktop se ha completado correctamente.\nEsto confirma que la aplicación está instalada, aunque todavía falta crear y poner en funcionamiento una instancia local de Neo4j."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "index.html#bienvenida",
-    "href": "index.html#bienvenida",
-    "title": "Bases de Datos No Relacionales",
-    "section": "",
-    "text": "Este sitio reúne los materiales de la experiencia educativa Bases de Datos No Relacionales.\nPrograma educativo: Ingeniería en Ciencia de Datos\nFacultad: Facultad de Estadística e Informática\nUniversidad: Universidad Veracruzana\nDocente: Edgar Santiago González Martínez\nAquí se irán publicando:\n\ndiapositivas;\napuntes;\nprácticas;\nmanuales;\nconjuntos de datos;\nactividades del curso."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html",
-    "href": "manuales/01_instalacion_cassandra_windows.html",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "",
-    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#objetivo",
-    "href": "manuales/01_instalacion_cassandra_windows.html#objetivo",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "",
-    "text": "Instalar y ejecutar Apache Cassandra en Windows mediante Docker Desktop, comprobar que el servicio funciona y realizar una primera prueba con el lenguaje CQL (Cassandra Query Language).\nEste manual documenta el procedimiento utilizado en clase con Docker Desktop y la imagen cassandra:5.0. Las capturas muestran un ejemplo de instalación; algunos botones pueden cambiar de ubicación entre versiones."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#requisitos",
-    "href": "manuales/01_instalacion_cassandra_windows.html#requisitos",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "2 Requisitos",
-    "text": "2 Requisitos\n\nWindows 10 u 11 compatible con Docker Desktop.\nVirtualización habilitada y WSL 2 correctamente configurado.\nAl menos 8 GB de RAM como referencia práctica; disponer de más memoria facilita el trabajo simultáneo con otras aplicaciones.\nConexión a Internet para descargar Docker y Cassandra.\n\n\n\n\n\n\n\nNote¿Qué vamos a instalar?\n\n\n\nDocker Desktop administra el contenedor. Dentro de ese contenedor se ejecuta Cassandra. Para crear tablas y consultar los datos utilizaremos cqlsh, la consola de Cassandra. No es necesario instalar Java de forma independiente para este procedimiento."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
-    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-e-iniciar-docker-desktop",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "3 Descargar e iniciar Docker Desktop",
-    "text": "3 Descargar e iniciar Docker Desktop\nAccede a la página oficial de instalación de Docker Desktop para Windows. Descarga la versión que corresponda al procesador de tu computadora y ejecuta el instalador.\nSi el instalador solicita actualizar WSL o reiniciar Windows, completa esos pasos antes de continuar. Abre Docker Desktop desde el menú Inicio.\n\n3.1 Aceptar los términos\nEn el primer inicio, Docker muestra el acuerdo de suscripción. Revisa los términos y selecciona Accept si estás de acuerdo.\n\n\n\n\n\n\nFigure 1: Pantalla inicial de Docker Desktop con el acuerdo de suscripción.\n\n\n\n\n\n3.2 Continuar sin iniciar sesión\nEn la pantalla de bienvenida puedes seleccionar Skip si no necesitas iniciar sesión para este ejercicio.\n\n\n\n\n\n\nFigure 2: Pantalla de bienvenida de Docker Desktop.\n\n\n\n\n\n3.3 Verificar que Docker está funcionando\nEn la ventana principal, comprueba que en la parte inferior izquierda aparezca el indicador Engine running.\n\n\n\n\n\n\nFigure 3: Pantalla principal de Docker Desktop, con el motor en ejecución."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
-    "href": "manuales/01_instalacion_cassandra_windows.html#descargar-apache-cassandra",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "4 Descargar Apache Cassandra",
-    "text": "4 Descargar Apache Cassandra\nAbre PowerShell desde el menú Inicio de Windows. Para comprobar que Docker está disponible, ejecuta:\ndocker --version\nAhora descarga la imagen de Cassandra:\ndocker pull cassandra:5.0\nEspera hasta que aparezca el mensaje Downloaded newer image for cassandra:5.0 o un mensaje indicando que la imagen ya está actualizada.\n\n\n\n\n\n\nFigure 4: Descarga completa de la imagen de Cassandra desde PowerShell."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
-    "href": "manuales/01_instalacion_cassandra_windows.html#crear-e-iniciar-el-contenedor",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "5 Crear e iniciar el contenedor",
-    "text": "5 Crear e iniciar el contenedor\nEjecuta el siguiente comando una sola vez para crear el contenedor de la práctica:\ndocker run -d --name cassandra-lab cassandra:5.0\nDocker devolverá un identificador largo. Eso indica que creó el contenedor; todavía debemos comprobar que Cassandra terminó de iniciar.\n\n\n\n\n\n\nFigure 5: Creación del contenedor denominado cassandra-lab.\n\n\n\n\n5.1 Comprobar el estado\nEjecuta:\ndocker ps\nComprueba que aparezca cassandra-lab con un estado que comience por Up.\n\n\n\n\n\n\nFigure 6: Resultado de docker ps con el contenedor cassandra-lab en ejecución.\n\n\n\n\n\n\n\n\n\nTipEsperar al arranque\n\n\n\nAunque el estado sea Up, el primer arranque de Cassandra puede tardar varios minutos. Si el siguiente paso presenta un error de conexión, espera un poco y vuelve a intentarlo."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
-    "href": "manuales/01_instalacion_cassandra_windows.html#entrar-a-la-consola-de-cassandra",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "6 Entrar a la consola de Cassandra",
-    "text": "6 Entrar a la consola de Cassandra\nEn PowerShell, escribe:\ndocker exec -it cassandra-lab cqlsh\nCuando aparezca el indicador cqlsh&gt;, la conexión está lista. Para ver los espacios de claves disponibles, ejecuta:\nDESCRIBE KEYSPACES;\nEl resultado incluirá espacios internos como system, system_schema y system_auth.\n\n\n\n\n\n\nFigure 7: Acceso a cqlsh y consulta de los keyspaces predeterminados."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
-    "href": "manuales/01_instalacion_cassandra_windows.html#primera-prueba-crear-un-keyspace",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "7 Primera prueba: crear un keyspace",
-    "text": "7 Primera prueba: crear un keyspace\nUn keyspace es el espacio lógico donde organizaremos nuestras tablas. Para este curso utilizaremos el ejemplo de sensores ambientales.\nEscribe lo siguiente dentro de cqlsh, no en PowerShell:\nCREATE KEYSPACE monitoreo_ambiental\nWITH replication = {\n    'class': 'SimpleStrategy',\n    'replication_factor': 1\n};\nEsta configuración se utiliza únicamente para nuestra práctica de un nodo. No es una configuración recomendada para producción.\n\n\n\n\n\n\nFigure 8: Creación del keyspace monitoreo_ambiental sin errores.\n\n\n\nSelecciona el keyspace:\nUSE monitoreo_ambiental;\nEl indicador cambiará a cqlsh:monitoreo_ambiental&gt;."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
-    "href": "manuales/01_instalacion_cassandra_windows.html#comprobar-que-podemos-guardar-y-consultar-datos",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "8 Comprobar que podemos guardar y consultar datos",
-    "text": "8 Comprobar que podemos guardar y consultar datos\nCrea una tabla sencilla para identificar los sensores:\nCREATE TABLE sensores (\n    sensor_id TEXT PRIMARY KEY,\n    edificio TEXT,\n    aula TEXT,\n    tipo TEXT\n);\nRegistra tres dispositivos:\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_001', 'A', '101', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_002', 'A', 'Laboratorio', 'Temperatura y humedad');\n\nINSERT INTO sensores (sensor_id, edificio, aula, tipo)\nVALUES ('sensor_003', 'B', 'Exterior', 'Temperatura');\nComprueba los resultados:\nSELECT * FROM sensores;\nDeberían aparecer tres filas. El orden puede variar, ya que Cassandra no garantiza el orden de presentación sin una consulta diseñada para ello.\n\n\n\n\n\n\nNoteAlcance de esta primera prueba\n\n\n\nEsta tabla almacena información general sobre cada sensor. En una práctica posterior crearemos una tabla distinta para guardar múltiples mediciones de temperatura y humedad a lo largo del tiempo y estudiaremos las claves de partición y las columnas de agrupamiento."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
-    "href": "manuales/01_instalacion_cassandra_windows.html#administrar-cassandra-desde-docker-desktop",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "9 Administrar Cassandra desde Docker Desktop",
-    "text": "9 Administrar Cassandra desde Docker Desktop\nEn Docker Desktop, entra en Containers. Ahí encontrarás cassandra-lab con un punto verde cuando esté funcionando. La interfaz permite revisar el contenedor y detenerlo sin eliminarlo.\n\n\n\n\n\n\nFigure 9: Cassandra en ejecución dentro de la pantalla Containers de Docker Desktop.\n\n\n\nDocker Desktop no es equivalente a MongoDB Compass: Docker administra el contenedor, mientras que las consultas a Cassandra las realizamos aquí mediante cqlsh."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
-    "href": "manuales/01_instalacion_cassandra_windows.html#detener-cassandra-y-volver-a-utilizarlo",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "10 Detener Cassandra y volver a utilizarlo",
-    "text": "10 Detener Cassandra y volver a utilizarlo\nCuando termines de trabajar, sal de cqlsh:\nexit\nDesde PowerShell, detén el contenedor:\ndocker stop cassandra-lab\nCuando quieras trabajar otro día, primero abre Docker Desktop. Después ejecuta:\ndocker start cassandra-lab\nEspera a que Cassandra termine de iniciar y vuelve a abrir la consola:\ndocker exec -it cassandra-lab cqlsh\nSi vas a trabajar con las tablas anteriores, selecciona el keyspace:\nUSE monitoreo_ambiental;\n\n\n\n\n\n\nWarningNo elimines el contenedor\n\n\n\nDetener (stop) y volver a iniciar (start) el mismo contenedor conserva sus datos. En cambio, si lo eliminas, podrías perder los datos almacenados dentro de él. Para prácticas que necesiten sobrevivir incluso a la eliminación del contenedor, posteriormente configuraremos un volumen persistente."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
-    "href": "manuales/01_instalacion_cassandra_windows.html#problemas-frecuentes",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "11 Problemas frecuentes",
-    "text": "11 Problemas frecuentes\n\n\n\n\n\n\n\nSituación\nQué revisar\n\n\n\n\ndocker no se reconoce\nVerifica que Docker Desktop esté instalado y vuelve a abrir PowerShell.\n\n\nEl motor de Docker no funciona\nAbre Docker Desktop y espera a que aparezca Engine running.\n\n\ncqlsh no puede conectarse\nCassandra puede seguir arrancando; espera unos minutos y vuelve a intentarlo.\n\n\nEl nombre cassandra-lab ya existe\nNo repitas docker run; utiliza docker start cassandra-lab si el contenedor está detenido.\n\n\ndocker ps no muestra el contenedor\nEjecuta docker ps -a para revisar si está detenido."
-  },
-  {
-    "objectID": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
-    "href": "manuales/01_instalacion_cassandra_windows.html#resultado-esperado",
-    "title": "Instalación de Apache Cassandra en Windows con Docker",
-    "section": "12 Resultado esperado",
-    "text": "12 Resultado esperado\nAl finalizar este manual debes poder iniciar y detener Cassandra, ingresar a cqlsh, crear un keyspace y una tabla, insertar registros y consultarlos desde PowerShell."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html",
-    "href": "practicas/01_mongodb_local.html",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#objetivo",
-    "href": "practicas/01_mongodb_local.html#objetivo",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "",
-    "text": "Aplicar consultas sobre una base de datos documental utilizando MongoDB Shell y MongoDB Compass.\nDurante la práctica se trabajará con:\nBase de datos: sample_mflix\nColección: movies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "href": "practicas/01_mongodb_local.html#preparar-mongodb",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "2 1. Preparar MongoDB",
-    "text": "2 1. Preparar MongoDB\nAntes de comenzar, verifica que MongoDB esté funcionando.\nUtilizaremos:\n\n\n\nHerramienta\nUso\n\n\n\n\nTerminal 1\nEjecutar mongod y mantener activo el servidor\n\n\nTerminal 2\nEjecutar mongosh y realizar consultas\n\n\nMongoDB Compass\nRealizar filtros y visualizar documentos\n\n\nTerminal 3\nEjecutar mongoexport para exportar resultados\n\n\n\n\n2.1 Terminal 1\nEjecuta:\nmongod\nMantén esta terminal abierta durante toda la práctica.\n\n\n2.2 Terminal 2\nAbre una segunda terminal y ejecuta:\nmongosh\nDespués selecciona la base de datos:\nuse sample_mflix\nDurante la práctica trabajaremos con la colección:\nmovies"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "href": "practicas/01_mongodb_local.html#cómo-realizar-las-consultas",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "3 2. Cómo realizar las consultas",
-    "text": "3 2. Cómo realizar las consultas\nPuedes resolver cada consulta en:\nMongoDB Shell (`mongosh`)\no en:\nMongoDB Compass\n\n3.1 Si utilizas mongosh\nTrabaja en la Terminal 2.\nLa consulta se escribe de forma completa.\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\nPara conocer el número total de documentos encontrados, utiliza el mismo filtro con:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n3.2 Si utilizas MongoDB Compass\nSelecciona:\nsample_mflix\n   ↓\nmovies\n   ↓\nDocuments\n   ↓\nFilter\nEn Filter escribe solamente el filtro:\n{\n  rated: \"PG\"\n}\nDespués aplica el filtro y observa los resultados.\n\n\n\n\n\n\nNoteRecuerda\n\n\n\nEn mongosh:\ndb.movies.find({\n  ...\n})\nEn MongoDB Compass:\n{\n  ...\n}\nSi utilizas mongosh, emplea también countDocuments() para conocer el número total de documentos encontrados."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#actividad",
-    "href": "practicas/01_mongodb_local.html#actividad",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "4 3. Actividad",
-    "text": "4 3. Actividad\nResuelve las siguientes consultas sobre la colección movies.\nPuedes elegir mongosh o MongoDB Compass para cada una.\n\n4.1 Consulta 1\nObtén las películas del año 2000.\n\n\n4.2 Consulta 2\nObtén las películas posteriores a 2010.\n\n\n4.3 Consulta 3\nObtén las películas con calificación IMDb mayor a 8.\n\n\n4.4 Consulta 4\nObtén las películas de género Drama.\n\n\n4.5 Consulta 5\nObtén las películas con más de 5000 votos en IMDb.\n\n\n4.6 Consulta 6\nObtén las películas con duración mayor a 120 minutos.\n\n\n4.7 Consulta 7\nObtén las películas que tengan información en el campo directors.\n\n\n4.8 Consulta 8\nObtén las películas que cumplan las siguientes condiciones:\nposteriores a 2010\ncalificación IMDb mayor a 8\n\n\n4.9 Consulta 9\nConstruye una consulta propia que combine al menos tres condiciones diferentes.\nPuedes utilizar campos como:\naño\ngénero\nduración\ncalificación IMDb\nnúmero de votos\nclasificación\nexistencia de un campo\nPor ejemplo, podrías buscar películas que:\nsean posteriores a 2010\ntengan calificación IMDb mayor a 8\nsean del género Drama\n\n4.9.1 Ejemplo en mongosh\ndb.movies.find({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\nPara conocer el total:\ndb.movies.countDocuments({\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n})\n\n\n4.9.2 Ejemplo en MongoDB Compass\nEn Filter:\n{\n  year: {\n    $gt: 2010\n  },\n  \"imdb.rating\": {\n    $gt: 8\n  },\n  genres: \"Drama\"\n}\n\n\n\n\n\n\nWarningImportante\n\n\n\nEl ejemplo anterior es únicamente una referencia.\nCada estudiante deberá proponer una Consulta 9 diferente que combine al menos tres condiciones."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "href": "practicas/01_mongodb_local.html#registrar-los-resultados",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "5 4. Registrar los resultados",
-    "text": "5 4. Registrar los resultados\nPara cada consulta deberás registrar:\nherramienta utilizada\ncódigo o filtro\nnúmero de documentos encontrados\ncaptura de evidencia\nCompleta la siguiente tabla:\n\n\n\n\n\n\n\n\n\n\nConsulta\nHerramienta\nCódigo o filtro\nDocumentos encontrados\nEvidencia\n\n\n\n\nConsulta 1\n\n\n\n\n\n\nConsulta 2\n\n\n\n\n\n\nConsulta 3\n\n\n\n\n\n\nConsulta 4\n\n\n\n\n\n\nConsulta 5\n\n\n\n\n\n\nConsulta 6\n\n\n\n\n\n\nConsulta 7\n\n\n\n\n\n\nConsulta 8\n\n\n\n\n\n\nConsulta 9\n\n\n\n\n\n\n\n\n5.1 Si utilizaste mongosh\nLa captura debe mostrar:\nconsulta realizada\nresultado\ncountDocuments()\nEl filtro utilizado en countDocuments() debe ser el mismo que el utilizado en find().\nPor ejemplo:\ndb.movies.find({\n  rated: \"PG\"\n})\ny:\ndb.movies.countDocuments({\n  rated: \"PG\"\n})\n\n\n5.2 Si utilizaste MongoDB Compass\nLa captura debe mostrar:\nfiltro aplicado\nresultados\nnúmero de documentos encontrados"
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "href": "practicas/01_mongodb_local.html#exportar-la-consulta-9",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "6 5. Exportar la Consulta 9",
-    "text": "6 5. Exportar la Consulta 9\nDespués de resolver la Consulta 9:\nverifica el filtro\nregistra el número de documentos\nguarda el filtro\nexporta los resultados\nPara la exportación utilizaremos la Terminal 3.\n\n6.1 Guardar el filtro\nCrea un archivo llamado:\nconsulta.json\ny guarda dentro el filtro utilizado en la Consulta 9.\nPor ejemplo:\n{\n  \"year\": {\n    \"$gt\": 2010\n  },\n  \"imdb.rating\": {\n    \"$gt\": 8\n  },\n  \"genres\": \"Drama\"\n}\n\n\n\n\n\n\nNoteImportante\n\n\n\nEn MongoDB Compass podemos escribir:\n{\n  year: {\n    $gt: 2010\n  }\n}\nPero dentro de consulta.json debemos utilizar JSON válido:\n{\n  \"year\": {\n    \"$gt\": 2010\n  }\n}\nPor eso los nombres de los campos y operadores aparecen entre comillas.\n\n\n\n\n6.2 Exportar a JSON\nEn la Terminal 3, sin entrar a mongosh, ejecuta:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --out=peliculas_filtradas.json\nSe generará:\npeliculas_filtradas.json\ncon los documentos que cumplen las condiciones de la Consulta 9.\n\n\n6.3 Exportar a CSV\nTambién puedes exportar los resultados en formato CSV.\nPor ejemplo:\nmongoexport --db=sample_mflix --collection=movies --queryFile=consulta.json --type=csv --fields=title,year,runtime --out=peliculas_filtradas.csv\n\n\n\n\n\n\nTip¿Qué formato elegir?\n\n\n\nUtiliza JSON si quieres conservar la estructura de los documentos.\nUtiliza CSV si quieres trabajar posteriormente con una estructura tabular en herramientas como Excel, Python o R."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#entrega",
-    "href": "practicas/01_mongodb_local.html#entrega",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "7 6. Entrega",
-    "text": "7 6. Entrega\nLa entrega deberá incluir:\n\nla tabla con los resultados de las nueve consultas;\nlas capturas utilizadas como evidencia;\nel archivo consulta.json de la Consulta 9;\nel archivo exportado en formato JSON o CSV.\n\nOrganiza los archivos en una carpeta con el nombre:\nPractica1_ApellidoNombre\nPor ejemplo:\nPractica1_GonzalezEdgar\nUna posible organización es:\nPractica1_ApellidoNombre\n│\n├── evidencias\n│     ├── consulta1.png\n│     ├── consulta2.png\n│     ├── consulta3.png\n│     ├── consulta4.png\n│     ├── consulta5.png\n│     ├── consulta6.png\n│     ├── consulta7.png\n│     ├── consulta8.png\n│     └── consulta9.png\n│\n├── consulta.json\n│\n└── peliculas_filtradas.json\nTambién puedes entregar:\npeliculas_filtradas.csv\nen lugar del archivo JSON."
-  },
-  {
-    "objectID": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "href": "practicas/01_mongodb_local.html#criterios-de-revisión",
-    "title": "Práctica 1. Consultas con MongoDB",
-    "section": "8 7. Criterios de revisión",
-    "text": "8 7. Criterios de revisión\nSe considerará:\n\ncorrecta ejecución de las consultas;\nuso adecuado de los operadores;\ncorrespondencia entre el filtro y los resultados;\nregistro correcto del número de documentos encontrados;\nclaridad de las evidencias;\ncorrecta construcción de la Consulta 9;\nuso de al menos tres condiciones en la Consulta 9;\ncorrecta exportación de los resultados;\ncorrespondencia entre consulta.json y el archivo exportado;\norden de los archivos entregados."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html",
-    "href": "practicas/04_streaming_redis.html",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "",
-    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#objetivo",
-    "href": "practicas/04_streaming_redis.html#objetivo",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "",
-    "text": "Aplicar las principales estructuras y comandos de Redis mediante la simulación de una plataforma de streaming que administra películas, sesiones, reproducciones y preferencias de los usuarios."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#descripción",
-    "href": "practicas/04_streaming_redis.html#descripción",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "2 Descripción",
-    "text": "2 Descripción\nUna plataforma de streaming necesita almacenar y consultar información relacionada con su catálogo de películas y la actividad de sus usuarios.\nEn esta práctica utilizarás Redis para simular algunas de estas funciones, seleccionando los comandos adecuados para cada actividad.\n\n\n\n\n\n\nFigure 1: Funcionamiento general de una plataforma de streaming que utiliza Redis."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#indicaciones-generales",
-    "href": "practicas/04_streaming_redis.html#indicaciones-generales",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "3 Indicaciones generales",
-    "text": "3 Indicaciones generales\nDurante la práctica deberás elaborar un documento de Word en el que registres los resultados de cada actividad.\nEl documento deberá incluir una portada con tu nombre, matrícula y grupo.\nPara cada actividad, incorpora los siguientes elementos:\n\nDescripción: explica brevemente qué realizaste.\nComandos utilizados: escribe los comandos que ejecutaste en Redis.\nEvidencia: inserta una captura de pantalla donde se observen los comandos y sus resultados.\n\nCompleta cada apartado conforme avances en la práctica. No es necesario tomar una captura por cada comando, siempre que las evidencias permitan verificar las operaciones solicitadas.\nAl finalizar, convierte el documento de Word a PDF y entrégalo en Eminus."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
-    "href": "practicas/04_streaming_redis.html#registro-del-catálogo-de-películas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "4 Registro del catálogo de películas",
-    "text": "4 Registro del catálogo de películas\nImagina que administras una plataforma de streaming.\nRegistra al menos cinco películas utilizando la estructura HASH.\nCada película deberá contener los siguientes atributos:\n\nIdentificador.\nTítulo.\nGénero.\nAño de estreno.\nDuración en minutos.\n\nUtiliza nombres de claves que permitan identificar fácilmente cada película.\nUna vez registradas, consulta la información para comprobar que los datos se almacenaron correctamente.\n\n4.1 Ejemplo de cómo documentar la actividad\nLa siguiente imagen muestra un ejemplo del registro de las tres películas de la trilogía de Batman de Christopher Nolan.\nObserva cómo se utilizan los comandos HSET para almacenar la información y HGETALL para consultar los datos de cada película.\n\n\n\n\n\n\nFigure 2: Ejemplo de registro de la trilogía de Batman en Redis y presentación de la evidencia en un documento.\n\n\n\nEste ejemplo sirve como referencia para elaborar tu documento. Deberás seleccionar tus propias películas y registrar sus respectivos atributos.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#administración-de-sesiones",
-    "href": "practicas/04_streaming_redis.html#administración-de-sesiones",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "5 Administración de sesiones",
-    "text": "5 Administración de sesiones\nLa plataforma necesita identificar temporalmente a los usuarios que han iniciado sesión.\nRegistra tres sesiones utilizando la estructura STRING.\nCada sesión deberá:\n\nTener una clave que permita identificarla.\nAlmacenar el identificador del usuario.\nExpirar automáticamente después de 10 minutos.\n\nComprueba que las sesiones se almacenaron correctamente y consulta el tiempo restante de al menos una de ellas.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#función-continuar-viendo",
-    "href": "practicas/04_streaming_redis.html#función-continuar-viendo",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "6 Función “Continuar viendo”",
-    "text": "6 Función “Continuar viendo”\nLa plataforma debe recordar la última película que estaba reproduciendo cada usuario.\nRegistra la siguiente información para tres usuarios:\n\nIdentificador del usuario.\nIdentificador de la última película reproducida.\nSegundo exacto en el que se detuvo la reproducción.\n\nSelecciona una estructura de Redis que permita almacenar esta información.\nPosteriormente, consulta los datos registrados para comprobar que es posible recuperar la última película y el segundo en el que cada usuario detuvo su reproducción.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#contador-de-reproducciones",
-    "href": "practicas/04_streaming_redis.html#contador-de-reproducciones",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "7 Contador de reproducciones",
-    "text": "7 Contador de reproducciones\nLa plataforma necesita conocer cuántas veces se reproduce cada película.\nImplementa un contador para las cinco películas registradas anteriormente.\nRealiza las siguientes operaciones:\n\nInicializa los contadores.\nSimula varias reproducciones incrementando los contadores.\nConsulta el número total de reproducciones de cada película.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#películas-favoritas",
-    "href": "practicas/04_streaming_redis.html#películas-favoritas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "8 Películas favoritas",
-    "text": "8 Películas favoritas\nCada usuario podrá guardar sus películas favoritas.\nUtiliza la estructura SET para registrar las películas favoritas de tres usuarios.\nRealiza las siguientes operaciones:\n\nAgrega tres películas favoritas por usuario.\nConsulta las películas favoritas registradas para cada uno.\nComprueba que la información se almacenó correctamente.\n\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura de los resultados obtenidos."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#ranking-de-películas",
-    "href": "practicas/04_streaming_redis.html#ranking-de-películas",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "9 Ranking de películas",
-    "text": "9 Ranking de películas\nLa plataforma necesita identificar las películas con mayor número de reproducciones.\nUtiliza la estructura SORTED SET para crear un ranking de las cinco películas registradas.\nAsigna una puntuación a cada película que represente su número de reproducciones.\nConsulta el ranking de mayor a menor, mostrando las películas y sus respectivas puntuaciones.\nDocumenta esta actividad en Word con una breve descripción, los comandos utilizados y una captura del ranking obtenido."
-  },
-  {
-    "objectID": "practicas/04_streaming_redis.html#evidencia-de-entrega",
-    "href": "practicas/04_streaming_redis.html#evidencia-de-entrega",
-    "title": "Práctica 4. Gestión de una plataforma de streaming con Redis",
-    "section": "10 Evidencia de entrega",
-    "text": "10 Evidencia de entrega\nEntrega un documento en PDF que contenga:\n\nPortada con nombre, matrícula y grupo.\nLas seis actividades desarrolladas.\nUna breve descripción de lo realizado en cada actividad.\nLos comandos utilizados.\nCapturas de pantalla de los resultados obtenidos.\n\nImportante: Cada estudiante deberá crear su propio catálogo de películas y utilizar identificadores consistentes en todas las actividades.\nEl documento deberá elaborarse conforme se realizan los ejercicios en Redis. Al finalizar la práctica, conviértelo a PDF y súbelo a Eminus."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html",
-    "href": "practicas/03_redis_clave_valor.html",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "",
-    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#objetivo",
-    "href": "practicas/03_redis_clave_valor.html#objetivo",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "",
-    "text": "Aplicar los principales comandos y estructuras de Redis para almacenar, consultar y modificar información dentro de un escenario sencillo.\nLa práctica permitirá identificar qué tipo de estructura resulta adecuada para diferentes necesidades dentro de una aplicación."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#escenario",
-    "href": "practicas/03_redis_clave_valor.html#escenario",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "2 Escenario",
-    "text": "2 Escenario\nSe trabajará con el ejemplo de una tienda en línea.\nLa tienda necesita manejar información que cambia con frecuencia, como:\n\nproductos;\nstock;\nsesiones de usuarios;\nvisitas;\npedidos;\nusuarios únicos;\nrankings de productos.\n\nPara representar esta información se utilizarán diferentes estructuras de Redis.\n\n\n\n\n\n\nNoteImportante\n\n\n\nNo es necesario utilizar exactamente los mismos nombres de productos de los ejemplos.\nCada estudiante deberá crear su propia tienda y utilizar al menos tres productos diferentes."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
-    "href": "practicas/03_redis_clave_valor.html#actividad-1.-verificar-la-conexión",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "3 Actividad 1. Verificar la conexión",
-    "text": "3 Actividad 1. Verificar la conexión\nAntes de comenzar, comprueba que existe comunicación con Redis.\nPING\nResultado esperado:\n\nPONG\n\nGuarda una evidencia del resultado obtenido."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-2.-crear-productos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "4 Actividad 2. Crear productos",
-    "text": "4 Actividad 2. Crear productos\nUtiliza estructuras de tipo HASH para representar los productos de la tienda.\nCada producto deberá contener al menos los siguientes campos:\nnombre\nprecio\nstock\ncategoria\nCrea por lo menos tres productos diferentes.\nEjemplo:\nHSET producto:1 nombre \"Laptop Lenovo\" precio 18500 stock 5 categoria \"Computacion\"\nDespués consulta el producto:\nHGETALL producto:1\nRealiza el mismo procedimiento con los otros productos.\nTambién consulta de manera individual algunos campos.\nPor ejemplo:\nHGET producto:1 precio\ny:\nHGET producto:1 stock"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
-    "href": "practicas/03_redis_clave_valor.html#actividad-3.-modificar-el-stock",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "5 Actividad 3. Modificar el stock",
-    "text": "5 Actividad 3. Modificar el stock\nSimula operaciones de compra y reposición de productos.\nPara disminuir el stock:\nHINCRBY producto:1 stock -1\nPara agregar nuevas unidades:\nHINCRBY producto:1 stock 5\nConsulta nuevamente el stock:\nHGET producto:1 stock\nRealiza al menos:\n\ndos operaciones de compra;\nuna operación de reposición.\n\nRegistra el stock inicial y el stock final."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-4.-crear-un-contador-de-visitas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "6 Actividad 4. Crear un contador de visitas",
-    "text": "6 Actividad 4. Crear un contador de visitas\nLa tienda desea registrar cuántas veces se consulta un producto.\nCrea un contador:\nSET producto:1:visitas 0\nSimula varias visitas:\nINCR producto:1:visitas\nINCR producto:1:visitas\nINCR producto:1:visitas\nConsulta el resultado:\nGET producto:1:visitas\nDespués incrementa varias visitas al mismo tiempo:\nINCRBY producto:1:visitas 5\nConsulta nuevamente el contador."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
-    "href": "practicas/03_redis_clave_valor.html#actividad-5.-crear-una-sesión-temporal",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "7 Actividad 5. Crear una sesión temporal",
-    "text": "7 Actividad 5. Crear una sesión temporal\nSimula el inicio de sesión de un usuario.\nCrea una sesión con una duración de cinco minutos:\nSET sesion:001 \"usuario:25\" EX 300\nConsulta el valor:\nGET sesion:001\nDespués consulta cuánto tiempo queda antes de que la sesión expire:\nTTL sesion:001\nEjecuta nuevamente TTL después de algunos segundos y observa cómo cambia el valor.\nExplica brevemente qué ocurre cuando el tiempo llega a cero."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-6.-crear-una-cola-de-pedidos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "8 Actividad 6. Crear una cola de pedidos",
-    "text": "8 Actividad 6. Crear una cola de pedidos\nUtiliza una LIST para representar los pedidos pendientes de la tienda.\nAgrega por lo menos cuatro pedidos:\nRPUSH cola:pedidos \"pedido_001\"\nRPUSH cola:pedidos \"pedido_002\"\nRPUSH cola:pedidos \"pedido_003\"\nRPUSH cola:pedidos \"pedido_004\"\nConsulta la cola completa:\nLRANGE cola:pedidos 0 -1\nAhora simula que se atiende el primer pedido:\nLPOP cola:pedidos\nConsulta nuevamente la cola:\nLRANGE cola:pedidos 0 -1\nExplica brevemente qué ocurrió."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-7.-registrar-usuarios-únicos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "9 Actividad 7. Registrar usuarios únicos",
-    "text": "9 Actividad 7. Registrar usuarios únicos\nUtiliza un SET para registrar usuarios que visitaron la tienda.\nPor ejemplo:\nSADD usuarios:visitantes \"usuario1\"\nSADD usuarios:visitantes \"usuario2\"\nSADD usuarios:visitantes \"usuario3\"\nSADD usuarios:visitantes \"usuario4\"\nIntenta agregar nuevamente un usuario que ya exista:\nSADD usuarios:visitantes \"usuario2\"\nConsulta todos los usuarios:\nSMEMBERS usuarios:visitantes\nCuenta cuántos usuarios únicos existen:\nSCARD usuarios:visitantes\nExplica qué ocurrió cuando intentaste agregar un usuario repetido."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
-    "href": "practicas/03_redis_clave_valor.html#actividad-8.-crear-un-ranking-de-productos",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "10 Actividad 8. Crear un ranking de productos",
-    "text": "10 Actividad 8. Crear un ranking de productos\nUtiliza un Sorted Set para representar la popularidad de los productos.\nCrea por lo menos cuatro productos con diferentes puntuaciones.\nEjemplo:\nZADD productos:ranking 120 \"Laptop\"\nZADD productos:ranking 80 \"Mouse\"\nZADD productos:ranking 150 \"Monitor\"\nZADD productos:ranking 60 \"Teclado\"\nMuestra el ranking de mayor a menor:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nConsulta únicamente los tres primeros lugares:\nZREVRANGE productos:ranking 0 2 WITHSCORES\nAhora incrementa la puntuación de uno de los productos:\nZINCRBY productos:ranking 50 \"Mouse\"\nConsulta nuevamente el ranking:\nZREVRANGE productos:ranking 0 -1 WITHSCORES\nObserva si cambió la posición del producto."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-9.-explorar-las-claves-creadas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "11 Actividad 9. Explorar las claves creadas",
-    "text": "11 Actividad 9. Explorar las claves creadas\nConsulta todas las claves almacenadas durante la práctica:\nKEYS *\nDespués identifica el tipo de algunas claves.\nPor ejemplo:\nTYPE producto:1\nTYPE cola:pedidos\nTYPE usuarios:visitantes\nTYPE productos:ranking\nConsulta también la cantidad total de claves:\nDBSIZE\nGuarda una evidencia donde puedan observarse las claves creadas durante la práctica."
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
-    "href": "practicas/03_redis_clave_valor.html#actividad-10.-identificar-las-estructuras-utilizadas",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "12 Actividad 10. Identificar las estructuras utilizadas",
-    "text": "12 Actividad 10. Identificar las estructuras utilizadas\nCompleta la siguiente tabla de acuerdo con lo realizado durante la práctica.\n\n\n\nInformación\nEstructura utilizada\nEjemplo de clave\n\n\n\n\nProducto\n__________\n__________\n\n\nStock\n__________\n__________\n\n\nContador de visitas\n__________\n__________\n\n\nSesión\n__________\n__________\n\n\nCola de pedidos\n__________\n__________\n\n\nUsuarios únicos\n__________\n__________\n\n\nRanking\n__________\n__________"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
-    "href": "practicas/03_redis_clave_valor.html#preguntas-de-reflexión",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "13 Preguntas de reflexión",
-    "text": "13 Preguntas de reflexión\nResponde brevemente las siguientes preguntas.\n\n¿Qué diferencia observaste entre un STRING y un HASH?\n¿Por qué una LIST resulta adecuada para representar una cola de pedidos?\n¿Qué ventaja ofrece un SET cuando se desea almacenar usuarios únicos?\n¿Por qué un SORTED SET resulta útil para representar un ranking?\n¿Qué ocurre con una clave cuando termina su tiempo de expiración?\n¿Qué tipo de información de una tienda almacenarías en Redis?\n¿Qué información considerarías más adecuada para una base principal como MongoDB o PostgreSQL?\n¿Por qué Redis puede utilizarse como complemento de otra base de datos dentro de una misma aplicación?"
-  },
-  {
-    "objectID": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
-    "href": "practicas/03_redis_clave_valor.html#evidencias-a-entregar",
-    "title": "Práctica 3. Manejo de datos clave–valor con Redis",
-    "section": "14 Evidencias a entregar",
-    "text": "14 Evidencias a entregar\nEl documento deberá incluir:\n\nportada;\ncapturas de pantalla de las actividades realizadas;\ncomandos utilizados;\nresultados obtenidos;\ntabla de estructuras utilizadas;\nrespuestas a las preguntas de reflexión.\n\nLas capturas deberán permitir observar claramente los comandos ejecutados y sus resultados.\n\n\n\n\n\n\nTipRecomendación\n\n\n\nAntes de finalizar la práctica, ejecuta:\nKEYS *\npara comprobar las claves que fueron creadas durante el ejercicio."
-  },
-  {
-    "objectID": "apuntes/20_proyecto_integrador_etica_datos.html",
-    "href": "apuntes/20_proyecto_integrador_etica_datos.html",
-    "title": "Proyecto integrador y aspectos éticos del tratamiento de datos",
-    "section": "",
-    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.\nEl material se habilitará cuando esté terminado y revisado."
-  },
-  {
-    "objectID": "apuntes/20_proyecto_integrador_etica_datos.html#próximamente",
-    "href": "apuntes/20_proyecto_integrador_etica_datos.html#próximamente",
-    "title": "Proyecto integrador y aspectos éticos del tratamiento de datos",
-    "section": "",
-    "text": "Este apunte se encuentra en preparación.\nContenido previsto: Desarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.\nEl material se habilitará cuando esté terminado y revisado."
   },
   {
     "objectID": "apuntes/05_modelado_relaciones_mongodb.html",
@@ -3626,15 +3682,15 @@
     "text": "5 Conclusión\nLas consultas realizadas permiten comprender cómo el lenguaje Cypher facilita el análisis de información relacionada.\nEn el grafo de la NBA fue posible agrupar jugadores, calcular promedios salariales, comparar relaciones entre equipos y analizar diferencias contractuales.\nEn el grafo de ciberseguridad se identificaron conexiones entre dispositivos, accesos de usuarios, sistemas alojados en varios servidores y relaciones de respaldo.\nAmbos ejemplos muestran cómo las bases de datos orientadas a grafos permiten estudiar relaciones entre entidades y recuperar información mediante distintos patrones de conexión."
   },
   {
-    "objectID": "apuntes/18_integracion_limpieza_validacion_datos.html",
-    "href": "apuntes/18_integracion_limpieza_validacion_datos.html",
+    "objectID": "apuntes/19_integracion_limpieza_validacion_datos.html",
+    "href": "apuntes/19_integracion_limpieza_validacion_datos.html",
     "title": "Integración, limpieza y validación de datos",
     "section": "",
     "text": "Este apunte se encuentra en preparación.\nContenido previsto: Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.\nEl material se habilitará cuando esté terminado y revisado."
   },
   {
-    "objectID": "apuntes/18_integracion_limpieza_validacion_datos.html#próximamente",
-    "href": "apuntes/18_integracion_limpieza_validacion_datos.html#próximamente",
+    "objectID": "apuntes/19_integracion_limpieza_validacion_datos.html#próximamente",
+    "href": "apuntes/19_integracion_limpieza_validacion_datos.html#próximamente",
     "title": "Integración, limpieza y validación de datos",
     "section": "",
     "text": "Este apunte se encuentra en preparación.\nContenido previsto: Integración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.\nEl material se habilitará cuando esté terminado y revisado."
@@ -4354,25 +4410,25 @@
     "text": "Consultas avanzadas y recorridos de grafos en Neo4j\nConsultas avanzadas con Cypher, relaciones de longitud variable, rutas y recorridos de grafos.\n Abrir apunte"
   },
   {
+    "objectID": "apuntes.html#conexión-y-consultas-de-neo4j-desde-python",
+    "href": "apuntes.html#conexión-y-consultas-de-neo4j-desde-python",
+    "title": "Apuntes del curso",
+    "section": "Conexión y consultas de Neo4j desde Python",
+    "text": "Conexión y consultas de Neo4j desde Python\nConexión de Python con Neo4j, ejecución de consultas Cypher y recuperación de resultados mediante programas.\n Próximamente"
+  },
+  {
     "objectID": "apuntes.html#integración-limpieza-y-validación-de-datos",
     "href": "apuntes.html#integración-limpieza-y-validación-de-datos",
     "title": "Apuntes del curso",
     "section": "Integración, limpieza y validación de datos",
-    "text": "Integración, limpieza y validación de datos\nIntegración de fuentes, tratamiento de valores faltantes, duplicados y validación de la calidad de datos.\n\nPróximamente"
+    "text": "Integración, limpieza y validación de datos\nPreparación, limpieza, integración y validación de información para su almacenamiento y consulta en bases de datos NoSQL.\n Próximamente"
   },
   {
-    "objectID": "apuntes.html#acceso-a-neo4j-desde-python",
-    "href": "apuntes.html#acceso-a-neo4j-desde-python",
+    "objectID": "apuntes.html#ética-y-tratamiento-responsable-de-datos",
+    "href": "apuntes.html#ética-y-tratamiento-responsable-de-datos",
     "title": "Apuntes del curso",
-    "section": "Acceso a Neo4j desde Python",
-    "text": "Acceso a Neo4j desde Python\nConexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.\n\nPróximamente"
-  },
-  {
-    "objectID": "apuntes.html#proyecto-integrador-y-aspectos-éticos-del-tratamiento-de-datos",
-    "href": "apuntes.html#proyecto-integrador-y-aspectos-éticos-del-tratamiento-de-datos",
-    "title": "Apuntes del curso",
-    "section": "Proyecto integrador y aspectos éticos del tratamiento de datos",
-    "text": "Proyecto integrador y aspectos éticos del tratamiento de datos\nDesarrollo de un proyecto que integre tecnologías NoSQL y consideraciones de privacidad, seguridad y ética de datos.\n\nPróximamente"
+    "section": "Ética y tratamiento responsable de datos",
+    "text": "Ética y tratamiento responsable de datos\nPrivacidad, protección de información, procedencia de los datos, derechos de autor y consideraciones éticas en su utilización.\n Próximamente"
   },
   {
     "objectID": "diapositivas.html",

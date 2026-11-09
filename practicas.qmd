@@ -76,3 +76,32 @@ Actividad individual para aplicar el lenguaje Cypher mediante diez consultas sob
    href="practicas/05_actividad_grafos_neo4j.html">
    Abrir práctica
 </a>
+
+
+
+
+---
+
+
+
+---
+
+<h2 id="proyecto-integrador"
+    style="color: #198754; font-size: 2.8rem; font-weight: 700;">
+  Proyecto integrador
+</h2>
+
+
+<p style="color: #343a40;">
+  Diseño e implementación de una solución utilizando una o más tecnologías de bases de datos NoSQL.
+</p>
+
+<p style="color: #343a40;">
+  <strong>Valor:</strong> 30 % de la calificación final.
+</p>
+
+<a class="btn btn-success"
+   href="practicas/proyecto_integrador_bdnr.html"
+   style="border-radius: 30px; font-weight: 600; padding: 10px 22px;">
+  Abrir proyecto integrador
+</a>
