@@ -1,17 +1,1918 @@
+
 ---
-title: "Acceso a Neo4j desde Python"
+title: "Conexión y consultas de Neo4j desde Python"
 subtitle: "Bases de Datos No Relacionales"
+lang: es
 format:
   html:
     toc: true
+    toc-depth: 3
     number-sections: true
     code-copy: true
+    code-overflow: wrap
+execute:
+  eval: false
 ---
 
-## Próximamente
 
-Este apunte se encuentra en preparación.
+## Introducción
 
-**Contenido previsto:** Conexión de aplicaciones Python con Neo4j, ejecución de consultas Cypher y procesamiento de resultados.
+En este apunte aprenderemos a conectar **Python con Neo4j** para ejecutar consultas Cypher desde **Jupyter Notebook**, recuperar información y analizar sus resultados mediante las bibliotecas pandas y Matplotlib.
 
-El material se habilitará cuando esté terminado y revisado.
+Retomaremos la red de aeropuertos de OpenFlights utilizada en el Apunte 17 para explorar conexiones, recorridos y caminos mínimos, integrando las capacidades de consulta de Neo4j con las herramientas de análisis y visualización de Python.
+
+::: {.callout-note}
+## Base de datos utilizada
+
+Se utilizará la base histórica de OpenFlights construida en el Apunte 17, integrada por nodos `Aeropuerto` y relaciones `RUTA_AEREA`.
+
+La base incluye propiedades geográficas, así como tiempos, costos y precios simulados con fines didácticos, que no representan condiciones comerciales reales.
+:::
+
+---
+
+
+
+
+
+## Preparación del entorno
+
+Para esta práctica se utilizarán las siguientes herramientas:
+
+- **Jupyter Notebook:** entorno para escribir y ejecutar código Python.
+- **Neo4j Desktop:** aplicación donde se encuentra la base de datos de aeropuertos.
+- **Python:** lenguaje utilizado para realizar las consultas y procesar sus resultados.
+
+Como Jupyter Notebook y Python se utilizaron anteriormente en la práctica de MongoDB, no será necesario instalarlos nuevamente si se encuentran disponibles.
+
+### Instalación de bibliotecas
+
+Se abre Jupyter Notebook y se crea un nuevo cuaderno de Python.
+
+En la primera celda se ejecuta:
+
+```python
+%pip install neo4j pandas matplotlib
+```
+
+Las bibliotecas tienen las siguientes funciones:
+
+- `neo4j`: permite conectar Python con Neo4j y ejecutar consultas Cypher.
+- `pandas`: organiza los resultados en tablas.
+- `matplotlib`: permite generar gráficas.
+
+La instalación solo es necesaria si las bibliotecas no están disponibles en el entorno de Python utilizado por el cuaderno.
+
+### Verificación de bibliotecas
+
+Una vez instaladas las bibliotecas, es necesario comprobar que Python puede importarlas correctamente.
+
+En una nueva celda de Jupyter Notebook, ejecutar:
+
+```python
+from neo4j import GraphDatabase
+import pandas as pd
+import matplotlib.pyplot as plt
+
+print("Bibliotecas disponibles correctamente")
+```
+
+Si las bibliotecas se encuentran instaladas correctamente, se mostrará:
+
+```{.text code-copy="false"}
+Bibliotecas disponibles correctamente
+```
+
+Esta verificación permite confirmar que el entorno de Python está preparado para establecer conexiones con Neo4j, manipular datos mediante pandas y generar visualizaciones con Matplotlib.
+
+**Nota:** La importación correcta de las bibliotecas no implica que ya exista una conexión con Neo4j. Esta se realizará en el siguiente apartado.
+
+---
+
+## Conexión de Python con Neo4j
+
+Para consultar una base de datos Neo4j desde Python, primero es necesario establecer una conexión entre ambos sistemas.
+
+La biblioteca `neo4j` proporciona la clase `GraphDatabase`, que permite conectarse a una instancia de Neo4j mediante Bolt y ejecutar consultas escritas en Cypher.
+
+Antes de ejecutar el código, es necesario:
+
+1. Tener Neo4j Desktop instalado.
+2. Iniciar la instancia que contiene los datos de OpenFlights.
+3. Conocer la dirección de conexión.
+4. Contar con el usuario y la contraseña correspondientes.
+
+En una instalación local, el puerto predeterminado suele ser `7687`.
+
+La dirección debe verificarse en Neo4j Desktop, ya que puede variar según la configuración de la instancia.
+
+### Establecer la conexión
+
+En una nueva celda de Jupyter Notebook, ejecutar el siguiente código:
+
+```python
+from neo4j import GraphDatabase
+from getpass import getpass
+
+# Datos de conexión
+URI = "neo4j://127.0.0.1:7687"
+USUARIO = "neo4j"
+BASE_DATOS = "neo4j"
+
+# Solicitar contraseña
+CONTRASENA = getpass("Contraseña de Neo4j: ")
+
+# Crear el controlador de conexión
+driver = GraphDatabase.driver(
+    URI,
+    auth=(USUARIO, CONTRASENA)
+)
+
+# Verificar la conexión
+try:
+    driver.verify_connectivity()
+    print("Conexión exitosa con Neo4j")
+
+except Exception as e:
+    driver.close()
+    print("Error de conexión:", e)
+    raise
+```
+
+Al ejecutar la celda, Jupyter solicitará la contraseña de Neo4j.
+
+Si los datos son correctos y el servidor se encuentra en ejecución, se mostrará:
+
+```{.text code-copy="false"}
+Conexión exitosa con Neo4j
+```
+
+En el código anterior se definieron cuatro variables:
+
+- **`URI`:** dirección utilizada para establecer la conexión con Neo4j.
+- **`USUARIO`:** nombre de usuario autorizado para acceder a la base de datos.
+- **`CONTRASENA`:** contraseña solicitada mediante `getpass()`.
+- **`BASE_DATOS`:** nombre de la base de datos sobre la cual se ejecutarán las consultas.
+
+La variable `BASE_DATOS = "neo4j"` se utilizará en los ejercicios siguientes para indicar explícitamente la base de datos que contiene la red de aeropuertos.
+
+El controlador `driver` permanecerá disponible para ejecutar consultas durante la práctica.
+
+::: {.callout-important}
+## Seguridad de las credenciales
+
+La contraseña se solicita mediante `getpass()` para evitar escribirla directamente en el código.
+
+No debe incluirse una contraseña real en el cuaderno, en capturas de pantalla ni en los archivos publicados en GitHub.
+
+Al finalizar la práctica, el controlador deberá cerrarse mediante `driver.close()`.
+:::
+
+### Verificar la información del servidor
+
+Una vez establecida la conexión, también podemos consultar información de la instancia.
+
+Ejecutar:
+
+```python
+informacion = driver.get_server_info()
+
+print("Servidor:", informacion.address)
+print("Versión:", informacion.agent)
+```
+
+El resultado mostrará la dirección del servidor y la versión de Neo4j utilizada.
+
+Esto permite verificar que Python se encuentra conectado a la instancia esperada.
+
+::: {.callout-tip}
+## Orden de ejecución en Jupyter Notebook
+
+Los ejercicios deben ejecutarse en el orden presentado.
+
+La celda de conexión define las variables `URI`, `USUARIO`, `BASE_DATOS` y `driver`, que serán utilizadas posteriormente.
+
+Si se reinicia el kernel de Jupyter Notebook, será necesario ejecutar nuevamente las celdas de importación de bibliotecas y conexión antes de continuar.
+
+Esto evita errores como `NameError`, que aparecen cuando se intenta utilizar una variable que todavía no ha sido definida.
+:::
+
+---
+
+## Primeras consultas Cypher desde Python
+
+Una vez establecida la conexión, podemos ejecutar consultas Cypher directamente desde Jupyter Notebook.
+
+Para ello, utilizaremos el método `execute_query()` del controlador `driver`, que permite enviar una consulta y recuperar sus resultados.
+
+### Verificar los aeropuertos registrados
+
+Como primera consulta, comprobaremos cuántos aeropuertos se encuentran almacenados en la base de datos utilizada en el Apunte 17.
+
+En una nueva celda de Jupyter Notebook, ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+RETURN count(a) AS TotalAeropuertos
+"""
+
+registros, resumen, claves = driver.execute_query(
+    consulta,
+    database_=BASE_DATOS
+)
+
+print(
+    "Total de aeropuertos:",
+    registros[0]["TotalAeropuertos"]
+)
+```
+
+**Resultado de referencia:**
+
+```{.text code-copy="false"}
+Total de aeropuertos: 7698
+```
+
+La consulta utiliza `MATCH` para identificar los nodos con la etiqueta `Aeropuerto` y `count()` para contabilizarlos.
+
+El método `execute_query()` devuelve tres elementos:
+
+- **`registros`:** contiene los resultados obtenidos mediante la consulta.
+- **`resumen`:** proporciona información sobre la ejecución.
+- **`claves`:** contiene los nombres de las columnas devueltas por Cypher.
+
+Finalmente, `registros[0]["TotalAeropuertos"]` recupera el valor correspondiente a la primera fila de resultados.
+
+El argumento `database_=BASE_DATOS` indica que la consulta se ejecutará sobre la base de datos seleccionada.
+
+### Consultar aeropuertos y sus propiedades
+
+Una vez comprobada la cantidad de aeropuertos, recuperaremos algunos registros para observar cómo Neo4j devuelve la información a Python.
+
+Ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+RETURN
+    a.iata AS Codigo,
+    a.nombre AS Aeropuerto,
+    a.ciudad AS Ciudad,
+    a.pais AS Pais
+ORDER BY Pais, Ciudad
+LIMIT 10
+"""
+
+registros, resumen, claves = driver.execute_query(
+    consulta,
+    database_=BASE_DATOS
+)
+
+for registro in registros:
+    print(registro.data())
+```
+
+La consulta recupera diez aeropuertos y muestra sus principales propiedades.
+
+En este caso, cada registro se convierte en un diccionario de Python mediante `registro.data()`.
+
+Un resultado puede presentar la siguiente estructura:
+
+```{.python code-copy="false"}
+{
+    "Codigo": "MEX",
+    "Aeropuerto": "Licenciado Benito Juarez International Airport",
+    "Ciudad": "Mexico City",
+    "Pais": "Mexico"
+}
+```
+
+Este ejemplo es ilustrativo: los registros efectivos dependen del ordenamiento y los datos recuperados.
+
+### Organizar los resultados con pandas
+
+Aunque los diccionarios permiten consultar los resultados, cuando se trabaja con numerosos registros es conveniente organizarlos en una tabla.
+
+Para ello, utilizaremos `DataFrame`, una estructura de pandas que representa datos mediante filas y columnas.
+
+Ejecutar:
+
+```python
+df_aeropuertos = pd.DataFrame(
+    [registro.data() for registro in registros]
+)
+
+display(df_aeropuertos)
+```
+
+Jupyter Notebook mostrará una tabla con las columnas `Codigo`, `Aeropuerto`, `Ciudad` y `Pais`.
+
+De esta manera, la información almacenada como nodos en Neo4j puede analizarse utilizando las herramientas de pandas.
+
+### Crear una función para ejecutar consultas
+
+Durante el resto de la práctica realizaremos numerosas consultas Cypher.
+
+Para evitar repetir constantemente el mismo procedimiento, construiremos una función que ejecute una consulta y devuelva sus resultados como un `DataFrame`.
+
+```python
+def consultar(cypher, parametros=None):
+    registros, resumen, claves = driver.execute_query(
+        cypher,
+        parameters_=parametros or {},
+        database_=BASE_DATOS
+    )
+
+    return pd.DataFrame(
+        [registro.data() for registro in registros],
+        columns=claves
+    )
+```
+
+La función recibe dos argumentos:
+
+- `cypher`: consulta que se desea ejecutar.
+- `parametros`: valores opcionales que se envían a la consulta.
+
+Internamente, utiliza `execute_query()` y convierte los registros recuperados en una tabla de pandas.
+
+Para comprobar su funcionamiento, ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+RETURN
+    a.iata AS Codigo,
+    a.ciudad AS Ciudad,
+    a.pais AS Pais
+LIMIT 5
+"""
+
+df = consultar(consulta)
+
+display(df)
+```
+
+A partir de este momento utilizaremos `consultar()` para realizar los ejercicios siguientes.
+
+::: {.callout-tip}
+## Ventaja de utilizar funciones
+
+Una función permite reutilizar instrucciones sin escribirlas nuevamente.
+
+En este caso, `consultar()` simplifica la ejecución de Cypher y facilita la integración de Neo4j con pandas.
+
+La función no crea ni modifica información en la base de datos por sí misma. Las operaciones realizadas dependen de la consulta Cypher que reciba.
+:::
+
+---
+
+## Análisis general de la red de aeropuertos
+
+Una vez establecida la conexión y organizada la recuperación de resultados, podemos comenzar el análisis de la red.
+
+Primero examinaremos la cantidad de nodos, relaciones y propiedades disponibles.
+
+### Contar aeropuertos y conexiones aéreas
+
+En el Apunte 17 se construyó un grafo formado por nodos `Aeropuerto` y relaciones `RUTA_AEREA`.
+
+Desde Python podemos recuperar ambos conteos mediante una consulta.
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+WITH count(a) AS TotalAeropuertos
+
+MATCH ()-[r:RUTA_AEREA]->()
+RETURN
+    TotalAeropuertos,
+    count(r) AS TotalRutas,
+    count(r.precio_boleto_simulado_mxn)
+        AS RutasConPrecio
+"""
+
+df_resumen = consultar(consulta)
+
+display(df_resumen)
+```
+
+La consulta utiliza `count()` para contabilizar los aeropuertos y las conexiones dirigidas.
+
+También contabiliza las relaciones que contienen la propiedad `precio_boleto_simulado_mxn`.
+
+Este último valor permite comprobar cuántas rutas cuentan con información económica simulada.
+
+**Interpretación:** el número de relaciones representa las conexiones dirigidas registradas en el grafo, no la cantidad de vuelos operados ni el número de pasajeros.
+
+### Aeropuertos con mayor conectividad
+
+El grado de salida de un aeropuerto corresponde al número de relaciones dirigidas que parten de ese nodo.
+
+En la red de OpenFlights, permite identificar cuántos destinos directos tiene cada aeropuerto.
+
+Para recuperar los diez aeropuertos con mayor conectividad de salida, ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+      -[:RUTA_AEREA]->(destino:Aeropuerto)
+RETURN
+    a.iata AS Codigo,
+    a.nombre AS Aeropuerto,
+    a.pais AS Pais,
+    count(DISTINCT destino) AS DestinosDirectos
+ORDER BY DestinosDirectos DESC
+LIMIT 10
+"""
+
+df_top = consultar(consulta)
+
+display(df_top)
+```
+
+La consulta recupera los aeropuertos y los ordena de mayor a menor según la cantidad de destinos directos.
+
+A diferencia del Apunte 17, ahora los resultados se almacenan en un `DataFrame`, que podremos utilizar para construir una gráfica.
+
+### Visualizar los aeropuertos más conectados
+
+Con Matplotlib podemos representar el número de destinos directos mediante una gráfica de barras horizontales.
+
+Ejecutar:
+
+```python
+datos = df_top.sort_values(
+    "DestinosDirectos",
+    ascending=True
+)
+
+plt.figure(figsize=(10, 6))
+
+plt.barh(
+    datos["Codigo"],
+    datos["DestinosDirectos"]
+)
+
+plt.xlabel("Número de destinos directos")
+plt.ylabel("Código IATA")
+plt.title("Aeropuertos con mayor conectividad de salida")
+
+plt.tight_layout()
+plt.show()
+```
+
+La gráfica permite comparar visualmente la conectividad de los diez aeropuertos.
+
+**Resultado de referencia del Apunte 17:** Frankfurt (`FRA`) presentó 239 destinos directos, París Charles de Gaulle (`CDG`) 237 y Ámsterdam (`AMS`) 232.
+
+Estos resultados corresponden a la red histórica utilizada y no representan necesariamente la conectividad aérea actual.
+
+### Países con mayor número de aeropuertos
+
+También podemos examinar la distribución de aeropuertos por país.
+
+Ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+RETURN
+    a.pais AS Pais,
+    count(a) AS TotalAeropuertos
+ORDER BY TotalAeropuertos DESC
+LIMIT 10
+"""
+
+df_paises = consultar(consulta)
+
+display(df_paises)
+```
+
+La consulta agrupa los aeropuertos según la propiedad `pais` y cuenta los registros de cada grupo.
+
+Para representar los resultados:
+
+```python
+datos = df_paises.sort_values(
+    "TotalAeropuertos",
+    ascending=True
+)
+
+plt.figure(figsize=(10, 6))
+
+plt.barh(
+    datos["Pais"],
+    datos["TotalAeropuertos"]
+)
+
+plt.xlabel("Número de aeropuertos")
+plt.ylabel("País")
+plt.title("Países con más aeropuertos registrados")
+
+plt.tight_layout()
+plt.show()
+```
+
+La gráfica presenta los diez países con mayor cantidad de aeropuertos dentro de la base importada.
+
+Es importante señalar que se contabilizan aeropuertos presentes en el conjunto de datos, independientemente de que tengan conexiones aéreas registradas.
+
+### Aeropuertos mexicanos con mayor conectividad
+
+Ahora analizaremos únicamente los aeropuertos ubicados en México.
+
+Para ello, se establece la condición `a.pais = 'Mexico'`.
+
+```python
+consulta = """
+MATCH (a:Aeropuerto {pais: 'Mexico'})
+OPTIONAL MATCH
+    (a)-[:RUTA_AEREA]->(destino:Aeropuerto)
+RETURN
+    a.iata AS Codigo,
+    a.ciudad AS Ciudad,
+    a.nombre AS Aeropuerto,
+    count(DISTINCT destino) AS DestinosDirectos
+ORDER BY DestinosDirectos DESC
+LIMIT 10
+"""
+
+df_mexico = consultar(consulta)
+
+display(df_mexico)
+```
+
+La cláusula `OPTIONAL MATCH` permite conservar los aeropuertos aunque no tengan relaciones de salida.
+
+Posteriormente, se cuentan sus destinos directos y se ordenan de mayor a menor.
+
+Para mostrar los resultados:
+
+```python
+datos = df_mexico.sort_values(
+    "DestinosDirectos",
+    ascending=True
+)
+
+plt.figure(figsize=(10, 6))
+
+plt.barh(
+    datos["Codigo"],
+    datos["DestinosDirectos"]
+)
+
+plt.xlabel("Número de destinos directos")
+plt.ylabel("Código IATA")
+plt.title("Conectividad de los aeropuertos mexicanos")
+
+plt.tight_layout()
+plt.show()
+```
+
+**Resultado de referencia:** Ciudad de México (`MEX`) presentó 93 destinos directos, Cancún (`CUN`) 78 y Guadalajara (`GDL`) 41.
+
+Estos valores describen únicamente las conexiones históricas presentes en el conjunto de datos.
+
+---
+
+## Consultas parametrizadas desde Python
+
+Hasta ahora hemos escrito directamente las condiciones dentro de las consultas Cypher.
+
+Sin embargo, una ventaja de ejecutar consultas desde Python es que podemos utilizar variables para modificar los criterios de búsqueda sin alterar la estructura de la consulta.
+
+Para ello, Neo4j utiliza parámetros identificados mediante el símbolo `$`.
+
+### Consultar un aeropuerto mediante su código IATA
+
+Como ejemplo, recuperaremos la información del Aeropuerto Internacional de Cancún.
+
+```python
+consulta = """
+MATCH (a:Aeropuerto {iata: $codigo})
+RETURN
+    a.iata AS Codigo,
+    a.nombre AS Aeropuerto,
+    a.ciudad AS Ciudad,
+    a.pais AS Pais
+"""
+
+df = consultar(
+    consulta,
+    {"codigo": "CUN"}
+)
+
+display(df)
+```
+
+El parámetro `$codigo` recibe el valor `"CUN"` desde Python.
+
+De esta manera, la consulta no necesita modificarse para buscar otro aeropuerto.
+
+Por ejemplo:
+
+```python
+df = consultar(
+    consulta,
+    {"codigo": "VER"}
+)
+
+display(df)
+```
+
+En este segundo caso, se recupera la información del aeropuerto cuyo código IATA es `VER`.
+
+### Consultar destinos directos de un aeropuerto
+
+También podemos recuperar los destinos conectados directamente con un aeropuerto seleccionado.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: $codigo})
+      -[:RUTA_AEREA]->(destino:Aeropuerto)
+RETURN
+    destino.iata AS Codigo,
+    destino.ciudad AS Ciudad,
+    destino.pais AS Pais
+ORDER BY Pais, Ciudad
+"""
+
+df_destinos = consultar(
+    consulta,
+    {"codigo": "CUN"}
+)
+
+display(df_destinos.head(10))
+```
+
+La consulta identifica los aeropuertos conectados directamente con Cancún y organiza sus propiedades en una tabla.
+
+La instrucción `head(10)` de pandas permite mostrar únicamente las primeras diez filas del resultado.
+
+Para conocer el total de registros recuperados:
+
+```python
+print(
+    "Destinos directos:",
+    len(df_destinos)
+)
+```
+
+Como en la importación se conservó una relación dirigida por cada par de aeropuertos, el número de filas representa la cantidad de destinos directos registrados para ese origen.
+
+::: {.callout-note}
+## Parámetros en Cypher
+
+Utilizar parámetros permite separar la estructura de una consulta de los valores que se desean buscar.
+
+Esto facilita reutilizar consultas, automatizar análisis y evitar la construcción insegura de instrucciones mediante concatenación de cadenas.
+:::
+
+---
+
+## Recorridos y conexiones entre aeropuertos
+
+Las consultas anteriores permitieron identificar conexiones directas.
+
+Sin embargo, en una red de transporte también interesa recuperar destinos que requieren pasar por uno o más aeropuertos intermedios.
+
+En esta sección utilizaremos Python para analizar recorridos con escalas y comparar caminos mínimos.
+
+### Destinos alcanzables desde Cancún
+
+Primero identificaremos los destinos alcanzables desde Cancún (`CUN`) mediante uno o dos tramos.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: $codigo})
+MATCH camino =
+    (origen)-[:RUTA_AEREA*1..2]->(destino:Aeropuerto)
+WHERE destino <> origen
+  AND destino.iata IS NOT NULL
+WITH destino,
+     min(length(camino)) AS TramosMinimos
+RETURN
+    destino.iata AS Codigo,
+    destino.ciudad AS Ciudad,
+    destino.pais AS Pais,
+    TramosMinimos
+ORDER BY TramosMinimos, Pais, Ciudad
+"""
+
+df_alcance = consultar(
+    consulta,
+    {"codigo": "CUN"}
+)
+
+display(df_alcance.head(15))
+```
+
+La expresión `*1..2` permite recorrer una o dos relaciones consecutivas.
+
+La función `length(camino)` obtiene el número de tramos de cada recorrido, mientras que `min()` identifica la menor cantidad de tramos encontrada para cada destino.
+
+Para resumir los resultados:
+
+```python
+resumen_tramos = (
+    df_alcance
+    .groupby("TramosMinimos")
+    .size()
+    .reset_index(name="TotalDestinos")
+)
+
+display(resumen_tramos)
+```
+
+El resultado permite distinguir entre destinos directos y destinos que requieren una escala como recorrido mínimo.
+
+Para visualizar la distribución:
+
+```python
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    resumen_tramos["TramosMinimos"].astype(str),
+    resumen_tramos["TotalDestinos"]
+)
+
+plt.xlabel("Número mínimo de tramos")
+plt.ylabel("Destinos alcanzables")
+plt.title("Alcance de la red desde Cancún")
+
+plt.tight_layout()
+plt.show()
+```
+
+Esta gráfica permite observar cómo aumenta el alcance de un aeropuerto cuando se permiten conexiones indirectas.
+
+**Importante:** Se contabilizan destinos únicos, no la cantidad de caminos alternativos para llegar a ellos.
+
+### Identificar aeropuertos de escala
+
+Ahora analizaremos los recorridos de exactamente dos tramos entre Ciudad de México (`MEX`) y Johannesburgo (`JNB`).
+
+Estos recorridos incluyen un aeropuerto intermedio.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: $origen})
+      -[:RUTA_AEREA]->(escala:Aeropuerto)
+      -[:RUTA_AEREA]->(destino:Aeropuerto {iata: $destino})
+RETURN DISTINCT
+    escala.iata AS CodigoEscala,
+    escala.nombre AS Aeropuerto,
+    escala.ciudad AS Ciudad,
+    escala.pais AS Pais
+ORDER BY Pais, Ciudad
+"""
+
+df_escalas = consultar(
+    consulta,
+    {
+        "origen": "MEX",
+        "destino": "JNB"
+    }
+)
+
+display(df_escalas)
+```
+
+La consulta recupera las propiedades de los aeropuertos que funcionan como puntos intermedios entre ambos destinos.
+
+La cláusula `DISTINCT` evita mostrar repetidamente el mismo aeropuerto de escala.
+
+### Encontrar un camino mínimo
+
+Neo4j permite recuperar un recorrido que utilice el menor número de relaciones entre dos nodos.
+
+Para ello, utilizaremos `shortestPath()`.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: $origen}),
+      (destino:Aeropuerto {iata: $destino})
+MATCH camino = shortestPath(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos
+"""
+
+df_minimo = consultar(
+    consulta,
+    {
+        "origen": "MEX",
+        "destino": "JNB"
+    }
+)
+
+display(df_minimo)
+```
+
+La consulta busca un recorrido mínimo de hasta cuatro tramos.
+
+El resultado incluye la secuencia de aeropuertos y el número de relaciones utilizadas.
+
+**Interpretación:** el camino mínimo se determina según la cantidad de tramos, no según la distancia, duración o precio.
+
+### Encontrar todos los caminos mínimos
+
+En algunos casos existen varios recorridos con la misma cantidad mínima de tramos.
+
+La función `allShortestPaths()` permite recuperar esas alternativas.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: $origen}),
+      (destino:Aeropuerto {iata: $destino})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos
+ORDER BY Recorrido
+"""
+
+df_caminos = consultar(
+    consulta,
+    {
+        "origen": "MEX",
+        "destino": "JNB"
+    }
+)
+
+display(df_caminos)
+```
+
+Para conocer la cantidad de alternativas:
+
+```python
+print(
+    "Caminos mínimos encontrados:",
+    len(df_caminos)
+)
+```
+
+**Resultado de referencia del Apunte 17:** ocho caminos mínimos, todos de dos tramos.
+
+La comparación muestra que `shortestPath()` devuelve un camino mínimo, mientras que `allShortestPaths()` recupera todas las alternativas empatadas en la menor longitud, dentro del límite establecido.
+
+---
+
+## Consultas con restricciones geográficas
+
+Además de recuperar recorridos, Neo4j permite establecer condiciones sobre los aeropuertos y las relaciones que integran cada camino.
+
+En esta sección analizaremos recorridos entre Ciudad de México y Johannesburgo utilizando restricciones geográficas.
+
+### Excluir aeropuertos de Estados Unidos
+
+La función `none()` permite comprobar que ningún elemento de una lista cumpla una condición.
+
+Para recuperar los caminos mínimos entre MEX y JNB que no pasan por aeropuertos de Estados Unidos, ejecutar:
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+WHERE none(
+    a IN nodes(camino)
+    WHERE a.pais = 'United States'
+)
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos
+ORDER BY Recorrido
+"""
+
+df_sin_eeuu = consultar(consulta)
+
+display(df_sin_eeuu)
+```
+
+La función `nodes(camino)` recupera los aeropuertos que integran cada recorrido.
+
+Posteriormente, `none()` comprueba que ninguno corresponda a Estados Unidos.
+
+**Resultado de referencia:** seis caminos mínimos que cumplen la condición.
+
+Los aeropuertos de escala son Ámsterdam (`AMS`), París (`CDG`), Frankfurt (`FRA`), São Paulo (`GRU`), Londres (`LHR`) y Múnich (`MUC`).
+
+Es importante observar que la condición se aplica después de seleccionar los caminos mínimos del conjunto original. Por lo tanto, se conservan únicamente aquellos caminos mínimos que cumplen la restricción.
+
+### Identificar escalas en Alemania
+
+La función `any()` permite comprobar si al menos un elemento cumple una condición.
+
+En este caso, seleccionaremos los caminos mínimos entre MEX y JNB que incluyen un aeropuerto de Alemania.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+WHERE any(
+    a IN nodes(camino)
+    WHERE a.pais = 'Germany'
+)
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos
+ORDER BY Recorrido
+"""
+
+df_alemania = consultar(consulta)
+
+display(df_alemania)
+```
+
+**Resultado de referencia:**
+
+- MEX → FRA → JNB.
+- MEX → MUC → JNB.
+
+Ambos recorridos incluyen una escala en Alemania y contienen dos tramos.
+
+### Comprobar la distancia de cada tramo
+
+La función `all()` permite verificar que todas las relaciones de un recorrido cumplan una condición.
+
+En este ejemplo, comprobaremos si todos los tramos de los caminos anteriores tienen una distancia geográfica inferior a 9,000 kilómetros.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+WHERE any(
+    a IN nodes(camino)
+    WHERE a.pais = 'Germany'
+)
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    [r IN relationships(camino) |
+        round(
+            point.distance(
+                startNode(r).ubicacion,
+                endNode(r).ubicacion
+            ) / 1000.0
+        )
+    ] AS DistanciasPorTramoKM,
+    all(
+        r IN relationships(camino)
+        WHERE point.distance(
+            startNode(r).ubicacion,
+            endNode(r).ubicacion
+        ) < 9000000
+    ) AS CumpleLimite
+ORDER BY Recorrido
+"""
+
+df_distancias_tramos = consultar(consulta)
+
+display(df_distancias_tramos)
+```
+
+La función `point.distance()` calcula una distancia geográfica aproximada entre las coordenadas de los aeropuertos.
+
+Como devuelve el resultado en metros para estos puntos geográficos, se utiliza `9000000` para representar 9,000 kilómetros.
+
+La columna `CumpleLimite` tendrá un valor booleano:
+
+- `True`: todos los tramos cumplen la condición.
+- `False`: al menos un tramo supera o alcanza el límite.
+
+En los recorridos de referencia, el primer tramo desde MEX hacia Alemania supera los 9,000 km, por lo que las alternativas no cumplen la condición establecida.
+
+### Calcular la distancia acumulada de los recorridos
+
+La función `reduce()` permite sumar los valores de las relaciones de un camino.
+
+Utilizaremos esta función para calcular la distancia geográfica acumulada de los seis caminos mínimos que evitan Estados Unidos.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+WHERE none(
+    a IN nodes(camino)
+    WHERE a.pais = 'United States'
+)
+WITH camino,
+     reduce(
+         km = 0.0,
+         r IN relationships(camino) |
+         km + point.distance(
+             startNode(r).ubicacion,
+             endNode(r).ubicacion
+         ) / 1000.0
+     ) AS DistanciaKM
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos,
+    round(DistanciaKM) AS DistanciaKM
+ORDER BY DistanciaKM
+"""
+
+df_distancias = consultar(consulta)
+
+display(df_distancias)
+```
+
+La consulta suma las distancias de todos los tramos y presenta los recorridos ordenados de menor a mayor distancia acumulada.
+
+**Resultados de referencia:**
+
+| Recorrido | Distancia aproximada |
+|---|---:|
+| MEX → GRU → JNB | 14,889 km |
+| MEX → CDG → JNB | 17,957 km |
+| MEX → LHR → JNB | 17,999 km |
+| MEX → AMS → JNB | 18,244 km |
+| MEX → FRA → JNB | 18,262 km |
+| MEX → MUC → JNB | 18,310 km |
+
+Estos valores corresponden a distancias geográficas aproximadas y no a las trayectorias reales de los vuelos.
+
+### Visualizar las distancias acumuladas
+
+Para comparar las alternativas mediante Matplotlib, primero convertiremos cada recorrido en una cadena de texto.
+
+```python
+df_grafica = df_distancias.copy()
+
+df_grafica["Ruta"] = df_grafica["Recorrido"].apply(
+    lambda ruta: " → ".join(ruta)
+)
+
+datos = df_grafica.sort_values(
+    "DistanciaKM",
+    ascending=True
+)
+
+plt.figure(figsize=(10, 6))
+
+plt.barh(
+    datos["Ruta"],
+    datos["DistanciaKM"]
+)
+
+plt.xlabel("Distancia geográfica acumulada (km)")
+plt.ylabel("Recorrido")
+plt.title("Comparación de distancias entre MEX y JNB")
+
+plt.tight_layout()
+plt.show()
+```
+
+La visualización permite identificar las diferencias de distancia entre recorridos que contienen el mismo número de tramos.
+
+En este conjunto de alternativas, el recorrido con escala en São Paulo presenta la menor distancia acumulada.
+
+Sin embargo, esto no significa que sea necesariamente la ruta de menor distancia de toda la red. La comparación considera únicamente los caminos mínimos previamente seleccionados según el número de tramos.
+
+---
+
+## Comparación de tiempos, costos y precios simulados
+
+En el Apunte 17 incorporamos propiedades adicionales a las relaciones `RUTA_AEREA` para representar distancias, tiempos estimados, costos operativos y precios ficticios de boletos.
+
+Ahora utilizaremos Python para comparar esos valores y generar nuevas visualizaciones.
+
+### Recuperar la información económica de los recorridos
+
+Para comparar los seis caminos mínimos entre MEX y JNB que no pasan por Estados Unidos, ejecutaremos:
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'MEX'}),
+      (destino:Aeropuerto {iata: 'JNB'})
+MATCH camino = allShortestPaths(
+    (origen)-[:RUTA_AEREA*1..4]->(destino)
+)
+WHERE none(
+    a IN nodes(camino)
+    WHERE a.pais = 'United States'
+)
+AND all(
+    r IN relationships(camino)
+    WHERE r.precio_boleto_simulado_mxn IS NOT NULL
+      AND r.costo_operativo_simulado_por_asiento_mxn IS NOT NULL
+      AND r.tiempo_vuelo_simulado_min IS NOT NULL
+)
+WITH camino,
+     reduce(
+         precio = 0,
+         r IN relationships(camino) |
+         precio + r.precio_boleto_simulado_mxn
+     ) AS PrecioTotalMXN,
+     reduce(
+         costo = 0,
+         r IN relationships(camino) |
+         costo + r.costo_operativo_simulado_por_asiento_mxn
+     ) AS CostoTotalMXN,
+     reduce(
+         tiempo = 0,
+         r IN relationships(camino) |
+         tiempo + r.tiempo_vuelo_simulado_min
+     ) AS TiempoTotalMin
+RETURN
+    [a IN nodes(camino) | a.iata] AS Recorrido,
+    length(camino) AS Tramos,
+    CostoTotalMXN,
+    PrecioTotalMXN,
+    TiempoTotalMin
+ORDER BY PrecioTotalMXN
+"""
+
+df_costos = consultar(consulta)
+
+display(df_costos)
+```
+
+La función `reduce()` suma los valores de las relaciones que integran cada recorrido.
+
+La función `all()` comprueba que todas las conexiones tengan las propiedades necesarias antes de realizar los cálculos.
+
+Los resultados permitirán comparar el costo operativo, el precio simulado del boleto y el tiempo estimado de cada alternativa.
+
+::: {.callout-warning}
+## Interpretación de las variables
+
+Los valores económicos y los tiempos fueron generados mediante un modelo didáctico.
+
+El precio acumulado no corresponde a una tarifa comercial real, mientras que el tiempo estimado representa la suma de los tiempos de vuelo simulados, sin considerar las esperas durante las escalas.
+
+Por lo tanto, las conclusiones describen exclusivamente el comportamiento del modelo utilizado en esta práctica.
+:::
+
+### Identificar la alternativa más económica
+
+Una vez recuperados los resultados, podemos utilizar pandas para identificar el recorrido con el menor precio simulado.
+
+```python
+if not df_costos.empty:
+
+    mas_economica = df_costos.loc[
+        df_costos["PrecioTotalMXN"].idxmin()
+    ]
+
+    print("Ruta más económica:")
+    print(" → ".join(mas_economica["Recorrido"]))
+
+    print(
+        "Precio simulado:",
+        mas_economica["PrecioTotalMXN"],
+        "MXN"
+    )
+
+else:
+    print("No se encontraron recorridos con datos completos.")
+```
+
+La función `idxmin()` identifica el índice de la fila que contiene el valor mínimo de una columna.
+
+En este caso, se utiliza para localizar la alternativa con menor precio simulado.
+
+### Identificar la alternativa más rápida
+
+De manera similar, podemos identificar el recorrido con el menor tiempo acumulado.
+
+```python
+if not df_costos.empty:
+
+    mas_rapida = df_costos.loc[
+        df_costos["TiempoTotalMin"].idxmin()
+    ]
+
+    print("Ruta más rápida:")
+    print(" → ".join(mas_rapida["Recorrido"]))
+
+    print(
+        "Tiempo estimado:",
+        mas_rapida["TiempoTotalMin"],
+        "minutos"
+    )
+
+else:
+    print("No se encontraron recorridos con datos completos.")
+```
+
+La instrucción busca el valor mínimo de la columna `TiempoTotalMin` y recupera el recorrido correspondiente.
+
+### Comparar las dos alternativas
+
+Para comprobar si la ruta más económica coincide con la más rápida, ejecutar:
+
+```python
+if not df_costos.empty:
+
+    precio_min = df_costos["PrecioTotalMXN"].min()
+    tiempo_min = df_costos["TiempoTotalMin"].min()
+
+    coincidencias = df_costos[
+        (df_costos["PrecioTotalMXN"] == precio_min) &
+        (df_costos["TiempoTotalMin"] == tiempo_min)
+    ]
+
+    if not coincidencias.empty:
+        print(
+            "Existe al menos un recorrido que es "
+            "el más económico y el más rápido."
+        )
+    else:
+        print(
+            "Los recorridos más económicos y "
+            "más rápidos no coinciden."
+        )
+```
+
+Este procedimiento permite comparar dos criterios diferentes utilizando los resultados previamente recuperados.
+
+Es posible que una ruta presente un menor precio simulado, pero requiera más tiempo de vuelo que otra alternativa.
+
+### Visualizar los precios simulados
+
+Para representar los precios de cada recorrido, ejecutar:
+
+```python
+if not df_costos.empty:
+
+    datos = df_costos.copy()
+
+    datos["Ruta"] = datos["Recorrido"].apply(
+        lambda ruta: " → ".join(ruta)
+    )
+
+    datos = datos.sort_values(
+        "PrecioTotalMXN",
+        ascending=True
+    )
+
+    plt.figure(figsize=(10, 6))
+
+    plt.barh(
+        datos["Ruta"],
+        datos["PrecioTotalMXN"]
+    )
+
+    plt.xlabel("Precio simulado del boleto (MXN)")
+    plt.ylabel("Recorrido")
+    plt.title("Comparación de precios simulados")
+
+    plt.tight_layout()
+    plt.show()
+```
+
+La gráfica facilita identificar las diferencias entre los precios acumulados de las alternativas analizadas.
+
+### Analizar la relación entre precio y tiempo
+
+Además de las gráficas de barras, podemos utilizar un diagrama de dispersión para representar conjuntamente los precios y los tiempos estimados.
+
+```python
+if not df_costos.empty:
+
+    plt.figure(figsize=(9, 6))
+
+    plt.scatter(
+        df_costos["TiempoTotalMin"],
+        df_costos["PrecioTotalMXN"],
+        s=90
+    )
+
+    for _, fila in df_costos.iterrows():
+
+        etiqueta = " → ".join(
+            fila["Recorrido"]
+        )
+
+        plt.annotate(
+            etiqueta,
+            (
+                fila["TiempoTotalMin"],
+                fila["PrecioTotalMXN"]
+            ),
+            xytext=(5, 5),
+            textcoords="offset points",
+            fontsize=8
+        )
+
+    plt.xlabel("Tiempo estimado (minutos)")
+    plt.ylabel("Precio simulado (MXN)")
+    plt.title("Relación entre tiempo y precio simulado")
+
+    plt.tight_layout()
+    plt.show()
+```
+
+Cada punto representa un recorrido.
+
+El eje horizontal corresponde al tiempo estimado, mientras que el eje vertical representa el precio simulado.
+
+La posición de los puntos permite identificar alternativas con menores tiempos, menores precios o distintas combinaciones de ambos criterios.
+
+La gráfica tiene un propósito descriptivo y no permite establecer relaciones causales entre las variables.
+
+---
+
+## Clasificación de destinos nacionales e internacionales
+
+Otro análisis que podemos realizar desde Python consiste en clasificar los destinos alcanzables desde un aeropuerto según su ubicación geográfica.
+
+Utilizaremos Cancún (`CUN`) como punto de origen y consideraremos recorridos de uno o dos tramos.
+
+### Recuperar los destinos alcanzables
+
+Primero recuperaremos los aeropuertos que pueden alcanzarse desde Cancún mediante uno o dos tramos.
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto {iata: 'CUN'})
+MATCH camino =
+    (origen)-[:RUTA_AEREA*1..2]->(destino:Aeropuerto)
+WHERE destino <> origen
+WITH destino,
+     min(length(camino)) AS TramosMinimos
+RETURN
+    destino.iata AS Codigo,
+    destino.ciudad AS Ciudad,
+    destino.pais AS Pais,
+    TramosMinimos
+ORDER BY TramosMinimos, Pais, Ciudad
+"""
+
+df_cun = consultar(consulta)
+
+display(df_cun.head(10))
+```
+
+La consulta utiliza `min(length(camino))` para asignar a cada aeropuerto el menor número de tramos encontrado.
+
+De esta manera, cada destino se recupera una sola vez, aunque existan múltiples recorridos para llegar a él.
+
+### Clasificar mediante pandas
+
+Una vez recuperados los resultados, podemos utilizar pandas para crear una columna que identifique el tipo de destino.
+
+```python
+df_cun["TipoDestino"] = df_cun["Pais"].apply(
+    lambda pais: (
+        "Nacional"
+        if pais == "Mexico"
+        else "Internacional"
+    )
+)
+
+display(df_cun.head(10))
+```
+
+La función `apply()` permite aplicar una operación a cada valor de la columna `Pais`.
+
+En este caso, los aeropuertos ubicados en México se clasifican como nacionales, mientras que los restantes se consideran internacionales.
+
+### Construir una tabla de frecuencias
+
+Con la nueva variable podemos calcular cuántos destinos pertenecen a cada categoría.
+
+```python
+tabla_destinos = pd.crosstab(
+    df_cun["TramosMinimos"],
+    df_cun["TipoDestino"]
+)
+
+display(tabla_destinos)
+```
+
+La función `crosstab()` construye una tabla que cruza dos variables categóricas.
+
+En este caso, permite conocer la distribución de destinos nacionales e internacionales según el número mínimo de tramos.
+
+### Calcular los porcentajes
+
+También podemos expresar las cantidades como porcentajes del total de destinos de cada categoría de tramos.
+
+```python
+porcentajes = pd.crosstab(
+    df_cun["TramosMinimos"],
+    df_cun["TipoDestino"],
+    normalize="index"
+) * 100
+
+display(porcentajes.round(2))
+```
+
+El argumento `normalize="index"` calcula los porcentajes por fila.
+
+Esto permite comparar la composición nacional e internacional de los destinos directos y de aquellos que requieren una escala.
+
+### Visualizar la distribución
+
+Para representar los resultados mediante una gráfica de barras agrupadas, ejecutar:
+
+```python
+tabla_destinos.plot(
+    kind="bar",
+    figsize=(9, 6)
+)
+
+plt.xlabel("Número mínimo de tramos")
+plt.ylabel("Número de aeropuertos")
+plt.title(
+    "Destinos nacionales e internacionales desde Cancún"
+)
+
+plt.xticks(rotation=0)
+plt.legend(title="Tipo de destino")
+
+plt.tight_layout()
+plt.show()
+```
+
+La gráfica permite comparar la cantidad de aeropuertos nacionales e internacionales alcanzables desde Cancún según el número mínimo de tramos.
+
+Es importante distinguir entre el número de destinos y el número de recorridos posibles: un aeropuerto puede tener diferentes conexiones alternativas, pero en este análisis se contabiliza solamente una vez.
+
+---
+
+## Visualización geográfica de conexiones desde Python
+
+En el Apunte 17 utilizamos Neo4j Dashboards para representar aeropuertos y conexiones mediante mapas.
+
+Ahora exploraremos una representación sencilla desde Python utilizando las coordenadas almacenadas en Neo4j.
+
+Para este ejercicio no será necesario instalar bibliotecas geográficas adicionales.
+
+### Recuperar las coordenadas de tres aeropuertos
+
+Utilizaremos Ciudad de México (`MEX`), São Paulo (`GRU`) y Johannesburgo (`JNB`).
+
+Ejecutar:
+
+```python
+consulta = """
+MATCH (a:Aeropuerto)
+WHERE a.iata IN ['MEX', 'GRU', 'JNB']
+RETURN
+    a.iata AS Codigo,
+    a.ciudad AS Ciudad,
+    a.latitud AS Latitud,
+    a.longitud AS Longitud
+ORDER BY Codigo
+"""
+
+df_coordenadas = consultar(consulta)
+
+display(df_coordenadas)
+```
+
+Los resultados incluyen las coordenadas geográficas de cada aeropuerto.
+
+La latitud representa la posición norte-sur, mientras que la longitud indica la posición este-oeste.
+
+### Representar los aeropuertos
+
+Con Matplotlib podemos construir un diagrama de dispersión utilizando las coordenadas.
+
+```python
+plt.figure(figsize=(10, 6))
+
+plt.scatter(
+    df_coordenadas["Longitud"],
+    df_coordenadas["Latitud"],
+    s=100
+)
+
+for _, fila in df_coordenadas.iterrows():
+
+    plt.annotate(
+        fila["Codigo"],
+        (fila["Longitud"], fila["Latitud"]),
+        xytext=(5, 5),
+        textcoords="offset points"
+    )
+
+plt.xlabel("Longitud")
+plt.ylabel("Latitud")
+plt.title("Ubicación de tres aeropuertos")
+
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+La representación permite observar la posición de los aeropuertos mediante sus coordenadas.
+
+Sin embargo, todavía no se han dibujado las relaciones que existen entre ellos.
+
+### Recuperar las conexiones
+
+Para conocer las conexiones dirigidas entre estos aeropuertos, ejecutaremos:
+
+```python
+consulta = """
+MATCH (origen:Aeropuerto)
+      -[r:RUTA_AEREA]->(destino:Aeropuerto)
+WHERE origen.iata IN ['MEX', 'GRU', 'JNB']
+  AND destino.iata IN ['MEX', 'GRU', 'JNB']
+RETURN
+    origen.iata AS Origen,
+    destino.iata AS Destino,
+    origen.longitud AS LongitudOrigen,
+    origen.latitud AS LatitudOrigen,
+    destino.longitud AS LongitudDestino,
+    destino.latitud AS LatitudDestino
+"""
+
+df_conexiones = consultar(consulta)
+
+display(df_conexiones)
+```
+
+La consulta recupera únicamente las relaciones dirigidas que existen entre los tres aeropuertos seleccionados.
+
+### Dibujar las conexiones
+
+Con los resultados anteriores podemos representar las conexiones sobre el mismo sistema de coordenadas.
+
+```python
+plt.figure(figsize=(11, 6))
+
+# Dibujar aeropuertos
+plt.scatter(
+    df_coordenadas["Longitud"],
+    df_coordenadas["Latitud"],
+    s=100,
+    zorder=3
+)
+
+# Etiquetar aeropuertos
+for _, fila in df_coordenadas.iterrows():
+
+    plt.annotate(
+        fila["Codigo"],
+        (fila["Longitud"], fila["Latitud"]),
+        xytext=(5, 5),
+        textcoords="offset points"
+    )
+
+# Dibujar conexiones
+for _, fila in df_conexiones.iterrows():
+
+    plt.plot(
+        [
+            fila["LongitudOrigen"],
+            fila["LongitudDestino"]
+        ],
+        [
+            fila["LatitudOrigen"],
+            fila["LatitudDestino"]
+        ],
+        linestyle="--",
+        alpha=0.6
+    )
+
+plt.xlabel("Longitud")
+plt.ylabel("Latitud")
+plt.title("Conexiones aéreas entre MEX, GRU y JNB")
+
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+Las líneas representan conexiones registradas en el grafo.
+
+::: {.callout-warning}
+## Limitaciones de la visualización
+
+Esta representación utiliza directamente coordenadas geográficas sobre ejes cartesianos.
+
+No es un mapa con proyección cartográfica y las líneas no representan rutas geodésicas ni trayectorias reales de vuelo.
+
+Además, las conexiones son dirigidas, aunque las líneas dibujadas no indican por sí mismas su dirección.
+
+Su finalidad es mostrar cómo recuperar coordenadas y relaciones desde Neo4j para utilizarlas en una visualización construida con Python.
+:::
+
+---
+
+## Análisis del rendimiento de las consultas
+
+Además de recuperar información, Neo4j permite examinar cómo se ejecutan las consultas mediante las instrucciones `EXPLAIN` y `PROFILE`.
+
+Estas herramientas son útiles para comprender el funcionamiento de los índices y analizar el rendimiento de las búsquedas.
+
+### Examinar una consulta con EXPLAIN
+
+La instrucción `EXPLAIN` permite obtener el plan estimado de una consulta sin ejecutarla para recuperar sus resultados.
+
+En Python podemos consultar este plan mediante una sesión del controlador.
+
+Ejecutar:
+
+```python
+consulta = """
+EXPLAIN
+MATCH (a:Aeropuerto {iata: 'MEX'})
+RETURN
+    a.nombre AS Aeropuerto,
+    a.ciudad AS Ciudad
+"""
+
+with driver.session(database=BASE_DATOS) as sesion:
+
+    resultado = sesion.run(consulta)
+
+    resumen = resultado.consume()
+
+    print(resumen.plan)
+```
+
+El atributo `plan` contiene información sobre los operadores que Neo4j utilizaría para procesar la consulta.
+
+Entre los operadores que pueden aparecer se encuentran:
+
+- `NodeByLabelScan`: examina nodos de una etiqueta.
+- `Filter`: aplica condiciones de selección.
+- `NodeIndexSeek`: localiza nodos mediante un índice disponible.
+- `ProduceResults`: organiza los resultados que serán devueltos.
+
+El plan exacto depende de los índices existentes, la versión de Neo4j y las decisiones del optimizador.
+
+### Examinar una consulta con PROFILE
+
+La instrucción `PROFILE` ejecuta la consulta y proporciona información sobre las operaciones realizadas.
+
+Para examinar una búsqueda por código IATA, ejecutar:
+
+```python
+consulta = """
+PROFILE
+MATCH (a:Aeropuerto {iata: 'MEX'})
+RETURN
+    a.nombre AS Aeropuerto,
+    a.ciudad AS Ciudad
+"""
+
+with driver.session(database=BASE_DATOS) as sesion:
+
+    resultado = sesion.run(consulta)
+
+    resumen = resultado.consume()
+
+    print(resumen.profile)
+```
+
+El perfil incluye información sobre los operadores utilizados y sus estadísticas.
+
+Uno de los indicadores importantes es `DB hits`, que representa operaciones lógicas de acceso a datos realizadas durante la ejecución.
+
+No equivale necesariamente al número de lecturas físicas del disco.
+
+### Consultar los índices existentes
+
+Antes de crear un índice, es conveniente comprobar cuáles se encuentran disponibles.
+
+Ejecutar:
+
+```python
+consulta = """
+SHOW INDEXES
+YIELD name, type, state
+RETURN name, type, state
+ORDER BY name
+"""
+
+df_indices = consultar(consulta)
+
+display(df_indices)
+```
+
+La consulta muestra los índices definidos en la base de datos, sus tipos y su estado.
+
+En el Apunte 17 se creó el índice `aeropuerto_iata` para facilitar las búsquedas por código IATA.
+
+Si dicho índice ya existe, Neo4j podrá utilizarlo cuando el optimizador considere que resulta conveniente.
+
+### Interpretar los indicadores de rendimiento
+
+En el Apunte 17 se compararon los planes de ejecución de una búsqueda por IATA antes y después de crear el índice.
+
+Los resultados de referencia fueron:
+
+| Indicador | Sin índice | Con índice |
+|---|---:|---:|
+| Operador de búsqueda | `NodeByLabelScan` | `NodeIndexSeek` |
+| DB hits | 3,198 | 63 |
+| Tiempo observado | 112 ms | 144 ms |
+| Filas devueltas | 10 | 10 |
+
+La utilización del índice redujo considerablemente los accesos lógicos registrados durante esa prueba.
+
+Sin embargo, el tiempo observado no disminuyó, lo que demuestra que una única medición no permite afirmar que una consulta sea necesariamente más rápida.
+
+Factores como la caché, la carga del equipo y la planificación de la consulta pueden influir en los resultados.
+
+::: {.callout-note}
+## Reutilización del índice
+
+Si el índice `aeropuerto_iata` ya fue creado durante el Apunte 17, no es necesario eliminarlo ni reconstruirlo.
+
+Los estudiantes deberán examinar el plan real de su consulta e identificar los operadores utilizados.
+
+Los valores de `DB hits` pueden variar entre ejecuciones y versiones de Neo4j.
+:::
+
+---
+
+## Actividad individual: análisis de la red desde Python
+
+En esta actividad se aplicarán los conocimientos desarrollados durante el apunte mediante consultas Cypher ejecutadas desde Jupyter Notebook.
+
+La finalidad es recuperar información almacenada en Neo4j, organizar resultados mediante pandas, construir visualizaciones y elaborar interpretaciones breves.
+
+Se utilizará la base de aeropuertos de OpenFlights construida en el Apunte 17.
+
+No será necesario eliminar nodos, relaciones ni reconstruir la base de datos.
+
+### Parte A. Consulta y exploración de datos
+
+**1. Estructura de la base de datos**
+
+Mediante Python, recupere la cantidad total de:
+
+- Nodos `Aeropuerto`.
+- Relaciones `RUTA_AEREA`.
+- Relaciones con precio simulado.
+
+Presente los resultados en una tabla de pandas.
+
+**2. Conectividad internacional**
+
+Identifique los diez aeropuertos del mundo con más destinos directos de salida.
+
+Construya una gráfica de barras horizontales y explique brevemente cuáles presentan mayor conectividad.
+
+**3. Distribución por países**
+
+Obtenga los diez países con más aeropuertos registrados.
+
+Represente los resultados mediante una gráfica e interprete el alcance de esta información.
+
+**4. Conectividad de los aeropuertos mexicanos**
+
+Identifique los cinco aeropuertos mexicanos con más destinos directos.
+
+Incluya el código IATA, la ciudad, el nombre del aeropuerto y la cantidad de destinos.
+
+### Parte B. Recorridos y comparación
+
+**5. Destinos alcanzables desde Cancún**
+
+Utilice el aeropuerto `CUN` para identificar los destinos alcanzables mediante uno o dos tramos.
+
+Calcule cuántos destinos requieren un tramo y cuántos requieren dos.
+
+**6. Escalas entre Ciudad de México y Johannesburgo**
+
+Recupere los aeropuertos que funcionan como escala en recorridos de exactamente dos tramos entre `MEX` y `JNB`.
+
+Presente sus nombres, ciudades y países.
+
+**7. Comparación de caminos mínimos**
+
+Ejecute consultas con `shortestPath()` y `allShortestPaths()` para el par `MEX`–`JNB`.
+
+Explique la diferencia entre los resultados.
+
+**8. Restricciones geográficas**
+
+Recupere los caminos mínimos entre `MEX` y `JNB` que no pasan por Estados Unidos.
+
+Identifique los aeropuertos utilizados como escala.
+
+**9. Distancia por tramo**
+
+Identifique los caminos mínimos con escala en Alemania y compruebe si todos sus tramos tienen una distancia inferior a 9,000 km.
+
+Explique los resultados obtenidos.
+
+**10. Distancias acumuladas**
+
+Calcule la distancia geográfica acumulada de los caminos mínimos entre `MEX` y `JNB` que evitan Estados Unidos.
+
+Construya una gráfica de barras para comparar las alternativas.
+
+**11. Comparación económica y temporal**
+
+Compare los mismos caminos según sus precios simulados y tiempos estimados.
+
+Identifique si la ruta más económica coincide con la más rápida dentro del modelo utilizado.
+
+### Parte C. Análisis y visualización
+
+**12. Destinos nacionales e internacionales**
+
+Clasifique los destinos alcanzables desde `CUN` mediante uno o dos tramos como nacionales o internacionales.
+
+Evite contabilizar dos veces el mismo aeropuerto.
+
+Construya una tabla de frecuencias y una gráfica comparativa.
+
+**13. Visualización geográfica**
+
+Seleccione al menos tres aeropuertos conectados y recupere sus coordenadas desde Neo4j.
+
+Utilice Matplotlib para representar sus posiciones y las conexiones existentes.
+
+Explique las limitaciones de la representación elaborada.
+
+**14. Rendimiento de consultas**
+
+Utilice `EXPLAIN` y `PROFILE` para examinar una búsqueda por código IATA.
+
+Identifique los operadores utilizados, los indicadores de rendimiento disponibles y la función del índice.
+
+**15. Análisis propio**
+
+Seleccione un aeropuerto diferente de `MEX` y `CUN`.
+
+Desarrolle una consulta parametrizada que permita recuperar sus destinos directos y realice al menos una visualización con Python.
+
+Explique brevemente los resultados y las limitaciones de la información utilizada.
+
+### Entregable
+
+La actividad deberá entregarse mediante un archivo de Jupyter Notebook (`.ipynb`) que incluya:
+
+1. Las consultas desarrolladas en Python.
+2. Las tablas de resultados generadas mediante pandas.
+3. Las visualizaciones solicitadas.
+4. Una interpretación breve de los resultados de cada apartado.
+5. Una conclusión general sobre el uso de Python para consultar y analizar información almacenada en Neo4j.
+
+Se recomienda organizar el cuaderno mediante encabezados Markdown y ejecutar las celdas en el orden correspondiente.
+
+---
+
+## Cierre de la conexión
+
+Al finalizar los ejercicios, es importante cerrar correctamente el controlador utilizado para comunicarse con Neo4j.
+
+Para ello, ejecutar en una nueva celda:
+
+```python
+driver.close()
+
+print("Conexión con Neo4j cerrada correctamente")
+```
+
+El método `close()` libera las conexiones administradas por el controlador.
+
+Después de ejecutarlo, será necesario crear nuevamente un controlador si se desea continuar realizando consultas desde Python.
+
+---
+
+## Conclusiones
+
+En este apunte aprendimos a conectar Python con Neo4j mediante el controlador oficial y a ejecutar consultas Cypher desde Jupyter Notebook.
+
+A partir de la base de aeropuertos de OpenFlights, recuperamos información sobre nodos y relaciones, analizamos la conectividad de la red e identificamos recorridos con escalas y caminos mínimos.
+
+También utilizamos pandas para organizar los resultados en tablas y Matplotlib para construir gráficas que permiten comparar la cantidad de destinos, las distancias acumuladas y los valores simulados de tiempo y precio.
+
+La integración de Neo4j con Python amplía las posibilidades de análisis, ya que permite combinar consultas sobre estructuras de grafos con herramientas de procesamiento, automatización y visualización de datos.
+
+Finalmente, el uso de consultas parametrizadas y funciones reutilizables facilita el desarrollo de procedimientos de análisis más organizados y reproducibles.
+
+---
+
+## Referencias y documentación
+
+- [Neo4j. Python Driver Manual](https://neo4j.com/docs/python-manual/current/). Documentación oficial para conectar Python con Neo4j y ejecutar consultas.
+
+- [Neo4j. Cypher Manual](https://neo4j.com/docs/cypher-manual/current/). Referencia oficial del lenguaje Cypher.
+
+- [Neo4j. Query tuning](https://neo4j.com/docs/cypher-manual/current/planning-and-tuning/). Documentación sobre planificación, perfiles de ejecución e índices.
+
+- [pandas. User Guide](https://pandas.pydata.org/docs/user_guide/index.html). Documentación para la manipulación y análisis de datos.
+
+- [Matplotlib. Documentation](https://matplotlib.org/stable/). Documentación para la construcción de visualizaciones en Python.
+
+- [OpenFlights. Airport, airline and route data](https://openflights.org/data.php). Fuente de los conjuntos históricos de aeropuertos y rutas utilizados en la práctica.

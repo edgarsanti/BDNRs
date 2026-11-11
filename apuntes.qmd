@@ -213,22 +213,22 @@ Consultas avanzadas con Cypher, relaciones de longitud variable, rutas y recorri
 
 
 
-
-
-
 ---
 
 ## Conexión y consultas de Neo4j desde Python
 
-Conexión de Python con Neo4j, ejecución de consultas Cypher y recuperación de resultados mediante programas.
+Conexión de Python con Neo4j, ejecución de consultas Cypher desde Jupyter Notebook, análisis de grafos con pandas y visualización de resultados mediante Matplotlib.
 
-<a class="btn btn-secondary disabled"
-   href="#"
-   aria-disabled="true"
-   tabindex="-1"
-   style="pointer-events: none; opacity: 0.65;">
-   Próximamente
+<a class="btn btn-primary"
+   href="apuntes/18_acceso_neo4j_python.html">
+   Abrir apunte
 </a>
+
+---
+
+
+
+
 
 ---
 
