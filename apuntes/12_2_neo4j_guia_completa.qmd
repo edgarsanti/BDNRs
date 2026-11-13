@@ -1,8 +1,9 @@
 
 ---
-title: "Guía docente: conexión y consultas de Neo4j desde Python"
-subtitle: "Bases de Datos No Relacionales · Apunte 18"
+title: "Guía docente: Creación de documentos con Markdown y Quarto desde RStudio"
+subtitle: "Bases de Datos No Relacionales"
 lang: es
+engine: markdown
 format:
   html:
     toc: true
@@ -10,1238 +11,2020 @@ format:
     number-sections: true
     code-copy: true
     code-overflow: wrap
+---
+
+## Presentación
+
+Esta guía complementa el material **Creación de documentos con Markdown y Quarto desde RStudio** y está dirigida al docente responsable de explicar su funcionamiento.
+
+Su propósito es proporcionar una explicación detallada de las instrucciones utilizadas durante la construcción de `mi_primer_documento.qmd`.
+
+El material conserva el orden del apunte del estudiante. En cada apartado se presentan:
+
+- La finalidad del procedimiento.
+- La explicación de cada instrucción.
+- El bloque de código correspondiente.
+- El resultado esperado al renderizar.
+- Las consideraciones técnicas que pueden surgir durante la clase.
+
+Las explicaciones se presentan **antes de los bloques de código**, para mantener los ejemplos limpios y facilitar que puedan copiarse directamente.
+
+El documento que construirán los estudiantes se titula **Mi primer documento con Markdown y Quarto**. Su contenido se relaciona con las características y aplicaciones de estas herramientas. Al final se incorpora un conjunto de datos tridimensionales de un mamut para generar tablas y una gráfica.
+
+---
+
+## Preparación de los archivos
+
+### Organización de la carpeta
+
+El estudiante debe descargar el archivo `Mi_primer_documento_Quarto.zip`, descomprimirlo y colocar la carpeta resultante en el Escritorio.
+
+La carpeta contendrá un archivo CSV y una subcarpeta de imágenes.
+
+**Explicación de la estructura:**
+
+- `Mi_primer_documento_Quarto/` es la carpeta principal del trabajo.
+- `mamut_datos.csv` contiene las coordenadas tridimensionales que se utilizarán al final.
+- `imagenes/` almacena los recursos gráficos.
+- `mamut_referencia.png` es la imagen utilizada para explicar cómo insertar figuras.
+
+```text
+Mi_primer_documento_Quarto/
+├── mamut_datos.csv
+└── imagenes/
+    └── mamut_referencia.png
+```
+
+### Creación del proyecto en RStudio
+
+Para trabajar con esta carpeta, se debe seleccionar:
+
+**File → New Project → Existing Directory**
+
+La opción **Existing Directory** permite crear un proyecto utilizando una carpeta que ya existe y que contiene los archivos necesarios.
+
+Al seleccionar **Create Project**, RStudio genera un archivo con extensión `.Rproj`.
+
+Este archivo almacena la configuración del proyecto y permite volver a abrirlo posteriormente.
+
+La principal ventaja es que los estudiantes podrán trabajar con rutas relativas.
+
+### Explicación de una ruta relativa
+
+La instrucción siguiente contiene dos elementos:
+
+- `read.csv()` es una función de R que permite leer archivos de texto delimitados por comas.
+- `"mamut_datos.csv"` indica el nombre del archivo que se desea leer.
+
+Como el archivo se encuentra en la carpeta principal del proyecto y del documento Quarto, no es necesario escribir la ruta completa del sistema operativo.
+
+```r
+read.csv("mamut_datos.csv")
+```
+
+**Resultado esperado:** R lee el archivo CSV y devuelve su contenido.
+
+Si el archivo no existe en la ubicación indicada, aparecerá un error relacionado con la conexión o apertura del archivo.
+
+---
+
+## Creación del documento Quarto
+
+### Configuración desde RStudio
+
+Para crear un documento nuevo, se utiliza:
+
+**File → New File → Quarto Document**
+
+Durante la creación se seleccionan las siguientes opciones:
+
+| Opción | Explicación |
+|:--|:--|
+| Document | Indica que se creará un documento Quarto |
+| Title | Define el título inicial |
+| Author | Permite registrar al autor |
+| PDF | Establece el formato de salida |
+| Knitr | Motor que ejecutará los bloques de R |
+| Source | Modalidad para escribir directamente Markdown |
+
+Es importante distinguir entre el documento `.qmd` y el archivo PDF.
+
+El archivo `.qmd` contiene el texto, las instrucciones y el código. El PDF es el resultado de procesar ese archivo.
+
+---
+
+## Encabezado YAML
+
+El encabezado YAML se encuentra al principio de un documento Quarto.
+
+Su finalidad es establecer la configuración general del documento antes de comenzar a escribir su contenido.
+
+### Explicación de cada instrucción
+
+**Línea de apertura:**
+
+- `---` indica el comienzo del encabezado YAML.
+
+**Información general:**
+
+- `title:` define el título que aparecerá en el documento.
+- `subtitle:` agrega un subtítulo debajo del título principal.
+- `author:` establece el nombre del autor.
+- `date: today` indica que debe utilizarse automáticamente la fecha actual.
+- `lang: es` establece el español como idioma del documento.
+
+**Formato de salida:**
+
+- `format:` abre el conjunto de opciones relacionadas con la salida.
+- `pdf:` indica que el formato seleccionado será PDF.
+- `toc: true` activa la tabla de contenido.
+- `toc-depth: 3` establece que el índice incluirá hasta tres niveles de encabezados.
+- `number-sections: true` permite numerar las secciones automáticamente.
+- `fontsize: 11pt` establece un tamaño base de letra de 11 puntos.
+- `papersize: letter` configura el tamaño de papel carta.
+- `colorlinks: true` permite representar los enlaces con color.
+
+**Márgenes:**
+
+- `geometry:` permite establecer características de la página.
+- `- margin=2.5cm` configura márgenes de 2.5 centímetros.
+
+**Ejecución:**
+
+- `execute:` abre las opciones generales de ejecución.
+- `warning: false` evita incorporar advertencias de R al documento.
+- `message: false` evita incorporar mensajes emitidos durante la ejecución.
+
+**Línea de cierre:**
+
+- El segundo `---` indica dónde termina el encabezado YAML.
+
+### Código del encabezado
+
+```yaml
+---
+title: "Mi primer documento con Markdown y Quarto"
+subtitle: "Elaboración de documentos reproducibles"
+author: "Nombre del estudiante"
+date: today
+lang: es
+format:
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    fontsize: 11pt
+    papersize: letter
+    colorlinks: true
+    geometry:
+      - margin=2.5cm
 execute:
-  eval: false
+  warning: false
+  message: false
 ---
+```
 
-## Propósito de la guía
+### Aspectos que deben explicarse
 
-Esta versión docente acompaña al Apunte 18 y utiliza la misma base histórica de aeropuertos de OpenFlights construida en el Apunte 17. Está diseñada para explicar **cada instrucción de Python**, además de las cláusulas Cypher incluidas dentro de las cadenas de texto que Python envía a Neo4j.
+La indentación es fundamental para interpretar YAML. Por ejemplo, `toc: true` se encuentra dentro de las opciones de `pdf`, mientras que `warning: false` pertenece al apartado `execute`.
 
-No se incluyen bloques independientes de Cypher: todos los ejemplos son celdas para **Jupyter Notebook**.
+El documento debe tener un único encabezado YAML al comienzo.
 
-En cada ejercicio se presenta el objetivo, una celda con comentarios didácticos y una explicación para la clase. Los comentarios que comienzan con `#` son explicaciones y no alteran la ejecución. Las líneas de Cypher dentro de las comillas triples forman parte de la consulta enviada al servidor.
-
-::: {.callout-important}
-## Antes de iniciar
-
-- Iniciar en Neo4j Desktop la instancia que contiene OpenFlights.
-- Confirmar la URI, el usuario y el nombre de la base de datos.
-- Ejecutar las celdas **en orden**. Después de reiniciar el kernel es necesario volver a ejecutar las importaciones, la conexión y la función `consultar()`.
-- No pegar contraseñas en el código ni compartir capturas que las revelen.
-- Los conteos y las rutas indicados como referencia dependen de la importación histórica del Apunte 17.
-:::
+Una configuración incorrecta puede impedir que Quarto renderice el archivo.
 
 ---
 
-## 1. Preparación del entorno
+## Renderizado del documento
 
-### 1.1. Instalar las bibliotecas
+Renderizar significa procesar el archivo `.qmd` para generar el formato de salida solicitado.
 
-En una celda de Jupyter Notebook:
+En RStudio puede utilizarse el botón **Render**.
 
-```python
-# %pip instala paquetes en el entorno de Python asociado al kernel actual.
-# neo4j: conexión y ejecución de Cypher.
-# pandas: organización de resultados en tablas.
-# matplotlib: elaboración de gráficas.
-%pip install neo4j pandas matplotlib
+También se puede ejecutar Quarto desde la Terminal.
+
+### Explicación del comando
+
+- `quarto` llama a la herramienta de publicación.
+- `render` indica que se desea procesar un documento.
+- `mi_primer_documento.qmd` identifica el archivo que se procesará.
+- `--to pdf` establece explícitamente que se generará un archivo PDF.
+
+```bash
+quarto render mi_primer_documento.qmd --to pdf
 ```
 
-**Explicación docente:** `%pip` es una instrucción especial de Jupyter, no una sentencia ordinaria de Python. Solo debe ejecutarse si faltan paquetes. Si se instalan durante la sesión y no se reconocen, puede ser necesario reiniciar el kernel.
+### Instalación de TinyTeX
 
-### 1.2. Importar los módulos
+Para generar un PDF, Quarto necesita una distribución de LaTeX.
 
-```python
-# Importa la clase con la que construiremos el controlador de Neo4j.
-from neo4j import GraphDatabase
+El siguiente comando se utiliza únicamente cuando no se dispone de una instalación compatible.
 
-# Importa pandas con el alias pd, utilizado en los ejemplos.
-import pandas as pd
+**Explicación de las instrucciones:**
 
-# Importa las funciones de gráficas con el alias plt.
-import matplotlib.pyplot as plt
+- `quarto` ejecuta la herramienta Quarto.
+- `install` indica que se instalará un componente.
+- `tinytex` identifica la distribución de LaTeX que se instalará.
 
-# Imprime un mensaje para comprobar que no hubo errores de importación.
-print("Bibliotecas disponibles correctamente")
+```bash
+quarto install tinytex
 ```
 
-**Explicación docente:** `from ... import ...` incorpora un objeto específico de una biblioteca. `import ... as ...` crea un alias corto. `print()` escribe una salida en la celda. Haber importado una biblioteca no significa que la conexión al servidor esté abierta.
+Este comando debe ejecutarse desde la **Terminal**, no desde la Consola de R.
+
+La instalación solo se realiza una vez.
 
 ---
 
-## 2. Conexión a Neo4j
+## Títulos y subtítulos en Markdown
 
-### 2.1. Definir los datos y verificar la conexión
+Markdown utiliza el símbolo `#` para establecer encabezados.
 
-```python
-# Vuelve a importar las herramientas de conexión y solicitud segura de contraseña.
-from neo4j import GraphDatabase
-from getpass import getpass
+El número de símbolos determina su nivel jerárquico.
 
-# Define la dirección local que muestra la instancia de Neo4j Desktop.
-URI = "neo4j://127.0.0.1:7687"
+### Explicación de cada línea
 
-# Define el usuario de acceso a Neo4j.
-USUARIO = "neo4j"
+- `# Título principal` crea un encabezado de primer nivel.
+- `## Subtítulo` crea un encabezado de segundo nivel.
+- `### Encabezado de tercer nivel` crea un encabezado de tercer nivel.
+- `#### Encabezado de cuarto nivel` crea un encabezado de cuarto nivel.
 
-# Guarda el nombre de la base de datos que se consultará.
-BASE_DATOS = "neo4j"
+Las líneas vacías separan los encabezados y facilitan la lectura del código fuente.
 
-# Solicita la contraseña sin mostrar sus caracteres al escribirla.
-CONTRASENA = getpass("Contraseña de Neo4j: ")
+```markdown
+# Título principal
 
-# Construye el controlador; la contraseña no se escribe en el cuaderno.
-driver = GraphDatabase.driver(
-    URI,                        # Dirección del servidor.
-    auth=(USUARIO, CONTRASENA)  # Credenciales de autenticación.
-)
+## Subtítulo
 
-# Comprueba que realmente sea posible conectarse y autenticarse.
-try:
-    driver.verify_connectivity()
-    print("Conexión exitosa con Neo4j")
+### Encabezado de tercer nivel
 
-# Captura posibles errores de red, credenciales o configuración.
-except Exception as e:
-    driver.close()                # Libera el controlador fallido.
-    print("Error de conexión:", e)
-    raise                         # Detiene la ejecución para no seguir sin conexión.
+#### Encabezado de cuarto nivel
 ```
 
-**Explicación docente:** una variable guarda un valor para reutilizarlo. `GraphDatabase.driver()` crea un controlador de conexión; `verify_connectivity()` verifica la conectividad y autenticación. `try` ejecuta código susceptible de fallar y `except` recoge la excepción. `raise` vuelve a comunicar el error: resulta conveniente porque las celdas siguientes dependen de la conexión.
+### Ejemplo aplicado al documento
 
-**Posible error:** `NameError: name 'BASE_DATOS' is not defined` indica que la celda que define esa variable no se ejecutó o que se reinició el kernel. Debe ejecutarse nuevamente la celda de conexión.
+A continuación se presenta el texto que utilizarán los estudiantes.
 
-### 2.2. Revisar el servidor
+La intención es demostrar que los encabezados no son únicamente elementos decorativos: también organizan las ideas y establecen una jerarquía temática.
 
-```python
-# Obtiene metadatos de la instancia a la que ya está conectado driver.
-informacion = driver.get_server_info()
+**Explicación del contenido:**
 
-# Muestra la dirección del servidor.
-print("Servidor:", informacion.address)
+- `# Introducción` inicia la primera sección principal del documento.
+- Los párrafos siguientes presentan la función de Markdown y Quarto.
+- `**Markdown**` y `**Quarto**` utilizan negritas para destacar los nombres de las herramientas.
+- `## ¿Qué es Markdown?` abre una subsección dentro de la introducción.
+- `### Principales características` incorpora un tercer nivel.
+- `#### Sintaxis sencilla` permite mostrar un cuarto nivel.
+- Los símbolos `#`, `*` y `-`, escritos entre acentos graves, se presentan como código literal dentro del párrafo.
+- `## ¿Qué es Quarto?` regresa al segundo nivel.
+- `### Documentos reproducibles` desarrolla una característica específica de Quarto.
+- `.qmd`, escrito entre acentos graves, aparece destacado como nombre de archivo.
 
-# Muestra la identificación y versión del servidor Neo4j.
-print("Versión:", informacion.agent)
+```markdown
+# Introducción
+
+La elaboración de documentos académicos y técnicos requiere
+herramientas que permitan organizar información, incorporar
+resultados y mantener una presentación clara.
+
+**Markdown** es un lenguaje de marcado ligero que utiliza
+una sintaxis sencilla para estructurar documentos mediante
+títulos, subtítulos, listas, tablas e imágenes.
+
+Por su parte, **Quarto** permite combinar Markdown con código
+ejecutable y generar documentos en diferentes formatos,
+como HTML, PDF y Word.
+
+## ¿Qué es Markdown?
+
+Markdown utiliza símbolos para establecer la estructura
+y el formato de un documento sin depender de herramientas
+visuales de edición.
+
+### Principales características
+
+Entre sus características destacan la facilidad de escritura,
+la organización del contenido y la compatibilidad con
+diferentes herramientas de publicación.
+
+#### Sintaxis sencilla
+
+Para crear encabezados, listas y otros elementos,
+Markdown utiliza símbolos como `#`, `*` y `-`.
+
+## ¿Qué es Quarto?
+
+Quarto es un sistema de publicación que permite elaborar
+documentos reproducibles a partir de archivos `.qmd`.
+
+### Documentos reproducibles
+
+Un documento reproducible integra las explicaciones,
+el código y los resultados dentro de un mismo archivo.
+
+Esto permite actualizar automáticamente las tablas,
+gráficas y resultados cuando se modifican los datos.
 ```
 
-**Explicación docente:** el operador `.` accede a métodos (`get_server_info()`) y atributos (`address`, `agent`) de objetos. Esta celda no consulta nodos ni relaciones; solo recupera información del servidor.
+### Resultado esperado
+
+Al renderizar, Quarto aplicará diferentes tamaños y estilos a los encabezados.
+
+Con `number-sections: true`, aparecerá una jerarquía semejante a:
+
+```text
+1 Introducción
+
+  1.1 ¿Qué es Markdown?
+
+    1.1.1 Principales características
+
+      1.1.1.1 Sintaxis sencilla
+
+  1.2 ¿Qué es Quarto?
+
+    1.2.1 Documentos reproducibles
+```
+
+La tabla de contenido mostrará los encabezados correspondientes al nivel definido por `toc-depth`.
 
 ---
 
-## 3. Primeras consultas y recuperación de resultados
+## Formato de texto
 
-### 3.1. Contar aeropuertos
+Markdown permite aplicar diferentes estilos de texto utilizando símbolos.
 
-```python
-# Guarda la consulta Cypher como texto multilínea.
-consulta = """
-MATCH (a:Aeropuerto)
-RETURN count(a) AS TotalAeropuertos
-"""
+### Negritas
 
-# Envía Cypher a Neo4j y recupera registros, resumen y nombres de columnas.
-registros, resumen, claves = driver.execute_query(
-    consulta,               # Texto de la consulta.
-    database_=BASE_DATOS   # Base de datos sobre la cual se ejecuta.
-)
+**Explicación de la instrucción:**
 
-# Accede al primer registro (índice 0) y a la columna TotalAeropuertos.
-print("Total de aeropuertos:", registros[0]["TotalAeropuertos"])
+- Los dos asteriscos iniciales `**` indican dónde comienza la negrita.
+- El texto ubicado entre ambos pares de asteriscos recibirá el formato.
+- Los dos asteriscos finales indican dónde termina la negrita.
+
+```markdown
+**Este texto aparece en negritas.**
 ```
 
-**Explicación docente de Cypher:** `MATCH (a:Aeropuerto)` encuentra nodos de etiqueta `Aeropuerto`. `count(a)` los cuenta; `AS TotalAeropuertos` nombra la columna. Las comillas triples de Python permiten incluir la consulta en varias líneas. La asignación múltiple distribuye los tres valores devueltos por `execute_query()`.
+### Cursivas
 
-**Resultado de referencia:** 7,698 aeropuertos. No representa necesariamente el número actual de aeropuertos del mundo.
+**Explicación de la instrucción:**
 
-### 3.2. Recuperar propiedades de diez aeropuertos
+- El asterisco inicial indica el comienzo de la cursiva.
+- El texto intermedio recibe el formato.
+- El asterisco final cierra la cursiva.
 
-```python
-# Selecciona columnas de aeropuertos, con orden y límite de resultados.
-consulta = """
-MATCH (a:Aeropuerto)
-RETURN a.iata AS Codigo,
-       a.nombre AS Aeropuerto,
-       a.ciudad AS Ciudad,
-       a.pais AS Pais
-ORDER BY Pais, Ciudad
-LIMIT 10
-"""
-
-# Ejecuta la consulta y deja los registros disponibles en Python.
-registros, resumen, claves = driver.execute_query(
-    consulta,
-    database_=BASE_DATOS
-)
-
-# Recorre cada registro recibido del servidor.
-for registro in registros:
-    # Convierte el registro en un diccionario y lo imprime.
-    print(registro.data())
+```markdown
+*Este texto aparece en cursivas.*
 ```
 
-**Explicación docente:** `RETURN` selecciona propiedades y crea encabezados; `ORDER BY` ordena y `LIMIT 10` restringe filas. `for` itera, es decir, procesa un elemento por vuelta. `.data()` devuelve los valores del registro en una estructura similar a un diccionario de Python.
+### Negritas y cursivas
 
-### 3.3. Convertir los registros en una tabla
+**Explicación de la instrucción:**
 
-```python
-# Para cada registro obtiene un diccionario y construye una lista.
-filas = [registro.data() for registro in registros]
+- Tres asteriscos al principio combinan ambos formatos.
+- El texto central aparecerá en negritas y cursivas.
+- Tres asteriscos al final cierran el formato combinado.
 
-# Convierte la lista de diccionarios a una tabla pandas.
-df_aeropuertos = pd.DataFrame(filas)
-
-# Muestra la tabla con el formato enriquecido de Jupyter Notebook.
-display(df_aeropuertos)
+```markdown
+***Este texto aparece en negritas y cursivas.***
 ```
 
-**Explicación docente:** la expresión entre corchetes es una *comprensión de listas*. `pd.DataFrame()` convierte los datos en filas y columnas. `display()` presenta una tabla en Jupyter; a diferencia de `print()`, ofrece una visualización tabular mejor organizada.
+### Texto tachado
 
-### 3.4. Crear una función reutilizable
+**Explicación de la instrucción:**
 
-```python
-# Define una función que recibirá el texto Cypher y parámetros opcionales.
-def consultar(cypher, parametros=None):
+- Las dos virgulillas iniciales `~~` indican el comienzo del tachado.
+- El texto central aparecerá atravesado por una línea.
+- Las dos virgulillas finales cierran el formato.
 
-    # Ejecuta la consulta y distribuye sus tres componentes de retorno.
-    registros, resumen, claves = driver.execute_query(
-        cypher,                       # Consulta recibida por la función.
-        parameters_=parametros or {}, # Si no hay parámetros, usa diccionario vacío.
-        database_=BASE_DATOS          # Selecciona nuestra base de aeropuertos.
-    )
-
-    # Devuelve una tabla; las claves conservan las columnas aun sin filas.
-    return pd.DataFrame(
-        [registro.data() for registro in registros],
-        columns=claves
-    )
-
-# Prepara una consulta breve para probar la función.
-consulta = """
-MATCH (a:Aeropuerto)
-RETURN a.iata AS Codigo, a.ciudad AS Ciudad, a.pais AS Pais
-LIMIT 5
-"""
-
-# Llama a la función y guarda el DataFrame devuelto.
-df = consultar(consulta)
-
-# Muestra la tabla.
-display(df)
+```markdown
+~~Este texto aparece tachado.~~
 ```
 
-**Explicación docente:** `def` declara una función; `parametros=None` indica que el segundo argumento es opcional. `or {}` sustituye `None` por un diccionario vacío. `return` entrega el resultado a la celda que llamó la función. Esta será la herramienta principal de los ejercicios siguientes.
+### Código dentro de un párrafo
+
+Los acentos graves permiten destacar instrucciones y nombres de archivos sin ejecutarlos.
+
+**Explicación de las instrucciones:**
+
+- El texto del párrafo se escribe normalmente.
+- Los acentos graves alrededor de `mi_primer_documento.qmd` identifican un nombre de archivo.
+- El formato de código permite distinguir ese nombre del resto del párrafo.
+
+```markdown
+El archivo `mi_primer_documento.qmd` contiene
+el código y el texto de nuestro documento.
+```
+
+### Ejemplo aplicado al documento
+
+**Explicación del bloque:**
+
+- `# Formato de texto en Markdown` crea una nueva sección principal.
+- El primer párrafo presenta el tema.
+- `**Markdown**` destaca el nombre del lenguaje.
+- `*cursivas*` muestra un ejemplo de cursiva.
+- `**negritas**` muestra un ejemplo de negrita.
+- `***ambos formatos***` combina cursivas y negritas.
+- `mi_primer_documento.qmd` presenta un nombre de archivo.
+- `read.csv()` presenta una función de R como código.
+- El último párrafo explica una ventaja de utilizar documentos basados en texto.
+
+```markdown
+# Formato de texto en Markdown
+
+El lenguaje **Markdown** permite aplicar diferentes
+formatos mediante una sintaxis sencilla.
+
+Por ejemplo, podemos utilizar *cursivas* para destacar
+términos, **negritas** para enfatizar conceptos importantes
+y ***ambos formatos*** cuando necesitamos un mayor énfasis.
+
+También podemos identificar archivos y funciones mediante
+formato de código, como `mi_primer_documento.qmd`
+o `read.csv()`.
+
+Una de sus principales ventajas es que el documento
+conserva su contenido en un archivo de texto,
+lo que facilita su edición y actualización.
+```
+
+### Separación de párrafos
+
+Markdown interpreta una línea vacía como separación entre párrafos.
+
+**Explicación del ejemplo:**
+
+- Las primeras dos líneas forman un párrafo.
+- La línea vacía indica que el párrafo terminó.
+- Las últimas dos líneas forman un segundo párrafo.
+
+```markdown
+Markdown permite organizar el contenido mediante
+una sintaxis sencilla.
+
+Quarto permite transformar ese contenido en diferentes
+formatos de publicación.
+```
+
+Aunque una oración ocupe varias líneas dentro del archivo fuente, Markdown puede mostrarla como un solo párrafo.
 
 ---
 
-## 4. Análisis descriptivo de la red
+## Listas y enumeraciones
 
-### 4.1. Contar nodos, relaciones y rutas con precio
+### Listas con viñetas
 
-```python
-# Cuenta nodos Aeropuerto y, después, relaciones RUTA_AEREA.
-consulta = """
-MATCH (a:Aeropuerto)
-WITH count(a) AS TotalAeropuertos
-MATCH ()-[r:RUTA_AEREA]->()
-RETURN TotalAeropuertos,
-       count(r) AS TotalRutas,
-       count(r.precio_boleto_simulado_mxn) AS RutasConPrecio
-"""
+Las listas con viñetas permiten organizar elementos sin establecer un orden obligatorio.
 
-# Recupera los tres indicadores en una tabla.
-df_resumen = consultar(consulta)
+**Explicación de las líneas:**
 
-# Presenta las cantidades.
-display(df_resumen)
+- La primera oración introduce la lista.
+- La línea vacía separa la introducción de los elementos.
+- `- HTML` crea la primera viñeta.
+- `- PDF` crea la segunda viñeta.
+- `- Word` crea la tercera viñeta.
+
+```markdown
+Los principales formatos de salida de Quarto son:
+
+- HTML
+- PDF
+- Word
 ```
 
-**Explicación docente de Cypher:** `WITH` conserva el conteo de nodos para la segunda parte de la consulta. `MATCH ()-[r:RUTA_AEREA]->()` busca relaciones dirigidas. `count(r.propiedad)` contabiliza relaciones donde esa propiedad **no es nula**. Una ruta en el grafo no representa la frecuencia de vuelos.
+### Listas numeradas
 
-### 4.2. Diez aeropuertos con más destinos directos
+Las listas numeradas permiten representar procedimientos o secuencias.
 
-```python
-# Agrupa las relaciones por aeropuerto de origen y cuenta destinos distintos.
-consulta = """
-MATCH (a:Aeropuerto)-[:RUTA_AEREA]->(destino:Aeropuerto)
-RETURN a.iata AS Codigo,
-       a.nombre AS Aeropuerto,
-       a.pais AS Pais,
-       count(DISTINCT destino) AS DestinosDirectos
-ORDER BY DestinosDirectos DESC
-LIMIT 10
-"""
+**Explicación de las líneas:**
 
-# Ejecuta la consulta y guarda los diez aeropuertos.
-df_top = consultar(consulta)
+- La oración inicial presenta el procedimiento.
+- `1.` indica el primer paso.
+- `2.` indica el segundo paso.
+- `3.` indica el tercer paso.
+- `4.` indica el cuarto paso.
+- `5.` indica el quinto paso.
 
-# Muestra las filas recuperadas.
-display(df_top)
+```markdown
+El procedimiento para crear un documento es:
+
+1. Abrir RStudio.
+2. Crear un documento Quarto.
+3. Escribir el contenido.
+4. Guardar los cambios.
+5. Renderizar el documento.
 ```
 
-**Explicación docente:** `DISTINCT` evita contar más de una vez el mismo destino. `DESC` establece orden descendente. En la importación del Apunte 17 se conserva una relación por par dirigido de aeropuertos.
+### Listas anidadas
 
-### 4.3. Gráfica de conectividad
+Las listas anidadas permiten organizar elementos en categorías y subcategorías.
 
-```python
-# Invierte el orden para que la barra mayor aparezca arriba del gráfico.
-datos = df_top.sort_values("DestinosDirectos", ascending=True)
+**Explicación de las instrucciones:**
 
-# Define el tamaño de la figura en pulgadas.
-plt.figure(figsize=(10, 6))
+- `- Formatos de salida` crea una categoría principal.
+- Las líneas con espacios iniciales pertenecen a esa categoría.
+- `HTML`, `PDF` y `Word` son elementos subordinados.
+- `- Lenguajes compatibles` crea una segunda categoría principal.
+- `R`, `Python` y `Julia` son elementos subordinados a esa categoría.
 
-# Dibuja barras horizontales: categorías IATA y cantidades de destinos.
-plt.barh(datos["Codigo"], datos["DestinosDirectos"])
+```markdown
+Características de Quarto:
 
-# Añade los textos de los ejes y el título.
-plt.xlabel("Número de destinos directos")
-plt.ylabel("Código IATA")
-plt.title("Aeropuertos con mayor conectividad de salida")
+- Formatos de salida
+  - HTML
+  - PDF
+  - Word
 
-# Ajusta los márgenes para evitar recortes.
-plt.tight_layout()
-
-# Presenta la gráfica en la celda.
-plt.show()
+- Lenguajes compatibles
+  - R
+  - Python
+  - Julia
 ```
 
-**Explicación docente:** `.sort_values()` ordena una tabla; `ascending=True` coloca los valores pequeños primero. `plt.barh()` representa barras horizontales. `figsize` establece dimensiones, `xlabel` y `ylabel` nombran ejes, y `show()` visualiza la figura.
+### Ejemplo aplicado al documento
 
-**Referencia del Apunte 17:** FRA 239, CDG 237 y AMS 232 destinos directos.
+**Explicación del contenido:**
 
-### 4.4. Diez países con más aeropuertos
+- `# Características de Markdown y Quarto` crea una sección principal.
+- `## Características de Markdown` abre el primer apartado.
+- La lista con guiones enumera las funciones principales de Markdown.
+- `## Características de Quarto` introduce el segundo apartado.
+- La lista numerada representa las principales capacidades de Quarto.
+- `## Aplicaciones` introduce un tercer apartado.
+- Las categorías en negritas sirven para agrupar las aplicaciones.
+- Las listas anidadas muestran ejemplos específicos de cada categoría.
 
-```python
-# Cuenta los nodos Aeropuerto agrupados por país.
-consulta = """
-MATCH (a:Aeropuerto)
-RETURN a.pais AS Pais,
-       count(a) AS TotalAeropuertos
-ORDER BY TotalAeropuertos DESC
-LIMIT 10
-"""
+```markdown
+# Características de Markdown y Quarto
 
-# Ejecuta y presenta el resultado.
-df_paises = consultar(consulta)
-display(df_paises)
+## Características de Markdown
 
-# Ordena los países para una gráfica horizontal.
-datos = df_paises.sort_values("TotalAeropuertos", ascending=True)
+Markdown proporciona diferentes herramientas para
+organizar la información:
 
-# Crea la figura y las barras.
-plt.figure(figsize=(10, 6))
-plt.barh(datos["Pais"], datos["TotalAeropuertos"])
+- Escritura sencilla mediante texto plano.
+- Creación de títulos y subtítulos.
+- Incorporación de listas y tablas.
+- Inserción de imágenes y enlaces.
+- Compatibilidad con diferentes plataformas.
 
-# Incluye etiquetas y título.
-plt.xlabel("Número de aeropuertos")
-plt.ylabel("País")
-plt.title("Países con más aeropuertos registrados")
+## Características de Quarto
 
-# Evita recortes y muestra la figura.
-plt.tight_layout()
-plt.show()
+Quarto amplía las posibilidades de Markdown mediante:
+
+1. Integración de código ejecutable.
+2. Generación automática de resultados.
+3. Creación de tablas y gráficas.
+4. Incorporación de ecuaciones matemáticas.
+5. Exportación a diferentes formatos.
+
+## Aplicaciones
+
+Estas herramientas pueden utilizarse en:
+
+- **Educación**
+  - Apuntes de clase.
+  - Prácticas de laboratorio.
+  - Materiales didácticos.
+
+- **Investigación**
+  - Informes técnicos.
+  - Artículos académicos.
+  - Reportes estadísticos.
+
+- **Desarrollo de software**
+  - Documentación de proyectos.
+  - Manuales técnicos.
+  - Presentación de resultados.
 ```
-
-**Explicación docente:** la agrupación la realiza Cypher al combinar `count(a)` con `a.pais`. Python se encarga de convertir el resultado en tabla y generar la gráfica. El conteo incluye nodos que podrían carecer de rutas.
-
-### 4.5. Aeropuertos mexicanos mejor conectados
-
-```python
-# Filtra aeropuertos mexicanos y conserva también los que no tienen salidas.
-consulta = """
-MATCH (a:Aeropuerto {pais: 'Mexico'})
-OPTIONAL MATCH (a)-[:RUTA_AEREA]->(destino:Aeropuerto)
-RETURN a.iata AS Codigo,
-       a.ciudad AS Ciudad,
-       a.nombre AS Aeropuerto,
-       count(DISTINCT destino) AS DestinosDirectos
-ORDER BY DestinosDirectos DESC
-LIMIT 10
-"""
-
-# Guarda y muestra los resultados.
-df_mexico = consultar(consulta)
-display(df_mexico)
-
-# Ordena y representa los diez aeropuertos.
-datos = df_mexico.sort_values("DestinosDirectos", ascending=True)
-plt.figure(figsize=(10, 6))
-plt.barh(datos["Codigo"], datos["DestinosDirectos"])
-plt.xlabel("Número de destinos directos")
-plt.ylabel("Código IATA")
-plt.title("Conectividad de los aeropuertos mexicanos")
-plt.tight_layout()
-plt.show()
-```
-
-**Explicación docente:** `OPTIONAL MATCH` permite mantener los nodos aun cuando no exista una relación que cumpla el patrón. En ese caso, el conteo de destinos será cero. Como referencia del Apunte 17: MEX 93, CUN 78, GDL 41.
 
 ---
 
-## 5. Parámetros de búsqueda
+## Citas, enlaces y líneas separadoras
 
-### 5.1. Cambiar el aeropuerto sin reescribir Cypher
+### Citas
 
-```python
-# La variable $codigo es un parámetro de Cypher, no una variable Python.
-consulta = """
-MATCH (a:Aeropuerto {iata: $codigo})
-RETURN a.iata AS Codigo,
-       a.nombre AS Aeropuerto,
-       a.ciudad AS Ciudad,
-       a.pais AS Pais
-"""
+Las citas destacadas se escriben utilizando el símbolo `>`.
 
-# Pasa CUN como valor del parámetro codigo.
-df_cun_info = consultar(consulta, {"codigo": "CUN"})
-display(df_cun_info)
+**Explicación de las instrucciones:**
 
-# Vuelve a utilizar exactamente la misma consulta con VER.
-df_ver_info = consultar(consulta, {"codigo": "VER"})
-display(df_ver_info)
+- El primer `>` indica el comienzo de un bloque de cita.
+- El texto que aparece después del símbolo será mostrado con formato de cita.
+- El segundo `>` indica que la siguiente línea continúa dentro del mismo bloque.
+
+```markdown
+> La documentación reproducible integra explicaciones,
+> código y resultados dentro de un mismo documento.
 ```
 
-**Explicación docente:** el diccionario `{"codigo": "CUN"}` relaciona el nombre del parámetro con su valor. El controlador envía el parámetro por separado, sin concatenar cadenas para formar la consulta.
+### Enlaces
 
-### 5.2. Destinos directos desde Cancún
+Markdown permite crear enlaces utilizando corchetes y paréntesis.
 
-```python
-# Busca relaciones de salida desde el aeropuerto indicado por $codigo.
-consulta = """
-MATCH (origen:Aeropuerto {iata: $codigo})
-      -[:RUTA_AEREA]->(destino:Aeropuerto)
-RETURN destino.iata AS Codigo,
-       destino.ciudad AS Ciudad,
-       destino.pais AS Pais
-ORDER BY Pais, Ciudad
-"""
+**Explicación de los elementos:**
 
-# Envía la consulta parametrizada con origen CUN.
-df_destinos = consultar(consulta, {"codigo": "CUN"})
+- `[Texto que se mostrará]` define el contenido visible del enlace.
+- `(https://ejemplo.com)` indica la dirección de destino.
+- Los corchetes y paréntesis establecen la estructura del enlace.
 
-# Muestra las primeras diez filas, sin descartar las demás del DataFrame.
-display(df_destinos.head(10))
-
-# len() cuenta las filas que contiene el DataFrame completo.
-print("Destinos directos:", len(df_destinos))
+```markdown
+[Texto que se mostrará](https://ejemplo.com)
 ```
 
-**Explicación docente:** `.head(10)` solo modifica la visualización, no el número de registros guardados. `len()` obtiene el número de filas. Se utiliza el modelo de relaciones dirigidas creado en el Apunte 17.
+### Ejemplo de enlace
+
+**Explicación:**
+
+- El texto inicial forma parte del párrafo.
+- `[Quarto]` será la palabra visible.
+- `(https://quarto.org/)` indica la dirección del sitio oficial.
+
+```markdown
+Puedes consultar la documentación oficial en
+[Quarto](https://quarto.org/).
+```
+
+### Líneas horizontales
+
+Una línea horizontal permite separar visualmente el contenido.
+
+**Explicación:**
+
+- Los tres guiones `---` indican que debe insertarse una línea separadora.
+- Deben colocarse en una línea independiente.
+
+```markdown
+---
+```
+
+### Ejemplo aplicado al documento
+
+**Explicación del contenido:**
+
+- `# Recursos de aprendizaje` crea una nueva sección.
+- El primer párrafo introduce los recursos disponibles.
+- Cada elemento de la lista contiene un enlace.
+- Las direcciones entre paréntesis indican los destinos.
+- El bloque que comienza con `>` presenta una cita destacada.
+- `---` incorpora una separación horizontal.
+- El último párrafo cierra la sección.
+
+```markdown
+# Recursos de aprendizaje
+
+Markdown y Quarto cuentan con documentación oficial
+que permite consultar sus principales funcionalidades.
+
+Entre los recursos disponibles encontramos:
+
+- [Documentación oficial de Quarto](https://quarto.org/)
+- [Fundamentos de Markdown](https://quarto.org/docs/authoring/markdown-basics.html)
+- [Documentos PDF](https://quarto.org/docs/output-formats/pdf-basics.html)
+
+> La consulta de documentación oficial permite
+> resolver dudas y conocer nuevas funcionalidades.
 
 ---
 
-## 6. Recorridos y caminos mínimos
-
-### 6.1. Destinos de Cancún en uno o dos tramos
-
-```python
-# Busca destinos a uno o dos enlaces dirigidos desde un aeropuerto.
-consulta = """
-MATCH (origen:Aeropuerto {iata: $codigo})
-MATCH camino = (origen)-[:RUTA_AEREA*1..2]->(destino:Aeropuerto)
-WHERE destino <> origen AND destino.iata IS NOT NULL
-WITH destino, min(length(camino)) AS TramosMinimos
-RETURN destino.iata AS Codigo,
-       destino.ciudad AS Ciudad,
-       destino.pais AS Pais,
-       TramosMinimos
-ORDER BY TramosMinimos, Pais, Ciudad
-"""
-
-# Ejecuta la consulta con Cancún como aeropuerto de origen.
-df_alcance = consultar(consulta, {"codigo": "CUN"})
-
-# Presenta una muestra de la lista de destinos.
-display(df_alcance.head(15))
-
-# Agrupa en pandas según la longitud mínima del camino.
-resumen_tramos = (
-    df_alcance.groupby("TramosMinimos") # Forma grupos por 1 o 2 tramos.
-    .size()                             # Cuenta filas de cada grupo.
-    .reset_index(name="TotalDestinos")  # Convierte los conteos en una tabla.
-)
-
-# Muestra los conteos por número mínimo de tramos.
-display(resumen_tramos)
+Estos recursos pueden utilizarse como referencia
+durante la elaboración de documentos académicos
+y técnicos.
 ```
-
-**Explicación docente:** `*1..2` limita la longitud de los caminos a uno o dos tramos; `length()` cuenta las relaciones; `min()` selecciona el mínimo por destino. En pandas, `groupby()` clasifica filas por categoría, `.size()` cuenta observaciones y `.reset_index()` devuelve una tabla de dos columnas.
-
-### 6.2. Visualizar el alcance desde Cancún
-
-```python
-# Convierte el número de tramos a texto para el eje categórico.
-etiquetas = resumen_tramos["TramosMinimos"].astype(str)
-
-# Extrae la cantidad de aeropuertos por grupo.
-valores = resumen_tramos["TotalDestinos"]
-
-# Dibuja la comparación mediante barras verticales.
-plt.figure(figsize=(8, 5))
-plt.bar(etiquetas, valores)
-plt.xlabel("Número mínimo de tramos")
-plt.ylabel("Destinos alcanzables")
-plt.title("Alcance de la red desde Cancún")
-plt.tight_layout()
-plt.show()
-```
-
-**Explicación docente:** `.astype(str)` convierte números en etiquetas de texto, útil para que Matplotlib trate los valores `1` y `2` como grupos discretos.
-
-### 6.3. Escalas entre MEX y JNB
-
-```python
-# Busca un aeropuerto intermedio entre origen y destino.
-consulta = """
-MATCH (:Aeropuerto {iata: $origen})
-      -[:RUTA_AEREA]->(escala:Aeropuerto)
-      -[:RUTA_AEREA]->(:Aeropuerto {iata: $destino})
-RETURN DISTINCT escala.iata AS CodigoEscala,
-       escala.nombre AS Aeropuerto,
-       escala.ciudad AS Ciudad,
-       escala.pais AS Pais
-ORDER BY Pais, Ciudad
-"""
-
-# El diccionario entrega dos parámetros distintos a la consulta.
-df_escalas = consultar(
-    consulta,
-    {"origen": "MEX", "destino": "JNB"}
-)
-
-# Presenta los aeropuertos donde se puede realizar una escala.
-display(df_escalas)
-```
-
-**Explicación docente:** el patrón contiene exactamente dos relaciones, por eso hay un aeropuerto intermedio. `DISTINCT` impide duplicar el aeropuerto de escala en la salida.
-
-### 6.4. Un camino mínimo
-
-```python
-# shortestPath() selecciona un camino con menor número de relaciones.
-consulta = """
-MATCH (origen:Aeropuerto {iata: $origen}),
-      (destino:Aeropuerto {iata: $destino})
-MATCH camino = shortestPath(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos
-"""
-
-# Busca una alternativa mínima entre Ciudad de México y Johannesburgo.
-df_minimo = consultar(
-    consulta,
-    {"origen": "MEX", "destino": "JNB"}
-)
-
-# Muestra la lista de aeropuertos que componen el camino.
-display(df_minimo)
-```
-
-**Explicación docente:** `nodes(camino)` obtiene los nodos del camino. La comprensión `[a IN ... | a.iata]` devuelve solo sus códigos. El resultado es mínimo en **tramos**, no necesariamente en kilómetros, tiempo o precio.
-
-### 6.5. Todos los caminos mínimos
-
-```python
-# allShortestPaths() recupera las alternativas con la misma longitud mínima.
-consulta = """
-MATCH (origen:Aeropuerto {iata: $origen}),
-      (destino:Aeropuerto {iata: $destino})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos
-ORDER BY Recorrido
-"""
-
-# Ejecuta la búsqueda para el mismo par de aeropuertos.
-df_caminos = consultar(
-    consulta,
-    {"origen": "MEX", "destino": "JNB"}
-)
-
-# Muestra todas las alternativas recuperadas.
-display(df_caminos)
-
-# Cuenta cuántas alternativas empatadas encontró la consulta.
-print("Caminos mínimos encontrados:", len(df_caminos))
-```
-
-**Explicación docente:** comparar `df_minimo` y `df_caminos` permite distinguir un resultado mínimo de todas las alternativas mínimas. El Apunte 17 reportó ocho caminos de dos tramos como referencia.
 
 ---
 
-## 7. Restricciones y distancias
+## Creación de tablas
 
-### 7.1. Caminos mínimos que evitan Estados Unidos
+Markdown permite construir tablas utilizando barras verticales y guiones.
 
-```python
-# Primero obtiene los caminos mínimos; después descarta los que pasan por EE. UU.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'MEX'}),
-      (destino:Aeropuerto {iata: 'JNB'})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-WHERE none(a IN nodes(camino) WHERE a.pais = 'United States')
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos
-ORDER BY Recorrido
-"""
+### Estructura básica
 
-# Recupera los caminos mínimos que cumplen la restricción.
-df_sin_eeuu = consultar(consulta)
+**Explicación de las líneas:**
 
-# Presenta las rutas.
-display(df_sin_eeuu)
+- La primera línea define los encabezados `Formato` y `Descripción`.
+- El símbolo `|` separa las columnas.
+- La segunda línea, formada por guiones y dos puntos, identifica la estructura de la tabla.
+- `:--` indica alineación a la izquierda.
+- Las tres líneas siguientes contienen los registros de HTML, PDF y Word.
+
+```markdown
+| Formato | Descripción |
+|:--|:--|
+| HTML | Documento para navegador |
+| PDF | Documento paginado |
+| Word | Documento editable |
 ```
 
-**Explicación docente:** `none()` exige que ningún aeropuerto del camino pertenezca a Estados Unidos. La restricción **filtra los caminos mínimos ya hallados**; no encuentra necesariamente nuevos mínimos dentro de una red modificada.
+### Alineación de columnas
 
-### 7.2. Caminos mínimos con escala en Alemania
+**Explicación:**
 
-```python
-# any() comprueba si al menos un nodo del camino está en Alemania.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'MEX'}),
-      (destino:Aeropuerto {iata: 'JNB'})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-WHERE any(a IN nodes(camino) WHERE a.pais = 'Germany')
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos
-ORDER BY Recorrido
-"""
+- `:--` alinea el contenido de una columna a la izquierda.
+- `:--:` centra el contenido.
+- `--:` alinea el contenido a la derecha.
+- Las filas siguientes muestran los valores de ejemplo.
 
-# Obtiene únicamente las alternativas que incluyen Alemania.
-df_alemania = consultar(consulta)
-display(df_alemania)
+```markdown
+| Izquierda | Centro | Derecha |
+|:--|:--:|--:|
+| A | B | 100 |
+| C | D | 200 |
 ```
 
-**Explicación docente:** `any()` funciona como una condición existencial. El Apunte 17 identifica como referencia las rutas MEX–FRA–JNB y MEX–MUC–JNB.
+### Títulos e identificadores
 
-### 7.3. Comprobar un límite de distancia en cada tramo
+Quarto permite identificar las tablas para mencionarlas posteriormente dentro del documento.
 
-```python
-# Recupera las distancias de cada tramo y verifica un límite estricto de 9000 km.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'MEX'}),
-      (destino:Aeropuerto {iata: 'JNB'})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-WHERE any(a IN nodes(camino) WHERE a.pais = 'Germany')
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       [r IN relationships(camino) |
-        round(point.distance(startNode(r).ubicacion,
-                             endNode(r).ubicacion) / 1000.0)
-       ] AS DistanciasPorTramoKM,
-       all(r IN relationships(camino)
-           WHERE point.distance(startNode(r).ubicacion,
-                                endNode(r).ubicacion) < 9000000
-       ) AS CumpleLimite
-ORDER BY Recorrido
-"""
+**Explicación de las líneas:**
 
-# Consulta los caminos, las distancias por tramo y la evaluación lógica.
-df_distancias_tramos = consultar(consulta)
-display(df_distancias_tramos)
+- La primera línea define los encabezados de la tabla.
+- La segunda línea establece su estructura.
+- Las tres líneas siguientes contienen los datos.
+- La línea que comienza con `:` establece el título de la tabla.
+- `{#tbl-formatos}` asigna un identificador.
+- El prefijo `tbl-` permite reconocer que se trata de una tabla.
+
+```markdown
+| Formato | Extensión |
+|:--|:--|
+| HTML | .html |
+| PDF | .pdf |
+| Word | .docx |
+
+: Formatos de salida de Quarto {#tbl-formatos}
 ```
 
-**Explicación docente:** `relationships(camino)` obtiene relaciones; `startNode()` y `endNode()` localizan sus extremos. `point.distance()` devuelve metros para estos puntos geográficos; dividir entre 1,000 obtiene kilómetros. `all()` devuelve `True` solo si **todos** los tramos tienen menos de 9,000 km. El resultado de referencia es `False` para las dos rutas alemanas.
+### Referencia automática
 
-### 7.4. Distancia geográfica acumulada
+**Explicación:**
 
-```python
-# Suma las distancias geográficas aproximadas de cada relación del camino.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'MEX'}),
-      (destino:Aeropuerto {iata: 'JNB'})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-WHERE none(a IN nodes(camino) WHERE a.pais = 'United States')
-WITH camino,
-     reduce(km = 0.0, r IN relationships(camino) |
-        km + point.distance(startNode(r).ubicacion,
-                            endNode(r).ubicacion) / 1000.0
-     ) AS DistanciaKM
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos,
-       round(DistanciaKM) AS DistanciaKM
-ORDER BY DistanciaKM
-"""
+- `@tbl-formatos` hace referencia al identificador establecido anteriormente.
+- Quarto sustituirá esta expresión por una referencia numerada.
 
-# Recupera una tabla ordenada de menor a mayor distancia.
-df_distancias = consultar(consulta)
-display(df_distancias)
+```markdown
+La @tbl-formatos presenta los formatos de salida
+más utilizados y algunas de sus aplicaciones.
 ```
 
-**Explicación docente:** `reduce()` inicia un acumulador (`km = 0.0`) y suma la distancia de todas las relaciones del camino. `round()` redondea la cifra que verá el estudiante. Son caminos mínimos en número de tramos y **después** ordenados por distancia, no mínimos globales de kilómetros.
+### Ejemplo aplicado al documento
 
-### 7.5. Gráfica de distancias
+**Explicación del contenido:**
 
-```python
-# Crea una copia para no modificar el DataFrame original.
-df_grafica = df_distancias.copy()
+- `# Formatos de salida de Quarto` inicia la sección.
+- Los primeros párrafos explican el propósito de la tabla.
+- La primera fila contiene los encabezados `Formato`, `Extensión` y `Aplicación`.
+- La segunda fila establece las alineaciones.
+- Las tres filas de datos describen los formatos.
+- La línea de título identifica la tabla como `tbl-formatos`.
+- El párrafo posterior contiene una referencia automática.
+- El último párrafo explica la ventaja de conservar el contenido en un archivo único.
 
-# Transforma cada lista de aeropuertos en una cadena legible.
-df_grafica["Ruta"] = df_grafica["Recorrido"].apply(
-    lambda ruta: " → ".join(ruta)
-)
+```markdown
+# Formatos de salida de Quarto
 
-# Ordena por distancia para la presentación horizontal.
-datos = df_grafica.sort_values("DistanciaKM", ascending=True)
+Quarto permite generar diferentes tipos de documentos
+a partir de un mismo archivo `.qmd`.
 
-# Dibuja las barras y define los textos descriptivos.
-plt.figure(figsize=(10, 6))
-plt.barh(datos["Ruta"], datos["DistanciaKM"])
-plt.xlabel("Distancia geográfica acumulada (km)")
-plt.ylabel("Recorrido")
-plt.title("Comparación de distancias entre MEX y JNB")
-plt.tight_layout()
-plt.show()
+Entre los formatos más utilizados encontramos:
+
+| Formato | Extensión | Aplicación |
+|:--|:--:|:--|
+| HTML | .html | Publicación web |
+| PDF | .pdf | Informes académicos |
+| Word | .docx | Documentos editables |
+
+: Principales formatos de salida de Quarto {#tbl-formatos}
+
+La @tbl-formatos presenta los formatos de salida
+más utilizados y algunas de sus aplicaciones.
+
+Una ventaja de Quarto es que el contenido puede
+mantenerse en un mismo archivo y generarse
+en diferentes formatos.
 ```
-
-**Explicación docente:** `.copy()` evita modificar el DataFrame de referencia; `.apply()` ejecuta una función para cada celda; `lambda` define una función corta; `" → ".join(ruta)` combina los códigos IATA en un solo texto.
 
 ---
 
-## 8. Comparación de tiempos, costos y precios simulados
+## Incorporación de imágenes
 
-### 8.1. Recuperar propiedades económicas acumuladas
+Markdown permite incorporar imágenes desde archivos almacenados en el proyecto.
 
-```python
-# Selecciona los caminos mínimos sin EE. UU. que tienen datos completos.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'MEX'}),
-      (destino:Aeropuerto {iata: 'JNB'})
-MATCH camino = allShortestPaths(
-    (origen)-[:RUTA_AEREA*1..4]->(destino)
-)
-WHERE none(a IN nodes(camino) WHERE a.pais = 'United States')
-  AND all(r IN relationships(camino)
-          WHERE r.precio_boleto_simulado_mxn IS NOT NULL
-            AND r.costo_operativo_simulado_por_asiento_mxn IS NOT NULL
-            AND r.tiempo_vuelo_simulado_min IS NOT NULL)
-WITH camino,
-     reduce(precio = 0, r IN relationships(camino) |
-        precio + r.precio_boleto_simulado_mxn
-     ) AS PrecioTotalMXN,
-     reduce(costo = 0, r IN relationships(camino) |
-        costo + r.costo_operativo_simulado_por_asiento_mxn
-     ) AS CostoTotalMXN,
-     reduce(tiempo = 0, r IN relationships(camino) |
-        tiempo + r.tiempo_vuelo_simulado_min
-     ) AS TiempoTotalMin
-RETURN [a IN nodes(camino) | a.iata] AS Recorrido,
-       length(camino) AS Tramos,
-       CostoTotalMXN,
-       PrecioTotalMXN,
-       TiempoTotalMin
-ORDER BY PrecioTotalMXN
-"""
+### Sintaxis básica
 
-# Guarda los precios y tiempos simulados como tabla pandas.
-df_costos = consultar(consulta)
-display(df_costos)
+**Explicación de los elementos:**
+
+- `!` indica que se incorporará una imagen.
+- `[Descripción de la imagen]` establece el texto alternativo o descripción.
+- `(ruta/imagen.png)` indica dónde se encuentra el archivo.
+
+```markdown
+![Descripción de la imagen](ruta/imagen.png)
 ```
 
-**Explicación docente:** `IS NOT NULL` evita sumar propiedades faltantes. Hay tres acumuladores `reduce()` porque el costo operativo, el precio del boleto y el tiempo representan conceptos diferentes. Los valores son simulados; la suma de tiempos no incluye esperas en escalas.
+### Insertar la imagen del mamut
 
-### 8.2. Localizar la opción más económica
+**Explicación:**
 
-```python
-# Comprueba que sí existan filas antes de intentar calcular un mínimo.
-if not df_costos.empty:
+- El texto entre corchetes describe la imagen.
+- `imagenes/` identifica la subcarpeta que contiene el archivo.
+- `mamut_referencia.png` indica el nombre de la imagen.
+- El archivo debe existir en la ubicación indicada.
 
-    # idxmin() encuentra el índice de la fila con menor precio simulado.
-    mas_economica = df_costos.loc[df_costos["PrecioTotalMXN"].idxmin()]
-
-    # Imprime la ruta como texto y el precio correspondiente.
-    print("Ruta más económica:", " → ".join(mas_economica["Recorrido"]))
-    print("Precio simulado:", mas_economica["PrecioTotalMXN"], "MXN")
-
-# Ofrece una explicación si ninguna ruta tiene datos completos.
-else:
-    print("No se encontraron recorridos con datos completos.")
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png)
 ```
 
-**Explicación docente:** `.empty` comprueba si la tabla carece de filas; `.idxmin()` encuentra el índice del valor más pequeño; `.loc[...]` recupera esa fila. `if` ejecuta instrucciones solo cuando la condición es verdadera.
+### Modificar el tamaño
 
-### 8.3. Localizar la opción más rápida
+**Explicación:**
 
-```python
-# Repite el procedimiento, pero ahora con la variable de tiempo.
-if not df_costos.empty:
+- La primera parte incorpora la imagen.
+- `{width=70%}` establece su anchura.
+- El porcentaje se interpreta respecto al espacio de presentación disponible.
 
-    # Recupera la fila que contiene el menor tiempo simulado.
-    mas_rapida = df_costos.loc[df_costos["TiempoTotalMin"].idxmin()]
-
-    # Muestra la secuencia de aeropuertos y su tiempo acumulado.
-    print("Ruta más rápida:", " → ".join(mas_rapida["Recorrido"]))
-    print("Tiempo estimado:", mas_rapida["TiempoTotalMin"], "minutos")
-
-else:
-    print("No se encontraron recorridos con datos completos.")
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){width=70%}
 ```
 
-**Explicación docente:** cambia el criterio de optimización descriptiva (`TiempoTotalMin` en lugar de `PrecioTotalMXN`). La ruta más rápida aquí es la de menor suma de tiempos de vuelo simulados entre las rutas previamente seleccionadas.
+### Agregar un identificador
 
-### 8.4. Comprobar si coinciden ambos criterios
+**Explicación:**
 
-```python
-# Solo compara mínimos si hay recorridos disponibles.
-if not df_costos.empty:
+- La ruta indica dónde se encuentra el archivo.
+- `{#fig-mamut-referencia ...}` asigna un identificador.
+- El prefijo `fig-` identifica una figura.
+- `width=70%` mantiene el tamaño configurado.
 
-    # Obtiene el valor mínimo de cada una de las dos columnas.
-    precio_min = df_costos["PrecioTotalMXN"].min()
-    tiempo_min = df_costos["TiempoTotalMin"].min()
-
-    # Filtra filas que cumplen simultáneamente ambas condiciones.
-    coincidencias = df_costos[
-        (df_costos["PrecioTotalMXN"] == precio_min) &
-        (df_costos["TiempoTotalMin"] == tiempo_min)
-    ]
-
-    # Informa si existe al menos un recorrido en la intersección.
-    if not coincidencias.empty:
-        print("Existe al menos una ruta más económica y más rápida a la vez.")
-    else:
-        print("Las rutas más económicas y más rápidas no coinciden.")
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){#fig-mamut-referencia width=70%}
 ```
 
-**Explicación docente:** `.min()` obtiene el mínimo de una columna. `&` es el operador lógico *y* para combinar condiciones en pandas; cada comparación debe ir entre paréntesis. Esta solución admite posibles empates en precio o tiempo.
+### Referencia automática
 
-### 8.5. Gráfica de precios simulados
+**Explicación:**
 
-```python
-# Solo dibuja la gráfica si hay recorridos.
-if not df_costos.empty:
+- `@fig-mamut-referencia` hace referencia a la figura identificada anteriormente.
+- Quarto sustituirá esta expresión por una referencia numerada.
 
-    # Prepara una copia de los datos.
-    datos = df_costos.copy()
-
-    # Convierte las listas de códigos a etiquetas de ruta.
-    datos["Ruta"] = datos["Recorrido"].apply(
-        lambda ruta: " → ".join(ruta)
-    )
-
-    # Ordena los precios de menor a mayor.
-    datos = datos.sort_values("PrecioTotalMXN", ascending=True)
-
-    # Grafica los precios acumulados de cada alternativa.
-    plt.figure(figsize=(10, 6))
-    plt.barh(datos["Ruta"], datos["PrecioTotalMXN"])
-    plt.xlabel("Precio simulado del boleto (MXN)")
-    plt.ylabel("Recorrido")
-    plt.title("Comparación de precios simulados")
-    plt.tight_layout()
-    plt.show()
+```markdown
+En la @fig-mamut-referencia se presenta
+una imagen de referencia del mamut.
 ```
 
-**Explicación docente:** utilizar las mismas columnas de la tabla evita copiar valores manualmente. El gráfico muestra solamente precios ficticios de los caminos mínimos que cumplen las condiciones de la consulta.
+### Ejemplo aplicado al documento
 
-### 8.6. Diagrama de dispersión: tiempo y precio
+**Explicación del contenido:**
 
-```python
-# Evita intentar representar una tabla sin recorridos.
-if not df_costos.empty:
+- `# Incorporación de imágenes` crea una sección principal.
+- Los párrafos iniciales explican la utilidad de incorporar figuras.
+- `## Imagen de referencia` crea una subsección.
+- La instrucción de imagen incorpora el archivo del mamut.
+- El identificador permite generar una referencia automática.
+- El párrafo posterior menciona la figura.
+- El último párrafo explica las opciones de presentación.
 
-    # Crea una nueva figura.
-    plt.figure(figsize=(9, 6))
+```markdown
+# Incorporación de imágenes
 
-    # Representa cada recorrido por su tiempo (X) y precio (Y).
-    plt.scatter(
-        df_costos["TiempoTotalMin"],
-        df_costos["PrecioTotalMXN"],
-        s=90
-    )
+Una de las características de Quarto es la posibilidad
+de incorporar imágenes dentro de un documento.
 
-    # Recorre las filas para colocar una etiqueta junto a cada punto.
-    for _, fila in df_costos.iterrows():
+Las figuras permiten complementar las explicaciones,
+presentar ejemplos visuales y facilitar la comprensión
+de determinados conceptos.
 
-        # Convierte la lista de aeropuertos en una ruta legible.
-        etiqueta = " → ".join(fila["Recorrido"])
+## Imagen de referencia
 
-        # Escribe el texto cerca de las coordenadas del punto.
-        plt.annotate(
-            etiqueta,
-            (fila["TiempoTotalMin"], fila["PrecioTotalMXN"]),
-            xytext=(5, 5),
-            textcoords="offset points",
-            fontsize=8
-        )
+Como ejemplo, incorporaremos una imagen de un mamut.
 
-    # Completa títulos, etiquetas y presentación.
-    plt.xlabel("Tiempo estimado (minutos)")
-    plt.ylabel("Precio simulado (MXN)")
-    plt.title("Relación entre tiempo y precio simulado")
-    plt.tight_layout()
-    plt.show()
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){#fig-mamut-referencia width=70%}
+
+En la @fig-mamut-referencia se presenta una imagen
+utilizada para practicar la incorporación de figuras.
+
+Quarto permite controlar el tamaño de las imágenes,
+agregar títulos y generar referencias automáticas.
 ```
-
-**Explicación docente:** `plt.scatter()` genera puntos, no barras; `s` controla su tamaño. `.iterrows()` recorre las filas de pandas. `_` indica que no se necesita utilizar el índice de la fila. `plt.annotate()` coloca una etiqueta a partir de las coordenadas del dato. La gráfica es descriptiva y no demuestra causalidad.
 
 ---
 
-## 9. Clasificación de destinos nacionales e internacionales
+## Ecuaciones matemáticas con LaTeX
 
-### 9.1. Recuperar destinos desde Cancún
+Quarto permite escribir expresiones matemáticas mediante sintaxis LaTeX.
 
-```python
-# Busca destinos únicos alcanzables en un máximo de dos tramos desde CUN.
-consulta = """
-MATCH (origen:Aeropuerto {iata: 'CUN'})
-MATCH camino = (origen)-[:RUTA_AEREA*1..2]->(destino:Aeropuerto)
-WHERE destino <> origen
-WITH destino, min(length(camino)) AS TramosMinimos
-RETURN destino.iata AS Codigo,
-       destino.ciudad AS Ciudad,
-       destino.pais AS Pais,
-       TramosMinimos
-ORDER BY TramosMinimos, Pais, Ciudad
-"""
+### Ecuaciones dentro de un párrafo
 
-# Guarda y muestra los destinos recuperados.
-df_cun = consultar(consulta)
-display(df_cun.head(10))
+**Explicación:**
+
+- `$` indica el comienzo de una expresión matemática en línea.
+- `\bar{x}` representa la letra x con una barra superior.
+- El segundo `$` cierra la expresión matemática.
+
+```markdown
+El promedio aritmético se representa mediante $\bar{x}$.
 ```
 
-**Explicación docente:** `WITH destino, min(...)` agrupa por nodo `destino`, de modo que se cuenta una sola vez cada aeropuerto, aunque tenga varios caminos de llegada. Un destino puede tener un código IATA ausente, pero sigue siendo un nodo del grafo.
+### Ecuaciones independientes
 
-### 9.2. Crear el tipo de destino en pandas
+Las ecuaciones independientes se presentan separadas del texto.
 
-```python
-# Crea una nueva columna a partir del nombre del país.
-df_cun["TipoDestino"] = df_cun["Pais"].apply(
-    lambda pais: "Nacional" if pais == "Mexico" else "Internacional"
-)
+**Explicación de las instrucciones:**
 
-# Muestra una parte de la tabla con la nueva clasificación.
-display(df_cun.head(10))
+- `$$` indica el comienzo de una ecuación independiente.
+- `\bar{x}` representa la media aritmética.
+- `=` establece la igualdad.
+- `\frac{1}{n}` genera una fracción con numerador 1 y denominador n.
+- `\sum` representa una sumatoria.
+- `_{i=1}` indica que la sumatoria comienza en i igual a 1.
+- `^{n}` indica que termina en n.
+- `x_i` representa la observación correspondiente al índice i.
+- El segundo `$$` cierra la ecuación.
+
+```markdown
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
 ```
 
-**Explicación docente:** la expresión `"Nacional" if condición else "Internacional"` es una condición abreviada de Python. `.apply()` la evalúa sobre cada país.
+### Agregar numeración
 
-### 9.3. Tabla de frecuencias
+**Explicación:**
 
-```python
-# Cruza tramos mínimos con tipo de destino y cuenta frecuencias.
-tabla_destinos = pd.crosstab(
-    df_cun["TramosMinimos"],
-    df_cun["TipoDestino"]
-)
+- La ecuación conserva su expresión matemática.
+- `{#eq-promedio}` asigna un identificador.
+- El prefijo `eq-` indica que el identificador corresponde a una ecuación.
 
-# Presenta la tabla de frecuencias absolutas.
-display(tabla_destinos)
+```markdown
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$ {#eq-promedio}
 ```
 
-**Explicación docente:** `pd.crosstab()` cuenta cuántas filas corresponden a cada combinación de categorías. Cada aeropuerto se encuentra una vez en `df_cun`.
+### Referencia automática
 
-### 9.4. Tabla de porcentajes por fila
+**Explicación:**
 
-```python
-# Calcula la distribución porcentual dentro de cada grupo de tramos.
-porcentajes = pd.crosstab(
-    df_cun["TramosMinimos"],
-    df_cun["TipoDestino"],
-    normalize="index"
-) * 100
+- `@eq-promedio` hace referencia a la ecuación identificada anteriormente.
+- Quarto incorpora automáticamente su número.
 
-# Redondea la presentación a dos decimales.
-display(porcentajes.round(2))
+```markdown
+La @eq-promedio representa el cálculo
+del promedio aritmético.
 ```
 
-**Explicación docente:** `normalize="index"` divide cada celda entre el total de su fila; multiplicar por 100 convierte las proporciones en porcentajes. `.round(2)` modifica su presentación numérica.
+### Desviación estándar
 
-### 9.5. Gráfica de barras agrupadas
+**Explicación de las instrucciones:**
 
-```python
-# Usa el método plot() integrado de pandas sobre la tabla ya creada.
-tabla_destinos.plot(kind="bar", figsize=(9, 6))
+- `s` representa la desviación estándar muestral.
+- `\sqrt{}` genera una raíz cuadrada.
+- `\frac{1}{n-1}` representa el factor de división por n menos 1.
+- `\sum_{i=1}^{n}` suma los términos correspondientes a todas las observaciones.
+- `x_i` representa una observación individual.
+- `\bar{x}` representa la media.
+- `(x_i-\bar{x})` expresa la desviación respecto al promedio.
+- `^2` eleva esa diferencia al cuadrado.
 
-# Personaliza etiquetas, orientación y leyenda.
-plt.xlabel("Número mínimo de tramos")
-plt.ylabel("Número de aeropuertos")
-plt.title("Destinos nacionales e internacionales desde Cancún")
-plt.xticks(rotation=0)
-plt.legend(title="Tipo de destino")
-
-# Ajusta espacios y presenta el gráfico.
-plt.tight_layout()
-plt.show()
+```markdown
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}
+$$
 ```
 
-**Explicación docente:** `.plot(kind="bar")` genera barras verticales por grupo; las columnas de la tabla forman series diferentes. `rotation=0` evita girar las etiquetas del eje horizontal.
+### Ejemplo aplicado al documento
+
+**Explicación del contenido:**
+
+- `# Expresiones matemáticas` crea la sección.
+- `## Media aritmética` introduce el primer concepto.
+- La expresión `$\bar{x}$` se incorpora dentro del párrafo.
+- La ecuación independiente presenta la fórmula de la media.
+- `{#eq-promedio}` permite referirse a ella.
+- `## Desviación estándar` introduce el segundo concepto.
+- La expresión correspondiente representa la desviación estándar muestral.
+- `{#eq-desviacion}` permite generar una segunda referencia.
+
+```markdown
+# Expresiones matemáticas
+
+Quarto permite incorporar ecuaciones matemáticas
+mediante sintaxis LaTeX.
+
+Esta funcionalidad resulta útil para elaborar
+documentos académicos y científicos que requieren
+expresar procedimientos matemáticos.
+
+## Media aritmética
+
+La media aritmética se representa mediante $\bar{x}$
+y permite calcular el promedio de un conjunto de valores.
+
+Su expresión matemática es:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$ {#eq-promedio}
+
+La @eq-promedio representa el cálculo de la media.
+
+## Desviación estándar
+
+La desviación estándar permite describir la dispersión
+de las observaciones respecto a su promedio.
+
+La expresión para una muestra es:
+
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}
+$$ {#eq-desviacion}
+
+La @eq-desviacion representa la desviación estándar
+muestral.
+```
 
 ---
 
-## 10. Visualizar coordenadas y conexiones
+## Ejecución de código R en Quarto
 
-### 10.1. Recuperar latitud y longitud
+Los bloques de código permiten ejecutar instrucciones de R directamente desde el documento.
 
-```python
-# Selecciona las coordenadas de MEX, GRU y JNB.
-consulta = """
-MATCH (a:Aeropuerto)
-WHERE a.iata IN ['MEX', 'GRU', 'JNB']
-RETURN a.iata AS Codigo,
-       a.ciudad AS Ciudad,
-       a.latitud AS Latitud,
-       a.longitud AS Longitud
-ORDER BY Codigo
-"""
+### Estructura de un bloque
 
-# Construye la tabla de coordenadas.
-df_coordenadas = consultar(consulta)
-display(df_coordenadas)
+**Explicación de cada línea:**
+
+- Los tres acentos graves abren el bloque.
+- `{r}` indica que se utilizará el lenguaje R.
+- `1 + 1` es una operación aritmética que ejecutará R.
+- Los tres acentos graves finales cierran el bloque.
+
+````markdown
+```{r}
+1 + 1
+```
+````
+
+El resultado esperado será:
+
+```text
+[1] 2
 ```
 
-**Explicación docente:** `IN [...]` selecciona los aeropuertos cuyos códigos aparecen en una lista. Las coordenadas provienen de las propiedades importadas al grafo.
+### Primer ejemplo
 
-### 10.2. Dibujar posiciones geográficas
+**Explicación de las instrucciones:**
 
-```python
-# Inicializa una figura para representar coordenadas.
-plt.figure(figsize=(10, 6))
+- `a <- 10` crea un objeto llamado `a` y le asigna el valor 10.
+- `b <- 20` crea un objeto llamado `b` y le asigna el valor 20.
+- La línea vacía separa visualmente las asignaciones del cálculo.
+- `a + b` suma ambos objetos y devuelve el resultado.
 
-# Dibuja cada aeropuerto mediante su longitud y latitud.
-plt.scatter(
-    df_coordenadas["Longitud"],
-    df_coordenadas["Latitud"],
-    s=100
+````markdown
+```{r}
+a <- 10
+b <- 20
+
+a + b
+```
+````
+
+El resultado esperado es:
+
+```text
+[1] 30
+```
+
+### Agregar un identificador al bloque
+
+**Explicación:**
+
+- `#| label: primer-calculo` asigna un nombre al bloque de Quarto.
+- `#|` introduce una opción de ejecución o presentación.
+- La etiqueta permite identificar el bloque durante el procesamiento.
+- Las instrucciones de R permanecen sin cambios.
+
+````markdown
+```{r}
+#| label: primer-calculo
+
+a <- 10
+b <- 20
+
+a + b
+```
+````
+
+### Ejemplo aplicado al documento
+
+**Explicación del contenido:**
+
+- `# Ejecución de código R` crea la sección principal.
+- `## Primer cálculo` introduce el primer ejemplo.
+- `#| label: calculo-promedio` asigna un identificador al bloque.
+- `valores <- c(10, 20, 30, 40)` crea un vector de cuatro valores.
+- `c()` combina los números en un vector.
+- `<-` es el operador de asignación.
+- `mean(valores)` calcula la media aritmética.
+- `## Resumen estadístico` introduce un segundo ejemplo.
+- `#| label: resumen-valores` identifica el bloque.
+- `summary(valores)` genera un resumen descriptivo del vector.
+
+````markdown
+# Ejecución de código R
+
+Quarto permite ejecutar instrucciones de R
+directamente dentro de un documento.
+
+Esta funcionalidad permite combinar explicaciones
+con procedimientos y resultados reproducibles.
+
+## Primer cálculo
+
+Como ejemplo, calcularemos el promedio de
+cuatro valores numéricos.
+
+```{r}
+#| label: calculo-promedio
+
+valores <- c(10, 20, 30, 40)
+
+mean(valores)
+```
+
+El bloque anterior calcula la media aritmética
+de los valores proporcionados.
+
+## Resumen estadístico
+
+También podemos utilizar funciones de R
+para obtener información descriptiva.
+
+```{r}
+#| label: resumen-valores
+
+summary(valores)
+```
+
+De esta manera, Quarto incorpora automáticamente
+los resultados generados durante la ejecución.
+````
+
+### Resultados esperados
+
+La instrucción `mean(valores)` debe producir:
+
+```text
+[1] 25
+```
+
+La instrucción `summary(valores)` genera un resumen que incluye mínimo, primer cuartil, mediana, media, tercer cuartil y máximo.
+
+---
+
+## Mostrar y ocultar código durante el renderizado
+
+Quarto permite controlar la presentación del código y sus resultados.
+
+Es importante explicar que **mostrar código y ejecutar código son operaciones diferentes**.
+
+### Mostrar código y resultados
+
+**Explicación de cada línea:**
+
+- `#| echo: true` indica que el código aparecerá en el documento final.
+- `x <- c(10, 20, 30, 40)` crea un vector llamado `x`.
+- `mean(x)` calcula su promedio.
+
+````markdown
+```{r}
+#| echo: true
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+````
+
+Resultado esperado: aparecerán las instrucciones de R y el valor 25.
+
+### Ocultar el código y mostrar resultados
+
+**Explicación:**
+
+- `#| echo: false` indica que las instrucciones de R no deben mostrarse.
+- La asignación crea el vector.
+- `mean(x)` calcula el promedio.
+- El bloque se ejecuta normalmente.
+- El documento mostrará solamente el resultado textual.
+
+````markdown
+```{r}
+#| echo: false
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+````
+
+Resultado esperado:
+
+```text
+[1] 25
+```
+
+### Mostrar código sin ejecutarlo
+
+**Explicación:**
+
+- `#| eval: false` desactiva la ejecución.
+- `summary(x)` se mostrará como instrucción de ejemplo.
+- No se generará el resumen estadístico.
+
+````markdown
+```{r}
+#| eval: false
+
+summary(x)
+```
+````
+
+Esta opción resulta útil cuando el documento pretende enseñar código sin ejecutarlo.
+
+### Ejecutar código sin mostrarlo
+
+**Explicación:**
+
+- `#| include: false` indica que el código y su salida no deben incorporarse al documento final.
+- `promedio <- mean(x)` calcula el promedio.
+- El valor calculado queda almacenado en el objeto `promedio`.
+- El objeto puede utilizarse posteriormente.
+
+````markdown
+```{r}
+#| include: false
+
+promedio <- mean(x)
+```
+````
+
+### Ocultar la salida textual
+
+**Explicación:**
+
+- `#| echo: true` permite mostrar las instrucciones.
+- `#| output: false` oculta la salida textual.
+- `summary(x)` se ejecuta y calcula un resumen estadístico.
+- El resumen no aparecerá en el documento final.
+
+````markdown
+```{r}
+#| echo: true
+#| output: false
+
+summary(x)
+```
+````
+
+### Ocultar las gráficas
+
+**Explicación:**
+
+- `#| fig-show: hide` impide que la figura aparezca en el documento.
+- `hist(x)` genera un histograma.
+- La instrucción se ejecuta, pero la figura queda oculta.
+
+````markdown
+```{r}
+#| fig-show: hide
+
+hist(x)
+```
+````
+
+### Diferencias importantes
+
+| Opción | ¿Ejecuta? | ¿Muestra código? | ¿Muestra resultados? |
+|:--|:--:|:--:|:--:|
+| `echo: true` | Sí | Sí | Sí |
+| `echo: false` | Sí | No | Sí |
+| `eval: false` | No | Sí | No |
+| `include: false` | Sí | No | No |
+| `output: false` | Sí | Sí, de manera predeterminada | No muestra salida textual |
+| `fig-show: hide` | Sí | Sí, de manera predeterminada | Oculta las figuras |
+
+### Ejemplo aplicado al documento
+
+**Explicación del contenido:**
+
+- La sección principal introduce las opciones de presentación.
+- El primer bloque crea un vector y calcula un promedio, mostrando código y resultado.
+- El segundo bloque utiliza el mismo vector, pero oculta el código.
+- El tercero muestra una instrucción sin ejecutarla.
+- El último ejecuta `summary(x)` y oculta su salida textual.
+- Los objetos se mantienen disponibles durante la ejecución de los bloques posteriores.
+
+````markdown
+# Presentación de código y resultados
+
+Quarto permite controlar qué instrucciones
+y resultados aparecen en el documento final.
+
+## Código y resultado visibles
+
+En el siguiente ejemplo se mostrarán las instrucciones
+de R y el promedio calculado.
+
+```{r}
+#| echo: true
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+
+## Mostrar únicamente el resultado
+
+En ocasiones solamente necesitamos presentar
+el valor calculado, sin mostrar las instrucciones.
+
+```{r}
+#| echo: false
+
+mean(x)
+```
+
+## Mostrar código sin ejecutarlo
+
+También podemos incorporar instrucciones
+como ejemplos dentro del documento.
+
+```{r}
+#| eval: false
+
+summary(x)
+```
+
+## Ocultar resultados textuales
+
+La siguiente instrucción se ejecutará,
+pero su salida textual no aparecerá.
+
+```{r}
+#| echo: true
+#| output: false
+
+summary(x)
+```
+
+Estas opciones permiten adaptar la presentación
+del documento según sus objetivos.
+````
+
+---
+
+## Resultados de R dentro del texto
+
+Quarto permite incorporar resultados de R directamente en los párrafos mediante código en línea.
+
+### Crear el objeto
+
+**Explicación de las instrucciones:**
+
+- `#| include: false` oculta el código y sus resultados.
+- `valor <- 25` crea un objeto llamado `valor`.
+- El número 25 queda almacenado en ese objeto.
+
+````markdown
+```{r}
+#| include: false
+
+valor <- 25
+```
+````
+
+### Incorporar el valor al párrafo
+
+**Explicación:**
+
+- La oración es texto ordinario.
+- Los acentos graves delimitan una expresión de código en línea.
+- `r` indica que la expresión debe evaluarse utilizando R.
+- `valor` es el objeto cuyo contenido se incorporará al texto.
+
+```text
+El valor calculado es `r valor`.
+```
+
+Resultado esperado:
+
+> El valor calculado es 25.
+
+### Ejecutar una función dentro del párrafo
+
+**Explicación:**
+
+- `r` indica que se utilizará R.
+- `mean()` es una función que calcula la media.
+- `c(10,20,30)` genera el vector que se proporcionará a la función.
+- El valor calculado reemplaza la expresión al renderizar.
+
+```text
+El promedio de los valores es `r mean(c(10,20,30))`.
+```
+
+Resultado esperado:
+
+> El promedio de los valores es 20.
+
+### Ejemplo aplicado al documento
+
+**Explicación del contenido:**
+
+- `# Resultados automáticos dentro del texto` crea la sección.
+- `## Cálculo de un promedio` introduce el ejemplo.
+- `#| include: false` oculta el bloque de preparación.
+- `numeros <- c(10, 20, 30, 40, 50)` crea un vector de cinco números.
+- `promedio <- mean(numeros)` calcula y almacena su media.
+- `r length(numeros)` incorpora automáticamente el número de elementos.
+- `r promedio` incorpora el valor calculado previamente.
+- Si cambia el vector, las expresiones se actualizan durante el renderizado.
+
+````markdown
+# Resultados automáticos dentro del texto
+
+Quarto permite incorporar resultados generados
+mediante R directamente dentro de los párrafos.
+
+## Cálculo de un promedio
+
+Primero definiremos un conjunto de valores.
+
+```{r}
+#| include: false
+
+numeros <- c(10, 20, 30, 40, 50)
+
+promedio <- mean(numeros)
+```
+
+El conjunto contiene `r length(numeros)` valores.
+
+El promedio calculado es `r promedio`.
+
+Este procedimiento permite mantener actualizados
+los resultados escritos dentro del documento
+cuando se modifican los datos.
+````
+
+### Resultado esperado
+
+El texto final deberá indicar que el conjunto contiene cinco valores y que el promedio es 30.
+
+Una consideración importante es que el objeto debe existir antes de utilizarse dentro del texto.
+
+---
+
+## Personalización del documento PDF
+
+Las características generales del PDF pueden configurarse desde el encabezado YAML.
+
+### Tamaño de letra y márgenes
+
+**Explicación de las instrucciones:**
+
+- `format:` abre las opciones relacionadas con la salida.
+- `pdf:` indica que las instrucciones pertenecen al formato PDF.
+- `toc: true` activa la tabla de contenido.
+- `number-sections: true` activa la numeración de secciones.
+- `fontsize: 11pt` define un tamaño base de letra de 11 puntos.
+- `papersize: letter` establece el tamaño carta.
+- `geometry:` permite configurar las dimensiones de la página.
+- `- margin=2.5cm` establece los márgenes.
+
+```yaml
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    fontsize: 11pt
+    papersize: letter
+    geometry:
+      - margin=2.5cm
+```
+
+### Cambiar la fuente
+
+**Explicación de las instrucciones:**
+
+- `format:` abre la configuración de salida.
+- `pdf:` indica que se está configurando un documento PDF.
+- `pdf-engine: xelatex` selecciona XeLaTeX como motor de generación.
+- `mainfont: "Arial"` indica que se utilizará Arial como fuente principal.
+
+```yaml
+format:
+  pdf:
+    pdf-engine: xelatex
+    mainfont: "Arial"
+```
+
+Este segundo ejemplo no debe añadirse como otro encabezado YAML. Las opciones deben incorporarse dentro de la configuración que ya existe.
+
+La fuente seleccionada debe estar instalada en el equipo.
+
+---
+
+## Aplicación con datos reales
+
+En esta sección se utiliza el archivo `mamut_datos.csv`.
+
+El conjunto contiene 10 000 observaciones tridimensionales, cada una representada mediante tres coordenadas: `x`, `y` y `z`.
+
+El propósito es explicar cómo leer los datos y presentar resultados en un documento Quarto.
+
+### Introducción del conjunto de datos
+
+**Explicación del contenido:**
+
+- `# Aplicación con datos reales` crea una nueva sección principal.
+- El primer párrafo describe la información.
+- Las expresiones `x`, `y` y `z`, escritas entre acentos graves, se presentan como nombres de variables.
+- El último párrafo establece que se incorporarán tablas y gráficas.
+
+```markdown
+# Aplicación con datos reales
+
+En esta sección utilizaremos un conjunto de datos
+que representa la geometría de un mamut mediante
+una nube de puntos tridimensionales.
+
+Cada observación contiene tres coordenadas
+espaciales: `x`, `y` y `z`.
+
+El propósito será incorporar tablas y gráficas
+generadas mediante R dentro de nuestro documento.
+```
+
+### Lectura del conjunto de datos
+
+**Explicación de cada instrucción:**
+
+- `#| label: carga-mamut` asigna un identificador al bloque.
+- `#| include: false` ejecuta el código sin mostrarlo en el documento.
+- `datos <- read.csv("mamut_datos.csv")` lee el CSV y almacena su contenido en un objeto llamado `datos`.
+- `stopifnot()` permite comprobar condiciones.
+- `nrow(datos) == 10000` verifica que el conjunto contenga exactamente 10 000 filas.
+- `all(c("x", "y", "z") %in% names(datos))` verifica que existan las tres columnas esperadas.
+
+En la última instrucción:
+
+- `c("x", "y", "z")` crea un vector con los nombres de las variables.
+- `names(datos)` recupera los nombres de las columnas.
+- `%in%` comprueba si cada nombre solicitado se encuentra entre las columnas existentes.
+- `all()` devuelve `TRUE` únicamente cuando todas las comprobaciones son verdaderas.
+
+````markdown
+```{r}
+#| label: carga-mamut
+#| include: false
+
+datos <- read.csv("mamut_datos.csv")
+
+stopifnot(
+  nrow(datos) == 10000,
+  all(c("x", "y", "z") %in% names(datos))
+)
+```
+````
+
+Si alguna condición no se cumple, `stopifnot()` detendrá la ejecución.
+
+### Incorporar las dimensiones al texto
+
+**Explicación:**
+
+- `r nrow(datos)` incorpora el número de filas.
+- `r ncol(datos)` incorpora el número de columnas.
+- Ambas expresiones se calculan durante el renderizado.
+
+```text
+El conjunto contiene `r nrow(datos)` observaciones
+y `r ncol(datos)` variables.
+```
+
+Si el archivo contiene únicamente las coordenadas `x`, `y` y `z`, el resultado será un texto que indique 10 000 observaciones y tres variables.
+
+---
+
+## Tabla de primeras observaciones
+
+Para presentar tablas generadas desde R puede utilizarse `knitr::kable()`.
+
+### Explicación de cada instrucción
+
+- `#| label: tbl-primeras` asigna un identificador a la tabla.
+- `#| tbl-cap:` establece su título.
+- `#| echo: false` oculta el código utilizado para generarla.
+- `knitr::kable()` crea una tabla con formato apropiado para el documento.
+- `head(datos, 5)` selecciona las primeras cinco filas.
+- `digits = 3` limita la presentación de los valores numéricos a tres decimales.
+- El último paréntesis cierra la llamada a `knitr::kable()`.
+
+````markdown
+```{r}
+#| label: tbl-primeras
+#| tbl-cap: "Primeras cinco observaciones del conjunto de datos."
+#| echo: false
+
+knitr::kable(
+  head(datos, 5),
+  digits = 3
+)
+```
+````
+
+### Referencia automática
+
+**Explicación:**
+
+- `@tbl-primeras` corresponde al identificador del bloque.
+- Quarto lo sustituye por la referencia numerada.
+
+```markdown
+La @tbl-primeras presenta las primeras cinco
+observaciones del conjunto de datos.
+```
+
+---
+
+## Estadísticas descriptivas
+
+Se calcularán estadísticas básicas de las tres coordenadas.
+
+### Selección de variables
+
+**Explicación:**
+
+- `datos` contiene el conjunto original.
+- `[c("x", "y", "z")]` selecciona únicamente esas tres columnas.
+- `<-` asigna el resultado al objeto `coordenadas`.
+
+```r
+coordenadas <- datos[c("x", "y", "z")]
+```
+
+### Construcción de la tabla descriptiva
+
+**Explicación de las instrucciones:**
+
+- `#| label: tbl-resumen` asigna el identificador de la tabla.
+- `#| tbl-cap:` define el título.
+- `#| echo: false` oculta el código de R.
+- `coordenadas <- datos[c("x", "y", "z")]` selecciona las tres variables.
+- `resumen <- data.frame()` crea una tabla de datos.
+- `Variable = names(coordenadas)` genera una columna con los nombres de las variables.
+- `Minimo = sapply(coordenadas, min)` calcula el valor mínimo de cada columna.
+- `Maximo = sapply(coordenadas, max)` calcula el valor máximo.
+- `Promedio = sapply(coordenadas, mean)` calcula la media.
+- `Desviacion = sapply(coordenadas, sd)` calcula la desviación estándar muestral.
+- `row.names = NULL` evita utilizar nombres de fila personalizados.
+- `knitr::kable(resumen, ...)` presenta la tabla.
+- `digits = 2` configura dos decimales.
+- `row.names = FALSE` evita mostrar una columna adicional con números de fila.
+
+La función `sapply()` aplica la misma función a cada una de las columnas seleccionadas.
+
+````markdown
+```{r}
+#| label: tbl-resumen
+#| tbl-cap: "Estadísticas descriptivas de las coordenadas."
+#| echo: false
+
+coordenadas <- datos[c("x", "y", "z")]
+
+resumen <- data.frame(
+  Variable = names(coordenadas),
+  Minimo = sapply(coordenadas, min),
+  Maximo = sapply(coordenadas, max),
+  Promedio = sapply(coordenadas, mean),
+  Desviacion = sapply(coordenadas, sd),
+  row.names = NULL
 )
 
-# Etiqueta los puntos con el código IATA.
-for _, fila in df_coordenadas.iterrows():
-    plt.annotate(
-        fila["Codigo"],
-        (fila["Longitud"], fila["Latitud"]),
-        xytext=(5, 5),
-        textcoords="offset points"
-    )
-
-# Nombra ejes y título; agrega una cuadrícula suave.
-plt.xlabel("Longitud")
-plt.ylabel("Latitud")
-plt.title("Ubicación de tres aeropuertos")
-plt.grid(alpha=0.3)
-plt.tight_layout()
-plt.show()
-```
-
-**Explicación docente:** la longitud se coloca en el eje X y la latitud en el eje Y. Se trata de una gráfica cartesiana con coordenadas, no de un mapa geográfico con proyección.
-
-### 10.3. Recuperar conexiones dirigidas
-
-```python
-# Busca relaciones existentes solo entre los tres aeropuertos seleccionados.
-consulta = """
-MATCH (origen:Aeropuerto)-[:RUTA_AEREA]->(destino:Aeropuerto)
-WHERE origen.iata IN ['MEX', 'GRU', 'JNB']
-  AND destino.iata IN ['MEX', 'GRU', 'JNB']
-RETURN origen.iata AS Origen,
-       destino.iata AS Destino,
-       origen.longitud AS LongitudOrigen,
-       origen.latitud AS LatitudOrigen,
-       destino.longitud AS LongitudDestino,
-       destino.latitud AS LatitudDestino
-"""
-
-# Guarda las relaciones y sus coordenadas de inicio y fin.
-df_conexiones = consultar(consulta)
-display(df_conexiones)
-```
-
-**Explicación docente:** la flecha de Cypher expresa una conexión dirigida. La consulta no presupone que la relación inversa exista.
-
-### 10.4. Dibujar nodos y enlaces
-
-```python
-# Prepara la figura para dibujar puntos y segmentos.
-plt.figure(figsize=(11, 6))
-
-# Representa los aeropuertos como puntos.
-plt.scatter(
-    df_coordenadas["Longitud"],
-    df_coordenadas["Latitud"],
-    s=100,
-    zorder=3
+knitr::kable(
+  resumen,
+  digits = 2,
+  row.names = FALSE
 )
-
-# Agrega los códigos IATA a los puntos.
-for _, fila in df_coordenadas.iterrows():
-    plt.annotate(
-        fila["Codigo"],
-        (fila["Longitud"], fila["Latitud"]),
-        xytext=(5, 5),
-        textcoords="offset points"
-    )
-
-# Dibuja un segmento por cada relación recuperada.
-for _, fila in df_conexiones.iterrows():
-    plt.plot(
-        [fila["LongitudOrigen"], fila["LongitudDestino"]],
-        [fila["LatitudOrigen"], fila["LatitudDestino"]],
-        linestyle="--",
-        alpha=0.6
-    )
-
-# Completa el gráfico y muestra los resultados.
-plt.xlabel("Longitud")
-plt.ylabel("Latitud")
-plt.title("Conexiones aéreas entre MEX, GRU y JNB")
-plt.grid(alpha=0.3)
-plt.tight_layout()
-plt.show()
 ```
+````
 
-**Explicación docente:** `zorder=3` dibuja los aeropuertos por encima de los enlaces; `linestyle="--"` crea segmentos discontinuos y `alpha` ajusta transparencia. Las líneas no tienen flechas ni representan trayectorias reales de vuelo; tampoco deben interpretarse sus longitudes dibujadas como distancias precisas.
+### Referencia a la tabla
+
+**Explicación:**
+
+- `@tbl-resumen` utiliza el identificador establecido en el bloque.
+- Quarto coloca automáticamente el número de la tabla.
+
+```markdown
+La @tbl-resumen presenta los valores mínimos,
+máximos, promedios y desviaciones estándar
+de las tres coordenadas del conjunto de datos.
+```
 
 ---
 
-## 11. Rendimiento e índices
+## Visualización tridimensional del mamut
 
-### 11.1. Examinar el plan estimado con EXPLAIN
+La visualización permitirá representar las coordenadas originales en un sistema de tres dimensiones.
 
-```python
-# EXPLAIN solicita el plan estimado, sin ejecutar la recuperación de datos.
-consulta = """
-EXPLAIN
-MATCH (a:Aeropuerto {iata: 'MEX'})
-RETURN a.nombre AS Aeropuerto, a.ciudad AS Ciudad
-"""
+Se utilizará el paquete `scatterplot3d` porque genera una gráfica estática compatible con PDF.
 
-# Abre una sesión vinculada explícitamente a la base de aeropuertos.
-with driver.session(database=BASE_DATOS) as sesion:
+### Instalación del paquete
 
-    # Envía la consulta y obtiene un objeto de resultado.
-    resultado = sesion.run(consulta)
+**Explicación:**
 
-    # Consume el resultado para recuperar sus metadatos.
-    resumen = resultado.consume()
+- `install.packages()` permite instalar paquetes de R.
+- `"scatterplot3d"` identifica el paquete que se desea instalar.
 
-    # Muestra el árbol de operadores previsto por Neo4j.
-    print(resumen.plan)
+```r
+install.packages("scatterplot3d")
 ```
 
-**Explicación docente:** `with` administra automáticamente la sesión, incluso si ocurre una excepción. `sesion.run()` ejecuta una consulta dentro de esa sesión; `.consume()` recupera su resumen. `resumen.plan` muestra operadores como `NodeIndexSeek` o `NodeByLabelScan` según el plan de ejecución.
+Esta instrucción debe ejecutarse desde la **Consola de RStudio**.
 
-### 11.2. Examinar estadísticas con PROFILE
+No es necesario volver a instalar el paquete en cada sesión.
 
-```python
-# PROFILE ejecuta la consulta y recopila estadísticas de los operadores.
-consulta = """
-PROFILE
-MATCH (a:Aeropuerto {iata: 'MEX'})
-RETURN a.nombre AS Aeropuerto, a.ciudad AS Ciudad
-"""
+### Explicación detallada de la gráfica
 
-# Utiliza una sesión temporal para inspeccionar el perfil.
-with driver.session(database=BASE_DATOS) as sesion:
+**Configuración del bloque:**
 
-    # Ejecuta la consulta instrumentada.
-    resultado = sesion.run(consulta)
+- `#| label: fig-mamut-3d` asigna un identificador a la figura.
+- `#| fig-cap:` establece el título de la gráfica.
+- `#| fig-width: 8` configura su ancho en pulgadas.
+- `#| fig-height: 6` configura su altura en pulgadas.
+- `#| echo: false` oculta las instrucciones de R.
 
-    # Recupera el resumen de la ejecución.
-    resumen = resultado.consume()
+**Carga del paquete:**
 
-    # Muestra el perfil y sus estadísticas disponibles.
-    print(resumen.profile)
+- `library(scatterplot3d)` carga las funciones del paquete instalado.
+
+**Construcción de la gráfica:**
+
+- `scatterplot3d()` genera la representación tridimensional.
+- `x = datos$x` establece los valores del eje X.
+- `y = datos$y` establece los valores del eje Y.
+- `z = datos$z` establece los valores del eje Z.
+
+El símbolo `$` permite acceder a una columna específica de un objeto tipo `data.frame`.
+
+**Características de los puntos:**
+
+- `pch = 16` utiliza puntos sólidos.
+- `cex.symbols = 0.25` reduce el tamaño de los puntos.
+- `color = "steelblue"` establece el color de los puntos.
+
+**Perspectiva:**
+
+- `angle = 40` determina el ángulo de perspectiva utilizado por `scatterplot3d`.
+
+**Etiquetas:**
+
+- `xlab` establece el nombre del eje X.
+- `ylab` establece el nombre del eje Y.
+- `zlab` establece el nombre del eje Z.
+- `main` establece el título principal de la gráfica.
+
+### Código de la visualización
+
+````markdown
+```{r}
+#| label: fig-mamut-3d
+#| fig-cap: "Nube original de puntos del mamut en tres dimensiones."
+#| fig-width: 8
+#| fig-height: 6
+#| echo: false
+
+library(scatterplot3d)
+
+scatterplot3d(
+  x = datos$x,
+  y = datos$y,
+  z = datos$z,
+  pch = 16,
+  cex.symbols = 0.25,
+  color = "steelblue",
+  angle = 40,
+  xlab = "Coordenada X",
+  ylab = "Coordenada Y",
+  zlab = "Coordenada Z",
+  main = "Mamut: nube de puntos original"
+)
+```
+````
+
+### Modificar el ángulo
+
+El parámetro `angle` puede modificarse para observar diferentes perspectivas.
+
+**Explicación:**
+
+- `angle` controla la perspectiva horizontal de la proyección.
+- El valor indicado modifica cómo se representan los puntos.
+- No cambia las coordenadas originales.
+
+```r
+angle = 60
 ```
 
-**Explicación docente:** `PROFILE` sí ejecuta la consulta, a diferencia de `EXPLAIN`. `DB hits` representa operaciones lógicas de acceso, no necesariamente lecturas físicas del disco.
+Se pueden probar valores como 20, 40, 60 u 80.
 
-### 11.3. Consultar los índices disponibles
+El paquete no permite controlar independientemente la elevación y la rotación horizontal mediante dos parámetros.
 
-```python
-# SHOW INDEXES enumera índices, sus tipos y sus estados.
-consulta = """
-SHOW INDEXES
-YIELD name, type, state
-RETURN name, type, state
-ORDER BY name
-"""
+### Referencia automática a la figura
 
-# Convierte el resultado a una tabla pandas.
-df_indices = consultar(consulta)
+**Explicación:**
 
-# Presenta los índices para revisarlos en clase.
-display(df_indices)
+- `@fig-mamut-3d` utiliza el identificador de la gráfica.
+- Quarto sustituirá la expresión por una referencia numerada.
+- El párrafo posterior presenta una interpretación descriptiva.
+
+```markdown
+La @fig-mamut-3d presenta una proyección estática
+de los 10 000 puntos originales del mamut.
+
+Esta representación permite observar la distribución
+espacial de las coordenadas sin aplicar técnicas
+de reducción de dimensiones.
 ```
-
-**Explicación docente:** `YIELD` selecciona los campos expuestos por `SHOW INDEXES`. El índice `aeropuerto_iata` ya se creó en el Apunte 17. No es necesario eliminarlo para repetir esta actividad. Los valores observados de plan y tiempos pueden variar con el sistema y la caché.
 
 ---
 
-## 12. Cerrar la conexión
+## Revisión del documento completo
 
-```python
-# Cierra el controlador y libera sus recursos de conexión.
-driver.close()
+Al finalizar, el archivo `mi_primer_documento.qmd` debe contener un solo encabezado YAML y una secuencia de secciones organizadas.
 
-# Informa al estudiante que terminó el trabajo con la base de datos.
-print("Conexión con Neo4j cerrada correctamente")
+La estructura general será:
+
+```text
+Mi primer documento con Markdown y Quarto
+│
+├── Introducción
+│   ├── ¿Qué es Markdown?
+│   └── ¿Qué es Quarto?
+│
+├── Formato de texto en Markdown
+│
+├── Características de Markdown y Quarto
+│   ├── Características de Markdown
+│   ├── Características de Quarto
+│   └── Aplicaciones
+│
+├── Recursos de aprendizaje
+│
+├── Formatos de salida de Quarto
+│
+├── Incorporación de imágenes
+│
+├── Expresiones matemáticas
+│
+├── Ejecución de código R
+│
+├── Presentación de código y resultados
+│
+├── Resultados automáticos dentro del texto
+│
+├── Aplicación con datos reales
+│   ├── Lectura del conjunto de datos
+│   ├── Primeras observaciones
+│   ├── Estadísticas descriptivas
+│   └── Visualización tridimensional
+│
+└── Conclusiones
 ```
 
-**Explicación docente:** después de `driver.close()` el controlador ya no debe reutilizarse. Para ejecutar nuevas consultas será necesario crear uno nuevo, volviendo a la celda de conexión.
+### Aspectos que deben verificarse
+
+Antes de renderizar, conviene comprobar que:
+
+1. El archivo se llame `mi_primer_documento.qmd`.
+2. El proyecto de RStudio esté abierto.
+3. El archivo `mamut_datos.csv` se encuentre en la carpeta principal.
+4. La imagen exista en `imagenes/mamut_referencia.png`.
+5. El paquete `scatterplot3d` esté instalado.
+6. Los bloques de código tengan sus delimitadores de apertura y cierre.
+7. Los identificadores de tablas y figuras no se repitan.
+8. Los objetos de R se creen antes de utilizarse.
+9. El encabezado YAML esté correctamente escrito.
+10. TinyTeX u otra distribución de LaTeX esté disponible para generar PDF.
 
 ---
 
-## 13. Orientaciones para la actividad individual
+## Problemas frecuentes durante la clase
 
-La actividad individual del Apunte 18 incluye quince ejercicios. En la guía docente conviene solicitar que cada respuesta incluya **consulta en Python, salida de pandas o Matplotlib e interpretación breve**. No es indispensable volver a mostrar la consulta Cypher separadamente, porque aparece dentro de la cadena multilínea del programa.
+### No se encuentra el archivo CSV
 
-### Parte A: consulta y exploración
+La causa más común es que el archivo no esté en la ubicación esperada.
 
-1. **Estructura:** verificar las tres cantidades de `df_resumen` y distinguir rutas existentes de rutas con precio simulado.
-2. **Conectividad mundial:** comprobar los diez aeropuertos, ordenar correctamente las barras e interpretar el grado de salida.
-3. **Países:** distinguir número de aeropuertos registrados de número de aeropuertos con vuelos.
-4. **México:** seleccionar cinco aeropuertos y verificar que la consulta utilice el país `Mexico`, tal como se almacenó en el grafo.
+Puede comprobarse desde la Consola de R:
 
-### Parte B: recorridos y comparaciones
+```r
+file.exists("mamut_datos.csv")
+```
 
-5. **Cancún:** verificar que los destinos de uno y dos tramos se clasifiquen por su distancia mínima en relaciones.
-6. **Escalas MEX–JNB:** comprobar que se trata de aeropuertos intermedios, no destinos finales.
-7. **Caminos mínimos:** explicar la diferencia entre una alternativa y todas las alternativas con la misma longitud mínima.
-8. **Evitar Estados Unidos:** recordar que el filtro se aplica después de obtener los caminos mínimos del conjunto original.
-9. **Tramos menores de 9,000 km:** el criterio es estricto (`< 9000000`), no `<=`.
-10. **Distancias acumuladas:** explicar que una suma de distancias no representa necesariamente la trayectoria real de vuelo.
-11. **Precio y tiempo:** comprobar los valores simulados y si existen empates en los criterios de mínimo.
+**Explicación:**
 
-### Parte C: clasificación, visualización y rendimiento
+- `file.exists()` comprueba si existe un archivo.
+- La cadena identifica el archivo buscado.
+- El resultado será `TRUE` cuando exista y `FALSE` cuando no exista en esa ruta.
 
-12. **Destinos nacionales e internacionales:** revisar que cada destino aparezca una sola vez y que los porcentajes por fila sumen aproximadamente 100 %.
-13. **Representación geográfica:** confirmar que las conexiones proceden de `RUTA_AEREA` y explicar que los segmentos del gráfico no son un mapa de rutas reales.
-14. **Rendimiento:** distinguir plan estimado (`EXPLAIN`) y ejecución perfilada (`PROFILE`), e identificar operadores e índices presentes.
-15. **Análisis propio:** valorar la correcta parametrización, la visualización reproducible y una interpretación congruente con la red histórica.
+### No se encuentra la imagen
 
-## 14. Errores frecuentes durante la demostración
+Puede comprobarse mediante:
 
-| Situación | Posible causa | Acción recomendada |
-|---|---|---|
-| `NameError: BASE_DATOS` | No se ejecutó la celda de conexión. | Ejecutar de nuevo esa celda. |
-| `NameError: consultar` | No se ejecutó la definición de la función o se reinició el kernel. | Ejecutar la sección 3.4. |
-| `Unauthorized` | Contraseña incorrecta o instancia distinta. | Revisar las credenciales y la instancia en Neo4j Desktop. |
-| No aparecen aeropuertos | Base equivocada o datos no importados. | Revisar `BASE_DATOS` y el proceso del Apunte 17. |
-| Una tabla está vacía | La consulta no encuentra nodos o falta alguna propiedad. | Ejecutar una consulta más sencilla y examinar sus condiciones. |
-| El gráfico falla por variable inexistente | No se ejecutó la celda que crea el DataFrame. | Ejecutar las celdas anteriores en orden. |
+```r
+file.exists("imagenes/mamut_referencia.png")
+```
 
-## 15. Cierre para el docente
+**Explicación:**
 
-El apunte ilustra la separación de responsabilidades: **Neo4j almacena y consulta el grafo mediante Cypher; Python conecta, parametriza, organiza, compara y visualiza los resultados**.
+- `file.exists()` comprueba la existencia del archivo.
+- `imagenes/` identifica la subcarpeta.
+- `mamut_referencia.png` es el nombre de la imagen.
 
-La interpretación de los datos debe respetar su naturaleza histórica y las propiedades simuladas. La guía puede utilizarse durante la clase, mientras que la versión estudiantil presenta las instrucciones sin comentarios explicativos en cada línea.
+### No existe el objeto `datos`
 
-## Referencias
+Este error puede aparecer cuando se intenta ejecutar una instrucción que utiliza `datos` antes de crearlo.
 
-- [Neo4j Python Driver Manual](https://neo4j.com/docs/python-manual/current/)
-- [Neo4j Cypher Manual](https://neo4j.com/docs/cypher-manual/current/)
-- [pandas User Guide](https://pandas.pydata.org/docs/user_guide/index.html)
-- [Matplotlib Documentation](https://matplotlib.org/stable/)
-- [OpenFlights](https://openflights.org/data.php)
+Por ejemplo:
+
+```r
+nrow(datos)
+```
+
+**Explicación:**
+
+- `nrow()` devuelve el número de filas de un objeto.
+- `datos` debe existir previamente en la sesión de R.
+
+La solución es ejecutar primero el bloque que lee el archivo CSV.
+
+### No se encuentra el paquete
+
+Si el paquete no está instalado, `library()` mostrará un error.
+
+La instalación debe realizarse desde la Consola:
+
+```r
+install.packages("scatterplot3d")
+```
+
+Después puede cargarse mediante:
+
+```r
+library(scatterplot3d)
+```
+
+### No aparece el resultado de R
+
+Deben revisarse las opciones del bloque.
+
+En particular:
+
+- `echo: false` oculta el código.
+- `eval: false` impide ejecutarlo.
+- `include: false` ejecuta sin mostrar el bloque ni sus resultados.
+- `output: false` oculta la salida textual.
+
+### No se genera el PDF
+
+Debe comprobarse que exista una instalación de LaTeX y que el encabezado YAML esté configurado correctamente.
+
+Si LaTeX no está instalado, desde la Terminal puede ejecutarse:
+
+```bash
+quarto install tinytex
+```
+
+---
+
+## Cierre de la sesión
+
+La elaboración de documentos con Markdown y Quarto permite integrar texto, instrucciones de programación y resultados dentro de un mismo archivo.
+
+Durante la sesión se construye un documento académico de manera progresiva, comenzando por los encabezados y el formato de texto, continuando con tablas, imágenes y expresiones matemáticas, y finalizando con la ejecución de código R.
+
+El ejemplo del mamut permite mostrar cómo utilizar datos para generar tablas y figuras, manteniendo los resultados vinculados al código que los produce.
+
+La principal característica que debe destacarse es la **reproducibilidad**: cuando se modifican los datos o las instrucciones, el documento puede renderizarse nuevamente para actualizar sus resultados.
+
+---
+
+## Recursos para el docente
+
+- [Documentación oficial de Quarto](https://quarto.org/)
+- [Fundamentos de Markdown](https://quarto.org/docs/authoring/markdown-basics.html)
+- [Documentos PDF con Quarto](https://quarto.org/docs/output-formats/pdf-basics.html)
+- [Opciones de ejecución](https://quarto.org/docs/computations/execution-options.html)
+- [Referencias automáticas](https://quarto.org/docs/authoring/cross-references.html)

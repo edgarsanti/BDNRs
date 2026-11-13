@@ -1,0 +1,2119 @@
+
+---
+title: "Creación de documentos con Markdown y Quarto desde RStudio"
+subtitle: "Bases de Datos No Relacionales"
+lang: es
+engine: markdown
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+---
+
+## Introducción
+
+Markdown es un lenguaje de marcado ligero que permite crear documentos mediante una sintaxis sencilla. Utiliza símbolos para organizar títulos, subtítulos, párrafos, listas, tablas, imágenes y expresiones matemáticas.
+
+**Quarto** es un sistema de publicación que permite combinar Markdown con código ejecutable de R, Python y otros lenguajes para generar documentos en diferentes formatos, como HTML, PDF y Word.
+
+En este apunte se aprenderá a **crear documentos con Markdown y Quarto desde RStudio**, incorporando elementos de formato, tablas, figuras, ecuaciones y bloques de código.
+
+Durante el desarrollo del material se construirá progresivamente un documento titulado **«Mi primer documento con Markdown y Quarto»**, cuyo contenido explicará las principales características y aplicaciones de estas herramientas.
+
+Cada apartado incluye una explicación de la sintaxis y un ejemplo que se incorporará al documento. De esta manera, será posible observar cómo cambia su presentación después de renderizarlo.
+
+Finalmente, se utilizará un conjunto de datos para generar estadísticas descriptivas y una visualización tridimensional, integrando los resultados en el mismo documento.
+
+El objetivo principal es aprender a **escribir, organizar y renderizar documentos reproducibles**.
+
+---
+
+## Preparación del proyecto
+
+Antes de comenzar, es necesario descargar los archivos de trabajo que se utilizarán durante la elaboración del documento.
+
+### Descargar los archivos
+
+Descarga el archivo comprimido desde el siguiente enlace:
+
+[**Descargar archivos de trabajo**](../datasets/Mi_primer_documento_Quarto.zip)
+
+El archivo ZIP contiene:
+
+- `mamut_datos.csv`: conjunto de datos con coordenadas tridimensionales.
+- `imagenes/mamut_referencia.png`: imagen de referencia para practicar la inserción de figuras.
+
+Una vez descargado el archivo:
+
+1. Descomprime `Mi_primer_documento_Quarto.zip`.
+2. Coloca la carpeta `Mi_primer_documento_Quarto` en el **Escritorio** de tu computadora.
+3. Abre la carpeta y comprueba que contenga los archivos proporcionados.
+
+La estructura inicial será:
+
+```text
+Mi_primer_documento_Quarto/
+├── mamut_datos.csv
+└── imagenes/
+    └── mamut_referencia.png
+```
+
+Estos archivos se utilizarán posteriormente para incorporar imágenes, tablas y gráficas al documento.
+
+### Crear un proyecto en RStudio
+
+Ahora se creará un proyecto de RStudio utilizando la carpeta descargada.
+
+Abre RStudio y realiza lo siguiente:
+
+1. Selecciona **File → New Project**.
+2. Elige **Existing Directory**.
+3. Haz clic en **Browse**.
+4. Busca la carpeta `Mi_primer_documento_Quarto` en el Escritorio.
+5. Selecciona la carpeta.
+6. Haz clic en **Create Project**.
+
+RStudio creará un proyecto dentro de la carpeta seleccionada.
+
+Esto permitirá trabajar con los archivos mediante **rutas relativas**, sin necesidad de escribir su ubicación completa.
+
+::: {.callout-note}
+### Compatibilidad con Windows y macOS
+
+Este procedimiento puede realizarse tanto en Windows como en macOS.
+
+No será necesario modificar las instrucciones de lectura de archivos siempre que se conserve la estructura del proyecto.
+
+Por ejemplo, la instrucción:
+
+```r
+read.csv("mamut_datos.csv")
+```
+
+funcionará cuando el archivo CSV se encuentre en la carpeta principal del documento Quarto.
+:::
+
+---
+
+## Crear nuestro primer documento Quarto
+
+### Crear un documento nuevo
+
+Con el proyecto abierto en RStudio, selecciona:
+
+**File → New File → Quarto Document**
+
+Se abrirá la ventana **New Quarto Document**, donde se configurarán las características iniciales del archivo.
+
+Completa las opciones de la siguiente manera:
+
+| Opción | Configuración |
+|:--|:--|
+| Document | Seleccionar |
+| Title | Mi primer documento con Markdown y Quarto |
+| Author | Nombre del estudiante |
+| Format | PDF |
+| Engine | Knitr |
+| Use visual markdown editor | Desmarcar |
+
+Finalmente, haz clic en **Create**.
+
+::: {.callout-note}
+### ¿Por qué se utiliza el editor Source?
+
+RStudio permite trabajar con documentos Quarto mediante dos modalidades:
+
+- **Visual:** permite aplicar formatos utilizando herramientas similares a las de un procesador de textos.
+- **Source:** permite escribir directamente la sintaxis de Markdown.
+
+En este apunte se utilizará **Source**, porque el propósito es aprender a escribir las instrucciones de Markdown y observar cómo se transforman al renderizar el documento.
+:::
+
+### Guardar el documento
+
+Guarda el archivo con el nombre:
+
+`mi_primer_documento.qmd`
+
+Es importante guardarlo dentro de la carpeta principal del proyecto.
+
+La estructura será semejante a:
+
+```text
+Mi_primer_documento_Quarto/
+├── Mi_primer_documento_Quarto.Rproj
+├── mi_primer_documento.qmd
+├── mamut_datos.csv
+└── imagenes/
+    └── mamut_referencia.png
+```
+
+El archivo `.Rproj` corresponde al proyecto de RStudio, mientras que el archivo `.qmd` contendrá el documento que se desarrollará durante el apunte.
+
+### ¿Qué es un archivo .qmd?
+
+Un archivo `.qmd` es un documento de Quarto que puede contener:
+
+- Texto escrito en Markdown.
+- Código ejecutable.
+- Tablas.
+- Imágenes.
+- Ecuaciones matemáticas.
+- Resultados generados automáticamente.
+
+Al renderizarlo, Quarto transforma su contenido en el formato seleccionado.
+
+---
+
+## Configuración inicial del documento
+
+Un documento Quarto contiene principalmente dos partes:
+
+1. **Encabezado YAML:** establece las características generales del documento.
+2. **Contenido:** incluye texto, tablas, imágenes, ecuaciones y bloques de código.
+
+### Encabezado YAML
+
+Al crear un documento Quarto, RStudio genera automáticamente un encabezado YAML y algunos ejemplos.
+
+Elimina el contenido de ejemplo y coloca el siguiente encabezado al inicio de `mi_primer_documento.qmd`:
+
+```yaml
+---
+title: "Mi primer documento con Markdown y Quarto"
+subtitle: "Elaboración de documentos reproducibles"
+author: "Nombre del estudiante"
+date: today
+lang: es
+format:
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    fontsize: 11pt
+    papersize: letter
+    colorlinks: true
+    geometry:
+      - margin=2.5cm
+execute:
+  warning: false
+  message: false
+---
+```
+
+Sustituye `Nombre del estudiante` por tu nombre.
+
+### ¿Qué significa cada instrucción?
+
+| Instrucción | Función |
+|:--|:--|
+| `title` | Establece el título principal |
+| `subtitle` | Agrega un subtítulo |
+| `author` | Indica el nombre del autor |
+| `date: today` | Coloca automáticamente la fecha |
+| `lang: es` | Establece el idioma español |
+| `format: pdf` | Genera un documento PDF |
+| `toc: true` | Crea una tabla de contenido |
+| `toc-depth: 3` | Incluye tres niveles de encabezados |
+| `number-sections: true` | Numera automáticamente las secciones |
+| `fontsize` | Define el tamaño base de letra |
+| `papersize` | Establece el tamaño del papel |
+| `colorlinks` | Activa los enlaces con color |
+| `geometry` | Configura los márgenes |
+| `warning: false` | Oculta advertencias de R |
+| `message: false` | Oculta mensajes de R |
+
+::: {.callout-important}
+### Importante
+
+El encabezado YAML debe conservar su estructura e indentación.
+
+No deben utilizarse tabulaciones ni duplicarse opciones como `format` o `execute`.
+
+Todas las configuraciones deben permanecer dentro de un único encabezado YAML.
+:::
+
+---
+
+## Renderizar nuestro primer documento
+
+**Renderizar** significa transformar el contenido de un archivo `.qmd` en un documento final, como HTML, PDF o Word.
+
+En RStudio se puede utilizar el botón **Render**, ubicado en la parte superior del editor.
+
+También es posible ejecutar el siguiente comando desde la Terminal del proyecto:
+
+```bash
+quarto render mi_primer_documento.qmd --to pdf
+```
+
+### Instalación de LaTeX
+
+Para generar documentos PDF, Quarto necesita una distribución de LaTeX.
+
+Si no se dispone de una instalación, puede utilizarse TinyTeX.
+
+Desde la **Terminal de RStudio**, ejecuta:
+
+```bash
+quarto install tinytex
+```
+
+Este comando se ejecuta en la **Terminal**, no en la Consola de R.
+
+La instalación solamente debe realizarse una vez.
+
+Después, vuelve a seleccionar **Render**.
+
+### Diferencia entre Consola y Terminal
+
+En RStudio existen diferentes espacios de trabajo:
+
+| Herramienta | Función |
+|:--|:--|
+| Consola | Ejecutar instrucciones del lenguaje R |
+| Terminal | Ejecutar comandos del sistema operativo |
+| Editor Source | Escribir y modificar archivos `.R` y `.qmd` |
+
+Por ejemplo, para instalar un paquete de R se utiliza la **Consola**:
+
+```r
+install.packages("scatterplot3d")
+```
+
+En cambio, para renderizar un documento mediante comandos se utiliza la **Terminal**:
+
+```bash
+quarto render mi_primer_documento.qmd
+```
+
+Durante este apunte se trabajará principalmente en el editor Source y se utilizará el botón Render para generar el PDF.
+
+---
+
+## Títulos y subtítulos en Markdown
+
+Markdown utiliza el símbolo `#` para definir encabezados.
+
+El número de símbolos determina el nivel del título.
+
+### Sintaxis de los encabezados
+
+```markdown
+# Título principal
+
+## Subtítulo
+
+### Encabezado de tercer nivel
+
+#### Encabezado de cuarto nivel
+```
+
+| Sintaxis | Nivel |
+|:--|:--|
+| `#` | Primer nivel |
+| `##` | Segundo nivel |
+| `###` | Tercer nivel |
+| `####` | Cuarto nivel |
+
+Si se activa `number-sections: true`, Quarto numera automáticamente los encabezados.
+
+### Ejemplo: organizar nuestro primer documento
+
+El primer apartado del documento presentará una introducción sobre Markdown y Quarto.
+
+Agrega el siguiente contenido debajo del encabezado YAML de `mi_primer_documento.qmd`:
+
+```markdown
+# Introducción
+
+La elaboración de documentos académicos y técnicos requiere
+herramientas que permitan organizar información, incorporar
+resultados y mantener una presentación clara.
+
+**Markdown** es un lenguaje de marcado ligero que utiliza
+una sintaxis sencilla para estructurar documentos mediante
+títulos, subtítulos, listas, tablas e imágenes.
+
+Por su parte, **Quarto** permite combinar Markdown con código
+ejecutable y generar documentos en diferentes formatos,
+como HTML, PDF y Word.
+
+## ¿Qué es Markdown?
+
+Markdown utiliza símbolos para establecer la estructura
+y el formato de un documento sin depender de herramientas
+visuales de edición.
+
+### Principales características
+
+Entre sus características destacan la facilidad de escritura,
+la organización del contenido y la compatibilidad con
+diferentes herramientas de publicación.
+
+#### Sintaxis sencilla
+
+Para crear encabezados, listas y otros elementos,
+Markdown utiliza símbolos como `#`, `*` y `-`.
+
+## ¿Qué es Quarto?
+
+Quarto es un sistema de publicación que permite elaborar
+documentos reproducibles a partir de archivos `.qmd`.
+
+### Documentos reproducibles
+
+Un documento reproducible integra las explicaciones,
+el código y los resultados dentro de un mismo archivo.
+
+Esto permite actualizar automáticamente las tablas,
+gráficas y resultados cuando se modifican los datos.
+```
+
+### ¿Qué observar al renderizar?
+
+Al seleccionar **Render**, Quarto organizará el contenido mediante encabezados de diferentes niveles.
+
+Con la numeración activada, la estructura será semejante a:
+
+```text
+1 Introducción
+
+  1.1 ¿Qué es Markdown?
+
+    1.1.1 Principales características
+
+      1.1.1.1 Sintaxis sencilla
+
+  1.2 ¿Qué es Quarto?
+
+    1.2.1 Documentos reproducibles
+```
+
+La tabla de contenido incorporará los encabezados hasta el nivel establecido mediante `toc-depth`.
+
+::: {.callout-tip}
+### Numeración automática
+
+No es necesario escribir manualmente los números de las secciones.
+
+Quarto genera la numeración y la actualiza cuando se agregan o reorganizan encabezados.
+:::
+
+---
+
+## Formato de texto en Markdown
+
+Markdown permite modificar la presentación del texto mediante símbolos.
+
+### Negritas
+
+Para escribir texto en **negritas**, se colocan dos asteriscos al principio y al final.
+
+```markdown
+**Este texto aparece en negritas.**
+```
+
+### Cursivas
+
+Para escribir texto en *cursivas*, se utiliza un asterisco.
+
+```markdown
+*Este texto aparece en cursivas.*
+```
+
+### Negritas y cursivas
+
+Ambos formatos pueden combinarse:
+
+```markdown
+***Este texto aparece en negritas y cursivas.***
+```
+
+### Texto tachado
+
+Para tachar un fragmento se utilizan dos virgulillas:
+
+```markdown
+~~Este texto aparece tachado.~~
+```
+
+### Código dentro de un párrafo
+
+Para destacar nombres de archivos, variables o funciones se utilizan acentos graves:
+
+```markdown
+El archivo `mi_primer_documento.qmd` contiene
+el código y el texto de nuestro documento.
+```
+
+### Comparación de formatos
+
+| Sintaxis | Resultado |
+|:--|:--|
+| `**texto**` | **texto** |
+| `*texto*` | *texto* |
+| `***texto***` | ***texto*** |
+| `~~texto~~` | ~~texto~~ |
+| `` `texto` `` | `texto` |
+
+### Ejemplo: utilizar formatos dentro del documento
+
+Agrega una nueva sección a `mi_primer_documento.qmd`:
+
+```markdown
+# Formato de texto en Markdown
+
+El lenguaje **Markdown** permite aplicar diferentes
+formatos mediante una sintaxis sencilla.
+
+Por ejemplo, podemos utilizar *cursivas* para destacar
+términos, **negritas** para enfatizar conceptos importantes
+y ***ambos formatos*** cuando necesitamos un mayor énfasis.
+
+También podemos identificar archivos y funciones mediante
+formato de código, como `mi_primer_documento.qmd`
+o `read.csv()`.
+
+Una de sus principales ventajas es que el documento
+conserva su contenido en un archivo de texto,
+lo que facilita su edición y actualización.
+```
+
+### Separación de párrafos
+
+Para crear un nuevo párrafo se deja una línea vacía.
+
+```markdown
+Markdown permite organizar el contenido mediante
+una sintaxis sencilla.
+
+Quarto permite transformar ese contenido en diferentes
+formatos de publicación.
+```
+
+Al renderizar, ambos fragmentos aparecerán como párrafos independientes.
+
+---
+
+## Listas y enumeraciones
+
+Markdown permite crear listas con viñetas y listas numeradas.
+
+### Listas con viñetas
+
+Se utiliza un guion al principio de cada elemento:
+
+```markdown
+Los principales formatos de salida de Quarto son:
+
+- HTML
+- PDF
+- Word
+```
+
+### Listas numeradas
+
+Para crear listas numeradas se utilizan números seguidos de un punto:
+
+```markdown
+El procedimiento para crear un documento es:
+
+1. Abrir RStudio.
+2. Crear un documento Quarto.
+3. Escribir el contenido.
+4. Guardar los cambios.
+5. Renderizar el documento.
+```
+
+### Listas anidadas
+
+También es posible crear subniveles:
+
+```markdown
+Características de Quarto:
+
+- Formatos de salida
+  - HTML
+  - PDF
+  - Word
+
+- Lenguajes compatibles
+  - R
+  - Python
+  - Julia
+```
+
+La indentación establece la jerarquía entre los elementos.
+
+### Ejemplo: características de Markdown y Quarto
+
+Agrega el siguiente contenido al documento:
+
+```markdown
+# Características de Markdown y Quarto
+
+## Características de Markdown
+
+Markdown proporciona diferentes herramientas para
+organizar la información:
+
+- Escritura sencilla mediante texto plano.
+- Creación de títulos y subtítulos.
+- Incorporación de listas y tablas.
+- Inserción de imágenes y enlaces.
+- Compatibilidad con diferentes plataformas.
+
+## Características de Quarto
+
+Quarto amplía las posibilidades de Markdown mediante:
+
+1. Integración de código ejecutable.
+2. Generación automática de resultados.
+3. Creación de tablas y gráficas.
+4. Incorporación de ecuaciones matemáticas.
+5. Exportación a diferentes formatos.
+
+## Aplicaciones
+
+Estas herramientas pueden utilizarse en:
+
+- **Educación**
+  - Apuntes de clase.
+  - Prácticas de laboratorio.
+  - Materiales didácticos.
+
+- **Investigación**
+  - Informes técnicos.
+  - Artículos académicos.
+  - Reportes estadísticos.
+
+- **Desarrollo de software**
+  - Documentación de proyectos.
+  - Manuales técnicos.
+  - Presentación de resultados.
+```
+
+Al renderizar, las listas aparecerán organizadas mediante viñetas, números y diferentes niveles de indentación.
+
+---
+
+## Citas, enlaces y líneas separadoras
+
+### Citas
+
+Para incorporar una cita destacada se utiliza el símbolo `>`:
+
+```markdown
+> La documentación reproducible integra explicaciones,
+> código y resultados dentro de un mismo documento.
+```
+
+### Enlaces
+
+Los enlaces utilizan la siguiente estructura:
+
+```markdown
+[Texto que se mostrará](https://ejemplo.com)
+```
+
+Por ejemplo:
+
+```markdown
+Puedes consultar la documentación oficial en
+[Quarto](https://quarto.org/).
+```
+
+### Líneas horizontales
+
+Para insertar una línea separadora se utilizan tres guiones:
+
+```markdown
+---
+```
+
+La instrucción debe colocarse en una línea independiente.
+
+### Ejemplo: incorporar referencias y recursos
+
+Agrega el siguiente apartado:
+
+```markdown
+# Recursos de aprendizaje
+
+Markdown y Quarto cuentan con documentación oficial
+que permite consultar sus principales funcionalidades.
+
+Entre los recursos disponibles encontramos:
+
+- [Documentación oficial de Quarto](https://quarto.org/)
+- [Fundamentos de Markdown](https://quarto.org/docs/authoring/markdown-basics.html)
+- [Documentos PDF](https://quarto.org/docs/output-formats/pdf-basics.html)
+
+> La consulta de documentación oficial permite
+> resolver dudas y conocer nuevas funcionalidades.
+
+---
+
+Estos recursos pueden utilizarse como referencia
+durante la elaboración de documentos académicos
+y técnicos.
+```
+
+---
+
+## Creación de tablas con Markdown
+
+Markdown permite construir tablas utilizando el símbolo vertical `|`.
+
+### Sintaxis básica
+
+```markdown
+| Formato | Descripción |
+|:--|:--|
+| HTML | Documento para navegador |
+| PDF | Documento paginado |
+| Word | Documento editable |
+```
+
+El resultado será:
+
+| Formato | Descripción |
+|:--|:--|
+| HTML | Documento para navegador |
+| PDF | Documento paginado |
+| Word | Documento editable |
+
+### Alineación de columnas
+
+Es posible controlar la alineación mediante los dos puntos:
+
+```markdown
+| Izquierda | Centro | Derecha |
+|:--|:--:|--:|
+| A | B | 100 |
+| C | D | 200 |
+```
+
+- `:--` alinea a la izquierda.
+- `:--:` centra el contenido.
+- `--:` alinea a la derecha.
+
+### Agregar títulos a las tablas
+
+Quarto permite agregar una descripción a las tablas y asignarles un identificador.
+
+```markdown
+| Formato | Extensión |
+|:--|:--|
+| HTML | .html |
+| PDF | .pdf |
+| Word | .docx |
+
+: Formatos de salida de Quarto {#tbl-formatos}
+```
+
+El identificador `{#tbl-formatos}` permite realizar referencias automáticas.
+
+### Ejemplo: incorporar una tabla al documento
+
+Agrega una nueva sección:
+
+```markdown
+# Formatos de salida de Quarto
+
+Quarto permite generar diferentes tipos de documentos
+a partir de un mismo archivo `.qmd`.
+
+Entre los formatos más utilizados encontramos:
+
+| Formato | Extensión | Aplicación |
+|:--|:--:|:--|
+| HTML | .html | Publicación web |
+| PDF | .pdf | Informes académicos |
+| Word | .docx | Documentos editables |
+
+: Principales formatos de salida de Quarto {#tbl-formatos}
+
+La @tbl-formatos presenta los formatos de salida
+más utilizados y algunas de sus aplicaciones.
+
+Una ventaja de Quarto es que el contenido puede
+mantenerse en un mismo archivo y generarse
+en diferentes formatos.
+```
+
+### ¿Qué observar al renderizar?
+
+La tabla tendrá un título y numeración automática.
+
+Además, la expresión `@tbl-formatos` será sustituida por la referencia correspondiente.
+
+No será necesario escribir manualmente el número de la tabla.
+
+---
+
+## Insertar imágenes
+
+Markdown permite incorporar imágenes almacenadas dentro de un proyecto.
+
+La sintaxis general es:
+
+```markdown
+![Descripción de la imagen](ruta/imagen.png)
+```
+
+Para este ejemplo se utilizará la imagen de referencia del mamut que se encuentra dentro de la carpeta descargada.
+
+La ruta es:
+
+`imagenes/mamut_referencia.png`
+
+### Incorporar una imagen
+
+En el documento escribe:
+
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png)
+```
+
+### Cambiar el tamaño
+
+Se puede establecer el ancho de una imagen mediante atributos de Quarto:
+
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){width=70%}
+```
+
+La opción `width=70%` indica que la imagen ocupará el 70 % del ancho disponible.
+
+### Referencias automáticas
+
+Para identificar una figura se utiliza un identificador que comience con `fig-`.
+
+```markdown
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){#fig-mamut-referencia width=70%}
+```
+
+Posteriormente puede escribirse:
+
+```markdown
+En la @fig-mamut-referencia se presenta
+una imagen de referencia del mamut.
+```
+
+Quarto sustituirá la referencia por la numeración correspondiente.
+
+### Ejemplo: insertar una figura en nuestro documento
+
+Agrega una nueva sección:
+
+```markdown
+# Incorporación de imágenes
+
+Una de las características de Quarto es la posibilidad
+de incorporar imágenes dentro de un documento.
+
+Las figuras permiten complementar las explicaciones,
+presentar ejemplos visuales y facilitar la comprensión
+de determinados conceptos.
+
+## Imagen de referencia
+
+Como ejemplo, incorporaremos una imagen de un mamut.
+
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){#fig-mamut-referencia width=70%}
+
+En la @fig-mamut-referencia se presenta una imagen
+utilizada para practicar la incorporación de figuras.
+
+Quarto permite controlar el tamaño de las imágenes,
+agregar títulos y generar referencias automáticas.
+```
+
+::: {.callout-note}
+### Importante
+
+La imagen debe existir en la ruta indicada.
+
+Si el archivo se encuentra en otra carpeta o tiene un nombre diferente, es necesario modificar la ruta.
+
+Las gráficas generadas mediante código R se incorporan automáticamente y no necesitan guardarse previamente como imágenes.
+:::
+
+---
+
+## Ecuaciones matemáticas con LaTeX
+
+Quarto permite incorporar expresiones matemáticas utilizando sintaxis LaTeX dentro de Markdown.
+
+### Ecuaciones dentro de un párrafo
+
+Para escribir una expresión matemática dentro del texto se utiliza un símbolo `$` al principio y al final.
+
+```markdown
+El promedio aritmético se representa mediante $\bar{x}$.
+```
+
+El resultado será:
+
+El promedio aritmético se representa mediante $\bar{x}$.
+
+### Ecuaciones independientes
+
+Para escribir una ecuación centrada se utilizan dos símbolos `$$`.
+
+```markdown
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+```
+
+El resultado será:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+### Ecuaciones numeradas
+
+También es posible asignar un identificador a una ecuación:
+
+```markdown
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$ {#eq-promedio}
+```
+
+Posteriormente puede escribirse:
+
+```markdown
+La @eq-promedio representa el cálculo
+del promedio aritmético.
+```
+
+### Otras expresiones matemáticas
+
+Por ejemplo, la desviación estándar muestral:
+
+```markdown
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}
+$$
+```
+
+### Ejemplo: incorporar ecuaciones al documento
+
+Agrega el siguiente apartado:
+
+```markdown
+# Expresiones matemáticas
+
+Quarto permite incorporar ecuaciones matemáticas
+mediante sintaxis LaTeX.
+
+Esta funcionalidad resulta útil para elaborar
+documentos académicos y científicos que requieren
+expresar procedimientos matemáticos.
+
+## Media aritmética
+
+La media aritmética se representa mediante $\bar{x}$
+y permite calcular el promedio de un conjunto de valores.
+
+Su expresión matemática es:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$ {#eq-promedio}
+
+La @eq-promedio representa el cálculo de la media.
+
+## Desviación estándar
+
+La desviación estándar permite describir la dispersión
+de las observaciones respecto a su promedio.
+
+La expresión para una muestra es:
+
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}
+$$ {#eq-desviacion}
+
+La @eq-desviacion representa la desviación estándar
+muestral.
+```
+
+---
+
+## Incorporar código R en Quarto
+
+Una de las principales ventajas de Quarto es que permite ejecutar código dentro de un documento.
+
+Los bloques comienzan con tres acentos graves seguidos de `{r}`.
+
+### Estructura de un bloque
+
+````markdown
+```{r}
+# Código R
+1 + 1
+```
+````
+
+Al renderizar, Quarto ejecuta el código e incorpora su resultado.
+
+### Primer ejemplo
+
+````markdown
+```{r}
+a <- 10
+b <- 20
+
+a + b
+```
+````
+
+El resultado será:
+
+```text
+[1] 30
+```
+
+### Asignar un identificador
+
+Se puede asignar un nombre al bloque mediante `label`.
+
+````markdown
+```{r}
+#| label: primer-calculo
+
+a <- 10
+b <- 20
+
+a + b
+```
+````
+
+La instrucción `#| label:` pertenece a la configuración de Quarto.
+
+### Ejemplo: incorporar código a nuestro documento
+
+Agrega una nueva sección:
+
+````markdown
+# Ejecución de código R
+
+Quarto permite ejecutar instrucciones de R
+directamente dentro de un documento.
+
+Esta funcionalidad permite combinar explicaciones
+con procedimientos y resultados reproducibles.
+
+## Primer cálculo
+
+Como ejemplo, calcularemos el promedio de
+cuatro valores numéricos.
+
+```{r}
+#| label: calculo-promedio
+
+valores <- c(10, 20, 30, 40)
+
+mean(valores)
+```
+
+El bloque anterior calcula la media aritmética
+de los valores proporcionados.
+
+## Resumen estadístico
+
+También podemos utilizar funciones de R
+para obtener información descriptiva.
+
+```{r}
+#| label: resumen-valores
+
+summary(valores)
+```
+
+De esta manera, Quarto incorpora automáticamente
+los resultados generados durante la ejecución.
+````
+
+---
+
+## Mostrar y ocultar código durante el renderizado
+
+Quarto permite controlar qué elementos aparecen en el documento final.
+
+Las opciones se escriben al principio de cada bloque utilizando `#|`.
+
+### Mostrar código y resultados
+
+De manera predeterminada, Quarto muestra tanto el código como los resultados.
+
+````markdown
+```{r}
+#| echo: true
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+````
+
+### Ocultar código y mostrar resultados
+
+La opción `echo: false` oculta el código, pero permite mostrar sus resultados.
+
+````markdown
+```{r}
+#| echo: false
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+````
+
+### Mostrar código sin ejecutarlo
+
+La opción `eval: false` permite mostrar código sin ejecutarlo.
+
+````markdown
+```{r}
+#| eval: false
+
+summary(x)
+```
+````
+
+### Ejecutar código sin mostrar nada
+
+La opción `include: false` ejecuta las instrucciones, pero no incorpora código ni resultados al documento.
+
+````markdown
+```{r}
+#| include: false
+
+promedio <- mean(x)
+```
+````
+
+### Ocultar la salida textual
+
+La opción `output: false` oculta los resultados textuales del bloque.
+
+````markdown
+```{r}
+#| echo: true
+#| output: false
+
+summary(x)
+```
+````
+
+### Ocultar gráficas
+
+La opción `fig-show: hide` permite ejecutar código que genera figuras sin incorporarlas al documento.
+
+````markdown
+```{r}
+#| fig-show: hide
+
+hist(x)
+```
+````
+
+### Comparación de opciones
+
+| Opción | Función |
+|:--|:--|
+| `echo: true` | Muestra el código |
+| `echo: false` | Oculta el código |
+| `eval: false` | No ejecuta el código |
+| `include: false` | Ejecuta sin mostrar código ni resultados |
+| `output: false` | Oculta la salida textual |
+| `fig-show: hide` | Oculta las gráficas |
+| `warning: false` | Oculta advertencias |
+| `message: false` | Oculta mensajes |
+
+### Ejemplo: presentar resultados en el documento
+
+Agrega el siguiente apartado:
+
+````markdown
+# Presentación de código y resultados
+
+Quarto permite controlar qué instrucciones
+y resultados aparecen en el documento final.
+
+## Código y resultado visibles
+
+En el siguiente ejemplo se mostrarán las instrucciones
+de R y el promedio calculado.
+
+```{r}
+#| echo: true
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+
+## Mostrar únicamente el resultado
+
+En ocasiones solamente necesitamos presentar
+el valor calculado, sin mostrar las instrucciones.
+
+```{r}
+#| echo: false
+
+mean(x)
+```
+
+## Mostrar código sin ejecutarlo
+
+También podemos incorporar instrucciones
+como ejemplos dentro del documento.
+
+```{r}
+#| eval: false
+
+summary(x)
+```
+
+## Ocultar resultados textuales
+
+La siguiente instrucción se ejecutará,
+pero su salida textual no aparecerá.
+
+```{r}
+#| echo: true
+#| output: false
+
+summary(x)
+```
+
+Estas opciones permiten adaptar la presentación
+del documento según sus objetivos.
+````
+
+---
+
+## Incorporar resultados de R dentro del texto
+
+Quarto permite insertar resultados calculados directamente dentro de los párrafos.
+
+Esto se conoce como **código R en línea**.
+
+### Ejemplo
+
+Primero se crea una variable:
+
+````markdown
+```{r}
+#| include: false
+
+valor <- 25
+```
+````
+
+Después se escribe en el documento:
+
+```text
+El valor calculado es `r valor`.
+```
+
+Al renderizar, Quarto sustituirá la expresión por el resultado:
+
+> El valor calculado es 25.
+
+### Otro ejemplo
+
+```text
+El promedio de los valores es `r mean(c(10,20,30))`.
+```
+
+El resultado será:
+
+> El promedio de los valores es 20.
+
+### Ejemplo: resultados dentro de nuestro documento
+
+Agrega el siguiente apartado:
+
+````markdown
+# Resultados automáticos dentro del texto
+
+Quarto permite incorporar resultados generados
+mediante R directamente dentro de los párrafos.
+
+## Cálculo de un promedio
+
+Primero definiremos un conjunto de valores.
+
+```{r}
+#| include: false
+
+numeros <- c(10, 20, 30, 40, 50)
+
+promedio <- mean(numeros)
+```
+
+El conjunto contiene `r length(numeros)` valores.
+
+El promedio calculado es `r promedio`.
+
+Este procedimiento permite mantener actualizados
+los resultados escritos dentro del documento
+cuando se modifican los datos.
+````
+
+::: {.callout-important}
+### Orden de ejecución
+
+Los objetos deben crearse antes de utilizarse dentro de un párrafo.
+
+Si una variable no existe, Quarto mostrará un error durante el renderizado.
+:::
+
+---
+
+## Personalización del documento PDF
+
+Quarto permite modificar características generales del documento desde el encabezado YAML.
+
+### Tamaño de letra, papel y márgenes
+
+Por ejemplo:
+
+```yaml
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    fontsize: 11pt
+    papersize: letter
+    geometry:
+      - margin=2.5cm
+```
+
+### Cambiar el tipo de letra
+
+También se puede utilizar una fuente instalada en la computadora.
+
+Por ejemplo:
+
+```yaml
+format:
+  pdf:
+    pdf-engine: xelatex
+    mainfont: "Arial"
+```
+
+En este caso se requiere que la fuente esté instalada y que el motor XeLaTeX esté disponible.
+
+::: {.callout-note}
+### Importante
+
+Los fragmentos YAML anteriores son ejemplos de configuración.
+
+No deben incorporarse varios encabezados YAML al mismo documento.
+
+Las opciones deben integrarse dentro del encabezado existente.
+:::
+
+---
+
+## Ejemplo final: aplicación con datos reales
+
+En esta sección se utilizará un conjunto de datos para incorporar resultados generados mediante R dentro del documento Quarto.
+
+El archivo `mamut_datos.csv` contiene **10 000 observaciones tridimensionales**, representadas mediante las coordenadas `x`, `y` y `z`.
+
+El propósito será elaborar un breve informe que incluya:
+
+- Lectura del archivo CSV.
+- Tabla de primeras observaciones.
+- Estadísticas descriptivas.
+- Visualización tridimensional.
+- Referencias automáticas a tablas y figuras.
+- Resultados incorporados dentro del texto.
+
+No se aplicarán técnicas de agrupamiento ni reducción de dimensiones. El objetivo es aprender a **presentar correctamente resultados dentro de un documento Quarto**.
+
+### Descripción del conjunto de datos
+
+Agrega una nueva sección a `mi_primer_documento.qmd`:
+
+```markdown
+# Aplicación con datos reales
+
+En esta sección utilizaremos un conjunto de datos
+que representa la geometría de un mamut mediante
+una nube de puntos tridimensionales.
+
+Cada observación contiene tres coordenadas
+espaciales: `x`, `y` y `z`.
+
+El propósito será incorporar tablas y gráficas
+generadas mediante R dentro de nuestro documento.
+```
+
+### Lectura del archivo
+
+Incorpora el siguiente bloque:
+
+````markdown
+```{r}
+#| label: carga-mamut
+#| include: false
+
+datos <- read.csv("mamut_datos.csv")
+
+stopifnot(
+  nrow(datos) == 10000,
+  all(c("x", "y", "z") %in% names(datos))
+)
+```
+````
+
+El archivo debe encontrarse en la misma carpeta que `mi_primer_documento.qmd`.
+
+La función `read.csv()` permite leer el contenido del archivo CSV.
+
+La instrucción `stopifnot()` comprueba que el conjunto tenga 10 000 filas y que incluya las columnas esperadas.
+
+### Incorporar información dentro del texto
+
+Se puede utilizar código R en línea para mostrar las dimensiones del conjunto de datos.
+
+```text
+El conjunto contiene `r nrow(datos)` observaciones
+y `r ncol(datos)` variables.
+```
+
+Al renderizar, Quarto sustituirá automáticamente las expresiones por los valores calculados.
+
+### Tabla de primeras observaciones
+
+Para mostrar los primeros registros se utilizará `knitr::kable()`.
+
+````markdown
+```{r}
+#| label: tbl-primeras
+#| tbl-cap: "Primeras cinco observaciones del conjunto de datos."
+#| echo: false
+
+knitr::kable(
+  head(datos, 5),
+  digits = 3
+)
+```
+````
+
+Para hacer referencia a la tabla:
+
+```markdown
+La @tbl-primeras presenta las primeras cinco
+observaciones del conjunto de datos.
+```
+
+### Estadísticas descriptivas
+
+Se calcularán los valores mínimos, máximos, promedios y desviaciones estándar de las coordenadas.
+
+````markdown
+```{r}
+#| label: tbl-resumen
+#| tbl-cap: "Estadísticas descriptivas de las coordenadas."
+#| echo: false
+
+coordenadas <- datos[c("x", "y", "z")]
+
+resumen <- data.frame(
+  Variable = names(coordenadas),
+  Minimo = sapply(coordenadas, min),
+  Maximo = sapply(coordenadas, max),
+  Promedio = sapply(coordenadas, mean),
+  Desviacion = sapply(coordenadas, sd),
+  row.names = NULL
+)
+
+knitr::kable(
+  resumen,
+  digits = 2,
+  row.names = FALSE
+)
+```
+````
+
+Para incorporar una interpretación:
+
+```markdown
+La @tbl-resumen presenta los valores mínimos,
+máximos, promedios y desviaciones estándar
+de las tres coordenadas del conjunto de datos.
+```
+
+### Visualización tridimensional
+
+Para generar la gráfica se utilizará el paquete `scatterplot3d`.
+
+Primero es necesario instalarlo desde la **Consola de RStudio**:
+
+```r
+install.packages("scatterplot3d")
+```
+
+La instalación solamente debe realizarse una vez.
+
+Después se incorpora el siguiente bloque:
+
+````markdown
+```{r}
+#| label: fig-mamut-3d
+#| fig-cap: "Nube original de puntos del mamut en tres dimensiones."
+#| fig-width: 8
+#| fig-height: 6
+#| echo: false
+
+library(scatterplot3d)
+
+scatterplot3d(
+  x = datos$x,
+  y = datos$y,
+  z = datos$z,
+  pch = 16,
+  cex.symbols = 0.25,
+  color = "steelblue",
+  angle = 40,
+  xlab = "Coordenada X",
+  ylab = "Coordenada Y",
+  zlab = "Coordenada Z",
+  main = "Mamut: nube de puntos original"
+)
+```
+````
+
+La gráfica representa los puntos originales sin aplicar transformaciones.
+
+El parámetro `angle` permite modificar la perspectiva de visualización.
+
+Por ejemplo:
+
+```r
+angle = 20
+```
+
+o:
+
+```r
+angle = 60
+```
+
+### Incorporar una referencia automática
+
+Debajo de la gráfica escribe:
+
+```markdown
+La @fig-mamut-3d presenta una proyección estática
+de los 10 000 puntos originales del mamut.
+
+Esta representación permite observar la distribución
+espacial de las coordenadas sin aplicar técnicas
+de reducción de dimensiones.
+```
+
+::: {.callout-note}
+### Sobre la visualización
+
+El paquete `scatterplot3d` genera una gráfica estática compatible con PDF.
+
+El parámetro `angle` controla la perspectiva horizontal, pero no permite rotar libremente la gráfica en todas las direcciones.
+
+El cambio de perspectiva no modifica las coordenadas originales.
+:::
+
+---
+
+## Ejemplo completo del documento
+
+A continuación se presenta el código completo de `mi_primer_documento.qmd`, integrando los principales elementos desarrollados durante este apunte.
+
+El documento incluye:
+
+- Título, autor y tabla de contenido.
+- Títulos y subtítulos numerados.
+- Formatos de texto.
+- Listas y tablas.
+- Imágenes.
+- Ecuaciones matemáticas.
+- Bloques de código R.
+- Control de resultados.
+- Aplicación con datos reales.
+- Conclusiones.
+
+::: {.callout-important}
+### Sobre este ejemplo
+
+El siguiente código reúne en un solo archivo los contenidos desarrollados durante el apunte.
+
+Si el documento ya se construyó progresivamente, **no debe agregarse nuevamente todo este código al final**, porque se duplicarían las secciones, tablas, figuras e identificadores.
+
+Este ejemplo puede utilizarse para revisar la estructura general o para reconstruir el documento desde un archivo nuevo.
+:::
+
+### Código completo de `mi_primer_documento.qmd`
+
+````markdown
+---
+title: "Mi primer documento con Markdown y Quarto"
+subtitle: "Elaboración de documentos reproducibles"
+author: "Nombre del estudiante"
+date: today
+lang: es
+format:
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    fontsize: 11pt
+    papersize: letter
+    colorlinks: true
+    geometry:
+      - margin=2.5cm
+execute:
+  warning: false
+  message: false
+---
+
+# Introducción
+
+La elaboración de documentos académicos y técnicos requiere
+herramientas que permitan organizar información, incorporar
+resultados y mantener una presentación clara.
+
+**Markdown** es un lenguaje de marcado ligero que utiliza
+una sintaxis sencilla para estructurar documentos mediante
+títulos, subtítulos, listas, tablas e imágenes.
+
+Por su parte, **Quarto** permite combinar Markdown con código
+ejecutable y generar documentos en diferentes formatos,
+como HTML, PDF y Word.
+
+## ¿Qué es Markdown?
+
+Markdown utiliza símbolos para establecer la estructura
+y el formato de un documento sin depender de herramientas
+visuales de edición.
+
+### Principales características
+
+Entre sus características destacan la facilidad de escritura,
+la organización del contenido y la compatibilidad con
+diferentes herramientas de publicación.
+
+#### Sintaxis sencilla
+
+Para crear encabezados, listas y otros elementos,
+Markdown utiliza símbolos como `#`, `*` y `-`.
+
+## ¿Qué es Quarto?
+
+Quarto es un sistema de publicación que permite elaborar
+documentos reproducibles a partir de archivos `.qmd`.
+
+### Documentos reproducibles
+
+Un documento reproducible integra las explicaciones,
+el código y los resultados dentro de un mismo archivo.
+
+Esto permite actualizar automáticamente las tablas,
+gráficas y resultados cuando se modifican los datos.
+
+# Formato de texto en Markdown
+
+El lenguaje **Markdown** permite aplicar diferentes
+formatos mediante una sintaxis sencilla.
+
+Por ejemplo, podemos utilizar *cursivas* para destacar
+términos, **negritas** para enfatizar conceptos importantes
+y ***ambos formatos*** cuando necesitamos un mayor énfasis.
+
+También podemos identificar archivos y funciones mediante
+formato de código, como `mi_primer_documento.qmd`
+o `read.csv()`.
+
+Una de sus principales ventajas es que el documento
+conserva su contenido en un archivo de texto,
+lo que facilita su edición y actualización.
+
+# Características de Markdown y Quarto
+
+## Características de Markdown
+
+Markdown proporciona diferentes herramientas para
+organizar la información:
+
+- Escritura sencilla mediante texto plano.
+- Creación de títulos y subtítulos.
+- Incorporación de listas y tablas.
+- Inserción de imágenes y enlaces.
+- Compatibilidad con diferentes plataformas.
+
+## Características de Quarto
+
+Quarto amplía las posibilidades de Markdown mediante:
+
+1. Integración de código ejecutable.
+2. Generación automática de resultados.
+3. Creación de tablas y gráficas.
+4. Incorporación de ecuaciones matemáticas.
+5. Exportación a diferentes formatos.
+
+## Aplicaciones
+
+Estas herramientas pueden utilizarse en:
+
+- **Educación**
+  - Apuntes de clase.
+  - Prácticas de laboratorio.
+  - Materiales didácticos.
+
+- **Investigación**
+  - Informes técnicos.
+  - Artículos académicos.
+  - Reportes estadísticos.
+
+- **Desarrollo de software**
+  - Documentación de proyectos.
+  - Manuales técnicos.
+  - Presentación de resultados.
+
+# Recursos de aprendizaje
+
+Markdown y Quarto cuentan con documentación oficial
+que permite consultar sus principales funcionalidades.
+
+Entre los recursos disponibles encontramos:
+
+- [Documentación oficial de Quarto](https://quarto.org/)
+- [Fundamentos de Markdown](https://quarto.org/docs/authoring/markdown-basics.html)
+- [Documentos PDF](https://quarto.org/docs/output-formats/pdf-basics.html)
+
+> La consulta de documentación oficial permite
+> resolver dudas y conocer nuevas funcionalidades.
+
+---
+
+Estos recursos pueden utilizarse como referencia
+durante la elaboración de documentos académicos
+y técnicos.
+
+# Formatos de salida de Quarto
+
+Quarto permite generar diferentes tipos de documentos
+a partir de un mismo archivo `.qmd`.
+
+Entre los formatos más utilizados encontramos:
+
+| Formato | Extensión | Aplicación |
+|:--|:--:|:--|
+| HTML | .html | Publicación web |
+| PDF | .pdf | Informes académicos |
+| Word | .docx | Documentos editables |
+
+: Principales formatos de salida de Quarto {#tbl-formatos}
+
+La @tbl-formatos presenta los formatos de salida
+más utilizados y algunas de sus aplicaciones.
+
+Una ventaja de Quarto es que el contenido puede
+mantenerse en un mismo archivo y generarse
+en diferentes formatos.
+
+# Incorporación de imágenes
+
+Una de las características de Quarto es la posibilidad
+de incorporar imágenes dentro de un documento.
+
+Las figuras permiten complementar las explicaciones,
+presentar ejemplos visuales y facilitar la comprensión
+de determinados conceptos.
+
+## Imagen de referencia
+
+Como ejemplo, incorporaremos una imagen de un mamut.
+
+![Imagen de referencia del mamut](imagenes/mamut_referencia.png){#fig-mamut-referencia width=70%}
+
+En la @fig-mamut-referencia se presenta una imagen
+utilizada para practicar la incorporación de figuras.
+
+Quarto permite controlar el tamaño de las imágenes,
+agregar títulos y generar referencias automáticas.
+
+# Expresiones matemáticas
+
+Quarto permite incorporar ecuaciones matemáticas
+mediante sintaxis LaTeX.
+
+Esta funcionalidad resulta útil para elaborar
+documentos académicos y científicos que requieren
+expresar procedimientos matemáticos.
+
+## Media aritmética
+
+La media aritmética se representa mediante $\bar{x}$
+y permite calcular el promedio de un conjunto de valores.
+
+Su expresión matemática es:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$ {#eq-promedio}
+
+La @eq-promedio representa el cálculo de la media.
+
+## Desviación estándar
+
+La desviación estándar permite describir la dispersión
+de las observaciones respecto a su promedio.
+
+La expresión para una muestra es:
+
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}
+$$ {#eq-desviacion}
+
+La @eq-desviacion representa la desviación estándar
+muestral.
+
+# Ejecución de código R
+
+Quarto permite ejecutar instrucciones de R
+directamente dentro de un documento.
+
+Esta funcionalidad permite combinar explicaciones
+con procedimientos y resultados reproducibles.
+
+## Primer cálculo
+
+Como ejemplo, calcularemos el promedio de
+cuatro valores numéricos.
+
+```{r}
+#| label: calculo-promedio
+
+valores <- c(10, 20, 30, 40)
+
+mean(valores)
+```
+
+El bloque anterior calcula la media aritmética
+de los valores proporcionados.
+
+## Resumen estadístico
+
+También podemos utilizar funciones de R
+para obtener información descriptiva.
+
+```{r}
+#| label: resumen-valores
+
+summary(valores)
+```
+
+De esta manera, Quarto incorpora automáticamente
+los resultados generados durante la ejecución.
+
+# Presentación de código y resultados
+
+Quarto permite controlar qué instrucciones
+y resultados aparecen en el documento final.
+
+## Código y resultado visibles
+
+En el siguiente ejemplo se mostrarán las instrucciones
+de R y el promedio calculado.
+
+```{r}
+#| echo: true
+
+x <- c(10, 20, 30, 40)
+
+mean(x)
+```
+
+## Mostrar únicamente el resultado
+
+En ocasiones solamente necesitamos presentar
+el valor calculado, sin mostrar las instrucciones.
+
+```{r}
+#| echo: false
+
+mean(x)
+```
+
+## Mostrar código sin ejecutarlo
+
+También podemos incorporar instrucciones
+como ejemplos dentro del documento.
+
+```{r}
+#| eval: false
+
+summary(x)
+```
+
+## Ocultar resultados textuales
+
+La siguiente instrucción se ejecutará,
+pero su salida textual no aparecerá.
+
+```{r}
+#| echo: true
+#| output: false
+
+summary(x)
+```
+
+Estas opciones permiten adaptar la presentación
+del documento según sus objetivos.
+
+# Resultados automáticos dentro del texto
+
+Quarto permite incorporar resultados generados
+mediante R directamente dentro de los párrafos.
+
+## Cálculo de un promedio
+
+Primero definiremos un conjunto de valores.
+
+```{r}
+#| include: false
+
+numeros <- c(10, 20, 30, 40, 50)
+
+promedio <- mean(numeros)
+```
+
+El conjunto contiene `r length(numeros)` valores.
+
+El promedio calculado es `r promedio`.
+
+Este procedimiento permite mantener actualizados
+los resultados escritos dentro del documento
+cuando se modifican los datos.
+
+# Aplicación con datos reales
+
+En esta sección utilizaremos un conjunto de datos
+que representa la geometría de un mamut mediante
+una nube de puntos tridimensionales.
+
+Cada observación contiene tres coordenadas
+espaciales: `x`, `y` y `z`.
+
+El propósito será incorporar tablas y gráficas
+generadas mediante R dentro de nuestro documento.
+
+## Lectura del conjunto de datos
+
+```{r}
+#| label: carga-mamut
+#| include: false
+
+datos <- read.csv("mamut_datos.csv")
+
+stopifnot(
+  nrow(datos) == 10000,
+  all(c("x", "y", "z") %in% names(datos))
+)
+```
+
+El conjunto contiene `r nrow(datos)` observaciones
+y `r ncol(datos)` variables.
+
+## Primeras observaciones
+
+```{r}
+#| label: tbl-primeras
+#| tbl-cap: "Primeras cinco observaciones del conjunto de datos."
+#| echo: false
+
+knitr::kable(
+  head(datos, 5),
+  digits = 3
+)
+```
+
+La @tbl-primeras presenta las primeras cinco
+observaciones del conjunto de datos.
+
+## Estadísticas descriptivas
+
+```{r}
+#| label: tbl-resumen
+#| tbl-cap: "Estadísticas descriptivas de las coordenadas."
+#| echo: false
+
+coordenadas <- datos[c("x", "y", "z")]
+
+resumen <- data.frame(
+  Variable = names(coordenadas),
+  Minimo = sapply(coordenadas, min),
+  Maximo = sapply(coordenadas, max),
+  Promedio = sapply(coordenadas, mean),
+  Desviacion = sapply(coordenadas, sd),
+  row.names = NULL
+)
+
+knitr::kable(
+  resumen,
+  digits = 2,
+  row.names = FALSE
+)
+```
+
+La @tbl-resumen presenta los valores mínimos,
+máximos, promedios y desviaciones estándar
+de las tres coordenadas del conjunto de datos.
+
+## Visualización tridimensional
+
+Representaremos los puntos originales del mamut
+sin aplicar transformaciones.
+
+```{r}
+#| label: fig-mamut-3d
+#| fig-cap: "Nube original de puntos del mamut en tres dimensiones."
+#| fig-width: 8
+#| fig-height: 6
+#| echo: false
+
+library(scatterplot3d)
+
+scatterplot3d(
+  x = datos$x,
+  y = datos$y,
+  z = datos$z,
+  pch = 16,
+  cex.symbols = 0.25,
+  color = "steelblue",
+  angle = 40,
+  xlab = "Coordenada X",
+  ylab = "Coordenada Y",
+  zlab = "Coordenada Z",
+  main = "Mamut: nube de puntos original"
+)
+```
+
+La @fig-mamut-3d presenta una proyección estática
+de los 10 000 puntos originales del mamut.
+
+Esta representación permite observar la distribución
+espacial de las coordenadas sin aplicar técnicas
+de reducción de dimensiones.
+
+# Conclusiones
+
+Markdown permite organizar documentos mediante
+una sintaxis sencilla.
+
+Quarto amplía estas posibilidades al incorporar
+código ejecutable, tablas, imágenes, ecuaciones
+y resultados generados automáticamente.
+
+En este documento aprendimos a utilizar
+diferentes herramientas para elaborar
+informes reproducibles desde RStudio.
+
+Finalmente, utilizamos un conjunto de datos
+para generar estadísticas descriptivas
+y una visualización tridimensional.
+
+Estas herramientas pueden aplicarse en la
+elaboración de documentos académicos,
+reportes técnicos y proyectos de investigación.
+````
+
+---
+
+## Problemas frecuentes
+
+Durante el proceso de renderizado pueden aparecer errores relacionados con archivos, paquetes o configuraciones.
+
+| Problema | Posible solución |
+|:--|:--|
+| No se genera el PDF | Comprobar que LaTeX esté instalado |
+| No se encuentra el CSV | Revisar la ubicación del archivo |
+| No existe el objeto `datos` | Verificar que se ejecute el bloque de lectura |
+| No encuentra `scatterplot3d` | Instalar el paquete desde la Consola de RStudio |
+| No aparece la imagen | Revisar la carpeta `imagenes` y el nombre del archivo |
+| El código aparece en el PDF | Utilizar `echo: false` |
+| No se ejecuta el código | Revisar `eval: false` |
+| No aparecen resultados | Revisar las opciones `include` y `output` |
+| No aparece una gráfica | Revisar `fig-show` y posibles errores |
+| No aparece la tabla de contenido | Comprobar `toc: true` |
+| Error en YAML | Revisar indentación y opciones duplicadas |
+
+### Comprobar la estructura del proyecto
+
+Si Quarto no encuentra los archivos, verifica que la carpeta tenga esta estructura:
+
+```text
+Mi_primer_documento_Quarto/
+├── Mi_primer_documento_Quarto.Rproj
+├── mi_primer_documento.qmd
+├── mamut_datos.csv
+└── imagenes/
+    └── mamut_referencia.png
+```
+
+La ubicación de los archivos es importante porque se utilizan rutas relativas.
+
+Por ejemplo:
+
+```r
+datos <- read.csv("mamut_datos.csv")
+```
+
+Y para insertar la imagen:
+
+```markdown
+![Imagen de referencia](imagenes/mamut_referencia.png)
+```
+
+Ambas instrucciones funcionan cuando los archivos se encuentran en las ubicaciones indicadas.
+
+---
+
+## Conclusión
+
+Markdown y Quarto permiten elaborar documentos estructurados y reproducibles mediante una sintaxis sencilla.
+
+En este apunte se aprendió a crear un documento desde RStudio, configurar su presentación y utilizar diferentes elementos de Markdown para organizar su contenido.
+
+También se aprendió a incorporar títulos, subtítulos, listas, tablas, imágenes, ecuaciones y bloques de código R, así como a controlar qué instrucciones y resultados aparecen durante el renderizado.
+
+Finalmente, se utilizó un conjunto de datos para generar un informe con estadísticas descriptivas y una visualización tridimensional.
+
+Estas herramientas resultan útiles para elaborar reportes académicos, prácticas de laboratorio, proyectos de investigación y documentación técnica.
+
+---
+
+## Recursos adicionales
+
+- [Documentación oficial de Quarto](https://quarto.org/)
+- [Fundamentos de Markdown](https://quarto.org/docs/authoring/markdown-basics.html)
+- [Documentos PDF con Quarto](https://quarto.org/docs/output-formats/pdf-basics.html)
+- [Opciones de ejecución](https://quarto.org/docs/computations/execution-options.html)
+- [Referencias automáticas](https://quarto.org/docs/authoring/cross-references.html)

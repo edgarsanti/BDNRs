@@ -98,3 +98,36 @@ Los tiempos, costos y precios del archivo complementario son **simulaciones crea
 
 Fuente original: [OpenFlights](https://openflights.org/data.php). Los datos originales se distribuyen bajo la licencia Open Database License (ODbL).
 :::
+
+
+
+---
+
+---
+
+## Mi primer documento con Markdown y Quarto
+
+Archivos de trabajo para aprender a crear documentos reproducibles desde RStudio, incorporando texto, tablas, imágenes, ecuaciones y código R.
+
+La carpeta contiene:
+
+- `mamut_datos.csv`: conjunto de datos tridimensionales.
+- `imagenes/mamut_referencia.png`: imagen para practicar la inserción de figuras.
+
+**Formato:** ZIP.
+
+<a class="btn btn-primary"
+   href="datasets/Mi_primer_documento_Quarto.zip"
+   download>
+   Descargar archivos de trabajo
+</a>
+
+::: {.callout-note}
+**Preparación del proyecto**
+
+Descarga el archivo ZIP, descomprímelo y coloca la carpeta `Mi_primer_documento_Quarto` en el Escritorio de tu computadora.
+
+Posteriormente, abre RStudio y selecciona **File → New Project → Existing Directory** para crear un proyecto utilizando esa carpeta.
+
+El documento `mi_primer_documento.qmd` se creará durante la clase.
+:::

@@ -232,29 +232,14 @@ Conexión de Python con Neo4j, ejecución de consultas Cypher desde Jupyter Note
 
 ---
 
-## Integración, limpieza y validación de datos
+## Creación de documentos con Markdown y Quarto desde RStudio
 
-Preparación, limpieza, integración y validación de información para su almacenamiento y consulta en bases de datos NoSQL.
+Introducción a Markdown y Quarto para elaborar documentos reproducibles desde RStudio. Creación de archivos `.qmd`, formato de texto, tablas, imágenes, código R y generación de documentos PDF mediante un ejercicio práctico.
 
-<a class="btn btn-secondary disabled"
-   href="#"
-   aria-disabled="true"
-   tabindex="-1"
-   style="pointer-events: none; opacity: 0.65;">
-   Próximamente
+<a class="btn btn-primary"
+   href="apuntes/19_markdown_quarto_rstudio.html">
+   Abrir apunte
 </a>
 
 ---
-
-## Ética y tratamiento responsable de datos
-
-Privacidad, protección de información, procedencia de los datos, derechos de autor y consideraciones éticas en su utilización.
-
-<a class="btn btn-secondary disabled"
-   href="#"
-   aria-disabled="true"
-   tabindex="-1"
-   style="pointer-events: none; opacity: 0.65;">
-   Próximamente
-</a>
 
