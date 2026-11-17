@@ -243,3 +243,13 @@ Introducción a Markdown y Quarto para elaborar documentos reproducibles desde R
 
 ---
 
+
+## Creación de documentos académicos con LaTeX y Overleaf
+
+Introducción a LaTeX y elaboración de documentos académicos desde Overleaf, incorporando tablas, imágenes, ecuaciones matemáticas y referencias automáticas.
+
+<a class="btn btn-primary"
+   href="apuntes/20_latex_overleaf.html">
+   Consultar apunte
+</a>
+

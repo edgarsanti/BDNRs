@@ -1,0 +1,1705 @@
+
+---
+title: "Creación de documentos académicos con LaTeX y Overleaf"
+subtitle: "Bases de Datos No Relacionales"
+lang: es
+engine: markdown
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+---
+
+## Introducción
+
+La elaboración de documentos académicos y técnicos requiere herramientas que permitan organizar información, incorporar tablas y figuras, escribir expresiones matemáticas y mantener una presentación uniforme.
+
+**LaTeX** es un sistema de preparación de documentos que utiliza instrucciones para definir su estructura y presentación. Se utiliza ampliamente en artículos científicos, tesis, libros e informes técnicos.
+
+**Overleaf** es una plataforma en línea que permite escribir, editar y compilar documentos LaTeX directamente desde un navegador, sin necesidad de instalar una distribución de LaTeX en la computadora.
+
+En este apunte se aprenderá a **crear documentos académicos con LaTeX desde Overleaf**, incorporando títulos, subtítulos, formatos de texto, listas, tablas, imágenes, ecuaciones y referencias automáticas.
+
+Durante el desarrollo del material se construirá progresivamente un documento titulado **«Mi primer documento con LaTeX y Overleaf»**, cuyo contenido explicará las principales características y aplicaciones de estas herramientas.
+
+Los ejemplos permitirán observar cómo las instrucciones escritas en LaTeX se transforman en un documento PDF. Al finalizar, se dispondrá de un documento completo con una presentación académica.
+
+El objetivo principal es aprender a **escribir, organizar y compilar documentos académicos mediante LaTeX**.
+
+---
+
+## ¿Qué es LaTeX?
+
+LaTeX es un sistema de composición de documentos que permite definir su estructura y presentación mediante instrucciones escritas en archivos de texto.
+
+A diferencia de los procesadores de texto convencionales, donde el formato se modifica directamente sobre la página, LaTeX utiliza comandos que indican cómo debe presentarse cada elemento.
+
+Por ejemplo:
+
+| Comando | Función |
+|:--|:--|
+| `\section{}` | Crear una sección |
+| `\subsection{}` | Crear una subsección |
+| `\textbf{}` | Escribir texto en negritas |
+| `\textit{}` | Escribir texto en cursivas |
+| `\includegraphics{}` | Incorporar una imagen |
+| `\begin{equation}` | Crear una ecuación numerada |
+| `\label{}` | Identificar una tabla, figura o ecuación |
+| `\ref{}` | Crear una referencia automática |
+
+Los documentos LaTeX utilizan normalmente la extensión `.tex`.
+
+### ¿Qué es Overleaf?
+
+Overleaf es un editor de LaTeX que funciona desde un navegador web.
+
+Permite crear proyectos, escribir código, incorporar imágenes, utilizar ecuaciones matemáticas y visualizar el PDF generado.
+
+Una de sus principales ventajas es que el **código fuente y el documento PDF pueden observarse dentro de la misma plataforma**.
+
+### Diferencias entre LaTeX, Overleaf y Quarto
+
+| Herramienta | Función principal |
+|:--|:--|
+| LaTeX | Sistema de composición de documentos |
+| Overleaf | Editor en línea de proyectos LaTeX |
+| Markdown | Lenguaje de marcado ligero |
+| Quarto | Sistema de publicación de documentos reproducibles |
+
+Aunque estas herramientas pueden utilizarse para elaborar documentos académicos, tienen procedimientos y sintaxis diferentes.
+
+---
+
+## Acceder a Overleaf
+
+### Abrir la plataforma
+
+Ingresa desde un navegador a:
+
+[**Overleaf — Editor de LaTeX**](https://www.overleaf.com/)
+
+Para utilizar la plataforma, inicia sesión o crea una cuenta.
+
+Una vez que hayas ingresado, aparecerá el espacio donde se administran los proyectos.
+
+### Crear un proyecto nuevo
+
+Realiza lo siguiente:
+
+1. Haz clic en **New Project**.
+2. Selecciona **Blank Project**.
+3. Escribe el nombre `Mi_primer_documento_LaTeX`.
+4. Haz clic en **Create**.
+
+Overleaf abrirá automáticamente el nuevo proyecto.
+
+### Conocer el entorno de trabajo
+
+El entorno de Overleaf contiene tres áreas principales:
+
+**Panel de archivos:** permite administrar los archivos y carpetas del proyecto.
+
+**Editor de código:** es el espacio donde se escriben las instrucciones de LaTeX.
+
+**Vista previa del PDF:** muestra cómo quedará el documento después de compilar.
+
+Esta organización permite escribir instrucciones y observar sus resultados sin salir del navegador.
+
+---
+
+## Crear nuestro primer documento LaTeX
+
+### Identificar el archivo principal
+
+Al crear un proyecto en blanco, Overleaf genera normalmente un archivo llamado:
+
+`main.tex`
+
+Este será el archivo principal del documento.
+
+Su contenido se procesará para generar el PDF.
+
+### Abrir el documento
+
+En el panel de archivos, haz clic en `main.tex`.
+
+El contenido aparecerá en el editor.
+
+Para comenzar desde cero, elimina el contenido inicial y escribe el siguiente código:
+
+```latex
+\documentclass{article}
+
+\begin{document}
+
+Hola, este es mi primer documento con LaTeX.
+
+\end{document}
+```
+
+### ¿Cómo funciona este código?
+
+La primera instrucción, `\documentclass{article}`, indica que se creará un documento de tipo artículo.
+
+Después, `\begin{document}` establece dónde comienza el contenido visible.
+
+La oración escrita entre las instrucciones aparecerá como texto en el PDF.
+
+Finalmente, `\end{document}` señala dónde termina el documento.
+
+Esta estructura es la base sobre la cual incorporaremos los demás elementos.
+
+### Compilar el documento
+
+Haz clic en **Recompile**, ubicado en la parte superior de Overleaf.
+
+La plataforma procesará el código y mostrará el PDF en el panel de vista previa.
+
+El resultado será una página que contiene la oración del ejemplo.
+
+::: {.callout-note}
+### Compilar y renderizar
+
+En Quarto se utiliza habitualmente el término **renderizar**.
+
+En LaTeX y Overleaf se utiliza principalmente el término **compilar**.
+
+Ambos procesos transforman un archivo fuente en un documento final. En Overleaf, este proceso se realiza mediante el botón **Recompile**.
+:::
+
+---
+
+## Configuración inicial del documento
+
+Antes de incorporar el contenido académico, es necesario establecer las características generales del documento.
+
+Estas instrucciones se escriben en el **preámbulo**, es decir, antes de `\begin{document}`.
+
+### Clase y tamaño del documento
+
+La clase determina el tipo de documento que se elaborará.
+
+Por ejemplo:
+
+```latex
+\documentclass[11pt,letterpaper]{article}
+```
+
+En este caso, `article` establece que se trata de un artículo, `11pt` indica un tamaño base de letra de 11 puntos y `letterpaper` configura el tamaño de papel carta.
+
+Las opciones generales se escriben entre corchetes y la clase del documento entre llaves.
+
+### Incorporar paquetes
+
+Los paquetes permiten agregar funcionalidades que no están incluidas directamente en la configuración básica.
+
+Para incorporarlos se utiliza la instrucción `\usepackage`.
+
+En nuestro documento utilizaremos:
+
+```latex
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+```
+
+Cada paquete cumple una función específica:
+
+| Paquete | Función |
+|:--|:--|
+| `babel` | Adapta el documento al idioma español |
+| `fontenc` | Configura la codificación de las fuentes |
+| `lmodern` | Utiliza la familia tipográfica Latin Modern |
+| `geometry` | Permite modificar los márgenes |
+| `graphicx` | Permite insertar y ajustar imágenes |
+| `amsmath` | Amplía las herramientas matemáticas |
+| `booktabs` | Mejora la presentación de tablas |
+| `hyperref` | Crea enlaces y referencias internas |
+
+La opción `hidelinks` del paquete `hyperref` permite conservar los enlaces del PDF sin mostrar recuadros rojos alrededor del texto.
+
+### Configurar los márgenes
+
+Podemos modificar los márgenes mediante el paquete `geometry`.
+
+Por ejemplo:
+
+```latex
+\geometry{margin=2.5cm}
+```
+
+Esta instrucción establece márgenes de 2.5 centímetros alrededor de la página.
+
+Debe colocarse después de cargar el paquete `geometry`.
+
+### Establecer título, autor y fecha
+
+LaTeX permite definir la información general del documento mediante tres instrucciones:
+
+```latex
+\title{Mi primer documento con LaTeX y Overleaf}
+\author{Nombre del estudiante}
+\date{\today}
+```
+
+`\title` establece el título, `\author` indica el nombre del autor y `\date` incorpora la fecha.
+
+La instrucción `\today` permite colocar automáticamente la fecha correspondiente al momento de la compilación.
+
+### Ejemplo: configurar nuestro documento
+
+Ahora integraremos todos estos elementos.
+
+Sustituye el contenido de `main.tex` por el siguiente código:
+
+```latex
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{margin=2.5cm}
+
+\title{Mi primer documento con LaTeX y Overleaf}
+\author{Nombre del estudiante}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+
+Este es mi primer documento académico elaborado
+mediante LaTeX desde la plataforma Overleaf.
+
+\end{document}
+```
+
+La primera parte establece las características generales del documento. Posteriormente, se definen el título, el autor y la fecha.
+
+Dentro del cuerpo aparece una instrucción nueva: `\maketitle`. Su función es mostrar en el PDF la información del título que fue configurada previamente.
+
+La instrucción `\section{Introducción}` crea una sección numerada, seguida de un párrafo.
+
+### ¿Qué observar al compilar?
+
+Al presionar **Recompile**, el documento mostrará el título, el nombre del autor, la fecha y una primera sección llamada «Introducción».
+
+::: {.callout-important}
+### Continuación del documento
+
+A partir de este momento, los nuevos apartados deben incorporarse **antes de `\end{document}`**.
+
+No es necesario repetir el preámbulo ni agregar varias instrucciones `\documentclass` dentro del mismo archivo.
+:::
+
+---
+
+## Títulos y subtítulos en LaTeX
+
+LaTeX permite organizar los documentos mediante diferentes niveles de encabezados.
+
+Los principales son:
+
+```latex
+\section{Título principal}
+
+\subsection{Subtítulo}
+
+\subsubsection{Encabezado de tercer nivel}
+
+\paragraph{Encabezado de cuarto nivel}
+```
+
+Estas instrucciones establecen una jerarquía.
+
+`\section` crea una sección principal, mientras que `\subsection` y `\subsubsection` permiten desarrollar apartados cada vez más específicos.
+
+Por su parte, `\paragraph` crea un encabezado de nivel inferior, que normalmente aparece integrado con el texto siguiente en la clase `article`.
+
+LaTeX numera automáticamente los primeros niveles de encabezados según su configuración.
+
+### Ejemplo: organizar nuestro documento
+
+Reemplaza la introducción inicial por el siguiente contenido:
+
+```latex
+\section{Introducción}
+
+La elaboración de documentos académicos y técnicos
+requiere herramientas que permitan organizar
+información, incorporar resultados y mantener
+una presentación clara.
+
+LaTeX es un sistema de preparación de documentos
+que permite estructurar contenidos mediante
+instrucciones escritas en un archivo de texto.
+
+Por su parte, Overleaf es una plataforma en línea
+que facilita la edición y compilación de
+documentos LaTeX.
+
+\subsection{¿Qué es LaTeX?}
+
+LaTeX permite definir la estructura y presentación
+de un documento utilizando comandos.
+
+\subsubsection{Principales características}
+
+Entre sus principales características destacan
+la numeración automática, la escritura de ecuaciones
+y el control de la presentación.
+
+\paragraph{Organización del contenido}
+
+Los documentos pueden dividirse en diferentes
+niveles de encabezados para organizar
+la información.
+
+\subsection{¿Qué es Overleaf?}
+
+Overleaf permite escribir y compilar documentos
+LaTeX desde un navegador.
+
+\subsubsection{Documentos académicos}
+
+La plataforma facilita la creación de informes,
+artículos y otros documentos técnicos.
+```
+
+En este ejemplo, la introducción presenta el tema del documento.
+
+Después se utiliza una subsección para explicar LaTeX, un encabezado de tercer nivel para sus características y un encabezado de nivel inferior para describir la organización del contenido.
+
+Finalmente, se agrega otra subsección sobre Overleaf.
+
+### ¿Qué observar al compilar?
+
+Los títulos aparecerán con diferentes tamaños y estilos, de acuerdo con su jerarquía.
+
+La numeración será automática, por lo que no será necesario escribir manualmente los números de las secciones.
+
+---
+
+## Portada y tabla de contenido
+
+LaTeX permite generar automáticamente un encabezado con los datos del documento y una tabla de contenido.
+
+### Mostrar el título del documento
+
+La información del título, autor y fecha ya se estableció en el preámbulo.
+
+Para mostrarla en el PDF se utiliza:
+
+```latex
+\maketitle
+```
+
+Esta instrucción genera el bloque de título a partir de los datos previamente definidos.
+
+### Crear una tabla de contenido
+
+Para incorporar un índice automático se utiliza:
+
+```latex
+\tableofcontents
+```
+
+LaTeX identifica las secciones y subsecciones del documento para generar su tabla de contenido.
+
+Esto permite que el índice se actualice cuando se agregan o modifican encabezados.
+
+### Separar el contenido en páginas
+
+La instrucción siguiente permite comenzar una página nueva:
+
+```latex
+\newpage
+```
+
+Puede utilizarse, por ejemplo, para separar el título del índice y del contenido principal.
+
+### Ejemplo: organizar la primera parte del documento
+
+Al inicio del cuerpo del documento coloca:
+
+```latex
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+```
+
+Este fragmento inicia el documento, muestra el título, comienza una nueva página para el índice y después inicia otra página para el contenido.
+
+Las secciones que se desarrollarán deben colocarse a continuación.
+
+La instrucción `\end{document}` permanecerá al final del archivo.
+
+::: {.callout-note}
+### Actualización del índice
+
+Cuando se agregan nuevas secciones, puede ser necesario compilar nuevamente para actualizar sus números y referencias.
+
+El índice seguirá funcionando como un conjunto de enlaces internos gracias al paquete `hyperref`, sin mostrar recuadros rojos.
+:::
+
+---
+
+## Formato de texto en LaTeX
+
+LaTeX permite aplicar diferentes estilos mediante instrucciones.
+
+### Negritas
+
+Para escribir texto en negritas se utiliza:
+
+```latex
+\textbf{Este texto aparece en negritas.}
+```
+
+La instrucción `\textbf{}` aplica negritas al contenido colocado entre llaves.
+
+### Cursivas
+
+Para escribir texto en cursivas se utiliza:
+
+```latex
+\textit{Este texto aparece en cursivas.}
+```
+
+De manera similar, `\textit{}` aplica cursivas al texto indicado.
+
+### Texto subrayado
+
+Para subrayar un fragmento se utiliza:
+
+```latex
+\underline{Este texto aparece subrayado.}
+```
+
+### Texto monoespaciado
+
+Para destacar nombres de archivos o instrucciones se puede utilizar:
+
+```latex
+\texttt{main.tex}
+```
+
+Este comando presenta el contenido utilizando una fuente monoespaciada, que facilita distinguirlo del texto ordinario.
+
+### Ejemplo: utilizar formatos dentro del documento
+
+Agrega la siguiente sección:
+
+```latex
+\section{Formato de texto en LaTeX}
+
+LaTeX permite aplicar diferentes formatos mediante
+instrucciones específicas.
+
+Por ejemplo, podemos utilizar \textit{cursivas}
+para destacar términos, \textbf{negritas}
+para enfatizar conceptos importantes y
+\underline{subrayado} para señalar fragmentos.
+
+También podemos identificar nombres de archivos
+utilizando texto monoespaciado, como
+\texttt{main.tex}.
+
+Una de las ventajas de LaTeX es que mantiene
+una presentación uniforme en todo el documento.
+```
+
+Este ejemplo combina diferentes formatos dentro de un texto académico.
+
+Al compilar, las instrucciones se transformarán en sus estilos correspondientes, mientras que el resto del párrafo conservará su presentación normal.
+
+### Separación de párrafos
+
+En LaTeX, los párrafos se separan dejando una línea vacía.
+
+Por ejemplo:
+
+```latex
+LaTeX permite organizar la información
+mediante comandos.
+
+Overleaf permite compilar estos documentos
+directamente desde un navegador.
+```
+
+Las primeras dos líneas forman un párrafo y las siguientes dos forman otro.
+
+Presionar Enter una sola vez dentro del editor no genera necesariamente un nuevo párrafo.
+
+---
+
+## Listas y enumeraciones
+
+LaTeX permite organizar información mediante listas con viñetas, listas numeradas y listas anidadas.
+
+### Listas con viñetas
+
+Para crear listas con viñetas se utiliza el entorno `itemize`.
+
+```latex
+\begin{itemize}
+    \item Informes académicos.
+    \item Artículos científicos.
+    \item Documentación técnica.
+\end{itemize}
+```
+
+El entorno comienza con `\begin{itemize}` y termina con `\end{itemize}`.
+
+Cada instrucción `\item` crea un nuevo elemento.
+
+Al compilar, LaTeX incorporará automáticamente las viñetas y la indentación correspondiente.
+
+### Listas numeradas
+
+Para crear listas numeradas se utiliza el entorno `enumerate`.
+
+```latex
+\begin{enumerate}
+    \item Crear un proyecto en Overleaf.
+    \item Configurar el documento.
+    \item Escribir el contenido.
+    \item Compilar el archivo.
+    \item Descargar el PDF.
+\end{enumerate}
+```
+
+La principal diferencia es que `enumerate` genera una numeración automática.
+
+Esto resulta útil para describir procedimientos que deben seguirse en un orden determinado.
+
+### Listas anidadas
+
+También es posible crear listas dentro de otras listas.
+
+```latex
+\begin{itemize}
+    \item Formatos de documentos
+    \begin{itemize}
+        \item Artículos.
+        \item Informes.
+        \item Libros.
+    \end{itemize}
+
+    \item Elementos del documento
+    \begin{itemize}
+        \item Tablas.
+        \item Imágenes.
+        \item Ecuaciones.
+    \end{itemize}
+\end{itemize}
+```
+
+En este ejemplo se utiliza una lista principal para establecer categorías.
+
+Dentro de cada categoría se incorpora otro entorno `itemize`, que permite mostrar elementos subordinados.
+
+### Ejemplo: características de LaTeX y Overleaf
+
+Agrega el siguiente apartado:
+
+```latex
+\section{Características de LaTeX y Overleaf}
+
+\subsection{Características de LaTeX}
+
+LaTeX proporciona herramientas para organizar
+y presentar información académica.
+
+Entre sus características destacan:
+
+\begin{itemize}
+    \item Numeración automática de secciones.
+    \item Incorporación de ecuaciones matemáticas.
+    \item Creación de tablas y figuras.
+    \item Referencias automáticas.
+    \item Presentación uniforme.
+\end{itemize}
+
+\subsection{Características de Overleaf}
+
+Overleaf permite:
+
+\begin{enumerate}
+    \item Crear proyectos desde un navegador.
+    \item Editar archivos LaTeX.
+    \item Compilar documentos.
+    \item Visualizar el PDF.
+    \item Descargar los resultados.
+\end{enumerate}
+
+\subsection{Aplicaciones}
+
+Estas herramientas pueden utilizarse en:
+
+\begin{itemize}
+    \item Educación
+    \begin{itemize}
+        \item Apuntes de clase.
+        \item Prácticas de laboratorio.
+    \end{itemize}
+
+    \item Investigación
+    \begin{itemize}
+        \item Artículos científicos.
+        \item Informes técnicos.
+        \item Tesis.
+    \end{itemize}
+\end{itemize}
+```
+
+Esta sección incorpora los tres tipos de listas estudiados.
+
+Al compilar, se observarán viñetas, números y listas con diferentes niveles de indentación.
+
+---
+
+## Incorporación de tablas
+
+LaTeX permite presentar información mediante tablas, utilizando el entorno `tabular`.
+
+### Crear una tabla sencilla
+
+Escribe:
+
+```latex
+\begin{tabular}{ll}
+Herramienta & Función \\
+LaTeX & Composición de documentos \\
+Overleaf & Edición en línea \\
+\end{tabular}
+```
+
+El entorno `tabular` establece la estructura de la tabla.
+
+En `{ll}`, cada letra `l` representa una columna alineada a la izquierda.
+
+El símbolo `&` separa las columnas, mientras que `\\` indica el final de una fila.
+
+La última instrucción cierra la tabla.
+
+### Alineación de columnas
+
+LaTeX permite utilizar tres tipos básicos de alineación:
+
+| Instrucción | Alineación |
+|:--|:--|
+| `l` | Izquierda |
+| `c` | Centro |
+| `r` | Derecha |
+
+Por ejemplo:
+
+```latex
+\begin{tabular}{lcr}
+Variable & Tipo & Cantidad \\
+X & Numérica & 100 \\
+Y & Numérica & 200 \\
+\end{tabular}
+```
+
+En este caso, la primera columna estará alineada a la izquierda, la segunda centrada y la tercera a la derecha.
+
+### Mejorar la presentación
+
+El paquete `booktabs` permite incorporar líneas horizontales que facilitan la lectura.
+
+Escribe:
+
+```latex
+\begin{tabular}{ll}
+\toprule
+Herramienta & Aplicación \\
+\midrule
+LaTeX & Composición de documentos \\
+Overleaf & Edición en línea \\
+\bottomrule
+\end{tabular}
+```
+
+`\toprule` incorpora una línea superior, `\midrule` separa los encabezados de los datos y `\bottomrule` coloca una línea inferior.
+
+Estas instrucciones permiten elaborar tablas con una presentación más limpia.
+
+### Incorporar títulos y referencias
+
+Para agregar un título, numeración y referencia automática, utilizaremos el entorno `table`.
+
+Escribe:
+
+```latex
+\begin{table}[htbp]
+\centering
+\caption{Herramientas para la elaboración de documentos}
+\label{tab:herramientas}
+
+\begin{tabular}{ll}
+\toprule
+Herramienta & Aplicación \\
+\midrule
+LaTeX & Composición de documentos \\
+Overleaf & Edición en línea \\
+Markdown & Formato de texto \\
+Quarto & Publicación reproducible \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+```
+
+El entorno `table` permite que LaTeX administre la numeración y ubicación de la tabla.
+
+La opción `[htbp]` establece preferencias de ubicación: cerca del lugar donde aparece el código, en la parte superior o inferior de una página, o en una página destinada a elementos flotantes.
+
+`\centering` centra el contenido.
+
+`\caption{}` establece el título de la tabla, mientras que `\label{}` asigna un identificador.
+
+Este identificador podrá utilizarse después para mencionar la tabla.
+
+### Referencia automática
+
+Escribe:
+
+```latex
+La Tabla~\ref{tab:herramientas} presenta
+una comparación de herramientas.
+```
+
+La instrucción `\ref{tab:herramientas}` recupera el número asignado a la tabla.
+
+El símbolo `~` mantiene la palabra «Tabla» y su número en la misma línea.
+
+### Ejemplo: incorporar una tabla al documento
+
+Agrega:
+
+```latex
+\section{Creación de tablas}
+
+LaTeX permite incorporar tablas para presentar
+información de manera organizada.
+
+Como ejemplo, se presenta una comparación
+entre diferentes herramientas de documentación.
+
+\begin{table}[htbp]
+\centering
+\caption{Herramientas para la elaboración de documentos}
+\label{tab:herramientas}
+
+\begin{tabular}{ll}
+\toprule
+Herramienta & Aplicación \\
+\midrule
+LaTeX & Composición de documentos \\
+Overleaf & Edición en línea \\
+Markdown & Formato de texto \\
+Quarto & Publicación reproducible \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+La Tabla~\ref{tab:herramientas} presenta
+algunas herramientas utilizadas para la
+elaboración de documentos académicos.
+```
+
+Al compilar, el documento mostrará una tabla con título y numeración automática.
+
+---
+
+## Insertar imágenes
+
+LaTeX permite incorporar imágenes mediante el paquete `graphicx`, que ya se incluyó en el preámbulo.
+
+### Crear una carpeta de imágenes
+
+Dentro del proyecto de Overleaf, crea una carpeta llamada:
+
+`imagenes`
+
+Después, carga el archivo:
+
+`mamut_referencia.png`
+
+La estructura será:
+
+```text
+Mi_primer_documento_LaTeX/
+├── main.tex
+└── imagenes/
+    └── mamut_referencia.png
+```
+
+### Insertar una imagen
+
+Para incorporar la imagen se utiliza:
+
+```latex
+\includegraphics{imagenes/mamut_referencia.png}
+```
+
+La instrucción `\includegraphics` busca la imagen en la ubicación indicada.
+
+La ruta `imagenes/mamut_referencia.png` señala que el archivo se encuentra dentro de la carpeta `imagenes`.
+
+### Cambiar el tamaño
+
+Podemos establecer el ancho de una figura mediante una opción adicional.
+
+```latex
+\includegraphics[width=0.7\textwidth]{imagenes/mamut_referencia.png}
+```
+
+En este caso, `width=0.7\textwidth` indica que la imagen ocupará el 70 % del ancho disponible para el texto.
+
+Modificar este valor permitirá ampliar o reducir la imagen.
+
+### Agregar título y numeración
+
+Para incorporar una figura numerada se utiliza el entorno `figure`.
+
+Escribe:
+
+```latex
+\begin{figure}[htbp]
+\centering
+
+\includegraphics[width=0.7\textwidth]{imagenes/mamut_referencia.png}
+
+\caption{Imagen de referencia del mamut.}
+\label{fig:mamut}
+
+\end{figure}
+```
+
+El entorno `figure` permite incorporar figuras con numeración automática.
+
+`\centering` centra la imagen y `\includegraphics` incorpora el archivo.
+
+Por su parte, `\caption{}` establece el título de la figura y `\label{}` asigna un identificador.
+
+### Referencia automática
+
+Para mencionar la figura se utiliza:
+
+```latex
+La Figura~\ref{fig:mamut} presenta una imagen
+utilizada para practicar la incorporación
+de recursos gráficos.
+```
+
+LaTeX recuperará el número correspondiente a la figura identificada mediante `fig:mamut`.
+
+### Ejemplo: incorporar una imagen al documento
+
+Agrega:
+
+```latex
+\section{Incorporación de imágenes}
+
+Una de las características de LaTeX es la
+posibilidad de incorporar imágenes
+dentro de un documento.
+
+Las figuras permiten complementar las explicaciones
+y facilitar la comprensión de diferentes conceptos.
+
+\subsection{Imagen de referencia}
+
+Como ejemplo, se incorpora una imagen de un mamut.
+
+\begin{figure}[htbp]
+\centering
+
+\includegraphics[width=0.7\textwidth]{imagenes/mamut_referencia.png}
+
+\caption{Imagen de referencia del mamut.}
+\label{fig:mamut}
+
+\end{figure}
+
+En la Figura~\ref{fig:mamut} se presenta una imagen
+utilizada para practicar la incorporación de figuras.
+
+LaTeX permite modificar el tamaño de las imágenes,
+agregar títulos y generar referencias automáticas.
+```
+
+Al compilar, el PDF mostrará la imagen con su título y numeración.
+
+::: {.callout-important}
+### Importante
+
+La imagen debe estar cargada dentro del proyecto y conservar el nombre utilizado en el código.
+
+Si la ruta no coincide con la ubicación del archivo, LaTeX mostrará un error durante la compilación.
+:::
+
+---
+
+## Ecuaciones matemáticas con LaTeX
+
+Una de las principales características de LaTeX es la posibilidad de escribir expresiones matemáticas mediante instrucciones.
+
+### Ecuaciones dentro de un párrafo
+
+Para escribir una expresión matemática integrada en un párrafo se utiliza:
+
+```latex
+La media aritmética se representa mediante
+\(\bar{x}\).
+```
+
+Las instrucciones `\(` y `\)` delimitan la expresión matemática.
+
+`\bar{x}` representa la letra x con una barra superior.
+
+### Ecuaciones independientes
+
+Para escribir una expresión matemática centrada se utiliza:
+
+```latex
+\[
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+\]
+```
+
+Las instrucciones `\[` y `\]` indican que la expresión debe presentarse separada del texto.
+
+En este ejemplo, `\frac{1}{n}` crea una fracción, mientras que `\sum_{i=1}^{n}` representa una sumatoria.
+
+La expresión `x_i` identifica cada observación.
+
+### Ecuaciones numeradas
+
+LaTeX también permite generar ecuaciones con numeración automática.
+
+Para ello se utiliza el entorno `equation`.
+
+```latex
+\begin{equation}
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+\label{eq:media}
+\end{equation}
+```
+
+`\begin{equation}` inicia la ecuación numerada.
+
+La expresión matemática se escribe dentro del entorno.
+
+`\label{eq:media}` asigna un identificador, que posteriormente podrá utilizarse para crear una referencia.
+
+### Referencia automática
+
+Para mencionar una ecuación se utiliza:
+
+```latex
+La ecuación~\eqref{eq:media}
+representa el cálculo de la media aritmética.
+```
+
+`\eqref{}` incorpora automáticamente el número de la ecuación entre paréntesis.
+
+### Desviación estándar
+
+Otro ejemplo es la desviación estándar muestral.
+
+```latex
+\begin{equation}
+s =
+\sqrt{
+\frac{1}{n-1}
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}
+\label{eq:desviacion}
+\end{equation}
+```
+
+En esta expresión, `\sqrt{}` genera una raíz cuadrada.
+
+La fracción representa el factor de división y la sumatoria incorpora las diferencias cuadráticas respecto al promedio.
+
+### Ejemplo: incorporar ecuaciones al documento
+
+Agrega:
+
+```latex
+\section{Expresiones matemáticas}
+
+LaTeX permite incorporar ecuaciones matemáticas
+utilizando instrucciones especializadas.
+
+Esta funcionalidad resulta útil en documentos
+científicos y académicos.
+
+\subsection{Media aritmética}
+
+La media aritmética se representa mediante
+\(\bar{x}\) y permite calcular el promedio
+de un conjunto de valores.
+
+Su expresión matemática es:
+
+\begin{equation}
+\bar{x} =
+\frac{1}{n}\sum_{i=1}^{n}x_i
+\label{eq:media}
+\end{equation}
+
+La ecuación~\eqref{eq:media} representa
+el cálculo del promedio.
+
+\subsection{Desviación estándar}
+
+La desviación estándar permite describir
+la dispersión de las observaciones
+respecto a su promedio.
+
+La expresión para una muestra es:
+
+\begin{equation}
+s =
+\sqrt{
+\frac{1}{n-1}
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}
+\label{eq:desviacion}
+\end{equation}
+
+La ecuación~\eqref{eq:desviacion}
+representa la desviación estándar muestral.
+```
+
+Al compilar, las ecuaciones aparecerán centradas, numeradas y acompañadas de sus referencias.
+
+---
+
+## Referencias automáticas
+
+LaTeX permite hacer referencia a tablas, figuras, ecuaciones y secciones mediante identificadores.
+
+### Asignar identificadores
+
+Para identificar un elemento se utiliza:
+
+```latex
+\label{identificador}
+```
+
+Cada identificador debe ser único dentro del documento.
+
+Por ejemplo:
+
+```latex
+\label{tab:herramientas}
+```
+
+puede utilizarse para identificar una tabla.
+
+### Crear referencias
+
+Para incorporar una referencia se utiliza:
+
+```latex
+\ref{identificador}
+```
+
+La instrucción recupera el número asociado con la etiqueta indicada.
+
+### Referencias a ecuaciones
+
+En el caso de ecuaciones puede utilizarse:
+
+```latex
+\eqref{identificador}
+```
+
+Esta instrucción presenta el número entre paréntesis.
+
+### Ejemplo: referencias dentro del texto
+
+```latex
+La Tabla~\ref{tab:herramientas}
+presenta una comparación de herramientas.
+
+La Figura~\ref{fig:mamut}
+muestra una imagen de referencia.
+
+La ecuación~\eqref{eq:media}
+representa el promedio aritmético.
+```
+
+En este ejemplo, LaTeX utiliza los identificadores de una tabla, una figura y una ecuación.
+
+Cuando se agregan nuevos elementos, los números se actualizan automáticamente después de compilar.
+
+---
+
+## Enlaces y direcciones web
+
+LaTeX permite incorporar enlaces mediante el paquete `hyperref`.
+
+### Crear un enlace
+
+Para agregar un enlace se utiliza:
+
+```latex
+\href{https://www.overleaf.com/}{Overleaf}
+```
+
+La instrucción `\href` recibe dos elementos.
+
+El primero corresponde a la dirección web y el segundo al texto que aparecerá en el documento.
+
+En este ejemplo, la palabra «Overleaf» funcionará como un enlace.
+
+### Ejemplo: recursos de aprendizaje
+
+Agrega:
+
+```latex
+\section{Recursos de aprendizaje}
+
+LaTeX y Overleaf cuentan con documentación
+oficial que permite consultar sus
+principales funcionalidades.
+
+Para obtener información adicional
+puede consultarse la plataforma
+\href{https://www.overleaf.com/}{Overleaf}.
+
+También se encuentra disponible
+la documentación de
+\href{https://www.latex-project.org/}{LaTeX}.
+```
+
+Al compilar, los enlaces estarán disponibles dentro del PDF.
+
+Gracias a la opción `hidelinks`, no aparecerán recuadros rojos alrededor de ellos.
+
+---
+
+## Incorporar comentarios
+
+LaTeX permite escribir comentarios dentro del archivo fuente.
+
+Estos comentarios son útiles para registrar observaciones o organizar el código sin modificar el documento final.
+
+### Sintaxis
+
+Escribe:
+
+```latex
+% Este es un comentario.
+
+\section{Introducción}
+```
+
+El símbolo `%` indica que el contenido posterior, hasta el final de la línea, será interpretado como comentario.
+
+En consecuencia, la primera línea no aparecerá en el PDF.
+
+La segunda línea sí se procesará y generará una sección.
+
+### Símbolos especiales
+
+Algunos símbolos tienen funciones específicas en LaTeX.
+
+Cuando se desea escribirlos como texto ordinario, deben utilizarse instrucciones especiales.
+
+| Símbolo | Cómo escribirlo |
+|:--|:--|
+| `%` | `\%` |
+| `$` | `\$` |
+| `&` | `\&` |
+| `_` | `\_` |
+| `#` | `\#` |
+
+Por ejemplo:
+
+```latex
+El avance del proyecto fue del 80\%.
+
+El nombre del archivo es datos\_finales.csv.
+```
+
+La instrucción `\%` permite mostrar el símbolo de porcentaje sin que se interprete como comentario.
+
+Del mismo modo, `\_` permite escribir un guion bajo dentro del texto.
+
+---
+
+## Personalización del documento
+
+LaTeX permite modificar diferentes características de presentación desde el preámbulo.
+
+### Tamaño de letra
+
+Para modificar el tamaño base de letra se puede utilizar:
+
+```latex
+\documentclass[12pt,letterpaper]{article}
+```
+
+En este ejemplo, el tamaño cambia a 12 puntos y se conserva el papel tamaño carta.
+
+Esta línea sustituye a la instrucción `\documentclass` original.
+
+### Márgenes
+
+Para modificar los márgenes se utiliza:
+
+```latex
+\geometry{margin=3cm}
+```
+
+En este caso, los márgenes serán de 3 centímetros.
+
+### Interlineado
+
+Para modificar el interlineado se puede utilizar el paquete `setspace`.
+
+Primero se incorpora en el preámbulo:
+
+```latex
+\usepackage{setspace}
+```
+
+Después se puede utilizar:
+
+```latex
+\onehalfspacing
+```
+
+Esta instrucción establece un interlineado de uno y medio.
+
+::: {.callout-note}
+### Importante
+
+Las configuraciones anteriores son ejemplos de personalización.
+
+No deben agregarse varias instrucciones `\documentclass` al mismo archivo.
+
+Las opciones deben integrarse dentro del preámbulo existente.
+:::
+
+---
+
+## Descargar el documento PDF
+
+Una vez finalizado el documento, será necesario compilarlo para obtener su versión PDF.
+
+### Procedimiento
+
+1. Revisa el contenido de `main.tex`.
+2. Haz clic en **Recompile**.
+3. Comprueba que el documento se genere correctamente.
+4. Revisa la numeración de las secciones, tablas, figuras y ecuaciones.
+5. Utiliza la opción **Download PDF** para descargar el documento.
+
+El archivo podrá abrirse en cualquier lector compatible con PDF.
+
+### Descargar el código fuente
+
+Overleaf también permite descargar los archivos que forman parte del proyecto.
+
+Esto resulta útil para conservar el código `.tex`, las imágenes y los demás recursos utilizados.
+
+---
+
+## Ejemplo completo del documento
+
+A continuación se presenta un documento LaTeX completo que reúne los principales elementos desarrollados durante este apunte.
+
+Incluye título, autor, índice, secciones, formatos de texto, listas, tablas, imágenes, ecuaciones, referencias automáticas y enlaces.
+
+::: {.callout-important}
+### Sobre este ejemplo
+
+El siguiente código reúne los elementos desarrollados durante el apunte.
+
+Si el documento ya se construyó progresivamente, **no debe agregarse nuevamente todo este código al final**, porque se duplicarían secciones e identificadores.
+
+Puede utilizarse para revisar la estructura general o reconstruir el documento desde un archivo nuevo.
+:::
+
+### Código completo de `main.tex`
+
+```latex
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{margin=2.5cm}
+
+\title{Mi primer documento con LaTeX y Overleaf}
+\author{Nombre del estudiante}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introducción}
+
+La elaboración de documentos académicos y técnicos
+requiere herramientas que permitan organizar
+información, incorporar resultados y mantener
+una presentación clara.
+
+LaTeX es un sistema de preparación de documentos
+que permite estructurar contenidos mediante
+instrucciones escritas en un archivo de texto.
+
+Por su parte, Overleaf es una plataforma en línea
+que facilita la edición y compilación de
+documentos LaTeX.
+
+\subsection{¿Qué es LaTeX?}
+
+LaTeX permite definir la estructura y presentación
+de un documento utilizando comandos.
+
+\subsubsection{Principales características}
+
+Entre sus principales características destacan
+la numeración automática, la escritura de ecuaciones
+y el control de la presentación.
+
+\paragraph{Organización del contenido}
+
+Los documentos pueden dividirse en diferentes
+niveles de encabezados para organizar la información.
+
+\subsection{¿Qué es Overleaf?}
+
+Overleaf permite escribir y compilar documentos
+LaTeX desde un navegador.
+
+\subsubsection{Documentos académicos}
+
+La plataforma facilita la creación de informes,
+artículos y otros documentos técnicos.
+
+\section{Formato de texto en LaTeX}
+
+LaTeX permite aplicar diferentes formatos mediante
+instrucciones específicas.
+
+Por ejemplo, podemos utilizar \textit{cursivas}
+para destacar términos, \textbf{negritas}
+para enfatizar conceptos importantes y
+\underline{subrayado} para señalar fragmentos.
+
+También podemos identificar nombres de archivos
+utilizando texto monoespaciado, como
+\texttt{main.tex}.
+
+Una de las ventajas de LaTeX es que mantiene
+una presentación uniforme en todo el documento.
+
+\section{Características de LaTeX y Overleaf}
+
+\subsection{Características de LaTeX}
+
+LaTeX proporciona herramientas para organizar
+y presentar información académica.
+
+Entre sus características destacan:
+
+\begin{itemize}
+    \item Numeración automática de secciones.
+    \item Incorporación de ecuaciones matemáticas.
+    \item Creación de tablas y figuras.
+    \item Referencias automáticas.
+    \item Presentación uniforme.
+\end{itemize}
+
+\subsection{Características de Overleaf}
+
+Overleaf permite:
+
+\begin{enumerate}
+    \item Crear proyectos desde un navegador.
+    \item Editar archivos LaTeX.
+    \item Compilar documentos.
+    \item Visualizar el PDF.
+    \item Descargar los resultados.
+\end{enumerate}
+
+\subsection{Aplicaciones}
+
+Estas herramientas pueden utilizarse en:
+
+\begin{itemize}
+    \item Educación
+    \begin{itemize}
+        \item Apuntes de clase.
+        \item Prácticas de laboratorio.
+    \end{itemize}
+
+    \item Investigación
+    \begin{itemize}
+        \item Artículos científicos.
+        \item Informes técnicos.
+        \item Tesis.
+    \end{itemize}
+\end{itemize}
+
+\section{Creación de tablas}
+
+LaTeX permite incorporar tablas para presentar
+información de manera organizada.
+
+Como ejemplo, se presenta una comparación
+entre diferentes herramientas de documentación.
+
+\begin{table}[htbp]
+\centering
+\caption{Herramientas para la elaboración de documentos}
+\label{tab:herramientas}
+
+\begin{tabular}{ll}
+\toprule
+Herramienta & Aplicación \\
+\midrule
+LaTeX & Composición de documentos \\
+Overleaf & Edición en línea \\
+Markdown & Formato de texto \\
+Quarto & Publicación reproducible \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+La Tabla~\ref{tab:herramientas} presenta
+algunas herramientas utilizadas para la
+elaboración de documentos académicos.
+
+\section{Incorporación de imágenes}
+
+Una de las características de LaTeX es la
+posibilidad de incorporar imágenes
+dentro de un documento.
+
+Las figuras permiten complementar las explicaciones
+y facilitar la comprensión de diferentes conceptos.
+
+\subsection{Imagen de referencia}
+
+Como ejemplo, se incorpora una imagen de un mamut.
+
+\begin{figure}[htbp]
+\centering
+
+\includegraphics[width=0.7\textwidth]{imagenes/mamut_referencia.png}
+
+\caption{Imagen de referencia del mamut.}
+\label{fig:mamut}
+
+\end{figure}
+
+En la Figura~\ref{fig:mamut} se presenta una imagen
+utilizada para practicar la incorporación de figuras.
+
+LaTeX permite modificar el tamaño de las imágenes,
+agregar títulos y generar referencias automáticas.
+
+\section{Expresiones matemáticas}
+
+LaTeX permite incorporar ecuaciones matemáticas
+utilizando instrucciones especializadas.
+
+Esta funcionalidad resulta útil en documentos
+científicos y académicos.
+
+\subsection{Media aritmética}
+
+La media aritmética se representa mediante
+\(\bar{x}\) y permite calcular el promedio
+de un conjunto de valores.
+
+Su expresión matemática es:
+
+\begin{equation}
+\bar{x} =
+\frac{1}{n}\sum_{i=1}^{n}x_i
+\label{eq:media}
+\end{equation}
+
+La ecuación~\eqref{eq:media} representa
+el cálculo del promedio.
+
+\subsection{Desviación estándar}
+
+La desviación estándar permite describir
+la dispersión de las observaciones
+respecto a su promedio.
+
+La expresión para una muestra es:
+
+\begin{equation}
+s =
+\sqrt{
+\frac{1}{n-1}
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}
+\label{eq:desviacion}
+\end{equation}
+
+La ecuación~\eqref{eq:desviacion}
+representa la desviación estándar muestral.
+
+\section{Recursos de aprendizaje}
+
+LaTeX y Overleaf cuentan con documentación
+oficial que permite consultar sus
+principales funcionalidades.
+
+Para obtener información adicional
+puede consultarse la plataforma
+\href{https://www.overleaf.com/}{Overleaf}.
+
+También se encuentra disponible
+la documentación de
+\href{https://www.latex-project.org/}{LaTeX}.
+
+\section{Conclusiones}
+
+LaTeX permite elaborar documentos académicos
+mediante instrucciones que definen su estructura
+y presentación.
+
+Overleaf facilita la edición y compilación
+de estos documentos desde un navegador.
+
+Durante este documento se incorporaron títulos,
+subtítulos, formatos de texto, listas, tablas,
+imágenes y ecuaciones matemáticas.
+
+También se utilizaron referencias automáticas
+para mantener actualizada la numeración
+de tablas, figuras y ecuaciones.
+
+Estas herramientas pueden utilizarse
+en la elaboración de informes académicos,
+documentación técnica y proyectos de investigación.
+
+\end{document}
+```
+
+---
+
+## Problemas frecuentes
+
+Durante la elaboración de documentos LaTeX pueden aparecer errores relacionados con instrucciones, archivos y configuraciones.
+
+| Problema | Posible solución |
+|:--|:--|
+| No se genera el PDF | Revisar los mensajes de compilación |
+| No aparece una imagen | Comprobar que el archivo exista |
+| No se reconoce un comando | Revisar su escritura y los paquetes cargados |
+| Falta cerrar una instrucción | Comprobar las llaves y los entornos |
+| Una tabla cambia de ubicación | Revisar las opciones de elementos flotantes |
+| No se actualiza la numeración | Compilar nuevamente |
+| No aparece el índice | Revisar `\tableofcontents` |
+| No aparece una referencia | Revisar `\label{}` y `\ref{}` |
+| Aparecen recuadros rojos | Utilizar `\usepackage[hidelinks]{hyperref}` |
+| La imagen es demasiado grande | Reducir el valor de `width` |
+
+### Errores al cerrar entornos
+
+Un problema frecuente consiste en abrir un entorno sin cerrarlo.
+
+Por ejemplo:
+
+```latex
+\begin{itemize}
+```
+
+debe finalizar con:
+
+```latex
+\end{itemize}
+```
+
+Las instrucciones que utilizan llaves también deben conservar sus delimitadores.
+
+### Errores en las rutas de imágenes
+
+Si se utiliza:
+
+```latex
+\includegraphics{imagenes/mamut_referencia.png}
+```
+
+LaTeX buscará el archivo dentro de la carpeta `imagenes`.
+
+Si la imagen tiene otro nombre o no está cargada en el proyecto, será necesario corregir la ruta.
+
+---
+
+## Conclusión
+
+LaTeX permite elaborar documentos académicos mediante instrucciones que definen su estructura y presentación.
+
+Overleaf facilita este proceso al proporcionar un editor en línea y una vista previa del PDF generado.
+
+En este apunte se aprendió a crear un proyecto, configurar un documento e incorporar títulos, subtítulos, formatos de texto, listas, tablas, imágenes, ecuaciones y referencias automáticas.
+
+También se aprendió a compilar el código fuente y descargar el documento final.
+
+Estas herramientas resultan útiles para elaborar reportes técnicos, artículos científicos, documentación de proyectos y trabajos académicos.
+
+---
+
+## Recursos adicionales
+
+- [Overleaf](https://www.overleaf.com/)
+- [Documentación de Overleaf](https://www.overleaf.com/learn)
+- [Primer proyecto en Overleaf](https://docs.overleaf.com/getting-started/your-first-project)
+- [Introducción a LaTeX](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
+- [Proyecto LaTeX](https://www.latex-project.org/)
